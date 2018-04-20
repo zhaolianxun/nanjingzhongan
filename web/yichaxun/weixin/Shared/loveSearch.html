@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimal-ui" charset="UTF-8">
+    <title>搜索</title>
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">
+    <!--<link rel="stylesheet" href="../css/pop_p.css"/>-->
+    <link rel="stylesheet" href="Crowdfunding/css/loveSearch.css"/>
+    <link rel="stylesheet" href="Crowdfunding/css/loveCardDemo.css"/>
+    <script src="Crowdfunding/js/loveMyCardDetail.js"></script>
+    <script src="../js/public.js"></script>
+    <style>
+        html{font-size: 32px}
+        @media(min-device-width: 375px) {
+            html{font-size: 64px}
+        }
+        @media(min-device-width: 414px) {
+            html{font-size: 75px}
+        }
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        *{
+            margin: 0;
+            padding:0;
+            -webkit-tap-highlight-color:rgba(0,0,0,0);
+            -webkit-text-size-adjust:none;
+        }
+        input::-webkit-input-placeholder {
+            color: #CCCCCC !important; /* WebKit browsers */
+        }
+        input:-moz-placeholder {
+            color: #CCCCCC !important; /*Mozilla Firefox 4 to 18 */
+        }
+        input::-moz-placeholder {
+            color: #CCCCCC !important; /* Mozilla Firefox 19+*/
+        }
+        input:-ms-input-placeholder {
+            color: #CCCCCC !important; /*Internet Explorer 10+*/
+        }
+
+        .dropload-down {
+            height: 1.2rem;
+            margin-top: 1.2rem;
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/dropload.css">
+</head>
+<body>
+<div class="header">
+    <div class="top">
+        <div class="input_box ">
+            <div class="lf  input_box_div" style="display: inline-block">
+                <input class="input input_dex" type="text" placeholder="医院名称"/>
+            </div>
+            <!--<div class="search_img rt" style="display: inline-block"></div>-->
+            <img class="search_fdj rt" src="../icon/search@2x.png" alt=""/>
+            <!--<img class="delete" src="icon/X.png" alt=""/>-->
+        </div>
+    </div>
+    <!--热门搜索-->
+    <div class="clear"></div>
+    <div class="lf hot_search">
+        <div class="hot_search_title"><span style="color: #666">热门搜索</span></div>
+        <div style="width: 100%;background-color: #ffffff">
+            <div id="spanList" style="margin-left: 0.4rem;margin-right:0.4rem">
+                <div class="hot_search_span">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="body">
+    <div class="content loveCardLine" id="contain" style="margin-top: 1.2rem;">
+
+    </div>
+</div>
+
+
+<div class="clear"></div>
+<div class="back_top">
+    <!--<a href="#">-->
+    <img src="../icon/Up-arrow.png" style="display: none" alt=""/>
+    <!--</a>-->
+
+</div>
+<!--弹窗-->
+<div class="tanchuang1" style="display: none">
+    <span class="wenzi"></span>
+    <span class="btnbtn">OK</span>
+</div>
+
+<script>
+    //    $('.btn')
+    //    $('.btnbtn').click(function(){
+    //        $('.tanchuang1').css('display','none');
+    //    })
+</script>
+<!-- jQuery1.7以上 或者 Zepto 二选一，不要同时都引用 -->
+<script src="../js/zepto.min.js"></script>
+<script src="../js/dropload.min.js"></script>
+<!--返回页面顶部-->
+<script>
+    //
+    $('.input_span').click(function(){
+        console.log('asd');
+        $('.input_dex').focus();
+    })
+    $('.back_top img').click(function(){
+        $(window).scrollTop(0);
+        localStorage.clear('dataHeight_height');
+//            $('.hot_search').css('display','none');
+        $('.input_span').css('display','none')
+    })
+    $('.btnbtn').click(function(){
+        $('.tanchuang1').css('display','none');
+    })
+</script>
+<script>
+    //监听input是否有内容，有内容span取消
+    $('input').focus(function(){
+        $(this).next().css('display','none');
+    });
+    $('input').blur(function(){
+        if($(this).val()==''){
+            $(this).next().css('display','block');
+        }
+    });
+</script>
+<script>
+    //查询列表
+    $('.search_fdj').click(function(){
+        $('.hot_search').css('display','none');
+        $('.loveCardLine').css('display','block');
+//        $('.dropload-down').css('display','none');
+        $('.dropload-down').remove()
+
+        $('.loveCardLine').html('');
+        console.log( $('.loveCardLine').html('').length);
+        var $keyword=$('.input_dex').val();
+        loveCardSelect($keyword);
+        loveCard($keyword)
+    })
+
+    //    关键词查询
+    $('#spanList').on('click','.hot_search_span span',function(){
+        $('.hot_search').css('display','none');
+        $('.loveCardLine').css('display','block');
+        var $keyword=$(this).html();
+        $('.input_dex').val($keyword);
+        loveCardSelect($keyword);
+        loveCard($keyword);
+    });
+
+//   点击跳转详情
+    $('.body').on('click','.loveCardLine .tableBox',function(){
+        localStorage.setItem("user_carecard_id",$(this).attr('rowid'));
+        location.href="../loveBuyCard.html?user_carecard_id="+$(this).attr('rowid');
+    })
+</script>
+
+<!--监听input是否有数据-->
+<script>
+    $('.input_dex').bind('input propertychange', function() {
+        var $key=$('.input_dex').val();
+        console.log($key);
+        if($key==''||$key==null||$key==undefined){
+            $('.hot_search').css('display','block');
+            $('.loveCardLine').css('display','none');
+            $('.loveCardLine').html('');
+        }else{
+            $('.loveCardLine').css('display','block');
+            $('.hot_search').css('display','none');
+        }
+    })
+</script>
+<!--热门词汇-->
+<script>
+    //            热门搜索词汇
+    $.ajax({
+        url:'/yichaxun/1/hotsearchs',
+        type:'get',
+        success:function(data){
+            if(data.code==0){
+                for(var i=0;i<data.data.items.length;i++){
+                    $('.hot_search_span').append('<span>'+data.data.items[i].keyword+'</span>')
+                }
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

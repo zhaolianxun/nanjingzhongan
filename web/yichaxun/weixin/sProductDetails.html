@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>商品详情</title>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="js/oweJquery.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <link rel="stylesheet" href="Shared/Crowdfunding/css/sProductDetails.css"/>
+    <script src="Shared/Crowdfunding/js/wxpay.js"></script>
+    <!--<script src="js/vconsole.min.js"></script>-->
+    <!--<script src="http://api.map.baidu.com/api?ak=RuWlLxfHmGxIBfwFzTUzjA7HyrVGr1Kk&v=2.0&services=false"></script>-->
+    <!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=RuWlLxfHmGxIBfwFzTUzjA7HyrVGr1Kk"></script>-->
+    <style>
+        .productDetailsHtml p,.productDetailsHtml span{
+            font-size: 0.42rem !important;
+        }
+        .productDetailsHtml img{
+            width: 100%;
+        }
+        .buyOver{
+            width: 9.2rem;
+            padding: 0 0.4rem;
+            background: #fff;
+            font-size: 0.37rem;
+            color: #ff5000;
+            height: 1.33rem;
+            line-height: 1.33rem;
+        }
+        .buyOver  img{
+            margin-top: 0.455rem;
+            height: 0.42rem;
+            width: 0.24rem;
+            /*margin-right: 0.4rem;*/
+        }
+        .productDetailsHtml img{
+            vertical-align:bottom;
+        }
+    </style>
+
+    <script>
+        var good_id;
+        var urls=location.href;
+
+        var url_new = urls.split("&")[0];
+        var $from=urls.split("&")[1];
+
+        if($from==''||$from==undefined||$from=='undefined'||$from==null){}else{
+            location.href=url_new;
+        }
+        var url_search="?"+urls.split("?")[1];
+        function getRequest() {
+            //            var url_search = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url_search.indexOf("?") != -1) {
+                var str = url_search.substr(1);
+                strs = str.split("!");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+         good_id = getRequest().goodId;
+
+
+
+        //        if(invitationCode=="(null)"||invitationCode=="(null"){
+        //            location.href='http://ycc.njshangka.com/weixin/Shared/loveDetailsIndex.html?invitationCode='
+        //        }
+        //        localStorage.setItem('good_id',good_id)
+        var appId,timeStamp,nonceStr,package,signType,paySign;
+        var shareDesc,shareTitle="商品详情",shareImgUrl;
+        $(document).ready(function(){
+            $.ajax({
+                url: "/yichaxun/u/wxjssdksign?url=" + location.href,
+                type: "get",
+                dataType: "json",
+                headers:{yccClient:'YCCGX'},
+                //            async:"true",
+                async: true,
+                contentType: "application/x-www-form-urlencoded",
+                processData: false,
+                success: function (data) {
+                    if (data.code == 0) {
+                        appData = data.data;
+                        appId=appData.appId;
+                        nonceStr=appData.nonceStr;
+                        signType=appData.signType;
+                        signature=appData.signature;
+                        config(appData.appId,appData.timestamp,appData.nonceStr,appData.signature);
+                    }
+                }
+            });
+
+        })
+        function config(appId,timestamp,noncestr,sign){
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: appId,
+                timestamp: timestamp,
+                nonceStr: noncestr,
+                signature:sign,
+                jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+            wx.ready(function(){
+                //                alert('ready!');
+                wx.checkJsApi({
+                    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareQZone'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                    success: function(res) {
+                        //                            alert(res)
+                        // 以键值对的形式返回，可用的api值true，不可用为false
+                        // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                        console.log("check result: " + res)
+                    }
+                });
+
+                wx.onMenuShareTimeline({
+                    title:shareTitle, // 分享标题
+                    //                    desc: '关注健康，共享医疗，让参与者共享，不参与者买单', // 分享描述
+                    desc:shareDesc, // 分享描述
+                    link: '/yichaxun/weixin/sProductDetails.html?goodId='+good_id, // 分享链接
+                    imgUrl:shareImgUrl, // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数分享
+                        //                        alert('分享');
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        //                        alert('取消分享');
+                    }
+                });
+                wx.onMenuShareAppMessage({
+                    title:shareTitle, // 分享标题
+                    desc:shareDesc, // 分享描述
+                    link: '/yichaxun/weixin/sProductDetails.html?goodId='+good_id, // 分享链接
+                    imgUrl: shareImgUrl, // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                        //                        alert('分享');
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        //                        alert('取消分享');
+                    }
+                });
+                wx.onMenuShareQQ({
+                    title: shareTitle, // 分享标题
+                    desc:shareDesc, // 分享描述
+//                    http://ycc.njshangka.com/weixin/Shared/loveDetailsIndex.html?invitationCode=100003
+                    link: '/yichaxun/weixin/sProductDetails.html?goodId='+good_id, // 分享链接
+                    imgUrl:shareImgUrl, // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                        //                        alert('分享');
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        //                        alert('取消分享');
+                    }
+                });
+                wx.onMenuShareQZone({
+                    title: shareTitle, // 分享标题
+                    desc:shareDesc, // 分享描述
+                    link: '/yichaxun/weixin/sProductDetails.html?goodId='+good_id, // 分享链接
+                    imgUrl: shareImgUrl, // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+            });
+            wx.error(function(res){
+                //                alert('error!')
+            });
+        }
+
+    </script>
+
+</head>
+<body>
+<img class="back lf" src="icon/back-arrow1@2x.png" alt="" style="display: none"/>
+<img class="topImg" src="" alt=""/>
+<!--<div class="topImg">-->
+
+<!--</div>-->
+<div class="title">
+    <p class="name">贵州茅台500ml柔和酱香型高度白酒高度白酒高度白酒哦哦哦哦</p>
+    <p class="titleMoney">
+        <span class="titleMoneyBefore lf" style="margin-top: -0.2rem;">￥<span class="price"></span></span>
+        <span class="titleMoneyLater lf">会员价￥<span class="memberPrice">599</span></span>
+        <span class="Sales rt"></span>
+        <!--<span class="joinMember">加入会员</span>-->
+    </p>
+</div>
+<div style="height: 0.26rem;width: 100%;background: #f2f2f2"></div>
+<div class="joinMember" style="border-bottom: 0.01rem solid #e5e5e5">加入会员 <img style="margin-right: 0" class="rt" src="Shared/Crowdfunding/icon/grightBLACK.png" alt=""/></div>
+<div class="buyOver">购买成功可以获得<span>100</span>医疗健康储备金 <img class="rt" src="Shared/Crowdfunding/icon/grightBLACK.png" alt=""/></div>
+<div style="height: 0.26rem;width: 100%;background: #f2f2f2"></div>
+<div class="productDetails">
+    <p>产品详情</p>
+</div>
+<div class="productDetailsHtml" id="productDetailsHtml"></div>
+
+<!--底部导航按钮-->
+<div class="bottom">
+    <div class="shoppingCart lf">
+        <img src="Shared/Crowdfunding/imgs/shoppingCart.png" alt=""/>
+        <p>购物车</p>
+        <span class="shoppingCartNum"></span>
+    </div>
+    <!--<div>-->
+    <button  class="joinShoppingCart lf" >加入购物车</button>
+    <!--</div>-->
+
+    <button class="buyNow lf">立即购买</button>
+</div>
+
+
+<!--弹出框-->
+<div class="tab">
+    <div class="tabTop">
+        <img class="tabTopImg lf" src="Shared/Crowdfunding/imgs/imgDemo.jpg" alt=""/>
+        <div class="tabTitle lf">
+            <p class="tabTitleName"></p>
+            <p class="tabTitleMoney">
+                <span class="tabTitleMoneyBefore">￥<span class="tabPrice"></span></span>
+                <span class="tabTitleMoneyLater">会员价￥<span class="tabMemberPrice"></span></span>
+            </p>
+        </div>
+        <img class="close rt" src="Shared/Crowdfunding/imgs/close.png" alt=""/>
+    </div>
+
+    <div class="tabSpecifications lf" >
+        <span class="tabSpecificationsTitle lf">规格</span>
+        <div class="tabSpecificationsClassFather">
+            <!--<span class="tabSpecificationsClass lf" goodId="">53度</span>-->
+            <!--<span class="tabSpecificationsClass lf" goodId="">53度傻大姐哈哈</span>-->
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="freeShipping">
+        <span class="freeShippingLf lf">享包邮</span>
+        <span class="freeShippingMiddle lf">该商品享受包邮</span>
+        <span class="freeShippingRt rt">包邮</span>
+    </div>
+    <!--选择数量-->
+    <div class="selectNum">
+        <span class="selectNumTitle lf">选择数量</span>
+            <span class="selectNumAdd rt">
+                <img class="lf" src="Shared/Crowdfunding/icon/add.png" alt=""/>
+            </span>
+        <input class="selectNumPoint rt" value="1" type="text" maxlength="3"/>
+        <!--<span class="selectNumPoint rt">12</span>-->
+            <span class="selectNumDel rt">
+                <img class="lf" src="Shared/Crowdfunding/icon/del.png" alt=""/>
+            </span>
+    </div>
+    <div class="tabBtn">
+        <button  class="tabSure" style="display: none">确认</button>
+        <button class="tabBuy">立即支付</button>
+        <!--</div>-->
+    </div>
+</div>
+<!--<div id="allmap"></div>-->
+<script type="text/javascript">
+//    $.ready(function(){
+//        $(function () {
+//            var needRefresh = sessionStorage.getItem("need-refresh");
+//            alert(needRefresh)
+//            if(needRefresh){
+//                sessionStorage.removeItem("need-refresh");
+//                location.reload();
+//            }
+//        });
+//    })
+
+
+        var ifBuyed,medicalcoinReturn;
+        var latitude=localStorage.getItem('latitude');
+        var longitude=localStorage.getItem('longitude');
+
+    if(latitude==""||latitude==null||latitude=="null"||latitude==undefined){
+        latitude=32.27975;longitude=118.7761;
+
+        localStorage.setItem('latitude',latitude);
+        localStorage.setItem('longitude',longitude)
+    }else{
+        var reg = new RegExp('"',"g");
+        latitude = latitude.replace(reg, "");
+        longitude=longitude.replace(reg, "");
+    }
+//    navigator.geolocation.getCurrentPosition(function (position) {
+//                 var lat = position.coords.latitude;
+//                var lon = position.coords.longitude;
+//                 var point = new BMap.Point(lon, lat);  // 创建坐标点
+//                 // 根据坐标得到地址描述
+//                 var myGeo = new BMap.Geocoder();
+//                myGeo.getLocation(point, function (result) {
+//                         var city = result.addressComponents.city;
+//                         $('body').html(city);
+//                     });
+//             });
+
+//    var map = new BMap.Map("allmap");
+//    var point = new BMap.Point(116.331398,39.897445);
+//    map.centerAndZoom(point,12);
+//
+//    var geolocation = new BMap.Geolocation();
+//    geolocation.getCurrentPosition(function(r){
+//        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+//            var mk = new BMap.Marker(r.point);
+//            map.addOverlay(mk);
+//            map.panTo(r.point);
+//            alert('您的位置：'+r.point.lng+','+r.point.lat);
+//        }
+//        else {
+//            alert('failed'+this.getStatus());
+//        }
+//    },{enableHighAccuracy: true})
+
+
+    //        alert(latitude+'='+longitude)
+    //         good_id=localStorage.getItem('goodId');
+    var cartRecordCount=localStorage.getItem('cartRecordCount');
+    if(cartRecordCount>99){
+        $('.shoppingCartNum').html("99+")
+    }else{
+        $('.shoppingCartNum').html(cartRecordCount)
+    }
+    var goodId;
+    // 购物车加减
+    $('.selectNumDel').click(function(){
+        var num=$('.selectNumPoint').val();
+        num--;
+        if(num>=1){
+            $('.selectNumPoint').val(num);
+        }else{
+            $('.selectNumPoint').val(1);
+        }
+    });
+    $('.selectNumAdd').click(function(){
+        var num=$('.selectNumPoint').val();
+        num++;
+        $('.selectNumPoint').val(num);
+    });
+    //跳转购物车
+    $('.shoppingCart').click(function(){
+        location.href="sShoppingCart.html"
+    })
+    // 加入购物车
+    $('.joinShoppingCart').click(function(){
+        $('.tab').css('display','block');
+        $('.tabSure').css('display','block');
+        $('.tabBuy').css('display','none');
+    });
+    $('.tabSure').click(function(){
+        $('.tabSure').attr({"disabled":true});
+//            var good_id=$('.tabSpecificationsClass');
+        var user_id=localStorage.getItem('userId');
+
+        var count=$('.selectNumPoint').val();
+//            console.log(user_id,goodId);
+        $.ajax({
+            url:"/yichaxun/mall/cart/addgood",
+            type:'post',
+            headers:{yccClient:'YCCGX' ,latitude:latitude,longitude:longitude},
+//                    ,latitude:latitude,longitude:longitude
+            data:"good_id="+goodId+"&user_id="+user_id+"&count="+count,
+            success:function(data){
+                if(data.code==0){
+                    window.location.reload()
+                }else if(data.code==99){
+                    alert(data.message);
+                    $('.tabSure').attr({"disabled":false});
+                }else if(data.code==20){
+                    localStorage.setItem('href',location.href);
+                    location.href="Shared/Tlogin.html";
+                    $('.tabSure').attr({"disabled":false});
+                }
+            }
+        })
+    })
+    // 立即购买
+    $('.buyNow').click(function(){
+        $('.tab').css('display','block');
+        $('.tabBuy').css('display','block');
+        $('.tabSure').css('display','none');
+
+    });
+    $('.tabBuy').click(function(){
+//        $('.tabBuy').({"disabled":true});
+        var user_id=localStorage.getItem('userId');
+//        alert(user_id)
+        var count=$('.selectNumPoint').val();
+        var param={goods:[{'goodId':goodId,'count':count}]};
+        var params=JSON.stringify(param);
+        localStorage.setItem("params",params);
+//            localStorage.setItem('goodId',goodId);
+        console.log(user_id,goodId);
+        location.href="sSettleShoppingCart.html";
+//            $.ajax({
+//                url:"/mall/order/order",
+//                type:'post',
+//                data:"user_id="+user_id+"&param="+params,
+//                success:function(data){
+//                    if(data.code==0){
+//                        location.href="sSettleShoppingCart.html"
+//                    }
+//                }
+//            })
+    })
+    // 关闭弹出界面
+    $('.close').click(function(){
+        $('.tab').css('display','none');
+    })
+
+    $('.tabSpecifications').on('click','.tabSpecificationsClassFather .tabSpecificationsClass',function(){
+        $('.topImg').attr('src',$(this).attr('pic'))
+        $(this).css('background','#ff8200').css('color','#fff');
+        $(this).siblings().css('background','#f5f5f5').css('color','#666');
+        goodId=$(this).attr('goodId');
+        $('.tabPrice').html($(this).attr('price'));
+        $('.tabMemberPrice').html($(this).attr('memberPrice'));
+    });
+
+    $().ready(function(){
+        $.ajax({
+            url:"/yichaxun/mall/good/info",
+            type:'get',
+            headers:{yccClient:'YCCGX' ,latitude:latitude,longitude:longitude},
+//                    ,latitude:latitude,longitude:longitude
+            data:'good_id='+good_id,
+            success:function(data){
+                if(data.code==0){
+
+                    $('.Sales').html('月销售量'+data.data.soldcount+'件')
+                    $('.buyOver span').html(data.data.medicalcoinReturn);
+                    ifBuyed=data.data.ifBuyed;
+                    medicalcoinReturn=data.data.medicalcoinReturn;
+//                    localStorage.setItem('ifBuyed',data.data.ifBuyed);
+                    if(data.data.inventory==0||data.data.inventory==''||data.data.inventory==null||data.data.inventory=='null'||data.data.inventory==undefined||data.data.inventory=='undefined'){
+                        $('.buyNow').attr({"disabled":true}).css('background','#ccc').css('color','#fff')
+                        $('.joinShoppingCart').attr({"disabled":true}).css('color','#ccc');
+//                            $('.shoppingCart img').css('src','Shared/Crowdfunding/imgs/gshop.png')
+//                            $('.shoppingCart img')
+                    }
+
+//                        shareTitle=data.data.name;
+                    shareDesc=data.data.name;
+                    shareImgUrl=data.data.pics.split(',')[0];
+
+                    $('.topImg').attr('src',data.data.pics.split(',')[0]);
+                    $('.name').html(data.data.name);
+                    $('.tabTitleName').html(data.data.name);
+                    var tabTopHeight=$('.tabTop').height();
+                    var tabTitleHeight=$('.tabTitle').height();
+                    $('.tabTitle').css('margin-top',(tabTopHeight-tabTitleHeight)/2);
+                    $('.tab').css('display','none');
+                    if(data.data.ifLeaf==1){
+                        $('.price').html(data.data.maxPrice);
+                        $('.memberPrice').html(data.data.maxMemberPrice);
+                        $('.tabSpecifications').css('display','none');
+                        $('.tabTopImg').attr('src',data.data.pics.split(',')[0]);
+                        $('.tabMemberPrice').html(data.data.maxMemberPrice);
+                        $('.tabPrice').html(data.data.maxPrice);
+                        goodId=good_id
+                    }else{
+                        console.log(tabTopHeight,tabTitleHeight);
+                        console.log(data.data.pics.split(',')[0]);
+                        for(var i=0;i<data.data.branches.length;i++){
+                            $('.tabSpecificationsClassFather').append(
+                                    '<span class="tabSpecificationsClass lf" pic="'+data.data.branches[i].pics.split(',')[0]+'" price="'+data.data.branches[i].price+'" memberPrice="'+data.data.branches[i].memberPrice+'" goodId="'+data.data.branches[i].goodId+'">'+data.data.branches[i].name+'</span>'
+                            );
+                            $('.tabSpecificationsClassFather').find('span:first-child').css('background','#ff8200').css('color','#fff');
+                            goodId=$('.tabSpecificationsClassFather').find('span:first-child').attr('goodId')
+                        }
+                        $('.memberPrice').html(data.data.branches[0].memberPrice);
+                        $('.price').html(data.data.branches[0].price);
+                        $('.tabMemberPrice').html(data.data.branches[0].memberPrice);
+                        $('.tabPrice').html(data.data.branches[0].price);
+                        $('.tabTopImg').attr('src',data.data.branches[0].pics.split(',')[0]||data.data.pics.split(',')[0]);
+                    }
+
+
+                    //商品详情
+                    $.ajax({
+                        type: 'GET',
+                        url: data.data.descUrl,
+                        success: function(res){
+                            desc = res;
+                            document.getElementById('productDetailsHtml').innerHTML = desc;
+                        }
+                    });
+                }else if(data.code==20||data.code==26){
+                    localStorage.setItem('href',location.href)
+                    location.href="Shared/Tlogin.html"
+                }else{
+                    alert(data.message)
+                }
+            }
+
+        })
+    });
+    //        //商城初始化
+    $.ajax({
+        url:'/yichaxun/mall/init',
+        type:'post',
+        headers:{yccClient:'YCCGX' ,latitude:latitude,longitude:longitude},
+//                        ,latitude:latitude,longitude:longitude
+        success:function(data){
+            if(data.code==0){
+                if(data.data.ifMember==1){
+                    $('.joinMember').css('display','none')
+                }
+                if(data.data.cartRecordCount==''||data.data.cartRecordCount==null||data.data.cartRecordCount==undefined||data.data.cartRecordCount=='null'||data.data.cartRecordCount=='undefined'){
+                    $('.shoppingCartNum').html(0);
+                }else{
+                    $('.shoppingCartNum').html(data.data.cartRecordCount);
+                }
+                localStorage.setItem('cartRecordCount',data.data.cartRecordCount);
+                localStorage.setItem('ifMember',data.data.ifMember);
+                localStorage.setItem('sponsorId',data.data.sponsor.id);
+                localStorage.setItem('sponsorType',data.data.sponsor.type);
+            }
+        }
+    })
+
+//   医疗币获得说明
+    $('.buyOver').click(function(){
+        location.href="sMedicalCurrency.html?ifBuyed="+ifBuyed+'!medicalcoinReturn='+medicalcoinReturn;
+    })
+
+//    加入会员
+    $('.joinMember').click(function(){
+        location.href="lovePay.html"
+        localStorage.setItem('memberHref',location.href)
+    })
+</script>
+</body>
+</html>

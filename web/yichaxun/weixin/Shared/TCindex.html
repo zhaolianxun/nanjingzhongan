@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!--<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>首页</title>
+    <link rel="stylesheet" href="Crowdfunding/css/CindexDemo.css"/>
+    <link rel="stylesheet" href="../css/index_new.css"/>
+    <link rel="stylesheet" href="../css/index.css"/>
+    <link rel="stylesheet" href="../css/dropload.css">
+    <link rel="stylesheet" href="Crowdfunding/css/TCindexDemos.css"/>
+    <!--<script src="../js/zepto.min.js"></script>-->
+    <script src="../js/jquery-3.0.0.min.js"></script>
+    <script src="../js/dropload.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../js/public.js"></script>
+    <script src="Crowdfunding/js/loveMyCardDetail.js"></script>
+    <script src="https://static.alipay.com/aliBridge/1.0.0/aliBridge.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!--<script src="../js/vconsole.min.js"></script>-->
+    <style>
+        html{font-size: 32px}
+        @media(min-device-width: 375px) {
+            html{font-size: 64px}
+        }
+        @media(min-device-width: 414px) {
+            html{font-size: 75px}
+        }
+        input{
+            outline:none;
+        }
+        p{
+            margin: 0;padding: 0;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        .states{
+            margin-right: 0.4rem;
+        }
+        .dropload-down{
+            display: none;
+        }
+        .imgImg{
+            /*width: 100%;*/
+            /*height:200px;*/
+        }
+        .worryCard{
+            width: 100%;
+            background: #fff;
+        }
+        .worryCard img{
+            /*width: 100%;*/
+            width: 9.6rem;
+            margin: 0.28rem 0.2rem 0;
+        }
+        /*抢红包*/
+        .redPacket{
+            margin: 0  0.2rem 0;
+            padding-top: 0.53rem;
+            text-align: center;
+            height: 3.47rem;
+            background: url("Crowdfunding/images/banner.jpg");
+            background-size: 100% 100%;
+        }
+        .redPacket img{
+            width: 100%;
+        }
+        .redPacketTitle{
+            height: 0.53rem;
+            line-height: 0.53rem;
+        }
+        .redPacket p{
+            line-height: 0.53rem;
+            display: inline-block;
+            height: 0.53rem;
+            margin-top: 0;
+            text-align: center;
+            font-size: 0.37rem;
+            color: #ffffff;
+            vertical-align: middle;
+            position: static;
+        }
+        .time,.minute,.second,.days,.times,.minutes,.seconds{
+            line-height: 0.53rem;
+            display:inline-block;
+            width: 0.52rem ;
+            height:  0.52rem;
+            background: #ffffff;
+            margin: 0 0.18rem;
+            vertical-align: top;
+            position: static;
+            color: #000;
+        }
+
+        /*扫一扫*/
+        .Scan{
+            position: fixed;
+            right: 0.4rem;
+            bottom: 2.2rem;
+            width: 1.3rem;
+            height: 1.3rem;
+            border-radius: 0.65rem;
+            background: #ff8201;
+            /*border: 1px solid #fff;*/
+            z-index: 999;
+        }
+        .ScanImg{
+            width: 100%;
+            height: 0.56rem;
+        }
+        .ScanImg img{
+            width:  0.56rem;
+            height: 0.56rem;
+            margin:0.2rem 0.37rem 0.1rem;
+        }
+        .ScanText{
+            width: 100%;
+        }
+        .ScanText p{
+            margin: 0;
+            height: 0.26rem;
+            font-size: 0.26rem;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        .healthCultureTitle{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+
+        .guessWhatYouLikeBox p{
+            height: 1.06rem !important;
+        }
+    </style>
+    <script>
+        localStorage.removeItem('gift');
+
+
+        var appId,timestamp,noncestr,signature
+//                ,latitude,longitude;
+       var latitude=32.27975,longitude=118.7761
+
+        $().ready(function(){
+
+            $.ajax({
+                url: "/yichaxun/u/wxjssdksign?url="+location.href,
+                type: "get",
+                dataType: "json",
+//            async:"true",
+                async: true,
+                contentType: "application/x-www-form-urlencoded",
+                processData: false,
+                success: function (data) {
+                    if (data.code == 0) {
+                        appData = data.data;
+                        appId=appData.appId;
+                        timestamp=appData.timestamp;
+                        noncestr=appData.nonceStr;
+                        signature=appData.signature;
+                        $(".timeStamp").val(timestamp);
+                        $(".nonceStr").val(noncestr);
+                        $(".signature").val(signature);
+                        $(".appId").val(appId);
+                        console.log(timestamp,noncestr,signature,appId)
+                        config(appId,timestamp,noncestr,signature);
+                    }
+                }
+            });
+        })
+
+        function config(appId,timestamp,noncestr,sign) {
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: appId, // 必填，公众号的唯一标识
+                timestamp: timestamp, // 必填，生成签名的时间戳
+                nonceStr: noncestr, // 必填，生成签名的随机串
+                signature: sign,// 必填，签名，见附录1
+                jsApiList: [
+                    'scanQRCode',
+                    'translateVoice',
+                    'checkJsApi',
+                    'chooseImage',
+                    'previewImage',
+                    'uploadImage',
+                    'downloadImage',
+                    'getNetworkType',//网络状态接口
+                    'openLocation',//使用微信内置地图查看地理位置接口
+                    'getLocation' ]//获取地理位置接口]
+                // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            })
+
+
+            wx.ready(function () {
+//                alert('ready!');
+                console.log('ready');
+                function show(){
+                    wx.getLocation({
+                        success: function (res) {
+                            latitude=  JSON.stringify(res.latitude);
+                            longitude= JSON.stringify(res.longitude);
+                            var reg = new RegExp('"',"g");
+                            latitude = latitude.replace(reg, "");
+                            longitude=longitude.replace(reg, "");
+                            localStorage.setItem('latitude',latitude);
+                            localStorage.setItem('longitude',longitude);
+//                        alert(JSON.stringify(res));
+//                            alert(JSON.stringify(res.latitude)+"="+JSON.stringify(res.longitude))
+                        },
+                        cancel: function (res) {
+                            alert('用户拒绝授权获取地理位置');
+                        }
+                    });
+                }
+                show();
+                wx.error(function (res) {
+                    alert('error!')
+                });
+            })
+            localStorage.setItem('latitude',latitude);
+            localStorage.setItem('longitude',longitude);
+
+            $.ajax({
+                url:'/yichaxun/geo/cityname',
+                type:'get',
+                async: true,
+                headers:{yccClient:'YCCGX',latitude:latitude,longitude:longitude},
+                success:function(data){
+                    if(data.code==0){
+                        $('.positionAddress span').html(data.data.cityName)
+                    }
+                }
+            })
+            $(".Scan").click(function(){
+
+
+                location.href='loveShoppingMall.html?gift=1';
+//                var ua = navigator.userAgent.toLowerCase();//获取判断用的对象
+//                if (ua.match(/MicroMessenger/i) == "micromessenger") {
+//                    //在微信中打开
+//                    wx.scanQRCode({
+//                        // 默认为0，扫描结果由微信处理，1则直接返回扫描结果
+//                        needResult : 1,
+//                        desc : 'scanQRCode desc',
+//                        success : function(res) {
+////                            alert(1)
+//                            //扫码后获取结果参数赋值给Input
+//                            var linkurl = res.resultStr;
+////                        alert(linkurl)
+//                            var link=JSON.parse(linkurl);
+//                            var promoter_id= link.promoter_id;
+//
+//                            var linkStr='loveShoppingMall.html?promoter_id='+promoter_id;
+////                        alert(linkStr)
+////                            alert(linkStr)
+//                            location.href=linkStr
+//
+////                        $('.link').html(link)
+////                        location.href=linkurl
+//                            //商品条形码，取","后面的
+////                       if(url.indexOf(",")>=0){
+////                           var tempArray = url.split(',');
+////                           var tempNum = tempArray[1];
+////                           $("#id_securityCode_input").val(tempNum);
+////                       }else{
+////                           $("#id_securityCode_input").val(url);
+////                       }
+//                        }
+//                    });
+//                }else if(/alipay/ig.test(ua)){
+//                    if((Ali.alipayVersion).slice(0,3)>=8.1){
+//                        Ali.scan({
+//                            type: 'qr' //qr(二维码) / bar(条形码) / card(银行卡号)
+//                        }, function(result) {
+//                            if(result.errorCode){
+//                                //没有扫码的情况
+//                                //errorCode=10，用户取消
+//                                //errorCode=11，操作失败
+//                            }else{
+//                                //成功扫码的情况
+//                                //result.barCode	string	扫描所得条码数据
+//                                //result.qrCode	string	扫描所得二维码数据
+//                                //result.cardNumber	string	扫描所得银行卡号
+//
+//                                var linkurl = result.qrCode;
+////                        alert(linkurl)
+//                                var link=JSON.parse(linkurl)
+//                                var promoter_id= link.promoter_id;
+//
+//                                var linkStr='loveShoppingMall.html?promoter_id='+promoter_id;
+////                        alert(linkStr)
+//                                location.href=linkStr
+//                            }
+//                        });
+//                    }else{
+//                        Ali.alert({
+//                            title: '亲',
+//                            message: '请升级您的钱包到最新版',
+//                            button: '确定'
+//                        });
+//                    }
+//                }
+
+            });
+
+
+
+        }
+
+    </script>
+    <script>
+        //TODO 计时，红包开始时间
+
+        var time, minutetime,hourtime, random,randomTime;
+        var stopState = false;
+        function timeout(time){
+            $('.start').css('display','block');
+            $('.end').css('display','none');
+            var randomTime=parseInt(randomTime);
+            var   time=parseInt(time);
+            setTimeout(function(){
+//                console.log(parseInt(time))
+                randomTime--;
+                if(randomTime==0){
+                    $('.start').css('display','none');
+                    $('.end').css('display','block');
+                }
+
+                time--;
+                $('.second').html(time);
+                if(time!==0  &&  !stopState){
+                    timeout(time);
+                }else if(time==0 &&  !stopState  ){
+                    time=59;
+                    minutetime--;
+                    if(minutetime==0&&hourtime>0){
+                        hourtime--;
+                        minutetime=59;
+                        $('.second').html(time);
+                        $('.minute').html(minutetime);
+                        $('.time').html(hourtime);
+                        timeout(time);
+//                        minutetime=0;
+//                        $('.minute').html(minutetime);
+//                        $('.second').html(time);
+                    }
+                    $('.time').html(hourtime);
+                    $('.minute').html(minutetime);
+                    $('.second').html(time);
+                    timeout(time);
+                }
+            },1000);
+        }
+
+
+        //todo 计时红包倒计时时间
+        function timestart(random){
+            var random=parseInt(random);
+//            console.log(random);
+            setTimeout(function(){
+                random--;
+                console.log(random)
+                if(parseInt(random)==0){
+                    $('.start').css('display','block');
+                    $('.end').css('display','none');
+                }else if(0<parseInt(random)&&parseInt(random)<=60){
+//                    console.log("ASD")
+                    time=random
+                    $('.seconds').html(time);
+                    $('.minutes').html('0');
+                    $('.times').html('0');
+                    timestart(random)
+                }else if(60<parseInt(random)&&parseInt(random)<3600){
+//                    console.log("ZXC");
+//                    console.log(random)
+                    minutetime= parseInt(random/60)
+                    time=random-minutetime*60
+//                    console.log(minutetime,time)
+                    $('.minutes').html(minutetime);
+                    $('.seconds').html(time);
+                    $('.times').html('0');
+                    timestart(random)
+                }else if(3600<=parseInt(random)){
+//                    console.log("asdasdsad")
+                    hourtime=parseInt(random/3600);
+                    minutetime=parseInt((random-hourtime*3600)/60)
+                    time=random-minutetime*60-hourtime*3600;
+//                    console.log(hourtime,minutetime,time)
+                    $('.times').html(hourtime);
+                    $('.minutes').html(minutetime);
+                    $('.seconds').html(time);
+                    timestart(random)
+                }
+            },1000);
+        }
+        //        TODO 获取当前时间
+        function p(s) {
+            return s < 10 ? '0' + s: s;
+        }
+        var myDate = new Date();
+        //获取当前年
+        var year=myDate.getFullYear();
+        //获取当前月
+        var month=myDate.getMonth()+1;
+        //获取当前日
+        var date=myDate.getDate();
+        var h=myDate.getHours();       //获取当前小时数(0-23)
+        var m=myDate.getMinutes();     //获取当前分钟数(0-59)
+        var s=myDate.getSeconds();
+
+        var now=year+'-'+p(month)+"-"+p(date)+" "+p(h)+':'+p(m)+":"+p(s);
+        var year=now.substring(0,10);
+        var day=now.substring(now.length-8,now.length);
+        var yearMD=year.split("-");
+        var dayMS=day.split(":");
+        //        console.log(yearMD[0],yearMD[1],yearMD[2]);
+        //        console.log(dayMS[0],dayMS[1],dayMS[2]);
+        var nowDayTime=parseInt(dayMS[0]*3600)+parseInt(dayMS[1]*60)+parseInt(dayMS[2]);
+        var nowDay=parseInt(yearMD[0]*365)+parseInt(yearMD[1]*30)+parseInt(yearMD[2]);
+        //console.log(nowDay)
+        $.ajax({
+            url:'/yichaxun/redpacket/init',
+            type:'post',
+            success:function(data){
+                var todayRobCalled=data.data.todayRobCalled
+
+                $('.todayRobCalled').val(data.data.todayRobCalled);
+                var startDate=data.data.startDate;
+                var endDate=data.data.endDate;
+                var startTime=data.data.startTimeDaily;
+                var endTime=data.data.endTimeDaily;
+//                console.log(startTime,endTime);
+                var startTimeMS=startTime.split(":");
+                var endTimeMS=endTime.split(":");
+//                console.log(startTimeMS[0]*3600,startTimeMS[1]*60,startTimeMS[2])
+                var startTimeMSNow=parseInt(startTimeMS[0]*3600)+parseInt(startTimeMS[1]*60)+parseInt(startTimeMS[2]);
+                var endTimeMSNow=parseInt(endTimeMS[0]*3600)+parseInt(endTimeMS[1]*60)+parseInt(endTimeMS[2]);
+                //时间年月日
+                var startDateDay=startDate.substring(0,10);
+                var endDateDay=endDate.substring(0,10);
+                var startDateDayMD=startDateDay.split("-");
+                var endDateDayMD=endDateDay.split("-");
+                var startDateNow=parseInt(startDateDayMD[0]*365)+parseInt(startDateDayMD[1]*30)+parseInt(startDateDayMD[2]);
+                var endDateNow=parseInt(endDateDayMD[0]*365)+parseInt(endDateDayMD[1]*30)+parseInt(endDateDayMD[2]);
+//                alert(parseInt(startTimeMSNow)+24*3600)
+//                console.log(startDateNow,endDateNow)
+                var allDaySecond=endTimeMSNow-startTimeMSNow;
+//                console.log("mmmm="+mmmmmm)
+                if(allDaySecond<1800){
+                    $('.start').html('红包已开抢，活动时间剩余<span class="minute"></span>分<span  class="second"></span>秒')
+                }else{
+                    $('.start').html('红包已开抢，活动时间剩余<span class="time"></span>时<span class="minute"></span>分<span  class="second"></span>秒')
+                }
+                if(nowDay<startDateNow||nowDay>endDateNow){
+                    $('.redPacket').css('display','none')
+                    $('.worryCard').css('margin-bottom','-0.28rem !important')
+                }
+                if(todayRobCalled==1){
+//                    alert(1231231)
+                    $('.start').css('display','none')
+                    $('.end').css('display','block')
+                    random =parseInt(startTimeMSNow)+24*3600-parseInt(nowDayTime);
+                    console.log(random)
+                    var _hour=startTimeMS[0]-dayMS[0]+24;
+                    var _minute=startTimeMS[1]-dayMS[1];
+                    var _second=startTimeMS[2]-dayMS[2];
+                    $('.days').html('0');
+                    $('.times').html(_hour);
+                    $('.minutes').html(_minute);
+                    $('.seconds').html(_second);
+                    time=parseInt($('.second').html());
+                    minutetime=parseInt($('.minute').html());
+                    hourtime=parseInt($('.times').html())
+                    timestart(random)
+                    if(_second<0){
+                        _minute=_minute-1;
+                        _second=60+_second;
+                        timestart(random)
+                        if(_minute<0){
+                            _hour=_hour-1;
+                            _minute=60+_minute
+                            $('.days').html('0');
+                            $('.times').html(_hour);
+                            $('.minutes').html(_minute);
+                            $('.seconds').html(_second)
+                            timestart(random)
+                        }else{
+                            $('.days').html('0');
+                            $('.times').html(_hour);
+                            $('.minutes').html(_minute);
+                            $('.seconds').html(_second)
+                            timestart(random)
+                        }
+                    }else{
+                        if(_minute<0){
+                            _hour=_hour-1;
+                            _minute=60+_minute
+                            $('.days').html('0');
+                            $('.times').html(_hour);
+                            $('.minutes').html(_minute);
+                            $('.seconds').html(_second)
+                            timestart(random)
+                        }else{
+                            $('.days').html('0');
+                            $('.times').html(_hour);
+                            $('.minutes').html(_minute);
+                            $('.seconds').html(_second)
+                            timestart(random)
+                        }
+                    }
+//                    timestart(random)
+                }else{
+//              TODO 红包开始抢阶段
+                    if(startTimeMSNow<nowDayTime&&endTimeMSNow>nowDayTime){
+                        $('.start').css('display','block');
+                        $('.end').css('display','none');
+                        var _hour=dayMS[0]-startTimeMS[0];
+                        var _minute=dayMS[1]-startTimeMS[1];
+                        var _second=dayMS[2]-startTimeMS[2];
+//                    alert(dayMS[0]-startTimeMS[0]);
+                        var _hourss=endTimeMS[0]-dayMS[0];
+                        var _minutess=endTimeMS[1]-dayMS[1];
+                        var _secondss=endTimeMS[2]-dayMS[2];
+
+                        if(_secondss<0) {
+                            _minutess--;
+                            _secondss = _secondss + 60;
+                            if (_minutess < 0) {
+                                _hourss--;
+                                _minutess = _minutess + 60
+                            }
+                        }
+
+                        $('.time').html(_hourss);
+                        $('.minute').html(_minutess);
+                        $('.second').html(_secondss);
+                        time=parseInt($('.second').html());
+                        minutetime=parseInt($('.minute').html());
+                        hourtime=parseInt($('.time').html());
+                        randomTime=parseInt((endTimeMS[0]-dayMS[0])*3600)+parseInt((endTimeMS[1]-dayMS[1])*60)+parseInt(endTimeMS[2]-dayMS[2])
+//alert(randomTime)
+//                    console.log(time);
+                        timeout(time)
+                    }
+//                TODO 抢红包之后
+                    else if(startTimeMSNow<nowDayTime&&endTimeMSNow<nowDayTime){
+//                    console.log('Q')
+                        random =parseInt(startTimeMSNow)+24*3600-parseInt(nowDayTime);
+//                    console.log(random)
+                        $('.start').css('display','none');
+                        $('.end').css('display','block');
+                        var _hour=startTimeMS[0]-dayMS[0]+24;
+                        var _minute=startTimeMS[1]-dayMS[1];
+                        var _second=startTimeMS[2]-dayMS[2];
+                        $('.days').html('0');
+                        $('.times').html(_hour);
+                        $('.minutes').html(_minute);
+                        $('.seconds').html(_second);
+                        time=parseInt($('.second').html());
+                        minutetime=parseInt($('.minute').html());
+                        hourtime=parseInt($('.times').html())
+                        timestart(random)
+                        if(_second<0){
+                            _minute=_minute-1;
+                            _second=60+_second;
+                            timestart(random)
+                            if(_minute<0){
+                                _hour=_hour-1;
+                                _minute=60+_minute
+                                $('.days').html('0');
+                                $('.times').html(_hour);
+                                $('.minutes').html(_minute);
+                                $('.seconds').html(_second)
+                                timestart(random)
+                            }else{
+                                $('.days').html('0');
+                                $('.times').html(_hour);
+                                $('.minutes').html(_minute);
+                                $('.seconds').html(_second)
+                                timestart(random)
+                            }
+                        }else{
+                            if(_minute<0){
+                                _hour=_hour-1;
+                                _minute=60+_minute
+                                $('.days').html('0');
+                                $('.times').html(_hour);
+                                $('.minutes').html(_minute);
+                                $('.seconds').html(_second)
+                                timestart(random)
+                            }else{
+                                $('.days').html('0');
+                                $('.times').html(_hour);
+                                $('.minutes').html(_minute);
+                                $('.seconds').html(_second)
+                                timestart(random)
+                            }
+                        }
+
+//              TODO 抢红包之前
+                    }
+                    else if(startTimeMSNow>nowDayTime&&endTimeMSNow>nowDayTime){
+//                    console.log('W')
+                        random =parseInt(startTimeMSNow)-parseInt(nowDayTime);
+                        var _hour=startTimeMS[0]-dayMS[0];
+                        var _minute=startTimeMS[1]-dayMS[1];
+                        var _second=startTimeMS[2]-dayMS[2];
+                        timestart(random)
+                        if(_second<0){
+                            _minute=_minute-1;
+                            _second=60+_second;
+                            timestart(random)
+                            if(_minute<0){
+                                _hour=_hour-1;
+                                _minute=60+_minute
+                                $('.days').html('0');
+                                $('.times').html(_hour);
+                                $('.minutes').html(_minute);
+                                $('.seconds').html(_second)
+                                timestart(random)
+                            }else{
+                                $('.days').html('0');
+                                $('.times').html(_hour);
+                                $('.minutes').html(_minute);
+                                $('.seconds').html(_second)
+                                timestart(random)
+                            }
+                        }else{
+                            if(_minute<0){
+                                _hour=_hour-1;
+                                _minute=60+_minute
+                                $('.days').html('0');
+                                $('.times').html(_hour);
+                                $('.minutes').html(_minute);
+                                $('.seconds').html(_second);
+                                timestart(random)
+                            }else{
+                                $('.days').html('0');
+                                $('.times').html(_hour);
+                                $('.minutes').html(_minute);
+                                $('.seconds').html(_second);
+                                timestart(random)
+                            }
+                        }
+                    }
+                }
+
+            }
+        })
+    </script>
+</head>
+<body style="padding-bottom: 1.5rem" class="body">
+<input type="hidden" class="todayRobCalled"/>
+
+<div class="positionAddress">
+    <img src="Crowdfunding/icon/gaddress.png" alt=""/>
+    <span></span>
+</div>
+<div class="worryCard">
+    <img src="Crowdfunding/iconLove/card-bg-2@2x.png" alt=""/>
+</div>
+<!--倒计时-->
+<!--<div class="redPacket" >-->
+    <!--<div class="redPacketTitle">-->
+        <!--<p class="start" style="display: none">红包已开始<span class="time"></span>时<span class="minute"></span>分<span  class="second"></span>秒</p>-->
+        <!--<p class="end">距离开始时间还有<span class="days"></span>天<span class="times"></span>时-->
+            <!--<span class="minutes"></span>分<span  class="seconds"></span>秒</p>-->
+        <!--&lt;!&ndash;<div>红包已开始</div><div class="minute"></div><div>分</div><div class="second"></div><div>秒</div>&ndash;&gt;-->
+    <!--</div>-->
+    <!--&lt;!&ndash;<span>红包已开始</span><span class="minute"></span><span>分</span><span class="second"></span><span>秒</span>&ndash;&gt;-->
+
+<!--</div>-->
+<!--<div class="html">-->
+<!--<div  class="contain" style="margin: 0.26rem 0.2rem 1.33rem">-->
+<!--&lt;!&ndash;新的地方&ndash;&gt;-->
+
+<!--&lt;!&ndash;<div class="cityBox">&ndash;&gt;-->
+<!--&lt;!&ndash;<img src="http://121.40.168.181/yichaxun/oss//201706300931388808794.jpg" alt=""/>&ndash;&gt;-->
+<!--&lt;!&ndash;<p>走进南京旅游资源丰富走进南京旅游资源丰富走进南京旅游资源丰富，名胜古迹众多</p>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--</div>-->
+<!--</div>-->
+
+<!--商品精选-->
+<div class="selectionOfCommodities">
+    <ul>
+        <li>
+            <span class="selectGoods lf">商品精选</span>
+        </li>
+        <!-- <li>
+             <img src="Crowdfunding/iconLove/card-bg-2@2x.png" alt=""/>
+         </li>-->
+    </ul>
+</div>
+<!--附近推荐-->
+<div class="recommendationInTheVicinity">
+    <ul>
+        <li>
+            <span class="aroundUs lf">附近推荐</span>
+            <img class="rt" src="Crowdfunding/icon/grightBLACK.png" alt=""/>
+            <span class="rt aroundMore">更多</span>
+        </li>
+    </ul>
+    <ul class="recommendationInTheVicinityUl">
+        <!--<li>-->
+        <!--<p class="lf">-->
+        <!--<span>走进南京，健康养身文化</span>-->
+        <!--<span class="borderLine"></span>-->
+        <!--</p>-->
+        <!--<img class="rt" src="Crowdfunding/iconLove/card-bg-2@2x.png" alt=""/>-->
+        <!--</li>-->
+    </ul>
+</div>
+<!--广告位-->
+<div class="advertising">
+</div>
+<!--养生文化-->
+<div class="healthCulture">
+    <ul>
+        <li>
+            <span class="heather lf">养生文化</span>
+            <img class="heatherIcon rt" src="Crowdfunding/icon/grightBLACK.png" alt=""/>
+            <span class="rt heatherMore">更多</span>
+        </li>
+    </ul>
+</div>
+<div class="healthCultureBody">
+    <div class="healthCultureBottom">
+        <!--<ul>-->
+        <!--<li class="healthCultureTitle">-->
+        <!--每天起床后“第一杯水”怎么喝-->
+        <!--</li>-->
+        <!--<li class="healthCulturePicBox">-->
+        <!--<img class="lf" src="Crowdfunding/iconLove/card-bg-2@2x.png" alt=""/>-->
+        <!--<p class="rt">-->
+        <!--早上空腹喝一杯水有益健康的观念已经深入人心，然而，应该喝什么样的水，喝多少以及有啥禁忌却不是每个人都清楚的-->
+        <!--</p>-->
+        <!--</li>-->
+        <!--</ul>-->
+    </div>
+</div>
+<!--猜你喜欢-->
+<div class="guessWhatYouLike">
+    <ul>
+        <li><span class="lf">猜你喜欢</span></li>
+        <!--<li class="guessWhatYouLikeBox">-->
+        <!--<div>-->
+        <!--<img src="Crowdfunding/iconLove/card-bg-2@2x.png" alt=""/>-->
+        <!--</div>-->
+        <!--<p>走进南京-旅游资源丰富，名胜古迹众多</p>-->
+        <!--</li>-->
+    </ul>
+</div>
+<!--底部导航栏-->
+<div class="footer_T">
+    <div  class="footer_T_1 lf">
+        <img src="Crowdfunding/iconT/home--select@2x.png" alt=""/>
+        <p style="color:#3ac9af ">首页</p>
+    </div>
+    <div class="footer_T_2 lf">
+        <img src="Crowdfunding/iconT/card_icon3@2x.png" alt=""/>
+        <p  >关爱卡</p>
+    </div>
+    <div class="footer_T_4 lf">
+        <img src="Crowdfunding/iconT/gShoppingCartBt.png" alt=""/>
+        <p  >购物车</p>
+    </div>
+    <div class="footer_T_3 lf">
+        <img src="Crowdfunding/iconT/wode@2x.png" alt=""/>
+        <p>我的</p>
+    </div>
+</div>
+<div class="Scan">
+    <div class="ScanImg">
+        <img class="lf" src="Crowdfunding/iconLove/pay_icon-2@2x.png" alt=""/>
+    </div>
+    <div class="ScanText">
+        <p>领赠品</p>
+    </div>
+</div>
+<div id="btnbtnbtn"  style="display: none">按钮</div>
+<!--弹窗消费医保-->
+<div class="popWindow">
+    <div class="popWindowImg">
+        <img src="Crowdfunding/images/popWimdow.png" alt=""/>
+        <div class="popClose"></div>
+        <div class="popGo"></div>
+    </div>
+</div>
+<script>
+    localStorage.removeItem('href');
+    $('.footer_T_1').click(function(){
+        $('.footer_T_1').find("img").attr('src','Crowdfunding/iconT/home--select@2x.png');
+        $('.footer_T_1').find('p').css('color','#3ac9af');
+        $('.footer_T_2').find("img").attr('src','Crowdfunding/iconT/card_icon3@2x.png');
+        $('.footer_T_2').find('p').css('color','#999');
+        $('.footer_T_3').find("img").attr('src','Crowdfunding/iconT/wode@2x.png');
+        $('.footer_T_3').find('p').css('color','#999');
+        $('.footer_T_4').find('img').attr('src','Crowdfunding/iconT/gShoppingCartBt.png')
+        $('.footer_T_4').find('p').css('color','#999');
+        location.href='TCindex.html'
+    })
+    $('.footer_T_2').click(function(){
+        $('.footer_T_2').find("img").attr('src','Crowdfunding/iconT/card_icon2@2x.pn');
+        $('.footer_T_2').find('p').css('color','#3ac9af');
+        $('.footer_T_1').find("img").attr('src','Crowdfunding/iconT/home@2x.png');
+        $('.footer_T_1').find('p').css('color','#999');
+        $('.footer_T_3').find("img").attr('src','Crowdfunding/iconT/wode@2x.png');
+        $('.footer_T_3').find('p').css('color','#999');
+        $('.footer_T_4').find('img').attr('src','Crowdfunding/iconT/gShoppingCartBt.png')
+        $('.footer_T_4').find('p').css('color','#999');
+        location.href='loveCardDemo.html'
+    })
+    $('.footer_T_3').click(function(){
+        $('.footer_T_3').find("img").attr('src','Crowdfunding/iconT/wode-select@2x.png');
+        $('.footer_T_3').find('p').css('color','#3ac9af');
+        $('.footer_T_1').find("img").attr('src','Crowdfunding/iconT/home@2x.png');
+        $('.footer_T_1').find('p').css('color','#999');
+        $('.footer_T_2').find("img").attr('src','Crowdfunding/iconT/card_icon3@2x.png');
+        $('.footer_T_2').find('p').css('color','#999');
+        $('.footer_T_4').find('img').attr('src','Crowdfunding/iconT/gShoppingCartBt.png')
+        $('.footer_T_4').find('p').css('color','#999');
+        location.href='TMine.html'
+    })
+    $('.footer_T_4').click(function(){
+        $('.footer_T_3').find("img").attr('src','Crowdfunding/iconT/wode@2x.png');
+        $('.footer_T_3').find('p').css('color','#999');
+        $('.footer_T_1').find("img").attr('src','Crowdfunding/iconT/home@2x.png');
+        $('.footer_T_1').find('p').css('color','#999');
+        $('.footer_T_2').find("img").attr('src','Crowdfunding/iconT/card_icon3@2x.png');
+        $('.footer_T_2').find('p').css('color','#999');
+        $('.footer_T_4').find('img').attr('src','Crowdfunding/iconT/gshoppingcardB.png')
+        $('.footer_T_4').find('p').css('color','#3ac9af');
+        location.href='../sShoppingCart.html'
+    })
+</script>
+<!--引入数据-->
+<script>
+//    alert(localStorage.getItem('userId'))
+    var good_id,shop_id
+
+    $('.worryCard').click(function(){
+        $.ajax({
+            url:'/yichaxun/u/userinit',
+            type:'post',
+            headers:{yccClient:'YCCGX'},
+            success:function(data){
+                if(data.code==0){
+//                        $('.invitationCode').val(data.data.invitationCode)
+                    location.href="loveDetailsIndex.html?invitationCode="+data.data.invitationCode;
+                    localStorage.setItem('invitationCode',data.data.invitationCode)
+                }else if(data.code==20||data.code==26){
+                    location.href="Tlogin.html";
+                    localStorage.setItem('href',location.href)
+                }
+            }
+        });
+    });
+
+
+    var time,toPageNo;
+    var _htmls=localStorage.getItem('html_index');
+    var height=localStorage.getItem('dataHeight_index');
+    var page=localStorage.getItem('page');
+
+    $().ready(function() {
+
+        $(function () {
+            // dropload
+            var pageSize = 15;
+            toPageNo = page;
+            $('.guessWhatYouLike ul').dropload({
+                scrollArea: window,
+                loadDownFn: function (me) {
+                    toPageNo++;
+                    // 拼接HTML
+                    var result = '';
+                    $.ajax({
+                        url: '/yichaxun/page/yccgxhome?page_no=' + toPageNo + '&page_size=' + 15,
+                        type: "get",
+                        async: true,
+                        headers:{yccClient:'YCCGX'},
+                        dataType: 'json',
+                        success: function (data) {
+
+                            var arrLen = data.data.guessLike.items.length;
+//                                console.log(arrLen);
+                            if (arrLen > 0) {
+                                for (var i = 0; i < arrLen; i++) {
+
+                                    result += ' <li class="guessWhatYouLikeBox" name="'+data.data.guessLike.items[i].name+'" descUrl="'+data.data.guessLike.items[i].descUrl+'" linkId="'+data.data.guessLike.items[i].areaId+'">'+
+                                    '<div>'+
+                                    '<img src="'+data.data.guessLike.items[i].coverPic+'" alt="">'+
+                                    '</div>'+
+                                    '<p>'+data.data.guessLike.items[i].coverIntro+'</p>'+
+                                    '</li>';
+                                }
+
+                                // 如果没有数据
+                            } else {
+                                // 锁定
+                                me.lock();
+                                // 无数据
+                                me.noData();
+                            }
+                            // 为了测试，延迟1秒加载
+                            setTimeout(function () {
+                                // 插入数据到页面，放到最后面
+                                $('.guessWhatYouLike ul').append(result);
+                                // 每次数据插入，必须重置
+                                me.resetload();
+                            }, 100);
+                        },
+                        error: function (xhr, type) {
+//                                    alert('Ajax error!');
+                            // 即使加载出错，也得重置
+                            me.resetload();
+                        }
+                    });
+                }
+            });
+        });
+
+
+    });
+
+    //            滚动
+    var height;
+    $(window).scroll(function () {
+        height = $(this).scrollTop();
+    });
+
+
+
+
+
+    $().ready(function(){
+//          var history= localStorage.getItem('history');
+
+
+        $('.redPacket').click(function(){
+//              alert(history)
+            var todayRobCalled=$('.todayRobCalled').val();
+//              alert(todayRobCalled)
+
+            $.ajax({
+                url:'/yichaxun/u/userinit',
+                type:'post',
+                headers:{yccClient:'YCCGX'},
+                success:function(data){
+                    if(data.code==0){
+//                        $('.invitationCode').val(data.data.invitationCode)
+                        var redPacketDisplay=$('.start').css('display');
+                        if(todayRobCalled==0){
+                            if(redPacketDisplay=="block"){
+                                location.href="loveRedPacket.html?startEnd=1"
+                            }else{
+                                location.href="loveRedPacket.html?startEnd=0"
+                            }
+                        }else{
+                            location.href="loveRedPacket.html?startEnd=0"
+                        }
+                    }else if(data.code==20||data.code==26){
+                        location.href="Tlogin.html";
+                        localStorage.setItem('href',location.href)
+                    }
+                }
+            });
+
+
+        })
+    })
+
+
+    //商城初始化
+    $.ajax({
+        url:'/yichaxun/mall/init',
+        type:'post',
+//            headers:{longitude:,latitude:},
+        success:function(data){
+            if(data.data.cartRecordCount==''||data.data.cartRecordCount==null||data.data.cartRecordCount==undefined||data.data.cartRecordCount=='null'||data.data.cartRecordCount=='undefined') {
+                localStorage.setItem('cartRecordCount',0);
+            }else{
+                localStorage.setItem('cartRecordCount',data.data.cartRecordCount);
+            }
+            localStorage.setItem('ifMember',data.data.ifMember);
+        }
+    })
+
+
+    //        跳转项目详情页
+    $('.html').on('click','.contain .cityBox',function(){
+        var  _this=$(this)
+        $.ajax({
+            url:'/yichaxun/u/userinit',
+            type:'post',
+            headers:{yccClient:'YCCGX'},
+            success:function(data){
+                if(data.code==0){
+                    var descUrl=_this.attr('descUrl');
+                    var _html=$('.contain').html();
+                    var areaId=_this.attr('areaId');
+                    localStorage.setItem('html_index',_html);
+
+                    localStorage.setItem('descUrl',descUrl);
+//            alert(medicalSchemeId);
+                    location.href="../sProductCity.html?areaId="+areaId+'!descUrl='+descUrl;
+                }else if(data.code==20||data.code==26){
+                    location.href="Tlogin.html";
+                    localStorage.setItem('href',location.href)
+                }
+            }
+        });
+    });
+
+
+    //    跳转更多列表页
+    //    商品精选
+    //    $('.goodsMore').click(function(){
+    //        if(!$.cookie("token")) {
+    //            location.href = "Tlogin.html";
+    //            localStorage.setItem('href',location.href)
+    //        }else{
+    //            location.href="../sMoreYourLove.html?if_status=if_infeatured"
+    //        }
+    //    });
+    //    附近推荐
+    $('.aroundMore').click(function(){
+        if(!$.cookie("token")) {
+            location.href = "Tlogin.html";
+            localStorage.setItem('href',location.href)
+        }else{
+            location.href="../sMoreYourLove.html?if_status=if_innearbyrecommend"
+        }
+    });
+    //    养生文化
+    $('.heatherMore').click(function(){
+        if(!$.cookie("token")) {
+            location.href = "Tlogin.html";
+            localStorage.setItem('href',location.href)
+        }else{
+            location.href="../sMoreYourKeep.html?if_status=if_inhealthyculture"
+        }
+    });
+    $.ajax({
+        url:"/yichaxun/page/yccgxhome",
+        type:'post',
+        success:function(data){
+            if(data.code==0){
+                $('.worryCard img').attr('src',data.data.carecard.pic);
+
+                $('.popWindowImg img').attr('src',data.data.mall_tippic)
+                if(data.data.mall_tippic_ifpopup!='1'){
+                    $('.popWindow').css('display','none')
+                }
+                for(var i=0;i<data.data.goodFeatured.length;i++){
+                    $('.selectionOfCommodities ul').append(
+                            '<li class="selectionOfCommoditiesLi"  linkid="'+data.data.goodFeatured[i].linkId+'" descUrl="'+data.data.goodFeatured[i].descUrl+'">'+
+                            '<img src="'+data.data.goodFeatured[i].coverMedia+'" alt="">'+
+                            '</li>'
+                    )
+                }
+                for(var r=0;r<data.data.nearby.length;r++){
+                    $('.recommendationInTheVicinityUl').append(
+                            '<li name="'+data.data.nearby[r].name+'" linkId="'+data.data.nearby[r].linkId+'" descUrl="'+data.data.nearby[r].descUrl+'">'+
+                            '<p class="lf">'+
+                            '<span>'+data.data.nearby[r].coverIntro+'</span>'+
+                            '<span class="borderLine"></span>'+
+                            '</p>'+
+                            '<img class="rt" src="'+data.data.nearby[r].coverMedia+'" alt="">'+
+                            '</li>'
+                    )
+                }
+                for(var s=0;s<data.data.recommendHospital.length;s++){
+                    $('.advertising').append('<img linkId="'+data.data.recommendHospital[s].linkId+'" src="'+data.data.recommendHospital[s].coverMedia+'" alt="">')
+                }
+                for(var m=0;m<data.data.healthyculture.length;m++){
+                    $('.healthCultureBottom').append(
+                            '<ul linkId="'+ data.data.healthyculture[m].linkId+'" >'+
+                            '<li class="healthCultureTitle">'+ data.data.healthyculture[m].title+'</li>'+
+                            '<li class="healthCulturePicBox">'+
+                            '<img class="lf" src="'+ data.data.healthyculture[m].titleMedia+'" alt="">'+
+                            '<p class="rt">'+ data.data.healthyculture[m].titleGuide+'</p>'+
+                            '</li>'+
+                            '</ul>'
+                    )
+                }
+            }
+        }
+    })
+
+
+    //商品精选
+    $('.selectionOfCommodities').on('click','ul  .selectionOfCommoditiesLi',function(){
+        localStorage.setItem('goodId',$(this).attr('linkid'));
+        location.href="../sProductDetails.html?goodId="+$(this).attr('linkid');
+    })
+
+    //附近推荐
+    $('.recommendationInTheVicinity').on('click','.recommendationInTheVicinityUl  li',function(){
+        var _this=$(this);
+        localStorage.setItem('cityName',$(this).attr('name'));
+        var descUrl=_this.attr('descUrl');
+        var areaId=_this.attr('linkid');
+        localStorage.setItem('descUrl',descUrl);
+        location.href="../sProductCity.html?areaId="+areaId+'!descUrl='+descUrl;
+    })
+
+    //养身文化
+    $('.healthCultureBody').on('click','.healthCultureBottom  ul',function(){
+        var _this=$(this);
+        var areaId=_this.attr('linkid');
+        location.href="../sProductKeepWay.html?areaId="+areaId;
+    })
+
+    //猜你喜欢
+    $('.guessWhatYouLike').on('click','ul  .guessWhatYouLikeBox',function(){
+        var _this=$(this);
+        localStorage.setItem('cityName',$(this).attr('name'));
+        var descUrl=_this.attr('descUrl');
+        var areaId=_this.attr('linkid');
+        localStorage.setItem('descUrl',descUrl);
+        location.href="../sProductCity.html?areaId="+areaId+'!descUrl='+descUrl;
+    })
+    //    医院详情
+    $('.advertising').click(function(){
+        location.href="../sHospitalDetails.html?hospital_id="+$(this).children().attr('linkId')
+    })
+
+
+
+
+//    关闭医保消息弹窗
+    $('.popClose').click(function(){
+        $('.popWindow').css('display','none')
+    })
+    $('.popGo').click(function(){
+        location.href="loveDetailsIndex.html"
+    })
+</script>
+
+</body>
+</html>

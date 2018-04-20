@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> 你好e贷</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <script src="js/jquery-3.1.1.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <style>
+        html,body{
+            overflow-x: hidden;
+        }
+        *{
+            box-sizing:border-box;
+        }
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .bg_color,.bg_color img{
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            margin-top: -5px;
+        }
+        .fix{
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0px;;
+            /*background: #ffffff;*/
+            background-color:rgba(225,225,255,0.5)
+        }
+        .fix_next{
+            margin-left:6%;
+            margin-right:6%;
+        }
+        .left{
+            float: left;
+            width: 43%;
+        }
+        .right{
+            float: right;
+            width: 43%;
+        }
+    </style>
+    <script>
+        var appData = {};
+        $(document).ready(function(){
+
+            $.ajax({
+                url: "/yichaxun/u/wxjssdksign?url=" + location.href,
+                type: "get",
+                dataType: "json",
+                async: true,
+                contentType: "application/x-www-form-urlencoded",
+                processData: false,
+                success: function (data) {
+                    if (data.code == 0) {
+                        appData = data.data;
+                        config(appData.appId,appData.timestamp,appData.nonceStr,appData.signature)
+                    }
+                }
+            });
+
+        })
+        function config(appId,timestamp,noncestr,sign){
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: appId,
+                timestamp: timestamp,
+                nonceStr: noncestr,
+                signature:sign,
+                jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+            wx.ready(function(){
+//                alert('ready!');
+                wx.checkJsApi({
+                    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareQZone'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                    success: function(res) {
+//                            alert(res)
+                        // 以键值对的形式返回，可用的api值true，不可用为false
+                        // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                        console.log("check result: " + res)
+                    }
+                });
+
+                wx.onMenuShareTimeline({
+                    title: '公积金还可以这么用...', // 分享标题
+                    desc: '最高可贷30万，月息低至4.9‰，快来测测你的额度', // 分享描述
+                    link: 'http://passion.njshangka.com/yichaxun/weixin/either/index.html', // 分享链接
+                    imgUrl: 'http://passion.njshangka.com/yichaxun/weixin/either/imgs/lg.png', // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数分享
+//                        alert('分享');
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+//                        alert('取消分享');
+                    }
+                });
+                wx.onMenuShareAppMessage({
+                    title: '公积金还可以这么用...', // 分享标题
+                    desc: '最高可贷30万，月息低至4.9‰，快来测测你的额度', // 分享描述
+                    link: 'http://passion.njshangka.com/yichaxun/weixin/either/index.html', // 分享链接
+                    imgUrl: 'http://passion.njshangka.com/yichaxun/weixin/either/imgs/lg.png', // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+//                        alert('分享');
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+//                        alert('取消分享');
+                    }
+                });
+                wx.onMenuShareQQ({
+                    title: '公积金还可以这么用...', // 分享标题
+                    desc: '最高可贷30万，月息低至4.9‰，快来测测你的额度', // 分享描述
+                    link: 'http://passion.njshangka.com/yichaxun/weixin/either/index.html', // 分享链接
+                    imgUrl: 'http://passion.njshangka.com/yichaxun/weixin/either/imgs/lg.png', // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+//                        alert('分享');
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+//                        alert('取消分享');
+                    }
+                });
+                wx.onMenuShareQZone({
+                    title: '公积金还可以这么用...', // 分享标题
+                    desc: '最高可贷30万，月息低至4.9‰，快来测测你的额度', // 分享描述
+                    link: 'http://passion.njshangka.com/yichaxun/weixin/either/index.html', // 分享链接
+                    imgUrl: 'http://passion.njshangka.com/yichaxun/weixin/either/imgs/lg.png', // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+            });
+            wx.error(function(res){
+//                alert('error!')
+            });
+        }
+        //        $('#btn').click(function(){
+        //
+        //        })
+    </script>
+</head>
+<body>
+
+    <img class="bg_color" src="icon/banner123.jpg" alt=""/>
+    <!--<img src='imgs/lg.png' alt=""/>-->
+    <div class="fix" style="width: 100%">
+        <div class="fix_next">
+            <img class="left" src="icon/tleft.png"alt="">
+            <img class="right" src="icon/tright.png" alt="">
+        </div>
+    </div>
+    <script>
+        $().ready(function(){
+            var url=location.href;
+//        alert(url)
+
+            if(url=="http://passion.njshangka.com/yichaxun/weixin/either/index.html"){}else{
+                location.href="index.html"
+            }
+            if(url=="http://passion.njshangka.com/yichaxun/weixin/either/index.html?appinstall=0"){
+                location.href="index.html"
+            }
+//            location.href="index.html"
+
+//            alert(location.href);
+        })
+
+        $('.left').click(function(){
+            location.href="https://www.nihaobank.com/newphonebank/samples/index.html?Page=EDPrepaymentPre&Introduce=107028&BankId=9978"
+        })
+        $('.right').click(function(){
+            location.href="https://www.nihaobank.com/newphonebank/OpenAccRegistA.do?IntroduceInfo=107028&BankId=9998&TimeStamp=1483080827636&_locale=zh_CN&QutoH=H-ZX&LoginType=P&from=groupmessage&isappinstalled=1"
+        })
+    </script>
+</body>
+</html>

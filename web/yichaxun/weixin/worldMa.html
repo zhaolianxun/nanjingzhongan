@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <title>World码</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+    <style type="text/css">
+        body{
+            padding: 0;
+            margin: 0;
+            /*text-align: center;*/
+            width: 100%;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+            /*overflow: hidden;*/
+            background-color: #3ac8ae;
+        }
+        /*.ck {*/
+            /*position: absolute;*/
+            /*top: 50%;*/
+            /*left: 50%;*/
+            /*transform: translate(-50%, -50%);*/
+        /*}*/
+        .containerDiv{
+            margin: 50px 15px 25px;
+            background: #ffffff;
+            border-radius: 4px;
+            height:auto;
+
+        }
+        .containerDivTitle{
+            height: 55px;
+            width: 100%;
+            background: #f2f2f2;
+            line-height: 55px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+        .containerDivTitle p{
+            margin: 0 10px;
+            font-size: 16px;
+            color: #333333;
+        }
+        .please{
+            font-size: 16px;
+            color: #999;
+        }
+        #getNewQR{
+            width: 100%;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="containers">
+    <!--<nav aria-label="...">-->
+        <!--<ul class="pager">-->
+            <!--<li class="next"><a id="home" target="_blank">home <span aria-hidden="true">&rarr;</span></a></li>-->
+        <!--</ul>-->
+    <!--</nav>-->
+    <div class="containerDiv">
+        <div class="containerDivTitle">
+            <p>忠安医疗技术支持</p>
+        </div>
+        <div class="ck" style="margin-top: 35px">
+            <div id="error" class="alert alert-warning alert-dismissible text-center" role="alert" hidden="hidden" >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <strong class="error_msg">无法获取二维码!</strong>
+            </div>
+            <div class="row text-center">
+                <div class="col-xs-12 col-md-12" style="height: 210px">
+                    <img src="images/zhonganicon.jpg" id="qrcode" style="width: 210px;height: 210px"/>
+                </div>
+            </div>
+            <div class="row text-center" style="margin-top: 25px">
+                <div class="col-xs-12 col-md-12">
+                    <p class="please">请用微信扫描二维码</p>
+                </div>
+            </div>
+            <div class="row text-center" style="margin-top: 10px;">
+                <div class="col-xs-9 col-md-9" style="margin-left: 12.5%;margin-bottom: 55px">
+                    <button id="getNewQR" type="button" class="btn btn-default btn-lg" style="border: 1px solid #3ac9af">生成二维码</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var h = window.location.host;
+//    $("#home").attr("href","http://"+ h +"/wxma/wm/home");
+    $().ready(function () {
+        var  msgId;
+
+        function getQR() {
+//            var substart = location.href.indexOf('#');
+//            msgId = substart == -1 ? '' : location.href.substr(substart+1);
+
+
+            console.log(msgId);
+//            http://121.40.168.181:8082/wxma/wx/getUUID?msg_id=8
+//            $.getJSON("/wxma/wx/getUUID?msg_id="+msgId, function (data) {
+            $.getJSON("/wxma/wx/getUUID?msg_id="+msgId, function (data) {
+                if (data.status == "0") {
+                    $("#qrcode").attr("src", "https://login.weixin.qq.com/qrcode/" + data.data);
+                } else {
+                    $("#error").removeAttr("hidden");
+                }
+            });
+        }
+        var substart = location.href.indexOf('#');
+        msgId = substart == -1 ? '' : location.href.substr(substart+1);
+        $.ajax({
+            url:'/yichaxun/page/yccgxwxmassmsgma',
+            data:'msg_id='+msgId,
+            success:function(data){
+                $('.containerDivTitle p').html(data.data.hospitalName)
+            }
+        })
+//        getQR();
+        $("#getNewQR").click(function () {
+            $(this).html('再次生成二维码')
+            getQR();
+        });
+    });
+</script>
+</body>
+</html>

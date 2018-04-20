@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!--<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>选择对象</title>
+    <link rel="stylesheet" href="Crowdfunding/css/loveSelectObject.css"/>
+    <link rel="stylesheet" href="Crowdfunding/css/loveCardDemo.css"/>
+    <link rel="stylesheet" href="Crowdfunding/css/loveMyCardDetail.css"/>
+    <script src="../js/jquery-3.0.0.min.js"></script>
+    <script src="Crowdfunding/js/loveMyCardDetail.js"></script>
+    <script src="../js/public.js"></script>
+    <style>
+        html{font-size: 32px}
+        @media(min-device-width: 375px) {
+            html{font-size: 64px}
+        }
+        @media(min-device-width: 414px) {
+            html{font-size: 75px}
+        }
+        .hospitalName{
+            margin-top: 20px !important;
+        }
+    </style>
+    <script>
+//        !function() {
+//            function setFontsize() {
+//                document.documentElement.style.fontSize = document.documentElement.clientWidth / 16 + "px";
+//            }
+//            var _t = null;
+//            window.addEventListener("resize", function() {
+//                clearTimeout(_t);
+//                _t = setTime0ut(setFontSize, 100);
+//            }, false);
+//            setFontSize();
+//        }(window);
+    </script>
+</head>
+<body>
+    <div class="topSelect displayNone">
+        <p class="lf">
+            <span class="spanOne"></span> &nbsp<span class="spanTwo" >请选择科室</span>
+            <input type="hidden" class="hospitalOfficeId"/>
+        </p>
+        <img class="rt" src="Crowdfunding/iconLove/0_close_arrow@2x.png" alt=""/>
+    </div>
+
+    <div class="hospitalOfficeName " style="display: none">
+        <div class="hospitalOfficeNameLine"><p hospitalOfficeId="">骨科</p></div>
+    </div>
+    <div class="loveCardLine displayNone" style="margin-top: 10px">
+        <div class="tableBox" style="margin-top: 0 !important;">
+            <img class="lf" src="Crowdfunding/iconLove/card.jpg" alt="">
+            <div class="tableBoxRight rt">
+                <p class="title">200元共享医疗疼痛无忧卡</p>
+                <p class="serviceIntro">脊椎疼痛治疗服务脊椎疼痛治疗服务脊椎疼痛治疗服务</p>
+                <div class="tableBoxRightBottom">
+                    <p class="hospitalName">南京鼓楼医院</p>
+                    <p class="endTime">有效期<span>2018/12/31</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="userCard">
+        <button style="position:absolute;">确认</button>
+    </div>
+
+    <script>
+        var hospitalId=localStorage.getItem('hospitalId');
+        var hospitalName=localStorage.getItem('hospitalName');
+        var user_carecard_id=localStorage.getItem('user_carecard_id');
+        $('.topSelect   p  .spanOne').html(hospitalName);
+//        $('.topSelect   p  .spanOne').html(hospitalName);
+        $.ajax({
+            url:'/yichaxun/c/hospitalofficelist',
+            type:'post',
+            data:"hospitalId="+hospitalId,
+            success:function(data){
+                if(data.code==0){
+                    for(var i=0;i<data.data.items.length;i++){
+                        var card=$('.hospitalOfficeNameLine:last').clone(true);
+                        $('.hospitalOfficeNameLine:first').css('display','none');
+                        $(card).css('display', 'block');
+                        $('.hospitalOfficeName').append(card);
+                        $('.hospitalOfficeNameLine:last  p').html(data.data.items[i].hospitalOfficeName);
+                        $('.hospitalOfficeNameLine:last  p ').attr('hospitalOfficeId',data.data.items[i].hospitalOfficeId);
+
+                    }
+                }
+            }
+        })
+
+
+        $('.card .belongPeople').css('margin-left',"-15px");
+
+
+        $('.topSelect').click(function(){
+            $('.hospitalOfficeName').css('display','block');
+            $('.displayNone').css('display','none')
+        });
+        $('.hospitalOfficeNameLine').click(function(){
+//            alert($(this).children().html());
+
+
+        })
+        $('body').on('click','.hospitalOfficeName  .hospitalOfficeNameLine',function(){
+//            alert($(this).children().html());
+            $('.displayNone').css('display','block');
+            $(this).css('background','#ebebeb');
+            $(this).siblings().css('background','#fff');
+            $('.topSelect p .spanTwo').html($(this).children().html());
+//            alert($(this).children().attr('hospitalOfficeId'))
+            $('.topSelect .hospitalOfficeId').val($(this).children().attr('hospitalOfficeId'));
+            $('.hospitalOfficeName').css('display','none');
+        })
+
+        $('.userCard button').click(function(){
+            $('.userCard button').attr({"disabled":true});
+            var hospital_office_id=$('.topSelect .hospitalOfficeId').val();
+               $.ajax({
+                      url:"/yichaxun/1/carecard/use",
+                      type:'POST',
+                      data:"user_carecard_id="+user_carecard_id+"&hospital_office_id="+hospital_office_id,
+                      contentType:'application/x-www-form-urlencoded',
+                      success:function(data){
+                          if(data.code==0){
+
+
+                              location.href="loveMyCardDetailDemo.html";
+                              localStorage.setItem("demoOver","1");
+//                              $('.spanOne').html("请选择科室");
+//                              $('.spanTwo').html("请选择科室");
+                          }else if(data.code==20||data.code==26){
+                                location.href="Tlogin.html";
+                              localStorage.setItem("href",location.href)
+                          }else{
+                              $('.userCard button').attr({"disabled":false})
+                          }
+                      }
+              })
+        })
+
+    </script>
+</body>
+</html>

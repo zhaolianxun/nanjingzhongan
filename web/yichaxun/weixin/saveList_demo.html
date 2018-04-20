@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>我的收藏</title>
+    <link rel="stylesheet" href="css/managementVendor.css"/>
+    <link rel="stylesheet" href="css/pop_p.css"/>
+    <link rel="stylesheet" href="css/dropload.css">
+    <link rel="stylesheet" href="css/index_new.css"/>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/dropload.min.js"></script>
+    <!--<script src="js/vconsole.min.js"></script>-->
+    <style>
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        .color_c{
+            color: #999 !important;
+        }
+        body{
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+        }
+        .saveList_save{
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            line-height: 25px;
+        }
+        .contain div{
+            border-bottom: 0.5px solid #e5e5e5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="clear"></div>
+<!--<div class="manage_authentication lf">-->
+    <!--<div class="yellow_left lf"></div>-->
+    <!--<p class="manage_p lf">我的收藏</p>-->
+    <!--&lt;!&ndash;<img class="rt back_right" src="icon/back-arrow--right.png" alt=""/>&ndash;&gt;-->
+<!--</div>-->
+<div class="productList bottom"><p>收藏列表</p></div>
+<div class="bg" style="display:none;text-align: center;margin: 150px 20px auto;font-size: 16px;color: #000;line-height: 26px">
+    您当前尚未收藏器械
+</div>
+<div class="productList_list lf">
+    <div class="contain">
+
+    </div>
+</div>
+<div id="dataList" class="content_box">
+    <input type="text" class="favoriteType" style="display:none "/>
+</div>
+<!--弹窗-->
+<div class="tanchuang1" style="display: none">
+    <span class="wenzi"></span>
+    <span class="btnbtn">OK</span>
+</div>
+
+<script>
+    $('.btnbtn').click(function(){
+        $('.tanchuang1').css('display','none');
+    })
+</script>
+<script>
+    //    数据展示
+    $().ready(function(){
+        $.ajax({
+            url: '/yichaxun/u/favorlist?toPageNo=' + 1 + '&pageSize=' + 15,
+//                            data:'userHospitalCouponStatus='+userHospitalCouponStatus,
+            type: "post",
+            async: true,
+            dataType: 'json',
+            success: function (data) {
+//                    alert(data.data.items.length)
+                if(data.data.items.length==0){
+                    $('.bg').css('display','block !important')
+                }
+            }
+        })
+//        localStorage.clear('dataHeight_height');
+        var html=localStorage.getItem('html');
+        var html=localStorage.getItem('html');
+        var height=localStorage.getItem('dataHeight');
+        var isFavor=localStorage.getItem('isFavor');
+        var dataId=localStorage.getItem('dataId');
+        localStorage.clear('dataHeight_height');
+        console.log(html)
+        if(html==''||html=='null'||html==undefined||html==null){
+
+            //滚动分页
+            $(function(){
+                // 页数
+                var pageSize=15;
+               var toPageNo=0;
+                var favoriteType=$('.favoriteType').val();
+//        var page = 0;
+//        // 每页展示5个
+//        var size = 5;
+                // dropload
+//下拉加载
+//            $(window).scroll(function () {
+
+                $('.content').dropload({
+                    scrollArea : window,
+                    loadDownFn : function(me){
+
+//                setTimeout(function(){setHeightKeyWord('content', $keyword, '900','#000', true)},2000);
+                        var lastRowId=$(".contain").children("div:last-child").attr('uid');
+                        var septum=$(".contain").children("div:last-child").attr('time');
+                        console.log($(".contain").children("div:last-child"))
+                        console.log(lastRowId,septum);
+                        toPageNo++;
+                        // 拼接HTML
+                        var result = '';
+//
+                        $.ajax({
+                            type: 'post',
+                            url: '/yichaxun/u/favorlist?toPageNo='+toPageNo+'&pageSize='+pageSize+"&favoriteType="+favoriteType,
+//                            url: '/yichaxun/data/list',
+//                            data:param,
+                            dataType: 'json',
+                            success: function(data){
+                                var arrLen = data.data.items.length;
+                                console.log(arrLen)
+                                if(arrLen > 0){
+                                    for(var i=0; i<arrLen; i++){
+                                        var dataPic=data.data.items[i].dataPic;
+                                        if(dataPic==''||dataPic==undefined||dataPic==null){
+                                            result +='<div style="background:#fff" time="'+data.data.items[i].dataOnHomeSort+'" uid="'+
+                                            data.data.items[i].recordId+'" class="productList_list_text bottom lf" mid="'+
+                                            data.data.items[i].recordId+'" isfavor="'+data.data.items[i].isFavorite+'">'+
+                                            '<div style="width:92%" mid="'+ data.data.items[i].recordId+'" class="productList_list_text_lf lf">'+
+                                            '<p mid="'+ data.data.items[i].recordId+'">'+data.data.items[i].favoriteTitle+'</p>'+
+                                            '<span style="margin-bottom: 12px;">注册证编号:'+data.data.items[i].dataRegisterNo+'</span>'+
+                                            '<span style="margin-bottom:17px;">注册人名称:'+data.data.items[i].corporationName+'</span>'+
+                                            '</div>'+
+                                            '<div style="margin-top: 16%" class="productList_list_text_rt rt">'+
+                                            '<img src="iconTwo/back-arrow@2x.png" alt=""/>'+
+                                            '</div>'+
+                                            '</div>'
+                                        }else{
+                                            var picBlobs = new Array();
+                                            var dataPic=data.data.items[i].dataPic;
+                                            var regex = /,/;
+                                            picBlobs=dataPic.split(regex);
+//                                console.log(picBlobs)
+                                            for(r=0;r<picBlobs.length;r++){
+//                                    console.log(picBlobs[1],picBlobs[2],picBlobs[3])
+                                            }
+                                            if(picBlobs.length==1){
+                                                result +=
+                                                        '<div  style="background:#fff" time="'+data.data.items[i].dataOnHomeSort+'" uid="'+
+                                                        data.data.items[i].recordId+'" class="productList_list_pic bottom lf" mid="'+
+                                                        data.data.items[i].recordId+'" isfavor="'+data.data.items[i].isFavorite+'">'+
+                                                        '<div mid="'+ data.data.items[i].recordId+'" class="productList_list_pic lf">'+
+                                                        '<p style="width:92%" mid="'+ data.data.items[i].recordId+'">'+data.data.items[i].favoriteTitle+'</p>'+
+                                                        '<div mid="'+ data.data.items[i].recordId+'"  name="productList_list_pic_ps" class="productList_list_pic_ps" id="jq1">'+
+                                                        '<img  src="'+picBlobs[0]+'" alt="" class="dis1 img1"/>'+
+                                                        '</div></div></div>'
+                                            }else if(picBlobs.length==2){
+                                                result +=
+                                                        '<div  style="background:#fff" time="'+data.data.items[i].dataOnHomeSort+'" uid="'+
+                                                        data.data.items[i].recordId+'" class="productList_list_pic bottom lf" mid="'+
+                                                        data.data.items[i].recordId+'" isfavor="'+data.data.items[i].isFavorite+'">'+
+                                                        '<div mid="'+ data.data.items[i].recordId+'" class="productList_list_pic lf">'+
+                                                        '<p style="width:92%" mid="'+ data.data.items[i].recordId+'">'+data.data.items[i].favoriteTitle+'</p>'+
+                                                        '<div mid="'+ data.data.items[i].recordId+'"  name="productList_list_pic_ps" class="productList_list_pic_ps" id="jq1">'+
+                                                        '<img  src="'+picBlobs[0]+'" alt="" class="dis1 img1"/>'+
+                                                        '<img  src="'+picBlobs[1]+'" class="dis2 img2"  alt=""/>'+
+                                                        '</div></div></div>'
+//                                                '<div style="width: 100%;height: 10px;background-color: #f2f2f2"></div>'
+                                            }else{
+                                                result +=
+                                                        '<div  style="background:#fff" time="'+data.data.items[i].dataOnHomeSort+'" uid="'+
+                                                        data.data.items[i].recordId+'" class="productList_list_pic bottom lf" mid="'+
+                                                        data.data.items[i].recordId+'" isfavor="'+data.data.items[i].isFavorite+'">'+
+                                                        '<div mid="'+ data.data.items[i].recordId+'" class="productList_list_pic lf">'+
+                                                        '<p style="width:92%" mid="'+ data.data.items[i].recordId+'">'+data.data.items[i].favoriteTitle+'</p>'+
+                                                        '<div  mid="'+ data.data.items[i].recordId+'" name="productList_list_pic_ps" class="productList_list_pic_ps" id="jq1">'+
+                                                        '<img  src="'+picBlobs[0]+'" alt="" class="dis1 img1"/>'+
+                                                        '<img  src="'+picBlobs[1]+'" class="dis2 img2"  alt=""/>'+
+                                                        '<img  src="'+picBlobs[2]+'" class="dis3 img3" alt=""/>'+
+                                                        '</div></div></div>'
+//                                                        '<div style="width: 100%;height: 10px;background-color: #f2f2f2"></div>'
+
+                                            }
+                                        }
+                                    }
+                                    // 如果没有数据
+                                }else{
+                                    // 锁定
+                                    me.lock();
+                                    // 无数据
+                                    me.noData();
+                                }
+                                // 为了测试，延迟1秒加载
+                                setTimeout(function(){
+                                    // 插入数据到页面，放到最后面
+                                    $('.contain').append(result);
+                                    // 每次数据插入，必须重置
+                                    me.resetload();
+                                },1000);
+                            },
+                            error: function(xhr, type){
+//                                alert('Ajax error!');
+                                // 即使加载出错，也得重置
+                                me.resetload();
+                            }
+                        });
+//                        setTimeout(function(){setHeightKeyWord('content', $keyword, '900','#000', true)},2000);
+                    }
+                });
+
+//            })
+
+            });
+        }else{
+            $('.productList_list').html(html);
+//            console.log('height'+height);
+            window.scrollTo(0,height);
+        }
+    })
+    //滚动
+    var height;
+    $(window).scroll(function () {
+        height = $(this).scrollTop();
+    })
+    //编辑产品
+    $('.productList_list').on("click",".contain div",function() {
+        $(this).children().addClass('color_c');
+        var idId = $(this).attr('mid');
+        var _html = $('.productList_list').html();
+        localStorage.setItem('dataId', idId);
+        localStorage.setItem('html', _html);
+        var isFavor = $(this).attr('isFavor');
+        localStorage.setItem("isFavor", isFavor);
+        localStorage.setItem('dataHeight', height);
+        console.log(idId)
+        $.ajax({
+            url: '/yichaxun/u/userinit',
+            type: 'post',
+            async: true,
+            success: function (data) {
+                if (data.code == 0) {
+                    location.href = "products_details.html?dataId=" + idId;
+                }
+
+                if (data.code == 20 || data.code == 26) {
+//                    $('.tanchuang1').css('display','block');
+//                    $('.wenzi').html("请注册登录后查看")
+//                    alert("请注册登录后查看")
+                    location.href = "login.html"
+                }
+            }
+        })
+    })
+    //    返回
+    $('.top_img img').click(function(){
+        window.history.back()
+    })
+    //加载产品列表
+
+</script>
+
+</body>
+</html>

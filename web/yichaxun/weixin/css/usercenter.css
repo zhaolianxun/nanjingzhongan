@@ -1,0 +1,105 @@
+body{
+    width: 100%;
+    height: 100%;
+    padding:  0;
+    margin: 0;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -moz-user-select: none;
+    -webkit-appearance:none;
+    outline: none;
+}
+.clear{
+    clear: both;
+}
+a{
+    text-decoration: none;
+}
+.lf{
+    float: left;
+}
+.rt{
+    float:right ;
+}
+ul,li{
+    list-style: none;
+}
+.header_bg{
+    width: 100%;
+}
+.header_bg{
+    background-image: url('../icon/beijingtu@2x.png');
+    /*background-size: 100% auto;*/
+    width: 100%;
+    height: 100%;
+    /*background-image: url('../images/background-img.png');*/
+    background-size:100% ;
+    text-align: center;
+}
+/*.header_bg img{*/
+    /**/
+/*}*/
+.avatar{
+    /*margin: auto;*/
+    width: 100%;
+
+    margin-top: 74px;
+    /*margin :100px auto;*/
+    /*height: 100px;*/
+    border-radius: 50px !important;
+    /*margin-top: 150px;*/
+    z-index: 500;
+    /*margin: -45% 35%;*/
+}
+.avatar img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    /*margin-left: 35%;*/
+}
+.userName{
+    margin: 16px auto;
+    height: 25px;
+    width: 132px;
+    border: 0.5px solid #FFFFFF;
+    border-radius: 12.5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 25px;
+}
+.register_button{
+    margin: 16px auto;
+    /*margin-top: -12%;*/
+    width: 100px;
+    /*margin-left: 35%;*/
+    height: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    background-color: #ffb138 !important;
+    border-radius: 12.5px;
+    text-align: center;
+    border: 0;
+    /*margin-top: 16px;*/
+}
+.list{
+    width: 100%;
+    height: 52px;
+    line-height: 52px;
+    font-size: 16px;
+    color: #333333;
+    font-weight: 400;
+}
+.list_first{
+    margin-top: 5px;
+}
+.small_icon{
+    width: 25px;
+    margin-left: 5%;
+    margin-right: 20px;
+}
+.small_icon img{
+    margin-top:15px ;
+    width: 100%;
+}

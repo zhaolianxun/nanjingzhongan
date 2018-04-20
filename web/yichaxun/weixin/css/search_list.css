@@ -1,0 +1,109 @@
+body{
+    padding: 0;
+    margin: 0;
+    background-color: #f2f2f2;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -moz-user-select: none;
+    -webkit-appearance:none;
+    outline: none;
+}
+.lf{
+    float: left;
+}
+.rt{
+    float: right;
+}
+.clear{
+    clear: both;
+}
+.display_none{
+    display: none;
+}
+.top{
+    position: absolute;
+    border: 0;
+    line-height: 30px;
+    height: 30px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    width: 100%;
+    background-color: #f2f2f2;
+}
+.input_box{
+    position: relative;
+    background-color: #FFFFFF;
+    left: 3%;
+    width: 91%;
+    height: 30px;
+    border-radius: 5px;
+    border: 0;
+    padding-left: 10px;
+    line-height: 30px;
+}
+.input_box_div{
+    width: 81%;
+}
+.input_box_div>.input_dex{
+    position: absolute;
+    width: 100% !important;
+    border: none;
+    font-size: 14px;
+    color: #000000;
+    position: relative;
+    height: 20px;
+    line-height: 20px;
+    border: 0;
+}
+.input_span{
+    position: relative;
+    top: -31px;
+    font-size: 14px;
+    color: #CCCCCC;
+}
+.search_img{
+    margin-top: 7px;
+    height: 16px;
+    width: 1px;
+    border-left: 0.5px solid #e5e5e5;
+}
+.search_fdj{
+    border-left: 0.5px solid #e5e5e5;
+    padding-left: 15px;
+    margin-right: 15px;
+    width: 16px;
+    margin-top: 7px;
+}
+/*热门搜索*/
+.hot_search{
+    margin-top: 45px;
+    width: 100%;
+}
+.hot_search_title{
+    background-color: #ffffff;
+    height: 37.5px;
+    line-height: 37.5px;
+    border-bottom: 0.5px solid #e5e5e5 ;
+}
+.hot_search_title span{
+    margin-left: 15px;
+    font-size: 14px;
+    color: #ff8100;
+}
+.hot_search_span{
+    background-color: #ffffff;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid #e5e5e5;
+}
+.hot_search_span span{
+    /*margin-left: 15px;*/
+    margin-right: 10px;
+    margin-bottom: 10px;
+    /*margin-top: ;*/
+    border-radius: 5px;
+    display: inline-block;
+    padding:0 15px;
+    height: 35px;
+    line-height: 35px;
+    border:  0.5px solid #d1d1d1;
+}

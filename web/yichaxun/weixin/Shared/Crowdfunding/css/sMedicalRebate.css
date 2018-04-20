@@ -1,0 +1,145 @@
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    /*text-align: center;*/
+    width: 100%;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -moz-user-select: none;
+    -webkit-appearance: none;
+    outline: none;
+    /*overflow: hidden;*/
+    background-color: #FFFFFF;
+}
+
+.lf {
+    float: left;
+}
+
+.rt {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+ul,li{
+    text-decoration: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+html{font-size: 32px}
+@media(min-device-width: 375px) {
+    html{font-size: 64px}
+}
+@media(min-device-width: 414px) {
+    html{font-size: 75px}
+}
+.topBgColor{
+    /*width: 12rem;*/
+    /*margin-left: -1rem;*/
+    /*margin-top: -1rem;*/
+    /*height: 2rem;*/
+    /*border-radius: 80%;*/
+    /*background: #ffaf8c;*/
+    width: 100%;
+}
+.topBgColor img{
+    width: 100%;
+}
+.topBox{
+    text-align: center;
+}
+.topBox p:first-child{
+    font-size: 0.58rem;
+    color: #ff5000;
+    margin: 0.66rem  0;
+}
+.topBox p:last-child{
+    font-size:0.96rem;
+    color: #333;
+}
+
+.details{
+    height: 1.33rem;
+    width: 100%;
+    border-bottom: 0.01rem solid #e5e5e5;
+}
+.details p{
+    width: 50%;
+    font-size: 0.37rem;
+    color: #333;
+    line-height: 1.33rem;
+    text-align: center;
+}
+.details p span{
+    width: 2.66rem;
+    height: 1.3rem;
+    display: inline-block;
+    /*border-bottom: 0.02rem solid #ff8200;*/
+}
+/*.details p span:first-child{*/
+    /*border-bottom: 0.02rem solid #ff8200;*/
+/*}*/
+.searchDetails{
+    margin-bottom: 1.61rem;
+}
+.searchDetails li{
+    height: 1.86rem;
+    border-bottom: 0.01rem solid #e5e5e5;
+}
+.liLeft{
+    width: 7.5rem;
+    margin-left: 0.4rem;
+
+}
+.liLeft p:first-child{
+    font-size: 0.42rem;
+    color: #000;
+    margin-top: 0.32rem;
+    margin-bottom: 0.1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.liLeft p:last-child{
+    font-size: 0.37rem;
+    color: #999999;
+}
+.liRight{
+    /*width: 1.7rem;*/
+    margin-right: 0.4rem;
+    font-size: 0.42rem;
+    line-height: 1.86rem;
+    color: #32963c;
+}
+
+
+/*医疗说明*/
+.rebateDescription{
+    margin:0.53rem 0.4rem 0.5rem
+}
+.rebateDescriptionTitle{
+    font-size: 0.42rem;
+    color: #333;
+    margin-bottom: 0.26rem;
+}
+.rebateDescriptionDetails{
+    font-size: 0.37rem;
+    color: #cccccc;
+    margin-bottom: 0.1rem;
+}
+.rebateGain{
+    margin: 0.5rem 0.4rem 1.61rem;
+}

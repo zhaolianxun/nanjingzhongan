@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>登录</title>
+    <link rel="stylesheet" href="css/login.css"/>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <!--<link rel="stylesheet" href="css/pop_p.css"/>-->
+    <!--<script src="js/vconsole.min.js"></script>-->
+
+    <style>
+
+        body{
+            /*-webkit-touch-callout: none;*/
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        body{
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+            overflow: hidden;
+        }
+        .miss{
+            display: none;
+        }
+        input{
+
+            font-size: 17px !important;
+            color: #000000 !important; ;
+        }
+        button{
+            font-size: 17px !important;
+        }
+        .tanchuang1{
+            display: none;
+            position: fixed;
+            width: 60%;
+            height: 125px;
+            top:30%;
+            right:20%;
+            background: #fff;
+            z-index: 200;
+            overflow: auto;
+            border-radius: 7px;
+        }
+        .wenzi1{
+            position: absolute;
+            display: block;
+            width: 100%;
+            text-align: center;
+            height: 80px;
+            line-height: 30px;
+            top: 20px;
+            /*right: 40px;*/
+        }
+        .btnbtn{
+            /*position: absolute;*/
+            margin-top: 75px;
+            font-size: 16px;
+            color: #ff9a00;
+            width: 100%;
+            text-align: center;
+            height: 44.5px;
+            line-height: 44.5px;
+            display: inline-block;
+            border-top: 0.5px solid #e5e5e5;
+        }
+        input{
+            outline:none;
+        }
+    </style>
+    <script>
+        var wxOpenId
+        $().ready(function(){
+            function getRequest() {
+                var url = location.search; //获取url中"?"符后的字串
+                var theRequest = new Object();
+                if (url.indexOf("?") != -1) {
+                    var str = url.substr(1);
+                    strs = str.split("!");
+                    for(var i = 0; i < strs.length; i ++) {
+                        theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                    }
+                }
+                return theRequest;
+            }
+            console.log(getRequest().wxOpenId);
+            if(getRequest().wxOpenId==undefined||getRequest().wxOpenId=='undefined') {
+                console.log(123)
+                wxOpenId="";
+            }else{
+                console.log(456)
+                wxOpenId=getRequest().wxOpenId;
+            }
+//          alert(wxOpenId)
+            localStorage.setItem('wxOpenId',wxOpenId)
+        })
+
+
+    </script>
+</head>
+<body>
+
+      <!--登录界面-->
+      <div id="login_box" class="login_box">
+          <!--<div class="login_top">-->
+          <!--<img src="icon/back-arrow1.png" class="back_usercenter" alt=""/>-->
+          <!--</div>-->
+          <div class="clear"></div>
+          <div class="main">
+              <div class="input_box">
+                  <input id="login_name" class="username" type="text" />
+                  <span class="placeholder_phone">手机号码</span>
+                  <div class="wode">
+                      <img class="img" style="width: 15px" src="icon/shouji@2x.png" alt=""/>
+                  </div>
+              </div>
+              <div class="clear"></div>
+              <div class="input_box">
+                  <input id="login_password" class="password" type="password"/>
+                  <span class="placeholder placeholder_password">密码</span>
+                  <div class="suo">
+                      <img class="img" style="width: 15px" src="icon/suo111@2x.png" alt=""/>
+                  </div>
+                  <div class="eye">
+                      <img style="width: 25px" class="img" src="icon/eye-lose2@2x.png" alt=""/>
+                  </div>
+              </div>
+          </div>
+          <div class="clear"></div>
+
+
+          <div class="button">
+              <!--<input class=" button_next" type="button" value="登录"/>-->
+              <button  class=" button_next"  disabled>登录</button>
+              <div class="lf wenzi" style="color: #999"><span class="lf register">注册账号</span> <span class="rt forget_pass">忘记密码</span></div>
+          </div>
+              <div class="bottom" style="position: relative;top: 195px;width: 100%">
+                  <p class="tiaokuan">登录即同意<a href="http://passion.njshangka.com/yichaxun/medicalSearch/protocol.html">应用服务条款</a></p>
+              </div>
+      </div>
+      <!--注册界面-->
+      <div id="register_box" class="register_box miss"  >
+          <!--<div class="login_top_register">-->
+          <!--<img src="icon/back-arrow.png" alt="" class="back"/>-->
+          <!--<span class="login_top_register_p ">注册</span>-->
+          <!--</div>-->
+          <div class="input_box_register">
+              <input id="phone" class="phone" type="text" style="width: 90%"/>
+              <span class="placeholder_phone">请输入手机号码</span>
+              <div class="phone_img">
+                  <img class="img" style="width: 15px" src="icon/shouji@2x.png" alt=""/>
+              </div>
+          </div>
+          <div class="input_box_register_change"  >
+              <input id="changeVerification_register" class="changeVerification_register"style="width: 50%" type="text"/>
+              <span class="placeholder_changeVerification_register">请输入验证码</span>
+              <button  class="send_Verification_change_a" style="right: 0;padding: 0;background: #ffffff;border: 0"><span class="changeCode" style="color: #4179ce">发送验证码</span></button>
+          </div>
+          <div class="clear"></div>
+          <div class="input_box_register">
+              <input id="password" class="password"style="width: 90%" type="password"/>
+              <span class="placeholder_password">请输入密码（至少六位数）</span>
+              <div class="password_img">
+                  <img class="img" style="width: 15px" src="icon/suo111@2x.png" alt=""/>
+              </div>
+              <div class="eye">
+                  <img class="img" style="width: 25px" src="icon/eye-lose2@2x.png" alt=""/>
+              </div>
+              <div class="clear"></div>
+
+
+          </div>
+          <div class="button_register">
+              <!--<input class=" button_register_next"  type="button" value="注册"/>-->
+              <button class=" button_register_next " disabled  >注册</button>
+              <!--<div class="lf wenzi"><a class="lf register" href="">注册账号</a> <a class="rt forget_pass" href="">忘记密码</a></div>-->
+          </div>
+          <div class="clear"></div>
+          <div class="bottom_gouxuan" style="position: relative;width: 100%">
+              <div class="gouxuan" style="text-align: center;margin-top: 20px">
+                  <img class="img_gouxuan" src="icon/gouxuan.png" alt=""/>
+                  <span class="gouxuan_tiaokuan">我已阅读并同意<a href="http://passion.njshangka.com/yichaxun/medicalSearch/protocol.html" style="color: #4179ce;">用户协议</a></span>
+              </div>
+
+          </div>
+          <div style="width: 100%;text-align: center;position:relative;top:160px;left: 0">
+              <p style="font-size: 16px;color: #999">已有账号，请前往<span class="refresh_login" style="color: #ff0000">登录</span></p>
+          </div>
+      </div>
+      <!--修改密码界面-->
+      <div id="changePassword" class="changePassword miss">
+          <!--<div class="login_top_register">-->
+          <!--<img src="icon/back-arrow.png" alt="" class="back"/>-->
+          <!--<span class="login_top_register_p ">修改登录密码</span>-->
+          <!--</div>-->
+          <div class="input_box_register_change">
+              <input id="telephone" class="telephone" type="text" style="width: 90%"/>
+              <span class="placeholder_telephone">请输入手机号码</span>
+          </div>
+          <div class="input_box_register_change" >
+              <input id="changeVerification" class="changeVerification" style="width: 90%" type="text"/>
+              <span class="placeholder_changeVerification">请输入验证码</span>
+              <button class="send_Verification_change" style="right: 0;padding: 0;background: #ffffff;border: 0"><span class="changeCode" style="color: #4179ce">发送验证码</span></button>
+          </div>
+          <div class="clear"></div>
+          <div class="input_box_register_change">
+              <input id="newPassword" style="width: 90%" class="newPassword" type="password"/>
+              <span class="placeholder_newPassword">新密码</span>
+          </div>
+          <div class="input_box_register_change">
+              <input id="newPasswordSure" style="width: 90%" class="newPasswordSure" type="password"/>
+              <span class="placeholder_newPasswordSure">确认新密码</span>
+          </div>
+
+          <div class="submit">
+              <!--<input class=" submit_button"  type="button" value="提交"/>-->
+              <button  class=" submit_button" >提交</button>
+          </div>
+
+      </div>
+      <!--弹窗-->
+      <div class="tanchuang1" style="display: none">
+          <span class="wenzi1"></span>
+          <span class="btnbtn">OK</span>
+      </div>
+
+
+      <script>
+          $('.btnbtn').click(function(){
+              $('.tanchuang1').css('display','none')
+          })
+      </script>
+    <!--获取验证码-->
+    <script>
+        var href=localStorage.getItem('href')
+        $('.send_Verification_change').click(function(){
+            $('.send_Verification_change').attr({"disabled":true})
+//            $(this).unbind('click')
+            var time = 60;
+            var me = $(this);
+//            var userPhone = $('.userPhone').val();
+            var telephone = $(this).parent().parent().children().children('.telephone').val();
+//            rand = randomString();
+            if(telephone == ''){
+                $('.tanchuang1').css('display','block')
+                $('.wenzi1').html('请先填写手机号')
+                alert('请先填写手机号');
+            }else{
+                $.ajax( {
+                    type:'POST',
+                    data:"userPhone="+telephone,
+                    url:'/yichaxun/c/sendverifycode',
+                    async:true,
+                    success: function(data){
+                        if(data.code == 0){
+                            var timer = setInterval(function(){
+                                time --;
+                                me.html(time + ' s');
+                                if(time == 0){
+                                    clearInterval(timer);
+                                    me.html('获取验证码');
+                                }
+                            },1000);
+                        }else{
+//                            $('.send_Verification_change').bind('click')
+                            $('.send_Verification_change').attr({"disabled":false})
+                            $('.tanchuang1').css('display','block')
+                            $('.wenzi1').html(data.message)
+//                            alert(data.msg);
+                        }
+                    },
+                    error: function(xhr,msg,reasonString){
+//                        $('.tanchuang1').css('display','block')
+//                        $('.wenzi1').html('请求错误，请稍后再试...')
+//                        alert('请求错误，请稍后再试...');
+                        console.log(arguments);
+                    }
+                } );
+            }
+        });
+
+        $('.send_Verification_change_a').click(function(){
+            var time = 60;
+            var me = $(this);
+//            $(this).unbind('click')
+            $('.send_Verification_change_a').attr({"disabled":true})
+//            var userPhone = $('.userPhone').val();
+            var phone = $(this).parent().parent().children().children('.phone').val();
+//            rand = randomString();
+            if(phone == ''){
+                $('.tanchuang1').css('display','block')
+                $('.wenzi1').html('请先填写手机号')
+//                alert('请先填写手机号');
+            }else{
+                $.ajax( {
+                    type:'POST',
+                    data:"userPhone="+phone,
+                    url:'/yichaxun/c/sendverifycode',
+                    async:true,
+                    success: function(data){
+                        if(data.code == 0){
+                            var timer = setInterval(function(){
+                                time --;
+                                me.html(time + ' s');
+                                if(time == 0){
+                                    clearInterval(timer);
+                                    me.html('获取验证码');
+                                }
+                            },1000);
+                        }else{
+                            $('.tanchuang1').css('display','block')
+                            $('.wenzi1').html(data.message)
+//                            $('.send_Verification_change_a').bind('click')
+//                            me.html('获取验证码');
+                            $('.send_Verification_change_a').attr({"disabled":false})
+//                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr,msg,reasonString){
+//                        $('.tanchuang1').css('display','block')
+//                        $('.wenzi1').html('请求错误，请稍后再试...')
+//                        alert('请求错误，请稍后再试...');
+                        console.log(arguments);
+                    }
+                } );
+            }
+        });
+    </script>
+    <!--点击span获取input焦点-->
+    <script>
+
+        //登录注册界面获取焦点
+        $('.placeholder_phone').click(function(){
+            $('.username').focus();
+            $('.phone').focus()
+        })
+        $('.placeholder_password').click(function(){
+            $('.password').focus();
+        })
+        $('.placeholder_changeVerification_register').click(function(){
+            $('.changeVerification_register').focus();
+        })
+        //修改密码界面获取焦点
+        $('.placeholder_telephone').click(function(){
+            $('.telephone').focus();
+        })
+        $('.placeholder_newPassword').click(function(){
+            $('.newPassword').focus();
+        })
+        $('.placeholder_changeVerification').click(function(){
+            $('.changeVerification').focus();
+        })
+        $('.placeholder_newPasswordSure').click(function(){
+            $('.newPasswordSure').focus();
+        })
+    </script>
+    <!--登录界面-->
+    <script>
+        var href=localStorage.getItem('href')
+        //监听input是否有内容，有内容span取消
+        $('input').focus(function(){
+            $(this).next().css('display','none');
+        });
+        $('input').blur(function(){
+            if($(this).val()==''){
+                $(this).next().css('display','block');
+            }
+        });
+//todo 判断登录输入
+
+$().ready(function(){
+    localStorage.removeItem('passW');
+    localStorage.removeItem('phoneW');
+    $('#login_name').val("")
+    $('#login_password').val("")
+    console.log(passW,phoneW)
+    console.log( $('#login_name').val(),$('#login_password').val())
+//    $('.button_next').attr({"disabled":true}).css('background-color','#d1d5da');
+    //监听input是否有内容，有内容span取消
+    $('input').focus(function(){
+        $(this).next().css('display','none');
+    });
+    $('input').blur(function(){
+        if($(this).val()==''){
+            $(this).next().css('display','block');
+        }
+    });
+//    $("#login_password").val("");
+//    console.log("mmmm="+$("#login_password").val());
+
+})
+
+
+
+
+$('#login_name').bind('input propertychange', function(){
+    var a = $("#login_name").val();
+//    var reg=/^0?(13[0-9]|15[012356789]|18[0123456789]|14[57])[0-9]{8}$/ ;
+    if(a.length == 11){
+            var b = $("#login_password").val();
+//            var asd=$("#login_name").val();
+            if(b.length>=6){
+                console.log("dayu6")
+                $('.button_next').css('background-color','#4179ce').attr('disabled',false)
+            }
+            else{
+                console.log("xiaoyu6")
+//                $('.button_next').attr({"disabled":true}).css('background-color','#d1d5da');
+            }
+
+    }
+    else{
+        console.log("asdasdasd")
+        $('.button_next').attr({"disabled":true}).css('background-color','#d1d5da');
+    }
+});
+$('#login_password').bind('input propertychange', function(){
+    var b = $("#login_password").val();
+    var asd=$("#login_name").val();
+    if(b.length>=6&&asd.length==11){
+        console.log("dayu6")
+        $('.button_next').css('background-color','#4179ce').attr('disabled',false)
+    }
+    else{
+        console.log("xiaoyu6")
+        $('.button_next').attr({"disabled":true}).css('background-color','#d1d5da');
+    }
+});
+
+
+//todo 注册界面判断输入值
+$('#phone').bind('input propertychange', function(){
+    var a = $("#phone").val();
+//    var reg=/^0?(13[0-9]|15[012356789]|18[0123456789]|14[57])[0-9]{8}$/ ;
+    if(a.length==11){
+
+
+//                $('#Verification').bind('input propertychange', function() {
+//                    var c = $("#Verification").val();
+//                    console.log($('#Verification').val())
+//                    if ($('#Verification').val() != '') {
+//                        console.log("dadadadadadad")
+                        $('#password').bind('input propertychange', function(){
+                            var b = $("#password").val();
+                            if(b.length>=6){
+                                console.log("dayu6");
+                        $('.button_register_next').attr({"disabled":false}).css('background-color', '#4179ce');
+                            }else {
+                                console.log("xiaoyu6");
+                                $('.button_register_next').attr({"disabled":true}).css('background-color', '#d1d5da');
+                            }
+                            })
+                    }
+                            else{
+                        console.log("kongkong")
+                                $('.button_register_next').attr({"disabled":true}).css('background-color','#d1d5da');
+//                    }
+//                })
+//            }else{
+//        console.log("asdasdasd")
+//        $('.button_register_next').attr({"disabled":true}).css('background-color','#d1d5da');
+    }
+});
+
+        var height;
+        var rand;
+        $(function () {
+            height = $(window).height();
+//            $('.login_box').height(height);
+//            $('.forget_box').height(height);
+        });
+        $('input').focus(function(){
+            $(this).next().css('display','none');
+        });
+        $('input').blur(function(){
+            if($(this).val()==''){
+                $(this).next().css('display','block');
+            }
+        });
+
+        //密码显示
+        $('.eye').click(function(){
+            var img = $(this).children('.img').attr('src');
+            if(img == 'icon/eye-lose2@2x.png'){
+                $('div.eye>img').attr('src','icon/eye-lose1@2x.png');
+                $('.password').attr('type','text');
+            }else if(img == 'icon/eye-lose1@2x.png'){
+                $('div.eye>img').attr('src','icon/eye-lose2@2x.png');
+                $('.password').attr('type','password');
+            }
+        });
+
+        $('.register').click(function(){
+            $('.login_box').addClass("miss");
+            $('.register_box').removeClass("miss");
+//            console.log(document.title)
+            document.title = '注册';
+//            alert(document.title)
+        })
+        $('.forget_pass').click(function(){
+            $('.login_box').addClass("miss");
+            $('.changePassword').removeClass("miss");
+//            console.log(document.title)
+            document.title = '修改密码';
+//            alert(document.title)
+        })
+        $('.button_next').click(function(){
+
+            $('.tanchuang1').css('display','block')
+            $('.wenzi1').html('正在登录');
+//            $('.btnbtn').css('display','none')
+            $('.button_next').attr({"disabled":true})
+//            $(this).unbind('click');
+            var phoneW=$('#login_name').val()
+            var passW=$('#login_password').val()
+            localStorage.setItem('passW',passW);
+            localStorage.setItem('phoneW',phoneW);
+            var userPhone = $('#login_name').val();
+            var userPassword = $('#login_password').val();
+
+            if(userPassword != ''&&userPhone != ''){
+                $.ajax( {
+                    type:'POST',
+//                    data:$('#register_box').serialize(),
+                    data:"userPhone="+userPhone+"&userPassword="+userPassword+'&wxOpenId='+wxOpenId,
+                    url:'/yichaxun/user/login',
+                    async:true,
+                    success: function(result){
+                        if(result.code == 0){
+
+                            $('.tanchuang1').css('display','none')
+//                            alert(result.message);
+                            var userCard=result.data.userCard;
+                            var userCompany=result.data.userCompany;
+                            var userCompanyAddress=result.data.userCompanyAddress;
+                            var userEmail=result.data.userEmail;
+                            var userHeadImg=result.data.userHeadImg;
+                            var userId=result.data.userId;
+                            var userRealname=result.data.userRealname;
+                            var serviceTel=result.data.serviceTel;
+
+                            console.log(userHeadImg)
+                            localStorage.setItem("userCard",userCard);
+                            localStorage.setItem("userCompany",userCompany);
+                            localStorage.setItem("userCompanyAddress",userCompanyAddress);
+                            localStorage.setItem("userEmail",userEmail);
+                            localStorage.setItem("userHeadImg",userHeadImg);
+                            localStorage.setItem("userId",userId);
+                            localStorage.setItem("userRealname",userRealname);
+                            localStorage.setItem("serviceTel",serviceTel);
+                            localStorage.setItem("userPhone",userPhone);
+                            localStorage.setItem("userPassword",userPassword);
+
+
+                            console.log(userRealname)
+//                            console.log(data.data.userToken)
+//                            alert(href)
+                            if(href==''||href==null||href==undefined||href=="undefined"||href=="null"){
+                                if(window.navigator.userAgent.match(/MicroMessenger/i) == "MicroMessenger"){
+                                    location.href = "/yichaxun/u/10063?go=index.html&phone=" + userPhone;
+                                }else{
+                                    location.href="index.html"
+                                }
+//                                location.href = "/yichaxun/u/10063?go=index.html&phone=" + userPhone;
+//                                location.href="index.html"
+                            }else{
+                                var a=href;
+                                var sss=href.split("weixin/")[1];
+                                if(window.navigator.userAgent.match(/MicroMessenger/i) == "MicroMessenger"){
+                                    location.href="/yichaxun/u/10063?go="+sss+"&phone=" + userPhone;
+                                }else{
+                                    location.href=href;
+                                }
+//                                location.href = "/yichaxun/u/10063?go="+sss+"&phone=" + userPhone;
+//                                location.href=href;
+                                localStorage.removeItem("href")
+                            }
+
+                        }else{
+//                            $('.button_next').bind('click')
+//                            alert("11111")
+                            $('.button_next').attr({"disabled":false})
+                            $('.tanchuang1').css('display','block')
+                            $('.wenzi1').html(result.message)
+//                            alert(result.message);
+                        }
+                    },
+                    error: function(xhr,msg,reasonString){
+//                        $('.tanchuang1').css('display','block')
+//                        $('.wenzi1').html('请求错误，请稍后再试...')
+//                        alert('请求错误，请稍后再试...');
+                        console.log(arguments);
+                    }
+                } )
+            }else{
+                $('.tanchuang1').css('display','block')
+                $('.wenzi1').html('请先完成填写')
+//                $('.button_next').bind('click')
+//                alert('请先完成填写');
+                $('.button_next').attr({"disabled":false})
+            }
+        });
+
+
+    </script>
+    <!--注册界面-->
+    <script>
+        var href=localStorage.getItem('href');
+
+//    alert(href)
+        $('.refresh_login').click(function(){
+            location.href="login.html"
+        })
+
+
+        $(".img_gouxuan").click(function () {
+            var img = $(this).attr('src')
+            if(img == 'icon/gouxuanwu.png'){
+                $('div.gouxuan>img').attr('src','icon/gouxuan.png');
+                $('.button_register_next').attr({'disabled':false})
+            }else if(img == 'icon/gouxuan.png'){
+                $('div.gouxuan>img').attr('src','icon/gouxuanwu.png');
+                $('.button_register_next').attr('disabled',true)
+            }
+        })
+
+
+        //注册新用户
+//        var flag = false;
+        $('.button_register_next').click(function(){
+            $('.tanchuang1').css('display','block');
+            $('.wenzi').html('正在注册');
+            $('.button_register_next').attr({"disabled":true});
+//            $(this).unbind('click');
+//            if(!flag){
+               var userPhone = $('#phone').val();
+               var userPassword = $('#password').val();
+               var verifyCode = $('#changeVerification_register').val();
+//            var verifyCode = $('#register_code').val();
+               if(userPassword != ''&&userPhone != ''){
+                   $.ajax( {
+                       type:'POST',
+//                    data:$('#register_box').serialize(),
+                       data:"userPhone="+userPhone+"&userPassword="+userPassword+"&verifyCode="+verifyCode,
+                       url:'/yichaxun/user/register',
+                       async:true,
+                       async:true,
+                       success: function(result){
+                           if(result.code != 0){
+                               $('.tanchuang1').css('display','block')
+                               $('.wenzi1').html(result.message);
+                               $('.button_register_next').attr({"disabled":false})
+                           }
+                           if(result.code == 0){
+                               $.ajax( {
+                                   type:'POST',
+                                   data:"userPhone="+userPhone+"&userPassword="+userPassword+"&wxOpenId="+wxOpenId,
+                                   url:'/yichaxun/user/login',
+                                   async:true,
+                                   success: function(result){
+                                       if(result.code == 0){
+                                           if(href==''||href==null||href==undefined||href=="undefined"||href=="null"){
+                                               if(window.navigator.userAgent.match(/MicroMessenger/i) == "MicroMessenger"){
+                                                   location.href = "/yichaxun/u/10063?go=select_role.html&phone=" + userPhone;
+                                               }else{
+                                                   location.href="TCindex.html"
+                                               }
+//                                               location.href = "/yichaxun/u/10063?go=select_role.html&phone=" + userPhone;
+//                                               location.href="select_role.html"
+                                           }else{
+                                               var a=href;
+                                               var sss=href.split("weixin/")[1];
+//                                               alert(sss)
+                                               if(window.navigator.userAgent.match(/MicroMessenger/i) == "MicroMessenger"){
+                                                   location.href="/yichaxun/u/10063?go="+sss+"&phone=" + userPhone;
+                                               }else{
+                                                   location.href=href;
+                                               }
+//                                               location.href = "/yichaxun/u/10063?go="+sss+"&phone=" + userPhone;
+//                                               location.href=href;
+                                               localStorage.removeItem("href")
+                                           }
+
+
+                                           var userCard=result.data.userCard;
+                                           var userCompany=result.data.userCompany;
+                                           var userCompanyAddress=result.data.userCompanyAddress;
+                                           var userEmail=result.data.userEmail;
+                                           var userHeadImg=result.data.userHeadImg;
+                                           var userId=result.data.userId;
+                                           var userRealname=result.data.userRealname;
+                                           var serviceTel=result.data.serviceTel;
+                                           console.log(userHeadImg)
+                                           localStorage.setItem("userCard",userCard);
+                                           localStorage.setItem("userCompany",userCompany);
+                                           localStorage.setItem("userCompanyAddress",userCompanyAddress);
+                                           localStorage.setItem("userEmail",userEmail);
+                                           localStorage.setItem("userHeadImg",userHeadImg);
+                                           localStorage.setItem("userId",userId);
+                                           localStorage.setItem("userRealname",userRealname);
+                                           localStorage.setItem("serviceTel",serviceTel);
+                                           console.log(userRealname)
+                                       }else{
+                                           $('.tanchuang1').css('display','block')
+                                           $('.wenzi1').html(result.message)
+                                           $('.button_register_next').attr({"disabled":false})
+                                       }
+                                   },
+                                   error: function(xhr,msg,reasonString){
+                                       console.log(arguments);
+                                   }
+                               } );
+
+
+                               localStorage.setItem("userPhone",userPhone);
+                               localStorage.setItem("userPassword",userPassword);
+
+                           }else{
+                               $('.tanchuang1').css('display','block');
+                               $('.wenzi1').html(result.message);
+//                               $('.button_register_next').bind('click');
+                               $('.button_register_next').attr({"disabled":false})
+                           }
+                       },
+                       error: function(xhr,msg,reasonString){
+//                           $('.tanchuang1').css('display','block');
+//                           $('.wenzi1').html('请求错误，请稍后再试...');
+//                        alert('请求错误，请稍后再试...');
+                           console.log(arguments);
+                       }
+                   } )
+               }else{
+                   $('.tanchuang1').css('display','block')
+                   $('.wenzi1').html('请先完成填写')
+//                   $('.button_register_next').bind('click');
+                   $('.button_register_next').attr({"disabled":false})
+               }
+        });
+    </script>
+    <!--修改密码界面-->
+    <script>
+        var href=localStorage.getItem("href");
+        $('.back').click(function(){
+           $(".login_box").removeClass("miss");
+            $('.register_box').addClass('miss');
+            $('.changePassword').addClass('miss');
+
+        });
+        $('.back_usercenter').click(function(){
+            location.href="usercenter.html"
+        });
+        $('.submit_button').click(function(){
+            $('.tanchuang1').css('display','block');
+            $('.wenzi1').html('修改中');
+//            $(this).unbind('click')
+            $('.submit_button').attr({"disabled":true})
+            var verifyCode = $('#changeVerification').val();
+            var userPhone = $('#telephone').val();
+            var newUserPassword = $('#newPassword').val();
+            var newPasswordSure=$('#newPasswordSure').val();
+            if(newUserPassword!=''&&newPasswordSure!=''&&newUserPassword!=newPasswordSure){
+                $('.tanchuang1').css('display','block');
+                $('.wenzi1').html('两次请输入的密码不一致!');
+//                $('.submit_button').bind('click')
+                $('.submit_button').attr({"disabled":false})
+//                alert("两次请输入的密码不一致!")
+            }else if(userPhone != ''&&verifyCode!='') {
+                $.ajax({
+                    type: 'POST',
+                    data: "userPhone=" + userPhone + "&newuserPassword=" + newUserPassword+'&verifyCode='+verifyCode,
+                    url: '/yichaxun/user/chgpwdbyphone',
+                    async:true,
+                    success: function (result) {
+                        if (result.code == 0) {
+                            $('.tanchuang1').css('display','block');
+                            $('.wenzi1').html('修改成功');
+//                            alert('修改成功');
+                            $('.login_box').removeClass("miss");
+                            $('.changePassword').addClass("miss");
+//                            $('ul').css('margin-left','0%');
+                        } else {
+//                            $('.submit_button').bind('click')
+                            $('.submit_button').attr({"disabled":false})
+////                            alert("11111")
+                            $('.tanchuang1').css('display','block');
+                            $('.wenzi1').html(result.message);
+//                            alert(result.message);
+                        }
+//                    },
+//                    error: function (xhr, msg, reasonString) {
+////                        $('.tanchuang1').css('display','block');
+////                        $('.wenzi1').html('请求错误，请稍后再试...');
+////                        alert('请求错误，请稍后再试...');
+//                        console.log(arguments);
+                    }
+                })
+            }
+            else if(userPhone==''||newUserPassword==''||newUserPassword==''){
+                $('.tanchuang1').css('display','block');
+                $('.wenzi1').html('请先完成填写');
+//                $('.submit_button').bind('click')
+//                    alert('请先完成填写');
+                $('.submit_button').attr({"disabled":false})
+                }
+//            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>产品管理</title>
+    <link rel="stylesheet" href="css/managementInstrument.css"/>
+    <link rel="stylesheet" href="css/managementVendor.css"/>
+    <link rel="stylesheet" href="css/index_new.css"/>
+    <link rel="stylesheet" href="css/pop_p.css"/>
+    <link rel="stylesheet" href="css/dropload.css">
+    <link rel="stylesheet" href="css/index.css"/>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/dropload.min.js"></script>
+    <style>
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        body{
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+        }
+        .color_c{
+            color: #999 !important;
+        }
+        .footer{
+            position: fixed;
+            opacity: 0.6;
+            color: #ffffff;
+            text-align: center;
+            font-size: 16px;
+            background: #000;
+            height: 49px;
+            line-height: 49px;
+            bottom: 0;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<!--<div class="manage_authentication lf">-->
+    <!--<div class="yellow_left lf"></div>-->
+    <!--<p class="manage_p lf">产品管理</p>-->
+    <!--&lt;!&ndash;<img class="rt back_right" src="icon/back-arrow--right.png" alt=""/>&ndash;&gt;-->
+<!--</div>-->
+<div class="clear"></div>
+<div class="productList_list lf" >
+    <div class="contain">
+
+    </div>
+</div>
+<div class="footer" style="display: none">
+    添加产品
+</div>
+<script>
+    var corporationId=localStorage.getItem('corporationId');
+    var corporationStatus=localStorage.getItem("corporationStatus");
+    //    $('.corporationId_cs').val(corporationId);
+    //    $('.corporationStatus_cs').val(corporationStatus);
+    localStorage.setItem("corporationId",corporationId);
+    localStorage.setItem("corporationStatus",corporationStatus);
+    console.log(corporationId,corporationStatus);
+
+    //    数据展示
+    $().ready(function(){
+
+        //        查看厂商认证状态
+        $.ajax({
+            url: '/yichaxun/u/userinit',
+            type: 'post',
+            async:true,
+            success: function (data) {
+                if (data.code == 0) {
+                    if (data.data.corporationClaim.corporation.adminUserId == data.data.userId) {
+                            $('.footer').css('display','block');
+                            $('.productList_list').css('margin-bottom','49px');
+                            $('.footer').click(function(){
+                                location.href="addingApparatus.html"
+                            })
+                        }
+                    }
+                }
+            });
+
+
+//        localStorage.clear('dataHeight_height');
+        var html=localStorage.getItem('html');
+        var html=localStorage.getItem('html');
+        var height=localStorage.getItem('dataHeight');
+        var isFavor=localStorage.getItem('isFavor');
+        var dataId=localStorage.getItem('dataId');
+        localStorage.clear('dataHeight_height');
+        console.log(html)
+        if(html==''||html=='null'||html==undefined||html==null){
+    console.log(123)
+            //滚动分页
+            $(function(){
+                // 页数
+                var pageSize=15;
+                var toPageNo=0;
+                var favoriteType=$('.favoriteType').val();
+//        var page = 0;
+//        // 每页展示5个
+//        var size = 5;
+                // dropload
+//下拉加载
+//            $(window).scroll(function () {
+
+                $('.content').dropload({
+                    scrollArea : window,
+                    loadDownFn : function(me){
+                        console.log(3445)
+//                setTimeout(function(){setHeightKeyWord('content', $keyword, '900','#000', true)},2000);
+                        var lastRowId=$(".contain").children("div:last-child").attr('uid');
+                        var septum=$(".contain").children("div:last-child").attr('time');
+                        console.log($(".contain").children("div:last-child"));
+                        console.log(lastRowId,septum);
+                        var param;
+                        if(lastRowId==undefined){
+                            var  param = '';
+                        }else{
+                            var param="?lastRowId="+lastRowId+"&septum="+septum;
+                        }
+                        console.log(param)
+//                page++;
+                        toPageNo++;
+                        // 拼接HTML
+                        var result = '';
+//
+                        $.ajax({
+                            type: 'post',
+                            data: "corporationId="+corporationId,
+                            url: '/yichaxun/data/list'+param,
+//                            data:param,
+                            dataType: 'json',
+                            success: function(data){
+                                var arrLen = data.data.items.length;
+                                console.log(arrLen)
+                                if(arrLen > 0){
+                                    for(var i=0; i<arrLen; i++){
+                                        var dataPic=data.data.items[i].dataPic;
+                                        if(dataPic==''||dataPic==undefined||dataPic==null){
+                                            result +='<div style="background:#fff" time="'+data.data.items[i].dataAddTime+'" uid="'+
+                                            data.data.items[i].dataId+'" class="productList_list_text bottom lf" mid="'+
+                                            data.data.items[i].dataId+'" >'+
+                                            '<div style="width:92%" mid="'+ data.data.items[i].dataId+'" class="productList_list_text_lf lf">'+
+                                            '<p mid="'+ data.data.items[i].dataId+'">'+data.data.items[i].dataTitle+'</p>'+
+                                            '<span style="margin-bottom: 12px;">注册证编号:'+data.data.items[i].dataRegisterNo+'</span>'+
+                                            '<span style="margin-bottom:17px;">注册人名称:'+data.data.items[i].corporationName+'</span>'+
+                                            '</div>'+
+                                            '<div style="margin-top: 16%" class="productList_list_text_rt rt">'+
+                                            '<img src="iconTwo/back-arrow@2x.png" alt=""/>'+
+                                            '</div>'+
+                                            '</div>'
+                                        }else{
+                                            var picBlobs = new Array();
+                                            var dataPic=data.data.items[i].dataPic;
+                                            var regex = /,/;
+                                            picBlobs=dataPic.split(regex);
+//                                console.log(picBlobs)
+                                            for(r=0;r<picBlobs.length;r++){
+//                                    console.log(picBlobs[1],picBlobs[2],picBlobs[3])
+                                            }
+                                            if(picBlobs.length==1){
+                                                result +=
+                                                        '<div  style="background:#fff" time="'+data.data.items[i].dataAddTime+'" uid="'+
+                                                        data.data.items[i].dataId+'" class="productList_list_pic bottom lf" mid="'+
+                                                        data.data.items[i].dataId+'" >'+
+                                                        '<div mid="'+ data.data.items[i].dataId+'" class="productList_list_pic lf">'+
+                                                        '<p style="width:92%" mid="'+ data.data.items[i].dataId+'">'+data.data.items[i].dataTitle+'</p>'+
+                                                        '<div mid="'+ data.data.items[i].dataId+'"  name="productList_list_pic_ps" class="productList_list_pic_ps" id="jq1">'+
+                                                        '<img  src="'+picBlobs[0]+'" alt="" class="dis1 img1"/>'+
+                                                        '</div></div></div>'
+                                            }else if(picBlobs.length==2){
+                                                result +=
+                                                        '<div  style="background:#fff" time="'+data.data.items[i].dataAddTime+'" uid="'+
+                                                        data.data.items[i].dataId+'" class="productList_list_pic bottom lf" mid="'+
+                                                        data.data.items[i].dataId+'">'+
+                                                        '<div mid="'+ data.data.items[i].dataId+'" class="productList_list_pic lf">'+
+                                                        '<p style="width:92%" mid="'+ data.data.items[i].dataId+'">'+data.data.items[i].dataTitle+'</p>'+
+                                                        '<div mid="'+ data.data.items[i].dataId+'"  name="productList_list_pic_ps" class="productList_list_pic_ps" id="jq1">'+
+                                                        '<img  src="'+picBlobs[0]+'" alt="" class="dis1 img1"/>'+
+                                                        '<img  src="'+picBlobs[1]+'" class="dis2 img2"  alt=""/>'+
+                                                        '</div></div></div>'
+//                                                '<div style="width: 100%;height: 10px;background-color: #f2f2f2"></div>'
+                                            }else{
+                                                result +=
+                                                        '<div  style="background:#fff" time="'+data.data.items[i].dataAddTime+'" uid="'+
+                                                        data.data.items[i].dataId+'" class="productList_list_pic bottom lf" mid="'+
+                                                        data.data.items[i].dataId+'">'+
+                                                        '<div mid="'+ data.data.items[i].dataId+'" class="productList_list_pic lf">'+
+                                                        '<p style="width:92%" mid="'+ data.data.items[i].dataId+'">'+data.data.items[i].dataTitle+'</p>'+
+                                                        '<div  mid="'+ data.data.items[i].dataId+'" name="productList_list_pic_ps" class="productList_list_pic_ps" id="jq1">'+
+                                                        '<img  src="'+picBlobs[0]+'" alt="" class="dis1 img1"/>'+
+                                                        '<img  src="'+picBlobs[1]+'" class="dis2 img2"  alt=""/>'+
+                                                        '<img  src="'+picBlobs[2]+'" class="dis3 img3" alt=""/>'+
+                                                        '</div></div></div>'
+//                                                        '<div style="width: 100%;height: 10px;background-color: #f2f2f2"></div>'
+
+                                            }
+                                        }
+                                    }
+                                    // 如果没有数据
+                                }else{
+                                    // 锁定
+                                    me.lock();
+                                    // 无数据
+                                    me.noData();
+                                }
+                                // 为了测试，延迟1秒加载
+                                setTimeout(function(){
+                                    // 插入数据到页面，放到最后面
+                                    $('.contain').append(result);
+                                    // 每次数据插入，必须重置
+                                    me.resetload();
+                                },1000);
+                            },
+                            error: function(xhr, type){
+//                                alert('Ajax error!');
+                                // 即使加载出错，也得重置
+                                me.resetload();
+                            }
+                        });
+//                        setTimeout(function(){setHeightKeyWord('content', $keyword, '900','#000', true)},2000);
+                    }
+                });
+
+//            })
+
+            });
+        }else{
+            $('.productList_list').html(html);
+//            console.log('height'+height);
+            window.scrollTo(0,height);
+        }
+    })
+    //滚动
+    var height;
+    $(window).scroll(function () {
+        height = $(this).scrollTop();
+    })
+    //编辑产品
+    $('.productList_list').on("click",".contain div",function() {
+        $(this).children().addClass('color_c');
+        var idId = $(this).attr('mid');
+        var _html = $('.productList_list').html();
+        localStorage.setItem('dataId', idId);
+        localStorage.setItem('html', _html);
+        var isFavor = $(this).attr('isFavor');
+        localStorage.setItem("isFavor", isFavor);
+        localStorage.setItem('dataHeight', height);
+        console.log(idId)
+        $.ajax({
+            url: '/yichaxun/u/userinit',
+            type: 'post',
+            async: true,
+            success: function (data) {
+                if (data.code == 0) {
+                    location.href = "product_details_add.html?dataId=" + idId;
+                }
+
+                if (data.code == 20 || data.code == 26) {
+//                    $('.tanchuang1').css('display','block');
+//                    $('.wenzi').html("请注册登录后查看")
+//                    alert("请注册登录后查看")
+                    location.href = "login.html"
+                }
+            }
+        })
+    })
+    //    返回
+    $('.top_img img').click(function(){
+        window.history.back()
+    })
+    //加载产品列表
+
+</script>
+
+</body>
+</html>

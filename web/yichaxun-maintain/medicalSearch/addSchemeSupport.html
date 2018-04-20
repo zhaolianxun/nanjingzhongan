@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>用户列表</title>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css" />
+    <style>.selected{background-color: green!important;}.layui-elem-quote{ position: fixed;top: 0;width: 100%;left: 0;z-index: 100;box-sizing: border-box;}.layui-elem-field{margin-top: 80px;}</style>
+
+</head>
+
+<body>
+<div class="admin-main">
+
+    <blockquote class="layui-elem-quote">
+        <div class="layui-form-pane">
+            <div class="layui-form-item" style="margin-bottom: 0;">
+                <label class="layui-form-label">手机号：</label>
+                <input id="phone" style="width: 50%;display: inline-block;" type="text" class="layui-input" placeholder="请输入手机号">
+
+                <a href="javascript:;" class="layui-btn layui-btn-small" id="search">
+                    <i class="layui-icon">&#xe615;</i> 搜索
+                </a>
+                <a href="javascript:;" style="float: right;margin-top: 4px;" class="layui-btn layui-btn-normal layui-btn-small" id="sure">确认添加</a>
+            </div>
+        </div>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>用户列表</legend>
+        <div class="layui-field-box">
+            <table class="site-table table-hover">
+                <thead>
+                <tr>
+                    <th>用户ID</th>
+                    <th>手机号</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+            <div class="admin-table-page">
+                <div id="page" class="page"></div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++) {
+                theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    layui.config({
+        base: 'plugins/layui/modules/'
+    });
+
+    layui.use(['icheck', 'laypage','layer'], function() {
+        var $ = layui.jquery,
+                laypage = layui.laypage,
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+
+        var toPageNo = 1;
+        var totalPage = 1;
+        var phone = '';
+        var schemeId = '';
+        var userId = '';
+        function getData(){
+            $.ajax( {
+                type: 'POST',
+                async: false,
+                data: {userPhone:phone,toPageNo:toPageNo},
+                url: '../m/userlist',
+                success: function(data){
+                    if(data.code == 0){
+                        $('#tbody').children().remove();
+                        var data = data.data;
+                        totalPage = data.sum.totalPageCount;
+                        var role = '',realname = '',loginTime = '';
+                        for(var i = 0 ; i < data.items.length ; i ++){
+                            $('#tbody').append('<tr>' +
+                            '<td>'+ data.items[i].userId +'</td>' +
+                            '<td>'+ data.items[i].userPhone +'</td>' +
+                            '<td>' +
+                            '<a href="javascript:;" class="sel layui-btn layui-btn-normal layui-btn-mini">选中</a>' +
+                            '</td>' +
+                            '</tr>');
+                        }
+                    }else if(data.code == 20){
+                        layer.msg('登录已失效，请重新登录！');
+                    }else{
+                        layer.msg(data.message);
+                    }
+                }
+            } );
+        }
+        function rePage(){
+            //page
+            laypage({
+                cont: 'page',
+                pages: totalPage,//总页数
+                groups: 5  ,//连续显示分页数
+                jump: function(obj, first) {
+                    //得到了当前页，用于向服务端请求对应数据
+                    var curr = obj.curr;
+                    if(!first) {
+                        toPageNo = obj.curr;
+                        getData();
+                        layer.msg('第 '+ obj.curr +' 页');
+                    }
+                }
+            });
+        }
+        getData();
+        rePage();
+        $('#search').click(function() {
+            toPageNo = 1;
+            phone = $('#phone').val();
+            getData();
+            rePage();
+        });
+        $('#tbody').on('click','a.sel',function(){
+            var td = $(this).parent().parent();
+            td.addClass('selected');
+            td.siblings().removeClass('selected');
+            userId = $(this).parent().prev().prev().html();
+        });
+        $('#sure').click(function(){
+            var schemeId = getRequest().id;
+            $.ajax( {
+                type: 'POST',
+                async: false,
+                data: {userId:userId,medicalSchemeId:schemeId},
+                url: '../m/10011',
+                success: function(data){
+                    if(data.code == 0){
+                        layer.msg('添加成功');
+                    }else if(data.code == 20){
+                        layer.msg('登录已失效，请重新登录！');
+                    }else{
+                        layer.msg(data.message);
+                    }
+                }
+            } );
+        })
+    });
+</script>
+</body>
+
+</html>

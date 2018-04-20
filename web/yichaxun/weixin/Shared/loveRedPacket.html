@@ -1,0 +1,501 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>抢红包</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+    <!--在iPhone 手机上禁止了把数字转化为拨号链接-->
+    <meta content="telephone=no" name="format-detection" />
+    <!--删除默认的苹果工具栏和菜单栏-->
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <!-- 网站开启对web app程序的支持，在web app应用下状态条（屏幕顶部条）的颜色，默认值为default（白色），可以定为black（黑色）和black-translucent（灰色半透明）-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="Crowdfunding/images/demo.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="Crowdfunding/images/sweet-alert.css">
+    <link rel="stylesheet" href="Crowdfunding/css/loveRedPacket.css"/>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            position: relative;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            overflow-y: hidden;
+            background: url(Crowdfunding/images/iphone-6s.jpg) no-repeat top left;
+            background-size: 100% 100%;
+        }
+        /*.bg{*/
+            /*margin: 0;*/
+            /*padding: 0;*/
+            /*position: relative;*/
+            /*background-position: center;*/
+            /*width: 100%;*/
+            /*height: 100%;*/
+            /*background:url(Crowdfunding/images/img-1.jpg) no-repeat ;*/
+            /*background-size:  cover;*/
+        /*}*/
+        .couten {
+            width: 100%;
+            height: 100% ;
+            overflow: hidden;
+            overflow-y: hidden;
+            margin: 0 !important;
+            padding: 0;
+        }
+        .couten li {
+            position: absolute;
+            animation: all 3s linear;
+            top:-100px;
+            -webkit-tap-highlight-color:  rgba(0, 0, 0, 0);
+        }
+        .couten li a{
+            display: block;
+        }
+        .mo {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .2);
+            z-index: 100;
+            display: none;
+        }
+        .mo .sen {
+            width: 70%;
+            height: 150px;
+            border-radius: 5px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+        .mo .sen img {
+            width: 60%;
+            height: 127px;
+            position: absolute;
+            top: 0px;
+            left: 0;
+            right: 0;
+            bottom: 212px;
+            margin: auto;
+            vertical-align: top;
+        }
+        .mo .sen h3 {
+            width: 50%;
+            height: 30px;
+            position: absolute;
+            top: -35px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            text-align: center;
+            color: red;
+            font-size: 140%;
+            font-weight: bold;
+            z-index: 999;
+        }
+
+        .mo .sen a {
+            width: 26%;
+            height: 50px;
+            background-color: rgb(174, 222, 244);
+            box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.0470588) 0px 0px 0px 1px inset;
+            position: absolute;
+            top: 100px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            color: #fff;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 50px;
+            text-decoration: none;
+        }
+        .backward{
+            width: 100%;
+            background:#ccc;
+            opacity: 0.5;
+            position: absolute;
+            top: 0;
+
+        }
+        .backward span{
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            color: #000;
+            font-weight: bold;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            text-align: center;
+            line-height: 100px;
+            font-size: 1000%;
+        }
+        .second{
+            font-size: 15px;
+            color: #ff0000;
+            position: fixed;
+            top: 30px;
+            right: 33px;
+        }
+        .secondRight{
+            font-size: 15px;
+            color: #ff0000;
+            position: fixed;
+            top: 30px;
+            right: 20px;
+        }
+        .cloud{
+            position: fixed;
+            z-index: 2;
+            width: 100%;
+        }
+        .cloud img{
+            width: 100%;
+        }
+        .comingSoon{
+            display: none
+        }
+    </style>
+    <script type="text/javascript" src="../js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript">
+
+       $().ready(function(){
+           var urls=location.href;
+           var url_search="?"+urls.split("?")[1];
+           function getRequest() {
+               //            var url_search = location.search; //获取url中"?"符后的字串
+               var theRequest = new Object();
+               if (url_search.indexOf("?") != -1) {
+                   var str = url_search.substr(1);
+                   strs = str.split("!");
+                   for(var i = 0; i < strs.length; i ++) {
+                       theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                   }
+               }
+               return theRequest;
+           }
+           var startEnd = getRequest().startEnd;
+           if(startEnd==1){
+               $('.comingSoon').css("display","block");
+               $('.before').css('display','none');
+               $('.over').css('display','none');
+           }else if(startEnd==0){
+//               localStorage.removeItem('history');
+               $('.before').css('display','block');
+               $('.comingSoon').css('display','none');
+               $('.over').css('display','none');
+           }else{
+
+               $('.before').css('display','none');
+               $('.comingSoon').css('display','none');
+               $('.over').css('display','block');
+           }
+       });
+
+        $(document).ready(function() {
+
+            $.ajax({
+                url:'/yichaxun/redpacket/init',
+                type:'post',
+                success:function(data){
+//                console.log(data.data.money);
+                    var startTime=data.data.startTimeDaily.substring(0,5);
+                    var endTime=data.data.endTimeDaily.substring(0,5);
+                    $('.startTime').html(startTime+"-"+endTime);
+
+                }
+            });
+
+
+            var win = (parseInt($(".couten").css("width"))) - 60;
+//            $(".mo").css("height", $(document).height());
+            $(".couten").css("height", $(document).height());
+            $(".backward").css("height", $(document).height());
+            $("li").css({});
+            // 点击确认的时候关闭模态层
+            $(".sen a").click(function(){
+                $(".mo").css("display", "none")
+            });
+
+            var del = function(){
+                nums++;
+//					console.info(nums);
+//					console.log($(".li" + nums).css("left"));
+                $(".li" + nums).remove();
+                setTimeout(del,200)
+            };
+            var speed=5000;
+            var add = function() {
+
+//                console.log(parseInt(Math.random() * 3 + 1))
+//                var hb = parseInt(Math.random() * (4 - 1) + 1);
+                var Wh = 60;
+
+                var Left = parseInt(Math.random() * (win - 0) + 0);
+                var rot = (parseInt(Math.random() * (45 - (-45)) - 45)) + "deg";
+                //				console.log(rot)
+                num++;
+                $(".couten").append("<li class='li" + num + "' ><a href='javascript:;'><img src='Crowdfunding/images/hb_3.png'></a></li>");
+                $(".li" + num).css({
+                    "left": Left,
+                    "top":'50px'
+                });
+                $(".li" + num + " a img").css({
+                    "width": Wh,
+                    "transform": "rotate(" + rot + ")",
+                    "-webkit-transform": "rotate(" + rot + ")",
+                    "-ms-transform": "rotate(" + rot + ")", /* Internet Explorer */
+                    "-moz-transform": "rotate(" + rot + ")", /* Firefox */
+                    "-webkit-transform": "rotate(" + rot + ")",/* Safari 和 Chrome */
+                    "-o-transform": "rotate(" + rot + ")" /* Opera */
+                });
+                $(".li" + num).animate({'top':$(window).height()},speed,function(){
+                    //删掉已经显示的红包
+                    this.remove()
+                });
+                //点击红包的时候取消红包并检测发起请求
+
+                $(".li" + num).click(function(){
+
+                    $(this).remove();
+                    clickRedPacket();
+                });
+                setTimeout(add,350)
+            }
+
+
+            //增加红包
+            var num = 0;
+            setTimeout(add,100);
+
+            $('.continue').click(function(){
+                $('.pop').css('display','none');
+                $('.meiqiangdao').css('display','none');
+//                stopState = false;
+//                timeout();
+            })
+
+            $('.nowCan').click(function(){
+                $('.comingSoon').css('display','none');
+                stopState = false;
+                timeout();
+//                $('.meiqiangdao').css('display','none');
+            })
+//TODO 时间倒计时函数
+         var   time=30, stopState = false, myDate,date ;
+            function timeout(){
+                setTimeout(function(){
+                    time--;
+//                    div.innerText = time;
+                    $('.second').html(time);
+                    if(time!==0  &&  !stopState){
+                        timeout();
+                    }
+                    else if(time===0 ){
+                        $('.before').css('display','none');
+                        $('.comingSoon').css('display','none')
+                        $('.over').css('display','block')
+//                         myDate = new Date();
+                        //获取当前日
+//                         date=myDate.getDate();
+//                        localStorage.setItem('history',date)
+//                        alert(date)
+                    }
+                },1000);
+            }
+//TODO 发请求请求红包数据
+            var m=0;
+            var arr=[7,8,9],arrs=[3];
+            var index=Math.floor((Math.random()*arr.length));
+            var indexs=Math.floor((Math.random()*arrs.length));
+
+            function clickRedPacket(){
+                m++;
+                if(m==arrs[indexs]){
+                    stopState = false;
+                    $('.meiqiangdao').css('display','block');
+//                    alert('手剁了吧。红包都抢不到')
+                } else if(m==arr[index]){
+                    stopState = false;
+                    m=0
+                    index=Math.floor((Math.random()*arr.length));
+                    indexs=Math.floor((Math.random()*arrs.length));
+                    $.ajax({
+                        url:'/yichaxun/redpacket/rob',
+                        type:'post',
+                        success:function(data){
+//                            console.log(data.data.money);
+                            if(data.code==0){
+
+                                if(data.data.money==0){
+                                    $('.meiqiangdao').css('display','block');
+//                                    $('.money').html('已抢完')
+                                }else{
+                                    $('.pop').css('display','block');
+                                    $('.money').html(data.data.money)
+                                }
+
+                            }
+                        }
+
+                    })
+                }else if(m>15){
+                    m=0
+                }
+            }
+        });
+    </script>
+
+</head>
+<body>
+<!--红包结束-->
+<div class=" over" style="display: none">
+    <img style="width:100%;height: 100%;opacity: 0.3" src="../images/bgColor.png" alt=""/>
+    <div class="button_btn" style="z-index: 999">
+        <img class="bigRedPacket button_btn1"src="Crowdfunding/images/img62x.png" alt=""/>
+    </div>
+    <div class="btns" style="z-index: 999">
+        <button class=" end">退出</button>
+    </div>
+</div>
+
+<!--一大波红包即将来袭-->
+<div class="comingSoon">
+    <img style="width:100%;height: 100%;opacity: 0.3" src="../images/bgColor.png" alt=""/>
+    <div class="button_btn" style="top:10%;z-index: 999">
+        <img class=" button_btn1 comingSoonImg"src="Crowdfunding/images/img7@2x.png" alt=""/>
+    </div>
+    <div class=" comingSoonBtn" style="z-index: 999">
+        <button class="nowCan" >立即开始</button>
+    </div>
+</div>
+<!--活动开始前-->
+<div class="before" style="display: none">
+    <img style="width:100%;height: 100%;opacity: 0.3" src="../images/bgColor.png" alt=""/>
+    <div class="button_btn" style="top:10%;z-index: 999">
+        <img class=" button_btn1 beforeImg"src="Crowdfunding/images/img2.png" alt=""/>
+    </div>
+    <div class="beforeTitle">
+        <p>活动暂未开启</p>
+    </div>
+    <div class="introduce">
+        <p>1.红包开启时间<span class="startTime">18:00-18:05</span>,限时30s</p>
+        <p>2.活动仅限医查查共享端使用</p>
+        <p>3.用户在红包开抢时间段抢红包，红包直接存放到个人中心-我的卡-收益里面</p>
+        <p>4.红包收益不过期，可以永久使用</p>
+        <p>5.提现：可绑定支付宝进行提现</p>
+    </div>
+    <div class=" beforeBtn" style="z-index: 999">
+        <button class="searchRed" >查看红包记录</button>
+    </div>
+</div>
+<!--云-->
+<div class="cloud">
+    <img src="Crowdfunding/images/cloud-6s.png" alt=""/>
+</div>
+<!--未抢到-->
+<div class="meiqiangdao " style="display: none">
+    <img style="width:100%;height: 100%;opacity: 0.3" src="../images/bgColor.png" alt=""/>
+    <div class="button_btn" style="z-index: 999">
+        <img class="bigRedPacket button_btn1"src="Crowdfunding/images/img5@2x.png" alt=""/>
+    </div>
+    <div class="btn " style="z-index: 999">
+        <button class="continue">继续</button>
+    </div>
+</div>
+
+<!--红包-->
+<div class="pop pop1"  style="display: none">
+    <img style="width:100%;height: 100%;opacity: 0.3" src="../images/bgColor.png" alt=""/>
+    <div  class="arrow" style="float: left">
+        <img class="congratulations arrow1" src="Crowdfunding/images/img8@2x.png" alt=""/>
+    </div>
+    <div class="button_btn">
+        <img class="bigRedPacket button_btn1" src="Crowdfunding/images/img6@2x.png" alt=""/>
+    </div>
+    <span class="money">￥4.19</span>
+    <p class="prompt">已存入您的收益，继续寻找红包吧</p>
+    <div class="btn">
+        <button class="continue">继续</button>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="content">
+    <span class="second"  style="z-index: 20">30 </span><span  style="z-index: 20" class="secondRight">S</span>
+
+
+    <div class="redPacket">
+
+
+    </div>
+
+    <div class="clear"></div>
+
+    <ul class="couten">
+        <!--<li>
+            <a href="#"><img src="images/hb_1.png"></a>
+        </li>-->
+    </ul>
+</div>
+
+<!--<div class="backward">-->
+    <!--<span></span>-->
+<!--</div>-->
+<script>
+
+    var height= $(document).height();
+    var width= $(document).width();
+//    var redWidth=parseInt($('.bigRedPacket').css('width'))*parseInt(width)/100;
+    var redWidth=parseInt(0.56*width);
+//    alert(redWidth)
+//    alert(redWidth);
+    var hrightTwo=parseInt(redWidth)*1.44;
+//    alert(redWidth)
+    var beforeImgHeight=parseInt($('.beforeImg').css('width'))*parseInt(width)/100*0.77;
+//    alert(beforeImgHeight)
+    var pHeight=parseInt($('.introduce').css('height'));
+
+
+    var comingSoonImgHeight=parseInt($('.comingSoonImg').css('width'))*parseInt(width)/100*1.22;
+
+    $('.comingSoonBtn').css('top',comingSoonImgHeight+85+'px');
+//    alert(beforeImgHeight+parseInt(height*0.1)+20)
+    $('.beforeTitle').css('top',beforeImgHeight+parseInt(height*0.1)+20+'px');
+    $('.introduce').css('top',beforeImgHeight+parseInt(height*0.1)+65+'px');
+    $('.beforeBtn').css('top',beforeImgHeight+parseInt(height*0.1)+245+'px');
+    $('.prompt').css('top',parseInt(height*0.25+hrightTwo)+20+'px');
+    $('.money').css('top',parseInt(height*0.25+hrightTwo)-86+'px');
+//    alert(hrightTwo)
+//    alert(parseInt(height*0.25+hrightTwo)+50)
+    $('.btn').css('top',parseInt(height*0.25+hrightTwo)+50+'px');
+//alert(0.56*width)
+    $('.btns').css('top',0.56*width*1.44+parseInt(height*0.25)+50+'px');
+
+
+//    $('.beforeBtn').css('top',beforeImgHeight+parseInt(height*0.1)+115+pHeight+'px');
+//    查询红包明细
+    $('.searchRed').click(function(){
+        location.href='loveCardIncomeDetails.html'
+    });
+
+//    活动结束返回首页
+    $('.end').click(function(){
+        window.location.href="TCindex.html";
+
+    });
+
+</script>
+</body>
+</html>

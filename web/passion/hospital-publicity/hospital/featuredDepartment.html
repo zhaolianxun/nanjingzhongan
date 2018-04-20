@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>医院管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+</head>
+<body>
+<div class="x-nav">
+            <span class="layui-breadcrumb">
+              <a><cite>首页</cite></a>
+              <a><cite>科室管理</cite></a>
+              <a><cite>特色科室</cite></a>
+            </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <xblock><button class="layui-btn" style="opacity: 0"><i class="layui-icon">&#xe608;</i>创建科室</button><span class="x-right" style="line-height:40px">共有数据：<span id="totalItemCount"></span> 条</span></xblock>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>名称</th>
+            <th>图片</th>
+            <th>介绍</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="content">
+        </tbody>
+    </table>
+
+    <div id="page"></div>
+</div>
+<script src="./lib/layui/layui.js" charset="utf-8"></script>
+<script src="./js/x-layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['laydate','element','laypage','layer'], function(){
+        $ = layui.jquery;//jquery
+        laydate = layui.laydate;//日期插件
+        lement = layui.element();//面包导航
+        laypage = layui.laypage;//分页
+        layer = layui.layer;//弹出层
+
+        //以上模块根据需要引入
+        layer.ready(function(){ //为了layer.ext.js加载完毕再执行
+            layer.photos({
+                photos: '#content'
+                ,shift: 4 //0-6的选择，指定弹出图片动画类型，默认随机
+            });
+        });
+
+
+        var pageNo = 1,pageSize = 20,totalPage = 1;
+        function getData(){
+            $.ajax({
+                type: 'POST',
+                data: {page_no:pageNo,page_size:pageSize},
+                url: '../../hp/h/page/featureddepartments',
+                success: function(data){
+                    if(data.code == 0){
+                        totalPage = data.data.departments.totalPageCount;
+                        $('#totalItemCount').html(data.data.departments.totalItemCount);
+                        var items = data.data.departments.items;
+                        for(var i = 0 ; i < items.length ; i ++){
+                            $('#content').append(
+                                '<tr>' +
+                                '<td>'+ items[i].departmentId +'</td>' +
+                                '<td>'+ items[i].name +'</td>' +
+                                '<td><img style="height: 150px;" src="'+ items[i].picture +'"></td>' +
+                                '<td style="width: 600px;">'+ items[i].introduction +'</td>' +
+                                '<td class="td-manage">' +
+                                '<button style="text-decoration:none" onclick="department_stop(this)" href="javascript:;" class="layui-btn layui-btn-mini layui-btn-danger">取消推荐</button>' +
+                                '</td>' +
+                                '</tr>'
+                            );
+                        }
+                    }else{
+                        layer.msg(data.codeMsg);
+                    }
+                }
+            })
+        }
+        function rePage(){
+            laypage({
+                cont: 'page',
+                curr: pageNo,
+                pages: totalPage,
+                first: 1,
+                last: 100,
+                prev: '<em><</em>' ,
+                next: '<em>></em>'
+            });
+        }
+        getData();
+        rePage();
+    });
+
+    /*取消特色*/
+    function department_stop(obj){
+        layer.confirm('确认取消此科室的特色推荐吗？',function(index){
+            var id = $(obj).parents('tr').children('td:first').html();
+            $.ajax({
+                type: 'POST',
+                data: {department_id:id},
+                url: '../../hp/h/department/removefromclienthomepagefeatureddepartment',
+                success: function(res){
+                    if(res.code == 0){
+                        layer.msg('已取消推荐!',{icon: 5,time:2000});
+                        $(obj).parents("tr").remove();
+                    }else{
+                        layer.msg(res.codeMsg);
+                    }
+                }
+            })
+        });
+    }
+</script>
+
+</body>
+</html>

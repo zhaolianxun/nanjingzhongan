@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"></pre>
+    <title>厂商认领</title>
+    <link rel="stylesheet" href="css/claimManufacturer_write.css"/>
+    <link rel="stylesheet" href="css/pop_p.css"/>
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="js/image-file-visible.js"></script>
+    <script type="text/javascript" src="js/addTmpImg.js"></script>
+    <!--<script src="js/vconsole.min.js"></script>-->
+    <style>
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        body{
+            width: 100%;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+        }
+        　　
+            .corporationId_n{
+                position: absolute;
+                width: 80% !important;
+            }
+        .regis{
+            position: relative;
+            /*top: 15px;*/
+            left: 4%;
+            font-size: 15px;
+            color: #666;
+        }
+        .spanish{
+            font-size: 14px;
+            color: #999;
+            margin-left: 4%;
+        }
+        .name{
+            position: absolute;
+        }
+        .IdCard_1{
+            /*display: inline-block;*/
+            width: 62px !important;
+            height: 25px !important;
+            padding-left: 0 !important;
+            /*position: absolute;*/
+            /*right: 15px;*/
+            /*top: 180px;*/
+            /*position: absolute;*/
+             top: 10px;
+            margin-right: -25px;
+            margin-top: 15px;
+            float: right;
+            opacity: 0
+        }
+        .sub{
+            top: -113px;
+            left: 28%;
+            position: relative;
+            /*float: right;*/
+            opacity: 0
+        }
+        #image_wrap4 img{
+            margin: 0; width: 180px !important;height: 113.4px !important;
+        }
+        input{
+            font-size: 15px !important;
+            color: #000000;
+        }
+        .pop{
+            /*display: none;*/
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top:0;
+            right:0;
+            z-index: 200;
+            overflow: auto;
+        }
+        .arrow1{
+            position: absolute;
+            display: block;
+            width: 90%;
+            height: 240px;
+            top: 143px;
+            /* right: 40px; */
+            left: 5%;
+        }
+        .button_btn1{
+            position: absolute;
+            display: block;
+            width: 50%;
+            height: auto;
+            top: 363px;
+            /* right: 40px; */
+            left: 25%;
+        }
+        .words1{
+            position: absolute;
+            display: inline-block;
+            width: 56%;
+            height: 41px;
+            top: 362px;
+            right: 22%;
+            border-radius: 10px;
+            border: 0;
+            background-color: #ff9a00;
+            opacity: 1;
+            font-size: 16px;
+            color: #ffffff;
+        }
+        .pop_span{
+            position: absolute;
+            display: inline-block;
+            width: 70%;
+            /* height: 25px; */
+            top: 216px;
+            right: 15%;
+            border-radius: 10px;
+            border: 0;
+            /* background-color: orange; */
+            opacity: 1;
+            font-size: 16px;
+            color: #ffffff;
+            line-height: 22px;
+            font-size: 16px;
+            color: #fdbd13;
+            text-align: center;
+        }
+
+        .span_wenzi{
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+    </style>
+    <script>
+
+
+        $(document).ready(function () {
+//图片显示插件
+            $.imageFileVisible({
+                wrapSelector: "#image_wrap4",
+                fileSelector: ".IdCard",
+                width: 80,
+                height: 80
+            });
+            $.imageFileVisible({
+                wrapSelector: "#image_wrap4",
+                fileSelector: ".sub",
+                width: 80,
+                height: 80
+            });
+        });
+    </script>
+</head>
+<body style="background-color: #f2f2f2">
+<div class="clear"></div>
+<div class="content">
+    <div style="height: 10px;width: 100%;background-color: #f2f2f2"></div>
+    <div class="content_text_n select">
+        <!--<input type="text" class="corporationId corporationId_n" />-->
+        <div class="lf regis span_wenzi" style="width: 86%">选择认领厂商</div>
+        <spqn class="id_cor" style="display: none"></spqn>
+        <img class="rt" src="icon/back-arrow--right.png" class="back_right" alt=""/>
+    </div>
+    <div style="height: 10px;width: 100%;background-color: #f2f2f2"></div>
+    <div class="content_text_n">
+        <p class="lf">姓名</p>
+        <input class="name" type="text" placeholder="请输入姓名"/>
+    </div>
+    <div class="content_text_n">
+        <p class="lf">联系方式</p>
+        <input class="phone" type="text" placeholder="请输入手机号码"/>
+    </div>
+    <form id="userCard" class="userCard">
+    <div class="content_text_n content_text_last demo1" style="border: 0 !important;">
+        <p class="lf">上传名片</p>
+        <span class=" name1 spanish">(选填)</span>
+        <!--<input class="name" type="text" placeholder="" />-->
+        <!--<input class="IdCard IdCard_1" type="file" name="file"/>-->
+        <img class="rt" src="iconTwo/add@2x.png" alt=""/>
+        <input class="IdCard IdCard_1" type="file" name="file"/>
+
+    </div>
+
+    <div class="demo2" style="background-color: #ffffff;width:65%;height: 115px;
+    padding-left: 35%;padding-bottom: 25px;padding-top: 25px;display: none">
+
+            <div class="demo2" id="image_wrap4" class="lf userCard_img" style="background-color: #ffffff;width: 180px;
+        height: 113.4px;display: none" >
+            </div>
+
+    </div>
+    </form>
+    <div class="clear" style="clear:both;"></div>
+    <!--<div style="width: 100%;height: 50px;border: 0;">-->
+        <button class="button1 button" style="width: 94%;margin:25px 3% auto 3%;background-color: #4179ce;height: 50px;
+    color: #fff;border-radius: 6px;font-size: 16px;border: 0">确认</button>
+    <!--</div>-->
+
+    <!--<span class="myclerar">dahsdjkashkd</span>-->
+    <!--<button class="but">daslkdhjklas</button>-->
+</div>
+
+<!--背景--><!--遮罩层-->
+<div class="pop pop1" onclick="close()" >
+    <img src="images/bgColor.png" alt="" style="width:100%;height: 100%;opacity: 0.3">
+    <div class="arrow">
+        <img src="images/datu-5000(1).png" alt="" class="arrow1">
+    </div>
+
+    <div class="pop_span"><span></span></div>
+    <div class="button_btn">
+        <button class="words1">立即认领</button>
+    </div>
+    <!--<div class="words">-->
+    <!--<img src="images/x@2x.png" alt="" class="words1" >-->
+    <!--</div>-->
+</div>
+<!--弹窗-->
+<div class="tanchuang1" style="display: none">
+    <span class="wenzi"></span>
+    <span class="btnbtn">OK</span>
+</div>
+
+<script>
+    $('.btnbtn').click(function(){
+        $('.tanchuang1').css('display','none');
+    })
+</script>
+<!--客户端初始化-->
+<script>
+    $().ready(function(){
+        $.ajax({
+            url:'/yichaxun/u/clientinit',
+            type:'post',
+            success:function(data){
+                if(data.code==0){
+//                    $('.pop_span span').html(data.data.registerInduce);
+                    var datastr=data.data.claimCorporationInduce;
+                    console.log(datastr);
+                    datastr.replace("\n","；");
+//                    $('.pop_span span').html(datastr);
+                    console.log($('.pop_span span').html())
+
+                    var i;
+                    var result = '';
+                    var c;
+                    for(i=0;i<datastr.length;i++){
+                        c=datastr.substr(i,1);
+                        if(c=='\n'){
+                            result=result+'<br/>'
+                            console.log(result)
+                            $('.pop_span span').html(result);
+                        }else if(c!='\n'){
+                            result=result+c;
+                            $('.pop_span span').html(result);
+                        }
+                    }
+//                    var str= new Array();
+//                    var str=datastr.split("↵");
+//                    var a= str[0];
+//                    var b= str[1];
+//                    console.log(a,b)
+                }
+            }
+        })
+    })
+</script>
+<script>
+    $('.button_btn').click(function(){
+        $('.pop1').css('display','none')
+    })
+
+    var corporationId =  localStorage.getItem("corporationId");
+    var corporationName =  localStorage.getItem("corporationName");
+    var corporationTel =  localStorage.getItem("corporationTel");
+    var corporationSite =  localStorage.getItem("corporationSite");
+    var corporationLinkman =  localStorage.getItem("corporationLinkman");
+    console.log(corporationName);
+//    if(corporationName==''||corporationName==null||corporationName==undefined){
+//        $('.span_wenzi').html('选择认领厂商qwe');
+//    }
+   if(corporationName!=''&&corporationName!=null&&corporationName!=undefined){
+       $('.span_wenzi').html(corporationName);
+   }
+
+    if(corporationId!=''){
+        $('.id_cor').html(corporationId);
+    }
+//    预加载数据
+    $().ready(function(){
+        var x=$('.id_cor').html();
+//        var y=$('.phone').val();
+//        var z= $.addTmpImgYichacha('userCard');
+//        var q=$('.name').val();
+        if(x!=''&&x!=null&&x!=undefined){
+            $('.pop1').css('display','none')
+        }
+
+//        $.ajax({
+//            type: 'POST',
+//            async: false,
+//            cache: false,
+//            contentType: false,
+//            processData: false,
+//            url: '/yichaxun/u/userinit',
+//            success: function (data) {
+//                console.log(data)
+//                if (data.code == 26||data.code == 20) {
+//                    location.href='login.html'
+//                }else if(data.code==0){
+//
+//                }else{
+////                    $('.tanchuang1').css('display','block')
+////                    $('.wenzi').html(data.message)
+////                    alert(data.message)
+//                }
+//            },
+//            error: function () {
+//            }
+//        })
+    })
+//选择厂商
+    $('.select').click(function(){
+        location.href="claimManufacturer_search.html"
+    });
+
+//提交信息
+    $('.button1').click(function(){
+        $('.tanchuang1').css('display','block')
+        $('.wenzi').html('提交注册');
+        $('.button1').attr({"disabled":true})
+//        $(this).unbind('click')
+        var corporationId=$('.id_cor').html();
+        var corporationUserTel=$('.phone').val();
+        var userCard= $.addTmpImgYichacha('userCard');
+        var userRealname=$('.name').val();
+        console.log(userCard);
+        console.log(corporationId);
+     if(corporationId==''||corporationId==null||corporationId==undefined||corporationId=='undefined'){
+         $('.tanchuang1').css('display','block')
+         $('.wenzi').html('请先选择认领厂商');
+         $('.button1').attr({"disabled":false})
+     }else{
+         if(userCard==''||userCard==undefined||userCard==null||userCard=='undefined'){
+             $.ajax({
+                 url:"/yichaxun/corporation/claimreq",
+                 type:"post",
+                 data:'corporationId='+corporationId+'&corporationUserTel='+corporationUserTel+
+                 '&userRealname='+userRealname,
+                 success:function(data){
+                     if(data.code == 0){
+                         $('.tanchuang1').css('display','none')
+                         localStorage.setItem("corporationId",corporationId);
+                         localStorage.setItem("corporationUserTel",corporationUserTel);
+                         localStorage.setItem("userRealname",userRealname);
+                         localStorage.setItem("userCard",userCard);
+//                       location.href="CS_myAuthentication_waiting.html"
+                         location.href="index.html"
+                         localStorage.setItem('pop_pop',1)
+                     }else if(data.code==20||data.code==26){
+                         $('.tanchuang1').css('display','block')
+                         $('.wenzi').html(data.message)
+//                       alert(data.message);
+                         location.href="login.html"
+                     }else if(data.code==99){
+                         $('.tanchuang1').css('display','block')
+                         $('.wenzi').html(data.message)
+                         $('.button1').attr({"disabled":false})
+                     }else{
+//                       $('.button1').bind('click')
+                         $('.button1').attr({"disabled":false})
+                     }
+                 },
+                 error: function(xhr,msg,reasonString){
+                     $('.tanchuang1').css('display','block')
+                     $('.wenzi').html('请求错误，请稍后再试...')
+                     $('.button1').attr({"disabled":false})
+//                   alert('请求错误，请稍后再试...');
+                     console.log(arguments);
+                 }
+             })
+         }
+         else{
+             $.ajax({
+                 url:"/yichaxun/corporation/claimreq?userCard="+userCard,
+                 type:"post",
+                 data:'corporationId='+corporationId+'&corporationUserTel='+corporationUserTel+
+                 '&userRealname='+userRealname,
+                 success:function(data){
+                     if(data.code == 0){
+                         $('.tanchuang1').css('display','none')
+                         localStorage.setItem("corporationId",corporationId);
+                         localStorage.setItem("corporationUserTel",corporationUserTel);
+                         localStorage.setItem("userRealname",userRealname);
+                         localStorage.setItem("userCard",userCard);
+                         location.href="index.html"
+                         localStorage.setItem('pop_pop',1)
+                     }else if(data.code==20||data.code==26){
+//                       $('.tanchuang1').css('display','block')
+//                       $('.wenzi').html(data.message)
+//                       alert(data.message);
+                         location.href="login.html"
+                     }else if(data.code==99){
+                         $('.tanchuang1').css('display','block')
+                         $('.wenzi').html(data.message)
+                         $('.button1').attr({"disabled":false})
+                     }else{
+//                       $('.button1').bind('click')
+                         $('.button1').attr({"disabled":false})
+                     }
+                 },
+                 error: function(xhr,msg,reasonString){
+//                   $('.tanchuang1').css('display','block')
+//                   $('.wenzi').html('请求错误，请稍后再试...')
+//                   alert('请求错误，请稍后再试...');
+                     console.log(arguments);
+                 }
+             })
+         }
+     }
+    })
+    //
+
+$('.IdCard').click(function(){
+    $('.name1').css('display','none');
+    $('.demo2').css('display','block');
+})
+
+</script>
+</body>
+</html>

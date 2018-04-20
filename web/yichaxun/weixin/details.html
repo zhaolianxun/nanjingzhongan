@@ -1,0 +1,407 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>爱心救助</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="css/save.css"/>-->
+    <link rel="stylesheet" href="css/details.css"/>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript" src="js/vconsole.min.js"></script>
+    <style>
+        .pop{
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top:0;
+            right:0;
+            z-index: 200;
+            overflow: auto;
+        }
+        .arrow1{
+            position: absolute;
+            display: block;
+            width: 149px;
+            height: 120px;
+            top: 13px;
+            right: 40px;
+        }
+        .words1{
+            position: absolute;
+            display: inline-block;
+            width: 203px;
+            height: 26px;
+            top: 149px;
+            right: 100px;
+        }
+    </style>
+    <script>
+//        $.cookie("donateUserId",'18',{path:"/"});
+//        if(!$.cookie("donateUId")){
+//            window.location.replace("/donate/u/f/wx/o2a.jsp?go=details.html")
+//        }
+        var seekid =  localStorage.getItem("seekid");
+//        获取后台接口里面返回的微信分享需要的值
+        $().ready(function () {
+            function configWxShare(appId, timestamp, noncestr, sign, url) {
+                var seekid =  localStorage.getItem("seekid");//获取id为seekid
+                url  = url + "?id=" + seekid + '';
+                wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: appId,
+                    timestamp: timestamp,
+                    noncestr: noncestr,
+                    signature:sign,
+                    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                });
+                wx.ready(function(){
+                    wx.onMenuShareTimeline({
+                        title: '我在这里，快来租我', // 分享标题
+                        desc: '我在UU租客发布了出租信息,大家快来租我', // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: 'imgs/picture.jpg', // 分享图标
+                        success: function () {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                    wx.onMenuShareAppMessage({
+                        title: 'UU租客发积分啦', // 分享标题
+                        desc: '快来和我一起玩UU租客吧', // 分享描述
+                        link:"$('#apppp').val()?id=seekid", // 分享链接
+                        imgUrl: 'imgs/picture.jpg', // 分享图标
+                        type: '', // 分享类型,music、video或link，不填默认为link
+                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                        success: function () {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                });
+            }
+//获取后台接口里面微信分享需要的参数值
+            $.ajax({
+                url:"/yichaxun/donate/u/l/wx/jsapiconfig?url="+location.href,
+                type:"get",
+                dataType:"json",
+//            async:"true",
+                async: true,
+                contentType: "application/x-www-form-urlencoded",
+                processData: false,
+                success:function (data) {
+                    console.log(data);
+                    if(data.code==0){
+                        var appId=data.data.appId;
+                        var timestamp=data.data.timestamp;
+                        var noncestr=data.data.noncestr;
+                        var sign=data.data.sign;
+//                    console.log(data.data.sign)
+                        var url=data.data.url;
+                       /* $("#appId").val(appId);
+                        $("#timestamp").val(timestamp);
+                        $("#noncestr").val(noncestr);
+                        $("#sign").val(data.data.sign);
+                        $("#apppp").val(url);*/
+                        configWxShare(appId,timestamp,noncestr,sign,url);
+                    }
+                }
+            })
+        })
+
+    </script>
+</head>
+<body>
+<!--<div id="a" type="hidden">-->
+
+<!--</div>-->
+    <div id="imgBox">
+        <img id="zoomImg"/>
+    </div>
+    <header style="padding: 0 15px">
+        <div class="no_padding">
+            <p id="title">XXXXXXXXXXXX</p>
+        </div>
+        <div class="clear"></div>
+    </header>
+    <section class="no_padding">
+        <p id="endtime" style="padding: 0 15px;margin-bottom: 0px"></p>
+        <div class="clear"></div>
+        <span id="hospitalName_2" style="display: inline-block;color: #5b81d7; margin: 10px 15px;padding: 2px 6px;border: 1px solid #5b81d7;
+        font-size: 12px; border-radius: 15px;"></span>
+        <div class="no_padding innerImg" style="padding: 0 15px"></div>
+        <div class="clear"></div>
+        <div class="xmjz">项目进展</div>
+        <div class="no_padding xmjz_a">
+            <div class="a">
+                <b>目标金额</b>
+                <p id="goalAmount">XXX</p>
+            </div>
+            <div class="shuxian"></div>
+            <div class="b">
+                <b>已完成</b>
+                <p id="raiseAmount">XXX</p>
+            </div>
+            <div class="shuxian"></div>
+            <div class="c">
+                <b>参与人次</b>
+                <p id="raiseManTime">XXX</p>
+            </div>
+        </div>
+        <p class="jj">简介</p>
+        <p id="desceiption"></p>
+
+        <input id="seekId" type="hidden"/>
+        <input id="wxHeadImgUrl" type="hidden" value="wxHeadImgUrl"/>
+        <input id="hospitalType" type="hidden"/>
+        <input id="hospitalName" type="hidden"/>
+        <input id="hospitalId" type="hidden"/>
+        <input type="hidden" id="status">
+        <div class="clear no_padding zygx">主要关系</div>
+        <p class="no_padding hz">患者：
+            <span id="patientRealname"></span> <span class="rt" id="hospitalName_1"></span>
+        </p>
+        <p class="no_padding skr">收款人：
+            <span id="parentRealname"></span>
+        </p>
+       <div class="shenming">
+           <p class="no_padding sm">＊发起人已承诺所提供的文字与图片完全真实，无任何虚构及隐瞒真相的情况，如有不实，发起人愿承担法律责任。</p>
+           <p class="dt">动态</p>
+       </div>
+        <ul id="dynamic">
+        </ul>
+    </section>
+    <footer class="no_padding" style="position: fixed">
+        <div class="no_padding help">爱心捐助</div>
+        <div class="no_padding forward" onclick="pop()">帮忙转发</div>
+        <!--<div class="no_padding forward">-->
+            <!--&lt;!&ndash;<a href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?&ndash;&gt;-->
+            <!--&lt;!&ndash;url=http://www.njshangka.com/donate/in/webroot/details.html" target="_blank">帮忙转发</a>&ndash;&gt;-->
+            <!--<a href="/donate/u/l/wx/Oauth2Authorize?go==http://www.njshangka.com/donate/in/webroot/details.html" target="_blank">帮忙转发</a>-->
+        <!--</div>-->
+    </footer>
+
+<script>
+
+</script>
+<!--存储微信分享所需要的值-->
+<input type="hidden" id="appId">
+<input type="hidden" id="noncestr">
+<input type="hidden" id="sign">
+<input type="hidden" id="timestamp">
+<input type="hidden" id="apppp">
+<!--背景-->
+<div class="pop" onclick="close()">
+    <img src="imgs/bgColor.png" alt="" style="width:100%;height: 100%;opacity: 0.3">
+    <div class="arrow">
+        <img src="imgs/arrow.png" alt="" class="arrow1">
+    </div>
+    <div class="words">
+        <img src="imgs/words.png" alt="" class="words1" >
+    </div>
+</div>
+<!--数据获取显示页面-->
+    <script>
+        $(document).ready(function(){
+            var seekid =  localStorage.getItem("seekid");
+            var wxHeadImgUrl =  localStorage.getItem("wxHeadImgUrl");
+            $("#wxHeadImgUrl").val(wxHeadImgUrl);
+//            console.log($("#wxHeadImgUrl").val(wxHeadImgUrl))
+//            console.log(seekid)
+//            console.log(wxHeadImgUrl)
+                $("#a").append('<img src="'+ wxHeadImgUrl +'"style="display:block;width:35px;height:35px;border-radius:35px;"/>')
+//            $("#dataList").append('<img src="'+ wxHeadImgUrl +'"style="display:block;width:35px;height:35px;border-radius:35px;"/>')
+            $.ajax( {
+                type: 'POST',
+                data: {'sId':seekid},
+                dataType:"json",
+                url: '/yichaxun/donate/u/f/seek/rb.jsp',
+                success: function(data){
+                    if(data.code==0) {
+                        for (var i = 0; i < data.data.items.length; i++) {
+                            data.data.sRaisedAmount = '' ? data.data.items[i].items[i].sRaisedAmount : '0';
+                            $('#title').text(data.data.items[i].sTitle);
+                            localStorage.setItem('title', data.data.items[i].sTitle);
+                            $('#desceiption').html(data.data.items[i].sDesceiption);
+                            $('#endtime').text('结束时间: ' + new Date(parseInt(data.data.items[i].sEndTime)).toLocaleString().replace(/:\d{1,2}$/, ' '));
+
+                            $('#goalAmount').text(data.data.items[i].sGoalAmount / 100 + '元');
+                            $('#raiseAmount').text(data.data.items[i].sRaisedAmount / 100 + '元');
+                            $('#raiseManTime').text(data.data.items[i].sRaisedTimes + '人');
+
+                            $('#patientRealname').html(data.data.items[i].sPatientRealname);
+                            $('#parentRealname').html(data.data.items[i].sPatientRealname);
+                            $('#hospitalName_1').html(data.data.items[i].hName+"认证");
+                            $('#hospitalName_2').html("由"+data.data.items[i].hName+"认证");
+                            $('#hospitalName_2').attr('href',data.data.items[i].hUrl);
+
+                            localStorage.setItem('patientRealname', data.data.items[i].sPatientRealname);
+                            localStorage.setItem('parentRealname', data.data.items[i].sPatientRealname);
+
+                            $('#seekId').val(data.data.items[i].sId);
+                            $('#hospitalType').val(data.data.items[i].sType);
+                            $('#hospitalName').val(data.data.items[i].hName);
+                            $('#hospitalId').val(data.data.items[i].hId);
+                            $('#status').val(data.data.items[i].sStatus);
+                            if (data.data.items[i].sPic0) {
+                                $('.innerImg').append(
+                                        '<div class="no_padding" data-toggle="modal" data-target="#myModal">' +
+                                        '<img src="' + data.data.items[i].sPic0 + '" class=""/>' +
+                                        '</div>'
+                                )
+                            }
+                            if (data.data.items[i].sPic1) {
+                                $('.innerImg').append(
+                                        '<div class="no_padding" data-toggle="modal" data-target="#myModal">' +
+                                        '<img src="' + data.data.items[i].sPic1 + '" class=""/>' +
+                                        '</div>'
+                                )
+                            }
+                            if (data.data.items[i].sPic2) {
+                                $('.innerImg').append(
+                                        '<div class="no_padding" data-toggle="modal" data-target="#myModal">' +
+                                        '<img src="' + data.data.items[i].sPic2 + '" class=""/>' +
+                                        '</div>'
+                                )
+                            }
+                            if (data.data.items[i].sPic3) {
+                                $('.innerImg').append(
+                                        '<div class="no_padding" data-toggle="modal" data-target="#myModal">' +
+                                        '<img src="' + data.data.items[i].sPic3 + '" class=""/>' +
+                                        '</div>'
+                                )
+                            }
+                            if (data.data.items[i].sPic4) {
+                                $('.innerImg').append(
+                                        '<div class="no_padding" data-toggle="modal" data-target="#myModal">' +
+                                        '<img src="' + data.data.items[i].sPic4 + '" class=""/>' +
+                                        '</div>'
+                                )
+                            }
+                            if (data.data.items[i].sPic5) {
+                                $('.innerImg').append(
+                                        '<div class="no_padding" data-toggle="modal" data-target="#myModal">' +
+                                        '<img src="' + data.data.items[i].sPic5 + '" class=""/>' +
+                                        '</div>'
+                                )
+                            }
+                            if (data.data.items[i].sPic6) {
+                                $('.innerImg').append(
+                                        '<div class="no_padding" data-toggle="modal" data-target="#myModal">' +
+                                        '<img src="' + data.data.items[i].sPic6 + '" class=""/>' +
+                                        '</div>'
+                                )
+                            }
+                            if (data.data.items[i].sPic7) {
+                                $('.innerImg').append(
+                                        '<div class="no_padding" data-toggle="modal" data-target="#myModal">' +
+                                        '<img src="' + data.data.items[i].sPic7 + '" class=""/>' +
+                                        '</div>'
+                                )
+                            }
+                        else if (data.code == 20) {
+                            $('#danger').css('display', 'block');
+                            setTimeout(function () {
+                                location.href = 'login.html?prevurl=' + window.location.href;
+                            }, 1500)
+                        } else {
+//                            alert(data.message);
+                        }
+                    }}
+                },
+                error: function(xhr,msg,reasonString){
+                    alert('请求错误，请稍后再试...');
+                    console.log('error回调函数...响应完成但存在问题');
+                    console.log(arguments);
+                }
+            } );
+            $.ajax( {
+                type: 'POST',
+                data: {'sId':seekid},
+                dataType:"json",
+//            url:'/donate/u/f/seek/retrieve/batch',
+                url: '/yichaxun/donate/u/f/donate/rb.jsp',
+                success: function(data){
+                    if(data.code==0){
+                        for(var i = 0 ; i < data.data.items.length ; i ++){
+                            $('#dynamic').append('<li>' +
+                           /* '<img src="imgs/head.png" class="col-xs-2"/>' +*/
+                            '<span>'+ decodeURIComponent(data.data.items[i].uWxNickname)+'支持'+(data.data.items[i].dAmount)/100+'元。</span>'+
+                            '<input class="donateId" type="hidden" value="'+data.data.items[i].dId+'">' +
+                            '</li>');
+                        }
+                    }
+                },
+                error: function(xhr,msg,reasonString){
+                    alert('请求错误，请稍后再试...');
+                    console.log('error回调函数...响应完成但存在问题');
+                    console.log(arguments);
+                }
+            } );
+        });
+        $('.help').click(function(){
+            var seekid = $('#seekId').val();
+            var wxHeadImgUrl = $('#wxHeadImgUrl').val();
+            var status=$("#status").val();
+            console.log(wxHeadImgUrl);
+            console.log(seekid);
+            if(seekid!=''&&status!="EXPIRED"&&status!="COMPLETED"){
+                localStorage.setItem("seekid",seekid);
+                localStorage.setItem("wxHeadImgUrl",wxHeadImgUrl);
+                location.href = 'donation.html';
+            }else{
+                alert("当前求助已过期！")
+            }
+        });
+        $('.innerImg').on('click','img',function(){
+//            alert("1111")
+            $('#imgBox').css('display','block');
+            $('#zoomImg').attr('src',$(this).attr('src'));
+        });
+        $('#zoomImg').click(function(){
+//            alert("222")
+            $('#imgBox').css('display','none');
+        })
+        $('#hospitalName_2').click(function(){
+            location.href = $(this).attr('href');
+        })
+    </script>
+
+<script>
+//    <!--跳转指示微信分享箭头-->
+    function pop(){
+        $(".pop").show()
+        $(".bg").show()
+    }
+    $('.arrow,.words,.pop').on('click','img',function(){
+        $(".pop").hide()
+        $(".bg").hide()
+    })
+</script>
+
+<!--转发-->
+<script src="js/wx.js"></script>
+<!--微信分享-->
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+
+//    alert(seekid);
+//debugger;
+//    console.log(seekid);
+//    console.log($("#sign").val());
+//    console.log($("#noncestr").val());
+//    console.log($("#apppp").val());
+//    console.log($("#timestamp").val());
+//    console.log($("#appId").val());
+//    $().ready(function(){
+//
+//    });
+</script>
+</body>
+</html>

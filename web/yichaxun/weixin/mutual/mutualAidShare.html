@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>中安健康疼痛互助金</title>
+    <script src="../js/jquery-3.0.0.min.js"></script>
+    <script src="../js/oweJquery.js"></script>
+    <link rel="stylesheet" href="css/mutualAid.css"/>
+    <script>
+
+        function getRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("!");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+        var aidmemberid = getRequest().aidmemberid;
+        if(aidmemberid=='undefined'||aidmemberid==undefined||aidmemberid==null||aidmemberid==''||aidmemberid=='null'){
+            aidmemberid=''
+        }
+
+    </script>
+</head>
+<body>
+<img class="topImg" src="icon/banner1.jpg" alt=""/>
+<!--会员卡-->
+<div class="memberCard">
+    <div class="memberNumBox">
+        <div class="lf memberBoxLf">
+            <p class="memberNum">会员：---</p>
+            <p class="memberJoin">您还未加入中安健康疼痛互助金</p>
+        </div>
+        <!--<img  class="rt" src="../iconTwo/back-arrow@2x.png" alt=""/>-->
+        <!--<span class="memberDetails rt">明细</span>-->
+    </div>
+    <div class="mutualAid">互助金：<span>0.00元</span></div>
+</div>
+<div class="line" style="height: 0.26rem;background: #f2f2f2;"></div>
+<!--了解中安健康疼痛互助金-->
+<div class="withMutualAid">
+    <p class="knowMutualAid">了解中安健康疼痛互助金</p>
+    <div class="knowMutualAidDetails">
+        <p class="one joincount">54555人</p>
+        <p class="two">加入人数</p>
+    </div>
+    <div class="knowMutualAidDetails">
+        <p class="one totalaidmoney">2000元</p>
+        <p class="two">已互助金额</p>
+    </div>
+    <div class="knowMutualAidDetails">
+        <p class="one aideventcount">2起</p>
+        <p class="two">互助事件</p>
+    </div>
+</div>
+<div class="line" style="height: 0.26rem;background: #f2f2f2;"></div>
+<!--互助规则-->
+<p class="assistanceRule"><span>互助规则</span></p>
+<p class="joinMoney">加入金额&nbsp;&nbsp;<span>3元</span> <img class="rt" src="icon/arrow.png" alt=""/></p>
+<div class="joinMoneyBox">
+</div>
+<p class="basicNeeds">基本需求&nbsp;&nbsp;<span>无年龄限制，身体健康</span> <img class="rt" src="icon/arrow.png" alt=""/></p>
+<div class="basicNeedsBox">
+</div>
+<p class="balanceRequirement">余额要求&nbsp;&nbsp;<span>账户余额<3元，失去互助资格</span> <img class="rt" src="icon/arrow.png" alt=""/></p>
+<div class="balanceRequirementBox">
+</div>
+<p class="observationPeriod">观察期&nbsp;&nbsp;&nbsp;<span>90-180天</span> <img class="rt" src="icon/arrow.png" alt=""/></p>
+<div class="observationPeriodBox">
+</div>
+<div class="conventionRules">
+    <p>
+        <span>《中安健康互助金公约》</span><span>《详细规则》</span>
+    </p>
+</div>
+<div class="line" style="height: 0.26rem;background: #f2f2f2;"></div>
+<!--互助申请流程-->
+<p class="applicationProcess">互助申请流程</p>
+<div class="applicationProcessTitle">
+    <span class="lf report" style="height: 1.15rem;border-bottom: 0.05rem solid #ff5000">报案</span>
+    <span class="lf submissionMaterials">提交材料</span>
+    <span class="lf audit">审核</span>
+    <span class="lf publicity">公示</span>
+    <span class="lf delivery">给付</span>
+</div>
+<p class="applicationProcessDetails">申请人可以通过中安大健康进互助平台，申请互助</p>
+<div class="line" style="height: 0.26rem;background: #f2f2f2;"></div>
+<div class="lineOne lf">
+    <img src="icon/icon-1.png" alt=""/>
+    <p>资金安全透明</p>
+</div>
+<div class="lineTwo lf">
+    <img src="icon/icon-2.png" alt=""/>
+    <p>案件笔笔公开</p>
+</div>
+<div class="lineThree lf">
+    <img src="icon/icon-3.png" alt=""/>
+    <p>专业查勘审核</p>
+</div>
+<div class="clear line" style="height: 0.26rem;background: #f2f2f2;margin-bottom: 1.6rem"></div>
+
+<!--底部导航-->
+<!--<div class="footer_T">-->
+    <!--<div  class="footer_T_1 lf">-->
+        <!--<img src="icon/no-select-icon2@2x.png" alt=""/>-->
+        <!--<p >了解互助金</p>-->
+    <!--</div>-->
+    <!--<div class="footer_T_2 lf">-->
+        <!--<img src="icon/no-select--icon2@2x.png" alt=""/>-->
+        <!--<p  >公示</p>-->
+    <!--</div>-->
+    <!--<div class="footer_T_3 lf">-->
+        <!--<img src="icon/no-select-icon3@2x.png" alt=""/>-->
+        <!--<p  >报案</p>-->
+    <!--</div>-->
+<!--</div>-->
+
+<script>
+
+
+    var report,submissionMaterials,audit,publicity,delivery;
+
+    $('.joinMoney').click(function(){
+        if($('.joinMoneyBox').css('display')=="none"){
+            $('.joinMoneyBox').css('display','block');
+            $(this).find('img').attr('src','icon/arrow2.png')
+        }else{
+            $('.joinMoneyBox').css('display','none')
+            $(this).find('img').attr('src','icon/arrow.png')
+        }
+    });
+    $('.basicNeeds').click(function(){
+        if($('.basicNeedsBox').css('display')=="none"){
+            $('.basicNeedsBox').css('display','block')
+            $(this).find('img').attr('src','icon/arrow2.png')
+        }else{
+            $('.basicNeedsBox').css('display','none')
+            $(this).find('img').attr('src','icon/arrow.png')
+        }
+    });
+    $('.balanceRequirement').click(function(){
+        if($('.balanceRequirementBox').css('display')=="none"){
+            $('.balanceRequirementBox').css('display','block')
+            $(this).find('img').attr('src','icon/arrow2.png')
+        }else{
+            $('.balanceRequirementBox').css('display','none')
+            $(this).find('img').attr('src','icon/arrow.png')
+        }
+    });
+    $('.observationPeriod').click(function(){
+        if($('.observationPeriodBox').css('display')=="none"){
+            $('.observationPeriodBox').css('display','block')
+            $(this).find('img').attr('src','icon/arrow2.png')
+        }else{
+            $('.observationPeriodBox').css('display','none')
+            $(this).find('img').attr('src','icon/arrow.png')
+        }
+    });
+    //互助申请流程
+    $('.applicationProcessTitle span').click(function(){
+        $(this).css('border-bottom','0.05rem solid #ff5000').css('height','1.15rem');
+        $(this).siblings().css('border-bottom','0').css('height','1.2rem');
+    })
+    $.ajax({
+        url:'/aidmoney/knowaidmoneypage',
+        type:'post',
+        data:'aidmemberid='+aidmemberid,
+        success:function(data){
+            if(data.code==0){
+                if(data.data.aidmemberid){
+                    $('.memberNum').html('会员：'+data.data.aidmemberid);
+                }
+                if(data.data.aidmoney){
+                    $('.mutualAid span').html(data.data.aidmoney+'元');
+                }
+
+                $('.joincount').html(data.data.joincount+'人');
+                $('.totalaidmoney').html(data.data.totalaidmoney+'元');
+                $('.aideventcount').html(data.data.aideventcount+'起');
+                $('.joinMoney span').html(data.data.joinMoney_breiftext);
+                $('.basicNeeds span').html(data.data.baseRequirement_breiftext);
+                $('.balanceRequirement span').html(data.data.balanceRequirement_breiftext);
+                $('.observationPeriod span').html(data.data.observationPeriod_breiftext);
+
+                $('.joinMoneyBox').html(data.data.joinMoney_text);
+                $('.basicNeedsBox').html(data.data.baseRequirement_text);
+                $('.balanceRequirementBox').html(data.data.balanceRequirement_text);
+                $('.observationPeriodBox').html(data.data.observationPeriod_text);
+
+                report=data.data.aidapplyflow_apply;
+                submissionMaterials=data.data.aidapplyflow_submitmaterial;
+                audit=data.data.aidapplyflow_audit;
+                publicity=data.data.aidapplyflow_show;
+                delivery=data.data.aidapplyflow_remit;
+            }
+        }
+    });
+
+
+    //        报案流程点击详情
+    //report,submissionMaterials,audit,publicity,delivery;
+    $('.report').click(function(){
+        $('.applicationProcessDetails').html(report)
+    });
+    $('.submissionMaterials').click(function(){
+        $('.applicationProcessDetails').html(submissionMaterials)
+    });
+    $('.audit').click(function(){
+        $('.applicationProcessDetails').html(audit)
+    });
+    $('.publicity').click(function(){
+        $('.applicationProcessDetails').html(publicity)
+    });
+    $('.delivery').click(function(){
+        $('.applicationProcessDetails').html(delivery)
+    });
+
+    //        明细
+//    $('.memberCard').click(function(){
+//        location.href="memberDetails.html?aidmemberid="+aidmemberid;
+//    })
+</script>
+</body>
+</html>

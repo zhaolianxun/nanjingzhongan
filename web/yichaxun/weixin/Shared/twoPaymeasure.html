@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="Crowdfunding/css/twoPaymeasure.css"/>
+    <script src="../js/jquery-3.0.0.min.js"></script>
+    <title class="titleTop">支付</title>
+
+    <style>
+        .tanchuang1{
+            display: none;
+            position: fixed;
+            width: 60%;
+            height: 125px;
+            top:30%;
+            right:20%;
+            background: #fff;
+            z-index: 200;
+            overflow: auto;
+            border-radius: 7px;
+        }
+        .wenzi{
+            position: absolute;
+            display: block;
+            width: 100%;
+            text-align: center;
+            height: 80px;
+            line-height: 30px;
+            top: 20px;
+            /*right: 40px;*/
+        }
+        .btnbtn{
+            /*position: absolute;*/
+            margin-top: 75px;
+            font-size: 16px;
+            color: #ff9a00;
+            width: 100%;
+            text-align: center;
+            height: 44.5px;
+            line-height: 44.5px;
+            display: inline-block;
+            border-top: 0.5px solid #e5e5e5;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="payMeasure" >
+        <div class="title">
+            <p></p>
+        </div>
+        <div class="payMoney">
+            <div class="payMoneyOne">付款金额</div>
+            <div class="payMoneyTwo"><p class="lf">￥</p><input class="lf payMoneyInput" type="number"/></div>
+        </div>
+        <div class="button">
+            <button disabled >确认</button>
+        </div>
+        <p class="seeDetails rt">查看明细</p>
+    </div>
+    <div class="over" style="display: none">
+        <img src="Crowdfunding/icon/pay_icon-5@2x.png" alt=""/>
+        <p>支付成功</p>
+    </div>
+    <!--弹窗-->
+    <div class="tanchuang1" style="display: none">
+        <span class="wenzi"></span>
+        <span class="btnbtn">OK</span>
+    </div>
+    <script>
+        $('.btnbtn').click(function(){
+            $('.tanchuang1').css('display','none');
+        })
+    </script>
+    <script>
+        var hospitalOfficeId,hospitalName,hospitalOfficeName,hospitalId;
+        $().ready(function(){
+            hospitalName=localStorage.getItem('hospitalName1');
+            hospitalOfficeName=localStorage.getItem('hospitalOfficeName1');
+            hospitalOfficeId=localStorage.getItem('hospitalOfficeId1');
+            hospitalId=localStorage.getItem('hospitalId1');
+            $('.title p').html('向'+hospitalName+hospitalOfficeName+'付款')
+//            alert(hospitalName)
+//            alert(hospitalOfficeName)
+//            alert(hospitalOfficeId)
+//            alert(hospitalId)
+        })
+        $('input').bind('input propertychange',function(){
+            if($(this).val()!=''){
+                $('button').attr({"disabled":false}).css('color','#ffffff').css('background','#4179ce');
+            }
+        });
+        $('button').click(function(){
+            var hospitalOrderAmount=$('.payMoneyInput').val();
+            $('button').attr({"disabled":true})
+            $.ajax({
+                url:'/yichaxun/u/hospitalorder',
+                data:'hospitalOfficeId='+hospitalOfficeId+"&hospitalOrderAmount="+hospitalOrderAmount,
+                async:true,
+                headers:{yccClient:'YCCGX'},
+                type:'post',
+                success:function(data){
+                    if(data.code==0){
+                        $('.payMeasure').css('display','none');
+                        $('.over').css('display','block');
+                        document.title = '付款成功';
+                    }else if(data.code==20||data.code==26){
+                        location.href='Tlogin.html'
+                    }else{
+                        $('.tanchuang1').css('display','block');
+                        $('.wenzi').html(data.message);
+                        $('button').attr({"disabled":false})
+                    }
+                }
+            })
+//            $(this).attr({"disabled":true}).css('color','#ffffff').css('background','#4179ce');
+        })
+        $('.seeDetails').click(function(){
+            location.href="twoDetails.html"
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>医疗健康储备金</title>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="js/oweJquery.js"></script>
+    <link rel="stylesheet" href="Shared/Crowdfunding/css/sMedicalRebate.css"/>
+    <link rel="stylesheet" href="css/dropload.css">
+    <script src="js/dropload.min.js"></script>
+    <script src="js/public.js"></script>
+    <style>
+        .dropload-down{
+            display: none;
+        }
+        .btnDiv{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1.6rem;
+            border-top:0.01rem solid #e5e5e5;
+            background: #fff;
+        }
+        .btnDiv button{
+            width: 9.2rem;
+            height: 1.06rem;
+            margin-top: 0.26rem;
+            margin-left: 0.4rem;
+            /*margin: 0.26rem 0.4rem 0.26rem;*/
+            border-radius: 0.16rem;
+            border: 0;
+            background: #ff8200;
+            font-size: 0.42rem;
+            text-align: center;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <!--<div class="topBgColor"></div>-->
+    <img class="topBgColor" src="images/img6@2x.png" alt=""/>
+    <div class="topBox">
+        <p>总额</p>
+        <p>4983.00</p>
+    </div>
+    <div style="height: 0.26rem;background: #f2f2f2;width: 100%;margin-top: 1.25rem"></div>
+    <div class="details">
+        <p class="lf"><span style="border-bottom: 0.02rem solid #ff8200;" class="lookDetails">查看明细</span></p><p class="rt"><span class="incomeDetails">收益说明</span></p>
+    </div>
+    <ul class="searchDetails">
+        <!--<li>-->
+            <!--<div class="liLeft lf">-->
+                <!--<p>向XXX支付</p>-->
+                <!--<p>2015-12-19 10:20</p>-->
+            <!--</div>-->
+            <!--<div class="liRight rt">-->
+                <!--<span>-100</span>-->
+            <!--</div>-->
+        <!--</li>-->
+    </ul>
+    <div class="incomeDetailsAll"  style="display: none">
+        <!--返利说明-->
+        <div class="rebateDescription" >
+            <p class="rebateDescriptionTitle">返利说明</p>
+            <p class="rebateDescriptionDetails">1.购买单件商品可获得对应的医疗币，可累计</p>
+            <p class="rebateDescriptionDetails">2.获取医疗币可在“我的-医疗返点”进行查看</p>
+            <p class="rebateDescriptionDetails">3.医疗币可以在合作医院门店看病时抵扣现金</p>
+        </div>
+
+        <!--返利说明-->
+        <div class="rebateGain">
+            <p class="rebateDescriptionTitle">更多返利获得方式</p>
+            <p class="rebateDescriptionDetails">1.加入会员可享受会员优惠价，优惠购买</p>
+            <p class="rebateDescriptionDetails">2.获得的收益可在“我的-我的卡”进行查看</p>
+            <p class="rebateDescriptionDetails">3.购买“共享医疗-疼痛无忧卡”可获得对应的收益，成功加入会员</p>
+            <p class="rebateDescriptionDetails">4.收益可在合作医院门店看病时抵扣现金</p>
+        </div>
+    </div>
+
+    <div class="btnDiv">
+            <button class="btnBuy">去使用</button>
+    </div>
+    <script>
+
+        var page_size = 15;
+        page_no = 0;
+        $('.searchDetails').dropload({
+            scrollArea: window,
+            loadDownFn: function (me) {
+
+                page_no++;
+                // 拼接HTML
+                var result = '';
+                $.ajax({
+                    url:'/yichaxun/page/userMedicalcoinDetail',
+                    type:'post',
+                    data:'page_no='+page_no+"&page_size="+page_size,
+                    async: true,
+                    headers:{yccClient:'YCCGX'},
+                    dataType: 'json',
+                    success: function (data) {
+                        var arrLen = data.data.items.length;
+                        var m;
+
+                        $('.topBox p:last-child').html(data.data.sum.totalAmount);
+                        if (arrLen > 0) {
+                            for (var i = 0; i < arrLen; i++) {
+
+                                if(data.data.items[i].amount>0){
+                                    m='+'+data.data.items[i].amount
+                                }else{
+                                    m=data.data.items[i].amount
+                                }
+
+                                result += ' <li>'+
+                                            '<div class="liLeft lf">'+
+                                            '<p>'+data.data.items[i].title+'</p>'+
+                                            '<p>'+_formatDates(data.data.items[i].addTime/1000)+'</p>'+
+                                            '</div>'+
+                                            '<div class="liRight rt">'+
+                                            '<span>'+m+'</span>'+
+                                            '</div>'+
+                                            '</li>'
+                            }
+
+                            // 如果没有数据
+                        } else {
+                            // 锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                        }
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function () {
+                            // 插入数据到页面，放到最后面
+                            $('.searchDetails').append(result);
+                            // 每次数据插入，必须重置
+                            me.resetload();
+                        }, 100);
+                    },
+                    error: function (xhr, type) {
+//                                    alert('Ajax error!');
+                        // 即使加载出错，也得重置
+                        me.resetload();
+                    }
+                });
+            }
+        });
+
+
+
+//        查看明细
+        $('.lookDetails').click(function(){
+            $('.searchDetails').css('display','block');
+            $('.incomeDetailsAll').css('display','none');
+            $('.lookDetails').css('border-bottom','0.02rem solid #ff6c2c');
+            $('.incomeDetails').css('border-bottom','none')
+        })
+//        收益明细
+        $('.incomeDetails').click(function(){
+            $('.searchDetails').css('display','none');
+            $('.incomeDetailsAll').css('display','block');
+            $('.incomeDetails').css('border-bottom','0.02rem solid #ff6c2c');
+            $('.lookDetails').css('border-bottom','none')
+        });
+        $('.btnDiv button').click(function(){
+            location.href='Shared/Tpaymeasure.html';
+            localStorage.setItem('yuE',$('.topBox p:last-child').html())
+        })
+
+    </script>
+</body>
+</html>

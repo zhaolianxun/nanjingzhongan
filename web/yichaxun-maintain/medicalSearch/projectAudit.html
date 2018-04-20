@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>项目列表</title>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css" />
+</head>
+
+<body>
+<div class="admin-main">
+
+    <blockquote class="layui-elem-quote">
+        <label class="layui-form-label">项目名称：</label>
+        <input id="keyword" style="width: 20%;display: inline-block;" type="text" class="layui-input" placeholder="请输入项目名称">
+        <a href="javascript:;" class="layui-btn layui-btn-small" id="search">
+            <i class="layui-icon">&#xe615;</i> 搜索
+        </a>
+    </blockquote>
+
+    <fieldset class="layui-elem-field">
+        <legend>申请列表</legend>
+        <div class="layui-field-box">
+            <table class="site-table table-hover">
+                <thead>
+                <tr>
+                    <th>器械ID</th>
+                    <th>器械名称</th>
+                    <th>申请时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <div class="admin-table-page">
+        <div id="page" class="page"></div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: 'plugins/layui/modules/'
+    });
+
+    layui.use(['icheck', 'laypage','layer'], function() {
+        var $ = layui.jquery,
+                laypage = layui.laypage,
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+        var totalPage;
+        var schemeName = '';
+        var toPageNo = '';
+        //数据获取
+        function getData(){
+            $.ajax( {
+                type: 'POST',
+                async: false,
+                data: {medicalSchemeName:schemeName,medicalSchemeStatus:'APPLIED',toPageNo:toPageNo},
+                url: '../m/medicalschemelist',
+                success: function(data){
+                    if(data.code == 0){
+                        $('#tbody').children().remove();
+                        var data = data.data;
+                        totalPage = data.sum.totalPageCount;
+                        console.log(data);
+                        /*for(var i in data.items){
+                            $('#tbody').append('<tr>' +
+                            '<td>'+ data.items[i].dataId +'</td>' +
+                            '<td>'+ data.items[i].dataTitle +'</td>' +
+                            '<td>'+ new Date(parseInt(data.items[i].dataAddTime)).toLocaleString() +'</td>' +
+                            '<td>审核中</td>' +
+                            '<td><a href="javascript:;" class="pass layui-btn layui-btn-normal layui-btn-mini">通过</a></td>' +
+                            '</tr>');
+                        }*/
+                    }else if(data.code == 20){
+                        alert('登录已失效，请重新登录！！');
+                        window.parent.location.href = 'login.html';
+                    }
+                }
+            } );
+        }
+        getData();
+        rePage();
+        //刷新页号
+        function rePage(){
+            //page
+            laypage({
+                cont: 'page',
+                pages: totalPage,//总页数
+                groups: 5  ,//连续显示分页数
+                jump: function(obj, first) {
+                    //得到了当前页，用于向服务端请求对应数据
+                    var curr = obj.curr;
+                    if(!first) {
+                        toPageNo = obj.curr;
+                        getData();
+                        layer.msg('第 '+ obj.curr +' 页');
+                    }
+                }
+            });
+        }
+        //关键词搜索
+        $('#search').on('click', function() {
+            toPageNo = 1;
+            keyword = $('#keyword').val();
+            getData();
+            rePage();
+        });
+
+        $('#tbody').on('click','a.pass',function(){
+            var id = $(this).parent().parent().children('td:first').html();
+            var me = $(this).parent().parent();
+            layer.open({
+                type: 1
+                ,title: false //不显示标题栏
+                ,closeBtn: false
+                ,area: '300px;'
+                ,shade: 0.8
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确定要通过该项目审核吗？</div>'
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        $.ajax( {
+                            type: 'POST',
+                            data: {dataId:id,dataAuditStatus:'PASS'},
+                            url: '../m/dataalter',
+                            success: function(data){
+                                if(data.code == 0){
+                                    layer.msg('操作成功！', {
+                                        time: 2000
+                                    });
+                                    me.remove();
+                                }else if(data.code == 20){
+                                    alert('登录已失效，请重新登录！！');
+                                    window.parent.location.href = 'login.html';
+                                }
+                            }
+                        } )
+                    });
+                }
+            });
+        })
+    });
+</script>
+</body>
+</html>

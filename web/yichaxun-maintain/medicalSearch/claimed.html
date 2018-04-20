@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>厂商列表</title>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css" />
+    <style>#tbody>tr>td>img{max-height: 50px;}#tbody>tr>td>img:hover{cursor:pointer;}</style>
+</head>
+
+<body>
+<div class="admin-main">
+
+    <blockquote class="layui-elem-quote">
+        <label class="layui-form-label">厂商名称：</label>
+        <input id="name" style="width: 20%;display: inline-block;" type="text" class="layui-input" placeholder="请输入厂商名称">
+        <a href="javascript:;" class="layui-btn layui-btn-small" id="search">
+            <i class="layui-icon">&#xe615;</i> 搜索
+        </a>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>厂商列表</legend>
+        <div class="layui-field-box">
+            <table class="site-table table-hover">
+                <thead>
+                <tr>
+                    <th>厂商ID</th>
+                    <th>厂商名称</th>
+                    <th>管理员</th>
+                    <th>手机号</th>
+                    <th>联系电话</th>
+                    <th>网址</th>
+                    <th>认领资料</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <div class="admin-table-page">
+        <div id="page" class="page"></div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+    var totalPage;
+    var name = '';
+    var status = 'AUTH';
+    var childStatus = '';
+    var action = '';
+    layui.config({
+        base: 'plugins/layui/modules/'
+    });
+
+    layui.use(['icheck', 'laypage','layer'], function() {
+        var $ = layui.jquery,
+                laypage = layui.laypage,
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+
+        var toPageNo = '';
+        function getData(){
+            $.ajax( {
+                type: 'GET',
+                async: false,
+                data: {corporationName:name, corporationAdminAuthStatus:status, toPageNo:toPageNo},
+                url: '../corporation/list',
+                success: function(data){
+                    if(data.code == 0){
+                        $('#tbody').children().remove();
+                        var data = data.data;
+                        totalPage = data.sum.totalPageCount;
+                        for(var i in data.items){
+                            if(data.items[i].corporationAdminAuthStatus =="NOTAUTH"){
+                                var status = '未认证';
+                            }else if(data.items[i].corporationAdminAuthStatus =="AUTHAUDITING"){
+                                var status = '审核认证中';
+                            }else if(data.items[i].corporationAdminAuthStatus =="AUTHREFUSE"){
+                                var status = '认证拒绝';
+                            }else if(data.items[i].corporationAdminAuthStatus =="AUTH"){
+                                var status = '已认证';
+                            }
+                            $('#tbody').append('<tr>' +
+                            '<td>'+ data.items[i].corporationId +'</td>' +
+                            '<td>'+ data.items[i].corporationName +'</td>' +
+                            '<td>'+ data.items[i].adminUserRealname +'</td>' +
+                            '<td>'+ data.items[i].adminUserPhone +'</td>' +
+                            '<td>'+ data.items[i].corporationTel +'</td>' +
+                            '<td>'+ data.items[i].corporationSite +'</td>' +
+                            '<td><img src="'+ data.items[i].corporationLicense +'"></td>' +
+                            '<td><a href="javascript:;" class="cancel layui-btn layui-btn-danger layui-btn-mini">取消认证</a></td>' +
+                            '</tr>');
+                        }
+                    }else if(data.code == 20){
+                        alert('登录已失效，请重新登录！！');
+                        window.parent.location.href = 'login.html';
+                    }
+                }
+            } );
+        }
+        getData();
+        rePage();
+        function rePage(){
+            //page
+            laypage({
+                cont: 'page',
+                pages: totalPage,//总页数
+                groups: 5  ,//连续显示分页数
+                jump: function(obj, first) {
+                    //得到了当前页，用于向服务端请求对应数据
+                    var curr = obj.curr;
+                    if(!first) {
+                        toPageNo = obj.curr;
+                        getData();
+                        layer.msg('第 '+ obj.curr +' 页');
+                    }
+                }
+            });
+        }
+        //筛选查找
+        $('#search').on('click', function() {
+            name = $('#name').val();
+            getData();
+            rePage();
+        });
+
+        $('#tbody').on('click','img',function(){
+            var path = $(this).attr('src');
+            layer.open({
+                type: 1
+                ,title: false //不显示标题栏
+                ,closeBtn: true
+                ,area: '800px;'
+                ,shade: 0.8
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<img style="width: 100%;" src="'+ path +'">'
+            });
+        })
+        //取消认证
+        $('#tbody').on('click','a.cancel',function(){
+            var id = $(this).parent().parent().children('td:first').html();
+            var me = $(this).parent().parent();
+            layer.open({
+                type: 1
+                ,title: false //不显示标题栏
+                ,closeBtn: false
+                ,area: '400px;'
+                ,shade: 0.8
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确定要取消此用户的管理员认证吗？<br/>取消后不可恢复！<br/><br/><br/><input id="reason" type="text" style="width: 100%;padding: 5px;"><p style="color: red;">*请输入取消管理员原因，必填<br/></p></div>'
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        var reason = $(this).parent().parent().children().children().children('input').val();
+                        if(reason != ''){
+                            $.ajax( {
+                                type: 'POST',
+                                data: {corporationId:id,corporationAdminAuthRefuseReason :reason},
+                                url: '../corporation/adminauthrefuse',
+                                success: function(data){
+                                    if(data.code == 0){
+                                        layer.msg('取消成功！', {
+                                            time: 2000
+                                        });
+                                        me.remove();
+                                    }else if(data.code == 20){
+                                        alert('登录已失效，请重新登录！！');
+                                        window.parent.location.href = 'login.html';
+                                    }
+                                }
+                            } )
+                        }else{
+                            layer.msg('请先填写取消管理员原因')
+                        }
+                    });
+                }
+            });
+        })
+    });
+</script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var form = layui.form(),
+                layer = layui.layer,
+                layedit = layui.layedit,
+                laydate = layui.laydate;
+    });
+</script>
+</body>
+</html>

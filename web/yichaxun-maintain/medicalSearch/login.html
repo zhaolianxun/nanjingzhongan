@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>登录</title>
+		<link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="css/login.css" />
+	</head>
+
+	<body class="beg-login-bg" style="width: 100%;margin: 0;background-image: url(images/background.jpg);background-repeat: no-repeat;background-size: cover;">
+		<div class="beg-login-box">
+			<header>
+				<h1>后台登录</h1>
+			</header>
+			<div class="beg-login-main" id="loginBox">
+				<form class="layui-form" method="post">
+					<div class="layui-form-item">
+						<label class="beg-login-icon">
+                        <i class="layui-icon">&#xe612;</i>
+                    </label>
+						<input type="text" name="userName" lay-verify="userName" autocomplete="off" placeholder="请输入登录名" class="layui-input">
+					</div>
+					<div class="layui-form-item">
+						<label class="beg-login-icon">
+                        <i class="layui-icon">&#xe642;</i>
+                    </label>
+						<input type="password" name="password" lay-verify="password" autocomplete="off" placeholder="请输入密码" class="layui-input">
+					</div>
+					<div class="layui-form-item">
+                        <div class="beg-pull-left">
+                            <a id="edit" style="line-height: 38px" href="javascript:;">修改密码</a>
+                        </div>
+						<div class="beg-pull-right">
+							<button class="layui-btn layui-btn-primary" lay-submit lay-filter="login">
+                            <i class="layui-icon">&#xe650;</i> 登录
+                        </button>
+						</div>
+						<div class="beg-clear"></div>
+					</div>
+				</form>
+			</div>
+
+            <div class="beg-login-main">
+                <form class="layui-form" method="post">
+                    <div class="layui-form-item">
+                        <label class="beg-login-icon">
+                            <i class="layui-icon">&#xe612;</i>
+                        </label>
+                        <input type="text" name="uName" placeholder="请输入登录名" class="layui-input">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="beg-login-icon">
+                            <i class="layui-icon">&#xe642;</i>
+                        </label>
+                        <input type="password" name="oldPass" placeholder="请输入旧密码" class="layui-input">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="beg-login-icon">
+                            <i class="layui-icon">&#xe614;</i>
+                        </label>
+                        <input type="password" name="newPass" placeholder="设置新密码" class="layui-input">
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="beg-pull-left">
+                            <a id="toLogin" style="line-height: 38px" href="javascript:;">返回登录</a>
+                        </div>
+                        <div class="beg-pull-right">
+                            <button class="layui-btn layui-btn-primary" lay-submit lay-filter="sure">
+                                确认
+                            </button>
+                        </div>
+                        <div class="beg-clear"></div>
+                    </div>
+                </form>
+            </div>
+		</div>
+		<script type="text/javascript" src="plugins/layui/layui.js"></script>
+		<script>
+			layui.use(['layer', 'form'], function() {
+				var layer = layui.layer,
+					$ = layui.jquery,
+					form = layui.form();
+
+                $('#edit').on('click',function(){
+                    $("#loginBox").slideUp("500");
+                });
+                $('#toLogin').on('click',function(){
+                    $("#loginBox").slideDown("500");
+                });
+                form.verify({
+                    uName: function(value) {
+                        if(value.length < 5) {
+                            return '登录名至少5个字符';
+                        }
+                    },
+                    oldPass: [/(.+){6,12}$/, '密码必须6到12位'],
+                    newPass: [/(.+){6,12}$/, '密码必须6到12位']
+                });
+					
+				form.on('submit(login)',function(){
+                    var name = $('[name="userName"]').val();
+                    var pass = $('[name="password"]').val();
+                    $.ajax( {
+                        type: 'POST',
+                        data: {mtUserName:name,mtUserPassword:pass},
+                        url: '../mtuser/login',
+                        success: function(data){
+                            if(data.code == 0){
+                                localStorage.setItem('module',data.data.mtUserModule);
+                                localStorage.setItem('userName',name);
+                                if(data.data.hospitalId){localStorage.setItem('hospitalId',data.data.hospitalId)}
+                                if(data.data.hospitalName){localStorage.setItem('hospitalName',data.data.hospitalName)}
+                                if(data.data.hospitalOfficeId){localStorage.setItem('officeId',data.data.hospitalOfficeId)}
+                                if(data.data.hospitalOfficeName){localStorage.setItem('officeName',data.data.hospitalOfficeName)}
+                                location.href ='index.html';
+                            }else{
+                                layer.msg(data.message)
+                            }
+                        }
+                    } );
+					return false;
+				});
+
+                form.on('submit(sure)',function(){
+                    var name = $('[name="uName"]').val();
+                    var oldPass = $('[name="oldPass"]').val();
+                    var newPass = $('[name="newPass"]').val();
+                    $.ajax({
+                        type:'POST',
+                        data:{username:name,oldPassword:oldPass,password:newPass},
+                        url:'../mtuserpwd',
+                        success: function(data){
+                            if(data.code==0){
+                                layer.msg('修改成功！');
+                                $("#loginBox").slideDown("500");
+                            }else{
+                                layer.msg(data.message)
+                            }
+                        },
+                        error: function(){
+                            alert('请求错误，请稍后再试...');
+                        }
+                    });
+                    return false;
+                });
+			});
+		</script>
+	</body>
+
+</html>

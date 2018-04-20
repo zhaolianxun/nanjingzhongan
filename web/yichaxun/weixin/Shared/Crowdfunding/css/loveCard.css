@@ -1,0 +1,194 @@
+html,body{
+    overflow-x: hidden;
+    height: 100%;
+}
+body{
+    padding: 0;
+    margin: 0;
+    /*text-align: center;*/
+    width: 100%;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -moz-user-select: none;
+    -webkit-appearance:none;
+    outline: none;
+    /*overflow: hidden;*/
+    background-color: #ffffff;
+}
+.lf{
+    float: left;
+}
+.rt{
+    float: right;
+}
+.clear{
+    clear: both;
+}
+p{
+    margin: 0;
+    padding: 0;
+}
+.linkage{
+    height: 45px;
+    border-bottom: 0.5px solid #e5e5e5;
+    width: 100%;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+}
+/*关爱卡*/
+.contain{
+    background-color: #ffffff;
+}
+.loveCardLine{
+    margin-top: 56px;
+}
+.card{
+    background: url("../iconLove/card_icon4@2x.png");
+    background-size: 100% 100%;
+    margin: 10px 15px 0;
+    height: 123px;
+}
+.cardLeft{
+    width: 39%;
+    /*display: inline-block;*/
+    height: 103px;
+    margin-top: 10px;
+    border-right: 1px solid #ffffff;
+    text-align: center;
+}
+.cardRight{
+    width: 59%;
+    /*display: inline-block;*/
+    height: 103px;
+    position: relative;
+}
+.cardLeftTop{
+    height: 60px;
+    width: 100%;
+    margin-top:15px;
+}
+
+.sale{
+    font-size: 12px;
+    color: #ffffff;
+    margin-top: 20px;
+
+}
+.sale span{
+    font-size: 30px;
+    color: #ffffff;
+}
+.endTime{
+    font-size: 12px;
+    color: #ffffff;
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+/*卡券右侧*/
+.cardRightTop{
+    margin: 15px 6% 8px 3%;
+}
+.p1{
+    font-size: 16px;
+    color: #fff;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.p2{
+    font-size: 12px;
+    color: #ffffff;
+    margin: 3px 0 ;
+    line-height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.hospitalName{
+    font-size: 16px;
+    color: #ffffff;
+    margin: 10px 6% 5px 3%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    position: absolute;
+    bottom: -10px;
+}
+
+/*省市区三级联动*/
+.cityLine{
+    width: 33%;
+    height: 100%;
+    line-height: 45px;
+    text-align: center;
+    font-size: 16px;
+    color: #666666;
+}
+.cityLine span{
+    margin-right: 5px;
+}
+.cityLine img{
+    width: 7px;
+    height: 3.5px;
+    position: static;
+    vertical-align: middle;
+}
+.provinceDetail,.cityDetail,.countryDetail{
+    float: left;
+    z-index: 666;
+    margin: 46px 0;
+    /*bottom: 0;*/
+    background-color: #ffffff;
+}
+.provinceDetail span,.cityDetail span,.countryDetail span{
+    padding: 8px 12.5px;
+    border-radius: 6px;
+    border: 1px solid #ffffff ;
+    /*color: #3ac9af ;*/
+    color: #666;
+    float: left;
+    font-size: 16px;
+    margin-top: 17px;
+}
+
+/*按钮标签*/
+.roundIcon{
+    width: 49px;
+    height: 49px;
+    border-radius: 50%;
+    border: 1px solid #ffffff;
+    font-size: 13px;
+    color: #ffffff;
+    line-height: 49px;
+    text-align: center;
+    position: fixed;
+    background: #ff8200;
+}
+.addDelete{
+    bottom: 75px;
+    right: 15px;
+}
+.roundIcon img{
+    position: static;
+    vertical-align: middle;
+    width: 35px;
+    /*height: 35px;*/
+    /*margin: 7px;*/
+}
+.myCard{
+    right: 15px;
+    bottom: 135px;
+}
+.searchHospital{
+    right: 15px;bottom:195px;
+}

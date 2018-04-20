@@ -1,0 +1,275 @@
+html{font-size: 32px}
+@media(min-device-width: 375px) {
+    html{font-size: 64px}
+}
+@media(min-device-width: 414px) {
+    html{font-size: 75px}
+}
+.clear{
+    clear: both;
+}
+.pop{
+    /*display: none;*/
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top:0;
+    right:0;
+    z-index: 200;
+    overflow: auto;
+}
+.arrow{
+    text-align: center;
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: auto;
+    top: 12%;
+}
+.arrow1{
+    width: 56%;
+    left: 22%;
+}
+.button_btn{
+    position: absolute;
+    top: 25%;
+    text-align: center;
+    width: 100%;
+}
+.button_btn1{
+    position: absolute;
+    display: block;
+    width: 56%;
+    height: auto;
+    left: 22%;
+}
+.money{
+    position: absolute;
+    font-size: 46px;
+    color: #fbda30;
+    text-align: center;
+    width: 100%;
+    z-index: 1000;
+    left: 0;
+}
+.prompt{
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #fbda30;
+    position: absolute;
+    top: 485px;
+}
+.btn{
+    width: 100%;
+    text-align: center;
+
+    /*color: #fbda30;*/
+    position: absolute;
+    top: 485px;
+}
+.btn button{
+    font-size: 15px;
+    width: 30%;
+    /*margin-right: 5%;*/
+    height: 30px;
+    background-color: #fbda30;
+    border: 0;
+    border-radius: 15px;
+    color: #ff0000;
+}
+.btn div{
+    display: inline-block;
+    width: 20px;
+    /*margin-right: 5%;*/
+    /*height: 30px;*/
+    /*background-color: #fbda30;*/
+    border: 0;
+    border-radius: 15px;
+}
+.btn button:first-child{
+    /*margin-left: 17.5%;*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.words1{
+    position: absolute;
+    display: inline-block;
+    width: 56%;
+    height: 41px;
+    top: 362px;
+    right: 22%;
+    border-radius: 10px;
+    border: 0;
+    background-color: #ff9a00;
+    opacity: 1;
+    font-size: 16px;
+    color: #ffffff;
+}
+.words{
+    position: absolute;
+    display: inline-block;
+    width: 7%;
+    /*height: 25px;*/
+    top: 480px;
+    right: 46.5%;
+    border-radius: 10px;
+    border: 0;
+    /*background-color: orange;*/
+    opacity: 1;
+    font-size: 16px;
+    color: #ffffff;
+}
+.pop_span{
+    position: absolute;
+    display: inline-block;
+    width: 70%;
+    /* height: 25px; */
+    top: 216px;
+    right: 15%;
+    border-radius: 10px;
+    border: 0;
+    /* background-color: orange; */
+    opacity: 1;
+    font-size: 16px;
+    color: #ffffff;
+    line-height: 22px;
+    font-size: 16px;
+    color: #fdbd13;
+    text-align: center;
+}
+
+/*没抢到*/
+.meiqiangdao{
+    /*display: none;*/
+position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: 200;
+    overflow: auto;
+}
+/*抢红包之前*/
+.before{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: 200;
+    overflow: auto;
+}
+.beforeImg{
+    width: 66% !important;
+    left: 17% !important;
+}
+.beforeTitle{
+    width: 100%;
+    position: fixed;
+    font-size: 18px;
+    color: #ffcf2f;
+    text-align: center;
+}
+.introduce{
+    position: fixed;
+    left: 40px;
+    right:40px;
+}
+.introduce p{
+    font-size: 12px;
+    color: #ffcf2f;
+    line-height: 22px;
+}
+.searchRed{
+    width: 50% !important;
+    height: 40px !important;
+    border-radius: 20px !important;
+}
+/*即将来袭*/
+.comingSoon{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: 200;
+    overflow: auto;
+}
+.comingSoonImg{
+    width: 90% !important;
+    left: 5% !important;
+}
+.searchRed{
+    font-size: 18px;
+}
+.nowCan{
+    font-size: 18px;
+    width: 40% !important;
+    height: 40px !important;
+    border-radius: 20px !important;
+}
+/*已结束*/
+.btns,.comingSoonBtn{
+    width: 100%;
+    text-align: center;
+
+    /*color: #fbda30;*/
+    position: absolute;
+    /*top: 485px;*/
+}
+.btns button{
+    font-size: 15px;
+    width: 30%;
+    /*margin-right: 5%;*/
+    height: 30px;
+    background-color: #fbda30;
+    border: 0;
+    border-radius: 15px;
+    color: #ff0000;
+}
+.over{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top:0;
+    right:0;
+    z-index: 200;
+    overflow: auto;
+}
+.beforeBtn{
+    width: 100%;
+    text-align: center;
+
+    /*color: #fbda30;*/
+    position: absolute;
+}
+.beforeBtn button{
+    font-size: 15px;
+    width: 30%;
+    /*margin-right: 5%;*/
+    height: 30px;
+    background-color: #fbda30;
+    border: 0;
+    border-radius: 15px;
+    color: #ff0000;
+}
+.comingSoonBtn button{
+    background-color: #fbda30;
+    border: 0;
+    border-radius: 20px;
+    color: #ff0000;
+}

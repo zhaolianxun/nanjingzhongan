@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title class="city">新增收货地址</title>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="js/oweJquery.js"></script>
+    <link rel="stylesheet" href="Shared/Crowdfunding/css/sNewReceivingAddress.css"/>
+    <style>
+        input::-webkit-input-placeholder {
+            color: #CCCCCC !important; /* WebKit browsers */
+        }
+        input:-moz-placeholder {
+            color: #CCCCCC !important; /*Mozilla Firefox 4 to 18 */
+        }
+        input::-moz-placeholder {
+            color: #CCCCCC !important; /* Mozilla Firefox 19+*/
+        }
+        input:-ms-input-placeholder {
+            color: #CCCCCC !important; /*Internet Explorer 10+*/
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="recipient">
+        <span class="recipientText ">收件人</span>
+        <input id="recipientValue" class="recipientValue" type="text" placeholder="输入姓名"/>
+    </div>
+    <div class="telephone">
+        <span class="telephoneText">手机号码</span>
+        <input id="telephoneValue" class="telephoneValue" type="number" placeholder="输入11位手机号码"/>
+    </div>
+    <div class="area">
+        <span class="areaText">地区</span>
+        <input id="areaValue" class="areaValue" type="text" placeholder="省、市、区"/>
+    </div>
+    <div class="detailedAddress">
+        <span class="detailedAddressText">详细地址</span>
+        <input id="detailedAddressValue" class="detailedAddressValue" type="text" placeholder="输入详细地址"/>
+    </div>
+
+    <div class="btn">
+        <button disabled>保存</button>
+    </div>
+    <script>
+
+        var address_id =localStorage.getItem('addressId');
+        var name=localStorage.getItem('name');
+        var phone=localStorage.getItem('phone');
+        var address=localStorage.getItem('address');
+
+        if(address_id!=''&&address_id!=null&&address_id!=undefined&&address_id!='null'&&address_id!='undefined'){
+            var re=new RegExp("/");
+            if(re.test(address)){
+                $(".areaValue").val(address.split("/")[0]);
+                $(".detailedAddressValue").val(address.split("/")[1]);
+            }else{
+                $(".areaValue").val(address);
+                $(".detailedAddressValue").val(address);
+            }
+
+             $(".recipientValue").val(name);
+             $(".telephoneValue").val(phone);
+
+        }
+
+        $('input').bind('input propertychange', function(){
+            var a = $(".recipientValue").val();
+            var b = $(".telephoneValue").val();
+            var c = $(".areaValue").val();
+            var d = $(".detailedAddressValue").val();
+            if(a!=''&&b!=''&&c!=''&&d!=''){
+                $('button').css('background','#ff8200').attr({"disabled":false})
+            }else{
+                $('button').css('background','#ccc').attr({"disabled":true})
+            }
+        });
+
+       $('button').click(function(){
+           $('button').attr({"disabled":true})
+           var href=localStorage.getItem('href');
+           var user_id=localStorage.getItem('userId');
+           var areaValue=$('.areaValue').val();
+           var areaValueStr   =   areaValue.replace(/\s+/g,"");
+           var address=$('.detailedAddressValue').val();
+           var addressStr   =   address.replace(/\s+/g,"");
+           var phone=$('.telephoneValue').val();
+           var name=$('.recipientValue').val();
+
+           if(address_id!=''&&address_id!=null&&address_id!=undefined&&address_id!='null'&&address_id!='undefined'){
+//               修改地址
+
+               $.ajax({
+                   url:'/yichaxun/user/address/alter',
+                   data:'user_id='+user_id+"&address="+areaValueStr+"/"+addressStr+"&name="+name+"&phone="+phone+'&address_id='+address_id,
+                   type:"post",
+                   success:function(data){
+                       if(data.code==0){
+
+                           localStorage.setItem('addressId',data.data.addressId);
+                           localStorage.setItem('address',areaValueStr+"/"+addressStr);
+                           localStorage.setItem('name',name);
+                           localStorage.setItem('phone',phone);
+                           location.href=href;
+                       }else if(data.code==99){
+                           $('button').attr({"disabled":false})
+                           alert(data.message)
+                       }else if(data.code==20||data.code==26){
+                           $('button').attr({"disabled":false})
+                           localStorage.setItem('href',location.href)
+                           location.href="Shared/Tlogin.html"
+                       }
+                   }
+               })
+           }else{
+//               新增地址
+
+               $.ajax({
+                   url:'/yichaxun/user/address/add',
+                   data:'user_id='+user_id+"&address="+areaValueStr+"/"+addressStr+"&name="+name+"&phone="+phone,
+                   type:"post",
+                   success:function(data){
+                       if(data.code==0){
+                           localStorage.setItem('addressId',data.data.addressId);
+                           localStorage.setItem('address',areaValueStr+"/"+addressStr);
+                           localStorage.setItem('name',name);
+                           localStorage.setItem('phone',phone);
+                           location.href=href;
+                       }else if(data.code==99){
+                           alert(data.message)
+                       }else if(data.code==20||data.code==26){
+                           localStorage.setItem('href',location.href)
+                           location.href="Shared/Tlogin.html"
+                       }
+                   }
+               })
+           }
+
+       })
+    </script>
+</body>
+</html>

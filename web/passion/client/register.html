@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Passion平台</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body style="background:url('images/bg.png') 0 0 no-repeat">
+<div class="leftText">
+    <p class="titleText">Passion平台</p>
+    <ul class="list">
+        <li>名医专家介绍</li>
+        <li>医院简介</li>
+        <li>著名医生团队</li>
+        <li>特色科室</li>
+        <li>活动宣传</li>
+    </ul>
+</div>
+
+<div class="loginBox">
+    <div class="loginBg">
+        <p class="loginText">注册</p>
+        <div class="inputBox">
+            <input type="text" name="phone" placeholder="手机号注册">
+        </div>
+        <div class="inputBox">
+            <input type="password" name="password" placeholder="密码">
+        </div>
+        <div class="inputBox" style="position: relative;">
+            <input type="text" name="code" placeholder="请输入短信验证码">
+            <div class="getCode" id="getCode" onclick="getCode()">获取验证码</div>
+        </div>
+        <div class="inputBox submitBox">
+            <button class="registerBtn btn" onclick="register()">注册</button>
+            <p class="register">已有账号？<a href="login.html">前往登陆</a></p>
+        </div>
+
+    </div>
+    <p class="tips tipsTop">欢迎加入Passion平台</p>
+    <p class="tips">联系电话：025-68620547</p>
+</div>
+
+<script src="libs/jquery.min.js"></script>
+<script src="libs/shake.js"></script>
+<script>
+    $(function(){
+        //回车快捷登录
+        $(document).keypress(function(e) {
+            if(e.which == 13) {
+                $(".submit").click();
+            }
+        });
+
+        $('[name="username"]').focus(function(){
+            $('[name="username"]').css('border','1px solid #ccc')
+        });
+        $('[name="password"]').focus(function(){
+            $('[name="password"]').css('border','1px solid #ccc')
+        });
+    });
+    function getCode(){
+        var phone = $('[name="phone"]').val();
+        if(phone.length != 11){
+            alert('请输入正确的手机号码');
+        }else{
+            $.ajax({
+                type: 'POST',
+                data: {phone:phone},
+                url: 'http://121.40.168.181:8082/sms/verification/send',
+                success: function(res){
+                    if(res.code == 0){
+                        alert('验证码发送成功！');
+                        var $getCode = $('#getCode');
+                        $getCode.removeAttr('onclick');
+                        $getCode.css('cursor','wait');
+                        var time = 30;
+                        var timer = setInterval(function(){
+                            time--;
+                            $getCode.html(time+' s');
+                            if(time == 0){
+                                clearInterval(timer);
+                                $getCode.html('获取验证码').bind('click',getCode).css('cursor','pointer');
+                            }
+                        },1000)
+                    }else{
+                        alert(res.codeMsg);
+                    }
+                }
+            })
+        }
+    }
+
+    function register(){
+        var phone = $('[name="phone"]').val();
+        var password = $('[name="password"]').val();
+        var code = $('[name="code"]').val();
+        if(phone == ''){
+            $('[name="phone"]').shake(2,10,400);
+        }else if(password == ''){
+            $('[name="password"]').shake(2,10,400);
+        }else if(code == ''){
+            alert('请填写验证码');
+        }else{
+            $.ajax({
+                type: 'POST',
+                async: false,
+                data: {phone: phone,verification_code:code,password: password},
+                url: '../c/u/registerbysmsverifyandlogin',
+                success: function(res){
+                    if(res.code == 0){
+                        alert('注册成功！');
+                    }else{
+                        alert(res.codeMsg);
+                    }
+                }
+            })
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>领取说明</title>
+    <script src="../js/jquery-3.0.0.min.js"></script>
+    <script src="../js/oweJquery.js"></script>
+    <style>
+        html,body{
+            overflow-x: hidden;
+        }
+        body{
+            padding: 0 0.4rem;
+            margin: 0;
+            /*text-align: center;*/
+            width: 9.2rem;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+            /*overflow: hidden;*/
+            background-color: #fff;
+        }
+        .lf{
+            float: left;
+        }
+        .rt{
+            float: right;
+        }
+        .clear{
+            clear: both;
+        }
+        html{font-size: 32px}
+        @media(min-device-width: 375px) {
+            html{font-size: 64px}
+        }
+        @media(min-device-width: 414px) {
+            html{font-size: 75px}
+        }
+        .title p{
+            font-size: 0.42rem;
+            color: #333;
+            margin: 0.53rem 0 0.48rem;
+        }
+        .titleNext, .text p{
+            font-size: 0.37rem;
+            color: #999;
+        }
+        .textNext{
+            margin-bottom: 0.34rem;
+            font-size: 0.37rem;
+            color: #999;
+        }
+        .textNext p{
+            margin: 0;
+            font-size: 0.37rem;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+<div class="title">
+    <p>如何领取</p>
+</div>
+<div class="titleNext">
+    <p>1.购买共享医疗-疼痛无忧卡，即可免费领取赠品一份</p>
+    <p>2.首页点击领赠品扫一扫，在当地合作网点即可免费挑选一份赠品</p>
+</div>
+<div class="text">
+    <p>3.合作网点</p>
+</div>
+<script>
+    $.ajax({
+        url:'/yichaxun/page/giftgetexplain',
+        type:"post",
+        success:function(data){
+            if(data.code==0){
+                for(var i=0;i<data.data.items.length;i++){
+                    var address;
+                    if(data.data.items[i].provinceName&&data.data.items[i].cityName&&data.data.items[i].districtName){
+                         address="地址："+data.data.items[i].provinceName+data.data.items[i].cityName+data.data.items[i].districtName;
+                    }else if(data.data.items[i].provinceName&&data.data.items[i].cityName&&!data.data.items[i].districtName){
+                        address="地址："+data.data.items[i].provinceName+data.data.items[i].cityName
+                    }else if(data.data.items[i].provinceName&&!data.data.items[i].cityName&&!data.data.items[i].districtName){
+                        address="地址："+data.data.items[i].provinceName
+                    }else if(!data.data.items[i].provinceName&&!data.data.items[i].cityName&&!data.data.items[i].districtName){
+                        address=''
+                    }
+                    $('.text').append('<div class="textNext">'+
+                                        '<p>'+data.data.items[i].hospitalName+'</p>'+
+                                        '<p>'+address+'</p>'+
+                                        '</div>')
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

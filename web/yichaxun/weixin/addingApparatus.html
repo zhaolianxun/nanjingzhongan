@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>编辑</title>
+    <link rel="stylesheet" href="css/addingApparatus.css"/>
+    <link rel="stylesheet" href="css/pop_p.css"/>
+
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="js/addTmpImg.js"></script>
+    <script type="text/javascript" src="js/image-file-visible.js"></script>
+    <style>
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        span img{
+            width: 20px !important;
+            height: 20px !important;
+            position: relative;
+            top: -95px;
+            left: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<!--注册人信息-->
+<div class="register" style="margin-top: 10px">
+    <div class="line" >
+        <span>注册证编号</span>
+        <input class="dataRegisterNo" type="text"  placeholder="请填写"/>
+    </div>
+    <div class="line">
+        <span>注册人名称</span>
+        <input class="dataCorporationName" type="text"  placeholder="请填写"/>
+    </div>
+    <div class="line" >
+        <span>注册人住所</span>
+        <input  class="dataCorporationAddress" type="text"  placeholder="请填写"/>
+    </div>
+    <div class="line" style="border: 0" >
+        <span>生产地址</span>
+        <input class="dataCorporationProduceAddress" type="text"  placeholder="请填写"/>
+    </div>
+</div>
+<!--代理人信息-->
+<div class="Agent" style="margin-top: 10px">
+    <div class="line" >
+        <span>代理人名称</span>
+        <input class="dataAgencyCorporationName" type="text"  placeholder="请填写"/>
+    </div>
+    <div class="line" style="border: 0">
+        <span>代理人住所</span>
+        <input class="dataAgencyCorporationAddress" type="text"  placeholder="请填写"/>
+    </div>
+</div>
+<!--产品信息-->
+<div class="product" style="margin-top: 10px">
+    <div class="line" >
+        <span>产品名称</span>
+        <input class="dataProductName" type="text"  placeholder="请填写"/>
+    </div>
+    <div class="line" style="border: 0">
+        <span>型号、规格</span>
+        <input class="dataProductModel" type="text"  placeholder="请填写"/>
+    </div>
+</div>
+<!--结构信息-->
+<div class="structure" style="margin-top: 10px">
+    <div class="line" >
+        <span>结构及组成</span>
+        <input class="dataIngredient" type="text"  placeholder="请填写"/>
+    </div>
+    <div class="line">
+        <span>适用范围</span>
+        <input class="dataScopeApplication" type="text"  placeholder="请填写"/>
+    </div>
+    <div class="line" >
+        <span>其他内容</span>
+        <input class="otherContent" type="text"  placeholder="请填写"/>
+    </div>
+    <div class="line" style="border: 0">
+        <span>备注</span>
+        <input class="dataRemark" type="text"  placeholder="请填写"/>
+    </div>
+</div>
+<!--日期信息-->
+<div class="date" style="margin-top: 10px">
+    <div class="line" >
+        <span>批准日期</span>
+        <input class="dataRatifyDate" type="text"  placeholder="请填写"/>
+    </div>
+    <div class="line" style="border: 0">
+        <span>有效期至</span>
+        <input class="dataExpireTime" type="text"  placeholder="请填写"/>
+    </div>
+</div>
+<!--产品标准信息-->
+<div class="productStandard" style="margin-top: 10px">
+    <div class="line" >
+        <span>产品标准</span>
+        <input class="dataProductStandard"  type="text"   placeholder="请填写"/>
+    </div>
+    <div class="line" style="border: 0">
+        <span>变更日期</span>
+        <input class="changeDate" type="text"  placeholder="请填写"/>
+    </div>
+</div>
+<!--添加信息-->
+<div class="productStandard news" style="margin-top: 10px">
+    <div class="line_1  add_line">
+        <div class="add_news" style="height: 100%;width: 35%">
+            <div class="add_pic lf"><img class=" lf" src="iconTwo/add@2x.png" alt=""/></div>
+            <span class="lf">添加信息</span>
+        </div>
+    </div>
+    <div class="qwe">
+
+    </div>
+    <!--删除行-->
+    <!--<div class="line_1">-->
+    <!--<div class="add_pic lf"><img class=" lf" src="iconTwo/delete-1@2x.png" alt=""/></div>-->
+    <!--<input class="addName" type="text" placeholder="请填写名称" maxlength="5"/>-->
+    <!--<input class="addContent" type="text" placeholder="请填写内容"/>-->
+    <!--</div>-->
+</div>
+<!--添加图片-->
+<div class="productStandard" style="margin-top: 10px">
+    <div class="line_1">
+        <div class="add_pic add_pics_pic lf"><img class=" lf" src="iconTwo/add@2x.png" alt=""/></div>
+        <span class="lf">添加图片</span>
+    </div>
+</div>
+
+<!--添加图片-->
+<div class="img_list_modify">
+    <form action="" id="picturesForm">
+        <div class="picture z_photo" style="margin-top: 10px;padding-top: 20px;padding-left: 15px;padding-bottom: 25.5px">
+            <!--<div class="z_addImg">-->
+            <!--<img src="icon/select-role-img3.png" alt=""/>-->
+            <!--</div>-->
+
+
+            <div  class="del_picBlobs delete_modify z_addImg" >
+                <!--<img src="icon/select-role-img3.png" alt=""/>-->
+            </div>
+            <div class="adddd" >
+                <div  class="add_picBlobs z_file lf" >
+                    <input  class="Add1" type="file" name="file" id="file" value="" accept="image/*" multiple onchange="imgChange('z_photo','z_file');" />
+                </div>
+
+                <!--<input type="file" name="file" style="width: 90px"/>-->
+            </div>
+        </div>
+    </form>
+</div>
+<div style="width: 100%">
+    <div class="overWrite" style="height: 49px;margin:0 15px;text-align:center;line-height: 49px;margin-top: 10px;
+            background: #4179ce;color: #ffffff;font-size: 16px;border-radius: 5px">完成</div>
+</div>
+<!--弹窗-->
+<div class="tanchuang1" style="display: none">
+    <span class="wenzi"></span>
+    <span class="btnbtn">OK</span>
+</div>
+
+
+<script>
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function() {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if (clientWidth >= 640) {
+                        docEl.style.fontSize = '100px';
+                    } else {
+                        docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+                    }
+                };
+
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+
+</script>
+<script>
+    $().ready(function(){
+        if( $('.z_addImg')){
+            $('.img_list_modify').css('display','none')
+        }else{
+            $('.img_list_modify').css('display','block')
+        }
+    })
+    $('.add_pics_pic').click(function(){
+        $('.img_list_modify').css('display','block')
+    })
+    $('.z_photo').on('click','.delete_span>img',function (){
+        $(this).parent().parent().remove();
+        console.log(',,,,='+$('.z_photo').length);
+        $('.z_file').css('display','block');
+        $('.adddd').css('display','');
+//        if($()){}
+    })
+    $('.delete_modify').click(function(){
+        var getDisplay = $('.z_addImg span img').css("display");
+        if( getDisplay=='none'){
+            $('.z_addImg span img').css('display','block')
+        }else{
+            $('.z_addImg span img').css('display','none')
+        }
+    });
+    $('.z_file').click(function(){
+        $('.z_addImg span img').css('display','none')
+    })
+    $('.delete').click(function(){
+        var length=$('.z_photo').children().length;
+        console.log('99='+length);
+    })
+    function imgChange(obj1, obj2) {
+        //获取点击的文本框
+        var file = document.getElementById("file");
+        //存放图片的父级元素
+        var imgContainer = document.getElementsByClassName(obj1)[0];
+        console.log(imgContainer);
+        //获取的图片文件
+        var fileList = file.files;
+        //文本框的父级元素
+        var input = document.getElementsByClassName(obj2)[0];
+        var imgArr = [];
+        var img_delete=[];;
+        //遍历获取到得图片文件
+        var length=$('.z_photo').children().length;
+        for (var i = 0; i < fileList.length; i++) {
+            console.log("103="+fileList.length);
+            console.log('105='+length);
+            var max=length+fileList.length;
+            console.log('max='+max)
+//        if(max=2){
+//            $('.delete_modify').css('margin-right','35px')
+//        }else{
+//            $('.delete_modify').css('margin-right','0px')
+//        }
+            if(max>7){
+//                alert('123')
+                $('.tanchuang1').css('display','block')
+                $('.wenzi').html('最多上传5张图片');
+//            alert("最多上传5张图片")
+            };
+            if(max<=7){
+                console.log(max)
+                var x=7-length;
+                console.log("x="+x)
+                if(fileList.length<=x){
+                    console.log('108='+fileList.length)
+                    var imgUrl = window.URL.createObjectURL(file.files[i]);
+                    var img_delete_url="icon/delete-1.png";
+                    console.log("img_delete"+img_delete)
+                    if(img_delete){
+                        img_delete.push(img_delete_url);
+                    }
+
+//                var imgUrl = window.URL.createObjectURL(file.files[i]);
+                    imgArr.push(imgUrl);
+                    var img = document.createElement("img");
+                    img.setAttribute("src", imgArr[i]);
+                    var img_del = document.createElement("img");
+                    img_del.setAttribute("src", img_delete[0]);
+
+                    var imgAdd = document.createElement("div");
+                    imgAdd.setAttribute("class", "z_addImg");
+                    var span=document.createElement("span");
+                    span.setAttribute('class','delete_span lf');
+                    span.appendChild(img_del);
+                    imgAdd.appendChild(img);
+                    imgContainer.insertBefore(imgAdd,imgContainer.childNodes[0]);
+                    imgAdd.append(span);
+                    console.log("119="+length);
+                    if(max==7){
+                        $('.z_file').css('display','none')
+                        $('.adddd').css('display','none');
+                    }
+                    if(max<7){
+                        $('.z_file').css('display','block')
+                        $('.adddd').css('display','');
+                    }
+                }
+
+            };
+        }
+    }
+</script>
+
+
+<script>
+    $('.btnbtn').click(function(){
+        $('.tanchuang1').css('display','none');
+    })
+</script>
+<!--添加信息-->
+<script>
+    $('.add_news').bind('click',function(){
+        var len=$('.news .line_1').length;
+        console.log(len);
+        if(len<5){
+            $('.qwe').append('<div class="line_1">'+
+            '<div class="del_pic  lf"><img class=" lf" src="iconTwo/delete-1@2x.png" alt=""/></div>'+
+            '<input class="addName" type="text" placeholder="请填写名称" maxlength="5"/>'+
+            '<input class="addContent" type="text" placeholder="请填写内容"/>'+
+            '</div>')
+        }else if(len=5){
+            $('.qwe').append('<div class="line_1">'+
+            '<div class="del_pic  lf"><img class=" lf" src="iconTwo/delete-1@2x.png" alt=""/></div>'+
+            '<input class="addName" type="text" placeholder="请填写名称" maxlength="5"/>'+
+            '<input class="addContent" type="text" placeholder="请填写内容"/>'+
+            '</div>')
+            $('.add_line').css('display','none')
+        }
+    })
+
+    $('.productStandard').on('click','.line_1 .del_pic ',function(){
+        $(this).parent().remove();
+        $('.add_line').css('display','block')
+    })
+
+
+</script>
+
+<!--上传数据-->
+<script>
+
+    var picBlobs= new Array();
+
+    $('.overWrite').click(function(){
+        var properties={};
+        $('.qwe>div').each(function(){
+//               var name2=$(this).find('input:first-child').val();
+//                var value2=$(this).find('input:nth-child(2)').val();
+            var name1=$(this).find('input[class="addName"]').val();
+            var value1=$(this).find('input[class="addContent"]').val();
+            properties[name1]=value1;
+            console.log(name1,value1)
+            console.log(properties)
+        })
+        console.log(properties);
+        var asd=JSON.stringify(properties);
+//        $.addTmpImgYichachaBatch('picturesForm');
+//        var dataPic=result;
+//        console.log("result="+result);
+        var changeDate=$('.changeDate').val();
+        var dataCorporationAddress= $('.dataCorporationAddress').val(); //注册人地址
+        var dataCorporationProduceAddress = $('.dataCorporationProduceAddress').val() //生产地址
+        var dataProductName= $('.dataProductName').val()  //产品名称
+        var dataProductStandard = $('.dataProductStandard').val() //产品标准
+        var dataProductModel= $('.dataProductModel').val()//型号，规格
+        var dataIngredient= $('.dataIngredient').val()//结构及组成
+        //   var dataProductCondition= $('.dataProductCondition').val()//产品储存条件
+        var dataCorporationName= $('.dataCorporationName').val()//注册人名称
+        var dataRegisterNo= $('.dataRegisterNo').val()//注册证编号
+        var dataAgencyCorporationName= $('.dataAgencyCorporationName').val()//代理人名称
+        var dataAgencyCorporationAddress= $('.dataAgencyCorporationAddress').val()//代理人地址
+        var dataRatifyDate= $('.dataRatifyDate').val()//批准日期
+        var dataExpireTime= $('.dataExpireTime').val()//有效期
+        var dataCustomInfo= $('.dataCustomInfo').val()//拓展字段
+        var dataScopeApplication= $('.dataScopeApplication').val()//适用范围
+        var dataRemark= $('.dataRemark').val()//备注
+        var changeDate= $('.changeDate').val()//变更日期
+        var otherContent= $('.otherContent').val()//其他内容
+
+
+        $('.z_addImg span img').css('display','none');
+        var imgs = $('.z_addImg img.asd');
+        console.log(imgs);
+        var m='';
+        for(var i = 0 ; i < imgs.length ; i ++){
+            console.log('x='+imgs[i].src);
+            var m=m+imgs[i].src+',';
+            console.log("xxx="+m)
+        }
+
+        var M=m.substring(0,m.length-1);
+        console.log(M)
+        $.addTmpImgYichachaBatch('picturesForm');
+        var pics = result;
+        var regex = /,/;
+        if(pics==''||pics==undefined){}
+        else{
+            picBlobs=pics.split(regex);
+            for(i=0;i<picBlobs.length;i++){
+                console.log('212='+picBlobs[i])
+            }
+        }
+        console.log('pics='+pics);
+        var dataPic='';
+        for(var i= 0;i < picBlobs.length;i++ ){
+            console.log(picBlobs.length);
+            dataPic = dataPic+ picBlobs[i]+',' ;
+            console.log("29292929dataPic="+dataPic)
+        }
+        var dataPIc=dataPic.substring(0,dataPic.length-1);
+        console.log('dataPic='+dataPic,'m='+m);
+
+        if(m!=''&&m!=undefined&&dataPic!=''&&dataPic!=undefined) {
+            $.ajax({
+                url: "/yichaxun/u/dataadd?dataPic=" + dataPIc + ',' + M,
+                type: 'post',
+                data: 'dataCorporationAddress=' + dataCorporationAddress +
+                "&dataCorporationProduceAddress=" + dataCorporationProduceAddress
+                + "&dataProductName=" + dataProductName
+                + "&dataProductStandard=" + dataProductStandard
+                + "&dataProductModel=" + dataProductModel
+                + "&dataIngredient=" + dataIngredient
+                + "&dataCorporationName=" + dataCorporationName
+                + "&dataRegisterNo=" + dataRegisterNo
+                + "&dataAgencyCorporationName=" + dataAgencyCorporationName
+                + "&dataAgencyCorporationAddress=" + dataAgencyCorporationAddress
+                + "&dataRatifyDate=" + dataRatifyDate
+                + "&dataExpireTime=" + dataExpireTime
+                + "&dataCustomInfo=" + asd
+                + "&dataScopeApplication=" + dataScopeApplication
+                + "&dataRemark=" + dataRemark
+                + "&changeDate=" + changeDate
+                + "&dataCorporationProduceAddress=" + otherContent
+                + "&changeDate=" + changeDate,
+                async: 'true',
+                success: function (data) {
+                        if(data.code==0){
+                            location.href="managementInstrument.html"
+                        }else if(data.code==20||data.code==26){
+                            location.href="login.html"
+                        }
+                }
+            })
+        }else if(dataPic==undefined||dataPic==''&&m!=''&&m!=undefined){
+            $.ajax({
+                url: "/yichaxun/u/dataadd?dataPic=" + M,
+                type: 'post',
+                data: 'dataCorporationAddress=' + dataCorporationAddress +
+                "&dataCorporationProduceAddress=" + dataCorporationProduceAddress
+                + "&dataProductName=" + dataProductName
+                + "&dataProductStandard=" + dataProductStandard
+                + "&dataProductModel=" + dataProductModel
+                + "&dataIngredient=" + dataIngredient
+                + "&dataCorporationName=" + dataCorporationName
+                + "&dataRegisterNo=" + dataRegisterNo
+                + "&dataAgencyCorporationName=" + dataAgencyCorporationName
+                + "&dataAgencyCorporationAddress=" + dataAgencyCorporationAddress
+                + "&dataRatifyDate=" + dataRatifyDate
+                + "&dataExpireTime=" + dataExpireTime
+                + "&dataCustomInfo=" + asd
+                + "&dataScopeApplication=" + dataScopeApplication
+                + "&dataRemark=" + dataRemark
+                + "&changeDate=" + changeDate
+                + "&dataCorporationProduceAddress=" + otherContent
+                + "&changeDate=" + changeDate,
+
+                async: 'true',
+                success: function (data) {
+                    if(data.code==0){
+                        location.href="managementInstrument.html"
+                    }else if(data.code==20||data.code==26){
+                        location.href="login.html"
+                    }
+                }
+            })
+        }else{
+            $.ajax({
+                url: "/yichaxun/u/dataadd?dataPic=" + dataPIc,
+                type: 'post',
+                data: 'dataCorporationAddress=' + dataCorporationAddress +
+                "&dataCorporationProduceAddress=" + dataCorporationProduceAddress
+                + "&dataProductName=" + dataProductName
+                + "&dataProductStandard=" + dataProductStandard
+                + "&dataProductModel=" + dataProductModel
+                + "&dataIngredient=" + dataIngredient
+                + "&dataCorporationName=" + dataCorporationName
+                + "&dataRegisterNo=" + dataRegisterNo
+                + "&dataAgencyCorporationName=" + dataAgencyCorporationName
+                + "&dataAgencyCorporationAddress=" + dataAgencyCorporationAddress
+                + "&dataRatifyDate=" + dataRatifyDate
+                + "&dataExpireTime=" + dataExpireTime
+                + "&dataCustomInfo=" + asd
+                + "&dataScopeApplication=" + dataScopeApplication
+                + "&dataRemark=" + dataRemark
+                + "&changeDate=" + changeDate
+                + "&dataCorporationProduceAddress=" + otherContent
+                + "&changeDate=" + changeDate,
+
+                async: 'true',
+                success: function (data) {
+                    if(data.code==0){
+                        location.href="managementInstrument.html"
+                    }else if(data.code==20||data.code==26){
+                        location.href="login.html"
+                    }
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>

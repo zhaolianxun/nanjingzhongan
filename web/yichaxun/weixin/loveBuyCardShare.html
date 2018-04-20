@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!--<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>共享医疗-疼痛无忧卡</title>
+    <link rel="stylesheet" href="Shared/Crowdfunding/css/loveBuyCardShare.css"/>
+    <!--<link rel="stylesheet" href="Crowdfunding/css/loveMyCareCard.css"/>-->
+    <link rel="stylesheet" href="Shared/Crowdfunding/css/loveCardDemo.css"/>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="Shared/Crowdfunding/js/loveMyCardDetail.js"></script>
+    <script src="Shared/Crowdfunding/js/wxpay.js"></script>
+
+    <script src="js/public.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+
+        //        var urls=location.href;
+        var urls=location.href;
+//        alert(urls)
+        var url_new = urls.split("&")[0];
+        var $from=urls.split("&")[1];
+        if($from==''||$from==undefined||$from=='undefined'||$from==null){}else{
+            location.href=url_new;
+        }
+        var url_search="?"+urls.split("?")[1];
+        function getRequest() {
+//            var url_search = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url_search.indexOf("?") != -1) {
+                var str = url_search.substr(1);
+                strs = str.split("!");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+        var user_carecard_id = getRequest().user_carecard_id;
+        var invitationCode = getRequest().invitationCode;
+
+
+        var appId,timeStamp,nonceStr,package,signType,paySign;
+        var detail_del,detail_title;
+        $(document).ready(function(){
+            $.ajax({
+                url: "/yichaxun/u/wxjssdksign?url=" + location.href,
+                type: "get",
+                dataType: "json",
+                headers:{yccClient:'YCCGX'},
+//            async:"true",
+                async: true,
+                contentType: "application/x-www-form-urlencoded",
+                processData: false,
+                success: function (data) {
+                    if (data.code == 0) {
+                        appData = data.data;
+                        appId=appData.appId;
+                        nonceStr=appData.nonceStr;
+                        signType=appData.signType;
+                        signature=appData.signature;
+                        config(appData.appId,appData.timestamp,appData.nonceStr,appData.signature);
+                    }
+                }
+            });
+
+        })
+        function config(appId,timestamp,noncestr,sign){
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: appId,
+                timestamp: timestamp,
+                nonceStr: noncestr,
+                signature:sign,
+                jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+            wx.ready(function(){
+//                alert('ready!');
+                wx.checkJsApi({
+                    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareQZone'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                    success: function(res) {
+//                            alert(res)
+                        // 以键值对的形式返回，可用的api值true，不可用为false
+                        // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                        console.log("check result: " + res)
+                    }
+                });
+
+                wx.onMenuShareTimeline({
+                    title:detail_title, // 分享标题
+//                    desc: '关注健康，共享医疗，让参与者共享，不参与者买单', // 分享描述
+                    desc:detail_del, // 分享描述
+                    link: '/yichaxun/weixin/loveBuyCardShare.html?user_carecard_id='+user_carecard_id+"!invitationCode="+invitationCode, // 分享链接
+                    imgUrl: '/yichaxun/weixin/Shared/Crowdfunding/imgs/shareRed.jpg', // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数分享
+//                        alert('分享');
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+//                        alert('取消分享');
+                    }
+                });
+                wx.onMenuShareAppMessage({
+                    title:detail_title, // 分享标题
+                    desc:detail_del, // 分享描述
+                    link: '/yichaxun/weixin/loveBuyCardShare.html?user_carecard_id='+user_carecard_id+"!invitationCode="+invitationCode, // 分享链接
+                    imgUrl: '/yichaxun/weixin/Shared/Crowdfunding/imgs/shareRed.jpg', // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+//                        alert('分享');
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+//                        alert('取消分享');
+                    }
+                });
+                wx.onMenuShareQQ({
+                    title:detail_title, // 分享标题
+                    desc:detail_del, // 分享描述
+                    link: '/yichaxun/weixin/loveBuyCardShare.html?user_carecard_id='+user_carecard_id+"!invitationCode="+invitationCode, // 分享链接
+                    imgUrl: '/yichaxun/weixin/Shared/Crowdfunding/imgs/shareRed.jpg', // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+//                        alert('分享');
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+//                        alert('取消分享');
+                    }
+                });
+                wx.onMenuShareQZone({
+                    title:detail_title, // 分享标题
+                    desc:detail_del, // 分享描述
+                    link: '/yichaxun/weixin/loveBuyCardShare.html?user_carecard_id='+user_carecard_id+"!invitationCode="+invitationCode, // 分享链接
+                    imgUrl: '/yichaxun/weixin/Shared/Crowdfunding/imgs/shareRed.jpg', // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+            });
+            wx.error(function(res){
+//                alert('error!')
+            });
+        }
+        $().ready(function(){
+            if(invitationCode=="(null)"||invitationCode=="(null"){
+//                location.href="/yichaxun/weixin/loveBuyCardShare.html?user_carecard_id="+
+//                user_carecard_id+"!invitationCode="
+
+                if(window.navigator.userAgent.match(/MicroMessenger/i) != "MicroMessenger"){
+                    $('.imgLeft').attr('src','Shared/Crowdfunding/iconLove/home_icon-2@2x.png')
+                    $('.payMeasureSelect p').html('支付宝支付')
+                }else{
+                    location.href = "/yichaxun/u/wxoauth2authorize?go=Shared/loveBuyCardShare.html?user_carecard_id="+user_carecard_id+"!invitationCode=";
+                }
+
+            }else{
+                if(window.navigator.userAgent.match(/MicroMessenger/i) != "MicroMessenger"){
+                    $('.imgLeft').attr('src','Shared/Crowdfunding/iconLove/home_icon-2@2x.png')
+                    $('.payMeasureSelect p').html('支付宝支付')
+                }else{
+                    location.href = "/yichaxun/u/wxoauth2authorize?go=Shared/loveBuyCardShare.html?user_carecard_id="+user_carecard_id+"!invitationCode="+invitationCode;
+                }
+            }
+        })
+    </script>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden ;
+        }
+        html{font-size: 32px}
+        @media(min-device-width: 375px) {
+        html{font-size: 64px}
+        }
+        @media(min-device-width: 414px) {
+        html{font-size: 75px}
+        }
+
+        .TopShare{
+            width: 100%;
+            height: 3.46rem;
+        }
+        .endTimeLater{
+            font-size:0.32rem;
+            color: #999;
+            position: absolute;
+            bottom: 0.08rem;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<input type="hidden" class="hospitalId"/>
+<div class="container" style="padding-bottom: 1.36rem;margin-top: 0.26rem">
+    <div class="tableBox" rowId="" style="margin-top: 0">
+        <img class="lf" src="" alt=""/>
+        <div class="tableBoxRight rt" style="border-top: 0">
+            <p class="title"></p>
+            <p class="serviceIntro"></p>
+            <div class="tableBoxRightBottom">
+                <p class="hospitalName"></p>
+                <p class="endTimeLater">有效期：<span class="endTime"></span>
+                    <span class="rmbLeft rt">￥<span class="rmb"></span></span>
+                </p>
+            </div>
+         </div>
+     </div>
+    <div class="clear"></div>
+    <div style="height:0.26rem;background: #f2f2f2"></div>
+    <div class="hospitalCard">
+        <p></p>
+    </div>
+    <div class="hospitalDetails hospitalDetailsOne"><p class="lf">医院：</p><p class="lf  hospitalName1"></p></div>
+    <div class="clear"></div>
+    <div class="hospitalDetails hospitalDetailsTwo "><p class="lf">有效期至：</p><p class="lf  endTime1"></p></div>
+    <div class="clear"></div>
+    <div class="hospitalDetails hospitalDetailsThree" style="color: #ff5000"><p class="lf">售价：</p><p class="lf belongToSb"></p></div>
+    <div class="clear"></div>
+    <div style="height: 0.26rem;background: #f2f2f2;"></div>
+
+    <div class="inclusionServices">
+        <div class="inclusionServicesTitle">
+            <p>共享医疗卡所包含服务</p>
+        </div>
+        <div class="inclusionServicesDetails">
+            <p><span class="number"></span><span class="inclusionServicesLine"></span></p>
+        </div>
+    </div>
+
+    <!--todo 医院介绍-->
+    <div style="width: 100%;height:0.26rem;background: #f2f2f2"></div>
+    <div class="hospitalIntroduce">
+        <div class="hospitalIntroduceTitle">
+            <p style="margin: 0.58rem auto 0.45rem 0.4rem; font-size: 0.37rem;color: #999999;">医院介绍</p>
+        </div>
+        <div class="hospitalIntroduceDetails">
+            <p></p>
+        </div>
+        <div class="hospitalIntroduceBtn"><p>查看更多</p><img src="Shared/Crowdfunding/iconT/0_close_gray-copy-2@2x.png" alt=""/></div>
+    </div>
+    <!--TODO 填写真实姓名-->
+
+    <div style="width: 100%;height:0.26rem;background: #f2f2f2"></div>
+    <div class="bindLoveCard">
+        <div class="bindLoveCardTitle">
+            <p>填写真实姓名（绑定共享卡）</p>
+        </div>
+        <div class="bindLoveCardNext">
+            <div class="bindLoveCardTicket">
+                <p class="lf">真实姓名<span></span>:</p>
+                <input class="lf" type="text" placeholder="请输入姓名"/>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div style="width: 100%;height: 0.26rem;background: #f2f2f2"></div>
+    <!--支付方式-->
+    <div class="payMeasure">
+        <div class="payMeasureTitle">
+            <p>支付方式</p>
+        </div>
+        <div class="payMeasureSelect">
+            <img class="imgLeft lf" src="Shared/Crowdfunding/iconLove/home_icon-1@2x.png" alt=""/>
+            <p class="lf">微信支付</p>
+            <img class="imgRight rt" src="Shared/Crowdfunding/iconLove/home_icon-3@2x.png" alt=""/>
+        </div>
+        <!--<div class="payMeasureSelect">-->
+        <!--<img class="imgLeft lf" src="Crowdfunding/iconLove/home_icon-2@2x.png" alt=""/>-->
+        <!--<p class="lf">支付宝支付</p>-->
+        <!--<img class="imgRight rt" src="Crowdfunding/iconLove/home_icon-4@2x.png" alt=""/>-->
+        <!--</div>-->
+    </div>
+    <div class="clear"></div>
+    <div style="width: 100%;height:0.56rem;padding-top:0.37rem;background: #f2f2f2">
+        <p class="invitationCodeIntroduce">成功填写邀请码，优惠<span></span>元</p>
+    </div>
+    <!--邀请码-->
+    <div class="invitationCode">
+        <div class="invitationCodeTitle">
+            <p class="lf">邀请码:</p>
+            <input  class="invitationCodeVal lf" type="number" placeholder="请输入邀请码" style="background: #ffffff;color: #000"/>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div style="width: 100%;height:1.06rem;background: #f2f2f2"></div>
+</div>
+
+
+
+
+
+<div class="payNow" style="border-top: 0.5px solid #e5e5e5">
+    <div class="payNowMoney lf">
+        <p class="payNowMoneyAllin" style="    font-size: 0.4rem;">合计:￥<span></span></p>
+        <p class="payNowMoneySale">已优惠:<span></span>元</p>
+    </div>
+    <button class="lf" >立即支付</button>
+</div>
+<!--分享-->
+<div class="shareIcon"><img src="Shared/Crowdfunding/iconLove/share.png" alt=""/></div>
+<div class="pop" onclick="close()" style="background: rgb(0, 0, 0); opacity: 0.8; display: none;">
+    <div class="arrow">
+        <img src="images/arrow.png" alt="" class="arrow1">
+    </div>
+    <div class="words1">
+        <span style="width: 100%;margin-top: 1.28rem;color:#fff !important;text-align: center;display: inline-block">点击右上角微信分享</span><br>
+    </div>
+</div>
+<script>
+
+
+    $('.hospitalIntroduceBtn p').click(function(){
+        var hospitalId = $('.hospitalId').val()
+        location.href="Shared/loveHospitalIntroduce.html?hospitalId="+hospitalId;
+    })
+    var careCardId=user_carecard_id;
+    var invitationCode;
+    var careCardIdHtml=careCardId.substring(0,15)
+    console.log(careCardIdHtml);
+    var payAmount;
+var haveInvitedCodes=localStorage.getItem('haveInvitedCodes')
+    $().ready(function(){
+
+
+        $.ajax({
+            url:"/yichaxun/1/carecard/usercardorderpage",
+            type:'get',
+            data:"user_carecard_id="+careCardId,
+            contentType:'application/x-www-form-urlencoded',
+            success:function(data){
+                 haveInvitedCodes=data.data.haveInvitedCode;
+                $('.hospitalId').val(data.data.hospitalId);
+                $('.hospitalIntroduceDetails p').html(data.data.hospitalBreifIntro);
+                $('.invitationCodeIntroduce span').html(data.data.inviteDiscountPrice);
+                if(haveInvitedCodes==""||haveInvitedCodes==undefined||haveInvitedCodes==null){
+                    if(invitationCode=="(null"||invitationCode=="(null)"||invitationCode=="undefined"||invitationCode==""||invitationCode==undefined||invitationCode==null||invitationCode=='null'){
+//                    alert(invitationCode)
+                    }else{
+
+                        $('.invitationCodeVal').val( invitationCode);
+                        $('.invitationCodeVal').attr({"disabled":true}).css('background','#fff');
+                        $.ajax({
+                            url:"/yichaxun/1/carecard/usercardorderpage",
+                            type:'get',
+                            data:"user_carecard_id="+careCardId+"&invitation_code="+invitationCode,
+                            contentType:'application/x-www-form-urlencoded',
+                            success:function(data){
+                                if(data.code==0){
+                                    $('.payNowMoneyAllin span').html(data.data.payAmount);
+                                    $('.payNowMoneySale span ').html(data.data.discountAmount);
+                                    $('.invitationCodeIntroduce span').html(data.data.inviteDiscountPrice);
+                                }else{
+                                    $('.payNowMoneyAllin span').html(payAmount);
+                                    $('.payNowMoneySale span ').html(0);
+//                                    $('.invitationCodeIntroduce span').html(0);
+                                }
+                            }
+                        })
+                    }
+                }else{
+                    $.ajax({
+                        url:"/yichaxun/1/carecard/usercardorderpage",
+                        type:'get',
+                        data:"user_carecard_id="+careCardId+"&invitation_code="+haveInvitedCodes,
+                        contentType:'application/x-www-form-urlencoded',
+                        success:function(data){
+                            if(data.code==0){
+                                $('.invitationCodeVal').val(haveInvitedCodes);
+                                $('.invitationCodeVal').attr({"disabled":true}).css('background','#fff');
+                                $('.payNowMoneySale span').html(data.data.discountAmount);
+                                $('.payNowMoneyAllin span').html(data.data.payAmount);
+                                $('.invitationCodeIntroduce span').html(data.data.inviteDiscountPrice);
+
+                            }else{
+                                $('.payNowMoneyAllin span').html(payAmount);
+                                $('.payNowMoneySale span ').html(0);
+//                                $('.invitationCodeIntroduce span').html(0);
+                            }
+                        }
+                    })
+                }
+
+                var datastr=data.data.serviceDesc;
+                var i;
+                var result = '';
+                var c;
+                for(i=0;i<datastr.length;i++){
+                    c=datastr.substr(i,1);
+                    if(c=='\n'){
+                        result=result+'<br/>';
+//                            console.log(result)
+                        $('.inclusionServicesDetails').html(result);
+                        $('.serviceIntro').html(result)
+                    }else if(c!='\n'){
+                        result=result+c;
+                        $('.inclusionServicesDetails').html(result);
+                        $('.serviceIntro').html(result)
+                    }
+                }
+
+                payAmount=data.data.payAmount;
+                detail_title=data.data.hospitalName+data.data.belongCard;
+                detail_del=data.data.serviceDesc
+                $('.hospitalCard p').html(data.data.belongCard);
+                $('.hospitalName').html(data.data.hospitalName);
+                $('.hospitalName1').html(data.data.hospitalName);
+                $('.payNowMoneyAllin span').html(data.data.payAmount);
+                $('.payNowMoneySale span').html(data.data.discountAmount);
+                $('.invitationCodeIntroduce span').html(data.data.discountAmount);
+                $('.endTime').html(_getLocalTime(data.data.expireTime));
+                $('.endTime1').html(_getLocalTime(data.data.expireTime));
+//                $('.inclusionServicesDetails ').html(data.data.serviceDesc);
+                $('.belongToSb ').html(data.data.price);
+//                $('.serviceIntro ').html(data.data.serviceDesc);
+                $('.rmb ').html(data.data.payAmount);
+                $('.title').html(data.data.belongCard)
+                $('.tableBox img').attr('src',data.data.pic)
+            }
+        })
+    })
+
+
+    $(".invitationCodeTitle").bind('input propertychange',function () {
+        var _this=$(this).children('input').val();
+        console.log(_this)
+        $.ajax({
+            url:"/yichaxun/1/carecard/usercardorderpage",
+            type:'get',
+            data:"user_carecard_id="+careCardId+"&invitation_code="+_this,
+            contentType:'application/x-www-form-urlencoded',
+            success:function(data){
+                if(data.code==0){
+                    $('.payNowMoneyAllin span').html(data.data.payAmount);
+                    $('.payNowMoneySale span ').html(data.data.discountAmount);
+                    $('.invitationCodeIntroduce span').html(data.data.discountAmount);
+                }else{
+                    $('.payNowMoneyAllin span').html(payAmount);
+                    $('.payNowMoneySale span ').html(0);
+                    $('.invitationCodeIntroduce span').html(0);
+                }
+            }
+        })
+    })
+    //下单付款
+    $('.payNow button').click(function(){
+
+        $('.payNow button').attr({"disabled":true}).css('background','#ccc');
+        var invitationCodeVal=$('.invitationCodeVal').val();
+        var arrCarecardOwner=$('.bindLoveCardTicket input').val();
+
+        var arrCarecardOwners=[];
+
+        arrCarecardOwners.push(arrCarecardOwner);
+        var str={shops:[{"orderType":"USER_CARECARD",carecardOwners:arrCarecardOwners,invitationCode:invitationCodeVal,
+            goods:[{goodId:careCardId,count:1}]}]};
+        var dataJson=JSON.stringify(str);
+        $.ajax({
+            url:'/yichaxun/u/1/createorder',
+            type:'post',
+            data:dataJson,
+            contentType:'application/json',
+            success:function(data){
+                if(data.code==0){
+                    var payAction;
+                    if(window.navigator.userAgent.match(/MicroMessenger/i) != "MicroMessenger"){
+                        payAction="ALIPAYWAP"
+                        $.ajax({
+                            url:'/yichaxun/yichaxun/u/2/pay?pay_type='+payAction+"&pay_id="+data.data.payId+"&return_url=weixin/Shared/loveMyCardDetailDemo.html",
+                            type:'post',
+//                            data:{"pay_type":"WXAPP","pay_id":data.data.payId},
+                            contentType:'application/json',
+                            success:function(data){
+                                if (data.code == 0) {
+                                    console.log(data.data)
+                                    if(window.navigator.userAgent.match(/MicroMessenger/i) != "MicroMessenger"){
+                                        $('body').append(data.data.linkString);
+                                    }else{
+                                        onBridgeReadyLoveCard(data.data.appId, data.data.timeStamp, data.data.nonceStr, data.data.pack, data.data.paySign)
+                                    }
+                                }
+                                else if (data.code == 25) {
+                                    location.href = "/yichaxun/u/10060?go=loveBuyCardShare.html";
+                                }
+                                else if (data.code == 20 || data.code == 26) {
+                                    location.href = "Shared/Tlogin.html";
+                                    localStorage.setItem('href', location.href)
+
+                                }else{
+                                    $('.payNow button').attr({"disabled":false}).css('background','#ff8200');
+//                                alert(123)
+                                    alert(data.message)
+                                }
+                            }
+                        })
+                    }else{
+                        payAction="WXOFFICIAL"
+                        $.ajax({
+                            url:'/u/2/pay?pay_type='+payAction+"&pay_id="+data.data.payId,
+                            type:'post',
+//                            data:{"pay_type":"WXAPP","pay_id":data.data.payId},
+                            contentType:'application/json',
+                            success:function(data){
+                                if (data.code == 0) {
+                                    console.log(data.data)
+                                    if(window.navigator.userAgent.match(/MicroMessenger/i) != "MicroMessenger"){
+                                        $('body').append(data.data.linkString);
+                                    }else{
+                                        onBridgeReadyLoveCard(data.data.appId, data.data.timeStamp, data.data.nonceStr, data.data.pack, data.data.paySign)
+                                    }
+                                }
+                                else if (data.code == 25) {
+                                    location.href = "/yichaxun/u/10060?go=loveBuyCardShare.html";
+                                }
+                                else if (data.code == 20 || data.code == 26) {
+                                    location.href = "Shared/Tlogin.html";
+                                    localStorage.setItem('href', location.href)
+
+                                }else{
+                                    $('.payNow button').attr({"disabled":false}).css('background','#ff8200');
+//                                alert(123)
+                                    alert(data.message)
+                                }
+                            }
+                        })
+                    }
+
+
+                    }
+                else if(data.code==20||data.code==26){
+                    location.href = "Shared/Tlogin.html";
+                    localStorage.setItem('href', location.href)
+                }else{
+                    alert(data.message);
+                    $('.payNow button').attr({"disabled":false}).css('background','#ff8200');
+                }
+            }
+        })
+
+    })
+
+    //    for(var i=0;i<5;i++){
+    //        var serverce=$('.inclusionServicesDetails p:last').clone();
+    //        $('.inclusionServicesDetails ').append(serverce)
+    //    }
+
+    //分享按钮
+    $('.shareIcon').click(function(){
+        $('.pop').css('display','block')
+    })
+    $('.pop').click(function(){
+        $(this).css('display','none')
+    })
+</script>
+</body>
+</html>
