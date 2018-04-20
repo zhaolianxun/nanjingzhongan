@@ -1,0 +1,10 @@
+ĞŞ¸ÄÓ¦ÓÃ
+/c/shopappmanage/alterapp
+app_id
+price 10,2
+icon 256
+name 500
+summary 500
+intro_pic 256
+remark 10
+---------

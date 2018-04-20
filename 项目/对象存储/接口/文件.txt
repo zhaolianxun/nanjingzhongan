@@ -1,0 +1,15 @@
+上传文件
+/file/upload
+path
+
+
+删除文件
+/file/delete
+url  多个url通过逗号分隔，不可有空位
+
+
+上传流保存成文件
+/file/uploadstream2
+path 	*/oss/richtext/
+srcurl	若要修改旧文件，则把旧路径传入，此时不必传path
+ext

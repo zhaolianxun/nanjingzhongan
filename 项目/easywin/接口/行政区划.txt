@@ -1,0 +1,14 @@
+获取省
+/adminarea/provinces
+
+
+获取市
+/adminarea/cities
+province_id
+
+
+获取区
+/adminarea/distincts
+city_id
+
+

@@ -1,0 +1,52 @@
+禁止登录
+/c/usermanage/forbidlogin
+user_id
+reason
+---------
+
+
+创建用户
+/c/usermanage/createuser
+username 32
+phone 32
+password 32
+nickname 32
+if_admin
+if_agent
+---------
+userId
+
+
+用户列表
+/c/usermanage/users
+---------
+userId
+nickname
+username
+phone
+ifLoginable
+loginunableReason 500
+
+
+用户修改
+/c/usermanage/alteruser
+user_id
+username
+phone
+password
+nickname
+---------
+
+
+手机号检查
+/c/usermanage/phonecheck
+phone
+---------
+ifExist
+
+
+用户名检查
+/c/usermanage/usernamecheck
+username
+---------
+ifExist

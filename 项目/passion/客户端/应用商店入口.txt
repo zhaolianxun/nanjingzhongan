@@ -1,0 +1,5 @@
+应用列表
+/c/miniappshop/apps
+page_no
+page_size
+---------

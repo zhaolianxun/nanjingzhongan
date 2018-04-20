@@ -1,0 +1,23 @@
+登录
+/c/useraction/login
+phone	手机号
+pwd
+---------
+token
+type   1医院 2门诊 3开发者
+userId
+phone
+
+
+获取用户自身信息
+/c/useraction/selfinfo
+---------
+type
+userId
+phone
+
+
+登录检查
+/c/useraction/logincheck
+---------
+loginIs

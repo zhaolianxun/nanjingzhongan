@@ -1,0 +1,10 @@
+入口页
+/m/e/home
+mall_id
+page_no
+page_size
+
+领取卡券
+/m/e/home/getcoupon
+mall_id
+coupon_id

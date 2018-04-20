@@ -1,0 +1,166 @@
+修改医院信息
+/hp/h/hospital/alter
+name  32
+picture 500
+introduction 1000
+
+------------------------------------------------------------
+
+创建活动
+/hp/h/activity/create
+title 500
+title_picture 500
+summary 500
+content 500
+
+修改活动
+/hp/h/activity/alter
+activity_id
+title
+title_picture
+summary
+content
+
+删除活动
+/hp/h/activity/del
+activity_id
+
+------------------------------------------------------------
+
+创建项目
+/hp/h/project/create
+title 500
+title_picture 500
+content 500
+
+修改项目
+/hp/h/project/alter
+project_id
+title
+title_picture
+content
+
+删除项目
+/hp/h/project/del
+project_id
+
+------------------------------------------------------------
+创建科室
+/hp/h/department/create
+name 32
+picture 500
+introduction 1000
+
+修改科室
+/hp/h/department/alter
+department_id
+name
+picture
+introduction
+
+删除科室
+/hp/h/department/del
+department_id
+
+------------------------------------------------------------
+
+将科室加入到“客户端首页”“推荐科室”
+/hp/h/department/jointoclienthomepagefeatureddepartment
+department_id
+
+将科室从“客户端首页”“推荐科室”中移除
+/hp/h/department/removefromclienthomepagefeatureddepartment
+department_id
+
+将科室在“客户端首页”“推荐科室”中移动-交换序号
+/hp/h/department/moveclienthomepagefeatureddepartment
+department_id
+target_department_id
+
+------------------------------------------------------------
+
+创建医生
+/hp/h/doctor/create
+name
+photo
+jobtitle
+introduction
+
+修改医生
+/hp/h/doctor/alter
+doctor_id
+name 32
+photo 500
+jobtitle 32
+introduction 1000
+
+删除医生
+/hp/h/doctor/del
+doctor_id
+
+------------------------------------------------------------
+
+登录
+/hp/h/user/login
+username
+password
+
+检查是否登录
+/hp/h/user/logincheck
+
+禁止某用户登陆
+/hp/h/user/forbidlogin
+user_id
+reason 500
+
+添加医院用户
+/hp/h/user/createuser
+username 32
+password 32
+if_admin    是否是管理员
+
+---------------------------------------------------------------------------
+
+将活动添加到“客户端首页轮播图”
+/hp/h/clienthomepagerollpictures/addactivity
+picture
+activity_id
+
+从“客户端首页轮播图”移除
+/hp/h/clienthomepagerollpictures/remove
+id
+
+---------------------------------------------------------------------------
+
+首页
+/hp/h/page/home
+
+科室列表页
+/hp/h/page/departments
+page_no
+page_size
+
+“客户端首页”特色科室列表页
+/hp/h/page/featureddepartments
+page_no
+page_size
+
+医生列表页
+/hp/h/page/doctors
+page_no
+page_size
+
+项目列表页
+/hp/h/page/projects
+page_no
+page_size
+
+活动列表页
+/hp/h/page/activities
+page_no
+page_size
+
+客户端首页轮播图列表页
+/hp/h/page/clienthomepagerollpictures
+page_no
+page_size

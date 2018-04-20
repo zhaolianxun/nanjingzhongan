@@ -1,0 +1,14 @@
+查轮播图列表
+/mm/{mallId}/e/mainrotation/list
+
+
+添加轮播图
+/mm/{mallId}/e/mainrotation/add
+pic
+type
+link	可空
+
+
+删除轮播图
+/mm/{mallId}/e/mainrotation/del
+mainrotation_id

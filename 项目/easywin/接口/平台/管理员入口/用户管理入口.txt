@@ -1,0 +1,16 @@
+用户列表
+/p/e/usermanage/users
+phone
+page_no
+page_size
+
+
+修改用户信息
+/p/e/usermanage/users
+user_id
+nickname
+realname
+phone
+password
+agent_is
+

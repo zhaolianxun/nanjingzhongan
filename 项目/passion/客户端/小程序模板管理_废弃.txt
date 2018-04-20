@@ -1,0 +1,17 @@
+模板列表
+/c/minitplmanage/tpls
+page_no
+page_size
+---------
+
+
+修改模板
+/c/minitplmanage/altertpl
+template_id
+price
+icon
+name
+summary
+intro_pic
+login_url
+---------

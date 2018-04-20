@@ -1,0 +1,7 @@
+搜索
+/m/e/homesearch/search
+mall_id
+key 100
+sort	0综合(默认) 1销量降序 2价格降序 3价格升序
+page_no
+page_size

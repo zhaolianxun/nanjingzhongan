@@ -1,0 +1,3 @@
+获取医院信息
+/c/c/e/hospitalinfo/info
+

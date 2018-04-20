@@ -1,0 +1,16 @@
+获取门诊列表
+/c/h/e/clinicinfo/clinics
+page_no
+page_size
+
+
+添加门诊用户
+/c/h/e/clinicinfo/add
+phone
+pwd
+clinic_name
+headman_name
+contact_tel
+address
+remark
+

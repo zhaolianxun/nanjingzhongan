@@ -1,0 +1,9 @@
+医疗返点-医院消费
+/medicalcoin/consumetohospital  
+amount
+hospital_id
+
+医疗返点详情页
+/page/userMedicalcoinDetail
+page_no
+page_size

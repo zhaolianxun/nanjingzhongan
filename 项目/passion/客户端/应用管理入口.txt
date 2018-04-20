@@ -1,0 +1,14 @@
+首页
+/c/app/home
+phone 32
+username 32
+page_no
+page_size
+---------
+
+增加使用期限
+/c/app/addusetime
+time 11
+app_id
+money    默认0
+---------

@@ -1,0 +1,17 @@
+查询用户列表
+/c/mt/users
+phone
+realname
+page_no
+page_size
+---------
+
+查询医院列表
+/c/mt/hospitals
+key
+customer_type
+trace_status
+page_no
+page_size
+---------
+

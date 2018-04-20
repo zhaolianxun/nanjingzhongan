@@ -1,0 +1,12 @@
+发送验证码
+/verification/send
+phone
+client   客户端标识，目前默认yichaxun
+
+
+校验验证码
+/verification/verify
+phone
+verification_code
+--------
+ifSuccess

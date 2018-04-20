@@ -1,0 +1,78 @@
+修改会员信息
+/aidmoney/memberinfoalter
+memberid	会员号
+
+会员信息页
+/aidmoney/memberinfopage
+aidmemberid	会员号
+
+会员列表页
+/aidmoney/memberlistpage
+page_no
+page_size
+
+案件列表页
+/aidmoney/aideventlistpage
+page_no
+page_size
+
+案件审核拒绝
+/aidmoney/aideventauditrefuse
+eventid
+auditnote
+
+案件审核通过
+/aidmoney/aideventauditpass
+eventid
+
+案件信息修改
+/aidmoney/aideventinfoalter
+eventid
+publicshowpic  公示图片
+diagnosisinfo  诊疗信息
+sex
+home
+birth
+name
+idcardno
+
+案件信息页
+/aidmoney/aideventinfopage
+eventid
+
+打款确认
+/aidmoney/aideventremitconfirm
+eventid
+
+系统给会员增加救助金
+/aidmoney/aidmoneyincrease
+memberid
+amount
+
+设置用户端了解救助金页面内容
+/aidmoney/setknowaidmoneypagecontent
+joinMoney_breiftext 加入金额简介
+joinMoney_text 加入金额
+baseRequirement_breiftext 基本需求简介
+baseRequirement_text 基本需求
+balanceRequirement_breiftext 余额需求简介
+balanceRequirement_text 余额需求
+observationPeriod_breiftext 观察期简介
+observationPeriod_text 观察期
+knowaidmoneypage_topimg 顶部图
+aidapplyflow_apply  报案流程—报案
+aidapplyflow_submitmaterial 报案流程-提交资料
+aidapplyflow_audit 报案流程-审核
+aidapplyflow_show  报案流程-公示
+aidapplyflow_remit 报案流程-给付
+
+获取用户端了解救助金页面内容
+/aidmoney/getknowaidmoneypagecontent
+
+设置用户端首页弹出提示内容信息
+/aidmoney/sethomepagepopuptip
+mall_tippic_ifpopup  是否弹窗
+mall_tippic   弹窗图片
+
+获取用户端首页弹出提示内容信息
+/aidmoney/gethomepagepopuptip

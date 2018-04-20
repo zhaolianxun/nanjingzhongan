@@ -1,0 +1,70 @@
+添加联系医院
+/c/ch/add
+province_id 	省id
+province_name 	省名
+city_id 	城市id
+city_name	城市名
+customer_type	客户类型
+name
+dean_phone
+dean_name
+hospital_tel
+department_name
+director_phone
+extra_infos	JSON  [{name:"",value:""},{name:"",value:""}]
+---------
+
+加载联系医院详情
+/c/ch/detail
+contact_hospital_id
+---------
+
+
+修改联系医院
+/c/ch/alter
+---------
+contact_hospital_id
+province_id
+province_name
+city_id
+city_name
+customer_type
+name
+dean_phone
+dean_name
+hospital_tel
+department_name
+director_phone
+extra_infos	JSON
+---------
+
+
+#删除联系医院
+/c/ch/del
+contact_hospital_id
+---------
+
+
+加载联系医院列表
+/c/ch/hospitals
+customer_type	1初级 2跟踪中 3重点
+trace_starttime	跟踪开始时间
+trace_endtime	跟踪结束时间
+trace_status	0未跟踪 1已跟踪
+province_id
+city_id
+page_no
+page_size
+---------
+
+
+加载已存在的省
+/c/ch/existprovinces
+---------
+
+
+加载已存在的市
+/c/ch/existcities
+province_id
+---------
+

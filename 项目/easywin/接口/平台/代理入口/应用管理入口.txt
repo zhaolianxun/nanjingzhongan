@@ -1,0 +1,10 @@
+应用列表
+/p/e/agent/appmanage/apps
+phone
+page_no
+page_size
+
+
+授予1年使用时间
+/p/e/agent/appmanage/grantappusetime
+app_id
