@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!--<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <!--<link href="http://passion.njshangka.com/yichaxun/weixin/Operation/icon/cha.jpg" rel="shortcut icon">-->
+    <link href="http://passion.njshangka.com/yichaxun/weixin/Operation/icon/cha.jpg" rel="apple-touch-icon-precomposed">
+    <link href="http://passion.njshangka.com/yichaxun/weixin/Operation/icon/cha.jpg" sizes="114x114" rel="apple-touch-icon-precomposed">
+    <!--<link rel="icon" type="image/jpg" href="http://passion.njshangka.com/yichaxun/weixin/Operation/icon/cha.jpg" >-->
+    <title>医院运维手机端登录</title>
+    <!--<link rel="stylesheet" href="Operation/css/OdiscountCoupon.css"/>-->
+    <link rel="stylesheet" href="css/login.css"/>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <style>
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        .tanchuang1{
+            display: none;
+            position: fixed;
+            width: 60%;
+            height: 125px;
+            top:30%;
+            right:20%;
+            background: #fff;
+            z-index: 200;
+            overflow: auto;
+            border-radius: 7px;
+        }
+        .wenzi1{
+            position: absolute;
+            display: block;
+            width: 100%;
+            text-align: center;
+            height: 80px;
+            line-height: 30px;
+            top: 20px;
+            /*right: 40px;*/
+        }
+        .btnbtn{
+            /*position: absolute;*/
+            margin-top: 75px;
+            font-size: 16px;
+            color: #ff9a00;
+            width: 100%;
+            text-align: center;
+            height: 44.5px;
+            line-height: 44.5px;
+            display: inline-block;
+            border-top: 0.5px solid #e5e5e5;
+        }
+        input{
+            color: #333!important;
+        }
+    </style>
+    <script>
+        $().ready(function(){
+
+            $('#login_name').val('');
+            $('#login_password').val('');
+//            $('#login_name').val('');
+        })
+    </script>
+</head>
+<body>
+
+<!--登录界面-->
+<div id="login_box" class="login_box">
+    <div class="clear"></div>
+    <div class="main">
+        <div class="input_box">
+            <input id="login_name" class="username" type="text" />
+            <span class="placeholder_phone">登录账号</span>
+            <div class="wode">
+                <img class="img" style="width: 15px" src="icon/shouji@2x.png" alt=""/>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="input_box">
+            <input id="login_password" class="password" type="password"/>
+            <span class="placeholder placeholder_password">密码</span>
+            <div class="suo">
+                <img class="img" style="width: 15px" src="icon/suo111@2x.png" alt=""/>
+            </div>
+            <div class="eye">
+                <img style="width: 25px" class="img" src="icon/eye-lose2@2x.png" alt=""/>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+
+    <div class="button">
+        <button  class=" button_next"  style="font-size: 17px;background: #4179ce"  >登录</button>
+    </div>
+    <div class="tanchuang1" style="display: none">
+        <span class="wenzi1" style="height: 60px !important;"></span>
+        <span class="btnbtn">OK</span>
+    </div>
+    <!--点击span获取input焦点-->
+    <script>
+        $('.btnbtn').click(function(){
+            $(this).parent().css('display','none')
+        })
+
+        //登录注册界面获取焦点
+        $('.placeholder_phone').click(function(){
+            $('.username').focus();
+            $('.phone').focus()
+        })
+        $('.placeholder_password').click(function(){
+            $('.password').focus();
+        })
+        $('.placeholder_changeVerification_register').click(function(){
+            $('.changeVerification_register').focus();
+        })
+        //修改密码界面获取焦点
+        $('.placeholder_telephone').click(function(){
+            $('.telephone').focus();
+        })
+        $('.placeholder_newPassword').click(function(){
+            $('.newPassword').focus();
+        })
+        $('.placeholder_changeVerification').click(function(){
+            $('.changeVerification').focus();
+        })
+        $('.placeholder_newPasswordSure').click(function(){
+            $('.newPasswordSure').focus();
+        })
+    </script>
+    <!--登录界面-->
+    <script>
+//        var href=localStorage.getItem('href');
+        //监听input是否有内容，有内容span取消
+        $('input').focus(function(){
+            $(this).next().css('display','none');
+        });
+        $('input').blur(function(){
+            if($(this).val()==''){
+                $(this).next().css('display','block');
+            }
+        });
+        //todo 判断登录输入
+
+        $().ready(function(){
+            var passW= localStorage.clear('passW');
+            var phoneW=localStorage.clear('phoneW');
+            $('#login_name').val("")
+            $('#login_password').val("")
+            console.log(passW,phoneW)
+            console.log( $('#login_name').val(),$('#login_password').val())
+//    $('.button_next').attr({"disabled":true}).css('background-color','#d1d5da');
+            //监听input是否有内容，有内容span取消
+            $('input').focus(function(){
+                $(this).next().css('display','none');
+            });
+            $('input').blur(function(){
+                if($(this).val()==''){
+                    $(this).next().css('display','block');
+                }
+            });
+        });
+
+
+
+        var height;
+        var rand;
+        $(function () {
+            height = $(window).height();
+        });
+        $('input').focus(function(){
+            $(this).next().css('display','none');
+        });
+        $('input').blur(function(){
+            if($(this).val()==''){
+                $(this).next().css('display','block');
+            }
+        });
+
+        //密码显示
+        $('.eye').click(function(){
+            var img = $(this).children('.img').attr('src');
+            if(img == 'icon/eye-lose2@2x.png'){
+                $('div.eye>img').attr('src','icon/eye-lose1@2x.png');
+                $('.password').attr('type','text');
+            }else if(img == 'icon/eye-lose1@2x.png'){
+                $('div.eye>img').attr('src','icon/eye-lose2@2x.png');
+                $('.password').attr('type','password');
+            }
+        });
+
+        $('.button_next').click(function(){
+            $('.tanchuang1').css('display','block')
+            $('.wenzi1').html('正在登录');
+//            $('.btnbtn').css('display','none')
+            $('.button_next').attr({"disabled":true})
+//            $(this).unbind('click');
+            var phoneW=$('#login_name').val()
+            var passW=$('#login_password').val()
+            localStorage.setItem('passW',passW);
+            localStorage.setItem('phoneW',phoneW);
+            var userPhone = $('#login_name').val();
+            var userPassword = $('#login_password').val();
+
+            if(userPassword != ''&&userPhone != ''){
+                $.ajax( {
+                    type:'POST',
+//                    data:$('#register_box').serialize(),
+                    data:"mtUserName="+userPhone+"&mtUserPassword="+userPassword,
+                    url:'/yichaxun-maintain/mtuser/login',
+                    async:true,
+                    success: function(result){
+                        if(result.code == 0){
+                            var hospitalId=result.data.hospitalId;
+                            var hospitalName=result.data.hospitalName;
+                            var hospitalOfficeId=result.data.hospitalOfficeId;
+                            var hospitalOfficeName=result.data.hospitalOfficeName;
+                            localStorage.setItem('hospitalId',hospitalId);
+                            localStorage.setItem('hospitalName',hospitalName);
+                            localStorage.setItem('hospitalOfficeId',hospitalOfficeId);
+                            localStorage.setItem('hospitalOfficeName',hospitalOfficeName);
+                            $('.tanchuang1').css('display','none');
+//                            if(href==''||href==null||href==undefined||href=="undefined"||href=="null"){
+                            if(window.navigator.userAgent.match(/MicroMessenger/i) == "MicroMessenger"){
+                                location.href="/yichaxun/u/10063?go=Oindex.html&phone=" + userPhone;
+                            }else{
+                                location.href='Oindex.html';
+                            }
+//                                location.href = "/yichaxun/u/10063?go=Oindex.html&phone=" + userPhone;
+//                                location.href="Oindex.html"
+                                localStorage.setItem('mtUserName',userPhone)
+
+//                            }else{
+//                                location.href = "/yichaxun/u/10063?go="+href+"&phone=" + userPhone;
+////                                location.href=href;
+//                                localStorage.clear("href")
+//                            }
+
+                        }else{
+                            $('.button_next').attr({"disabled":false})
+                            $('.tanchuang1').css('display','block')
+                            $('.wenzi1').html(result.message)
+                        }
+                    },
+                    error: function(xhr,msg,reasonString){
+//                        $('.tanchuang1').css('display','block')
+//                        $('.wenzi1').html('请求错误，请稍后再试...')
+//                        alert('请求错误，请稍后再试...');
+                        console.log(arguments);
+                    }
+                } )
+            }else{
+                $('.tanchuang1').css('display','block')
+                $('.wenzi1').html('请先完成填写')
+//                $('.button_next').bind('click')
+//                alert('请先完成填写');
+                $('.button_next').attr({"disabled":false})
+            }
+        });
+
+
+    </script>
+</div>
+</body>
+</html>

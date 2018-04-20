@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商品信息</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+    <!-- jQuery -->
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        window.serverName="yichaxun";
+    </script>
+    <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.min.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
+</head>
+
+<body>
+<div style="margin: 15px;">
+    <div class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="请输入商品名称" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否上架</label>
+            <div class="layui-input-block">
+                <input id="trueOnShelf" type="radio" name="if_onshelf" value="1" title="是">
+                <input id="falseOnShelf" type="radio" name="if_onshelf" value="0" title="否">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否有分类</label>
+            <div class="layui-input-block">
+                <input id="trueLeaf" type="radio" name="if_leaf" value="1" title="是">
+                <input id="falseLeaf" type="radio" name="if_leaf" value="0" title="否">
+            </div>
+        </div>
+
+        <div id="mazSl" style="display: none;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品价格</label>
+                <div class="layui-input-block">
+                    <input type="text" name="price" lay-verify="price" autocomplete="off" placeholder="请输入商品价格" value="" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">会员价</label>
+                <div class="layui-input-block">
+                    <input type="text" name="member_price" lay-verify="member_price" autocomplete="off" placeholder="请输入会员价" value="" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">剩余数量</label>
+                <div class="layui-input-block">
+                    <input type="text" name="inventory" lay-verify="inventory" autocomplete="off" placeholder="请输入剩余数量" class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">医疗返点</label>
+            <div class="layui-input-block">
+                <input type="text" name="medicalcoin_return" lay-verify="medicalcoin_return" autocomplete="off" placeholder="请输入医疗返点" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品介绍</label>
+            <div class="layui-input-block">
+                <script id="editor" type="text/plain"></script>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">添加到</label>
+            <div class="layui-input-block">
+                <select id="area">
+                    <option value="">——请选择区域——</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">封面图片</label>
+            <div class="layui-input-block">
+                <input id="coverPic" type="file" name="coverPic" class="layui-upload-file" lay-title="上传封面图片">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品顶部图</label>
+            <div class="layui-input-block">
+                <input id="pics" type="file" name="pics" multiple class="layui-upload-file" lay-title="上传商品顶部图(最多上传6张)">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button id="save" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/metisMenu.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/oss-api.js"></script>
+<script src="plugins/layui/layui.js"></script>
+<script>
+    (function(){
+        function getRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+        function getDesc(){
+            var arr = [];
+            arr.push(UE.getEditor('editor').getContent());
+            return (arr.join("\n"));
+        }
+
+        var ue = UE.getEditor('editor');
+        var coverPic = '';
+        var pics = '';
+        var rootId = getRequest().id;
+        function getData(){
+            $.ajax({
+                type: 'POST',
+                data: {root_id: rootId},
+                async: false,
+                url: '../mall/goodrootget',
+                success: function(data){
+                    $('[name="name"]').val(data.data.name);
+                    $('[name="medicalcoin_return"]').val(data.data.medicalcoinReturn);
+                    coverPic = data.data.coverPic;
+                    pics = data.data.pics;
+                    if(data.data.ifOnshelf == 0){
+                        $('#falseOnShelf').attr('checked','');
+                    }else{
+                        $('#trueOnShelf').attr('checked','');
+                    }
+                    if(data.data.ifLeaf == 0){
+                        $('#trueLeaf').attr('checked','');
+                    }else{
+                        $('#falseLeaf').attr('checked','');
+                        $('#mazSl').show();
+                        $('[name="price"]').val(data.data.minPrice);
+                        $('[name="member_price"]').val(data.data.minMemberPrice);
+                        $('[name="inventory"]').val(data.data.inventory);
+                    }
+                    var url = data.data.descUrl;
+                    $.ajax({
+                        type: 'GET',
+                        url: url,
+                        success: function(res){
+                            document.getElementById('ueditor_0').contentDocument.body.innerHTML = res;
+                        }
+                    })
+                }
+            })
+        }
+        if(rootId){
+            getData();
+        }
+        $.ajax({
+            type: 'GET',
+            async: false,
+            data: {page_size: 100},
+            url: '../mall/arealist',
+            success: function (data) {
+                for(var i = 0 ; i < data.data.items.length ; i ++){
+                    $('#area').append('<option value="'+ data.data.items[i].areaId +'">'+ data.data.items[i].name +' ———— '+ data.data.items[i].coverIntro +'</option>')
+                }
+            }
+        });
+
+        layui.use(['form', 'layedit', 'upload', 'laydate'], function(){
+            var $ = layui.jquery,
+                form = layui.form(),
+                layer = layui.layer;
+
+            $('#trueLeaf+div.layui-form-radio').click(function(){
+                $('#mazSl').hide();
+            });
+            $('#falseLeaf+div.layui-form-radio').click(function(){
+                $('#mazSl').show();
+            });
+
+            form.on('submit(demo1)', function(data) {
+                var a = data.field;
+                var name = a.name;
+                var desc = getDesc();
+                var ifOnShelf = a.if_onshelf;
+                var ifLeaf = a.if_leaf;
+                var areaId = $('#area').val();
+                var medicalcoinReturn = a.medicalcoin_return;
+                var price = '';
+                var memberPrice = '';
+                var inventory = '';
+                var sendData = {};
+                if(areaId == ''){areaId = '7658228463'}
+                if(ifLeaf == 0){
+                    ifLeaf = 1;
+                    price = $('[name="price"]').val();
+                    memberPrice = $('[name="member_price"]').val();
+                    inventory = $('[name="inventory"]').val();
+                    sendData = {medicalcoin_return:medicalcoinReturn,name:name,cover_pic:coverPic,pics:pics,desc:desc,inventory:inventory,price:price,member_price:memberPrice,area_id:areaId,if_onshelf:ifOnShelf,if_leaf:ifLeaf};
+                 }else{
+                        ifLeaf = 0;
+                        sendData = {medicalcoin_return:medicalcoinReturn,name:name,cover_pic:coverPic,pics:pics,desc:desc,area_id:areaId,if_onshelf:ifOnShelf,if_leaf:ifLeaf}
+                    }
+
+                if(rootId != ''){//修改
+                    var o1 = {good_id:rootId};
+                    sendData = Object.assign(sendData,o1);
+                    if(coverPic == ''){
+                        layer.msg('请先上传封面图片！')
+                    }else if(pics == '') {
+                        layer.msg('请先上传商品顶部图！')
+                    }else {
+                        $.ajax({
+                            type: 'POST',
+                            async: false,
+                            data: sendData,
+                            url: '../mall/goodrootalter',
+                            success: function (data) {
+                                if (data.code == 0) {
+                                    alert('修改成功！');
+                                    location.href = 'goodList.html';
+                                } else {
+                                    layer.msg(data.message);
+                                }
+                            }
+                        })
+                    }
+                }else{//新增
+                    if(coverPic == ''){
+                        layer.msg('请先上传封面图片！')
+                    }else if(pics == '') {
+                        layer.msg('请先上传商品顶部图！')
+                    }else{
+                        $.ajax({
+                            type: 'POST',
+                            async: false,
+                            data: sendData,
+                            url: '../mall/goodrootadd',
+                            success: function(data){
+                                if(data.code == 0){
+                                    alert('添加成功！');
+                                    location.href = 'goodList.html';
+                                }else{
+                                    layer.msg(data.message);
+                                }
+                            }
+                        })
+                    }
+                }
+            })
+
+            layui.upload({
+                url: 'http://passion.njshangka.com/oss/file/upload?path=yichaxun/'
+                ,elem: '#coverPic'
+                ,method: 'post'
+                ,success: function(res){
+                    if(res.code == 0){
+                        coverPic = res.data.url;
+                        layer.msg('封面图片上传成功...')
+                    }
+                }
+            });
+            layui.upload({
+                url: 'http://passion.njshangka.com/oss/file/upload?path=yichaxun/'
+                ,elem: '#pics'
+                ,method: 'post'
+                ,success: function(res){
+                    if(res.code == 0){
+                        pics = res.data.url;
+                        layer.msg('商品图片上传成功...')
+                    }
+                }
+            });
+        });
+    })();
+</script>
+</body>
+</html>

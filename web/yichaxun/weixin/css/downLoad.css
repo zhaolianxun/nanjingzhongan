@@ -1,0 +1,72 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+.lf{
+    float: left;
+}
+.rt{
+    float: right;
+}
+.clear{
+    clear: both;
+}
+.top img{
+    width: 100%;
+    height: auto;
+}
+.down{
+    background: #ffffff;
+    padding-top: 24px;
+    width: 100%;
+}
+.down_iphone,.down_android{
+    line-height: 40px;
+    height: 40px;
+    width: 65%;
+    margin-left: 17.5%;
+    border: 0.5px solid #333;
+}
+.down_iphone img,.down_android img{
+    display: inline-block;
+    margin-top: 6px;
+    width: 22.5px;
+    margin-left: 31px;
+}
+.down_iphone span,.down_android span{
+    font-size: 16px ;
+    color: #333333;
+    display: inline-block;
+    line-height: 40px;
+    margin-left: 10%;
+}
+.bottom{
+    height:337.5px ;
+    background: #ffffff;
+    width: auto;
+    margin: 10px 15px 15px;
+}
+.bottom_lf{
+    width: 33%;
+    margin-top: 55px;
+    margin-left: 5%;
+}
+.bottom_lf img{
+    width: 76%;
+
+}
+.bottom_rt{
+    width: 61%;
+}
+.bottom_rt img{
+    width: 90%;
+    margin-top: 10px;
+}
+.bottom_span{
+    display: inline-block;
+    margin : 14px 5% auto ;
+    font-size: 14px ;
+    color:#333;
+    line-height: 24px;
+}

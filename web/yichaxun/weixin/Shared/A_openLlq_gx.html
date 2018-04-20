@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery-3.0.0.min.js"></script>
+</head>
+<body style="background-size: 100%;padding: 0;margin: 0">
+<img style="width: 100%;height: 100%" src="images/A_llq.png" alt=""/>
+<a id="link" class="android" href="javascript:void(0);">
+</a>
+<script>
+    function isWeixin() {
+        var ua = navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == "micromessenger") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    window.onload=function(){
+        if (isWeixin()) {
+//            alert("Yes");//是微信
+//            alert('在浏览器打开')
+        } else {
+//            alert("No");//不是微信
+
+            var u = navigator.userAgent, app = navigator.appVersion;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+            var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+//    $('.android').click(function(){
+            $().ready(function(){
+                var openApp = function(){
+                    var a = document.getElementById('link');
+                    if(isAndroid){
+                        //判断是否是android
+                        $('#link').attr('href','crowdfunding:splash/');
+                        a.click();
+                        var loadDateTime = Date.now();
+                        setTimeout(function () {
+                            var timeOutDateTime = Date.now();
+                            if (timeOutDateTime - loadDateTime< 1000) {
+                                window.location.href = sysParamValue;
+                            }
+                        }, 500);
+                    }else if(isIOS){
+                        //判断是否是ios
+                        $('#link').addClass('ios');
+                        $('#link').attr('href','medicalShareHtml://groupinvite/');
+                        a.click();
+                        var loadDateTime = Date.now();
+                        setTimeout(function () {
+                            var timeOutDateTime = Date.now();
+                            if (timeOutDateTime - loadDateTime < 1000) {
+                                window.location.href = "https://itunes.apple.com/us/app/%E5%8C%BB%E6%9F%A5%E6%9F%A5-%E5%85%B1%E4%BA%AB%E7%AB%AF/id1249977236?l=zh&ls=1&mt=8";
+                            }
+                        }, 500);
+                    }
+                };
+                openApp();
+
+            })
+        }
+    }
+    var sysParamValue;
+    $().ready(function(){
+        $.ajax({
+            url:'/yichaxun/c/sysparam?sysParamId='+'userClient1AndroidNewestVersionUrl',
+            type:'post',
+            async:true,
+            success:function(data){
+                if(data.code==0){
+                    sysParamValue=data.data.sysParamValue;
+                }
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

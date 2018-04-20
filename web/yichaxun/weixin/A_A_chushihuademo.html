@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <title></title>
+    <script src="js/jquery-3.0.0.min.js"></script>
+</head>
+<body>
+<script>
+    $.ajax({
+        url:'/yichaxun/u/userinit',
+        type:'post',
+        success:function(data){
+            if(data.code==0){
+
+                console.log(data.data.linkedMaintainUser)
+                console.log(data.data.linkedMaintainUser.hospital.hospitalId,
+                data.data.linkedMaintainUser.hospital.name,
+                data.data.linkedMaintainUser.hospitalOffice.hospitalOfficeId,
+                data.data.linkedMaintainUser.hospitalOffice.name,
+                data.data.linkedMaintainUser.mtUserRole)
+
+                $('.avater').attr('src',data.data.userHeadImg);
+                if(data.data.userRealname){
+                    $('.userPhone').html(data.data.userRealname)
+                }else{
+                    $('.userPhone').html(data.data.userPhone);
+                }
+
+            }
+        }
+    })
+</script>
+</body>
+</html>

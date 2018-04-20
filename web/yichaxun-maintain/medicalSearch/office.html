@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>科室账户</title>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css" />
+</head>
+
+<body>
+<div class="admin-main">
+
+    <blockquote class="layui-elem-quote">
+        <a href="javascript:;" class="layui-btn layui-btn-small" id="add">
+            <i class="layui-icon">&#xe608;</i> 添加科室管理员
+        </a>
+
+        <a href="javascript:;" style="margin-left: 20px;" class="layui-btn layui-btn-warm layui-btn-small" id="refresh">
+            <i class="layui-icon">&#x1002;</i> 刷新
+        </a>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>管理员列表</legend>
+        <div class="layui-field-box">
+            <table class="site-table table-hover">
+                <thead>
+                <tr>
+                    <th>管理员ID</th>
+                    <th>管理员</th>
+                    <th>科室名称</th>
+                    <th>所属医院</th>
+                    <th>最后登录时间</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <div class="admin-table-page">
+        <div id="page" class="page"></div>
+    </div>
+</div>
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+    var totalPage;
+    var id = '';
+    var module = '';
+    var name = '';
+    var role = '';
+    var hospitalName = '';
+    layui.config({
+        base: 'plugins/layui/modules/'
+    });
+
+    layui.use(['icheck', 'laypage','layer'], function() {
+        var $ = layui.jquery,
+                laypage = layui.laypage,
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+
+        var toPageNo = '';
+        var totalPage = 1;
+        var hospitalId = localStorage.getItem('hospitalId');
+        function getData(){
+            $.ajax( {
+                type: 'POST',
+                data: {mtUserRole:'HOSPITALOFFICE',hospitalId:hospitalId},
+                url: '../m/mtuserlist',
+                success: function(data){
+                    if(data.code == 0){
+                        $('#tbody').children().remove();
+                        var data = data.data;
+                        totalPage = data.sum.totalPageCount;
+                        for(var i = 0; i < data.items.length; i ++){
+                            $('#tbody').append('<tr>' +
+                            '<td>'+ data.items[i].mtUserId +'</td>' +
+                            '<td>'+ data.items[i].mtUserName +'</td>' +
+                            '<td>'+ data.items[i].hospitalOfficeName +'</td>' +
+                            '<td>'+ data.items[i].hospitalName +'</td>' +
+                            '<td>'+ new Date(parseInt(data.items[i].mtUserLastLoginTime)).toLocaleString() +'</td>' +
+                            /*'<td>' +
+                            '<a href="javascript:;" class="edit layui-btn layui-btn-mini">修改</a>' +
+                            '<a href="javascript:;" class="del layui-btn layui-btn-danger layui-btn-mini">删除</a>' +
+                            '</td>' +*/
+                            '</tr>');
+                        }
+                    }else if(data.code == 20){
+                        alert('登录已失效，请重新登录！！');
+                        window.parent.location.href = 'login.html';
+                    }
+                }
+            } );
+        }
+        function rePage(){
+            //page
+            laypage({
+                cont: 'page',
+                pages: totalPage,//总页数
+                groups: 5  ,//连续显示分页数
+                jump: function(obj, first) {
+                    //得到了当前页，用于向服务端请求对应数据
+                    var curr = obj.curr;
+                    if(!first) {
+                        toPageNo = obj.curr;
+                        getData();
+                        layer.msg('第 '+ obj.curr +' 页');
+                    }
+                }
+            });
+        }
+        getData();
+        rePage();
+
+        $('#add').click(function() {
+            id = undefined;
+            layui.use('layer', function(){
+                var layer = layui.layer;
+
+                //多窗口模式，层叠置顶
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    ,title: '添加科室管理员'
+                    ,area: ['50%', '500px']
+                    ,shade: 0
+                    ,maxmin: true
+                    ,content: 'addOfficeAdmin.html'
+                });
+            });
+        });
+        $('#refresh').click(function(){getData();rePage();})
+
+        $('#tbody').on('click','a.edit',function(){
+            id = $(this).parent().parent().children('td:first').html();
+            $.ajax( {
+                type: 'POST',
+                data: {mtUserId:id},
+                url: '../m/mtuserlist',
+                success: function(data){
+                    if(data.code == 0){
+                        module = data.data.items[0].mtUserModule;
+                        module = module.split(',');
+                        module = module.slice(0,module.length-1);
+                        role = data.data.items[0].mtUserRole;
+                        name = data.data.items[0].mtUserName;
+                        hospitalName = data.data.items[0].hospitalName;
+                        layui.use('layer', function(){
+                            var layer = layui.layer;
+
+                            //多窗口模式，层叠置顶
+                            layer.open({
+                                type: 2 //此处以iframe举例
+                                ,title: '管理员信息'
+                                ,area: ['50%', '500px']
+                                ,shade: 0
+                                ,maxmin: true
+                                ,content: 'addAdmin.html'
+                            });
+                        });
+                    }else if(data.code == 20){
+                        alert('登录已失效，请重新登录！！');
+                        window.parent.location.href = 'login.html';
+                    }
+                }
+            } )
+        });
+        $('#tbody').on('click','a.del',function(){
+            var id = $(this).parent().parent().children('td:first').html();
+            var me = $(this).parent().parent();
+            layer.open({
+                type: 1
+                ,title: false //不显示标题栏
+                ,closeBtn: false
+                ,area: '300px;'
+                ,shade: 0.8
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确定要删除此管理员吗？删除后不可恢复！</div>'
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        $.ajax( {
+                            type: 'POST',
+                            data: {mtUserId:id},
+                            url: '../m/officemtuserdel',
+                            success: function(data){
+                                if(data.code == 0){
+                                    layer.msg('删除成功！', {
+                                        time: 2000
+                                    });
+                                    me.remove();
+                                }else if(data.code == 20){
+                                    alert('登录已失效，请重新登录！！');
+                                    window.parent.location.href = 'login.html';
+                                }
+                            }
+                        } )
+                    });
+                }
+            });
+        })
+    });
+</script>
+</body>
+
+</html>

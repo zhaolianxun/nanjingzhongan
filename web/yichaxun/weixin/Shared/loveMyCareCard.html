@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!--<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>我的共享卡</title>
+    <link rel="stylesheet" href="Crowdfunding/css/loveMyCareCard.css"/>
+    <script src="../js/jquery-3.0.0.min.js"></script>
+    <script src="Crowdfunding/js/loveCard.js"></script>
+    <script src="../js/public.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        //        var urls=location.href;
+        var urls=location.href;
+        var url_new = urls.split("&")[0];
+        var $from=urls.split("&")[1];
+        if($from==''||$from==undefined||$from=='undefined'||$from==null){}else{
+            location.href=url_new;
+        }
+        var url_search="?"+urls.split("?")[1];
+        function getRequest() {
+//            var url_search = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url_search.indexOf("?") != -1) {
+                var str = url_search.substr(1);
+                strs = str.split("!");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+        var user_carecard_id = getRequest().user_carecard_id;
+        var  invitationCode=localStorage.getItem('invitationCode');
+//        alert(invitationCode);
+
+        var appId,timeStamp,nonceStr,package,signType,paySign;
+        var detail_del,detail_title;
+
+        $(document).ready(function(){
+            $.ajax({
+                url: "/yichaxun/u/wxjssdksign?url=" + location.href,
+                type: "get",
+                dataType: "json",
+                headers:{yccClient:'YCCGX'},
+//            async:"true",
+                async: true,
+                contentType: "application/x-www-form-urlencoded",
+                processData: false,
+                success: function (data) {
+                    if (data.code == 0) {
+                        appData = data.data;
+                        appId=appData.appId;
+                        nonceStr=appData.nonceStr;
+                        signType=appData.signType;
+                        signature=appData.signature;
+//                        alert(nonceStr)
+                        config(appData.appId,appData.timestamp,appData.nonceStr,appData.signature);
+                    }
+                }
+            });
+
+        })
+        function config(appId,timestamp,noncestr,sign){
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: appId,
+                timestamp: timestamp,
+                nonceStr: noncestr,
+                signature:sign,
+                jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+            wx.ready(function(){
+//                alert('ready!');
+                wx.checkJsApi({
+                    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareQZone'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                    success: function(res) {
+//                            alert(res)
+                        // 以键值对的形式返回，可用的api值true，不可用为false
+                        // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                        console.log("check result: " + res)
+                    }
+                });
+
+                wx.onMenuShareTimeline({
+                    title:detail_title, // 分享标题
+//                    desc: '关注健康，共享医疗，让参与者共享，不参与者买单', // 分享描述
+                    desc:detail_del, // 分享描述
+                    link: '/yichaxun/weixin/loveBuyCardShare.html?user_carecard_id='+user_carecard_id+"!invitationCode="+invitationCode, // 分享链接
+                    imgUrl: '/yichaxun/weixin/Shared/Crowdfunding/imgs/shareRed.jpg', // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数分享
+//                        alert('分享');
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+//                        alert('取消分享');
+                    }
+                });
+                wx.onMenuShareAppMessage({
+                    title:detail_title, // 分享标题
+                    desc:detail_del, // 分享描述
+                    link: '/yichaxun/weixin/loveBuyCardShare.html?user_carecard_id='+user_carecard_id+"!invitationCode="+invitationCode, // 分享链接
+                    imgUrl: '/yichaxun/weixin/Shared/Crowdfunding/imgs/shareRed.jpg', // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+//                        alert('分享');
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+//                        alert('取消分享');
+                    }
+                });
+                wx.onMenuShareQQ({
+                    title:detail_title, // 分享标题
+                    desc:detail_del, // 分享描述
+                    link: '/yichaxun/weixin/loveBuyCardShare.html?user_carecard_id='+user_carecard_id+"!invitationCode="+invitationCode, // 分享链接
+                    imgUrl: '/yichaxun/weixin/Shared/Crowdfunding/imgs/shareRed.jpg', // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+//                        alert('分享');
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+//                        alert('取消分享');
+                    }
+                });
+                wx.onMenuShareQZone({
+                    title:detail_title, // 分享标题
+                    desc:detail_del, // 分享描述
+                    link: '/yichaxun/weixin/loveBuyCardShare.html?user_carecard_id='+user_carecard_id+"!invitationCode="+invitationCode, // 分享链接
+                    imgUrl: '/yichaxun/weixin/Shared/Crowdfunding/imgs/shareRed.jpg', // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+            });
+            wx.error(function(res){
+//                alert('error!')
+            });
+        }
+
+
+
+
+    </script>
+
+</head>
+<body>
+<input type="hidden" class="hospitalId"/>
+    <div class="container" >
+        <div class="Top">
+            <img class="lf" src="Crowdfunding/iconLove/card-icon6@2x.png" alt=""/>
+            <p class="lf">待使用卡券</p>
+            <p class="rt cardId">ID:<span></span></p>
+        </div>
+        <div class="clear"></div>
+        <div style="height: 10px;background: #f2f2f2"></div>
+        <div class="hospitalCard">
+            <p></p>
+        </div>
+        <div class="hospitalDetails hospitalDetailsOne"><p class="lf">医院</p><p class="rt hospitalName"></p></div>
+        <div class="clear"></div>
+        <div class="hospitalDetails hospitalDetailsTwo"><p class="lf">所属人</p><p class="rt belongToSb"></p></div>
+        <div class="clear"></div>
+        <div class="hospitalDetails hospitalDetailsThree"><p class="lf">有效期至</p><p class="rt endTime"></p></div>
+        <div class="clear"></div>
+        <div style="height: 10px;background: #f2f2f2;"></div>
+
+        <div class="inclusionServices">
+            <div class="inclusionServicesTitle">
+                <p>共享医疗卡所包含服务</p>
+            </div>
+            <div class="inclusionServicesDetails">
+                <p><span class="number">1.</span><span class="inclusionServicesLine">脊椎疼痛病服务</span></p>
+            </div>
+        </div>
+
+    </div>
+<!--todo 医院介绍-->
+<div style="width: 100%;height: 10px;background: #f2f2f2"></div>
+<div class="hospitalIntroduce" style="padding-bottom: 51px">
+    <div class="hospitalIntroduceTitle">
+        <p style="margin: 22px auto 17px 15px; font-size: 14px;color: #999999;">医院介绍</p>
+    </div>
+    <div class="hospitalIntroduceDetails">
+        <p></p>
+    </div>
+    <div class="hospitalIntroduceBtn"><p>查看更多</p><img src="Crowdfunding/iconT/0_close_gray-copy-2@2x.png" alt=""/></div>
+</div>
+    <div class="userCard">
+        <button>使用卡券</button>
+    </div>
+    <div class="shareIcon"><img src="Crowdfunding/iconLove/share.png" alt=""/></div>
+    <div class="pop" onclick="close()" style="background: rgb(0, 0, 0); opacity: 0.8; display: none;">
+        <div class="arrow">
+            <img src="../images/arrow.png" alt="" class="arrow1">
+        </div>
+        <div class="words1">
+            <span style="width: 100%;margin-top: 48px;color:#fff !important;text-align: center;display: inline-block">点击右上角微信分享</span><br>
+        </div>
+    </div>
+    <script>
+$('.hospitalIntroduceBtn p').click(function(){
+    var hospitalId = $('.hospitalId').val()
+    location.href="loveHospitalIntroduce.html?hospitalId="+hospitalId;
+})
+        var careCardIdHtml=user_carecard_id.substring(user_carecard_id.length-3,user_carecard_id.length);
+        $('.cardId span').html("***"+careCardIdHtml);
+        var statusDetails=localStorage.getItem("statusDetails");
+        if(statusDetails==2){
+            $('.userCard button').css('background','#ccc').html('出售中');
+            localStorage.removeItem('statusDetails')
+
+        }else if(statusDetails==3){
+            $('.userCard button').css('background','#ccc').html('已结束');
+            localStorage.removeItem('statusDetails')
+        }else{
+            $('.userCard button').css('background','#ff8200').html('使用卡券');
+            localStorage.removeItem('statusDetails')
+        }
+        $().ready(function(){
+            $.ajax({
+                url:"/yichaxun/1/carecard/usecardpage",
+                type:'get',
+                data:"user_carecard_id="+user_carecard_id,
+                contentType:'application/x-www-form-urlencoded',
+                success:function(data){
+//                    if(data.data.havaInvitedCode=="null"||data.data.havaInvitedCode==null||data.data.havaInvitedCode==""||data.data.havaInvitedCode==undefined){
+//                    }else{
+//                        $('.invitationCodeVal').attr({"disabled":true})
+//                    }
+                    detail_del=data.data.serviceDesc;
+                    detail_title=data.data.hospitalName+data.data.belongCard;
+                    $('.hospitalCard p').html(data.data.belongCard);
+                    $('.hospitalName').html(data.data.hospitalName);
+                    $('.inclusionServicesDetails ').html(data.data.serviceDesc);
+                    $('.payNowMoneySale span').html(data.data.discountAmount);
+                    $('.belongToSb ').html(data.data.owner);
+                    $('.endTime').html(_getLocalTime(data.data.expireTime));
+                    $('.hospitalId').val(data.data.hospitalId);
+                    $('.hospitalIntroduceDetails p').html(data.data.hospitalBreifIntro)
+                }
+            })
+        });
+//使用卡券
+        $(".userCard button").click(function(){
+            location.href='loveSelectObject.html';
+            localStorage.setItem('hospitalId',$('.hospitalId').val());
+            localStorage.setItem('user_carecard_id',user_carecard_id);
+            localStorage.setItem('hospitalName', $('.hospitalName').html());
+//            $(this).attr({"disabled":true});
+//            var hospital_office_id=$('.hospitalId').val();
+//            alert(hospital_office_id);
+//            $.ajax({
+//                url:"/1/carecard/use",
+//                type:'POST',
+//                data:"user_carecard_id="+user_carecard_id+"&hospital_office_id="+hospital_office_id,
+//                contentType:'application/x-www-form-urlencoded',
+//                success:function(data){
+//                    if(data.code==0){
+//                    }
+//                }
+//            })
+        });
+
+        for(var i=0;i<5;i++){
+            var serverce=$('.inclusionServicesDetails p:last').clone();
+            $('.inclusionServicesDetails ').append(serverce)
+        }
+
+//分享按钮
+        $('.shareIcon').click(function(){
+            $('.pop').css('display','block')
+        })
+        $('.pop').click(function(){
+            $(this).css('display','none')
+        })
+    </script>
+</body>
+</html>

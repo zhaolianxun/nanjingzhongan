@@ -1,0 +1,138 @@
+html,body{
+    overflow-x: hidden;
+}
+body{
+    padding: 0;
+    margin:0 !important;
+    /*text-align: center;*/
+    width: 100%;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -moz-user-select: none;
+    -webkit-appearance:none;
+    outline: none;
+    /*overflow: hidden;*/
+    background-color: #FFFFFF;
+}
+.lf{
+    float: left;
+}
+.rt{
+    float: right;
+}
+.clear{
+    clear: both;
+}
+p{
+    margin: 0;
+    padding:0;
+}
+ul,li{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    /*display: inline-block;*/
+}
+html{font-size: 32px}
+@media(min-device-width: 375px) {
+    html{font-size: 64px}
+}
+@media(min-device-width: 414px) {
+    html{font-size: 75px}
+}
+.orderTop{
+    height: 2.66rem;
+    width: 10rem;
+    background: url("../imgs/img11.jpg") no-repeat;
+    background-size: cover;
+}
+.orderTopText{
+    line-height: 2.66rem;
+    color: #fff;
+    font-size: 0.48rem;
+    margin-left: 0.4rem;
+}
+.orderThank{
+    height: 1.33rem;
+    width: 9.6rem;
+    line-height: 1.33rem;
+    padding-left: 0.4rem;
+    background: #FFFFFF;
+    font-size: 0.37rem;
+}
+/*收货地址*/
+.consignee{
+    height: 2.66rem;
+    width: 10rem;
+    background: #FFFFFF;
+}
+.consigneeIconLf{
+    width: 0.29rem;
+    height: 0.4rem;
+    margin: 1.13rem 0.26rem 1.13rem 0.4rem;
+}
+.consigneeAddress{
+    width: 8rem;
+    height:auto ;
+    font-size: 0.42rem;
+}
+.consigneeAddressTake{
+    margin-bottom: 0.26rem;
+}
+.consigneeIconRt{
+    width: 0.17rem;
+    height: 0.32rem;
+    margin: 1.17rem 0.4rem;
+}
+/*底部订单信息*/
+.orderBottomFirst{
+    font-size: 0.37rem;
+    color: #333;
+    /*height: 1.86rem;*/
+    border-bottom: 0.01rem solid #e5e5e5;
+}
+.orderBottomSecond{
+    font-size: 0.37rem;
+    color: #333;
+    height:1.2rem;
+    border-bottom: 0.01rem solid #e5e5e5;
+}
+.orderBottomThird{
+    font-size: 0.37rem;
+    color: #333;
+    margin-bottom: 1.33rem;
+    border-bottom: 0.01rem solid #e5e5e5;
+    /*height: 1.86rem;*/
+}
+.orderBottomSecond p{
+    margin-left: 0.4rem;
+    line-height: 1.2rem;
+}
+.orderBottomFirst p,.orderBottomThird p{
+    margin-left: 0.4rem;
+}
+.orderBottomFirst p:first-child,.orderBottomThird p:first-child{
+    margin-top: 0.35rem;
+    margin-bottom: 0.2rem;
+}
+.orderBottomFirst p:last-child,.orderBottomThird p:last-child{
+    margin-bottom: 0.35rem;
+}
+/*底部导航*/
+.tabBottom{
+    position: fixed;
+    bottom: 0;
+    height: 1.33rem;
+    border-top: 0.01rem solid #e5e5e5;
+    background: #f7f7f7;
+    width: 10rem;
+}
+.tabBottomBtn{
+    width: 2.4rem;
+    height: 0.8rem;
+    border-radius: 0.4rem;
+    border: 0.01rem solid #ff8200;
+    color: #ff8200;
+    font-size: .42rem;
+    background: #f7f7f7;
+    margin: 0.265rem 0.4rem;
+}

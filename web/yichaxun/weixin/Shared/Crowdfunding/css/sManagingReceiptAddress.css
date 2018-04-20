@@ -1,0 +1,121 @@
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    /*text-align: center;*/
+    width: 100%;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -moz-user-select: none;
+    -webkit-appearance: none;
+    outline: none;
+    /*overflow: hidden;*/
+    background-color: #f2f2f2 !important;
+}
+
+.lf {
+    float: left;
+}
+
+.rt {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+ul,li{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    width: 100%;
+}
+/*html{font-size: 32px}*/
+/*@media(min-device-width: 375px) {*/
+/*html{font-size: 64px}*/
+/*}*/
+/*@media(min-device-width: 414px) {*/
+/*html{font-size: 75px}*/
+/*}*/
+#thelist{
+    width: 100%;
+}
+.thelistOnline{
+    width: 100%;
+    background: #FFFFFF;
+    margin-bottom: 10px;
+}
+
+.thelistUL li:first-child{
+    margin-left: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.name{
+    font-size: 16px;
+    color: #000;
+
+}
+.phone{
+    margin-left: 20px;
+    font-size: 16px;
+    color: #000;
+}
+.namePhone{
+    margin:13px 0 15px;
+}
+.address{
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 13px;
+    padding-right: 30px;
+}
+.selectIcon{
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+}
+.edit,.delete{
+    width: 15px;
+    height: 15px;
+    margin-right: 1px;
+}
+.thelistUL li:last-child{
+    height: 45px;
+    line-height: 45px;
+}
+.thelistUL li:last-child img{
+    position: static;
+    vertical-align: middle;
+}
+.setToTheDefaultAddress{
+    margin-left: 15px;
+}
+.deleteThis,.editDetails{
+    margin-right: 15px;
+}
+.buttomBtn{
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    width:100%;
+    background: #FFFFFF;
+    z-index: 999;
+}
+.buttomBtn button{
+    background: #ff8200;
+    height: 40px;
+    width: 92%;
+    margin: 10px 15px;
+    border: 0;
+    border-radius: 0.16rem;
+    font-size:18px;
+    color: #FFFFFF;
+}

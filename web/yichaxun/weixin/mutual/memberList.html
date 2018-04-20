@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>中安健康疼痛互助金</title>
+    <script src="../js/jquery-3.0.0.min.js"></script>
+    <script src="../js/oweJquery.js"></script>
+    <link rel="stylesheet" href="../css/dropload.css">
+    <script src="../js/dropload.min.js"></script>
+    <link rel="stylesheet" href="css/memberList.css"/>
+    <style>
+        .dropload-down{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="maintain">
+        <ul>
+            <!--<li>-->
+                <!--<div class="memberDetails lf">-->
+                    <!--<p class="memberName lf">会员姓名：张丽娜</p>-->
+                    <!--<p class="memberId lf">会员ID：123456789</p>-->
+                    <!--<p class="memberHelpMoney lf">互助金额：5元</p>-->
+                <!--</div>-->
+                <!--<img class="rt" src="../iconTwo/back-arrow@2x.png" alt=""/>-->
+            <!--</li>-->
+
+        </ul>
+    </div>
+    <div class="iconNull">
+        <img src="icon/imgNull.png" alt=""/>
+        <p class="noIncome">您还未加入中安健康疼痛金</p>
+        <button class="joinNow">立即加入</button>
+    </div>
+
+    <script>
+        $.ajax({
+            url: '/yichaxun/aidmoney/aidmemberlistpage?page_no=' + 1 + '&page_size=' + 15,
+            type: "post",
+            async: true,
+            headers: {yccClient: 'YCCGX'},
+            dataType: 'json',
+            success: function (data) {
+                if(data.code==0){
+                    if(data.data.items.length==''){
+                        $('.iconNull').css('display','block')
+                    }
+                }else if(data.code==20||data.code==26){
+                    location.href="../Shared/Tlogin.html";
+                    localStorage.setItem('href',location.href)
+                }
+            }
+        });
+        $().ready(function(){
+            var pageSize = 15;
+            toPageNo = 0;
+            $('ul').dropload({
+                scrollArea: window,
+                loadDownFn: function (me) {
+
+                    toPageNo++;
+                    // 拼接HTML
+                    var result = '';
+                    $.ajax({
+                        url: '/yichaxun/aidmoney/aidmemberlistpage?page_no=' + toPageNo + '&page_size=' + 15,
+                        type: "post",
+                        async: true,
+                        headers:{yccClient:'YCCGX'},
+                        dataType: 'json',
+                        success: function (data) {
+                            var arrLen = data.data.items.length;
+//                                console.log(arrLen);
+                            if (arrLen > 0) {
+                                for (var i = 0; i < arrLen; i++) {
+//                                var pic = data.data.items[i].medicalSchemePic;
+
+                                    result += ' <li aidmemberid="'+data.data.items[i].aidmemberid+'">'+
+                                                '<div class="memberDetails lf">'+
+                                                '<p class="memberName lf">会员姓名：'+data.data.items[i].aidmembername+'</p>'+
+                                                '<p class="memberId lf">会员ID：'+data.data.items[i].aidmemberid+'</p>'+
+                                                '<p class="memberHelpMoney lf">互助金额：'+data.data.items[i].aidmoney+'元</p>'+
+                                                '</div>'+
+                                                '<img class="rt" src="../iconTwo/back-arrow@2x.png" alt=""/>'+
+                                                '</li>';
+                                }
+
+                                // 如果没有数据
+                            } else {
+                                // 锁定
+                                me.lock();
+                                // 无数据
+                                me.noData();
+                            }
+                            // 为了测试，延迟1秒加载
+                            setTimeout(function () {
+                                // 插入数据到页面，放到最后面
+                                $('ul').append(result);
+                                // 每次数据插入，必须重置
+                                me.resetload();
+                            }, 100);
+                        },
+                        error: function (xhr, type) {
+//                                    alert('Ajax error!');
+                            // 即使加载出错，也得重置
+                            me.resetload();
+                        }
+                    });
+                }
+            });
+        });
+
+
+
+        $('.maintain').on('click','ul li',function(){
+            var aidmemberid=$(this).attr('aidmemberid');
+            location.href="mutualAid.html?aidmemberid="+aidmemberid;
+        })
+        $('.joinNow').click(function(){
+            location.href="../lovePay.html"
+        })
+    </script>
+</body>
+</html>

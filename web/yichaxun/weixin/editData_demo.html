@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>编辑资料</title>
+    <link rel="stylesheet" href="css/editData_demo.css"/>
+    <link rel="stylesheet" href="css/pop_p.css"/>
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
+    <script type="text/javascript" src="js/image-file-visible.js"></script>
+    <script type="text/javascript" src="js/addTmpImg.js"></script>
+    <!--<script src="js/jquery-3.0.0.min.js"></script>-->
+    <style>
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        body{
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+        }
+        .avater input{
+            /*display: none;*/
+            opacity: 0;
+            position: absolute;
+            right: 10%;
+            float: right;
+            width: 100%;
+            height: 80px;
+            display: inline-block;
+            margin-top:8.5px ;
+            margin-right: 10px;
+        }
+        #mingpian{
+            width: 76px;
+            height: 30px;
+            position: absolute;
+            /*top: 10px;*/
+            float: right;
+            right: 0;
+            opacity: 0;
+        }
+        .avater_titie img{
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+
+        }
+        #image_wrap2 img{
+            width: 100%; !important;
+            height: 104px !important;
+        }
+        /*.avater_titie{*/
+            /*background: url('icon/touxiang.png') no-repeat;*/
+            /*width:25%;*/
+        /*}*/
+        input {
+            font-size: 15px !important;
+
+        }
+        .userCard_img,.avater_titie_1
+        {
+          background: url("images/kongtu.png") no-repeat;
+        background-size: 100%;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+//图片显示插件
+            $.imageFileVisible({
+                wrapSelector: "#image_wrap1",
+                fileSelector: "#avater",
+                width: 80,
+                height: 80
+            });
+            $.imageFileVisible({
+                wrapSelector: "#image_wrap2",
+                fileSelector: "#mingpian"
+//                width: 70,
+//                height: 80
+            });
+        });
+    </script>
+</head>
+<body>
+<!--<div class="content_main">-->
+    <!--<img class="bg lf" src="images/bg_data.png" alt=""/>-->
+    <div class="title lf" style="margin-top: 16px;height: 35px">
+        <!--编辑资料-->
+        <!--<img class="lf back" src="icon/back-arrow.png" alt=""/>-->
+        <span class="rt over">完成</span>
+    </div>
+    <div class="clear"></div>
+    <div class="contain">
+        <form id="userHeadImg" class="avater lf">
+            <p class="lf avater_p">头像</p>
+            <img class="rt back_right" src="icon/back-arrow--right.png" alt=""/>
+            <div id="image_wrap1" class="avater_titie rt">
+                <img style="display: block" id="image_wrap" class="rt avater_titie_1" src="icon/touxiang.png" alt=""/>
+            </div>
+            <input name="file" type="file" id="avater" />
+        </form>
+
+        <!--<div class="content_geren">-->
+        <div class="userRealname lf">
+        <p class="lf">真实姓名</p>
+        <input  class="userRealname_next"  type="text" placeholder="请输入姓名"/>
+        </div>
+        <!--<div class="userPhone lf">-->
+        <!--<p class="lf">手机号码</p>-->
+        <!--<input class="rt userPhone_next"  type="text" placeholder="请输入手机号码"/>-->
+        <!--</div>-->
+        <div class="userEmail lf">
+        <p class="lf">邮箱</p>
+        <input class="userEmail_next"  type="text" placeholder="请输入邮箱"/>
+        </div>
+        <div class="userCompany lf">
+        <p class="lf">公司名称</p>
+        <input class="userCompany_next"  type="text" placeholder="请输入公司名称"/>
+        </div>
+        <div class="userCompanyAddress lf">
+        <p class="lf">公司地址</p>
+        <input class="userCompanyAddress_next"  type="text" placeholder="请输入公司地址"/>
+        </div>
+        <div class="clear"></div>
+        <!--</div>-->
+        <form id="userCard" class="userCard">
+            <p class="lf">名片</p>
+            <div class="mingpian rt">
+                <p class="rt add">添加<span><img src="icon/back-arrow--right.png" alt=""/></span></p>
+                <input id="mingpian" name="file" type="file"/>
+                <div id="image_wrap2" class="lf userCard_img">
+                    <img  style="display: none" class="lf userCard_img_1" src="images/kongtu.png" alt=""/>
+                </div>
+
+            </div>
+        </form>
+
+    <div class="clear"></div>
+    </div>
+<!--弹窗-->
+<div class="tanchuang1" style="display: none">
+    <span class="wenzi"></span>
+    <span class="btnbtn">OK</span>
+</div>
+<!--<button class="dian">家按钮家按钮</button>-->
+
+<script>
+//    $('.dian').click(function(){
+//        $.addTmpImgYichacha("userCard");
+//        console.log(result)
+//    })
+</script>
+<script>
+    $('.btnbtn').click(function(){
+        $('.tanchuang1').css('display','none');
+    })
+</script>
+<script>
+    var carder,header;
+    $().ready(function(){
+        $.ajax({
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            url: '/yichaxun/u/userinit',
+            type:"post",
+            success:function(data){
+                if(data.code==0){
+                    var userCard =  data.data.userCard;
+                    var userCompany =  data.data.userCompany;
+                    console.log(userCompany)
+                    var userCompanyAddress =  data.data.userCompanyAddress;
+                    var userEmail =  data.data.userEmail;
+                    var userHeadImg =  data.data.userHeadImg;
+                    var userId =  data.data.userId;
+                    var userRealname =  data.data.userRealname;
+                    console.log(userHeadImg)
+                    if(userCompany!="undefined"){
+                        $('.userCompany_next').val(userCompany);
+                    }
+                    if(userRealname!="undefined"){
+                        $('.userRealname_next').val(userRealname);
+                    }
+                    if(userCompanyAddress!="undefined"){
+                        $('.userCompanyAddress_next').val(userCompanyAddress);
+                    }
+                    if(userEmail!="undefined"){
+                        $('.userEmail_next').val(userEmail);
+                    }
+                    if(userId!="undefined"){
+                        $('.userPhone_next').val(userId);
+                    }
+                    if(userHeadImg!="undefined"&&userHeadImg!="null"&&userHeadImg!=null){
+                        $('#image_wrap').attr("src",userHeadImg).css('display','block')
+                    }
+                    if(userCard!="undefined") {
+                        $('.userCard_img_1').attr("src", userCard).css('display','block')
+                    }
+                }else if(data.code==26||data.code==20){
+                    location.href="login.html"
+                }else{
+//                    $('.tanchuang1').css('display','block')
+//                    $('.wenzi').html(data.message)
+//                    alert(data.message)
+                }
+            },
+            error: function (xhr, msg, reasonString) {
+//                    alert(msg);
+                console.log(arguments);
+            }
+        })
+
+    });
+
+
+    $('.back').click(function(){
+        window.history.back();
+    });
+
+    $('.over').click(function(){
+//        $(this).unbind('click');
+        $('.over').attr({"disabled":true})
+        $('.tanchuang1').css('display','block')
+        $('.wenzi').html("提交中");
+        var userHeadImg_de=$('#image_wrap').attr("src");
+        var userCard_de=$('.userCard_img_1').attr("src");
+
+        $.addTmpImgYichacha("userHeadImg");
+        var userHeadImg=result;
+                $.addTmpImgYichacha("userCard");
+        var userCard=result;
+//        var userCard=  uploadImg('userCard')
+//        alert(userCard)
+        console.log(userHeadImg,userCard,userHeadImg_de,userCard_de);
+        if(userHeadImg_de==undefined){
+            header=userHeadImg
+        }else if(userHeadImg==undefined||userHeadImg==''||userHeadImg==null){
+            header=userHeadImg_de
+        }
+        if(userCard_de==undefined){
+            carder=userCard
+        }else if(userCard==undefined||userCard==''||userCard==null){
+            carder=userCard_de
+        }
+        var userEmail=$('.userEmail_next').val();
+        var userRealname=$('.userRealname_next').val();
+        var userPhone=$('.userPhone_next').val();
+        var userCompany=$('.userCompany_next').val();
+        var userCompanyAddress=$('.userCompanyAddress_next').val();
+        console.log(header,carder)
+       if(header!='undefined'&&carder!='undefined'&&header!=undefined&&carder!=undefined){
+           $.ajax({
+               url: '/yichaxun/u/user/alter?userHeadImg=' + header + '&userCard=' + carder,
+               type: 'POST',
+//            data: $('#lshoppingunitForm').serialize(), '&userPhone='+userPhone
+               data:"userEmail="+userEmail+'&userRealname='+userRealname
+               +'&userCompany='+userCompany+'&userCompanyAddress='+userCompanyAddress,
+               async: true,
+               contentType: "application/x-www-form-urlencoded",
+               processData: false,
+               fileElementId: "file",
+               success: function (result) {
+                   if(result.code==20||result.code == 26){
+                       $('.tanchuang1').css('display','block')
+                       $('.wenzi').html("请登录您的账户！")
+//                    alert("请登录您的账户！")
+                       location.href='login.html'
+//                    window.open("login.html","_top")
+                   }
+                   else if(result.code==0) {
+                       $('.tanchuang1').css('display','none')
+                       location.href="editData.html"
+
+                   } else {
+//                   $('.over').bind('click')
+                       $('.over').attr({"disabled":false})
+//                   $('.tanchuang1').css('display','block')
+//                   $('.wenzi').html(result.message)
+//                    alert(result.msg)
+                   }
+
+               },
+               error: function (xhr, msg, reasonString) {
+//                    alert(msg);
+                   console.log(arguments);
+               }
+           })
+       }
+       else if(header=='undefined'||header==undefined){
+           $('.tanchuang1').css('display','block');
+           $('.wenzi').html("上传头像文件过大,请重新选择图片");
+           $('.over').attr({"disabled":false});
+       }else if(carder=='undefined'||carder==undefined){
+           $('.tanchuang1').css('display','block');
+           $('.wenzi').html("上传名片文件过大,请重新选择图片");
+           $('.over').attr({"disabled":false});
+       }
+    })
+
+
+
+//$('back').click(function(){
+//    var img = new FormData(document.getElementById('img'));
+//    $.ajax({
+//        type: 'POST',
+//        data: img,
+//        async: false,
+//        cache: false,
+//        contentType: false,
+//        processData: false,
+//        url: 'http://121.40.168.181/oss/image/upload?path=yichaxun/oss/',
+//        success: function (data) {
+//            if (data.rstCde == 0) {
+//                $('.tanchuang1').css('display','block')
+//                $('.wenzi').html('upload success!')
+////                alert('upload success!');
+//                /* var returnUrl = data.data.urls[0];
+//                 $.ajax( {
+//                 type: 'POST',
+//                 data: {urls:returnUrl},
+//                 url: '/object/in/i/cb',
+//                 success: function(data){
+//                 if(data.rstCde == 0){
+//                 dgHeadImg = returnUrl;
+//                 }
+//                 },
+//                 error: function(){}
+//                 } )*/
+//            }
+//        },
+//        error: function () {
+//        }
+//    })
+//})
+//})
+
+</script>
+</body>
+</html>

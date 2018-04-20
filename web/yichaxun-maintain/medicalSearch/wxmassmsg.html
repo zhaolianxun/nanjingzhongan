@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>微信群发消息</title>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css" />
+    <style>.layui-field-box{margin-left: 10px;}.layui-field-box>p{margin: 10px;font-size: 16px;} .selected{background-color: green!important;}#payee{padding: 9px;}</style>
+</head>
+
+<body>
+<div class="admin-main">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>微信群发消息</legend>
+    </fieldset>
+
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">消息类型</label>
+            <div class="layui-input-block">
+                <input id="textType" type="radio" name="type" value="1" title="文字" checked="">
+                <input id="picType" type="radio" name="type" value="2" title="图片">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否可发送</label>
+            <div class="layui-input-block">
+                <input id="ifAvailable" type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text" id="textBox">
+            <label class="layui-form-label">消息内容</label>
+            <div class="layui-input-block">
+                <textarea id="textContent" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item" id="picBox" style="display: none;">
+            <label class="layui-form-label">消息图片</label>
+            <div class="layui-input-block">
+                <input id="topImg" type="file" name="topImg" class="layui-upload-file" lay-title="请上传消息图片">
+            </div>
+        </div>
+
+        <div class="layui-form-item" id="picShowBox" style="display: none;">
+            <label class="layui-form-label">图片预览</label>
+            <div class="layui-input-block" id="picShow">
+
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="demo1">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++) {
+                theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+
+    layui.use(['form', 'upload', 'layedit'], function() {
+        var $ = layui.jquery,
+            form = layui.form(),
+            layer = layui.layer;
+
+        var hospitalId = getRequest().id;
+        var picContent = '';
+        function getHospitalMsg(){
+            $.ajax( {
+                type: 'GET',
+                data:{hospital_id:hospitalId},
+                url: '../wxmassmsg/gethospitalmsg',
+                success: function(data){
+                    if(data.code == 0){
+                        var data = data.data;
+                        if(data.type != null){
+                            if(data.type == 2){
+                                $('#picType+div.layui-form-radio').click();
+                                $('#picShowBox').show();
+                                $('#picShow').append('<img src="'+ data.content +'">')
+                            }else if(data.type == 1){
+                                $('#textContent').val(data.content);
+                            }
+                            if(data.ifAvailable == 0){
+                                $('#ifAvailable+div').click();
+                            }
+                        }
+                    }else if(data.code == 20){
+                        window.parent.location.href = 'login.html';
+                    }
+                }
+            } );
+        }
+
+        getHospitalMsg();
+        //文字类型
+        $('#textType+div.layui-form-radio').click(function(){
+            $('#textBox').show();
+            $('#picShowBox').hide();
+            $('#picBox').hide();
+        });
+        //图片类型
+        $('#picType+div.layui-form-radio').click(function(){
+            $('#picBox').show();
+            $('#picShowBox').show();
+            $('#textBox').hide();
+        });
+
+        layui.upload({
+            url: 'http://passion.njshangka.com/oss/file/upload?path=yichaxun/'
+            ,elem: '#topImg' //指定原始元素，默认直接查找class="layui-upload-file"
+            ,method: 'post' //上传接口的http类型
+            ,success: function(res){
+                if(res.code == 0){
+                    picContent = res.data.url;
+                    layer.msg('消息图片上传成功...');
+                    $('#picShow').append('<img src="'+ picContent +'">')
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function(data) {
+            var a = data.field;
+            var content = $('#textContent').val();
+            var available = '';
+
+            if(a.type == 1){
+                if($('#textContent').val() == ''){
+                    layer.msg('内容不能为空！');
+                    return false;
+                }else{
+                    content = $('#textContent').val();
+                }
+            }else{
+                if(picContent == ''){
+                    layer.msg('请先上传图片！');
+                    return false;
+                }else{
+                    content = picContent;
+                }
+            }
+            if(a.open == 'on'){
+                available = 1;
+            }else{
+                available = 0;
+            }
+            $.ajax({
+                type: 'POST',
+                data: {type:a.type,if_available: available,hospital_id:hospitalId,content:content},
+                url: '../wxmassmsg/sethospitalmsg',
+                success: function(data){
+                    if(data.code == 0){
+                        layer.msg('保存成功！');
+                        setTimeout(function(){
+                            history.go(-1);
+                        },2000)
+                    }else if(data.code == 20){
+                        layer.msg('登录已失效，请重新登录！')
+                    }else{
+                        layer.msg(data.message);
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

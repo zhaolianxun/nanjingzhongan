@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!--<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>首页</title>
+    <link rel="stylesheet" href="Shared/Crowdfunding/css/CindexDemo.css"/>
+    <link rel="stylesheet" href="css/index_new.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="css/dropload.css">
+    <script src="js/zepto.min.js"></script>
+    <script src="js/dropload.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="js/public.js"></script>
+    <script src="Shared/Crowdfunding/js/loveMyCardDetail.js"></script>
+    <style>
+        html{font-size: 0.42rem}
+        @media(min-device-width: 375px) {
+            html{font-size: 64px}
+        }
+        @media(min-device-width: 414px) {
+            html{font-size: 75px}
+        }
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        .states{
+            margin-right: 0.4rem;
+        }
+        .dropload-down{
+            display: none;
+        }
+        .imgImg{
+            /*width: 100%;*/
+            /*height:200px;*/
+        }
+        .worryCard{
+            margin:0.28rem 0.2rem 0;
+        }
+        .worryCard img{
+            width: 100%;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="worryCard">
+    <img src="Shared/Crowdfunding/iconLove/card-bg-2@2x.png" alt=""/>
+</div>
+<div class="html">
+    <div  class="contain" style="margin: 0.26rem 0.2rem 1.33rem">
+
+    </div>
+</div>
+<!--<div class="footer_T">-->
+    <!--<div  class="footer_T_1 lf">-->
+        <!--<img src="Shared/Crowdfunding/iconT/home--select@2x.png" alt=""/>-->
+        <!--<p style="color:#3ac9af ">首页</p>-->
+    <!--</div>-->
+    <!--<div class="footer_T_2 lf">-->
+        <!--<img src="Shared/Crowdfunding/iconT/card_icon3@2x.png" alt=""/>-->
+        <!--<p  >关爱卡</p>-->
+    <!--</div>-->
+    <!--<div class="footer_T_3 lf">-->
+        <!--<img src="Shared/Shared/Crowdfunding/iconT/wode@2x.png" alt=""/>-->
+        <!--<p>我的</p>-->
+    <!--</div>-->
+<!--</div>-->
+<!--底部导航栏-->
+<script>
+    localStorage.removeItem('href');
+    $('.footer_T_1').click(function(){
+        $('.footer_T_1').find("img").attr('src','Shared/Crowdfunding/iconT/home--select@2x.png');
+        $('.footer_T_1').find('p').css('color','#3ac9af');
+        $('.footer_T_2').find("img").attr('src','Shared/Crowdfunding/iconT/card_icon3@2x.png');
+        $('.footer_T_2').find('p').css('color','#999');
+        $('.footer_T_3').find("img").attr('src','Shared/Crowdfunding/iconT/wode@2x.png');
+        $('.footer_T_3').find('p').css('color','#999');
+        location.href='TCindex.html'
+    })
+    $('.footer_T_2').click(function(){
+        $('.footer_T_2').find("img").attr('src','Shared/Crowdfunding/iconT/card_icon2@2x.pn');
+        $('.footer_T_2').find('p').css('color','#3ac9af');
+        $('.footer_T_1').find("img").attr('src','Shared/Crowdfunding/iconT/home@2x.png');
+        $('.footer_T_1').find('p').css('color','#999');
+        $('.footer_T_3').find("img").attr('src','Shared/Crowdfunding/iconT/wode@2x.png');
+        $('.footer_T_3').find('p').css('color','#999');
+        location.href='Shared/loveCardDemo.html'
+    })
+    $('.footer_T_3').click(function(){
+        $('.footer_T_3').find("img").attr('src','Shared/Crowdfunding/iconT/wode-select@2x.png');
+        $('.footer_T_3').find('p').css('color','#3ac9af');
+        $('.footer_T_1').find("img").attr('src','Shared/Crowdfunding/iconT/home@2x.png');
+        $('.footer_T_1').find('p').css('color','#999');
+        $('.footer_T_2').find("img").attr('src','Shared/Crowdfunding/iconT/card_icon3@2x.png');
+        $('.footer_T_2').find('p').css('color','#999');
+        location.href='Shared/TMine.html'
+    })
+
+</script>
+<!--引入数据-->
+<script>
+    var good_id,shop_id
+    $.ajax({
+        url:"/yichaxun/c/1/carecard",
+        type:'get',
+        data:"id=1",
+        success:function(data){
+            $('.worryCard img').attr('src',data.data.pic);
+//                good_id=data.data.id;
+//                shop_id=data.data.id;
+//                localStorage.setItem('good_id',good_id)
+//                localStorage.setItem('shop_id',shop_id)
+        }
+    })
+
+
+    $('.worryCard').click(function(){
+
+        $.ajax({
+            url:'/yichaxun/u/userinit',
+            type:'post',
+            headers:{yccClient:'YCCGX'},
+            success:function(data){
+                if(data.code==0){
+//                        $('.invitationCode').val(data.data.invitationCode)
+                    location.href="Shared/loveDetailsIndex.html?invitationCode="+data.data.invitationCode;
+                    localStorage.setItem('invitationCode',data.data.invitationCode)
+                }else if(data.code==20||data.code==26){
+                    location.href="Shared/Tlogin.html";
+                    localStorage.setItem('href',location.href)
+                }
+            }
+        });
+    })
+    var time,toPageNo;
+    var _htmls=localStorage.getItem('html_index');
+    var height=localStorage.getItem('dataHeight_index');
+    var page=localStorage.getItem('page');
+    //alert(_htmls)
+    $().ready(function() {
+//            alert(height)
+//            $('img').css('height','2000px');
+//            alert( scroll_width*0.624)
+//            alert($('.box_top img').height());
+        if(_htmls==''||_htmls=='null'||_htmls==undefined||_htmls==null){
+            $(function () {
+                // dropload
+                var pageSize = 15;
+                toPageNo = 0;
+                $('.contain').dropload({
+                    scrollArea: window,
+                    loadDownFn: function (me) {
+
+                        toPageNo++;
+                        // 拼接HTML
+                        var result = '';
+                        $.ajax({
+                            url: '/yichaxun/u/medicalschemelist?toPageNo=' + toPageNo + '&pageSize=' + 15,
+                            type: "post",
+                            async: true,
+                            headers:{yccClient:'YCCGX'},
+                            dataType: 'json',
+                            success: function (data) {
+                                var arrLen = data.data.items.length;
+//                                console.log(arrLen);
+                                if (arrLen > 0) {
+                                    for (var i = 0; i < arrLen; i++) {
+                                        var pic = data.data.items[i].medicalSchemePic;
+                                        var JDwidth = data.data.items[i].medicalSchemeDoneAmount * 100 / data.data.items[i].medicalSchemeTargetAmount + '%';
+                                        if(parseInt(JDwidth)>=100){
+                                            var   JDwidth_wid=100+'%';
+                                            var   JDwidth_wids=parseInt(parseFloat(JDwidth)*100)/100+"%";
+                                        }else{
+                                            var   JDwidth_wid=JDwidth;
+                                            var   JDwidth_wids=parseInt(parseFloat(JDwidth)*100)/100+"%";
+                                        }
+//                                        console.log(pic);
+                                        var regex = /,/;
+                                        picBlobs = pic.split(regex);
+                                        var TargetAmount;
+                                        time = getDateDiff(data.data.items[i].medicalSchemeEndTime);
+                                        var a=data.data.items[i].medicalSchemeTargetAmount;
+                                        var s= a.toString();
+//                                        alert(s.length)
+                                        if(s.length>=5){
+                                            TargetAmount=data.data.items[i].medicalSchemeTargetAmount/10000+'万元'
+//                                            alert(TargetAmount)
+                                        }else{
+                                            TargetAmount=data.data.items[i].medicalSchemeTargetAmount+'元'
+                                        }
+                                        result += '<div class="box" timers="'+time+'" isSupport="'+data.data.items[i].isSupport+'" medicalSchemeId="' + data.data.items[i].medicalSchemeId + '">' +
+                                        '<div class="box_top">' + data.data.items[i].hospitalName + '</div>' +
+                                        '<img class="imgImg'+i+'" src="' + picBlobs[0] + '" alt=""/>' +
+                                        '<div class="box_bottom">' +
+                                        '<p>' + data.data.items[i].medicalSchemeName + '</p>' +
+                                        '<span class="spanish" style="font-size: 0.37rem !important;">' + data.data.items[i].medicalSchemeBriefIntro + '</span>' +
+                                        '</div>' +
+                                        '<div class="howMoney lf">' +
+                                        '<div class="line lf">' +
+                                        '<p class="medicalSchemeTargetAmount"  style="color: #ffaa00;font-size:0.42rem !important;">￥' + TargetAmount + '</p>' +
+                                        '<span style="font-size: 0.37rem">目标金额</span>' +
+                                        '</div>' +
+                                        '<div class="line lf">' +
+                                        '<p class="medicalSchemeDays"  style="color: #ffaa00;font-size: 0.42rem !important;">' + time + '天</p>' +
+                                        '<span  style="font-size: 0.37rem">剩余天数</span>' +
+                                        '</div>' +
+                                        '<div class="line lf">' +
+                                        '<p class="medicalSchemeSupportNum" style="color: #43ac43;font-size: 0.42rem !important;">' + data.data.items[i].medicalSchemeSupportNum + '人</p>' +
+                                        '<span style="font-size: 0.37rem">支持人数</span>' +
+                                        '</div>' +
+                                        '<div class="clear"></div>' +
+                                        '<div class="progress_line lf"  style="background: #eaecec">' +
+                                        '<div style="width: ' + JDwidth_wid + '" class="progress_line_top"></div>' +
+                                        '</div>' +
+                                        '<div class="percent lf" style="margin-left: -0.2rem;margin-top:-0.13rem;font-size:0.29rem;color: #666">'+JDwidth_wids+'</div>'+
+                                        '</div>' +
+                                        '<div class="clear"></div>' +
+                                        '</div>';
+                                    }
+
+                                    // 如果没有数据
+                                } else {
+                                    // 锁定
+                                    me.lock();
+                                    // 无数据
+                                    me.noData();
+                                }
+                                // 为了测试，延迟1秒加载
+                                setTimeout(function () {
+                                    // 插入数据到页面，放到最后面
+                                    $('.contain').append(result);
+                                    // 每次数据插入，必须重置
+                                    me.resetload();
+                                }, 100);
+                            },
+                            error: function (xhr, type) {
+//                                    alert('Ajax error!');
+                                // 即使加载出错，也得重置
+                                me.resetload();
+                            }
+                        });
+                    }
+                });
+            });
+        }else{
+            $('.contain').html(_htmls);
+            window.scrollTo(0,height)
+            $(function () {
+                // dropload
+                var pageSize = 15;
+                toPageNo = page;
+                $('.contain').dropload({
+                    scrollArea: window,
+                    loadDownFn: function (me) {
+
+                        toPageNo++;
+                        // 拼接HTML
+                        var result = '';
+                        $.ajax({
+                            url: '/yichaxun/u/medicalschemelist?toPageNo=' + toPageNo + '&pageSize=' + 15,
+                            type: "post",
+                            async: true,
+                            headers:{yccClient:'YCCGX'},
+                            dataType: 'json',
+                            success: function (data) {
+                                var arrLen = data.data.items.length;
+//                                console.log(arrLen);
+                                if (arrLen > 0) {
+                                    for (var i = 0; i < arrLen; i++) {
+                                        var pic = data.data.items[i].medicalSchemePic;
+                                        var JDwidth = data.data.items[i].medicalSchemeDoneAmount * 100 / data.data.items[i].medicalSchemeTargetAmount + '%';
+                                        if(parseInt(JDwidth)>=100){
+                                            var   JDwidth_wid=100+'%';
+                                            var   JDwidth_wids=parseInt(parseFloat(JDwidth)*100)/100+"%";
+                                        }else{
+                                            var   JDwidth_wid=JDwidth;
+                                            var   JDwidth_wids=parseInt(parseFloat(JDwidth)*100)/100+"%";
+                                        }
+//                                        console.log(pic);
+                                        var regex = /,/;
+                                        picBlobs = pic.split(regex);
+                                        var TargetAmount;
+                                        time = getDateDiff(data.data.items[i].medicalSchemeEndTime);
+                                        var a=data.data.items[i].medicalSchemeTargetAmount;
+                                        var s= a.toString();
+//                                        alert(s.length)
+                                        if(s.length>=5){
+                                            TargetAmount=data.data.items[i].medicalSchemeTargetAmount/10000+'万元'
+//                                            alert(TargetAmount)
+                                        }else{
+                                            TargetAmount=data.data.items[i].medicalSchemeTargetAmount+'元'
+                                        }
+                                        result += '<div class="box" timers="'+time+'" isSupport="'+data.data.items[i].isSupport+'" medicalSchemeId="' + data.data.items[i].medicalSchemeId + '">' +
+                                        '<div class="box_top">' + data.data.items[i].hospitalName + '</div>' +
+                                        '<img class="imgImg'+i+'" src="' + picBlobs[0] + '" alt=""/>' +
+                                        '<div class="box_bottom">' +
+                                        '<p>' + data.data.items[i].medicalSchemeName + '</p>' +
+                                        '<span class="spanish" style="font-size: 0.37rem !important;">' + data.data.items[i].medicalSchemeBriefIntro + '</span>' +
+                                        '</div>' +
+                                        '<div class="howMoney lf">' +
+                                        '<div class="line lf">' +
+                                        '<p class="medicalSchemeTargetAmount"  style="color: #ffaa00;font-size: 0.42rem !important;">￥' + TargetAmount + '</p>' +
+                                        '<span style="font-size:0.37rem">目标金额</span>' +
+                                        '</div>' +
+                                        '<div class="line lf">' +
+                                        '<p class="medicalSchemeDays"  style="color: #ffaa00;font-size:0.42rem !important;">' + time + '天</p>' +
+                                        '<span  style="font-size: 0.37rem">剩余天数</span>' +
+                                        '</div>' +
+                                        '<div class="line lf">' +
+                                        '<p class="medicalSchemeSupportNum" style="color: #43ac43;font-size: 0.42rem !important;">' + data.data.items[i].medicalSchemeSupportNum + '人</p>' +
+                                        '<span style="font-size: 0.37rem">支持人数</span>' +
+                                        '</div>' +
+                                        '<div class="clear"></div>' +
+                                        '<div class="progress_line lf"  style="background: #eaecec">' +
+                                        '<div style="width: ' + JDwidth_wid + '" class="progress_line_top"></div>' +
+                                        '</div>' +
+                                        '<div class="percent lf" style="margin-left: -0.2rem;margin-top:-0.13rem;font-size:0.29rem;color: #666">'+JDwidth_wids+'</div>'+
+                                        '</div>' +
+                                        '<div class="clear"></div>' +
+                                        '</div>';
+                                    }
+
+                                    // 如果没有数据
+                                } else {
+                                    // 锁定
+                                    me.lock();
+                                    // 无数据
+                                    me.noData();
+                                }
+                                // 为了测试，延迟1秒加载
+                                setTimeout(function () {
+                                    // 插入数据到页面，放到最后面
+                                    $('.contain').append(result);
+                                    // 每次数据插入，必须重置
+                                    me.resetload();
+                                }, 100);
+                            },
+                            error: function (xhr, type) {
+//                                    alert('Ajax error!');
+                                // 即使加载出错，也得重置
+                                me.resetload();
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+    });
+
+    //            滚动
+    var height;
+    $(window).scroll(function () {
+        height = $(this).scrollTop();
+    });
+
+    //        跳转项目详情页
+    $('.html').on('click','.contain .box',function(){
+        var medicalSchemeId=$(this).attr('medicalSchemeId');
+        var _html=$('.contain').html();
+        var isSupport=$(this).attr('isSupport');
+        localStorage.setItem('html_index',_html);
+        var time=$(this).attr('timers')
+
+        localStorage.setItem('page',toPageNo)
+        localStorage.setItem('dataHeight_index',height);
+        localStorage.setItem('isSupport',isSupport);
+        localStorage.setItem('time',time);
+//            alert(medicalSchemeId);
+        location.href="TCrowdfunding_details_gx.html?medicalSchemeId="+medicalSchemeId;
+    });
+
+
+
+
+</script>
+
+</body>
+</html>

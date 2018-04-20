@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>我的返点</title>
+    <link rel="stylesheet" href="Crowdfunding/css/rebateMine.css"/>
+    <link rel="stylesheet" href="../css/pop_p.css"/>
+    <link rel="stylesheet" href="../css/dropload.css">
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/dropload.min.js"></script>
+    <style>
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        input{
+            outline:none;
+        }
+    </style>
+</head>
+<body>
+<div class="bg" style="display:none;text-align: center;margin: 150px 20px auto;font-size: 16px;color: #000;line-height: 26px">
+    您当前尚未获得返点或您当前返点已使用完
+</div>
+    <div class="dataList">
+        <!--<div class="tab">-->
+            <!--<p class="tab_p">南京鼓楼医院</p>-->
+            <!--<div class="tab_div">-->
+                <!--<p class="tab_div_p">5000.00</p>-->
+                <!--<span class="tab_div_span">今日回报100.00</span>-->
+            <!--</div>-->
+            <!--<div class="tab_bottom">-->
+                <!--查看明细-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="tab">-->
+            <!--<p class="tab_p">南京鼓楼医院</p>-->
+            <!--<div class="tab_div">-->
+                <!--<p class="tab_div_p">5000.00</p>-->
+                <!--<span class="tab_div_span">今日回报100.00</span>-->
+            <!--</div>-->
+            <!--<div class="tab_bottom" hospitalId="hospitalId">-->
+                <!--查看明细-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+    </div>
+    <div class="footer"  style="position:fixed;bottom: 0">我要付款</div>
+    <script>
+        $().ready(function(){
+            $.ajax({
+                url:'/yichaxun/u/mscoinrecsummarylist?toPageNo=' + 1 + '&pageSize=' + 15,
+                type:'post',
+                async:true,
+                dataType: 'json',
+                headers:{yccClient:'YCCGX'},
+                success: function (data) {
+//                    alert(data.data.items.length)
+                   if(data.data.items.length==0){
+                       $('.bg').css('display','block')
+                       $('.footer').unbind('click').css('background','#d1d5da')
+                   }
+                }
+            });
+
+
+            $(function () {
+                // dropload
+                var pageSize = 15;
+                var toPageNo = 0;
+                $('.content').dropload({
+                    scrollArea: window,
+                    loadDownFn: function (me) {
+
+                        toPageNo++;
+                        // 拼接HTML
+                        var result = '';
+                        $.ajax({
+                            url:'/yichaxun/u/mscoinrecsummarylist?toPageNo=' + toPageNo + '&pageSize=' + 15,
+                            type:'post',
+                            async:true,
+                            dataType: 'json',
+                            headers:{yccClient:'YCCGX'},
+                            success: function (data) {
+                                var arrLen = data.data.items.length;
+                                console.log(arrLen);
+                                if (arrLen > 0) {
+                                    for (var i = 0; i < arrLen; i++) {
+
+                                        var hospitalMedicalSchemeCoinTodayReturn;
+                                        if(!data.data.items[i].hospitalMedicalSchemeCoinTodayReturn){
+                                            hospitalMedicalSchemeCoinTodayReturn=0;
+                                        }else{
+                                            hospitalMedicalSchemeCoinTodayReturn=data.data.items[i].hospitalMedicalSchemeCoinTodayReturn;
+                                        }
+                                        result += '<div class="tab">'+
+                                        '<p class="tab_p">'+data.data.items[i].hospitalName+'</p>'+
+                                        '<div class="tab_div">'+
+                                        '<p class="tab_div_p">'+data.data.items[i].hospitalMedicalSchemeCoinBalance+'</p>'+
+                                        '<span class="tab_div_span">'+hospitalMedicalSchemeCoinTodayReturn+'</span>'+
+                                        '</div>'+
+                                        '<div class="tab_bottom" hospitalId="'+data.data.items[i].hospitalId+'">查看明细</div>'+
+                                        '</div>'
+                                    }
+                                    // 如果没有数据
+                                } else {
+                                    // 锁定
+                                    me.lock();
+                                    // 无数据
+                                    me.noData();
+                                }
+                                // 为了测试，延迟1秒加载
+                                setTimeout(function () {
+                                    // 插入数据到页面，放到最后面
+                                    $('.dataList').append(result);
+                                    // 每次数据插入，必须重置
+                                    me.resetload();
+                                }, 100);
+                            },
+                            error: function (xhr, type) {
+//                                    alert('Ajax error!');
+                                // 即使加载出错，也得重置
+                                me.resetload();
+                            }
+                        });
+                    }
+                });
+            });
+        })
+
+        $('.dataList').on('click','.tab .tab_bottom',function(){
+            var hospitalId=$(this).attr('hospitalId');
+            location.href="TrebateDetails.html?hospitalId="+hospitalId;
+        })
+//        我要去送钱啦
+        $('.footer').click(function(){
+            location.href="Tpaymeasure.html"
+        })
+    </script>
+</body>
+</html>

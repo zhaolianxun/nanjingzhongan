@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        后台管理系统
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+</head>
+
+<body>
+<div class="x-body">
+    <form class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label">
+                姓名
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="name" required lay-verify="title" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label">
+                职称
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="jobTitle" name="jobTitle" required lay-verify="title" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <div class="layui-input-block">
+                <div id="editor" class="layui-input-block">
+                    <textarea id="introduction" name="introduction" placeholder="请输入医生介绍" class="layui-textarea fly-editor" style="height: 260px;"></textarea>
+                </div>
+            </div>
+            <label for="editor" class="layui-form-label" style="top: -2px;">
+                介绍
+            </label>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="link" class="layui-form-label">
+                <span class="x-red">*</span>照片
+            </label>
+            <div>
+                <input type="file" name="file" id="file">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label  class="layui-form-label">缩略图
+            </label>
+            <img id="preview" width="400" src="">
+        </div>
+
+        <div class="layui-form-item">
+            <label for="link" class="layui-form-label">
+                <span class="x-red">*</span>链接
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="link" name="link" required="" lay-verify="link" autocomplete="off" class="layui-input" disabled>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <button class="layui-btn" lay-filter="add" lay-submit>
+                保存
+            </button>
+        </div>
+    </form>
+</div>
+<script src="./lib/layui/layui.js" charset="utf-8"></script>
+<script src="./js/x-layui.js" charset="utf-8"></script>
+<script src="./js/getRequest.js"></script>
+<script src="./js/upload.js"></script>
+<script>
+    layui.use(['form','layer','layedit'], function(){
+        $ = layui.jquery;
+        var form = layui.form(),
+            layer = layui.layer,
+            layedit = layui.layedit;
+
+        var doctorId = getRequest().id;
+        var name = sessionStorage.getItem('doctorName');
+        var jobTitle = sessionStorage.getItem('doctorJobTitle');
+        var photo = sessionStorage.getItem('doctorPhoto');
+        var introduction = sessionStorage.getItem('doctorIntroduction');
+        if(doctorId != undefined){
+            $('#name').val(name);
+            $('#jobTitle').val(jobTitle);
+            $('#preview').attr('src',photo);
+            $('#link').val(photo);
+            $('#introduction').val(introduction);
+        }
+
+        $('#file').on('change',function(){
+            uploadImg('file');
+        });
+
+        //自定义验证规则
+        form.verify({
+            name:function(value){
+                if(value.length == 0){
+                    return '请输入名称';
+                }
+            },
+            link:function(value){
+                if(value.length == 0){
+                    return '请上传图片';
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(add)', function(data){
+            var a = data.field;
+            if(doctorId != undefined){
+                $.ajax({
+                    type: 'POST',
+                    data: {doctor_id:doctorId,name:a.name,photo:a.link,jobtitle:a.jobTitle,introduction:a.introduction},
+                    url: '../../hp/h/doctor/alter',
+                    success: function(res){
+                        if(res.code == 0){
+                            layer.msg('修改医生成功！');
+                        }else{
+                            layer.msg(res.codeMsg);
+                        }
+                    }
+                })
+            }else{
+                $.ajax({
+                    type: 'POST',
+                    data: {name: a.name,photo: a.link,jobtitle:a.jobTitle,introduction:a.introduction},
+                    url: '../../hp/h/doctor/create',
+                    success: function(res){
+                        if(res.code == 0){
+                            layer.msg('添加医生成功！');
+                        }else{
+                            layer.msg(res.codeMsg);
+                        }
+                    }
+                })
+            }
+            return false;
+        });
+    });
+</script>
+
+</body>
+
+</html>

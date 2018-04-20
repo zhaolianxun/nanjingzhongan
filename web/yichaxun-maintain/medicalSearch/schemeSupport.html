@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>方案支持人列表</title>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css" />
+    <style>.disabled{display: none;}</style>
+</head>
+
+<body>
+<div class="admin-main">
+
+    <blockquote class="layui-elem-quote">
+        “<span id="scheme" style="color: red"></span>” 项目的支持人
+        <a href="javascript:history.go(-1)" style="margin-left: 50px;"  class="layui-btn layui-btn-mini">返回</a>
+        <a href="javascript:;" style="float: right;" class="layui-btn disabled layui-btn-danger layui-btn-small" id="add">
+            <i class="layui-icon">&#xe608;</i> 添加支持人
+        </a>
+        <a href="javascript:;" style="float: right;" class="layui-btn disabled layui-btn-warm layui-btn-small" id="refresh">
+            <i class="layui-icon">&#x1002;</i> 刷新
+        </a>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>支持人列表</legend>
+        <div class="layui-field-box">
+            <table class="site-table table-hover">
+                <thead>
+                <tr>
+                    <th>订单号</th>
+                    <th>手机号</th>
+                    <th>支持金额</th>
+                    <th>支付方式</th>
+                    <th>订单创建时间</th>
+                    <th>订单状态</th>
+                    <th class="disabled">退款状态</th>
+                    <th class="disabled">操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <div class="admin-table-page">
+        <div id="page" class="page"></div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++) {
+                theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+
+    layui.config({
+        base: 'plugins/layui/modules/'
+    });
+
+    layui.use(['icheck', 'laypage','layer'], function() {
+        var $ = layui.jquery,
+                laypage = layui.laypage,
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+        $('#scheme').html(localStorage.getItem('schemeName'));
+        var totalPage;
+        var id = getRequest().id;
+        var toPageNo = 1;
+        function getData(){
+            $.ajax( {
+                type: 'POST',
+                data: {medicalSchemeId:id,toPageNo:toPageNo},
+                url: '../m/medicalschemesupportorderlist',
+                success: function(data){
+                    if(data.code == 0){
+                        $('#tbody').children().remove();
+                        var data = data.data;
+                        totalPage = data.sum.totalPageCount;
+                        rePage();
+                        for(var i = 0 ; i < data.items.length ; i ++){
+                            var orderStatus = '';
+                            var refundStatus = '无';
+                            var type = '';
+                            var refundNote = '';
+                            if(data.items[i].medicalSchemeSupportOrderPayType == 'WXH5'){
+                                type = '微信支付';
+                            }else if(data.items[i].medicalSchemeSupportOrderPayType == 'WXAPP'){
+                                type = 'APP支付';
+                            }else if(data.items[i].medicalSchemeSupportOrderPayType == 'ALIPAYWAP'){
+                                type = '支付宝支付';
+                            }else if(data.items[i].medicalSchemeSupportOrderPayType == 'WXMINIAPP'){
+                                type = '小程序支付';
+                            }else if(data.items[i].medicalSchemeSupportOrderPayType == 'OFFLINE'){
+                                type = '线下支付';
+                            }
+                            if(data.items[i].medicalSchemeSupportOrderStatus == 'NEW'){
+                                orderStatus = '未支付';
+                            }else if(data.items[i].medicalSchemeSupportOrderStatus == 'PAYED'){
+                                orderStatus = '已支付';
+                            }else if(data.items[i].medicalSchemeSupportOrderStatus == 'RETURNEND'){
+                                orderStatus = '返点结束';
+                            }
+                            if(data.items[i].medicalSchemeSupportOrderRefund == 'ING'){
+                                refundStatus = '退款中';
+                                refundNote = data.items[i].medicalSchemeSupportOrderRefundNote;
+                            }else if(data.items[i].medicalSchemeSupportOrderRefund == 'SUCCESS'){
+                                refundStatus = '退款成功';
+                                refundNote = '';
+                            }else if(data.items[i].medicalSchemeSupportOrderRefund == 'FAIL'){
+                                refundStatus = '退款失败';
+                                refundNote = data.items[i].medicalSchemeSupportOrderRefundNote;
+                            }
+                            if(localStorage.getItem('hospitalId')){
+                                $('#tbody').append('<tr>' +
+                                    '<td class="orderId">'+ data.items[i].medicalSchemeSupportOrderId +'</td>' +
+                                    '<td>'+ data.items[i].userPhone +'</td>' +
+                                    '<td>'+ data.items[i].medicalSchemeSupportOrderAmount +' 元</td>' +
+                                    '<td>'+ type +'</td>' +
+                                    '<td>'+ new Date(parseInt(data.items[i].medicalSchemeSupportOrderAddTime)).toLocaleString() +'</td>' +
+                                    '<td>'+ orderStatus +'</td>' +
+                                    '</tr>'
+                                );
+                            }else{
+                                $('.disabled').removeClass('disabled');
+                                $('#tbody').append('<tr>' +
+                                    '<td class="orderId">'+ data.items[i].medicalSchemeSupportOrderId +'</td>' +
+                                    '<td>'+ data.items[i].userPhone +'</td>' +
+                                    '<td>'+ data.items[i].medicalSchemeSupportOrderAmount +' 元</td>' +
+                                    '<td>'+ type +'</td>' +
+                                    '<td>'+ new Date(parseInt(data.items[i].medicalSchemeSupportOrderAddTime)).toLocaleString() +'</td>' +
+                                    '<td>'+ orderStatus +'</td>' +
+                                    '<td>'+ refundStatus +'</td>' +
+                                    '<td>' +
+                                    '<a href="javascript:;" class="cancel layui-btn layui-btn-danger layui-btn-mini">退款</a></td>' +
+                                    '</tr>'
+                                );
+                            }
+                        }
+                    }else if(data.code == 20){
+                        alert('登录已失效，请重新登录！！');
+                        window.parent.location.href = 'login.html';
+                    }else{
+                        layer.msg(data.message);
+                    }
+                }
+            } );
+        }
+        function rePage(){
+            //page
+            laypage({
+                cont: 'page',
+                pages: totalPage,//总页数
+                curr: toPageNo,
+                groups: 5  ,//连续显示分页数
+                jump: function(obj, first) {
+                    //得到了当前页，用于向服务端请求对应数据
+                    var curr = obj.curr;
+                    if(!first) {
+                        toPageNo = obj.curr;
+                        getData();
+                        layer.msg('第 '+ obj.curr +' 页');
+                    }
+                }
+            });
+        }
+        getData();
+
+
+        $('#search').on('click', function() {
+            toPageNo = 1;
+            getData();
+        });
+        $('#refresh').click(function(){
+            toPageNo = 1;
+            getData();
+        });
+        $('#add').click(function(){
+            layer.open({
+                type: 2 //此处以iframe举例
+                ,title: '添加支持人到'+localStorage.getItem('schemeName')
+                ,area: ['50%', '500px']
+                ,shade: 0
+                ,maxmin: true
+                ,content: 'addSchemeSupport.html?id='+ id
+            });
+        });
+        $('#tbody').on('click','a.cancel',function(){
+            var id = $(this).parent().parent().children('td.orderId').html();
+            var type = $(this).parent().prev().prev().prev().prev().html();
+            var content = '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确定要退回此笔款项吗？</div>';
+            if(type == '线下支付'){
+                content = '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">请确认线下款项已退回，点击确定则退款直接成功！</div>';
+            }
+            layer.open({
+                type: 1
+                ,title: false //不显示标题栏
+                ,closeBtn: false
+                ,area: '300px;'
+                ,shade: 0.8
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: content
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        $.ajax( {
+                            type: 'POST',
+                            data: {medicalSchemeSupportOrderId:id},
+                            url: '../m/supportrefund',
+                            success: function(data){
+                                if(data.code == 0){
+                                    layer.msg('操作成功！', {
+                                        time: 2000
+                                    });
+                                    getData();
+                                }else if(data.code == 20){
+                                    alert('登录已失效，请重新登录！！');
+                                    window.parent.location.href = 'login.html';
+                                }else{
+                                    layer.msg(data.message);
+                                }
+                            }
+                        } )
+                    });
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

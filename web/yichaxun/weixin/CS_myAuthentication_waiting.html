@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>审核中</title>
+    <!--<link rel="stylesheet" href="css/claimManufacturer_write.css"/>-->
+    <link rel="stylesheet" href="css/pop_p.css"/>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="js/image-file-visible.js"></script>
+    <script type="text/javascript" src="js/addTmpImg.js"></script>
+    <style>
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        body{
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+        }
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .title,.name,.phone,.idcard{
+            background-color: #ffffff;
+            height: 50px;
+            width: 100%;
+            padding-left: 15px;
+            line-height: 50px;
+        }
+        .title p,.name p,.phone p,.idcard p, .spanish{
+            color: #666666;
+            font-size: 15px;
+            padding: 0;
+            margin: 0;
+
+            display: inline-block;
+        }
+        .p_width{
+            width: 25%;
+        }
+        .title p{
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+    </style>
+</head>
+<body style="background-color: #f2f2f2">
+<div class="contain">
+    <div style="height: 10px;width: 100%;background-color: #f2f2f2"></div>
+    <div class="title">
+        <p></p>
+    </div>
+    <div style="height: 10px;width: 100%;background-color: #f2f2f2"></div>
+    <div class="name" style="border-bottom: 0.5px solid #e5e5e5">
+        <p class="p_width">姓名</p>
+        <span class="spanish" ></span>
+    </div>
+    <div class="phone"  style="border-bottom: 0.5px solid #e5e5e5">
+        <p class="p_width">联系方式</p>
+        <span class="spanish"></span>
+    </div>
+    <div class="idcard">
+        <p class="p_width">我的名片</p>
+    </div>
+    <div class="img_back" style="background-color: #ffffff;height: 133.4px;width: 100%;padding-top: 20px;padding-left: 25% ;display: none">
+        <img style="height: 113.4px;width: 180px" src="images/bg_1.png" alt=""/>
+    </div>
+</div>
+<!--弹窗-->
+<div class="tanchuang1" style="display: none">
+    <span class="wenzi"></span>
+    <span class="btnbtn">OK</span>
+</div>
+
+<script>
+    $('.btnbtn').click(function(){
+        $('.tanchuang1').css('display','none');
+    })
+</script>
+
+<script>
+    $().ready(function(){
+        //            用户初始化
+        $.ajax({
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            url: '/yichaxun/u/userinit',
+            type:"post",
+            success:function(data){
+
+                if(data.code==0) {
+                    $('.title p').html(data.data.corporationClaim.corporationName);
+                    $('.name span').html(data.data.userRealname);
+                    $('.phont span').html(data.data.userPhone);
+                    if(data.data.userCard==''||data.data.userCard==null||data.data.userCard=='undefined'
+                            ||data.data.userCard==undefined){
+                        $('.img_back').css('display','none');
+                        $('.idcard').css('display','none')
+                    }else{
+                        $('.img_back').css('display','block');
+                        $('.img_back img').attr('src',data.data.userCard).css('display','block')
+                    }
+//                    $('.img_back img').attr('src',data.data.userCard)
+                }
+                if(data.code==20||data.code==26){
+                    location.href="login.html"
+                }
+            },
+            error: function (xhr, msg, reasonString) {
+//                    alert(msg);
+                console.log(arguments);
+            }
+        })
+    })
+</script>
+</body>
+</html>

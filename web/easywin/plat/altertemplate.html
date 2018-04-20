@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板修改</title>
+    <link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="libs/jquery.min.js"></script>
+    <style>
+        div.control-group{
+            margin: 10px 0;
+        }
+        label.control-label{
+            font-size: 16px;
+            font-weight: 300;
+            padding: 5px 0;
+        }
+        div.inputBox{
+            width: 100%;
+            height: 45px;
+        }
+        div.inputBox>input{
+            width: 100%;
+            height: 45px;
+            border: 1px solid #ccc;
+            padding-left: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div style="height:51px;border-bottom:1px solid #ddd;background:#fff">
+        <span style="line-height:50px;float:left;margin-left:66px">
+            <span style="margin:0 10px;display:none">/</span>
+            <a href="javascript:history.go(-1)">模板列表</a> > <a href="javascript:location.reload();">修改模板</a>
+        </span>
+    </div>
+    <div style="padding: 20px 40px;">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="appName">名称</label>
+                <div class="inputBox">
+                    <input type="text" id="appName" placeholder="名称">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="appPrice">价格</label>
+                <div class="inputBox">
+                    <input type="text" id="appPrice" placeholder="价格">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="appAgent1Price">一级代理价格</label>
+                <div class="inputBox">
+                    <input type="text" id="appAgent1Price" placeholder="一级代理价格">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="appAgent2Price">二级代理价格</label>
+                <div class="inputBox">
+                    <input type="text" id="appAgent2Price" placeholder="二级代理价格">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="appAgent3Price">三级代理价格</label>
+                <div class="inputBox">
+                    <input type="text" id="appAgent3Price" placeholder="三级代理价格">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="appSummary">概要</label>
+                <div class="inputBox">
+                    <input type="text" id="appSummary" placeholder="概要">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="remark">备注(最多10个字符)</label>
+                <div class="inputBox">
+                    <input type="text" id="remark" placeholder="备注">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="appIcon">图标</label>
+                <div>
+                    <input type="file" id="appIcon">
+                </div>
+                <input type="hidden" id="appIconLink">
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="appIntroPic">介绍图</label>
+                <div>
+                    <input type="file" id="appIntroPic">
+                </div>
+                <input type="hidden" id="appIntroPicLink" >
+            </div>
+            <div class="control-group" style="margin-top: 50px;">
+                <button id="submit" class="btn btn-large btn-success">保存修改</button>
+            </div>
+        </form>
+    </div>
+    <script src="libs/upoload.js"></script>
+    <script>
+        var templateData = JSON.parse(sessionStorage.getItem('templateData'));
+
+
+        console.log(templateData);
+        $('#appName').val(templateData.name);
+        $('#appPrice').val(templateData.price/100);
+        $('#appSummary').val(templateData.summary);
+        $('#remark').val(templateData.remark);
+        $('#appIconLink').val(templateData.icon);
+        $('#appIntroPicLink').val(templateData.introPic);
+        $('#appAgent1Price').val(templateData.agent1Price/100);
+        $('#appAgent2Price').val(templateData.agent2Price/100);
+        $('#appAgent3Price').val(templateData.agent3Price/100);
+
+        //图标上传
+        $('#appIcon').on('change',function(){
+            uploadImg('appIcon');
+        });
+        //介绍图上传
+        $('#appIntroPic').on('change',function(){
+            uploadImg('appIntroPic');
+        });
+
+        $('#submit').click(function(){
+            var token = sessionStorage.getItem('token');
+            var seedId = templateData.seedId;
+            var appName = $('#appName').val();
+            var appPrice = $('#appPrice').val();
+            var appAgent1Price = $('#appAgent1Price').val();
+            var appAgent2Price = $('#appAgent2Price').val();
+            var appAgent3Price = $('#appAgent3Price').val();
+            var appSummary = $('#appSummary').val();
+            var appIcon = $('#appIconLink').val();
+            var appIntroPic = $('#appIntroPicLink').val();
+            var remark = $('#remark').val();
+            if(remark.length > 10){
+                alert('备注最多10个字符');
+            }else{
+                $.ajax({
+                    type: 'POST',
+                    data: {seed_id:seedId, price:appPrice*100, agent1_price:appAgent1Price*100, agent2_price:appAgent2Price*100, agent3_price:appAgent3Price*100, icon:appIcon, name:appName, summary:appSummary, remark:remark, intro_pic:appIntroPic},
+                    url: '/easywin/p/e/tmplmanage/alter?token='+token,
+                    success: function(res){
+                        if(res.code == 0){
+                            alert('修改成功！');
+                        }else{
+                            alert(res.codeMsg);
+                        }
+                    }
+                });
+            }
+            return false;
+        })
+    </script>
+</body>
+</html>

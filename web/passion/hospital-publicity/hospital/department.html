@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        阳光成单系统
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+</head>
+<body>
+<div class="x-nav">
+            <span class="layui-breadcrumb">
+              <a><cite>首页</cite></a>
+              <a><cite>科室管理</cite></a>
+              <a><cite>科室列表</cite></a>
+            </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <xblock><button class="layui-btn" onclick="department_add('创建科室','department-add.html','700','550')"><i class="layui-icon">&#xe608;</i>创建科室</button><span class="x-right" style="line-height:40px">共有数据：<span id="totalItemCount"></span> 条</span></xblock>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>名称</th>
+            <th>图片</th>
+            <th>介绍</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="content">
+        </tbody>
+    </table>
+
+    <div id="page"></div>
+</div>
+<script src="./lib/layui/layui.js" charset="utf-8"></script>
+<script src="./js/x-layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['laydate','element','laypage','layer'], function(){
+        $ = layui.jquery;//jquery
+        laydate = layui.laydate;//日期插件
+        lement = layui.element();//面包导航
+        laypage = layui.laypage;//分页
+        layer = layui.layer;//弹出层
+
+        //以上模块根据需要引入
+        layer.ready(function(){ //为了layer.ext.js加载完毕再执行
+            layer.photos({
+                photos: '#content'
+                ,shift: 4 //0-6的选择，指定弹出图片动画类型，默认随机
+            });
+        });
+
+
+        var pageNo = 1,pageSize = 20,totalPage = 1;
+        function getData(){
+            $.ajax({
+                type: 'POST',
+                data: {page_no:pageNo,page_size:pageSize},
+                url: '../../hp/h/page/departments',
+                success: function(data){
+                    if(data.code == 0){
+                        totalPage = data.data.departments.totalPageCount;
+                        $('#totalItemCount').html(data.data.departments.totalItemCount);
+                        var items = data.data.departments.items;
+                        for(var i = 0 ; i < items.length ; i ++){
+                            $('#content').append(
+                                '<tr>' +
+                                '<td>'+ items[i].departmentId +'</td>' +
+                                '<td>'+ items[i].name +'</td>' +
+                                '<td><img style="height: 150px;" src="'+ items[i].picture +'"></td>' +
+                                '<td style="width: 600px;">'+ items[i].introduction +'</td>' +
+                                '<td class="td-manage">' +
+                                '<button href="javascript:;" onclick="department_start(this)" class="layui-btn layui-btn-mini layui-btn-warm" style="text-decoration:none;margin-right:10px;">特色推荐</button>' +
+                                '<button href="javascript:;" onclick="department_edit(this)" class="layui-btn layui-btn-mini" style="text-decoration:none;margin-right:10px;">编辑</button>' +
+                                '<button href="javascript:;" onclick="department_del(this)" class="layui-btn layui-btn-mini layui-btn-danger" style="text-decoration:none">删除</button>' +
+                                '</td>' +
+                                '</tr>'
+                            );
+                        }
+                    }else{
+                        layer.msg(data.codeMsg);
+                    }
+                }
+            })
+        }
+        function rePage(){
+            laypage({
+                cont: 'page',
+                curr: pageNo,
+                pages: totalPage,
+                first: 1,
+                last: 100,
+                prev: '<em><</em>' ,
+                next: '<em>></em>'
+            });
+        }
+        getData();
+        rePage();
+    });
+
+    /*添加*/
+    function department_add(title,url,w,h){
+        x_admin_show(title,url,w,h);
+    }
+    //编辑
+    function department_edit(obj) {
+        var id = $(obj).parents('tr').children('td:eq(0)').html();
+        var name = $(obj).parents('tr').children('td:eq(1)').html();
+        var picture = $(obj).parents('tr').children('td:eq(2)').find('img').attr('src');
+        var introduction = $(obj).parents('tr').children('td:eq(3)').html();
+        sessionStorage.setItem('departmentName',name);
+        sessionStorage.setItem('departmentPicture',picture);
+        sessionStorage.setItem('departmentIntroduction',introduction);
+        department_add('修改科室','department-add.html?id='+id,'700','550')
+    }
+
+    /*删除*/
+    function department_del(obj){
+        layer.confirm('确认要删除此科室吗？',function(index){
+            //发异步删除数据
+            var id = $(obj).parents('tr').children('td:first').html();
+            $.ajax({
+                type: 'POST',
+                data: {department_id: id},
+                url: '../../hp/h/department/del',
+                success: function(res){
+                    if(res.code == 0){
+                        $(obj).parents("tr").remove();
+                        layer.msg('科室已删除!',{icon:1,time:1000});
+                    }else{
+                        layer.msg(res.codeMsg);
+                    }
+                }
+            })
+
+        });
+    }
+
+    /*特色推荐*/
+    function department_start(obj){
+        layer.confirm('确认要将此科室更改为特色科室吗？',function(index){
+            var id = $(obj).parents('tr').children('td:first').html();
+            $.ajax({
+                type: 'POST',
+                data: {department_id:id},
+                url: '../../hp/h/department/jointoclienthomepagefeatureddepartment',
+                success: function(res){
+                    if(res.code == 0){
+                        layer.msg('推荐成功!',{icon: 6,time:2000});
+                    }else{
+                        layer.msg(res.codeMsg);
+                    }
+                }
+            });
+        });
+    }
+</script>
+
+</body>
+</html>

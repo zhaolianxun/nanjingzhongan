@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>提示</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+</head>
+<body>
+    <p id="tip" style="width: 90%;margin: 20px auto;font-size: 16px;"></p>
+
+    <script>
+        var action = window.parent.action;
+        var status = window.parent.childStatus;
+        var text = '';
+        var tip = document.getElementById('tip');
+        if(action == 'pass'){
+            if(status == '审核认证中'){
+                text = '确定要通过该厂商的审核认证吗？';
+            }else if(status == '未认证'){
+                text = '该厂商未提交认证申请。';
+            }else if(status == '已认证'){
+                text = '该厂商已成功认证。';
+            }else if(status == '认证拒绝'){
+                text = '该厂商认证被拒绝，如需认证请重新提交申请。';
+            }
+            tip.innerHTML = text;
+        }else{
+            if(status == '审核认证中') {
+                text = '确定要拒绝该厂商的审核认证吗？<br/><input id="reason" type="text" style="margin: 20px 0;" class="layui-input" placeholder="请输入拒绝原因">';
+            }else if(status == '未认证'){
+                text = '该厂商未提交认证申请。';
+            }else if(status == '已认证'){
+                text = '该厂商已成功认证。';
+            }else if(status == '认证拒绝'){
+                text = '该厂商认证被拒绝，如需认证请重新提交申请。';
+            }
+            tip.innerHTML = text;
+        }
+    </script>
+</body>
+</html>

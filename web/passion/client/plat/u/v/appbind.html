@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="/libs/bootstrap/css/bootstrap.min.css">
+    <style type="text/css">
+    body {
+        margin: 0;
+        background: #f1f3f6
+    }
+    .body-con {
+        width: 100%
+    }
+    .cardcon {
+        padding: 20px 50px;
+        margin-bottom: 40px
+    }
+    .carddiv {
+        position: relative;
+        width: 280px;
+        height: 340px;
+        background: #fff;
+        border: 1px solid #ccc;
+        float: left;
+        margin-left: 25px;
+        margin-top: 30px;
+        padding: 20px
+    }
+    .carddiv button {
+        font-size: 13px;
+        background: #fff;
+        border: 1px solid #269abc;
+        color: #269abc;
+        border-radius: 3px;
+        width: 70px;
+        height: 25px
+    }
+    .carddiv button:hover {
+        background: #269abc;
+        color: #fff
+    }
+    .qrcodeimg {
+        position: absolute;
+        left: 20px;
+        top: 90px;
+        width: 238px;
+        display: none
+    }
+    .qrcodelink:hover + .qrcodeimg {
+        display: block
+    }</style>
+</head>
+<body>
+<div style="height:51px;border-bottom:1px solid #ddd;background:#fff">
+    <span style="line-height:50px;float:left;margin-left:66px">
+        <a style="display:none" href="javascript:window.parent.memuClick('userinfo');">控制台</a>
+        <span style="margin:0 10px;display:none">/</span>应用商店
+    </span>
+    <!--<span style="line-height:50px;float:right;margin-right:50px">
+        <a href="javascript:window.parent.userShouCe();">使用手册</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:window.parent.commonQuestion();">常见问题</a>
+    </span>-->
+</div>
+<div id="body-con" class="body-con">
+    <div class="cardcon">
+        <div class="carddiv"><img src="/img/template/proicon1.jpg" style="float:left" width="70px">
+            <div style="float:left;vertical-align:top;margin-left:10px;font-size:16px">
+                <div><span style="font-weight:700">飞燕餐厅</span> <a class="qrcodelink" href="javascript:"
+                                                                  style="font-size:13px;margin-left:10px">扫码体验</a> <img
+                        class="qrcodeimg" src="/img/qrcode/showcode1.jpg"></div>
+                <div style="font-weight:700;margin:5px 0;font-size:13px;color:#d60905">2999元/年</div>
+                <button onclick="lookClick( 1 )" style="margin-right:10px">查看详情</button>
+                <button onclick="userClick( 1 )">立即使用</button>
+            </div>
+            <div style="clear:both"></div>
+            <div style="margin-top:10px;height:60px;overflow:hidden">集点菜、支付、营销系统的一站式服务；线下店铺和线上营销无缝对接，将线上流量引入餐厅</div>
+            <img src="/img/index/fangan/proshow1.jpg" style="margin-top:10px;width:238px;height:150px"></div>
+        <div class="carddiv"><img src="/img/template/proicon2.jpg" style="float:left" width="70px">
+            <div style="float:left;vertical-align:top;margin-left:10px;font-size:16px">
+                <div><span style="font-weight:700">飞燕名片</span> <a class="qrcodelink" href="javascript:"
+                                                                  style="font-size:13px;margin-left:10px">扫码体验</a> <img
+                        class="qrcodeimg" src="/img/qrcode/showcode2.jpg"></div>
+                <div style="font-weight:700;margin:5px 0;font-size:13px;color:#04a907">免费</div>
+                <button onclick="lookClick( 5 )" style="margin-right:10px">查看详情</button>
+                <button onclick="userClick( 2 )">立即使用</button>
+            </div>
+            <div style="clear:both"></div>
+            <div style="margin-top:10px;height:60px;overflow:hidden">名片类小程序，用户可以制作及收集名片。</div>
+            <img src="/img/index/fangan/proshow2.jpg" style="margin-top:10px;width:238px;height:150px"></div>
+        <div style="clear:both"></div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">function lookClick(t) {
+    1 == t ? window.parent.goUrl("http://www.feeyan.com/plat/v/item/diancan") : 5 == t && window.parent.goUrl("http://www.feeyan.com/plat/v/item/mingpian")
+}
+
+function userClick(t) {
+    window.location.href = "/plat/u/v/authtip?tempid=" + t
+}</script>

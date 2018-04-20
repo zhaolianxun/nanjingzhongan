@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="format-detection" content="telephone=no"/>
+    <title>查看详情+</title>
+    <script src="../js/jquery-3.0.0.min.js"></script>
+    <script src="../js/oweJquery.js"></script>
+    <link rel="stylesheet" href="../css/dropload.css">
+    <script src="../js/dropload.min.js"></script>
+    <link rel="stylesheet" href="css/aidPublicityDetails.css"/>
+    <script src="../js/public.js"></script>
+    <script>
+
+        function getRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("!");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+        var eventid = getRequest().eventid;
+
+    </script>
+
+</head>
+<body>
+    <div class="personalInformation">
+        <img class="lf certificatePhoto" src="icon/banner1.jpg" alt=""/>
+        <div class="lf personalInformationList">
+            <p  class="name">姓名：张丽娜</p>
+            <p  class="gender">性别：女</p>
+            <p  class="address">现居地：陕西省</p>
+            <p  class="birthday">出生日期：1974/9/8</p>
+            <p  class="eventNumber">事件编号：LSAKJDKLLKASLLLH745-1</p>
+        </div>
+    </div>
+    <div class="line" style="height: 0.26rem;background: #f2f2f2;"></div>
+    <div class="aidInformation">
+        <div class="lf mutualAid">
+            <p class="muAidMoney">250000元</p>
+            <p>互助金</p>
+        </div>
+        <div class="rt memberNum">
+            <p class="memberNums">4146456人</p>
+            <p>会员人数</p>
+        </div>
+    </div>
+    <div class="line" style="height: 0.26rem;background: #f2f2f2;"></div>
+<!--基本信息-->
+    <p class="basicInformation">基本信息</p>
+    <ul>
+        <li class="aidMoney">
+            <span class="lf">互助金</span>
+            <span class="rt aidMoneyTypename">中安健康疼痛互助金</span>
+        </li>
+        <li class="joinTime">
+            <span class="lf">加入时间</span>
+            <span class="rt joinTimes"> 2016/1/21</span>
+       </li>
+        <li class="effectiveTime">
+            <span class="lf">生效时间</span>
+            <span class="rt takeEffectTime">2016/4/21</span>
+        </li>
+        <li class="publicityDate">
+            <span class="lf">公示日期</span>
+            <span class="rt showtime">2017/12/1</span>
+        </li>
+        <li class="deductionDate">
+            <span class="lf">扣款日期</span>
+            <span class="rt remitTime">2018/1/25</span>
+        </li>
+    </ul>
+    <div class="line" style="height: 0.26rem;background: #f2f2f2;"></div>
+    <p class="relevantInformation">相关资料</p>
+    <div class="img">
+        <!--<img src="../images/tu_hd.jpg" alt=""/>-->
+    </div>
+
+
+    <script>
+
+        $.ajax({
+            url:'/yichaxun/aidmoney/aideventshowlistpage',
+            type:'post',
+            success:function(data){}
+        })
+        $.ajax({
+            url:'/yichaxun/aidmoney/aideventshowinfopage',
+            type:'post',
+            data:'eventid='+eventid,
+            success:function(data){
+                if(data.code==0){
+                    $('.certificatePhoto').attr('src',data.data.publicshowpic);
+                    $('.name').html('姓名：'+data.data.name);
+                    if(data.data.sex=='1'){
+                        $('.gender').html('性别：男');
+                    }else{
+                        $('.gender').html('性别：女');
+                    }
+
+                    $('.address').html('现居地：'+data.data.home);
+                    $('.birthday').html('出生日期：'+getLocalTime(data.data.birth));
+                    $('.eventNumber').html('事件编号：'+data.data.eventid);
+                    $('.muAidMoney').html(data.data.doaidamount+'元');
+                    $('.memberNums').html(data.data.membercount+'人');
+                    $('.aidMoneyTypename').html(data.data.aidmoneytypename);
+                    $('.joinTimes').html(getLocalTime(data.data.jointime));
+                    $('.takeEffectTime').html(getLocalTime(data.data.takeeeffecttime));
+                    $('.showtime').html(getLocalTime(data.data.showtime));
+                    $('.remitTime').html(getLocalTime(data.data.remittime));
+                    var pics=data.data.eventpics.split(',');
+                    $.each(pics,function(){
+                        $('.img').append('<img src="'+this+'" alt=""/>')
+                    })
+
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>

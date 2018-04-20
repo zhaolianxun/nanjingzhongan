@@ -1,0 +1,155 @@
+body{
+    background: #f2f2f2 !important;
+}
+.cityLine{
+    width: 33%;
+    height: 100%;
+    line-height:1.2rem;
+    text-align: center;
+    font-size: 0.42rem;
+    color: #666666;
+}
+.cityLine span{
+    /*padding: 0 0.1rem;*/
+    height: 98%;
+
+    display: inline-block;
+    font-size:0.42rem !important;
+    line-height: 1.2rem !important;
+}
+
+/*卡片正文*/
+.selectIcon{
+    display: inline-block;
+    margin: 0rem 0.4rem;
+    height: 2.66rem;
+}
+.selectIcon img{
+    width: 0.5rem;
+    height: 0.5rem;
+}
+.cardLine{
+    /*margin: 0 0.4rem;*/
+    margin: 0 0.4rem 0 0.4rem;
+}
+.topLine{
+    height: 1.32rem;
+    line-height: 1.32rem;
+    font-size: 0.37rem;
+    color: #666666;
+}
+.topLine img{
+    width: 0.56rem;
+    height: 0.56rem;
+    position: static;
+    vertical-align: middle;
+    margin-right: 0.26rem;
+}
+.bottomLineLeft{
+    display: inline-block;
+    width: 5.76rem;
+    position: relative;
+    height: 2.66rem;
+}
+.textTitle{
+    font-size: 0.37rem;
+    color: #000;
+    margin: 0.13rem 0 0.16rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.text{
+    font-size: 0.32rem;
+    color: #999;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.bottomLineLeftTop{
+    position: absolute;
+    top: 0;
+}
+.bottomLineLeftBottom{
+    position: absolute;
+    bottom: 0.15rem;
+    height: 0.72rem;
+}
+.owner,.endTime{
+    font-size: 0.32rem;
+    color: #999999;
+    height: 0.32rem;
+}
+.endTime{
+    margin: 0.13rem 0;
+    width: 100%;
+}
+
+
+.bottomLineRight{
+    display: inline-block;
+    /*width: 3.84rem;*/
+}
+.bottomLineRight img{
+    width: 2.76rem;
+    height: 2.66rem;
+    margin-left: 0.6rem;
+}
+.sale{
+    font-size: 0.45rem;
+    color: #ff0000;
+    margin-top: -0.11rem !important;
+    margin-right: -2.2rem;
+}
+.sale .doller{
+    font-size: 0.26rem;
+    color: #ff0000;
+}
+.sale .money{
+    font-size:0.45rem;
+    color: #ff0000;
+}
+/*底部导航*/
+.bottomBtn{
+    height: 1.2rem;
+    position: fixed;
+    bottom: 0;
+    background: #ffffff;
+    border-top: 1px solid #e5e5e5;
+    width: 100%;
+    font-size:0.42rem;
+    color: #333;
+    line-height: 1.2rem;
+}
+.selectAll{
+    margin: 0 0 0 0.4rem;
+}
+.selectAll img{
+    width: 0.5rem;
+    height:0.5rem;
+    margin-top: 0.35rem;
+    margin-right: 0.26rem;
+}
+.bottomRight{
+    margin-right: 0.4rem;
+}
+.forSaleOver{
+    margin-left: 0.26rem;
+}
+
+.rmbLeft{
+    color: #ff5000;
+    font-size: 0.26rem;
+    /*margin-top: -0.3rem;*/
+}
+.rmb{
+    float: right;
+    margin-right: 0.4rem;
+    color: #ff5000;
+    font-size:0.45rem;
+    margin-top: -0.2rem;
+}

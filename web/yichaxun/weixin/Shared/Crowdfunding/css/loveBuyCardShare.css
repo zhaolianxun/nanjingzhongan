@@ -1,0 +1,408 @@
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    /*text-align: center;*/
+    width: 100%;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -moz-user-select: none;
+    -webkit-appearance: none;
+    outline: none;
+    /*overflow: hidden;*/
+    background-color: #fff;
+}
+
+.lf{
+    float: left;
+}
+.rt{
+    float: right;
+}
+.clear{
+    clear: both;
+}
+p{
+    margin: 0;
+    padding: 0;
+}
+.Top{
+    width: 100%;
+    height: 3.46rem;
+    background: url("../iconLove/card_bg-5@2x.png");
+    background-size: 100% 100%;
+}
+.Top img{
+    height: 1rem;
+    height: 1rem;
+    position: static;
+    vertical-align: middle;
+    margin-top: 1.26rem;
+    margin-left: 0.4rem;
+
+}
+.Top p{
+    margin-left: 0.26rem;
+    font-size: 0.42rem;
+    color: #ffffff;
+    line-height: 3.46rem;
+}
+.cardId{
+    font-size: 0.37rem;
+    color: #ffffff;
+    margin-right:0.4rem;
+}
+
+.inclusionServicesDetails{
+    padding-bottom: 0.26rem;
+}
+.payNowMoney p{
+    line-height: 0.56rem !important;
+}
+.payNowMoneyAllin{
+    margin-top: 0.1rem !important;
+}
+.payNowMoneySale{
+    font-size:0.32rem;
+    color: #ff8200;
+}
+
+
+
+
+
+/*绑定关爱卡*/
+.bindLoveCardTitle{
+    height:1.06rem;
+    line-height: 1.06rem;
+    border-bottom: 0.5px solid #e5e5e5;
+    font-size: 0.37rem;
+}
+.bindLoveCard p{
+    font-size:0.37rem;
+    color: #333333;
+    margin: 0 0 0 0.4rem;
+    padding: 0;
+}
+.bindLoveCardTicket{
+    height: 1.33rem;
+    line-height: 1.33rem;
+    border-bottom: 0.5px solid #e5e5e5;
+}
+.bindLoveCardTicket p{
+    font-size: 0.42rem;
+    color: #333333;
+}
+.bindLoveCardTicket input{
+    height: 1.12rem;
+    width: 49%;
+    padding-left: 0.26rem;
+    overflow: hidden;
+    outline: none;
+    border: 0;
+    font-size: 0.42rem;
+    color: #333333;
+}
+/*支付方式*/
+.payMeasureTitle{
+    height: 1.06rem;
+    line-height: 1.06rem;
+    border-bottom: 0.5px solid #e5e5e5;
+}
+.payMeasure p{
+    font-size:0.37rem;
+    color: #333333;
+    margin: 0 0 0 0.4rem;
+    padding: 0;
+}
+.payMeasureSelect{
+    height: 1.33rem;
+    line-height: 1.33rem;
+    border-bottom: 0.5px solid #e5e5e5;
+}
+.payMeasureSelect p{
+    margin: 0;
+}
+.imgLeft{
+    width: 0.64rem;
+    height: 0.64rem;
+    margin-top: 0.34rem;
+    margin-left: 0.4rem;
+    margin-right: 0.26rem;
+}
+.imgRight{
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-top: 0.41rem;
+    margin-right: 0.4rem;
+}
+/*邀请码*/
+.invitationCodeIntroduce{
+    font-size: 0.32rem;
+    color: #ff0000;
+    margin: 0 0.4rem;
+    padding: 0;
+}
+.invitationCodeTitle{
+    height: 1.33rem;
+    line-height: 1.33rem;
+    border-bottom: 0.5px solid #e5e5e5;
+}
+.invitationCodeTitle p{
+    font-size:0.37rem;
+    color: #333333;
+    margin: 0 0 0 0.4rem;
+    padding: 0;
+}
+.invitationCodeTitle input{
+    height: 1.12rem;
+    width: 49%;
+    padding-left: 0.26rem;
+    overflow: hidden;
+    outline: none;
+    border: 0;
+    font-size: 0.42rem;
+    color: #333333;
+}
+/*支付导航*/
+.payNow{
+    position: fixed;
+    bottom: 0;
+    /*left: 0;*/
+    height: 1.33rem;
+    width: 100%;
+}
+.payNowMoney{
+    text-align: right;
+    width: 60%;
+    height: 100%;
+    line-height: 1.33rem;
+    background-color: #fff;
+    display: inline-block;
+}
+.payNow p{
+    margin: 0 0.44rem 0 0;
+    padding: 0;
+
+}
+.payNowMoneyAllin{
+    font-size:30px;
+}
+.payNowMoneySale{
+    font-size: 0.32rem;
+}
+.payNowMoney span{
+    color: #ff8200;
+
+}
+.payNow button{
+    width: 40%;
+    height: 100%;
+    border: 0;
+    background-color: #ff8200;
+    display: inline-block;
+    font-size: 0.42rem;
+    color: #ffffff;
+}
+
+
+/*医院中部信息*/
+.hospitalCard {
+    height: 1.33rem;
+    border-bottom: 0.5px solid #E5E5E5;
+    line-height: 1.33rem;
+}
+.hospitalCard p{
+    margin-left: 0.4rem;
+    color: #333333;
+    background-color: #ffffff;
+    font-size: 0.42rem;
+}
+.hospitalDetails{
+    width: 100%;
+    font-size: 0.37rem;
+    color: #999999;
+}
+.hospitalDetails p:first-child{
+    margin-left: 0.4rem;
+}
+.hospitalName,.belongToSb,.endTime{
+    margin-right:  0.4rem;
+}
+.endTime{
+    bottom: 0 !important;
+}
+.rmb{
+    margin-top: -0.15rem!important;
+}
+.hospitalDetailsOne{
+    margin-top: 0.53rem;
+    height: 0.37rem;
+}
+.hospitalDetailsTwo{
+    margin-top:  0.4rem;
+    height: 0.37rem;
+}
+.hospitalDetailsThree{
+    height: 0.37rem;
+    margin-top:  0.4rem;
+    margin-bottom:  0.4rem;
+}
+.inclusionServicesTitle{
+    font-size: 0.37rem;
+    color: #999999;
+}
+.inclusionServicesDetails{
+    margin: 0  0.4rem;
+    font-size: 0.37rem;
+    color: #999999;
+}
+.inclusionServicesTitle p{
+    margin: 0.58rem auto 0.45rem  0.4rem;
+}
+.inclusionServicesDetails p{
+    font-size: 0.37rem;
+    color: #999999;
+    margin: 0 auto 0.32rem 0;
+}
+.userCard{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1.33rem;
+}
+.userCard button{
+    background-color: #ff8200;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #ffffff;
+    font-size:0.48rem;
+    border: 0;
+}
+
+/*分享图标*/
+.shareIcon{
+    position: fixed;
+    bottom: 2.56rem;
+    right: 0.4rem;
+    width:1.30rem;
+    height: 1.30rem;
+    background: #ff8200;
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+}
+.shareIcon img{
+    width: 0.53rem;
+    position: static;
+    vertical-align: middle;
+    margin: 0.34rem 0.37rem;
+}
+.pop{
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1100;
+    overflow: auto;
+}
+.arrow1{
+    position: absolute;
+    display: block;
+    width: 3.97rem;
+    height: 3.2rem;
+    top: 0.34rem;
+    right:1.06rem;
+}
+.words1{
+    position: absolute;
+    display: inline-block;
+    width: 5.41rem;
+    height: 0.69rem;
+    top:3.92rem;
+    right: 2.66rem;
+}
+
+/*分享图标*/
+.shareIcon{
+    position: fixed;
+    bottom: 2.56rem;
+    right:0.4rem;
+    width: 1.30rem;
+    height: 1.30rem;
+    background: #ff8200;
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+}
+.shareIcon img{
+    width:0.53rem;
+    position: static;
+    vertical-align: middle;
+    /*margin-top: -0.05rem;*/
+    /*margin: 0.30rem 0.37rem;*/
+}
+.pop{
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1100;
+    overflow: auto;
+}
+.arrow1{
+    position: absolute;
+    display: block;
+    width: 3.92rem;
+    height: 3.2rem;
+    top: 0.34rem;
+    right:1.06rem;
+}
+.words1 {
+    position: absolute;
+    display: inline-block;
+    width: 5.41rem;
+    height:0.69rem;
+    top: 3.97rem;
+    right: 2.66rem;
+}
+
+/*医院介绍*/
+.hospitalIntroduceDetails{
+    margin: 0 0.4rem;
+    font-size: 0.37rem;
+    color: #999999;
+}
+.hospitalIntroduceDetails p{
+    line-height: 0.58rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+}
+.hospitalIntroduceBtn{
+    width: 100%;
+    text-align: center;
+    padding-bottom: 0.37rem;
+}
+.hospitalIntroduceBtn p{
+    display: inline-block;
+    color: #ff5000;
+    font-size: 0.37rem;
+    margin-top:0.48rem;
+
+}
+.hospitalIntroduceBtn img{
+    width:0.17rem;
+    height:0.32rem;
+    position: static;
+    vertical-align: baseline;
+    margin-left: 0.26rem;
+}

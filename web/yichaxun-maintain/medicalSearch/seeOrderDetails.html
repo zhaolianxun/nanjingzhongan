@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>共享卡统计</title>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css" />
+    <style>#page span.layui-laypage-total{background-color: #eee!important;}</style>
+</head>
+
+<body>
+<div class="admin-main">
+    <blockquote class="layui-elem-quote">
+        <a href="javascript:history.go(-1)" class="layui-btn layui-btn-mini">返回订单列表</a>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>共享卡列表</legend>
+        <div class="layui-field-box">
+            <table class="site-table table-hover">
+                <thead>
+                <tr>
+                    <th>手机号</th>
+                    <th>所有者</th>
+                    <th>卡类型</th>
+                    <th>过期时间</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <div class="admin-table-page">
+        <div id="page" class="page"></div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: 'plugins/layui/modules/'
+    });
+
+    layui.use(['form', 'laypage','layer'], function() {
+        var $ = layui.jquery,
+                laypage = layui.laypage,
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+        /* document.onkeydown = function(event){
+         var e = event || window.event || arguments.callee.caller.arguments[0];
+         if(e && e.keyCode==13){ // enter 键
+         $('#search').click();
+         }
+         };*/
+        var toPageNo = 1;
+        var totalPage = 1;
+        function getOrderId(){
+            var url = window.location.search;
+            return url.substring(url.lastIndexOf('=')+1, url.length);
+
+        }
+        var orderId = getOrderId();
+
+        function getCaringCard(){
+            $.ajax( {
+                type: 'GET',
+                async: false,
+                data: {order_id:orderId,page_no:toPageNo,page_size: 20},
+                url: '../carecard/ordercards',
+                success: function(data){
+                    if(data.code == 0){
+                        $('#tbody').children().remove();
+                        for(var i = 0 ; i < data.data.items.length ; i ++){
+                            $('#tbody').append('<tr>' +
+                            '<td>'+ data.data.items[i].phone +'</td>' +
+                            '<td>'+ data.data.items[i].owner +'</td>' +
+                            '<td>共享卡</td>' +
+                            '<td>'+ new Date(parseInt(data.data.items[i].expireTime)).toLocaleString() +'</td>' +
+                            '</tr>')
+                        }
+                    }else if(data.code == 20){
+                        alert('登录已失效，请重新登录！！');
+                        window.parent.location.href = 'login.html';
+                    }else{
+                        layer.msg(data.message);
+                    }
+                }
+            } );
+        }
+
+        function rePage(){
+            //page
+            laypage({
+                cont: 'page',
+                pages: totalPage,//总页数
+                curr: toPageNo,
+                skip: true,
+                groups: 5  ,//连续显示分页数
+                jump: function(obj, first) {
+                    //得到了当前页，用于向服务端请求对应数据
+                    var curr = obj.curr;
+                    if(!first) {
+                        toPageNo = obj.curr;
+                        getCaringCard();
+                        layer.msg('第 '+ obj.curr +' 页');
+                    }
+                }
+            });
+        }
+        getCaringCard();
+        rePage();
+    });
+</script>
+</body>
+</html>

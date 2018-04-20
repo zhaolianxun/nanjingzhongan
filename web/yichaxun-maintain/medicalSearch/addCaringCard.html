@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>表单</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="css/table.css" />
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        window.serverName="yichaxun";
+
+    </script>
+    <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.min.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
+</head>
+
+<body>
+<div style="margin: 15px;">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">卡片名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" lay-verify="title" class="layui-input layui-form-danger">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">卡片描述</label>
+            <div class="layui-input-block">
+                <textarea name="cardDesc" lay-verify="cardDesc" class="layui-textarea layui-form-danger"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">服务描述</label>
+            <div class="layui-input-block">
+                <script id="editor" type="text/plain"></script>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">购买价格(元)</label>
+            <div class="layui-input-block">
+                <input type="text" name="price" lay-verify="price" class="layui-input layui-form-danger">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">出售价格(元)</label>
+            <div class="layui-input-block">
+                <input type="text" name="sellPrice" lay-verify="sellPrice" class="layui-input layui-form-danger">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">有效期(年)</label>
+            <div class="layui-input-block">
+                <input type="number" name="validPeriod" min="1" step="1" lay-verify="validPeriod" class="layui-input layui-form-danger">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">顶部图</label>
+            <div class="layui-input-block">
+                <input id="topImg" type="file" name="topImg" class="layui-upload-file" lay-title="请上传服务描述顶部图">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">卡片图片</label>
+            <div class="layui-input-block">
+                <input id="pic" type="file" name="pic" class="layui-upload-file" lay-title="请上传卡片图片">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+   /* var id = window.parent.caringCardId;
+    console.log(id);*/
+    var ue = UE.getEditor('editor');
+
+    layui.use(['form','upload','laydate'], function() {
+        var $ = layui.jquery,
+                form = layui.form(),
+                laydate = layui.laydate,
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+        var topImg = '';
+        var pic = '';
+        var id = 1;
+        localStorage.setItem('isClosed',false);
+        function getDesc(){
+            var arr = [];
+            arr.push(UE.getEditor('editor').getContent());
+            return (arr.join("\n"));
+        }
+        function add0(m){return m<10?'0'+m:m }
+        function format(expireTime){
+            var time = new Date(parseInt(expireTime));
+            var y = time.getFullYear();
+            var m = time.getMonth()+1;
+            var d = time.getDate();
+            var h = time.getHours();
+            var mm = time.getMinutes();
+            var s = time.getSeconds();
+            return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+        }
+        function getCardDetail(){
+            $.ajax({
+                type: 'GET',
+                data: {id: id},
+                url: '../c/1/carecard',
+                success: function(data){
+                    if(data.code == 0){
+                        $("[name='title']").val(data.data.title);
+                        $("[name='cardDesc']").val(data.data.cardDesc);
+                        document.getElementById('ueditor_0').contentDocument.body.innerHTML = data.data.serviceDesc;
+                        $("[name='price']").val(data.data.price);
+                        $("[name='sellPrice']").val(data.data.sellPrice);
+                        $("[name='validPeriod']").val(data.data.validPeriod);
+                        topImg = data.data.servicedescTopimg;
+                        pic = data.data.pic;
+                    }
+                }
+            })
+        }
+        getCardDetail();
+
+        layui.upload({
+            url: 'http://passion.njshangka.com/oss/file/upload?path=yichaxun/'
+            ,elem: '#pic' //指定原始元素，默认直接查找class="layui-upload-file"
+            ,method: 'post' //上传接口的http类型
+            ,success: function(res){
+                if(res.code == 0){
+                    pic = res.data.url;
+                    layer.msg('卡片图片上传成功...')
+                }
+            }
+        });
+
+        layui.upload({
+            url: 'http://passion.njshangka.com/oss/file/upload?path=yichaxun/'
+            ,elem: '#topImg' //指定原始元素，默认直接查找class="layui-upload-file"
+            ,method: 'post' //上传接口的http类型
+            ,success: function(res){
+                if(res.code == 0){
+                    topImg = res.data.url;
+                    layer.msg('服务描述顶部图上传成功...')
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function(data) {
+            var a = data.field;
+            var time = Date.parse($('#time').val());
+            var id = 1;
+            var serviceDesc = getDesc();
+            if(a.validPeriod%1 != 0){
+                layer.msg('有效期必须为整数！')
+            }else{
+                $.ajax({
+                    type: 'PUT',
+                    data: {id:id,title: a.title,card_desc: a.cardDesc,service_desc: serviceDesc,price: a.price,sell_price: a.sellPrice,valid_period: a.validPeriod,servicedesc_topimg:topImg,pic:pic},
+                    url: '../mt/1/carecard/alter',
+                    success: function(data){
+                        if(data.code == 0){
+                            layer.msg('修改成功！');
+                            localStorage.setItem('isClosed',true);
+                            setTimeout(function(){
+                                layer.closeAll();
+                                history.go(-1);
+                            },2000);
+                        }else if(data.code == 20){
+                            layer.msg('登录已失效，请重新登录！')
+                        }else{
+                            layer.msg(data.message);
+                        }}
+
+                });
+            }
+            return false;
+        });
+    });
+
+</script>
+</body>
+</html>

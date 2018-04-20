@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>立即报案</title>
+    <script src="../js/jquery-3.0.0.min.js"></script>
+    <script src="../js/oweJquery.js"></script>
+    <link rel="stylesheet" href="../css/dropload.css">
+    <script src="../js/dropload.min.js"></script>
+    <link rel="stylesheet" href="css/reportNow.css"/>
+    <script src="../js/addTmpImg.js"></script>
+    <style>
+        input::-webkit-input-placeholder {
+            color: #999 !important; /* WebKit browsers */
+        }
+        input:-moz-placeholder {
+            color: #999 !important; /*Mozilla Firefox 4 to 18 */
+        }
+        input::-moz-placeholder {
+            color: #999 !important; /* Mozilla Firefox 19+*/
+        }
+        input:-ms-input-placeholder {
+            color: #999 !important; /*Internet Explorer 10+*/
+        }
+    </style>
+
+    <script>
+
+        function getRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("!");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+        var aidmemberid = getRequest().aidmemberid;
+
+    </script>
+</head>
+<body>
+    <div class="containBox">
+        <div class="topLine lf">
+            <p class="topLineTitle">中安健康疼痛互助金</p>
+            <div class="helpEachOther lf">
+                <p class="aidcontent">互助内容：疼痛等50多种疾病</p>
+                <p class="highestaidmoney">最高互助金额：1500元</p>
+                <p class="totalaidcount">已捐助：195人</p>
+            </div>
+            <div class="joinAge lf">
+                <p class="joinage">加入年龄：51周岁-75周岁</p>
+                <p class="joinedcount">加入人数：148565人</p>
+                <p class="totalaidmoney">已捐助金额：965万元</p>
+            </div>
+        </div>
+        <div class="userId clear">
+            <p><span style="color: #ff0036">*</span>身份证信息不可更改，请正确填写!</p>
+        </div>
+        <input class="memberName lf" type="text" placeholder="请输入会员姓名"/>
+        <input class="memberIdCard lf" type="text" placeholder="请输入会员身份证号码"/>
+        <div class="line clear" style="height: 0.26rem;background: #f2f2f2;"></div>
+        <p class="addPicTitle">请在下方添加图片（包括本人照片，病历单等）</p>
+
+
+        <!--上传图片-->
+        <div id="localImag" class="weui_uploader_bd">
+            <label for="upload0"><div  style="margin-left:0.4rem;float: left; border:0;margin-right:0.26rem; width:2.53rem;height:2.53rem;margin-bottom: 0.26rem;background: url('icon/add_picture.png') no-repeat 0 0 ;background-size: cover">
+                <img id="preview" class="preview" style="width:2.53rem;height:2.53rem"  src="" />
+            </div></label>
+            <label for="upload1"><div style="float: left; border:0;margin-right:0.26rem; width:2.53rem;height:2.53rem;margin-bottom: 0.26rem;background: url('icon/add_picture.png') no-repeat 0 0 ;background-size: cover">
+                <img class="preview" style="width:2.53rem;height:2.53rem"  src="" />
+            </div></label>
+            <label for="upload2"><div style="float: left; border:0;margin-right:0.26rem; width:2.53rem;height:2.53rem;margin-bottom: 0.26rem;background: url('icon/add_picture.png') no-repeat 0 0 ;background-size: cover">
+                <img class="preview" style="width:2.53rem;height:2.53rem"  src="" />
+            </div></label>
+            <label for="upload3"><div  style="margin-left:0.4rem;float: left; border:0;margin-right:0.26rem; width:2.53rem;height:2.53rem;margin-bottom: 0.26rem;background: url('icon/add_picture.png') no-repeat 0 0 ;background-size: cover">
+                <img class="preview" style="width:2.53rem;height:2.53rem"  src="" />
+            </div></label>
+            <label for="upload4"><div style="float: left; border:0;margin-right:0.26rem; width:2.53rem;height:2.53rem;margin-bottom: 0.26rem;background: url('icon/add_picture.png') no-repeat 0 0 ;background-size: cover">
+                <img class="preview" style="width:2.53rem;height:2.53rem"  src="" />
+            </div></label>
+            <label for="upload5"><div style="float: left; border:0;margin-right:0.26rem; width:2.53rem;height:2.53rem;margin-bottom: 0.26rem;background: url('icon/add_picture.png') no-repeat 0 0 ;background-size: cover">
+                <img class="preview" style="width:2.53rem;height:2.53rem"  src="" />
+            </div></label>
+
+            <div style="display: none">
+                <form id="uploadForm" enctype ="multipart/form-data" method="post">
+                    <!--class="weui_uploader_input"-->
+                    <input  id="upload0"  type="file" name="file" />
+                    <input  id="upload1"  type="file" name="file" />
+                    <input  id="upload2"  type="file" name="file" />
+                    <input  id="upload3"  type="file" name="file" />
+                    <input  id="upload4"  type="file" name="file" />
+                    <input  id="upload5"  type="file" name="file" />
+                </form>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class=" reader"><p>我已阅读并同意<span>《中安健康疼痛互助公约》&nbsp;《详细规则》</span></p></div>
+        <!--按钮-->
+        <div class="btn" style="background: #FFFFFF">
+            <button>提交</button>
+        </div>
+        <!--悬浮弹窗-->
+        <div class="popWindow" style="display: none">
+            <div class="popWindowAfter">
+                <p>请确认实名信息，一旦确认无法修改</p>
+                <p class="name"><span>姓名</span><span>胡一天</span></p>
+                <p class="idCard clear"><span>身份证</span><span>340221199501011120</span></p>
+
+                <button class="lf cancel">取消</button><button class="rt sure">确认</button>
+            </div>
+        </div>
+    </div>
+    
+    <!--提交成功-->
+    <div class="over" style="display: none">
+        <img src="icon/over.png" alt=""/>
+        <p class="supportOver">提交成功！</p>
+        <p class="waite">请耐心等待审核</p>
+    </div>
+    
+    <script>
+
+        $('[type="file"]').change(function(e){
+            var id = e.target.id;
+            var count = id.slice(6);
+            console.log(count);
+            //input
+            var docObj = document.getElementById(e.target.id);
+            //img
+            var imgObjPreview = document.getElementsByClassName("preview");
+            //div
+            console.log(imgObjPreview);
+            console.log(typeof  imgObjPreview);
+            var divs = document.getElementById("localImag");
+            if (docObj.files && docObj.files[0]) {
+                //火狐下，直接设img属性
+                imgObjPreview[count].style.display = 'block';
+                imgObjPreview[count].style.width = '2.53rem';
+                imgObjPreview[count].style.height = '2.53rem';
+                //imgObjPreview.src = docObj.files[0].getAsDataURL();
+                //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+                imgObjPreview[count].src = window.URL.createObjectURL(docObj.files[0]);
+
+
+            } else {
+                //IE下，使用滤镜
+                docObj.select();
+                var localImagId = document.getElementById("localImag");
+                //必须设置初始大小
+                localImagId.style.width = "2.53rem";
+                localImagId.style.height = "2.53rem";
+                //图片异常的捕捉，防止用户修改后缀来伪造图片
+                try {
+                    localImagId.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                    localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
+                } catch(e) {
+                    alert("您上传的图片格式不正确，请重新选择!");
+                    return false;
+                }
+                imgObjPreview.style.display = 'none';
+                document.selection.empty();
+            }
+            return true;
+        });
+
+
+
+        aidmemberid='87343344058';
+        $.ajax({
+            url:"/yichaxun/aidmoney/aidapplypage",
+            type:'post',
+            data:{'aidmemberid':aidmemberid},
+            success:function(data){
+                if(data.code==0){
+                    $('.aidcontent').html('互助内容：'+data.data.aidcontent);
+                    $('.highestaidmoney').html('最高互助金额：'+data.data.highestaidmoney+'元');
+                    $('.totalaidcount').html('已捐助：'+data.data.totalaidcount+'元');
+                    $('.joinage').html('加入年龄：'+data.data.joinage);
+                    $('.joinedcount').html('加入人数：'+data.data.joinedcount+'人');
+                    $('.totalaidmoney').html('已捐助金额：'+data.data.totalaidmoney+'元')
+
+                }
+            }
+        });
+        var pics,endPics;
+        $('.btn button').click(function(){
+            if($('.memberName').val()==''||$('.memberIdCard').val()==''){
+                alert('请完善身份信息!')
+            }else{
+                var memberName=$('.memberName').val();
+                var memberIdCard =$('.memberIdCard').val();
+                $('.name span:last-child').html(memberName);
+                $('.idCard span:last-child').html(memberIdCard);
+                $('.popWindow').css('display','block');
+                $.addTmpImgYichachaBatch('uploadForm');
+                pics=result;
+                console.log(pics)
+//            console.log(pics.split(',')[0]);
+                var m='';
+                $.each(pics.split(','),function(){
+//                console.log(this,this.length);
+                    if(this!=''&&this!=undefined&&this!=null&&this!='undefined'){
+                        m=m+','+this;
+//                    console.log(m)
+                    }
+//                console.log(m.substr(1, m.length))
+                })
+                endPics=m.substr(1, m.length);
+            }
+
+           console.log(endPics)
+        })
+
+//      取消上传  和  确认上传
+        $('.cancel').click(function(){
+            $('.popWindow').css('display','none');
+        })
+        $('.sure').click(function(){
+            $(this).attr({'disabled':true});
+            if(endPics.length>0){
+                $('.popWindow').css('display','none');
+                var memberName=$('.memberName').val();
+                var memberIdCard =$('.memberIdCard').val();
+                $.ajax({
+                    url:'/yichaxun/aidmoney/applyaid',
+                    data:{'idcardno':memberIdCard,'name':memberName,"aidmemberid":aidmemberid,'pics':endPics},
+                    type:'post',
+                    success:function(data){
+                        if(data.code==0){
+                            $('.over').css('display','block');
+                            $('.containBox').css('display','none');
+                            $('.sure').attr({'disabled':false});
+                        }else{
+                            alert(data.message)
+                        }
+                    }
+                })
+            }else{
+                alert("请添加图片！");
+                $('.sure').attr({'disabled':false});
+            }
+        })
+    </script>
+</body>
+</html>

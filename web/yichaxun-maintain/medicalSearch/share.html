@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>表单</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+</head>
+
+<body>
+<div style="margin: 15px;">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入分享标题" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">网址</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" lay-verify="url" autocomplete="off" placeholder="请输入分享跳转的网址" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片</label>
+            <div class="layui-input-block">
+                <input id="thridSharePic" type="file" name="topPic" class="layui-upload-file" lay-title="上传分享图片">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">内容</label>
+            <div class="layui-input-block">
+                <textarea name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+    var sharePic = '';
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var $ = layui.jquery,
+                form = layui.form(),
+                layer = layui.layer,
+                layedit = layui.layedit,
+                laydate = layui.laydate;
+
+
+        $.ajax( {
+            type: 'POST',
+            data: {sysParamId:'thridShareTitle'},
+            url:'/c/sysparam',
+            success: function(data){
+                if(data.code == 0){
+                    $('[name="title"]').val(data.data.sysParamValue);
+                    $.ajax( {
+                        type: 'POST',
+                        data: {sysParamId:'thridShareContent'},
+                        url:'/c/sysparam',
+                        success: function(data){
+                            if(data.code == 0){
+                                $('[name="content"]').val(data.data.sysParamValue);
+                                $.ajax( {
+                                    type: 'POST',
+                                    data: {sysParamId:'thridShareUrl'},
+                                    url:'/c/sysparam',
+                                    success: function(data){
+                                        if(data.code == 0){
+                                            $('[name="url"]').val(data.data.sysParamValue);
+                                        }
+                                    }
+                                } )
+                            }
+                        }
+                    } )
+                }
+            }
+        } )
+        //监听提交
+        form.on('submit(demo1)', function(data) {
+            var a = data.field;
+            $.ajax( {
+                type: 'POST',
+                data: {sysParamId:'thridShareTitle',sysParamValue: a.title},
+                url: '../m/sysparamalter',
+                success: function(data){
+                    if(data.code == 0){
+                        $.ajax( {
+                            type: 'POST',
+                            data: {sysParamId:'thridShareContent',sysParamValue: a.content},
+                            url: '../m/sysparamalter',
+                            success: function(data){
+                                if(data.code == 0){
+                                    $.ajax( {
+                                        type: 'POST',
+                                        data: {sysParamId:'thridShareUrl',sysParamValue: a.url},
+                                        url: '../m/sysparamalter',
+                                        success: function(data){
+                                            if(data.code == 0){
+                                                if(sharePic != ''){
+                                                    $.ajax( {
+                                                        type: 'POST',
+                                                        data: {sysParamId:'thridSharePic',sysParamValue: sharePic},
+                                                        url: '../m/sysparamalter',
+                                                        success: function(data){
+                                                            if(data.code == 0){
+                                                                layer.msg('修改成功');
+                                                            }
+                                                        }
+                                                    } )
+                                                }else{
+                                                    layer.msg('修改成功');
+                                                }
+                                            }
+                                        }
+                                    } )
+                                }
+                            }
+                        } )
+                    }
+                }
+            } )
+            return false;
+        });
+    });
+    layui.use('upload', function(){
+        layui.upload({
+            url: 'http://passion.njshangka.com/oss/file/upload?path=yichaxun/'
+            ,elem: '#thridSharePic' //指定原始元素，默认直接查找class="layui-upload-file"
+            ,method: 'post' //上传接口的http类型
+            ,success: function(res){
+                if(res.code == 0){
+                    sharePic = res.data.url;
+                    layer.msg('上传成功...')
+                }
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

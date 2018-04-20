@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>医疗币获得说明</title>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="js/oweJquery.js"></script>
+    <style>
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            /*text-align: center;*/
+            width: 100%;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance: none;
+            outline: none;
+            /*overflow: hidden;*/
+            background-color: #FFFFFF;
+        }
+
+        .lf {
+            float: left;
+        }
+
+        .rt {
+            float: right;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+        html{font-size: 32px}
+        @media(min-device-width: 375px) {
+            html{font-size: 64px}
+        }
+        @media(min-device-width: 414px) {
+            html{font-size: 75px}
+        }
+        .topWithoutBuy{
+            height: 7.86rem;
+            text-align: center;
+        }
+        .topWithoutBuy img{
+            width: 2.92rem;
+            height: 3.42rem;
+            margin-top: 1.6rem;
+        }
+        .topWithoutBuy p{
+            font-size: 0.42rem;
+            color: #999;
+        }
+        .topBuy{
+            height: 5.52rem;
+            text-align: center;
+            display: none;
+        }
+        .topBuy p:first-child{
+            font-size: 1.5rem;
+            color: #999;
+            margin:2.34rem 0 0.5rem;
+        }
+        .topBuy p:last-child{
+            font-size: 0.42rem;
+            color: #ccc;
+        }
+
+        .rebateDescription{
+            margin:0 0.4rem 0.5rem
+        }
+        .rebateDescriptionTitle{
+            font-size: 0.42rem;
+            color: #333;
+            margin-bottom: 0.26rem;
+        }
+        .rebateDescriptionDetails{
+            font-size: 0.37rem;
+            color: #999;
+            margin-bottom: 0.1rem;
+        }
+        .rebateGain{
+            margin: 0.5rem 0.4rem;
+        }
+    </style>
+    <script>
+        var ifBuyed,medicalcoinReturn;
+        var urls=location.href;
+
+        var url_new = urls.split("&")[0];
+        var $from=urls.split("&")[1];
+
+        if($from==''||$from==undefined||$from=='undefined'||$from==null){}else{
+            location.href=url_new;
+        }
+        var url_search="?"+urls.split("?")[1];
+        function getRequest() {
+            //            var url_search = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url_search.indexOf("?") != -1) {
+                var str = url_search.substr(1);
+                strs = str.split("!");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+        ifBuyed = getRequest().ifBuyed;
+        medicalcoinReturn = getRequest().medicalcoinReturn;
+//        alert(ifBuyed);
+
+    </script>
+</head>
+<body>
+    <div class="topWithoutBuy" >
+        <img src="images/without.png" alt=""/>
+        <p>你还未获得医疗币哦，请先购买哦</p>
+    </div>
+    <div class="topBuy" >
+        <p class="money">100</p>
+        <p>你已成功购买该产品</p>
+    </div>
+
+    <!--返利说明-->
+    <div class="rebateDescription">
+        <p class="rebateDescriptionTitle">返利说明</p>
+        <p class="rebateDescriptionDetails">1.购买单件商品可获得对应的医疗币，可累计</p>
+        <p class="rebateDescriptionDetails">2.获取医疗币可在“我的-医疗返点”进行查看</p>
+        <p class="rebateDescriptionDetails">3.医疗币可以在合作医院门店看病时抵扣现金</p>
+    </div>
+
+    <!--返利说明-->
+    <div class="rebateGain">
+        <p class="rebateDescriptionTitle">更多返利获得方式</p>
+        <p class="rebateDescriptionDetails">1.加入会员可享受会员优惠价，优惠购买</p>
+        <p class="rebateDescriptionDetails">2.获得的收益可在“我的-我的卡”进行查看</p>
+        <p class="rebateDescriptionDetails">3.购买“共享医疗-疼痛无忧卡”可获得对应的收益，成功加入会员</p>
+        <p class="rebateDescriptionDetails">4.收益可在合作医院门店看病时抵扣现金</p>
+    </div>
+    <script>
+        if(ifBuyed==1){
+            $('.topWithoutBuy').css('display','none');
+            $('.topBuy').css('display','block');
+            $('.money').html(medicalcoinReturn)
+        }else{
+            $('.topWithoutBuy').css('display','block');
+            $('.topBuy').css('display','none');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>我的订单</title>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <link rel="stylesheet" href="Shared/Crowdfunding/css/sMyOrder.css"/>
+    <link rel="stylesheet" href="Shared/Crowdfunding/css/sSettleShoppingCart.css"/>
+    <link rel="stylesheet" href="Shared/Crowdfunding/css/sShoppingCart.css"/>
+    <script src="js/oweJquery.js"></script>
+    <link rel="stylesheet" href="css/dropload.css">
+    <!--<script src="../js/zepto.min.js"></script>-->
+    <script src="js/dropload.min.js"></script>
+    <!--<link rel="stylesheet" href="Shared/aa/scrollbar.css"/>-->
+    <script src="Shared/Crowdfunding/js/sMyOrder.js"></script>
+    <script src="Shared/Crowdfunding/js/wxpay.js"></script>
+    <!--<script type="application/javascript" src="Shared/aa/iscroll.js"></script>-->
+
+    <!--<script src="js/vconsole.min.js"></script>-->
+    <style>
+        #pullUp,#pullDown{
+            height: 1.06rem !important;
+            line-height: 1.06rem !important;
+            font-size: 0.37rem !important;
+        }
+        .pullUpIcon,.pullDownIcon{
+            height: 0.53rem;
+            width:0.53rem ;
+            vertical-align: middle;
+            margin-top: 0.265rem;
+        }
+        .deleteOrder{
+            margin-right: 0.4rem;
+        }
+        .dropload-down{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<!--导航栏-->
+<div class="topLine">
+    <table>
+        <tr>
+            <td><span class="topLineAll" style="border-bottom: 0.05rem solid  #3ac9af">全部</span></td>
+            <td><span class="topLinePay">待付款</span></td>
+            <td><span class="topLineGet">待收货</span></td>
+        </tr>
+    </table>
+</div>
+<!--商品列表-->
+<div id="wrapper" style="background: #f2f2f2">
+    <div  id="scroller">
+
+        <div class="myOrderAll" id="thelist"  style="margin-top: 1.06rem">
+        </div>
+
+    </div>
+</div>
+
+<div class="tabMake" style="display: none;">
+    <div class="tabMakeSure">
+        <p>确认付款</p>
+        <img class="close rt" src="Shared/Crowdfunding/imgs/close.png" alt="">
+    </div>
+    <p class="tabMakePrice">￥<span class="tabMakePriceAll">12</span></p>
+    <div class="tabMakeLine shouyi">
+        <img class="tabMakeIncome lf" src="Shared/Crowdfunding/icon/gpacket.png" alt="">
+        <span class="lf">收益</span>
+        <img class="tabMakeSelect rt" src="Shared/Crowdfunding/icon/gselectblue.png" alt="">
+    </div>
+    <div class="tabMakeLine weixinPay" style="display: none;">
+        <img class="tabMakeIncome lf" src="Shared/Crowdfunding/iconLove/home_icon-1@2x.png" alt="">
+        <span class="lf">微信支付</span>
+        <img class="tabMakeSelect rt" src="Shared/Crowdfunding/icon/gselectgreen.png" alt="">
+    </div>
+    <div class="tabMakeLine AliPay">
+        <img class="tabMakeIncome lf" src="Shared/Crowdfunding/iconLove/home_icon-2@2x.png" alt="">
+        <span class="lf">支付宝支付</span>
+        <img class="tabMakeSelect rt" src="Shared/Crowdfunding/icon/gselectgreen.png" alt="">
+    </div>
+
+    <div style="height: 1.6rem;width: 100%;background: #fff;border-top: 0.01rem solid #e5e5e5;margin: 2.5rem 0 0 0">
+        <div style="height: 1.06rem;border-radius: 6px;margin:0.27rem 0.4rem;">
+            <button class="btnBuy lf">立即付款</button>
+        </div>
+    </div>
+</div>
+<script>
+
+    var tabLineAllPriceHeight=$('.tabLineAllPrice').height();
+    var tabLineAllPriceDivHeight=$('.tabLineAllPriceDiv').height();
+    $('.tabLineAllPriceDiv').css('margin-top',(tabLineAllPriceHeight-tabLineAllPriceDivHeight)/2);
+//alert($(document).height())
+//    $('#wrapper').css('min-height',$(document).height());
+//    $('#thelist').css('min-height',$(document).height());
+    showOrder(1)
+
+//    所有订单
+    $('.topLineAll').click(function(){
+
+        orderStatusCode=1;
+         page_no=1;
+
+        $('.myOrderAll').html('');
+        $(this).css('border-bottom','0.05rem solid #3ac9af').css('color','#3ac9af');
+        $(this).parent().siblings().children().css('border-bottom','0').css('color','#333');
+        $('.tabLine').css('display','block');
+
+        var page_size = 15;
+        page_no = 0;
+        $('.myOrderAll').dropload({
+            scrollArea: window,
+            loadDownFn: function (me) {
+
+                page_no++;
+                // 拼接HTML
+                var result = '';
+                $.ajax({
+                    url:"/yichaxun/mall/myallorderlist",
+                    type:'get',
+                    data:'page_no='+page_no+"&page_size="+page_size,
+                    async: true,
+                    headers:{yccClient:'YCCGX'},
+                    dataType: 'json',
+                    success: function (data) {
+                        var arrLen = data.data.items.length;
+//                                console.log(arrLen);
+                        if (arrLen > 0) {
+                            for (var i = 0; i < arrLen; i++) {
+//                                var pic = data.data.items[i].medicalSchemePic;
+                                var m = '';var order='',tabLineText='';
+                                var goodsLength = data.data.items[i].goods.length;
+                                var orderStatus=data.data.items[i].status;
+                                var ifSigned=data.data.items[i].ifSigned;
+                                if(orderStatus=='CANCEL'){
+                                    order='<button class="deleteOrder rt" orderId="'+data.data.items[i].orderId+'">删除订单</button>';
+                                    tabLineText="交易关闭"
+                                }else if(orderStatus=='UNPAY'){
+                                    order= '<button class="tabLineBtnPay rt" payAmount="'+data.data.items[i].payAmount+'" orderId="'+data.data.items[i].orderId+'">付款</button>'+
+                                    '<button class="tabLineBtnCancel rt" orderId="'+data.data.items[i].orderId+'">取消订单</button>';
+                                    tabLineText="等待买家付款"
+                                }else if(orderStatus=='PAYED'&&ifSigned==1){
+                                    order='<button class="deleteOrder rt" orderId="'+data.data.items[i].orderId+'">删除订单</button>';
+                                    tabLineText="交易成功"
+                                }else if(orderStatus=='PAYED'&&ifSigned!=1){
+                                    order='<button class="makeSureReccept rt" orderId="'+data.data.items[i].orderId+'">确认收货</button>';
+                                    tabLineText="等待买家收货"
+                                }
+
+
+                                for(var r=0;r<goodsLength;r++){
+                                    m+= '<li class="tabLineCommodity">'+
+                                    '<img class="tabLineCommodityImg lf" src="'+data.data.items[i].goods[r].coverPic+'" alt=""/>'+
+                                    '<ul class="tabLineCommodityRt lf">'+
+                                    '<li class="tabLineCommodityRtTitle lf">'+data.data.items[i].goods[r].name+'</li>'+
+                                    '<li class="tabLineCommodityRtMoney lf">'+
+                                    '<p class="tabLineCommodityRtMoneyMember ">会员价：￥<span>'+data.data.items[i].goods[r].memberPrice+'</span></p>'+
+                                    '<p class="tabLineCommodityRtMoneyPriceLf lf">￥<span class="tabLineCommodityRtMoneyPriceRt">'+data.data.items[i].goods[r].price+'</span>'+
+                                    '</p>'+
+                                    '<span class="tabLineCommodityRtMoneyDouble rt">X <span>'+data.data.items[i].goods[r].count+'</span></span>'+
+                                    '</li>'+
+                                    '</ul>'+
+                                    '</li>'
+                                }
+
+
+
+                                result += '<div class="tabLine" style="margin-top: 0 !important;">'+
+                                '<div class="orderDetails"  orderId="'+data.data.items[i].orderId+'">' +
+                                '<div class="tabLineCitySelect">'+
+                                '<span class="tabLineCity lf">订单号：'+data.data.items[i].orderId+'</span><span class="tabLineText rt">'+tabLineText+'</span>'+
+                                '</div>'+
+                                '<ul class="tabLineAll">'+
+                                m+
+                                '</ul>'+
+                                '<div class="tabLineAllPrice">'+
+                                '<span class="tabLineAllPricePostage rt">(含邮费：￥0)</span>'+
+                                '<span class="tabLineAllPriceAllMoney rt">合计：￥'+data.data.items[i].payAmount+'</span>'+
+                                '<span class="tabLineAllPriceDivPiece rt">共'+data.data.items[i].totalGoodCount+'件商品</span>'+
+                                '</div>'+
+                                '</div>'+
+                                '<div class="tabLineBtn">'+
+                                order+
+                                '</div>'+
+                                '</div>'
+                            }
+
+                            // 如果没有数据
+                        } else {
+                            // 锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                        }
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function () {
+                            // 插入数据到页面，放到最后面
+                            $('.myOrderAll').append(result);
+                            // 每次数据插入，必须重置
+                            me.resetload();
+                        }, 100);
+                    },
+                    error: function (xhr, type) {
+//                                    alert('Ajax error!');
+                        // 即使加载出错，也得重置
+                        me.resetload();
+                    }
+                });
+            }
+        });
+
+    });
+//    未付款订单
+    $('.topLinePay').click(function(){
+        page_no=1;
+        orderStatusCode=2;
+
+        $('.myOrderAll').html('');
+        $(this).css('border-bottom','0.05rem solid #3ac9af').css('color','#3ac9af');
+        $(this).parent().siblings().children().css('border-bottom','0').css('color','#333');
+        $('.tabLine').css('display','block');
+
+        var page_size = 15;
+        page_no = 0;
+        $('.myOrderAll').dropload({
+            scrollArea: window,
+            loadDownFn: function (me) {
+
+                page_no++;
+                // 拼接HTML
+                var result = '';
+                $.ajax({
+                    url:"/yichaxun/mall/mywaitpayorderlist",
+                    type:'get',
+                    data:'page_no='+page_no+"&page_size="+page_size,
+                    async: true,
+                    headers:{yccClient:'YCCGX'},
+                    dataType: 'json',
+                    success: function (data) {
+                        var arrLen = data.data.items.length;
+//                                console.log(arrLen);
+                        if (arrLen > 0) {
+                            for (var i = 0; i < arrLen; i++) {
+                             var m = '';var order='',tabLineText='';
+                                var goodsLength = data.data.items[i].goods.length;
+                                var orderStatus=data.data.items[i].status;
+                                var ifSigned=data.data.items[i].ifSigned
+                                if(orderStatus=='CANCEL'){
+                                    order='<button class="deleteOrder rt" orderId="'+data.data.items[i].orderId+'">删除订单</button>';
+                                    tabLineText="交易关闭"
+                                }else if(orderStatus=='UNPAY'){
+                                    order= '<button class="tabLineBtnPay rt" payAmount="'+data.data.items[i].payAmount+'" orderId="'+data.data.items[i].orderId+'">付款</button>'+
+                                    '<button class="tabLineBtnCancel rt" orderId="'+data.data.items[i].orderId+'">取消订单</button>';
+                                    tabLineText="等待买家付款"
+                                }else if(orderStatus=='PAYED'&&ifSigned==1){
+                                    order='<button class="deleteOrder rt" orderId="'+data.data.items[i].orderId+'">删除订单</button>';
+                                    tabLineText="交易成功"
+                                }else if(orderStatus=='PAYED'&&ifSigned!=1){
+                                    order='<button class="makeSureReccept rt" orderId="'+data.data.items[i].orderId+'">确认收货</button>';
+                                    tabLineText="等待买家收货"
+                                }
+
+                                for(var r=0;r<goodsLength;r++){
+                                    m+= '<li class="tabLineCommodity">'+
+                                    '<img class="tabLineCommodityImg lf" src="'+data.data.items[i].goods[r].coverPic+'" alt=""/>'+
+                                    '<ul class="tabLineCommodityRt lf">'+
+                                    '<li class="tabLineCommodityRtTitle lf">'+data.data.items[i].goods[r].name+'</li>'+
+                                    '<li class="tabLineCommodityRtMoney lf">'+
+                                    '<p class="tabLineCommodityRtMoneyMember ">会员价：￥<span>'+data.data.items[i].goods[r].memberPrice+'</span></p>'+
+                                    '<p class="tabLineCommodityRtMoneyPriceLf lf">￥<span class="tabLineCommodityRtMoneyPriceRt">'+data.data.items[i].goods[r].price+'</span>'+
+                                    '</p>'+
+                                    '<span class="tabLineCommodityRtMoneyDouble rt">X <span>'+data.data.items[i].goods[r].count+'</span></span>'+
+                                    '</li>'+
+                                    '</ul>'+
+                                    '</li>'
+                                }
+
+
+                                result +=  '<div class="tabLine" style="margin-top: 0 !important;">'+
+                                '<div class="orderDetails"  orderId="'+data.data.items[i].orderId+'">' +
+                                '<div class="tabLineCitySelect">'+
+                                '<span class="tabLineCity lf">订单号：'+data.data.items[i].orderId+'</span><span class="tabLineText rt">'+tabLineText+'</span>'+
+                                '</div>'+
+                                '<ul class="tabLineAll">'+
+                                m+
+                                '</ul>'+
+                                '<div class="tabLineAllPrice">'+
+                                '<span class="tabLineAllPricePostage rt">(含邮费：￥0)</span>'+
+                                '<span class="tabLineAllPriceAllMoney rt">合计：￥'+data.data.items[i].payAmount+'</span>'+
+                                '<span class="tabLineAllPriceDivPiece rt">共'+data.data.items[i].totalGoodCount+'件商品</span>'+
+                                '</div>'+
+                                '</div>'+
+                                '<div class="tabLineBtn">'+
+                                order+
+                                '</div>'+
+                                '</div>'
+                            }
+
+                            // 如果没有数据
+                        } else {
+                            // 锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                        }
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function () {
+                            // 插入数据到页面，放到最后面
+                            $('.myOrderAll').append(result);
+                            // 每次数据插入，必须重置
+                            me.resetload();
+                        }, 100);
+                    },
+                    error: function (xhr, type) {
+//                                    alert('Ajax error!');
+                        // 即使加载出错，也得重置
+                        me.resetload();
+                    }
+                });
+            }
+        });
+
+    });
+//    待收货订单
+    $('.topLineGet').click(function(){
+
+        page_no=1;
+        orderStatusCode=3;
+
+        $('.myOrderAll').html('');
+        $(this).css('border-bottom','0.05rem solid #3ac9af').css('color','#3ac9af');
+        $(this).parent().siblings().children().css('border-bottom','0').css('color','#333');
+        $('.tabLine').css('display','block');
+
+        var page_size = 15;
+        page_no = 0;
+        $('.myOrderAll').dropload({
+            scrollArea: window,
+            loadDownFn: function (me) {
+
+                page_no++;
+                // 拼接HTML
+                var result = '';
+                $.ajax({
+                    url:"/yichaxun/mall/mywaitsignorderlist",
+                    type:'get',
+                    data:'page_no='+page_no+"&page_size="+page_size,
+                    async: true,
+                    headers:{yccClient:'YCCGX'},
+                    dataType: 'json',
+                    success: function (data) {
+                        var arrLen = data.data.items.length;
+//                                console.log(arrLen);
+                        if (arrLen > 0) {
+                            for (var i = 0; i < arrLen; i++) {
+                                var m = '';var order='',tabLineText='';
+                                var goodsLength = data.data.items[i].goods.length;
+                                var orderStatus=data.data.items[i].status;
+                                var ifSigned=data.data.items[i].ifSigned
+                                if(orderStatus=='CANCEL'){
+                                    order='<button class="deleteOrder rt" orderId="'+data.data.items[i].orderId+'">删除订单</button>';
+                                    tabLineText="交易关闭"
+                                }else if(orderStatus=='UNPAY'){
+                                    order= '<button class="tabLineBtnPay rt" payAmount="'+data.data.items[i].payAmount+'" orderId="'+data.data.items[i].orderId+'">付款</button>'+
+                                    '<button class="tabLineBtnCancel rt" orderId="'+data.data.items[i].orderId+'">取消订单</button>';
+                                    tabLineText="等待买家付款"
+                                }else if(orderStatus=='PAYED'&&ifSigned==1){
+                                    order='<button class="deleteOrder rt" orderId="'+data.data.items[i].orderId+'">删除订单</button>';
+                                    tabLineText="交易成功"
+                                }else if(orderStatus=='PAYED'&&ifSigned!=1){
+                                    order='<button class="makeSureReccept rt" orderId="'+data.data.items[i].orderId+'">确认收货</button>';
+                                    tabLineText="等待买家收货"
+                                }
+
+
+                                for(var r=0;r<goodsLength;r++){
+                                    m+= '<li class="tabLineCommodity">'+
+                                    '<img class="tabLineCommodityImg lf" src="'+data.data.items[i].goods[r].coverPic+'" alt=""/>'+
+                                    '<ul class="tabLineCommodityRt lf">'+
+                                    '<li class="tabLineCommodityRtTitle lf">'+data.data.items[i].goods[r].name+'</li>'+
+                                    '<li class="tabLineCommodityRtMoney lf">'+
+                                    '<p class="tabLineCommodityRtMoneyMember ">会员价：￥<span>'+data.data.items[i].goods[r].memberPrice+'</span></p>'+
+                                    '<p class="tabLineCommodityRtMoneyPriceLf lf">￥<span class="tabLineCommodityRtMoneyPriceRt">'+data.data.items[i].goods[r].price+'</span>'+
+                                    '</p>'+
+                                    '<span class="tabLineCommodityRtMoneyDouble rt">X <span>'+data.data.items[i].goods[r].count+'</span></span>'+
+                                    '</li>'+
+                                    '</ul>'+
+                                    '</li>'
+                                }
+
+
+                                result +=   '<div class="tabLine" style="margin-top: 0 !important;">'+
+                                '<div class="orderDetails"  orderId="'+data.data.items[i].orderId+'">' +
+                                '<div class="tabLineCitySelect">'+
+                                '<span class="tabLineCity lf">订单号：'+data.data.items[i].orderId+'</span><span class="tabLineText rt">'+tabLineText+'</span>'+
+                                '</div>'+
+                                '<ul class="tabLineAll">'+
+                                m+
+                                '</ul>'+
+                                '<div class="tabLineAllPrice">'+
+                                '<span class="tabLineAllPricePostage rt">(含邮费：￥0)</span>'+
+                                '<span class="tabLineAllPriceAllMoney rt">合计：￥'+data.data.items[i].payAmount+'</span>'+
+                                '<span class="tabLineAllPriceDivPiece rt">共'+data.data.items[i].totalGoodCount+'件商品</span>'+
+                                '</div>'+
+                                '</div>'+
+                                '<div class="tabLineBtn">'+
+                                order+
+                                '</div>'+
+                                '</div>'
+                            }
+
+                            // 如果没有数据
+                        } else {
+                            // 锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                        }
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function () {
+                            // 插入数据到页面，放到最后面
+                            $('.myOrderAll').append(result);
+                            // 每次数据插入，必须重置
+                            me.resetload();
+                        }, 100);
+                    },
+                    error: function (xhr, type) {
+//                                    alert('Ajax error!');
+                        // 即使加载出错，也得重置
+                        me.resetload();
+                    }
+                });
+            }
+        });
+
+    })
+
+//    确认收货
+    $('#wrapper').on('click','.tabLineBtn .makeSureReccept',function(){
+        var _this=$(this);
+        $.ajax({
+            url:'/yichaxun/mall/ordersign',
+            type:'post',
+            data:"order_id="+$(this).attr('orderId'),
+            success:function(data){
+                if(data.code==0){
+                    _this.parent().parent().find('.tabLineText').html('交易成功');
+                    _this.parent().html('<button class="deleteOrder rt" orderId="'+_this.attr('orderId')+'">删除订单</button>');
+                }
+            }
+        })
+    })
+// 付款
+    var order_id;
+    var payAction = "BALANCE";
+    var user_id=localStorage.getItem("userId")
+    $('#wrapper').on('click','.tabLineBtn .tabLineBtnPay',function(){
+        _thisIs=$(this)
+        order_id=$(this).attr('orderId');
+        $('.tabMakePriceAll').html(_thisIs.attr('payAmount'))
+        $('.tabMake').css('display','block');
+        if(window.navigator.userAgent.match(/MicroMessenger/i) != "MicroMessenger") {
+            $('.weixinPay').css('display','none');
+            $('.AliPay').css('display','block');
+//            payAction = "ALIPAYWAP"
+        }else{
+            $('.AliPay').css('display','none');
+            $('.weixinPay').css('display','block');
+//            payAction = "WXOFFICIAL"
+        }
+    })
+    //        选择付款方式
+    $('.tabMakeLine').click(function(){
+        $(this).children('.tabMakeSelect').attr('src','Shared/Crowdfunding/icon/gselectblue.png');
+        $(this).siblings().children('.tabMakeSelect').attr('src','Shared/Crowdfunding/icon/gselectgreen.png');
+        if($(this).find('span').html()=="收益"){
+            payAction = "BALANCE"
+        }else if($(this).find('span').html()=="支付宝支付"){
+            payAction = "ALIPAYWAP"
+        }else if($(this).find('span').html()=="微信支付"){
+            payAction = "WXOFFICIAL"
+        }
+    })
+    $('.close').click(function(){
+        $('.tabMake').css('display','none')
+    })
+    $('.btnBuy').click(function(){
+                    $.ajax({
+                        url:'/yichaxun/mall/order/pay',
+                        type:'post',
+                        data:'user_id='+user_id+"&order_ids="+order_id+"&pay_type="+payAction+"&return_url=weixin/sMyOrder.html",
+                        success:function(data){
+//                            $('.tabMake').css('display','none');
+                           if(data.code==0){
+
+
+
+                               if(data.data.status=="SUCCESS"){
+                                   $('.tabMake').css('display','none');
+                                   _thisIs.parent().parent().find('.tabLineText').html('等待买家收货');
+                                   _thisIs.parent().html('<button class="makeSureReccept rt" orderId="'+_thisIs.attr('orderId')+'">确认收货</button>');
+                               }else   if(window.navigator.userAgent.match(/MicroMessenger/i) != "MicroMessenger"){
+                                   $('body').append(data.data.payLink);
+                               }else{
+                                   localStorage.setItem('memberHref',location.href)
+                                   onBridgeOurGoods(data.data.appId, data.data.timeStamp, data.data.nonceStr, data.data.pack, data.data.paySign)
+                               }
+                           }else if(data.code==99){
+                               alert(data.message)
+                           }
+
+                        }
+                    })
+    })
+
+
+//    删除订单
+    $('#wrapper').on('click','.tabLineBtn .deleteOrder',function(){
+        var _this=$(this)
+        $.ajax({
+            url:'/yichaxun/mall/orderdel',
+            type:'post',
+            data:'order_id='+$(this).attr('orderId'),
+            success:function(data){
+                if(data.code==0){
+                    _this.parent().parent().remove();
+//                    _this.parent().html('<button class="deleteOrder rt" orderId="'+_this.attr('orderId')+'">删除订单</button>');
+                }
+            }
+        })
+    });
+    //    取消订单
+    $('#wrapper').on('click','.tabLineBtn .tabLineBtnCancel',function(){
+        var _this=$(this);
+        $.ajax({
+            url:'/yichaxun/mall/ordercancel',
+            type:'post',
+            data:'order_id='+$(this).attr('orderId'),
+            success:function(data){
+                if(data.code==0){
+                    _this.parent().parent().find('.tabLineText').html('交易关闭');
+                    _this.parent().html('<button class="deleteOrder rt" orderId="'+_this.attr('orderId')+'">删除订单</button>');
+                }
+            }
+        })
+    });
+
+
+//    跳转详情
+    $('#wrapper').on('click','.myOrderAll .orderDetails',function(){
+        localStorage.setItem('href',location.href);
+        localStorage.setItem('orderStatus',$(this).find('.tabLineText').html());
+        location.href="sMyOrderDetails.html?orderId="+$(this).attr('orderId')
+    })
+
+</script>
+</body>
+</html>

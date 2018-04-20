@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>商品列表</title>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css" />
+</head>
+<body>
+<div class="admin-main">
+
+    <blockquote class="layui-elem-quote" id="searchBox">
+        <a href="javascript:history.go(-1);" class="layui-btn layui-btn-small">后退</a>
+
+        <a href="javascript:;" style="float: right;" class="layui-btn layui-btn-warm layui-btn-small" id="add">
+            <i class="layui-icon">&#xe608;</i> 添加规格
+        </a>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>商品规格</legend>
+        <div class="layui-field-box">
+            <table class="site-table table-hover">
+                <thead>
+                <tr>
+                    <th>商品ID</th>
+                    <th>分支名</th>
+                    <th>分支值</th>
+                    <th>价格</th>
+                    <th>会员价</th>
+                    <th>已售数量</th>
+                    <th>剩余数量</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <div class="admin-table-page">
+        <div id="page" class="page"></div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+    layui.use(['laypage','layer'], function() {
+        var $ = layui.jquery,
+            laypage = layui.laypage,
+            layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+        function getRequest() {
+            var url = location.search;
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+        var id = getRequest().id;
+
+       /* var totalPage = 1;
+        var toPageNo = 1;*/
+        //数据获取
+        function getData(){
+            $.ajax( {
+                type: 'POST',
+                data: {node_id: id},
+                url: '../mall/goodsubnodelist',
+                success: function(data){
+                    if(data.code == 0){
+                        $('#tbody').children().remove();
+                        var data = data.data;
+                        $('#add').attr('data-upId',id);
+                        $('#add').attr('branchName',data[0].branchName)
+                        /*totalPage = data.sum.totalPageCount;*/
+                        for(var i = 0 ; i < data.length ; i ++){
+                            $('#tbody').append('<tr>' +
+                                '<td>'+ data[i].goodId +'</td>' +
+                                '<td>'+ data[i].branchName +'</td>' +
+                                '<td>'+ data[i].name +'</td>' +
+                                '<td>'+ data[i].price +' 元</td>' +
+                                '<td>'+ data[i].memberPrice +' 元</td>' +
+                                '<td>'+ data[i].soldcount +'</td>' +
+                                '<td>'+ data[i].inventory +'</td>' +
+                                '<td>' +
+                                '<a href="javascript:;" data-id="'+ data[i].goodId +'" data-sold="'+ data[i].soldcount +'" class="sold layui-btn layui-btn-mini">已售数量</a>' +
+                                '<a href="editSpec.html?id='+ data[i].goodId +'" style="margin-left: 10px;" class="edit layui-btn layui-btn-normal layui-btn-mini"><i class="layui-icon"></i>编辑信息</a>' +
+                                '<a href="javascript:;" style="margin-left: 10px;" data-id="'+ data[i].goodId +'" class="del layui-btn layui-btn-danger layui-btn-mini">删除</a>' +
+                                '</td>' +
+                                '</tr>'
+                            );
+                        }
+                    }else if(data.code == 20){
+                        alert('登录已失效，请重新登录！！');
+                        window.parent.location.href = 'login.html';
+                    }else{
+                        layer.msg(data.message);
+                    }
+                }
+            } );
+        }
+        getData();
+
+        $('#add').click(function(){
+            var upId = $(this).attr('data-upId');
+            var branchName = $(this).attr('branchName');
+            location.href = 'editSpec.html?id=&upId='+upId+'&branchName='+branchName;
+        });
+
+        $('#tbody').on('click','a.del',function(){
+            var id = $(this).attr('data-id');
+            var me = $(this).parent().parent();
+            layer.open({
+                type: 1
+                ,title: false //不显示标题栏
+                ,closeBtn: false
+                ,area: '300px;'
+                ,shade: 0.8
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确定要删除此商品规格吗？</div>'
+                ,success: function(layero){
+                    layui.use(['form', 'layedit', 'upload', 'laydate'], function(){
+                        var $ = layui.jquery,
+                            form = layui.form(),
+                            layer = layui.layer;
+
+                        layui.upload({
+                            url: 'http://passion.njshangka.com/oss/file/upload?path=yichaxun/'
+                            ,elem: '#pics'
+                            ,method: 'post'
+                            ,success: function(res){
+                                if(res.code == 0){
+                                    pics = res.data.url;
+                                    layer.msg('商品图片上传成功...')
+                                }
+                            }
+                        });
+                    });
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        $.ajax( {
+                            type: 'POST',
+                            data: {node_id:id},
+                            url: '../mall/goodsubnodedel',
+                            success: function(data){
+                                if(data.code == 0){
+                                    layer.msg('删除成功！', {
+                                        time: 2000
+                                    });
+                                    me.remove();
+                                }else if(data.code == 20){
+                                    alert('登录已失效，请重新登录！！');
+                                    window.parent.location.href = 'login.html';
+                                }else{
+                                    layer.msg(data.message);
+                                }
+                            }
+                        } )
+                    });
+                }
+            });
+        });
+        $('#tbody').on('click','a.sold',function(){
+            var soldcount = $(this).attr('data-sold');
+            var goodId = $(this).attr('data-id');
+            layer.open({
+                type: 1
+                ,title: '修改已售数量'
+                ,closeBtn: false
+                ,area: '400px;'
+                ,shade: 0
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div class="layui-form-item" style="margin: 30px;"><p>请输入已售数量：</p><br/><input type="text" value="'+ soldcount +'" class="layui-input"></div>'
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        var sold = $(this).parent().parent().children().children().children('input').val();
+                        if(sold != ''){
+                            $.ajax( {
+                                type: 'POST',
+                                data: {good_id:goodId,soldcount:sold},
+                                url: '../mall/goodsoldcountalter',
+                                success: function(data){
+                                    if(data.code == 0){
+                                        layer.msg('修改成功！', {
+                                            time: 2000
+                                        });
+                                        getData();
+                                    }else if(data.code == 20){
+                                        alert('登录已失效，请重新登录！！');
+                                        window.parent.location.href = 'login.html';
+                                    }
+                                }
+                            } )
+                        }else{
+                            layer.msg('请先填写已售数量！')
+                        }
+                    });
+                }
+            });
+        })
+        //rePage();
+        //刷新页号
+        /*function rePage(){
+            laypage({
+                cont: 'page',
+                pages: totalPage,//总页数
+                groups: 5  ,//连续显示分页数
+                jump: function(obj, first) {
+                    //得到了当前页，用于向服务端请求对应数据
+                    var curr = obj.curr;
+                    if(!first) {
+                        toPageNo = obj.curr;
+                        getData();
+                        layer.msg('第 '+ obj.curr +' 页');
+                    }
+                }
+            });
+        }*/
+        //关键词搜索
+        /*$('#search').on('click', function() {
+            toPageNo = 1;
+            name = $('#goodName').val();
+            getData();
+            rePage();
+        });*/
+    });
+</script>
+</body>
+</html>

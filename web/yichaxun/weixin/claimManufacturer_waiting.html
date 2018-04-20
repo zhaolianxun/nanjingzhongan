@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>认领厂商-审核中</title>
+    <link rel="stylesheet" href="css/claimManufacturer_write.css"/>
+    <link rel="stylesheet" href="css/pop_p.css"/>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <style>
+        body{
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+<div class="top lf">
+    <div class="top_img lf">
+        <img  src="icon/back-arrow.png" alt=""/>
+    </div>
+    <div class="input_box lf">
+        <p class="lf title">认领厂商-审核中</p>
+    </div>
+    <!--<input type="button" class="submit rt" value="提交"/>-->
+    <p class="submit rt">修改</p>
+</div>
+<div class="clear"></div>
+<div class="content">
+    <div class="content_text1 select">
+        <p class="lf p_content corporationName" style="border:0 !important ">选择认领厂商</p>
+        <!--<span class="corporationId"></span>-->
+        <!--<img class="rt" src="icon/back-arrow--right.png" class="back_right" alt=""/>-->
+    </div>
+    <div class="content_text1">
+        <p class="lf p_content corporationTel" style="border:0 !important ">输入座机号码</p>
+        <!--<input class="phone" type="text"/>-->
+    </div>
+    <div class="content_text1">
+        <p class="lf p_content corporationSite" style="border:0 !important ">填写公司网站</p>
+        <!--<input class="website" type="text"/>-->
+    </div>
+    <div class="content_text1">
+        <p class="lf p_content corporationLinkman" style="border:0 !important ">联系人姓名&nbsp</p>
+        <!--<input class="name" type="text"/>-->
+    </div>
+
+</div>
+<!--弹窗-->
+<div class="tanchuang1" style="display: none">
+    <span class="wenzi">注册成功</span>
+    <span class="btnbtn">OK</span>
+</div>
+
+<script>
+    $('.btnbtn').click(function(){
+        $('.tanchuang1').css('display','none');
+    })
+</script>
+<script>
+    $('.top_img').click(function(){
+//            alert("4654685")
+        window.history.back()
+    })
+    var corporationId =  localStorage.getItem("corporationId");
+    var corporationName =  localStorage.getItem("corporationName");
+    var corporationTel =  localStorage.getItem("corporationTel");
+    var corporationSite =  localStorage.getItem("corporationSite");
+    var corporationLinkman =  localStorage.getItem("corporationLinkman");
+//    localStorage.setItem("corporationTel",corporationTel);
+//    localStorage.setItem("corporationSite",corporationSite);
+//    localStorage.setItem("corporationLinkman",corporationLinkman);
+    $('.corporationName').html(corporationName)
+    $('.corporationTel').html(corporationTel)
+    $('.corporationSite').html(corporationSite)
+    $('.corporationLinkman').html(corporationLinkman)
+    console.log(corporationName,corporationId,corporationLinkman,corporationTel,corporationSite)
+    $('.corporationId').html(corporationName)
+//    $('.select').click(function(){
+//        location.href="claimManufacturer_search.html"
+//    });
+    $('.submit').click(function(){
+//        alert("544546")
+        localStorage.setItem("corporationId",corporationId);
+        localStorage.setItem("corporationName",corporationName);
+        localStorage.setItem("corporationTel",corporationTel);
+        localStorage.setItem("corporationSite",corporationSite);
+        localStorage.setItem("corporationLinkman",corporationLinkman);
+        location.href="claimManufacturer_write.html"
+//            var corporationName=$('.corporationName').val();
+//        var corporationTel=$('.phone').val();
+//        var corporationSite=$('.website').val();
+//        var corporationLinkman=$('.name').val();
+//        $.ajax({
+//            url:"/yichaxun/corporation/authreq",
+//            type:"post",
+//            data:'corporationId='+corporationId+'&corporationTel='+corporationTel+
+//            '&corporationSite='+corporationSite+'&corporationLinkman='+corporationLinkman,
+//            success:function(data){
+//                if(data.code == 0){
+//                    alert(data.message);
+////                        location.href="index.html"
+//
+//                }else{
+////                            alert("11111")
+//                    alert(data.message);
+//                }
+//            },
+//            error: function(xhr,msg,reasonString){
+//                alert('请求错误，请稍后再试...');
+//                console.log(arguments);
+//            }
+//        })
+    })
+//    var scroll_width=window.screen.width;
+//    var p_width=$(".content_text p").width();
+//    console.log(p_width)
+//    $('.content_text input').css("width",scroll_width*0.84-p_width)
+//    $('.corporationId').css('width',scroll_width*0.80-p_width)
+</script>
+</body>
+</html>

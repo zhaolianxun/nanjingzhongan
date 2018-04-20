@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!--<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>付款</title>
+    <link rel="stylesheet" href="Crowdfunding/css/Tpaymeasure.css"/>
+    <link rel="stylesheet" href="css/dropload.css">
+    <link rel="stylesheet" href="css/pop_p.css"/>
+    <script src="js/public.js"></script>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <style>
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+    </style>
+</head>
+<body>
+    <div class="line1">
+        <span class="line1_1">请选择医院科室</span>
+        <span class="line1_2"></span>
+        <img src="icon/back-arrow--right.png" class="rt" alt=""/>
+    </div>
+    <!--<div class="line2"><span class="line2_1">输入支付金额（总额度<span class="yuE">5000</span>元）</span></div>-->
+    <div class="line2" style="overflow: hidden">
+        <div  style="margin:  0 15px;overflow: hidden">
+            <input type="text" id="originalPrice" name="originalPrice" class="line2_1_1"/>
+            <span class="line2_1">输入支付金额（总额度<span class="yuE">5000</span>元）</span>
+            <script>
+                originalPrice.oninput=function() {
+                    if (this.value.split('.').length < 3) {
+                        this.value = this.value.replace(/[^\d\.]/g, "")
+                        if (this.value.split('.').length == 2) {
+                            if (this.value.split('.')[0] == "") {
+                                this.value = this.value.replace(/[^\d]/g, "")
+                            }
+                            if (this.value.length - this.value.indexOf(".") > 3) {
+                                this.value = this.value.substring(0, this.value.indexOf(".") + 3)
+                            }
+                        }
+                    }
+                    else {
+                        this.value = this.value.split('.')[0] +"."+ this.value.split('.')[1]
+                    }
+                    if (this.value.indexOf(".") < 0 && this.value.length > 1) {
+                        this.value = parseInt(this.value)
+                    }
+                }
+            </script>
+        </div>
+
+    </div>
+    <div class="btn"><button class="btn1" style="width: 100%;height: 100%;;">支付</button></div>
+    <!--弹窗-->
+    <div class="tanchuang1" style="display: none">
+        <span class="wenzi"></span>
+        <span class="btnbtn">OK</span>
+    </div>
+    <script>
+        $('.btnbtn').click(function(){
+            $('.tanchuang1').css('display','none');
+        })
+    </script>
+    <script>
+        var hospitalOfficeId,hospitalName,hospitalOfficeName,hospitalId;
+        $().ready(function(){
+             hospitalName=localStorage.getItem('hospitalName');
+             hospitalOfficeName=localStorage.getItem('hospitalOfficeName');
+             hospitalOfficeId=localStorage.getItem('hospitalOfficeId');
+            hospitalId=localStorage.getItem('hospitalId');
+            console.log(hospitalOfficeId)
+           if(hospitalName==''||hospitalName==undefined||hospitalName=='undefined'||hospitalName==null){
+
+           }else{
+               $('.line1_1').html(hospitalName);
+               $('.line1_2').html(hospitalOfficeName);
+           }
+
+            $.ajax({
+                url:'/yichaxun/u/hospitalmscoinbalance',
+                data:'hospitalId='+hospitalId,
+                async:true,
+                type:'post',
+                success:function(data){
+                    if(data.code==0){
+                        $('.yuE').html(data.data.medicalSchemeCoinBalance)
+                    }
+                    else if(data.code==20||data.code==26){
+                        location.href='login.html'
+                    }
+                }
+            })
+
+        })
+//选择科室
+        $('.line1').click(function(){
+            location.href="Tdemo.html"
+        })
+//交钱，
+        $('.btn1').click(function(){
+            $('.btn1').attr({"disabled":true});
+            var hospitalOrderAmount=$('.line2_1_1').val();
+            if(hospitalOrderAmount==null||hospitalOrderAmount==''||hospitalOrderAmount==undefined||hospitalOrderAmount=="null"||hospitalOrderAmount=="undefined"){
+                $('.tanchuang1').css('display','block');
+                $('.wenzi').html("请先选择科室且输入金额");
+                $('.btn1').attr({"disabled":false})
+            }else{
+                $.ajax({
+                    url:'/yichaxun/u/hospitalorder',
+                    data:'hospitalOfficeId='+hospitalOfficeId+"&hospitalOrderAmount="+hospitalOrderAmount,
+                    async:true,
+                    type:'post',
+                    success:function(data){
+                        if(data.code==0){
+                            location.href="TrebateMine.html"
+                        }else if(data.code==20||data.code==26){
+                            location.href='login.html'
+                        }else{
+                            $('.tanchuang1').css('display','block');
+                            $('.wenzi').html(data.message);
+                            $('.btn1').attr({"disabled":false})
+                        }
+                    }
+                })
+            }
+
+        })
+//        点击给input加焦点
+        $('.line2_1').click(function(){
+                $('.line2_1_1').focus();
+        })
+        //监听input是否有内容，有内容span取消
+        $('input').focus(function(){
+            $(this).next().css('display','none');
+        });
+        $('input').blur(function(){
+            if($(this).val()==''){
+                $(this).next().css('display','block');
+            }
+        });
+    </script>
+</body>
+</html>

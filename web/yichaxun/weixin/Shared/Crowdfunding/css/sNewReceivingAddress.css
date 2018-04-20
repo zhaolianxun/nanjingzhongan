@@ -1,0 +1,88 @@
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    /*text-align: center;*/
+    width: 100%;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -moz-user-select: none;
+    -webkit-appearance: none;
+    outline: none;
+    /*overflow: hidden;*/
+    background-color: #f2f2f2;
+}
+
+.lf {
+    float: left;
+}
+
+.rt {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+ul,li{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+html{font-size: 32px}
+@media(min-device-width: 375px) {
+html{font-size: 64px}
+}
+@media(min-device-width: 414px) {
+html{font-size: 75px}
+}
+
+div:first-child{
+    margin-top: 0.26rem;
+}
+div{
+    height: 1.33rem;
+    line-height: 1.33rem;
+    width: 10rem;
+    background: #FFFFFF;
+    border: 0.01rem solid #e5e5e5;
+    font-size: 0.42rem;
+}
+div span{
+    margin-left: 0.4rem;
+    width: 2.52rem;
+    display: inline-block;
+
+}
+input {
+    height:1rem;
+    width: 6rem;
+    border: 0;
+    font-size: 0.42rem;
+    outline: none;
+}
+.btn{
+    position: fixed;
+    bottom: 0;
+    height: 1.6rem;
+    width: 10rem ;
+    background: #FFFFFF;
+}
+.btn button{
+    background: #ccc;
+    height: 1.06rem;
+    width: 9.2rem;
+    margin: 0.27rem 0.4rem;
+    border: 0;
+    border-radius: 0.16rem;
+    font-size: 0.48rem;
+    color: #FFFFFF;
+}

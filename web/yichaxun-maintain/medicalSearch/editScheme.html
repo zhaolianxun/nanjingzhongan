@@ -1,0 +1,511 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>南京晨勉科技有限公司</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Modern Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+    <!-- jQuery -->
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+         window.serverName="yichaxun";
+
+    </script>
+    <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.min.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css" />
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <style>
+        #wrapper{
+            padding: 20px;
+        }
+        .control-label{
+            display: inline-block;
+            margin-bottom: 5px;;
+        }
+        .layui-input-block{
+            margin-left: 80px;
+        }
+        .layui-form-label{
+            width: 90px;
+            padding: 9px 5px;
+        }
+        .days{
+            width: 80px;
+            display: inline-block;
+        }
+        .money{
+            width: 150px;
+            display: inline-block;
+        }
+        #returnBox{
+            font-size: 16px;
+            line-height: 40px;
+        }
+        .return-item{
+            margin: 5px 0;
+        }
+    </style>
+
+</head>
+<body>
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <!-- /.navbar-static-side -->
+    </nav>
+    <div id="page-wrapper">
+        <div class="col-md-12 graphs">
+            <div class="xs">
+                <div class="form-group">
+                    <label class="control-label">项目名称：</label><br/>
+                    <input type="text" name="scheme" lay-verify="required" class="layui-input layui-form-danger" placeholder="请输入项目名称"/><br/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">项目排序：</label><br/>
+                    <input type="number" name="sortNo" lay-verify="number" autocomplete="off" placeholder="请输入项目排序" class="layui-input layui-form-danger"><br/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">目标金额：</label><br/>
+                    <input type="number" name="targetAmount" class="layui-input layui-form-danger" placeholder="请输入目标金额"/><br/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">筹款天数：</label><br/>
+                    <input type="number" name="days" class="layui-input layui-form-danger" placeholder="请输入筹款天数"/><br/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">每人支持金额：</label><br/>
+                    <input type="number" name="supportAmount" class="layui-input layui-form-danger" placeholder="请输入每人支持金额"/><br/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">项目成功后返利：</label><br/>
+                    <div id="returnBox">
+
+                    </div>
+                    <a href="javascript:;" style="margin: 10px 0;" class="layui-btn layui-btn-small" id="add">
+                        <i class="layui-icon">&#xe608;</i> 添加
+                    </a>
+                    <a href="javascript:;" style="margin: 10px 0;" class="layui-btn layui-btn-normal layui-btn-small" id="sure">
+                        确认返利
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">项目成功后分享的卡券名称：</label><br/>
+                    <input type="text" name="couponName" class="layui-input layui-form-danger" placeholder="请输入项目成功后分享的卡券名称"/><br/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">项目成功后分享的卡券优惠金额：</label><br/>
+                    <input type="number" name="couponBoxAmount" class="layui-input layui-form-danger" placeholder="请输入项目成功后分享的卡券优惠金额"/><br/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">当共享人发放的金额抵用券被使用，共享人将获得医院的返还金额：</label><br/>
+                    <input type="number" name="couponEarn" class="layui-input layui-form-danger" placeholder="请输入当共享人发放的金额抵用券被使用，共享人将获得医院的返还金额"/><br/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">共享人成功增加该项目合伙人时将获得医院的返还金额：</label><br/>
+                    <input type="number" name="shareEarnCoin" class="layui-input layui-form-danger" placeholder="请输入共享人成功增加该项目合伙人时将获得医院的返还金额"/><br/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">当其他合伙人成功分享该项目，共享人将获得医院的返还金额：</label><br/>
+                    <input type="number" name="couponEarnAllUsers" class="layui-input layui-form-danger" placeholder="请输入当其他合伙人成功分享该项目，共享人将获得医院的返还金额"/><br/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">项目简介：</label><br/>
+                    <textarea name="medicalSchemeBriefIntro" cols="30" rows="10" placeholder="请输入项目简介" style="width: 100%;padding: 10px;box-sizing: border-box;border: 1px solid #e6e6e6;"></textarea>
+                </div>
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <label class="control-label">项目介绍：</label>
+                    <script id="editor" type="text/plain"></script>
+                </div>
+                <div id="hospital" class="form-group" style="margin-bottom: 30px;">
+                    <label class="control-label">请选择医院：</label><br/>
+                    <input type="text" name="hospital" class="layui-input" style="width: 50%;display: inline-block;" placeholder="请输入医院名称查询"/>
+                    <button type="button" id="searchHospital" class="layui-btn">查询</button>
+                    <table class="site-table table-hover" style="width: 80%;">
+                        <thead>
+                        <tr>
+                            <th>医院ID</th>
+                            <th>医院名称</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="hospitalList">
+                        </tbody>
+                    </table>
+                    <p id="tips" style="color: red;font-size: 16px;">*医院为必选项，当前未选择医院。</p>
+                </div>
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <label class="control-label">医院介绍：<span style="color: red;">(如不填写则默认使用医院介绍)</span></label>
+                    <script id="editor1" type="text/plain"></script>
+                </div>
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <label class="control-label">请选择器械：</label><br/>
+                    <input type="text" name="keyword" class="layui-input" style="width: 50%;display: inline-block;" placeholder="请输入器械关键词查询"/>
+                    <button type="button" id="searchData" class="layui-btn">查询</button>
+                    <table class="site-table table-hover">
+                        <thead>
+                        <tr>
+                            <th>器械ID</th>
+                            <th>器械名称</th>
+                            <th>添加时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="dataList">
+                        </tbody>
+                    </table>
+                    <div id="page" class="page"></div>
+                    <p id="dataTips" style="color: red;font-size: 16px;">器械为非必选项，可选择多个器械，当前未选择器械。</p>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">顶部展示图：</label>
+                            <div class="layui-input-block">
+                                <input id="pic1" type="file" name="pic1" class="layui-upload-file" lay-title="请上传顶部展示图">
+                            </div>
+                        </div>
+
+                        <p style="color: red">*顶部展示图为必填项</p>
+                    </form>
+                </div>
+
+                <div class="form-group">
+                    <button id="save" class="layui-btn" style="margin-top: 30px;">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->
+<!-- Nav CSS -->
+<!-- Metis Menu Plugin JavaScript -->
+<script src="js/metisMenu.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/oss-api.js"></script>
+<script src="plugins/layui/layui.js"></script>
+<script>
+    (function(){
+        function getRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+        //实例化编辑器
+        //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+        var ue = UE.getEditor('editor');
+        var ue1 =  UE.getEditor('editor1');
+
+        function getSchemeInfo(){
+            var arr = [];
+            arr.push(UE.getEditor('editor').getContent());
+            return (arr.join("\n"));
+        }
+        function getHospitalInfo(){
+            var arr = [];
+            arr.push(UE.getEditor('editor1').getContent());
+            return (arr.join("\n"));
+        }
+
+        var hospitalId = '';
+        var dataId = '';
+        var dataName = '';
+        var pic = '';
+        var num = 1;
+        var id = getRequest().id;
+        var returnCoin = '';
+        var html = '<div class="return-item">从第  <input type="number" name="start" min="1" step="1" class="days start layui-input"/> 天到 <input type="number" name="end" min="1" max="90" step="1" class="days end layui-input"/> 天， 每日返还 <input type="text" name="amount" class="money amount layui-input"/> 元</div>';
+        $(document).ready(function(){
+            if(localStorage.getItem('hospitalId')){
+                $('#hospital').hide();
+                hospitalId = localStorage.getItem('hospitalId');
+            }
+            if(id != ''){
+                $.ajax( {
+                    type: 'POST',
+                    data:{medicalSchemeId:id},
+                    url: '../m/medicalschemedetail',
+                    success: function(data){
+                        if(data.code == 0){
+                            dataId = data.data.dataId;
+                            if(data.data.dataes != undefined){
+                                for(var i = 0 ; i < data.data.dataes.length ; i ++){
+                                    dataName += data.data.dataes[i].dataProductName+' , ';
+                                }
+                                $('#dataTips').css('color','green').html('当前选择器械为: <span style="color: red;">'+ dataName +'</span>')
+                            }
+                            $('[name="scheme"]').val(data.data.medicalSchemeName);
+                            $('[name="sortNo"]').val(data.data.medicalSchemeSortNo);
+                            $('[name="targetAmount"]').val(data.data.medicalSchemeTargetAmount);
+                            $('[name="days"]').val(data.data.medicalSchemeDays);
+                            $('[name="supportAmount"]').val(data.data.medicalSchemeSupportAmount);
+                            $('[name="couponName"]').val(data.data.couponName);
+                            $('[name="couponBoxAmount"]').val(data.data.hospitalCouponBoxAmount);
+                            $('[name="couponEarn"]').val(data.data.medicalSchemeCouponEarn);
+                            $('[name="shareEarnCoin"]').val(data.data.shareEarnCoin);
+                            $('[name="couponEarnAllUsers"]').val(data.data.couponEarnAllUsers);
+                            $('[name="medicalSchemeBriefIntro"]').val(data.data.medicalSchemeBriefIntro);
+                            document.getElementById('ueditor_0').contentDocument.body.innerHTML = data.data.medicalSchemeIntro;
+                            document.getElementById('ueditor_1').contentDocument.body.innerHTML = data.data.medicalSchemeHospitalIntro;
+                            $('#tips').css('color','green').html('当前选择医院为: <span style="color: red;">'+ data.data.hospitalName +'</span>');
+                            var returnCoin = data.data.returnCoinSchedule;
+                            returnCoin = returnCoin.split(',');
+
+                            var count = 0,index = 0;
+                            function getReturn(){
+                                var j = index;
+                                for( ; j < returnCoin.length; j ++){
+                                    if(returnCoin[j] == returnCoin[index]){
+                                        count ++;
+                                    }else{
+                                        $('#returnBox').append('<div class="return-item">从第  <input type="number" name="start" min="1" step="1" value="'+(index+1)+'" class="days start layui-input"/> 天到 <input type="number" name="end" min="1" max="90" step="1" value="'+count+'" class="days end layui-input"/> 天， 每日返还 <input type="text" name="amount" class="money amount layui-input" value="'+returnCoin[index]+'"/> 元</div>');
+                                        index = j;
+                                        getReturn();
+                                        break;
+                                    }
+                                }
+                            }
+                            getReturn();
+                        }else if(data.code == 20){
+                            window.parent.location.href = 'login.html';
+                        }else{
+                            alert(data.message);
+                        }
+                    }
+                } )
+            }
+        });
+
+        $('#add').on('click',function(){
+            $('.start').removeClass('start');
+            if($('.end').val()){num = parseInt($('.end').val()) + 1}
+            $('.end').removeClass('end');
+            $('.amount').removeClass('amount');
+            if($('[name="start"]').val() == '' || $('[name="end"]').val() == '' || $('[name="amount"]').val() == ''){
+                layer.msg('请先填写返利数据！');
+            }else{
+                $('#returnBox').append(html);
+                $('.end').val(num);
+                $('.start').val(num);
+            }
+        });
+        $('#sure').on('click',function(){
+            returnCoin = '';
+            $('#returnBox').find('.return-item').each(function(index){
+                var len = $(this).find('[name="end"]').val() - $(this).find('[name="start"]').val();
+                var amount = $(this).find('[name="amount"]').val();
+                if(amount == ''){
+                    layer.msg('请先填写返利数据！');
+                }else{
+                    for(var i = 0 ; i < len + 1 ; i ++){
+                        returnCoin += amount + ',';
+                    }
+                }
+            })
+            layer.msg('已确认返利！');
+        });
+        $('#searchHospital').click(function(){
+            var hospital = $('[name="hospital"]').val();
+            $.ajax( {
+                type: 'POST',
+                data: {hospitalName:hospital,pageSize:1000},
+                url: '../c/hospitallist',
+                success: function(data){
+                    if(data.code == 0){
+                        $('#hospitalList').children().remove();
+                        var data = data.data;
+                        for(var i = 0 ;i < data.items.length ; i ++){
+                            $('#hospitalList').append('<tr>' +
+                            '<td>'+ data.items[i].hospitalId +'</td>' +
+                            '<td>'+ data.items[i].hospitalName +'</td>' +
+                            '<td>' +
+                            '<a href="javascript:;" class="sel layui-btn layui-btn-normal layui-btn-mini">选中</a>' +
+                            '</td>' +
+                            '</tr>');
+                        }
+                    }
+                }
+            } )
+        });
+        $('#hospitalList').on('click','a.sel',function(){
+            hospitalId = $(this).parent().parent().children('td:first').html();
+            var hospitalName = $(this).parent().prev().html();
+            $('#tips').css('color','green').html('当前选择医院为: <span style="color: red;">'+hospitalName +'</span>');
+        });
+
+        $('#dataList').on('click','a.add',function(){
+            dataId += $(this).parent().parent().children('td:first').html() + ',';
+            dataName += $(this).parent().prev().prev().html() + ' , ';
+            $('#dataTips').css('color','green').html('当前选择器械为: <span style="color: red;">'+ dataName +'</span>');
+        });
+
+        $('#save').click(function(){
+            var scheme = $('[name="scheme"]').val();
+            var sortNo = $('[name="sortNo"]').val();
+            var targetAmount = $('[name="targetAmount"]').val();
+            var days = $('[name="days"]').val();
+            var supportAmount = $('[name="supportAmount"]').val();
+            var couponName = $('[name="couponName"]').val();
+            var couponBoxAmount = $('[name="couponBoxAmount"]').val();
+            var couponEarn = $('[name="couponEarn"]').val();
+            var shareEarnCoin = $('[name="shareEarnCoin"]').val();
+            var couponEarnAllUsers = $('[name="couponEarnAllUsers"]').val();
+            var medicalSchemeBriefIntro = $('[name="medicalSchemeBriefIntro"]').val();
+            var schemeInfo = getSchemeInfo();
+            var hospitalInfo = getHospitalInfo();
+            if(id != ''){
+                if(scheme == ''){
+                    layer.msg('请先完成表格填写');
+                }else if(returnCoin == ''){
+                    layer.msg('请先确认返利');
+                }else{
+                    $.ajax( {
+                        type: 'POST',
+                        data: {medicalSchemeId:id,medicalSchemeName:scheme,medicalSchemeSortNo:sortNo,couponName:couponName,medicalSchemeTargetAmount:targetAmount,medicalSchemeDays:days,medicalSchemeSupportAmount:supportAmount,returnCoinSchedule:returnCoin,hospitalCouponBoxAmount:couponBoxAmount,medicalSchemeCouponEarn:couponEarn,shareEarnCoin:shareEarnCoin,couponEarnAllUsers:couponEarnAllUsers,medicalSchemeBriefIntro:medicalSchemeBriefIntro,medicalSchemeIntro:schemeInfo,hospitalId:hospitalId,medicalSchemeHospitalIntro:hospitalInfo,dataId:dataId,medicalSchemePic:pic},
+                        url: '../m/medicalschemealter',
+                        success: function(data){
+                            if(data.code == 0){
+                                alert('修改成功！');
+                                history.go(-1);
+                            }else if(data.code == 20){
+                                alert('登录已失效，请重新登录！！');
+                                window.parent.location.href = 'login.html';
+                            }else{
+                                layer.msg(data.message);
+                            }
+                        }
+                    } )
+                }
+            }else{
+                if(scheme == ''&&pic == '' && hospitalId == ''){
+                    layer.msg('请先完成表格填写');
+                }else if(returnCoin == ''){
+                    layer.msg('请先确认返利');
+                }else{
+                    $.ajax( {
+                        type: 'POST',
+                        data: {medicalSchemeName:scheme,medicalSchemeSortNo:sortNo,couponName:couponName,medicalSchemeTargetAmount:targetAmount,medicalSchemeDays:days,medicalSchemeSupportAmount:supportAmount,returnCoinSchedule:returnCoin,hospitalCouponBoxAmount:couponBoxAmount,medicalSchemeCouponEarn:couponEarn,shareEarnCoin:shareEarnCoin,couponEarnAllUsers:couponEarnAllUsers,medicalSchemeBriefIntro:medicalSchemeBriefIntro,medicalSchemeIntro:schemeInfo,hospitalId:hospitalId,medicalSchemeHospitalIntro:hospitalInfo,dataId:dataId,medicalSchemePic:pic},
+                        url: '../m/medicalschemepush',
+                        success: function(data){
+                            if(data.code == 0){
+                                alert('发布成功！');
+                                history.go(-1);
+                            }else if(data.code == 20){
+                                alert('登录已失效，请重新登录！！');
+                                window.parent.location.href = 'login.html';
+                            }else{
+                                layer.msg(data.message);
+                            }
+                        }
+                    } )
+                }
+            }
+        });
+
+        layui.use('upload', function(){
+            layui.upload({
+                url: 'http://passion.njshangka.com/oss/file/upload?path=yichaxun/'
+                ,elem: '#pic1' //指定原始元素，默认直接查找class="layui-upload-file"
+                ,method: 'post' //上传接口的http类型
+                ,success: function(res){
+                    if(res.code == 0){
+                        pic = res.data.url;
+                        layer.msg('顶部展示图上传成功...')
+                    }
+                }
+            });
+        });
+    })()
+
+
+</script>
+<script>
+    layui.config({
+        base: 'plugins/layui/modules/'
+    });
+
+    layui.use(['icheck', 'laypage','layer'], function() {
+        var $ = layui.jquery,
+                laypage = layui.laypage,
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+        var totalPage;
+        var keyword = '';
+        var flag = true;
+        var toPageNo = '';
+        //数据获取
+        function getData(){
+            if(keyword == ''){
+                layer.msg('请输入器械关键词进行查询！');
+            }else{
+                $.ajax( {
+                    type: 'POST',
+                    data: {keyword:keyword,toPageNo:toPageNo},
+                    url: '../data/list',
+                    success: function(data){
+                        if(data.code == 0){
+                            $('#dataList').children().remove();
+                            var data = data.data;
+                            if(flag){
+                                laypage({
+                                    cont: 'page',
+                                    pages: data.sum.totalPageCount,//总页数
+                                    groups: 5  ,//连续显示分页数
+                                    jump: function(obj, first) {
+                                        //得到了当前页，用于向服务端请求对应数据
+                                        var curr = obj.curr;
+                                        if(!first) {
+                                            toPageNo = obj.curr;
+                                            getData();
+                                            layer.msg('第 '+ obj.curr +' 页');
+                                        }
+                                    }
+                                });
+                                flag = false;
+                            }
+
+                            for(var i = 0 ;i < data.items.length ; i ++){
+                                $('#dataList').append('<tr>' +
+                                '<td>'+ data.items[i].dataId +'</td>' +
+                                '<td>'+ data.items[i].dataTitle +'</td>' +
+                                '<td>'+ new Date(parseInt(data.items[i].dataAddTime)).toLocaleString() +'</td>' +
+                                '<td>' +
+                                '<a href="javascript:;" class="add layui-btn layui-btn-normal layui-btn-mini">添加</a>' +
+                                '</td>' +
+                                '</tr>');
+                            }
+                        }
+                    }
+                } )
+            }
+        }
+        //关键词搜索
+        $('#searchData').on('click', function() {
+            toPageNo = 1;
+            flag = true;
+            keyword = $('[name="keyword"]').val();
+            getData();
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        a{
+            text-decoration: none;
+        }
+        .container{
+            width: 1240px;
+            height: 400px;
+            margin: 100px auto;
+        }
+        .item{
+            width: 310px;
+            height: 400px;
+            float: left;
+            position: relative;
+            list-style: none;
+            overflow: hidden;
+        }
+        .icon{
+            width: 100px;
+            display: block;
+            margin: 0 auto;
+            margin-top: 80px;
+        }
+        .title{
+            font-size: 32px;
+            color: #eee;
+            font-weight: 100;
+            text-align: center;
+        }
+        .text{
+            width: 130px;
+            text-align: center;
+            margin: auto;
+            padding-top: 10px;
+            color: #eee;
+        }
+        .information{
+            width: 310px;
+            height: 400px;
+            padding: 30px;
+            background: rgba(33,121,255,0.8);
+            position: absolute;
+            top: 0;
+            left: -310px;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: left 0.2s;
+        }
+        .infoTitle{
+            font-size: 32px;
+            font-weight: 100;
+            color: #fff;
+        }
+        .infoTitle:after{
+            content: '';
+            position: absolute;
+            top: 80px;
+            left: 30px;
+            width: 54px;
+            height: 3px;
+            background-color: #fec116;
+        }
+        .infoText{
+            color: #fff;
+            opacity: 0.5;
+            margin-top: 25px;
+        }
+        .item:hover .information{
+            left: 0;
+        }
+        .item:hover .textBox{
+            display: none;
+        }
+        .infoImg{
+            width: 150px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .link{
+            color: #fff;
+            opacity: 0.5;
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+        }
+    </style>
+</head>
+<body>
+   <div class="container">
+       <ul class="main">
+           <li class="item" style="background: url('img/1.png')">
+               <div class="textBox">
+                   <img class="icon" src="img/b1.png"/>
+                   <h3 class="title">支付能力</h3>
+                   <p class="text">满足商户各商业经营场景的收单需求</p>
+               </div>
+               <div class="information">
+                   <h3 class="infoTitle">支付能力</h3>
+                   <p class="infoText">适用于商家在移动端网页应用中集成支付宝支付功能 ，商户扫消费者二维码收款，消费者扫商户二维码付款，商户APP集成支付宝提供的SDK，通过SDK跳转到支付宝中完成支付，支付完后跳回商户APP内，展示支付结果</p>
+                   <img class="infoImg" src="img/b11.png" />
+                   <a class="link" href="#">详情&gt;</a>
+               </div>
+           </li>
+           <li class="item" style="background: url('img/2.png')">
+               <div class="textBox">
+                   <img class="icon" src="img/b2.png"/>
+                   <h3 class="title">芝麻信用</h3>
+                   <p class="text">为商户高效识别用户的真实、靠谱性</p>
+               </div>
+               <div class="information">
+                    <h3 class="infoTitle">芝麻信用</h3>
+                    <p class="infoText">通过云计算、机器学习等技术客观呈现个人和企业的信用状况，已经形成芝麻信用评分、芝麻信用元素表、行业关注名单、反欺诈等全产品线</p>
+                    <img class="infoImg" src="img/b21.png" />
+                    <a class="link" href="#">详情&gt;</a>
+               </div>
+           </li>
+           <li class="item" style="background: url('img/3.png')">
+               <div class="textBox">
+                   <img class="icon" src="img/b3.png"/>
+                   <h3 class="title">信用借还</h3>
+                   <p class="text">为商户提供免押金租借的整体解决方案</p>
+               </div>
+               <div class="information">
+                   <h3 class="infoTitle">信用借还</h3>
+                   <p class="infoText">随着共享经济的发展，用户需要在各个场景里支付押金进行租赁。芝麻信用为商户提供对借用申请人是否能够享受免押金服务的评估，以及支付解决方案和信用闭环</p>
+                   <img class="infoImg" src="img/b31.png" />
+                   <a class="link" href="#">详情&gt;</a>
+               </div>
+           </li>
+           <li class="item" style="background: url('img/4.jpeg')">
+               <div class="textBox">
+                   <img class="icon" src="img/b4.png"/>
+                   <h3 class="title">闪电开票</h3>
+                   <p class="text">快选抬头<br/>快速开票</p>
+               </div>
+               <div class="information">
+                   <h3 class="infoTitle">闪电开票</h3>
+                   <p class="infoText">提供了快速获取用户发票抬头的能力，方便快速开票</p>
+                   <img class="infoImg" src="img/b41.png" />
+                   <a class="link" href="#">详情&gt;</a>
+               </div>
+           </li>
+       </ul>
+   </div>
+</body>
+</html>

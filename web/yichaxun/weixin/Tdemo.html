@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>支付对象</title>
+    <!--<link rel="stylesheet" href="Crowdfunding/css/Tpayhospital.css"/>-->
+    <link rel="stylesheet" href="css/dropload.css">
+    <script src="js/public.js"></script>
+    <link rel="stylesheet" href="css/dropload.css">
+    <script src="js/zepto.min.js"></script>
+    <script src="js/dropload.min.js"></script>
+    <style>
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        html,body{
+            overflow-x: hidden;
+            /*overflow-y:hidden;*/
+        }
+        body{
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+            /*overflow: hidden;*/
+            background-color: #f7f7f7;
+            font-size: 16px;
+            color: #333333;
+            /*height: 50px;*/
+        }
+        ul,li{
+            list-style: none;
+        }
+        ul{
+            margin: 0;
+            padding: 0;
+        }
+        #left{
+            color: #333;
+            background: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40%;
+            /*height: 500px;*/
+            overflow-y: scroll;
+        }
+        #left>ul>li{
+            width: 100%;
+
+            border-bottom: 0.5px solid #e5e5e5;
+        }
+        #left>ul>li span{
+            display: inline-block;
+            margin-left: 15px;
+            font-size: 16px;
+
+            display: inline-block;
+            padding: 19px 0;
+            line-height: 22px;
+        }
+        #right{
+            color: #333;
+            background: #fff;
+            width: 60%;
+            float: right;
+            overflow-y: scroll;
+        }
+        #right>ul>li{
+            width: 100%;
+            border-bottom: 0.5px solid #e5e5e5;
+            overflow-x:hidden ;
+        }
+        #right>ul>li span{
+            margin-left: 25px;
+            font-size: 16px;
+
+            display: inline-block;
+            padding: 12px 0;
+            line-height: 22px;
+        }
+        .dropload-down{
+            display: none;
+        }
+        .hospital{
+            border-right: 0.5px solid #e5e5e5;
+        }
+    </style>
+</head>
+<body>
+    <div id="left" class="hospital">
+        <ul class="hospital_ul">
+
+        </ul>
+    </div>
+    <div id="right" class="departments">
+       <ul class="departments_ul">
+
+       </ul>
+    </div>
+
+    <script>
+        var hospitalId_one;
+        var screen_height=window.innerHeight;
+        $('#left').css('height',screen_height);
+        $('#right').css('height',screen_height);
+//        $('body').css('height',screen_height);
+        var hospitalName,hospitalOfficeName,hospitalId,hospitalOfficeId;
+        $().ready(function(){
+
+            $(function () {
+                // dropload
+                var pageSize = 15;
+                var toPageNo = 0;
+
+                $('.hospital').dropload({
+                    scrollArea: window,
+                    loadDownFn: function (me) {
+
+                        toPageNo++;
+                        // 拼接HTML
+                        var result = '';
+                        $.ajax({
+                            url:'/yichaxun/u/mscoinrecsummarylist?toPageNo=' + toPageNo + '&pageSize=' + 15,
+                            type: "post",
+                            async: true,
+                            dataType: 'json',
+                            success: function (data) {
+
+                               if(data.code==0){
+                                   var arrLen = data.data.items.length;
+                                   console.log(arrLen);
+
+                                   if (arrLen > 0) {
+                                       for (var i = 0; i < arrLen; i++) {
+                                           result += '<li class="asd" hospitalName="'+data.data.items[i].hospitalName+'" hospitalId="'+data.data.items[i].hospitalId+'">' +
+                                           '<span>'+data.data.items[i].hospitalName+'</span></li>';
+                                       }
+                                       // 如果没有数据
+                                   } else {
+                                       // 锁定
+                                       me.lock();
+                                       // 无数据
+                                       me.noData();
+                                   }
+
+                                   // 为了测试，延迟1秒加载
+                                   setTimeout(function () {
+                                       // 插入数据到页面，放到最后面
+
+                                       $('.hospital_ul').append(result);
+                                       // 每次数据插入，必须重置
+                                       me.resetload();
+                                   }, 100);
+                               }
+                                else if(data.code==20||data.code==26){
+                                    location.href='login.html'
+                                }
+                            },
+                            error: function (xhr, type) {
+//                                    alert('Ajax error!');
+                                // 即使加载出错，也得重置
+                                me.resetload();
+                            }
+                        });
+                         hospitalId=$('.hospital_ul').children("li:first-child").attr('hospitalId');
+                        hospitalName=$('.hospital_ul').children("li:first-child").attr('hospitalName');
+                        console.log(hospitalId_one);
+                        $(function () {
+                            // dropload
+                            var pageSize = 15;
+                            var toPageNo = 0;
+                            $('.hospital').dropload({
+                                scrollArea: window,
+                                loadDownFn: function (me) {
+
+                                    toPageNo++;
+                                    // 拼接HTML
+                                    var result = '';
+                                    $.ajax({
+                                        url:'/yichaxun/c/hospitalofficelist?toPageNo=' + toPageNo + '&pageSize=' + 15,
+                                        data:'hospitalId='+hospitalId,
+                                        type: "post",
+                                        async: true,
+                                        dataType: 'json',
+                                        success: function (data) {
+                                           if(data.code==20||data.code==26){
+                                                location.href='login.html'
+                                            }
+                                           if(data.code==0){
+                                               var arrLen = data.data.items.length;
+                                               console.log(arrLen);
+
+                                               if (arrLen > 0) {
+                                                   for (var i = 0; i < arrLen; i++) {
+                                                       result += '<li hospitalOfficeName="'+data.data.items[i].hospitalOfficeName+'" class="asd" hospitalOfficeId="'+data.data.items[i].hospitalOfficeId+'">' +
+                                                       '<span>'+data.data.items[i].hospitalOfficeName+'</span></li>';
+                                                   }
+                                                   // 如果没有数据
+                                               } else {
+                                                   // 锁定
+                                                   me.lock();
+                                                   // 无数据
+                                                   me.noData();
+                                               }
+                                               // 为了测试，延迟1秒加载
+                                               setTimeout(function () {
+                                                   // 插入数据到页面，放到最后面
+                                                   $('.departments_ul').append(result);
+                                                   // 每次数据插入，必须重置
+                                                   me.resetload();
+                                               }, 100);
+                                           }
+                                        },
+                                        error: function (xhr, type) {
+//                                    alert('Ajax error!');
+                                            // 即使加载出错，也得重置
+                                            me.resetload();
+                                        }
+                                    });
+                                    $('body').css('height',screen_height);
+                                }
+                            });
+                        });
+                    }
+                });
+            });
+
+
+
+//            alert(hospitalId_one)
+
+
+
+
+//            var len=$('.departments_ul li').length;
+//            console.log(len)
+//            if(len==''){
+//                $('.departments').css('display','none')
+//            }else{
+//                $('.departments').css('display','block')
+//            }
+        })
+
+
+
+        $('.hospital').on('click','.hospital_ul li',function(){
+            hospitalName=$(this).attr('hospitalName');
+            hospitalId=$(this).attr('hospitalId');
+
+            $('.dropload-down').remove();
+            $('.departments_ul').html('');
+            $(this).css('color','#4179ce');
+            $(this).siblings().css('color','#333');
+            $(function () {
+                // dropload
+                var pageSize = 15;
+                var toPageNo = 0;
+                $('.departments').dropload({
+                    scrollArea: window,
+                    loadDownFn: function (me) {
+
+                        toPageNo++;
+                        // 拼接HTML
+                        var result = '';
+
+                        var len=$('.departments_ul li').length;
+                        console.log(len)
+                        if(len==''){
+                            $('.departments').css('display','none')
+                        }else{
+                            $('.departments').css('display','block')
+                        }
+                        $.ajax({
+                            url:'/yichaxun/c/hospitalofficelist?toPageNo=' + toPageNo + '&pageSize=' + 15,
+                            data:'hospitalId='+hospitalId,
+                            type: "post",
+                            async: true,
+                            dataType: 'json',
+                            success: function (data) {
+
+                                if(data.code==0){
+                                    var arrLen = data.data.items.length;
+                                    console.log(arrLen);
+                                    if (arrLen > 0) {
+                                        for (var i = 0; i < arrLen; i++) {
+                                            result += '<li hospitalOfficeName="'+data.data.items[i].hospitalOfficeName+'" class="asd" hospitalOfficeId="'+data.data.items[i].hospitalOfficeId+'">' +
+                                            '<span>'+data.data.items[i].hospitalOfficeName+'</span></li>';
+                                        }
+                                        // 如果没有数据
+                                    } else {
+                                        // 锁定
+                                        me.lock();
+                                        // 无数据
+                                        me.noData();
+                                    }
+                                    // 为了测试，延迟1秒加载
+                                    setTimeout(function () {
+                                        // 插入数据到页面，放到最后面
+                                        $('.departments_ul').append(result);
+                                        // 每次数据插入，必须重置
+                                        me.resetload();
+                                    }, 100);
+                                }
+                                else if(data.code==20||data.code==26){
+                                    location.href='login.html'
+                                }
+                            },
+                            error: function (xhr, type) {
+//                                    alert('Ajax error!');
+                                // 即使加载出错，也得重置
+                                me.resetload();
+                            }
+                        });
+                        $('body').css('height',screen_height);
+                    }
+                });
+            });
+        })
+
+        $('.departments').on('click','.departments_ul li',function(){
+            $(this).css('background','#ebebeb')
+            hospitalOfficeName=$(this).attr('hospitalOfficeName');
+            hospitalOfficeId=$(this).attr('hospitalOfficeId');
+            localStorage.setItem('hospitalOfficeName',hospitalOfficeName);
+            localStorage.setItem('hospitalName',hospitalName);
+            localStorage.setItem('hospitalOfficeId',hospitalOfficeId);
+            localStorage.setItem('hospitalId',hospitalId)
+            console.log(hospitalName,hospitalOfficeName,hospitalOfficeId)
+            location.href='Tpaymeasure.html'
+        })
+
+
+    </script>
+</body>
+</html>

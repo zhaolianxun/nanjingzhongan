@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>提现</title>
+    <link rel="stylesheet" href="css/wallet.css"/>
+    <link rel="stylesheet" href="css/pop_p.css"/>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <style>
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        body{
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div style="height: 10px;width: 100%"></div>
+    <div class="Alipay_wid" style="border-bottom: 0.5px solid #e5e5e5">
+        <span>支付宝账号</span>
+        <img class="rt Withdrawals_right" src="iconTwo/0_close_gray-copy-1@2x.png" alt=""/>
+        <span class="number rt"></span>
+    </div>
+    <div class="clear"></div>
+    <div class="name">
+        <input type="text" class="name_mine"/>
+        <span class="money_money" style="width: auto"></span>
+    </div>
+    <div class="clear"></div>
+    <div class="Prompt_div" style="margin-top: 50px">
+        <p class="Prompt">提现金额（每次最少100元，每日登陆、完成任务将累计提现额度）</p>
+    </div>
+
+    <div class="submit">
+        <button disabled>确认提现</button>
+    </div>
+<!--弹窗-->
+<div class="tanchuang1" style="display: none">
+    <span class="wenzi"></span>
+    <span class="btnbtn">OK</span>
+</div>
+
+<script>
+
+    $('.money_money').click(function(){
+        console.log('asd');
+        $('.name_mine').focus();
+    })
+
+    $('.btnbtn').click(function(){
+        $('.tanchuang1').css('display','none');
+    })
+</script>
+<script>
+    var userAlipay=  localStorage.getItem('userAlipay');
+
+    $().ready(function(){
+        console.log(userAlipay)
+        if(userAlipay==''){
+            $('.number').html('')
+        }else{
+            $('.number').html(userAlipay)
+        }
+    })
+
+    //监听input是否有内容，有内容span取消
+    $('input').focus(function(){
+        $(this).next().css('display','none');
+    });
+    $('input').blur(function(){
+        if($(this).val()==''){
+            $(this).next().css('display','block');
+        }
+    });
+    //监听input框里的字符进行查询
+    $('.name_mine').bind('input propertychange', function() {
+    var money=$('.name_mine').val();
+    if(money>=100){
+        $('.submit button').css('background-color','#4179ce').attr('disabled',false);
+
+    }
+        if(money<100||money==''){
+            $('.submit button').css('background-color','#cccccc').attr('disabled',true);
+
+        }
+    })
+
+
+    $().ready(function(){
+        //            用户初始化
+        $.ajax({
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            url: '/yichaxun/u/userinit',
+            type:"post",
+            success:function(data){
+                if(data.code==0) {
+                    $('.money_money').html('输入提现金额（今日额度'+data.data.userWithdrawLimit+'元）');
+
+                    if(data.data.userWithdrawLimit>=100){
+                        var userWithdrawLimit=data.data.userWithdrawLimit;
+                        $('.submit button').click(function(){
+//                            console.log(123456)
+                            $('.submit button').attr({"disabled":true});
+                            $('.tanchuang1').css('display','block');
+                            $('.wenzi').html("已提交审核");
+//                            $(this).unbind('click');
+                            var withdrawAmount=$('.name_mine').val();
+                            console.log(withdrawAmount);
+                            if(userWithdrawLimit>=withdrawAmount){
+                                $.ajax({
+                                    url:"/yichaxun/u/withdrawreq",
+                                    type:'post',
+                                    data:'withdrawAmount='+withdrawAmount,
+                                    success:function(data){
+                                        if(data.code==0){
+                                            $('.tanchuang1').css('display','none')
+                                            location.href='wallet.html'
+                                        }else{
+                                            $('.submit button').attr({"disabled":false})
+                                            $('.tanchuang1').css('display','block')
+                                            $('.wenzi').html(data.message)
+//                                            $('.submit button').bind('click')
+                                        }
+
+                                    }
+                                })
+                            }else{
+                                $('.tanchuang1').css('display','block')
+                                $('.wenzi').html("您的可提现额度不足")
+//                                $('.submit button').bind('click')
+//                                alert("您的可提现额度不足")
+                                $('.submit button').attr({"disabled":false})
+                            }
+
+                        })
+                    }
+                    else{
+                        $('.submit button').click(function() {
+                            $('.tanchuang1').css('display','block')
+                            $('.wenzi').html('您当前可提现额度未满100元')
+                            var zhanghao=$('.number').html();
+                            console.log(zhanghao);
+                            var edu=$('.name_mine').val();
+                            if(zhanghao==''){
+                                $('.submit button').attr({"disabled":false});
+                                $('.tanchuang1').css('display','block');
+                                $('.wenzi').html("请输入支付宝账号");
+                            }
+//                            $('.submit button').bind('click')
+//                            alert('您当前可提现额度未满100元')
+                        })
+                    }
+                }
+                if(data.code==20||data.code==26){
+                    $('.tanchuang1').css('display','block')
+                    $('.wenzi').html(data.message)
+                    location.href="login.html"
+                    $('.tanchuang1').css('display','none')
+                }
+            },
+            error: function (xhr, msg, reasonString) {
+//                    alert(msg);
+                console.log(arguments);
+            }
+        })
+
+    })
+//绑定支付宝
+    $('.Alipay_wid').click(function(){
+        location.href="payment_treasure.html"
+    })
+
+
+</script>
+</body>
+</html>

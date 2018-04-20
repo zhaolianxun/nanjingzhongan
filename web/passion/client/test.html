@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div id="app">
+        <ol>
+            <item-li v-for="item in userlist" v-bind:todo="item" v-bind:key="item.id"></item-li>
+        </ol>
+    </div>
+    <script>
+        Vue.component('item-li',{
+            props: ['todo'],
+            template: '<li>{{todo.name}} 心法1：{{todo.one}}  心法2：{{todo.two}}</li>'
+        })
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                userlist: [
+                    {id: 1 , name : '藏剑' , one: '问水' , two : '山居剑意'},
+                    {id: 2 , name : '七秀' , one: '冰心' , two : '云裳'},
+                    {id: 3 , name : '万花' , one: '花间' , two : '离经易道'},
+                    {id: 4 , name : '五毒' , one: '毒经' , two : '补天诀'},
+                    {id: 5 , name : '长歌' , one: '莫问' , two : '相知'}
+                ]
+            }
+        })
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+body{
+    padding: 0;
+    margin: 0;
+    /*text-align: center;*/
+    width: 100%;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -moz-user-select: none;
+    -webkit-appearance:none;
+    outline: none;
+    overflow: hidden;
+}
+.lf{
+    float: left;
+}
+.rt{
+    float: right;
+}
+.clear{
+    clear: both;
+}
+.top_img{
+    width: 100%;
+    height: auto;
+}
+.top_img img{
+    width: 100%;
+}
+.contain,.details{
+    width: 100%;
+    padding: 0 15px;
+    background-color: #ffffff;
+    font-size: 13px;
+    color: #333;
+}
+.details_p{
+    margin-top: 25px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 900;
+    color: #000000;
+}
+.contain_next{
+    padding-right: 30px;
+    line-height: 23px;
+    margin-bottom: 15px;
+}
+.projectProgress{
+    width: 100%;
+    margin-bottom: 60px;
+}
+.progress_line{
+    margin-left: 25px;
+    /*margin-right: 25px;*/
+    width: 75%;
+    height: 8px;
+    border-radius: 4px;
+    background-color: #b3b3b3;
+    margin-top: 25px;
+}
+.percent{
+    margin-left: 10px;
+    margin-top: 25px;
+    line-height: 10px;
+}
+.progress_line_top{
+    width: 40%;
+    background-color: #ffb901;
+    height: 8px;
+    border-radius: 4px;
+}
+.howMoney{
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 30px;
+    height: 40px;
+    margin-bottom: 30px;
+}
+.line{
+    width: 33%;
+    text-align: center;
+}
+.line p{
+    line-height: 16px;
+    font-size: 16px;
+    color: #333333;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+.line span{
+    display: inline-block;
+    height: 14px;
+    color: #999;
+    font-size: 14px;
+    line-height: 14px;
+    margin: 0;
+}
+.product{
+    font-size: 14px ;
+    color: #000000;
+    font-weight: 800;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 15px;
+}
+
+
+.footer{
+    bottom: 0;
+    width: 100%;
+    height: 49px;
+    position: fixed;
+    border-top: 0.5px solid #e5e5e5;
+}
+.footer_lf{
+    line-height: 49px;
+    width: 37.5%;
+    height: 100%;
+    text-align: center;
+    font-size: 16px;
+    color: #999999;
+    background-color: #fff;
+}
+.footer_rt{
+    line-height: 49px;
+    color: #999999;
+    font-size: 16px;
+    text-align: center;
+    width: 62.5%;
+    height: 100%;
+    background-color: #4179c1;
+}
+.footer img{
+    position: static;
+   vertical-align: middle
+}
+.footer_rt span,.footer_lf span{
+    display:inline-block;
+    vertical-align: middle;
+    margin-left:5px;
+}

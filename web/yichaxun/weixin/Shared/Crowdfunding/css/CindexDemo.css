@@ -1,0 +1,189 @@
+html,body{
+    overflow-x: hidden;
+}
+body{
+    padding: 0;
+    margin: 0;
+    /*text-align: center;*/
+    width: 100%;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -moz-user-select: none;
+    -webkit-appearance:none;
+    outline: none;
+    /*overflow: hidden;*/
+    background-color: #EAEAEA;
+}
+.lf{
+    float: left;
+}
+.rt{
+    float: right;
+}
+.clear{
+    clear: both;
+}
+ul,li{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.box{
+    margin-top: 0.2rem;
+    height: 100%;
+    background: #fff;
+}
+.box_top{
+    height:1.06rem;
+    line-height: 1.06rem;
+    font-size:0.37rem;
+    color: #999999;
+    width: 100%;
+    padding-left: 0.2rem;
+}
+.box img{
+    width: 100%;
+}
+.box_bottom{
+    background-color: #ffffff;
+    padding: 0 0.2rem;
+    margin-top: -0.13rem;
+}
+.box_bottom p{
+    margin: 0 ;
+    padding-top: 0.41rem;
+    padding-bottom: 0.53rem;
+    font-size: 0.42rem;
+    color: #333333;
+}
+.spanish{
+    background-color: #ffffff;
+    display: inline-block;
+    font-size: 0.32rem;
+    color: #999999;
+    line-height: 0.53rem;
+
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+.howMoney{
+    width: 100%;
+    background-color: #ffffff;
+}
+.line{
+    text-align: center;
+    width: 33%;
+}
+.line p{
+    font-size: 0.42rem ;
+    color: #333333;
+    margin-top: 0.45rem;
+    margin-bottom: 0.4rem;
+}
+.line span{
+    display: inline-block;
+    font-size: 0.32rem;
+    color: #999999;
+    margin-top: 0;
+    margin-bottom: 0.43rem;
+}
+.progress_line{
+    width: 75%;
+    height: 0.08rem;
+    background: #b3b3b3;
+    border-radius: 0.04rem;
+    margin: 0 0.46rem 0.66rem 0.46rem;
+}
+.progress_line_top{
+    width: 30%;
+    background: #fdb803;
+    height: 0.08rem;;
+    border-radius: 0.04rem;
+}
+
+/*页面底部导航*/
+.footer_T{
+    padding: 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 1.41rem !important;
+    background: #f9f9f9;
+    border-top:1px solid #e5e5e5;
+}
+.footer_T img{
+    width: 0.64rem !important;
+    height: 0.64rem !important;
+    margin-bottom: 0.08rem;
+}
+.footer_T p{
+    /*display: inline-block;*/
+    font-size: 0.29rem !important;
+    color: #999;
+    margin-top: -0.3rem !important;
+}
+.footer_T_1,.footer_T_2,.footer_T_3,.footer_T_4{
+    text-align: center;
+    width: 25%;
+    height: 100%;
+    margin-top: -0.1rem;
+}
+/*.footer_T_1,.footer_T_2,.footer_T_3{*/
+    /*text-align: center;*/
+    /*width: 33.3%;*/
+    /*height: 100%;*/
+  /**/
+/*}*/
+
+
+
+/*改版后的城市*/
+.cityBox{
+    background: #fff;
+    margin-bottom: 0.26rem;
+}
+.cityBox img{
+    width: 100%;
+    height: 4rem;
+}
+.cityBox p{
+    font-size: 0.37rem;
+    color: #333;
+    /*height: 1.06rem;*/
+    height: 1.06rem;
+    line-height: 1.06rem;
+    /*margin-top: -0.15rem;*/
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
+    margin-top: -0.2rem;
+    margin-bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+/*定位*/
+.positionAddress{
+    position: fixed;
+    width: 2.5rem;
+    height: 0.77rem;
+    border-radius: 0.385rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    /*opacity: 0.2;*/
+    left: 0.4rem;
+    top: 0.4rem;
+    font-size:0.42rem ;
+    color: #333;
+    text-align: center;
+    line-height: 0.77rem;
+    overflow: hidden;
+}
+.positionAddress img{
+    width: 0.28rem;
+    height: 0.385rem;
+    vertical-align: middle;
+    margin-right: 0.1rem;
+}

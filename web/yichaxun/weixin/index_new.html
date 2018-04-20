@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>首页</title>
+    <link rel="stylesheet" href="css/index_new.css"/>
+    <link rel="stylesheet" href="css/dropload.css">
+    <link rel="stylesheet" href="css/pop_p.css"/>
+    <!--<script src="js/jquery-3.0.0.min.js"></script>-->
+    <!--<script src="js/vconsole.min.js"></script>-->
+    <!-- jQuery1.7以上 或者 Zepto 二选一，不要同时都引用 -->
+    <script src="js/zepto.min.js"></script>
+    <script src="js/dropload.min.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="js/preload.js"></script>
+    <link rel="prefetch" href="usercenter.html" />
+    <link rel="prefetch" href="login.html" />
+    <link rel="prefetch" href="register.html" />
+    <link rel="prefetch" href="scroll_demo.html" />
+    <link rel="prefetch" href="editData.html" />
+    <link rel="prefetch" href="editData_demo.html" />
+    <link rel="prefetch" href="saveList.html" />
+    <link rel="prefetch" href="wallet.html" />
+    <link rel="prefetch" href="Withdrawals.html" />
+    <link rel="prefetch" href="wallet_details.html" />
+    <link rel="prefetch" href="modify_password.html" />
+    <link rel="prefetch" href="products_details.html" />
+    <link rel="prefetch" href="Vendor_information.html" />
+    <link rel="prefetch" href="AdministratorClaim.html" />
+    <link rel="prefetch" href="CS_myAuthentication.html" />
+    <link rel="prefetch" href="personList.html" />
+    <link rel="prefetch" href="managementVendor.html" />
+    <link rel="prefetch" href="claimManufacturer_details.html" />
+    <style>
+        .bottom{
+            border-bottom: 1px solid #e5e5e5;
+        }
+        *{
+            margin: 0;
+            padding:0;
+            -webkit-tap-highlight-color:rgba(0,0,0,0);
+            -webkit-text-size-adjust:none;
+        }
+        html{
+            font-size:10px;
+        }
+        body{
+            background-color: #f5f5f5;
+            font-size: 1.2em;
+        }
+        .header{
+            height: 44px;
+            line-height: 44px;
+            border-bottom: 1px solid #ccc;
+            background-color: #eee;
+        }
+        .header h1{
+            text-align: center;
+            font-size: 2rem;
+            font-weight: normal;
+        }
+        .content{
+            max-width: 640px;
+            margin: 0 auto;
+            background-color: #fff;
+        }
+        .content .item{
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align:center;
+            -webkit-box-align:center;
+            box-align:center;
+            -webkit-align-items:center;
+            align-items:center;
+            padding:3.125%;
+            border-bottom: 1px solid #ddd;
+            color: #333;
+            text-decoration: none;
+        }
+        .content .item img{
+            display: block;
+            width: 40px;
+            height: 40px;
+            border:1px solid #ddd;
+        }
+        .content .item h3{
+            display: block;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            width: 100%;
+            max-height: 40px;
+            overflow: hidden;
+            line-height: 20px;
+            margin: 0 10px;
+            font-size: 1.2rem;
+        }
+        .content .item .date{
+            display: block;
+            height: 20px;
+            line-height: 20px;
+            color: #999;
+        }
+        .opacity{
+            -webkit-animation: opacity 0.3s linear;
+            animation: opacity 0.3s linear;
+        }
+        @-webkit-keyframes opacity {
+            0% {
+                opacity:0;
+            }
+            100% {
+                opacity:1;
+            }
+        }
+        @keyframes opacity {
+            0% {
+                opacity:0;
+            }
+            100% {
+                opacity:1;
+            }
+        }
+        body{
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+            /*overflow: hidden;*/
+        }
+        .color_c{
+            color: #999 !important;
+        }
+        .back_top {
+            position: fixed;
+            right: 15px;
+            bottom: 25px;
+            margin-bottom: 25px;
+        }
+        .news_pic{
+            width: 100%;
+            height: 90px;
+            overflow: hidden;
+        }
+
+        .pop{
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top:0;
+            right:0;
+            z-index: 200;
+            overflow: auto;
+        }
+        .arrow1{
+            position: absolute;
+            display: block;
+            width: 90%;
+            height: 240px;
+            top: 143px;
+            /* right: 40px; */
+            left: 5%;
+        }
+        .button_btn1{
+            position: absolute;
+            display: block;
+            width: 50%;
+            height: auto;
+            top: 363px;
+            /* right: 40px; */
+            left: 25%;
+        }
+        .words1{
+            position: absolute;
+            display: inline-block;
+            width: 56%;
+            height: 41px;
+            top: 362px;
+            right: 22%;
+            border-radius: 10px;
+            border: 0;
+            background-color: #ff9a00;
+            opacity: 1;
+            font-size: 16px;
+            color: #ffffff;
+        }
+        .words{
+            position: absolute;
+            display: inline-block;
+            width: 7%;
+            /*height: 25px;*/
+            top: 480px;
+            right: 46.5%;
+            border-radius: 10px;
+            border: 0;
+            /*background-color: orange;*/
+            opacity: 1;
+            font-size: 16px;
+            color: #ffffff;
+        }
+        .pop_span{
+            position: absolute;
+            display: inline-block;
+            width: 70%;
+            /* height: 25px; */
+            top: 216px;
+            right: 15%;
+            border-radius: 10px;
+            border: 0;
+            /* background-color: orange; */
+            opacity: 1;
+            font-size: 16px;
+            color: #ffffff;
+            line-height: 22px;
+            font-size: 16px;
+            color: #fdbd13;
+            text-align: center;
+        }
+    </style>
+
+    <script>
+
+        //        var dataId =  localStorage.getItem("dataId");
+        //        console.log(dataId);
+        //        $('#dataId').val(dataId);
+        //        获取后台接口里面返回的微信分享需要的值
+        $().ready(function () {
+            function configWxShare(appId, timestamp, noncestr, sign, url) {
+//                var dataId =  localStorage.getItem("dataId") || $("#dataIdStash").val();
+//                var hideVal = document.createElement("input");
+//                $(hideVal).attr({
+//                    "type":"hidden",
+//                    "id":"dataIdStash"
+//                })
+//                $(hideVal).val(dataId);
+//                $('body').append($(hideVal));
+//                var dataId=$(hideVal).val();
+//                url  = url + "?id=" + dataId + '';
+                console.log(url);
+                wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: appId,
+                    timestamp: timestamp,
+                    noncestr: noncestr,
+                    signature:sign,
+                    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                });
+                wx.checkJsApi({
+                    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                    success: function(res) {
+                        // 以键值对的形式返回，可用的api值true，不可用为false
+                        // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                        console.log("check result: " + res)
+                    }
+                });
+
+                wx.ready(function(){
+                    wx.onMenuShareTimeline({
+                        title: '产品信息详情', // 分享标题
+                        desc: '产品信息详情', // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: 'images/bg_1.png', // 分享图标
+                        success: function () {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                    wx.onMenuShareAppMessage({
+                        title: '产品信息详情', // 分享标题
+                        desc: '产品信息详情', // 分享描述
+                        link:url, // 分享链接
+                        imgUrl: 'images/bg_1.png', // 分享图标
+                        type: '', // 分享类型,music、video或link，不填默认为link
+                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                        success: function () {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                    wx.onMenuShareQQ({
+                        title: '', // 分享标题
+                        desc: '', // 分享描述
+                        link:url , // 分享链接
+                        imgUrl: 'http://passion.njshangka.com/oss/yichaxun/201704250948458432739.JPG', // 分享图标
+                        success: function () {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                });
+            }
+//获取后台接口里面微信分享需要的参数值
+            $.ajax({
+                url:"/yichaxun/u/wxjssdksign?url="+location.href,
+                type:"post",
+                dataType:"json",
+//            async:"true",
+                async: true,
+                contentType: "application/x-www-form-urlencoded",
+                processData: false,
+                success:function (data) {
+                    console.log(data);
+                    if(data.code==0){
+                        var appId=data.data.appId;
+                        var timestamp=data.data.timestamp;
+                        var noncestr=data.data.nonceStr;
+                        var sign=data.data.signature;
+                        var url=data.data.url;
+                        $("#appId").val(appId);
+                        $("#timestamp").val(timestamp);
+                        $("#noncestr").val(noncestr);
+                        $("#sign").val(data.data.signature);
+                        $("#url").val(url);
+
+
+                        configWxShare(appId,timestamp,noncestr,sign,url);
+                    }
+                }
+            })
+        })
+    </script>
+
+</head>
+<body>
+<!--<div class="news_pic_img">-->
+<!--jkashdkjs-->
+<!--</div>-->
+<!--头部-->
+<div class="top_title">
+    <img src="icon/fenlei@2x.png" style="width: 28px" alt="" class="fenlei"/>
+    <div class="search">
+        <img src="icon/search@2x.png" alt=""/>
+        <span>请输入产品名称、注册证标号等</span>
+    </div>
+</div>
+<!--广告图片-->
+<div class="fenge"></div>
+<div class="news_pic">
+    <img src="images/lb.png" alt=""/>
+</div>
+<!--产品列表-->
+<div class="fenge"></div>
+<div class="productList bottom"><p>产品列表</p></div>
+
+<div class="productList_list lf">
+    <div class="contain">
+
+    </div>
+</div>
+<!--<div class="content" id="contain">-->
+<!--<div class="lists"></div>-->
+<!--</div>-->
+
+<div class="clear"></div>
+<div class="back_top">
+    <!--<a href="#">-->
+    <img src="icon/Up-arrow.png" style="display: none" alt=""/>
+    <!--</a>-->
+
+</div>
+
+<!--背景--><!--遮罩层-->
+<div class="pop pop1" onclick="close()" style="display: none">
+    <img src="images/bgColor.png" alt="" style="width:100%;height: 100%;opacity: 0.3">
+    <div class="arrow">
+        <img src="images/datu@2x.png" alt="" class="arrow1">
+    </div>
+    <div class="button_btn">
+        <img src="images/tu-5000@2x.png" alt="" class="button_btn1 button_btn1_1">
+    </div>
+    <!--<div class="words">-->
+    <!--<img src="images/x@2x.png" alt="" class="words1" >-->
+    <!--</div>-->
+</div>
+<!--背景--><!--遮罩层-->
+<div class="pop pop2" onclick="close()" style="display: none">
+    <img src="images/bgColor.png" alt="" style="width:100%;height: 100%;opacity: 0.3">
+    <div class="arrow">
+        <img src="images/datu-500(1).png" alt="" class="arrow1">
+    </div>
+    <div class="pop_span"><span></span></div>
+    <div class="button_btn">
+        <button class="words1">立即注册</button>
+    </div>
+
+    <div class="words2" style="width: 25px">
+        <img src="iconTwo/x-1@2x.png" alt="" class="words" >
+    </div>
+</div>
+
+<div class="pop pop_pop" style="display: none">
+    <img src="images/bgColor.png" alt="" style="width:100%;height: 100%;opacity: 0.3">
+    <img style="position: absolute;top:0;left:0; width: 100%;height: 100%" src="images/bbbbbbb.png" alt=""/>
+</div>
+
+<!--弹窗-->
+<div class="tanchuang1" style="display: none">
+    <span class="wenzi">注册成功</span>
+    <span class="btnbtn">OK</span>
+</div>
+
+<script>
+    //用戶中心页资源预加载
+    preloadImage("iconTwo/qianbao@2x.png","icon/gerenziliao@2x.png","icon/touxiang.png","icon/xin@2x.png","icon/fangzi@2x.png","icon/suo@2x.png","icon/kefu@2x.png","icon/guanbi@2x.png","icon/beijingtu@2x.png");
+    //注册页资源预加载
+    preloadImage("icon/shouji@2x.png","icon/suo111@2x.png","icon/eye-lose2@2x.png","icon/gouxuan@2x.png");
+    //登陆页资源预加载
+    preloadImage("icon/gouxuan.png");
+    //个人资料页资源预加载
+    preloadImage("images/kongtu.png","images/background-img.png");
+    //钱包页资源预加载
+    preloadImage("iconTwo/icon1@2x.png","iconTwo/0_close_gray-copy-1@2x.png","iconTwo/icon2@2x.png");
+    //厂商页资源预加载
+    preloadImage("iconTwo/back-arrow@2x.png",'iconTwo/camera@2x.png');
+    //设备详情页资源预加载
+    preloadImage('icon/icon-contact-select.png',"images/arrow.png",'images/words.png','icon/icon-contact-2.png','icon/icon-contact-3.png','icon/icon-contact--no-select.png');
+
+
+    preloadResource('js/pop_chuang.js','js/jquery.min.js','http://res.wx.qq.com/open/js/jweixin-1.2.0.js','js/wx.js','jQueryViewer/js/viewer.min.js','jQueryViewer/js/jquery.min.js','js/jquery-3.0.0.min.js','js/image-file-visible.js','js/addTmpImg.js')
+    //    preloadResource('css/personList.css','css/Vendor_information.css','css/claimManufacturer_write.css','css/wallet.css','css/product_details.css','css/managementVendor.css','css/editData_demo.css','jQueryViewer/css/viewer.min.css','css/search_list.css','css/login.css','css/login.css','css/usercenter.css','css/editData_demo.css')
+
+
+
+
+    $('.btnbtn').click(function(){
+        $('.tanchuang1').css('display','none');
+    })
+</script>
+<!--弹出背景图-->
+<script>
+    $('.button_btn').click(function(){
+        location.href="register.html";
+    })
+    $('.words').click(function(){
+        $('.pop2').css('display','none')
+    })
+
+    $('.button_btn1_1').click(function(){
+        location.href="CS_manufacture.html";
+    })
+    $('.words1').click(function(){
+        $('.pop1').css('display','none')
+    })
+</script>
+<!--客户端初始化-->
+<script>
+    var pop_pop=localStorage.getItem("pop_pop");
+    $('.pop_pop').click(function(){
+        $(this).css('display','none')
+        localStorage.clear('pop_pop')
+    });
+    $().ready(function(){
+//            var pop_pop=1
+        if(pop_pop==1){
+            $('.pop_pop').css('display','block');
+
+        }
+
+
+        $.ajax({
+            url:'/yichaxun/u/clientinit',
+            type:'post',
+            success:function(data){
+                if(data.code==0){
+//                    $('.pop_span span').html(data.data.registerInduce);
+                    var datastr=data.data.registerInduce;
+//                    console.log(datastr);
+//                    datastr.replace("\n","；");
+//                    $('.pop_span span').html(datastr);
+//                    console.log($('.pop_span span').html())
+
+                    var i;
+                    var result = '';
+                    var c;
+                    for(i=0;i<datastr.length;i++){
+                        c=datastr.substr(i,1);
+                        if(c=='\n'){
+                            result=result+'<br/>'
+//                            console.log(result)
+                            $('.pop_span span').html(result);
+                        }else if(c!='\n'){
+                            result=result+c;
+                            $('.pop_span span').html(result);
+                        }
+                    }
+                }
+            }
+        })
+    })
+</script>
+<!--返回页面顶部-->
+<script>
+    var userPhone=localStorage.getItem("userPhone");
+    var userPassword=localStorage.getItem("userPassword");
+
+    //    console.log(userPhone,userPassword)
+    $('.back_top img').click(function(){
+        $(window).scrollTop(0);
+        localStorage.clear('dataHeight');
+    })
+
+    $(window).scroll(function () {
+        if(document.body.scrollTop==0){   //监测页面顶部距离屏幕顶部是否为0，为0则返回顶部图标隐藏
+            $('.back_top img').css("display","none")
+        }else{
+            $('.back_top img').css("display","block")
+        }
+    })
+
+
+    //    判断未选择角色，跳转选择觉得也面
+    $().ready(function(){
+        $.ajax({
+            url: '/yichaxun/u/userinit',
+            type: 'post',
+            success: function (data) {
+                if (data.code == 0) {
+                    if(!data.data.userRole){
+                        localStorage.setItem("userPhone",userPhone);
+                        localStorage.setItem("userPassword",userPassword);
+                        location.href="select_role.html"
+                    }
+                    if(!data.data.corporationClaim&&data.data.userRole=="CORPORATION"){
+                        location.href="CS_manufacture.html"
+                    }
+                }
+                if(data.code==20||data.code==26){
+                    $('.pop2').css('display','block')
+                }
+            }
+        })
+    })
+</script>
+<script>
+    //跳转个人中心
+    $('.fenlei').click(function(){
+        location.href="usercenter.html"
+    })
+    //    <!--跳转搜索-->
+    $('.search').click(function(){
+        location.href="scroll_demo.html"
+    })
+    //    数据展示
+    $().ready(function(){
+//        localStorage.clear('dataHeight_height');
+        var html=localStorage.getItem('html');
+        var height=localStorage.getItem('dataHeight');
+        var isFavor=localStorage.getItem('isFavor');
+        var dataId=localStorage.getItem('dataId');
+        localStorage.clear('dataHeight_height');
+//        添加广告图片
+        $.ajax({
+            url:"/yichaxun/u/homeadlist",
+            type:'post',
+            success:function(data){
+                if(data.code==0){
+//                    $('.news_pic img').attr('src',data.data.)
+                    for(var i=0;i<data.data.items.length;i++){
+                        $('.news_pic img').attr('src',data.data.items[i].homeAdPic);
+                        if(!data.data.items[i].homeAdUrl){}else{
+                            var _html_=data.data.items[i].homeAdUrl;
+                            $('.news_pic').click(function(){
+                                location.href=_html_;
+                            })
+                        }
+                    }
+                }
+            }
+        });
+
+        if(html==''||html=='null'||html==undefined||html==null){
+
+            //滚动分页
+            $(function(){
+                // 页数
+//        var page = 0;
+//        // 每页展示5个
+//        var size = 5;
+                // dropload
+//下拉加载
+//            $(window).scroll(function () {
+
+                $('.content').dropload({
+                    scrollArea : window,
+                    loadDownFn : function(me){
+
+//                setTimeout(function(){setHeightKeyWord('content', $keyword, '900','#000', true)},2000);
+                        var lastRowId=$(".contain").children("div:last-child").attr('uid');
+                        var septum=$(".contain").children("div:last-child").attr('time');
+                        console.log(lastRowId,septum);
+//                page++;
+                        // 拼接HTML
+                        var result = '';
+//                        var html_ht=$('.contain').html();
+//                        if(html_ht==''){}
+//                        if(lastRowId==undefined){
+//
+//                        }else{}
+
+                        if(lastRowId==undefined){
+                            var  param = '';
+                        }else{
+                            var param="&lastRowId="+lastRowId+"&septum="+septum;
+                        }
+                        $.ajax({
+                            type: 'post',
+                            url: '/yichaxun/data/list',
+                            data:'dataOnHome=1'+param,
+                            dataType: 'json',
+                            success: function(data){
+                                var arrLen = data.data.items.length;
+
+                                console.log(arrLen)
+                                if(arrLen > 0){
+                                    for(var i=0; i<arrLen; i++){
+                                        var dataPic=data.data.items[i].dataPic;
+                                        if(dataPic==''||dataPic==undefined||dataPic==null){
+                                            result +='<div style="background:#fff" time="'+data.data.items[i].dataOnHomeSort+'" uid="'+
+                                            data.data.items[i].dataId+'" class="productList_list_text bottom lf" mid="'+
+                                            data.data.items[i].dataId+'" isfavor="'+data.data.items[i].isFavorite+'">'+
+                                            '<div mid="'+ data.data.items[i].dataId+'" class="productList_list_text_lf lf">'+
+                                            '<p mid="'+ data.data.items[i].dataId+'">'+data.data.items[i].dataTitle+'</p>'+
+                                            '<span style="margin-bottom: 12px;">注册证编号:'+data.data.items[i].dataRegisterNo+'</span>'+
+                                            '<span style="margin-bottom:17px;">注册人名称:'+data.data.items[i].corporationName+'</span>'+
+                                            '</div>'+
+                                            '<div class="productList_list_text_rt rt">'+
+                                            '<img src="iconTwo/back-arrow@2x.png" alt=""/>'+
+                                            '</div>'+
+                                            '</div>'
+                                        }else{
+                                            var picBlobs = new Array();
+                                            var dataPic=data.data.items[i].dataPic;
+                                            var regex = /,/;
+                                            picBlobs=dataPic.split(regex);
+//                                console.log(picBlobs)
+                                            for(r=0;r<picBlobs.length;r++){
+//                                    console.log(picBlobs[1],picBlobs[2],picBlobs[3])
+                                            }
+                                            if(picBlobs.length==1){
+                                                result +=
+                                                        '<div  style="background:#fff" time="'+data.data.items[i].dataOnHomeSort+'" uid="'+
+                                                        data.data.items[i].dataId+'" class="productList_list_pic bottom lf" mid="'+
+                                                        data.data.items[i].dataId+'" isfavor="'+data.data.items[i].isFavorite+'">'+
+                                                        '<div mid="'+ data.data.items[i].dataId+'" class="productList_list_pic lf">'+
+                                                        '<p mid="'+ data.data.items[i].dataId+'">'+data.data.items[i].dataTitle+'</p>'+
+                                                        '<div mid="'+ data.data.items[i].dataId+'"  name="productList_list_pic_ps" class="productList_list_pic_ps" id="jq1">'+
+                                                        '<img  src="'+picBlobs[0]+'" alt="" class="dis1 img1"/>'+
+                                                        '</div></div></div>'
+                                            }else if(picBlobs.length==2){
+                                                result +=
+                                                        '<div  style="background:#fff" time="'+data.data.items[i].dataOnHomeSort+'" uid="'+
+                                                        data.data.items[i].dataId+'" class="productList_list_pic bottom lf" mid="'+
+                                                        data.data.items[i].dataId+'" isfavor="'+data.data.items[i].isFavorite+'">'+
+                                                        '<div mid="'+ data.data.items[i].dataId+'" class="productList_list_pic lf">'+
+                                                        '<p mid="'+ data.data.items[i].dataId+'">'+data.data.items[i].dataTitle+'</p>'+
+                                                        '<div mid="'+ data.data.items[i].dataId+'"  name="productList_list_pic_ps" class="productList_list_pic_ps" id="jq1">'+
+                                                        '<img  src="'+picBlobs[0]+'" alt="" class="dis1 img1"/>'+
+                                                        '<img  src="'+picBlobs[1]+'" class="dis2 img2"  alt=""/>'+
+                                                        '</div></div></div>'
+                                                '<div style="width: 100%;height: 10px;background-color: #f2f2f2"></div>'
+                                            }else{
+                                                result +=
+                                                        '<div  style="background:#fff" time="'+data.data.items[i].dataOnHomeSort+'" uid="'+
+                                                        data.data.items[i].dataId+'" class="productList_list_pic bottom lf" mid="'+
+                                                        data.data.items[i].dataId+'" isfavor="'+data.data.items[i].isFavorite+'">'+
+                                                        '<div mid="'+ data.data.items[i].dataId+'" class="productList_list_pic lf">'+
+                                                        '<p mid="'+ data.data.items[i].dataId+'">'+data.data.items[i].dataTitle+'</p>'+
+                                                        '<div  mid="'+ data.data.items[i].dataId+'" name="productList_list_pic_ps" class="productList_list_pic_ps" id="jq1">'+
+                                                        '<img  src="'+picBlobs[0]+'" alt="" class="dis1 img1"/>'+
+                                                        '<img  src="'+picBlobs[1]+'" class="dis2 img2"  alt=""/>'+
+                                                        '<img  src="'+picBlobs[2]+'" class="dis3 img3" alt=""/>'+
+                                                        '</div></div></div>'+
+                                                        '<div style="width: 100%;height: 10px;background-color: #f2f2f2"></div>'
+                                            }
+                                        }
+                                    }
+                                    // 如果没有数据
+                                }else{
+                                    // 锁定
+                                    me.lock();
+                                    // 无数据
+                                    me.noData();
+                                }
+                                // 为了测试，延迟1秒加载
+                                setTimeout(function(){
+                                    // 插入数据到页面，放到最后面
+                                    $('.contain').append(result);
+                                    // 每次数据插入，必须重置
+                                    me.resetload();
+                                },1000);
+                            },
+                            error: function(xhr, type){
+//                                alert('Ajax error!');
+                                // 即使加载出错，也得重置
+                                me.resetload();
+                            }
+                        });
+//                        setTimeout(function(){setHeightKeyWord('content', $keyword, '900','#000', true)},2000);
+                    }
+                });
+
+//            })
+
+            });
+        }else{
+            $('.productList_list').html(html);
+//            console.log('height'+height);
+            window.scrollTo(0,height);
+        }
+    })
+    //滚动
+    var height;
+    $(window).scroll(function () {
+        height = $(this).scrollTop();
+    })
+    //    跳转详情
+
+    $('.productList_list').on("click",".contain div",function(){
+        $(this).children().addClass('color_c');
+        var idId=$(this).attr('mid');
+        var _html=$('.productList_list').html();
+        localStorage.setItem('dataId',idId);
+        localStorage.setItem('html',_html);
+        var isFavor=$(this).attr('isFavor');
+        localStorage.setItem("isFavor",isFavor);
+        localStorage.setItem('dataHeight',height);
+        console.log(idId)
+        $.ajax({
+            url:'/yichaxun/u/userinit',
+            type:'post',
+            async:true,
+            success:function(data){
+                if(data.code==0){
+                    location.href="de.html?dataId="+idId;
+                }
+
+                if(data.code==20||data.code==26){
+                    $('.tanchuang1').css('display','block');
+//                    $('.wenzi').html("请注册登录后查看")
+//                    alert("请注册登录后查看")
+                    location.href="login.html"
+                }
+            }
+        })
+//        console.log(123);
+//        $(this).height();
+//        height=$(this).scrollTop();//获取当前点击的距顶部高度
+//        console.log('mmm'+height);
+
+
+
+
+    })
+</script>
+</body>
+</html>

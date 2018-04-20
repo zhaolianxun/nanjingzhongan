@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!--<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <link href="http://passion.njshangka.com/yichaxun/weixin/Operation/icon/cha.jpg" rel="apple-touch-icon-precomposed">
+    <link href="http://passion.njshangka.com/yichaxun/weixin/Operation/icon/cha.jpg" sizes="114x114" rel="apple-touch-icon-precomposed">
+    <title>主页</title>
+    <link rel="stylesheet" href="Operation/css/Oindex.css"/>
+
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <style>
+        input{
+            outline:none;
+        }
+        body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select:none;
+        }
+        .tanchuang1{
+            display: none;
+            position: fixed;
+            width: 60%;
+            height: 125px;
+            top:30%;
+            right:20%;
+            background: #fff;
+            z-index: 200;
+            overflow: auto;
+            border-radius: 7px;
+        }
+        .wenzi1{
+            position: absolute;
+            display: block;
+            width: 100%;
+            text-align: center;
+            height: 80px;
+            line-height: 30px;
+            top: 20px;
+            /*right: 40px;*/
+        }
+        .btnbtn{
+            /*position: absolute;*/
+            margin-top: 75px;
+            font-size: 16px;
+            color: #ff9a00;
+            width: 100%;
+            text-align: center;
+            height: 44.5px;
+            line-height: 44.5px;
+            display: inline-block;
+            border-top: 0.5px solid #e5e5e5;
+        }
+        .name img{
+            width: 15px;
+            height: 15px;
+            margin-right: 35px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<input type="hidden" class="hospitalId"/>
+<input type="hidden" class="hospitalName"/>
+<input type="hidden" class="hospitalOfficeId"/>
+<input type="hidden" class="hospitalOfficeName"/>
+<div class="name">账户:&nbsp;<span class="spanish"></span>
+    <img class="rt" src="Operation/icon/close.png" alt=""/>
+</div>
+<div class="clear"></div>
+<div class="collect">
+    <img class="img" src="Operation/icon/shoukuan@2x.png" alt=""/>
+    <span>收款</span>
+    <img class="back" src="Operation/icon/back.png" alt=""/>
+</div>
+<div class="sale">
+    <img class="img" src="Operation/icon/youhuiquan@2x.png" alt=""/>
+    <span>减免优惠</span>
+    <img class="back" src="Operation/icon/back.png" alt=""/>
+</div>
+<div class="tanchuang1" style="display: none">
+    <span class="wenzi1" style="height: 60px !important;"></span>
+    <span class="btnbtn">OK</span>
+</div>
+<script>
+    $('.name img').click(function(){
+        location.href='Ologin.html'
+    });
+    $('.btnbtn').click(function(){
+        $(this).parent().css('display','none')
+    });
+    var mtUserName=localStorage.getItem('mtUserName');
+    var hospitalId=localStorage.getItem('hospitalId');
+    var hospitalName=localStorage.getItem('hospitalName');
+    var hospitalOfficeId=localStorage.getItem('hospitalOfficeId');
+    var hospitalOfficeName=localStorage.getItem('hospitalOfficeName');
+    $('.spanish').html(mtUserName);
+    $('.hospitalId').val(hospitalId);
+    $('.hospitalName').val(hospitalName);
+    $('.hospitalOfficeId').val(hospitalOfficeId);
+    $('.hospitalOfficeName').val(hospitalOfficeName);
+    localStorage.setItem('hospitalId', $('.hospitalId').val());
+    localStorage.setItem('hospitalName', $('.hospitalName').val());
+    localStorage.setItem('hospitalOfficeId', $('.hospitalOfficeId').val());
+    localStorage.setItem('hospitalOfficeName', $('.hospitalOfficeName').val());
+    if(!mtUserName){
+        location.href="Ologin.html"
+    };
+    $('.collect').click(function(){
+        location.href='Oreceiving.html'
+    });
+    $('.sale').click(function(){
+        location.href='OdiscountCoupon.html'
+    })
+
+</script>
+</body>
+</html>

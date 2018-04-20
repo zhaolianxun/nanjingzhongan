@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>认领厂商-填写</title>
+    <link rel="stylesheet" href="css/claimManufacturer_write.css"/>
+    <link rel="stylesheet" href="css/pop_p.css"/>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <style>
+        body{
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+        }
+    </style>
+    <!--<script src="js/vconsole.min.js"></script>-->
+</head>
+<body>
+    <div class="top lf">
+        <div class="top_img lf">
+            <img  src="icon/back-arrow.png" alt=""/>
+        </div>
+        <div class="input_box lf">
+            <p class="lf title">认领厂商-填写</p>
+        </div>
+        <!--<input type="button" class="submit rt" value="提交"/>-->
+        <p class="submit rt">提交</p>
+    </div>
+    <div class="clear"></div>
+    <div class="content">
+       <div class="content_text select">
+           <p class="lf">选择认领厂商</p>
+           <span class="corporationId"></span>
+           <spqn class="id_cor" style="display: none"></spqn>
+           <img class="rt" src="icon/back-arrow--right.png" class="back_right" alt=""/>
+       </div>
+        <div class="content_text">
+            <p class="lf">输入座机号码</p>
+            <input class="phone" type="text"/>
+        </div>
+        <div class="content_text">
+            <p class="lf">填写公司网站</p>
+            <input class="website" type="text"/>
+        </div>
+        <div class="content_text">
+            <p class="lf">联系人姓名&nbsp</p>
+            <input class="name" type="text"/>
+        </div>
+
+
+
+        <!--<span class="myclerar">dahsdjkashkd</span>-->
+        <!--<button class="but">daslkdhjklas</button>-->
+    </div>
+    <!--弹窗-->
+    <div class="tanchuang1" style="display: none">
+        <span class="wenzi">注册成功</span>
+        <span class="btnbtn">OK</span>
+    </div>
+
+    <script>
+        $('.btnbtn').click(function(){
+            $('.tanchuang1').css('display','none');
+        })
+    </script>
+    <script>
+        $('.top_img>img').click(function(){
+            window.history.back()
+        })
+        var corporationId =  localStorage.getItem("corporationId");
+        var corporationName =  localStorage.getItem("corporationName");
+        var corporationTel =  localStorage.getItem("corporationTel");
+        var corporationSite =  localStorage.getItem("corporationSite");
+        var corporationLinkman =  localStorage.getItem("corporationLinkman");
+//$('.but').click(function(){
+//    var m=$('.id_cor').html();
+//    console.log(m,$('.myclerar').html())
+//})
+//        $().ready(function(){
+//
+//            $.ajax({
+//                type: 'POST',
+//                async: false,
+//                cache: false,
+//                contentType: false,
+//                processData: false,
+//                url: '/yichaxun/u/userinit',
+//                success: function (data) {
+//                    console.log(data)
+//                    if (data.code == 26||data.code == 20) {
+//                        location.href='login.html'
+//                    }else if(data.code==0){
+//                        var corporationId =  data.data.corporationAuth.corporationId;
+//                        var corporationName =  data.data.corporationAuth.corporationName;
+//                        var corporationTel =  data.data.corporationAuth.corporationTel;
+//                        var corporationSite =  data.data.corporationAuth.corporationSite;
+//                        var corporationLinkman =  data.data.corporationAuth.corporationLinkman;
+//                        var corporationId=localStorage.getItem('corporationId');
+//                        var corporationName=localStorage.getItem('corporationName');
+////                        $('.corporationId').html(corporationName);
+////                        $('.id').html(corporationId);
+//                        console.log(corporationName,corporationLinkman,corporationTel,corporationSite,corporationId)
+//                        if(corporationId!="undefined"){
+//                            $('.id_cor').html(corporationId);
+//                        }
+//                        if(corporationName!="undefined"){
+//                            $('.corporationId').html(corporationName);
+//                        }
+//                        if(corporationTel!="undefined"){
+//                            $('.phone').val(corporationTel);
+//                        }
+//                        if(corporationSite!="undefined"){
+//                            $('.website').val(corporationSite);
+//                        }
+//                        if(corporationLinkman!="undefined"){
+//                            $('.name').val(corporationLinkman);
+//                        }
+//                    }else{
+//                        alert(data.message)
+//                    }
+//                },
+//                error: function () {
+//                }
+//            })
+//        })
+        $().ready(function(){
+
+            $.ajax({
+                type: 'POST',
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                url: '/yichaxun/u/userinit',
+                success: function (data) {
+                    console.log(data)
+                    if (data.code == 26||data.code == 20) {
+                        location.href='login.html'
+                    }else if(data.code==0){
+                      if(data.data.corporationAuth!=''){
+//                          var corporationId =  data.data.corporationAuth.corporationId;
+//                        var corporationName =  data.data.corporationAuth.corporationName;
+//                        var corporationTel =  data.data.corporationAuth.corporationTel;
+//                        var corporationSite =  data.data.corporationAuth.corporationSite;
+//                        var corporationLinkman =  data.data.corporationAuth.corporationLinkman;
+                          var corporationId=localStorage.getItem('corporationId');
+                          var corporationName=localStorage.getItem('corporationName');
+                          var corporationTel =  localStorage.getItem("corporationTel");
+                          var corporationSite =  localStorage.getItem("corporationSite");
+                          var corporationLinkman =  localStorage.getItem("corporationLinkman");
+//                        $('.corporationId').html(corporationName);
+//                        $('.id').html(corporationId);
+                          console.log(corporationName,corporationLinkman,corporationTel,corporationSite,corporationId)
+                          if(corporationId!="undefined"&&corporationId!='null'){
+                              $('.id_cor').html(corporationId);
+                          }
+                          if(corporationName!="undefined"&&corporationName!='null'){
+                              $('.corporationId').html(corporationName);
+                          }
+                          if(corporationTel!="undefined"&&corporationTel!='null'){
+                              $('.phone').val(corporationTel);
+                          }
+                          if(corporationSite!="undefined"&&corporationSite!='null'){
+                              $('.website').val(corporationSite);
+                          }
+                          if(corporationLinkman!="undefined"&&corporationLinkman!='null'){
+                              $('.name').val(corporationLinkman);
+                          }
+                      }else{
+                          var corporationId =  data.data.corporationAuth.corporationId;
+                        var corporationName =  data.data.corporationAuth.corporationName;
+                        var corporationTel =  data.data.corporationAuth.corporationTel;
+                        var corporationSite =  data.data.corporationAuth.corporationSite;
+                        var corporationLinkman =  data.data.corporationAuth.corporationLinkman;
+//                          var corporationId=localStorage.getItem('corporationId');
+//                          var corporationName=localStorage.getItem('corporationName');
+//                          var corporationTel =  localStorage.getItem("corporationTel");
+//                          var corporationSite =  localStorage.getItem("corporationSite");
+//                          var corporationLinkman =  localStorage.getItem("corporationLinkman");
+//                        $('.corporationId').html(corporationName);
+//                        $('.id').html(corporationId);
+                          console.log(corporationName,corporationLinkman,corporationTel,corporationSite,corporationId)
+                          if(corporationId!="undefined"&&corporationId!='null'){
+                              $('.id_cor').html(corporationId);
+                          }
+                          if(corporationName!="undefined"&&corporationName!='null'){
+                              $('.corporationId').html(corporationName);
+                          }
+                          if(corporationTel!="undefined"&&corporationTel!='null'){
+                              $('.phone').val(corporationTel);
+                          }
+                          if(corporationSite!="undefined"&&corporationSite!='null'){
+                              $('.website').val(corporationSite);
+                          }
+                          if(corporationLinkman!="undefined"&&corporationLinkman!='null'){
+                              $('.name').val(corporationLinkman);
+                          }
+                      }
+                    }else{
+                        $('.tanchuang1').css('display','block')
+                        $('.wenzi').html(data.message)
+//                        alert(data.message)
+                    }
+                },
+                error: function () {
+                }
+            })
+        })
+
+        $('.select').click(function(){
+            location.href="claimManufacturer_search.html"
+        });
+
+
+        $('.submit').click(function(){
+            var corporationId=$('.id_cor').html();
+            var corporationTel=$('.phone').val();
+            var corporationSite=$('.website').val();
+            var corporationLinkman=$('.name').val();
+            var corporationName=$('.corporationId').html();
+            console.log(corporationId)
+            $.ajax({
+                url:"/yichaxun/corporation/authreq",
+                type:"post",
+                data:'corporationId='+corporationId+'&corporationTel='+corporationTel+
+                '&corporationSite='+corporationSite+'&corporationLinkman='+corporationLinkman,
+                success:function(data){
+                    if(data.code == 0){
+//                        alert(data.message);
+
+                        localStorage.setItem("corporationId",corporationId);
+                        localStorage.setItem("corporationName",corporationName);
+                        localStorage.setItem("corporationTel",corporationTel);
+                        localStorage.setItem("corporationSite",corporationSite);
+                        localStorage.setItem("corporationLinkman",corporationLinkman);
+                        location.href="claimManufacturer_waiting.html"
+
+                    }else if(data.code==20){
+//                            alert("11111")
+                        $('.tanchuang1').css('display','block')
+                        $('.wenzi').html(data.message)
+//                        alert(data.message);
+                        location.href="login.html"
+                    }
+                },
+                error: function(xhr,msg,reasonString){
+                    $('.tanchuang1').css('display','block')
+                    $('.wenzi').html('请求错误，请稍后再试...')
+//                    alert();
+                    console.log(arguments);
+                }
+            })
+        })
+//
+
+
+
+    </script>
+</body>
+</html>

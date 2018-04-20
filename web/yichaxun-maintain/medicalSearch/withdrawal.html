@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>提现列表</title>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css" />
+</head>
+
+<body>
+<div class="admin-main">
+
+    <blockquote class="layui-elem-quote">
+        <form class="layui-form" style="display: inline-block;height: 40px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态：</label>
+                <div class="layui-input-block">
+                    <select id="status">
+                        <option value=" " selected="">不限</option>
+                        <option value="NOTAUDIT">未审核</option>
+                        <option value="PASS">通过</option>
+                        <option value="REFUSE">拒绝</option>
+                        <option value="SUCCESS">成功</option>
+                        <option value="FAIL">失败</option>
+                        <option value="OUTSUBMIT">外部已提交</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <a href="javascript:;" class="layui-btn layui-btn-small" id="search">
+            <i class="layui-icon">&#xe615;</i> 搜索
+        </a>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>申请列表</legend>
+        <div class="layui-field-box">
+            <table class="site-table table-hover">
+                <thead>
+                <tr>
+                    <th>提款人</th>
+                    <th>手机号</th>
+                    <th>提现金额</th>
+                    <th>提现到</th>
+                    <th>账户</th>
+                    <th>申请时间</th>
+                    <th>状态</th>
+                    <th>状态说明</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <div class="admin-table-page">
+        <div id="page" class="page"></div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+    var id = '';
+    layui.config({
+        base: 'plugins/layui/modules/'
+    });
+
+    layui.use(['laypage','layer','layedit'], function() {
+        var $ = layui.jquery,
+                laypage = layui.laypage,
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+        var totalPage;
+        var status = '';
+        var toPageNo = 1;
+        function getData(){
+            $.ajax( {
+                type: 'GET',
+                async: false,
+                data: {status:status, pageNo:toPageNo},
+                url: '../1/withdraws',
+                success: function(data){
+                    if(data.code == 0){
+                        $('#tbody').children().remove();
+                        var data = data.data;
+                        totalPage = data.sum.totalPageCount;
+                        for(var i = 0 ; i < data.items.length ; i ++){
+                            var status = '',statusNote = '';
+                            if(data.items[i].status =="NOTAUDIT"){
+                                status = '未审核';
+                            }else if(data.items[i].status =="REFUSE"){
+                                status = '拒绝';
+                            }else if(data.items[i].status =="PASS"){
+                                status = '通过';
+                            }else if(data.items[i].status =="OUTSUBMIT"){
+                                status = '外部已提交';
+                            }else if(data.items[i].status =="FAIL"){
+                                status = '失败';
+                            }else if(data.items[i].status =="SUCCESS"){
+                                status = '成功';
+                            }
+                            if(data.items[i].statusNote!=null){
+                                statusNote = data.items[i].statusNote;
+                            }else if(data.items[i].financialAudit!=1){
+                                statusNote = '财务未审核';
+                            }else{
+                                statusNote = '';
+                            }
+                            $('#tbody').append('<tr>' +
+                            '<td>'+ data.items[i].targetAccountname +'</td>' +
+                            '<td>'+ data.items[i].phone +'</td>' +
+                            '<td>'+ data.items[i].amount +' 元</td>' +
+                            '<td>支付宝</td>' +
+                            '<td>'+ data.items[i].targetAccount +'</td>' +
+                            '<td>'+ new Date(parseInt(data.items[i].applyTime)).toLocaleString() +'</td>' +
+                            '<td>'+ status +'</td>' +
+                            '<td>'+ statusNote +'</td>' +
+                            '<td>' +
+                            '<a href="javascript:;" class="sure layui-btn layui-btn-mini" style="margin-right:10px;" data-withdrawalId="'+ data.items[i].withdrawId +'">通过</a>' +
+                            '<a href="javascript:;" class="refuse layui-btn layui-btn-mini layui-btn-danger"  data-withdrawalId="'+ data.items[i].withdrawId +'">拒绝</a>' +
+                            '</td>' +
+                            '</tr>');
+                        }
+                    }else if(data.code == 20){
+                        alert('登录已失效，请重新登录！！');
+                        window.parent.location.href = 'login.html';
+                    }
+                }
+            } );
+        }
+        function rePage(){
+            //page
+            laypage({
+                cont: 'page',
+                pages: totalPage,//总页数
+                groups: 5  ,//连续显示分页数
+                jump: function(obj, first) {
+                    //得到了当前页，用于向服务端请求对应数据
+                    var curr = obj.curr;
+                    if(!first) {
+                        toPageNo = obj.curr;
+                        getData();
+                        layer.msg('第 '+ obj.curr +' 页');
+                    }
+                }
+            });
+        }
+        getData();
+        rePage();
+
+
+        $('#search').on('click', function() {
+            toPageNo = '';
+            status = $('#status').val();
+            getData();
+            rePage();
+        });
+
+        $('#tbody').on('click','a.sure',function(){
+            var id = $(this).attr('data-withdrawalId');
+            var me = $(this).parent().parent();
+            layer.open({
+                type: 1
+                ,title: false //不显示标题栏
+                ,closeBtn: false
+                ,area: '300px;'
+                ,shade: 0.8
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确定要通过此用户的提现申请吗？</div>'
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        $.ajax( {
+                            type: 'POST',
+                            data: {withdrawId:id},
+                            url: '../1/withdraw/pass',
+                            success: function(data){
+                                if(data.code == 0){
+                                    layer.msg('已通过！', {
+                                        time: 2000
+                                    });
+                                    me.remove();
+                                }else if(data.code == 20){
+                                    alert('登录已失效，请重新登录！！');
+                                    window.parent.location.href = 'login.html';
+                                }else{
+                                    layer.msg(data.message);
+                                }
+                            }
+                        } )
+                    });
+                }
+            });
+        });
+
+        $('#tbody').on('click','a.refuse',function(){
+            var id = $(this).attr('data-withdrawalId');
+            var me = $(this).parent().parent();
+            layer.open({
+                type: 1
+                ,title: false //不显示标题栏
+                ,closeBtn: false
+                ,area: '300px;'
+                ,shade: 0.8
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确定要拒绝此用户的提现申请吗？<br/><br/><br/><input id="reason" type="text" style="width: 100%;padding: 5px;"><p style="color: red;">*请输入拒绝原因，必填<br/></p></div>'
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        var reason = $(this).parent().parent().children().children().children('input').val();
+                        if(reason != ''){
+                            $.ajax( {
+                                type: 'POST',
+                                data: {withdrawId:id,reason:reason},
+                                url: '../1/withdraw/refuse',
+                                success: function(data){
+                                    if(data.code == 0){
+                                        layer.msg('已拒绝！', {
+                                            time: 2000
+                                        });
+                                        me.remove();
+                                    }else if(data.code == 20){
+                                        alert('登录已失效，请重新登录！！');
+                                        window.parent.location.href = 'login.html';
+                                    }else{
+                                        layer.msg(data.message);
+                                    }
+                                }
+                            } )
+                        }else{
+                            layer.msg('请输入提现拒绝原因');
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

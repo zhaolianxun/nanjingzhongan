@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>搜索</title>
+    <link rel="stylesheet" href="css/search_list.css"/>
+    <link rel="stylesheet" href="css/index_new.css"/>
+    <link rel="stylesheet" href="jquery-jiazai/css/reset.css"/>
+    <link rel="stylesheet" href="jquery-jiazai/css/pullToRefresh.css"/>
+    <link rel="stylesheet" href="css/pop_p.css"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <script src="jquery-jiazai/js/iscroll.js"></script>
+    <script src="jquery-jiazai/js/pullToRefresh.js"></script>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="js/vconsole.min.js"></script>
+    <style>
+        *html{background-image:url(about:blank); background-attachment:fixed;}
+        .scroller li {
+            height:60px;
+            border-bottom: 1px solid #eee;
+            background-color: #fff;
+            font-size: 14px;
+
+        }
+
+        .game-info{ padding:15px 10px; background:#FFF; line-height:22px; color:#333; font-size:14px;}
+        .game-info p{color:#999; font-size:12px;}
+        body{
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -moz-user-select: none;
+            -webkit-appearance:none;
+            outline: none;
+        }
+        .color_c{
+            color: #999 !important;
+        }
+        .back_top {
+            position: fixed;
+            right: 15px;
+            bottom: 25px;
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+<div class="top">
+    <div class="input_box ">
+        <div class="lf  input_box_div" style="display: inline-block">
+            <input class="input input_dex" type="text" placeholder=""/>
+            <span class="input_span">请输入产品名称、注册证编号等</span>
+        </div>
+        <!--<div class="search_img rt" style="display: inline-block"></div>-->
+        <img class="search_fdj rt" src="icon/search@2x.png" alt=""/>
+        <!--<img class="delete" src="icon/X.png" alt=""/>-->
+    </div>
+</div>
+<!--热门搜索-->
+<div class="clear"></div>
+<div class="lf hot_search">
+    <div class="hot_search_title"><span>热门搜索</span></div>
+    <div style="width: 100%;background-color: #ffffff">
+        <div id="spanList" style="margin-left: 15px;margin-right: 15px">
+            <div class="hot_search_span">
+            </div>
+        </div>
+    </div>
+</div>
+<!--搜索数据列表-->
+<!--<div id="contain" class="productList_list lf" style="margin-top: 35px">-->
+    <!--<div class="contain">-->
+    <!--</div>-->
+<!--</div>-->
+<div class="clear"></div>
+<div id="wrapper"  id="contain" class="productList_list lf" style="margin-top: 35px;height: auto">
+    <ul class="contain">
+        <li><div class="game-info"><h1>上拉加载更多</h1><p>2015-10-27</p></div></li>
+        <!--<li><div class="game-info"><h1>jQuery 团队在官博中再次提醒用户，jQuery 2.0 不再支持IE 6/7/8 了，但是 jQuery 1.9 会继续支持。</h1><p>2015-10-27</p></div></li>-->
+    </ul>
+</div>
+
+
+<div class="back_top">
+    <!--<a href="#">-->
+    <img src="icon/Up-arrow.png" style="display: none" alt=""/>
+    <!--</a>-->
+
+</div>
+<!--弹窗-->
+<div class="tanchuang1" style="display: none">
+    <span class="wenzi">注册成功</span>
+    <span class="btnbtn">OK</span>
+</div>
+
+<script>
+    $('.btnbtn').click(function(){
+        $('.tanchuang1').css('display','none');
+    })
+</script>
+<!--点击apan触发input焦点-->
+<script>
+    $('.input_span').click(function(){
+        console.log('asd');
+        $('.input_dex').focus();
+    })
+</script>
+<!--返回页面顶部-->
+<script>
+    //
+    $('.back_top img').click(function(){
+        $(window).scrollTop(0);
+        localStorage.clear('dataHeight_height');
+//            $('.hot_search').css('display','none');
+        $('.input_span').css('display','none')
+    })
+
+</script>
+<!--点击跳转-->
+<script>
+    //    跳转详情
+    $('.productList_list').on("click",".contain div",function(){
+        console.log(123);
+
+        console.log('mmm'+height_height);
+        $(this).children().addClass('color_c');
+        var _html=$('.contain').html();
+        var idId=$(this).attr('id');
+        localStorage.setItem('dataId',idId);
+        localStorage.setItem('html',_html);
+        var isFavor=$(this).attr('isFavor');
+        localStorage.setItem("isFavor",isFavor);
+        localStorage.setItem('dataHeight_height',height_height);
+        location.href="products_details.html"
+
+    })
+
+
+    $().ready(function(){
+        var html=localStorage.getItem('html');
+        var height_height=localStorage.getItem('dataHeight_height');
+        if(html==''||html==null||html==undefined){
+
+        }else{
+//                $('.contain').html('');
+            var $KEY=$('.input_dex').val();
+            if($KEY==''||$KEY==null||$KEY==undefined){}else{
+                $('.input_span').css('display','none')
+            }
+            $('.contain').html(html);
+            $('.hot_search').css('display','none');
+            window.scrollTo(0,height_height);
+
+        }
+//            热门搜索词汇
+        $.ajax({
+            url:'/yichaxun/u/hotkeylist',
+            type:'post',
+            success:function(data){
+                if(data.code==0){
+                    for(var i=0;i<data.data.items.length;i++){
+                        $('.hot_search_span').append('<span>'+data.data.items[i].hotKeyName+'</span>')
+                    }
+                }
+            }
+        })
+    })
+</script>
+<!--关键词查询-->
+<script>
+    $('#spanList').on('click','.hot_search_span span',function(){
+        $('.contain').html('');
+        $('.productList_list').css('display','block');
+//            $('.productList_list').html('')
+        var $keyword=$(this).html();
+        console.log($keyword);
+        $('input').val($keyword);
+        $('.input_span').css('display','none');
+        $('.hot_search').css('display','none');
+//            $('.contain').html('');
+        $.ajax({
+            type: 'POST',
+            data: 'keyword='+$keyword,
+            async:"true",
+            url: '/yichaxun/data/list',
+            success: function (data) {
+                if (data.code == 0) {
+                    for(var i = 0 ; i < data.data.items.length ; i ++){
+                        $('.contain').append('<div  time="'+data.data.items[i].dataAddTime+'" uid="'+data.data.items[i].dataId+'" style="background-color:#fff" class="productList_list_text bottom lf" id="'+
+                        data.data.items[i].dataId+'" isfavor="'+data.data.items[i].isFavorite+'">'+
+                        '<div class="productList_list_text_lf lf">'+
+                        '<p>'+data.data.items[i].dataTitle+'</p>'+
+                        '<span style="margin-bottom: 12px;">注册证编号:'+data.data.items[i].dataRegisterNo+'</span>'+
+                        '<span style="margin-bottom:17px;">注册人名称:'+data.data.items[i].corporationName+'</span>'+
+                        '</div>'+
+                        '<div class="productList_list_text_rt rt">'+
+                        '<img src="iconTwo/back-arrow@2x.png" alt=""/>'+
+                        '</div>'+
+                        '<div style="width: 100%;height: 10px;background-color: #f2f2f2"></div>'+
+                        '</div>')
+                    }
+
+                }
+            },
+            error: function (xhr, msg, reasonString) {
+//                    alert('请求错误，请稍后再试...');
+//                    console.log(arguments);
+            }
+        });
+
+        setTimeout(function(){setHeightKeyWord('content', $keyword, '900','#000', true)},1000)
+
+    })
+</script>
+<!--查询数据-->
+<script>
+    //监听input是否有内容，有内容span取消
+    $('input').focus(function(){
+        $(this).next().css('display','none');
+    });
+    $('input').blur(function(){
+        if($(this).val()==''){
+            $(this).next().css('display','block');
+        }
+    });
+    //    数据展示
+    $('.search_fdj').click(function(){
+        $('.contain').html('')
+        $('.hot_search').css('display','none');
+//            $('#contain').html("");
+        var $keyword=$('.input_dex').val();
+        $.ajax({
+            type: 'POST',
+            data: 'keyword='+$keyword,
+            async:"true",
+            url: '/yichaxun/data/list',
+            success: function (data) {
+                if (data.code == 0) {
+                    for(var i = 0 ; i < data.data.items.length ; i ++){
+                        $('.contain').append('<div  time="'+data.data.items[i].dataAddTime+'" uid="'+data.data.items[i].dataId+'" style="background-color:#fff" class="productList_list_text bottom lf" id="'+
+                        data.data.items[i].dataId+'" isfavor="'+data.data.items[i].isFavorite+'">'+
+                        '<div class="productList_list_text_lf lf">'+
+                        '<p>'+data.data.items[i].dataTitle+'</p>'+
+                        '<span style="margin-bottom: 12px;">注册证编号:'+data.data.items[i].dataRegisterNo+'</span>'+
+                        '<span style="margin-bottom:17px;">注册人名称:'+data.data.items[i].corporationName+'</span>'+
+                        '</div>'+
+                        '<div class="productList_list_text_rt rt">'+
+                        '<img src="iconTwo/back-arrow@2x.png" alt=""/>'+
+                        '</div>'+
+                        '<div style="width: 100%;height: 10px;background-color: #f2f2f2"></div>'+
+                        '</div>')
+                    }
+
+                }
+            },
+            error: function (xhr, msg, reasonString) {
+//                        alert('请求错误，请稍后再试...');
+//                        console.log(arguments);
+            }
+        });
+        setTimeout(function(){setHeightKeyWord('content', $keyword, '900','#000', true)},1000)
+    });
+
+    var height_height = localStorage.getItem('dataHeight_height');
+    console.log(height_height);
+    window.scrollTo(0,height_height);
+</script>
+<!--上拉加载下一页数据  滚动翻页-->
+<script>
+    refresher.init({
+        id:"wrapper",
+        pullDownAction:Refresh,
+        pullUpAction:Load
+    });
+
+    function Refresh() {
+        setTimeout(function () {	// <-- Simulate network congestion, remove setTimeout from production!
+            var el, li, i;
+            el =document.querySelector("#wrapper ul");
+            //这里写你的刷新代码
+            document.getElementById("wrapper").querySelector(".pullDownIcon").style.display="none";
+            document.getElementById("wrapper").querySelector(".pullDownLabel").innerHTML="<img src='css/ok.png'/>刷新成功";
+            setTimeout(function () {
+                wrapper.refresh();
+                document.getElementById("wrapper").querySelector(".pullDownLabel").innerHTML="";
+            },1000);//模拟qq下拉刷新显示成功效果
+            /****remember to refresh after  action completed！ ---yourId.refresh(); ----| ****/
+        }, 1000);
+    }
+    function Load() {
+        console.log(111);
+        setTimeout(function () {// <-- Simulate network congestion, remove setTimeout from production!
+            console.log(222);
+            var el, li, i;
+            el =document.querySelector("#wrapper ul");
+//		for (i=0; i<2; i++) {
+//			li = document.createElement('li');
+//			li.innerHTML="<div class='game-info'><h1>在很多环境中，jQuery 2.0 应当都表现的很好。</h1><p>2015-10-27</p></div>"
+//			el.appendChild(li, el.childNodes[0]);
+//		}
+
+//        $().ready(function(){
+            $.ajax({
+                type: 'POST',
+//                data: 'keyword='+$keyword,
+                async:"true",
+                url: '/yichaxun/data/list',
+                success: function (data) {
+                    if (data.code == 0) {
+                        for(var i = 0 ; i < data.data.items.length ; i ++){
+                            $('.contain').append('<div  time="'+data.data.items[i].dataAddTime+'" uid="'+data.data.items[i].dataId+'" style="background-color:#fff" class="productList_list_text bottom lf" id="'+
+                            data.data.items[i].dataId+'" isfavor="'+data.data.items[i].isFavorite+'">'+
+                            '<div class="productList_list_text_lf lf">'+
+                            '<p>'+data.data.items[i].dataTitle+'</p>'+
+                            '<span style="margin-bottom: 12px;">注册证编号:'+data.data.items[i].dataRegisterNo+'</span>'+
+                            '<span style="margin-bottom:17px;">注册人名称:'+data.data.items[i].corporationName+'</span>'+
+                            '</div>'+
+                            '<div class="productList_list_text_rt rt">'+
+                            '<img src="iconTwo/back-arrow@2x.png" alt=""/>'+
+                            '</div>'+
+                            '<div style="width: 100%;height: 10px;background-color: #f2f2f2"></div>'+
+                            '</div>')
+                        }
+
+                    }
+                },
+                error: function (xhr, msg, reasonString) {
+//                    alert('请求错误，请稍后再试...');
+//                    console.log(arguments);
+                }
+            });
+//        })
+
+            wrapper.refresh();/****remember to refresh after action completed！！！   ---id.refresh(); --- ****/
+        },1000);
+    }
+</script>
+<!--<script>-->
+    <!--//        var $key=$('.input_dex').val();-->
+    <!--var height_height;-->
+    <!--//判断手机还是pc端的方法-->
+    <!--var isPc=true;-->
+    <!--function browserRedirect() {-->
+        <!--var sUserAgent= navigator.userAgent.toLowerCase();-->
+        <!--var bIsIpad= sUserAgent.match(/ipad/i) == "ipad";-->
+        <!--var bIsIphoneOs= sUserAgent.match(/iphone os/i) == "iphone os";-->
+        <!--var bIsMidp= sUserAgent.match(/midp/i) == "midp";-->
+        <!--var bIsUc7= sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";-->
+        <!--var bIsUc= sUserAgent.match(/ucweb/i) == "ucweb"-->
+        <!--var bIsAndroid= sUserAgent.match(/android/i) == "android";-->
+        <!--var bIsCE= sUserAgent.match(/windows ce/i) == "windows ce";-->
+        <!--var bIsWM= sUserAgent.match(/windows mobile/i) == "windows mobile";-->
+        <!--if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {-->
+            <!--isPc=false;-->
+        <!--}-->
+    <!--}-->
+    <!--$(window).scroll(function () {-->
+        <!--if($('.contain').html!=''){-->
+
+        <!--}-->
+<!--//            console.log(document.body.scrollTop)-->
+        <!--if(document.body.scrollTop==0){   //监测页面顶部距离屏幕顶部是否为0，为0则返回顶部图标隐藏-->
+            <!--$('.back_top img').css("display","none")-->
+        <!--}else{-->
+            <!--$('.back_top img').css("display","block")-->
+        <!--}-->
+
+        <!--var a=document.body.scrollHeight;//当前页面的高度，网页正文全文高度，不是仅仅的可见高度-->
+        <!--var allHeight=a;-->
+<!--//            alert(a)-->
+        <!--browserRedirect();//方法判断手机还是pc-->
+        <!--if(!isPc){-->
+            <!--var allHeight=a;-->
+        <!--}-->
+        <!--//当滚到最底部时，加载新内容-->
+        <!--var flag=true;-->
+        <!--height_height=$(this).scrollTop();-->
+<!--//            console.log(height);-->
+        <!--if(allHeight<=$(this).scrollTop()+$(this).height()){-->
+            <!--if(flag){-->
+                <!--flag=false;-->
+                <!--var $keyword=$('.input_dex').val();-->
+                <!--setTimeout(function(){setHeightKeyWord('content', $keyword, '900','#000', true)},1000);-->
+                <!--var lastRowId=$(".contain").children("div:last-child").attr('uid');-->
+                <!--var septum=$(".contain").children("div:last-child").attr('time');-->
+                <!--console.log(lastRowId,septum);-->
+
+
+                <!--var $keyword=$('.input_dex').val();-->
+
+                <!--if(lastRowId==''||lastRowId==null||lastRowId==undefined){}else{-->
+                    <!--$.ajax({-->
+                        <!--type: 'POST',-->
+                        <!--data: 'keyword='+$keyword+'&lastRowId='+lastRowId+'&septum='+septum,-->
+                        <!--async:true,-->
+                        <!--url: '/yichaxun/data/list',-->
+                        <!--success: function (data) {-->
+                            <!--if (data.code == 0) {-->
+                                <!--for(var i = 0 ; i < data.data.items.length ; i ++){-->
+                                    <!--$('.contain').append(-->
+                                            <!--'<div time="'+data.data.items[i].dataAddTime+'" uid="'+data.data.items[i].dataId+'" style="background-color:#fff" class="productList_list_text bottom lf" id="'+-->
+                                            <!--data.data.items[i].dataId+'" isfavor="'+data.data.items[i].isFavorite+'">'+-->
+                                            <!--'<div class="productList_list_text_lf lf">'+-->
+                                            <!--'<p>'+data.data.items[i].dataTitle+'</p>'+-->
+                                            <!--'<span style="margin-bottom: 12px;">注册证编号:'+data.data.items[i].dataRegisterNo+'</span>'+-->
+                                            <!--'<span style="margin-bottom:17px;">注册人名称:'+data.data.items[i].corporationName+'</span>'+-->
+                                            <!--'</div>'+-->
+                                            <!--'<div class="productList_list_text_rt rt">'+-->
+                                            <!--'<img src="iconTwo/back-arrow@2x.png" alt=""/>'+-->
+                                            <!--'</div>'+-->
+                                            <!--'<div style="width: 100%;height: 10px;background-color: #f2f2f2"></div>'+-->
+                                            <!--'</div>')-->
+                                <!--}-->
+
+                            <!--}-->
+                        <!--},-->
+                        <!--error: function (xhr, msg, reasonString) {-->
+<!--//                                alert('请求错误，请稍后再试...');-->
+<!--//                                console.log(arguments);-->
+                        <!--}-->
+                    <!--});-->
+                <!--}-->
+            <!--}-->
+        <!--}-->
+    <!--})-->
+    <!--//      }-->
+<!--</script>-->
+<!--关键词变色-->
+<script type="text/javascript">
+    $(function() {
+        $('.input_dex').bind('input propertychange', function() {
+            var $keyword = $(".input_dex").val();
+            console.log($keyword)
+            setTimeout(function(){setHeightKeyWord('content', $keyword, '900','#000', true)},1000);
+        });
+    });
+    function setHeightKeyWord(id, keyword, fontWeight,color, bold) {
+
+        id = 'wrapper';
+
+        if (keyword == "")
+            return;
+        var tempHTML = $('#'+id).html();
+        var htmlReg = new RegExp("\<.*?\>", "i");
+        var arrA = new Array();
+        for (var i = 0; true; i++) {
+            var m = htmlReg.exec(tempHTML);
+            if (m) {
+                arrA[i] = m;
+            }
+            else {
+                break;
+            }
+            tempHTML = tempHTML.replace(m, "[[[[" + i + "]]]]");
+        }
+        var replaceText;
+        if (bold)
+            replaceText = "<b style='font-weight:" + fontWeight + ",color:"+color+";'>$1</b>";
+        else
+            replaceText = "<font style='font-weight:" + fontWeight + ",color:"+color+";'>$1</font>";
+        var arrayWord = keyword.split(',');
+        for (var w = 0; w < arrayWord.length; w++) {
+            var r = new RegExp("(" + arrayWord[w].replace(/[(){}.+*?^$|\\\[\]]/g, "\\$&") + ")", "ig");
+            console.log(r)
+            tempHTML = tempHTML.replace(r, replaceText);
+        }
+        for (var i = 0; i < arrA.length; i++) {
+            tempHTML = tempHTML.replace("[[[[" + i + "]]]]", arrA[i]);
+        }
+        $('#'+id).html(tempHTML);
+    }
+
+</script>
+<!--监听input是否有数据-->
+<script>
+    $('.input_dex').bind('input propertychange', function() {
+        var $key=$('.input_dex').val();
+        console.log($key)
+        if($key==''||$key==null||$key==undefined){
+            $('.hot_search').css('display','block');
+            $('.productList_list').css('display','none');
+        }else{
+            $('.productList_list').css('display','block');
+            $('.hot_search').css('display','none');
+        }
+    })
+</script>
+
+</body>
+</html>

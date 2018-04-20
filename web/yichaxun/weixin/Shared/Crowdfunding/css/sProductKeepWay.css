@@ -1,0 +1,152 @@
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    /*text-align: center;*/
+    width: 100%;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -moz-user-select: none;
+    -webkit-appearance: none;
+    outline: none;
+    /*overflow: hidden;*/
+    background-color: #FFFFFF;
+}
+
+.lf {
+    float: left;
+}
+
+.rt {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+ul,li{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+html{font-size: 32px}
+@media(min-device-width: 375px) {
+    html{font-size: 64px}
+}
+@media(min-device-width: 414px) {
+    html{font-size: 75px}
+}
+.productLine{
+    background: #f2f2f2;
+}
+#thelist{
+    width: 10rem;
+    background: #f2f2f2;
+}
+#thelist li{
+    width: 4.93rem;
+    height:8rem;
+    margin-bottom: 0.2rem;
+    background: #FFFFFF;
+}
+.productLineTab ul li:nth-of-type(odd){
+    float: left;
+}
+.productLineTab ul li:nth-of-type(even){
+    float: right;
+}
+.productLineTitle {
+    height: 1.2rem;
+    width: 100%;
+    line-height:1.2rem;
+    font-size:0.42rem;
+    color: #000;
+}
+.productLineTitleLf{
+    width: 0.05rem ;
+    height: 0.53rem;
+    background: #ff7f00;
+    display: inline-block;
+    margin-left: 0.26rem;
+    position: static;
+    vertical-align: middle;
+}
+.hospitalName{
+    font-size: 0.42rem;
+    color: #000;
+}
+.productLineTabImg{
+    width: 4.93rem;
+    height: 4.93rem;
+}
+.popTopIndex{
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 50%;
+    position: relative;
+    left: 1.465rem;
+    top: -3.8rem;
+    color: #FFFFFF;
+    font-size: 0.42rem;
+    background-color:rgba(0,0,0,0.4) ;
+    /*background: #ff0000;*/
+    display: inline-block;
+    text-align: center;
+    z-index: 1000;
+}
+.title{
+    height: 1rem;
+    line-height: 0.5rem;
+    width: 4.7rem;
+    font-size: 0.37rem;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    position: relative;
+    top: -2rem;
+    left: 0.2rem;
+}
+.titleMoney{
+    position: relative;
+    margin: 0.72rem 0 0.42rem;
+    top: -3rem;
+    width: 4.7rem;
+    /*height: 0.6rem;*/
+}
+.titleMoneyLf{
+    margin-left: 0.2rem;
+    font-size:0.32rem;
+    color: #ff5000;
+}
+.titleMoneyBefore{
+    font-size:0.53rem;
+    color: #ff5000;
+    margin-right:0.13rem;
+
+}
+.titleMoneyLater{
+    font-size: 0.37rem;
+    color: #ff5000;
+}
+
+
+
+/*已售*/
+.freeShipping{
+    position: relative;
+    font-size: 0.3rem;
+    top: -3.35rem;
+    margin: 0.32rem 0.2rem 0.32rem;
+    color: #999;
+}

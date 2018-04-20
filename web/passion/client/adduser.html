@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改用户</title>
+    <link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="libs/jquery.min.js"></script>
+    <style>
+        div.control-group{
+            margin: 10px 0;
+        }
+        label.control-label{
+            font-size: 16px;
+            font-weight: 300;
+            padding: 5px 0;
+        }
+        div.inputBox{
+            width: 100%;
+            height: 45px;
+        }
+        div.inputBox>input{
+            width: 100%;
+            height: 45px;
+            border: 1px solid #ccc;
+            padding-left: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div style="height:51px;border-bottom:1px solid #ddd;background:#fff">
+        <span style="line-height:50px;float:left;margin-left:66px">
+            <span style="margin:0 10px;display:none">/</span>
+            <a href="javascript:history.go(-1)">用户列表</a> > <a href="javascript:location.reload();">新增用户</a>
+        </span>
+</div>
+<div style="padding: 20px 40px;">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="username">用户名</label>
+            <div class="inputBox">
+                <input type="text" id="username" placeholder="用户名">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="password">密码</label>
+            <div class="inputBox">
+                <input type="password" id="password" placeholder="密码">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="nickname">昵称</label>
+            <div class="inputBox">
+                <input type="text" id="nickname" placeholder="昵称">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="phone">手机号</label>
+            <div class="inputBox">
+                <input type="text" id="phone" placeholder="手机号">
+            </div>
+        </div>
+        <div class="control-group" style="margin-top: 50px;">
+            <button id="submit" class="btn btn-large btn-success">保存</button>
+        </div>
+    </form>
+</div>
+
+<script src="libs/shake.js"></script>
+<script>
+    $('#submit').click(function(){
+        var token = sessionStorage.getItem('token');
+        var $username = $('#username');
+        var $password = $('#password');
+        var $nickname = $('#nickname');
+        var $phone = $('#phone');
+        var username = $username.val();
+        var password = $password.val();
+        var nickname = $nickname.val();
+        var phone = $phone.val();
+        $('input').css('border','1px solid #ccc');
+        if(username == ''){
+            $username.css('border','1px solid red');
+            $username.shake(2,10,400);
+        }else if(password == ''){
+            $password.css('border','1px solid red');
+            $password.shake(2,10,400);
+        }else if(nickname == ''){
+            $nickname.css('border','1px solid red');
+            $nickname.shake(2,10,400);
+        }else if(phone == ''){
+            $phone.css('border','1px solid red');
+            $phone.shake(2,10,400);
+        }else{
+            //用户名检查
+            $.ajax({
+                type: 'POST',
+                data: {username:username},
+                async: false,
+                url: '../c/usermanage/usernamecheck?token='+token,
+                success: function(res){
+                    if(res.code == 0){
+                        if(res.data.ifExist == 1){
+                            alert('该用户名已存在');
+                            $username.css('border','1px solid red');
+                            $username.shake(2,10,400);
+                        }else{
+                            //手机号检查
+                            $.ajax({
+                                type: 'POST',
+                                data: {phone:phone},
+                                async: false,
+                                url: '../c/usermanage/phonecheck?token='+token,
+                                success: function(res){
+                                    if(res.code == 0){
+                                        if(res.data.ifExist == 1){
+                                            alert('该手机号已被注册');
+                                            $phone.css('border','1px solid red');
+                                            $phone.shake(2,10,400);
+                                        }else{
+                                            //用户名、手机号均未被注册 开始新建用户
+                                            $.ajax({
+                                                type: 'POST',
+                                                async: false,
+                                                data: {username:username, phone:phone, password:password, nickname:nickname},
+                                                url: '../c/usermanage/createuser?token='+token,
+                                                success: function(res){
+                                                    if(res.code == 0){
+                                                        alert('新增成功！');
+                                                        location.href = 'userlist.html';
+                                                    }else{
+                                                        alert(res.codeMsg);
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }else{
+                                        alert(res.codeMsg);
+                                    }
+                                }
+                            });
+                        }
+                    }else{
+                        alert(res.codeMsg);
+                    }
+                }
+            });
+        }
+
+        return false;
+    })
+</script>
+</body>
+</html>

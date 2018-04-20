@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>热门关键词</title>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css" />
+</head>
+
+<body>
+<div class="admin-main">
+
+    <blockquote class="layui-elem-quote">
+        <label class="layui-form-label">关键词：</label>
+        <input id="name" style="width: 20%;display: inline-block;" type="text" class="layui-input" placeholder="请输入热门关键词">
+        <a href="javascript:;" class="layui-btn layui-btn-small" id="search">
+            <i class="layui-icon">&#xe615;</i> 搜索
+        </a>
+        <a href="javascript:;" style="float: right;margin-right: 100px;" class="layui-btn layui-btn-warm layui-btn-small" id="add">
+            <i class="layui-icon"></i> 添加热门关键词
+        </a>
+    </blockquote>
+    <fieldset id="land" class="layui-elem-field">
+        <legend>热门关键词</legend>
+        <div class="layui-field-box">
+            <table class="site-table table-hover">
+                <thead>
+                <tr>
+                    <th class="layui-hide">ID</th>
+                    <th>序号</th>
+                    <th>关键词</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <div class="admin-table-page">
+        <div id="page" class="page"></div>
+    </div>
+</div>
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+    var totalPage;
+    layui.config({
+        base: 'plugins/layui/modules/'
+    });
+
+    layui.use(['icheck', 'laypage','layer'], function() {
+        var $ = layui.jquery,
+                laypage = layui.laypage,
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+
+        var toPageNo = '';
+        var name = '';
+        function getData(){
+            $.ajax( {
+                type: 'POST',
+                data:{hotKeyName:name,toPageNo:toPageNo},
+                url: '../m/hotkeylist',
+                success: function(data){
+                    if(data.code == 0){
+                        $('#tbody').children().remove();
+                        var data = data.data;
+                        totalPage = data.sum.totalPageCount;
+                        for(var i = 0 ; i <  data.items.length; i ++){
+                            $('#tbody').append('<tr>' +
+                            '<td class="layui-hide">'+ data.items[i].hotKeyId +'</td>' +
+                            '<td>'+ data.items[i].hotKeySortNo +'</td>' +
+                            '<td>'+ data.items[i].hotKeyName +'</td>' +
+                            '<td>' +
+                            '<a href="javascript:;" style="margin-right: 10px;" class="edit layui-btn layui-btn-mini">修改</a>' +
+                            '<a href="javascript:;" class="del layui-btn layui-btn-danger layui-btn-mini">删除</a>' +
+                            '</td>' +
+                            '</tr>');
+                        }
+                    }else if(data.code == 20){
+                        alert('登录已失效，请重新登录！！');
+                        window.parent.location.href = 'login.html';
+                    }
+                }
+            } );
+        }
+        getData();
+        rePage();
+
+        function rePage(){
+            //page
+            laypage({
+                cont: 'page',
+                pages: totalPage,//总页数
+                groups: 5  ,//连续显示分页数
+                jump: function(obj, first) {
+                    //得到了当前页，用于向服务端请求对应数据
+                    var curr = obj.curr;
+                    if(!first) {
+                        toPageNo = obj.curr;
+                        getData();
+                        layer.msg('第 '+ obj.curr +' 页');
+                    }
+                }
+            });
+        }
+
+        //搜索
+        $('#search').click(function(){
+            name = $('#name').val();
+            toPageNo = '';
+            getData();
+            rePage();
+        });
+
+        //添加热门关键词
+        $('#add').click(function(){
+            layer.open({
+                type: 1
+                ,title: '添加热门关键词'
+                ,closeBtn: false
+                ,area: '400px;'
+                ,shade: 0
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div class="layui-form-item" style="margin: 30px;"><p>请输入序号：</p><br/><input type="text" name="sortNo" lay-verify="sortNo" autocomplete="off" class="layui-input"><br/><p>请输入热门关键词：</p><br/><input type="text" name="keyword" lay-verify="keyword" autocomplete="off" class="layui-input"></div>'
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        var name = $(this).parent().parent().children().children().children('[name="keyword"]').val();
+                        var sortNo  = $(this).parent().parent().children().children().children('[name="sortNo"]').val();
+                        if(name != ''&&sortNo != ''){
+                            $.ajax( {
+                                type: 'POST',
+                                data: {hotKeyName:name,hotKeySortNo:sortNo},
+                                url: '../m/hotkeyadd',
+                                success: function(data){
+                                    if(data.code == 0){
+                                        layer.msg('添加成功！', {
+                                            time: 2000
+                                        });
+                                        getData();
+                                        rePage();
+                                    }else if(data.code == 20){
+                                        alert('登录已失效，请重新登录！！');
+                                        window.parent.location.href = 'login.html';
+                                    }
+                                }
+                            } )
+                        }else{
+                            layer.msg('请先完成表格填写');
+                        }
+                    });
+                }
+            });
+        });
+        //修改信息
+        $('#tbody').on('click','a.edit',function(){
+            var id = $(this).parent().parent().children('td:first').html();
+            var sortNo = $(this).parent().parent().children('td:eq(1)').html();
+            var name = $(this).parent().parent().children('td:eq(2)').html();
+            layer.open({
+                type: 1
+                ,title: '修改热门关键词信息'
+                ,closeBtn: false
+                ,area: '400px;'
+                ,shade: 0
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div class="layui-form-item" style="margin: 30px;"><p>请输入序号：</p><br/><input type="text" name="sortNo" lay-verify="sortNo" autocomplete="off" value="'+sortNo+'" class="layui-input"><br/><p>请输入热门关键词：</p><br/><input type="text" name="keyword" lay-verify="keyword" autocomplete="off" value="'+name+'" class="layui-input"></div>'
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        var name = $(this).parent().parent().children().children().children('[name="keyword"]').val();
+                        var sortNo  = $(this).parent().parent().children().children().children('[name="sortNo"]').val();
+                        if(name != ''&&sortNo != ''){
+                            $.ajax( {
+                                type: 'POST',
+                                data: {hotKeyId:id,hotKeyName:name,hotKeySortNo:sortNo},
+                                url: '../m/hotkeyalter',
+                                success: function(data){
+                                    if(data.code == 0){
+                                        layer.msg('修改成功！', {
+                                            time: 2000
+                                        });
+                                    }else if(data.code == 20){
+                                        alert('登录已失效，请重新登录！！');
+                                        window.parent.location.href = 'login.html';
+                                    }
+                                }
+                            } )
+                        }else{
+                            layer.msg('请先完成表格填写');
+                        }
+                    });
+                }
+            });
+        });
+
+        //删除热门关键词
+        $('#tbody').on('click','a.del',function(){
+            var id = $(this).parent().parent().children('td:first').html();
+            var me = $(this).parent().parent();
+            layer.open({
+                type: 1
+                ,title: false //不显示标题栏
+                ,closeBtn: false
+                ,area: '300px;'
+                ,shade: 0.8
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确定要删除此热门关键词吗？删除后不可恢复！</div>'
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        $.ajax( {
+                            type: 'POST',
+                            data: {hotKeyId:id},
+                            url: '../m/hotkeydel',
+                            success: function(data){
+                                if(data.code == 0){
+                                    layer.msg('删除成功！', {
+                                        time: 2000
+                                    });
+                                    me.remove();
+                                }else if(data.code == 20){
+                                    alert('登录已失效，请重新登录！！');
+                                    window.parent.location.href = 'login.html';
+                                }
+                            }
+                        } )
+                    });
+                }
+            });
+        });
+    });
+</script>
+</body>
+
+</html>

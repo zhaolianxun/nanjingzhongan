@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<button id="btn" type="button" >click me!</button>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script>
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++) {
+                theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var dataId = getRequest().dataId;
+    var appData = {};
+    $(document).ready(function(){
+        $.ajax({
+            url: "/yichaxun/u/wxjssdksign?url=" + location.href,
+            type: "get",
+            dataType: "json",
+            async: true,
+            contentType: "application/x-www-form-urlencoded",
+            processData: false,
+            success: function (data) {
+                if (data.code == 0) {
+                    appData = data.data;
+                    $('#btn').click();
+                }
+            }
+        });
+
+    })
+    function config(appId,timestamp,noncestr,sign){
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: appId,
+            timestamp: timestamp,
+            nonceStr: noncestr,
+            signature:sign,
+            jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+        wx.ready(function(){
+            alert('ready!');
+            wx.checkJsApi({
+                jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                success: function(res) {
+//                            alert(res)
+                    // 以键值对的形式返回，可用的api值true，不可用为false
+                    // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                    console.log("check result: " + res)
+                }
+            });
+
+            wx.onMenuShareTimeline({
+                title: '呆逼徐修坤', // 分享标题
+                desc: '你别是个傻子吧', // 分享描述
+                link: 'http://passion.njshangka.com/yichaxun/weixin/products_details.html?dataId='+dataId, // 分享链接
+                imgUrl: 'http://passion.njshangka.com/yichaxun/weixin/images/IMG_2557.JPG', // 分享图标
+                success: function () {
+                    // 用户确认分享后执行的回调函数分享
+                    alert('分享');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert('取消分享');
+                }
+            });
+            wx.onMenuShareAppMessage({
+                title: '呆逼徐修坤', // 分享标题
+                desc: '你别是个傻子吧', // 分享描述
+                link:'http://passion.njshangka.com/yichaxun/weixin/products_details.html?dataId='+dataId, // 分享链接
+                imgUrl: 'http://passion.njshangka.com/yichaxun/weixin/images/IMG_2557.JPG', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    alert('分享');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert('取消分享');
+                }
+            });
+            wx.onMenuShareQQ({
+                title: '呆逼徐修坤', // 分享标题
+                desc: '你别是个傻子吧', // 分享描述
+                link:'http://passion.njshangka.com/yichaxun/weixin/products_details.html?dataId='+dataId, // 分享链接
+                imgUrl: 'http://passion.njshangka.com/yichaxun/weixin/images/IMG_2557.JPG', // 分享图标
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    alert('分享');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert('取消分享');
+                }
+            });
+        });
+        wx.error(function(res){
+            alert('error!')
+        });
+    }
+    $('#btn').click(function(){
+        config(appData.appId,appData.timestamp,appData.nonceStr,appData.signature)
+    })
+</script>
+
+</body>
+</html>
