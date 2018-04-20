@@ -65,7 +65,7 @@ public class BuyEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查询默认地址
 			pst = connection.prepareStatement(
-					"select id,receiver_name,phone,full_address,province_name,city_name,district_name from t_mall_address where user_id=? and mall_id=?　order by default_is desc,id asc limit 0,1");
+					"select id,receiver_name,phone,full_address,province_name,city_name,district_name from t_mall_address where user_id=? and mall_id=? order by default_is desc,id asc limit 0,1");
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, mallId);
 			ResultSet rs = pst.executeQuery();
