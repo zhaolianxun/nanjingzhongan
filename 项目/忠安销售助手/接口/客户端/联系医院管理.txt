@@ -45,7 +45,7 @@ contact_hospital_id
 ---------
 
 
-加载联系医院列表
+加载联系医院列表	已更新--->>客户端>首页入口.txt>首页数据
 /c/ch/hospitals
 customer_type	1初级 2跟踪中 3重点
 trace_starttime	跟踪开始时间
