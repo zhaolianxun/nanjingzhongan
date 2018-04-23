@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.context.ApplicationContext;
 
 import okhttp3.OkHttpClient;
@@ -24,7 +23,7 @@ public class SysConstant {
 
 	public static String project_domain;
 	public static String project_rooturl;
-	
+
 	// 错误码
 	public static String errorCodeCnMapperPath = "easywin/config/errorCode_CN.properties";
 	public static String errorCodeEnMapperPath = "easywin/config/errorCode_EN.properties";

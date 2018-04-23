@@ -76,7 +76,7 @@ public class UserAction {
 			jedis = SysConstant.jedisPool.getResource();
 			jedis.set(token, JSON.toJSONString(loginStatus));
 			jedis.expire(token, 7 * 24 * 60 * 60);
-
+			
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("token", token);

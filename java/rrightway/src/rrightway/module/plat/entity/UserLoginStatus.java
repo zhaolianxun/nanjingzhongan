@@ -7,17 +7,8 @@ public class UserLoginStatus {
 	private String nickname;
 	private String realname;
 	private long loginTime;
-	private int superadminIs;
-	private int adminIs;
-	private int agentIs;
-
-	public int getAgentIs() {
-		return agentIs;
-	}
-
-	public void setAgentIs(int agentIs) {
-		this.agentIs = agentIs;
-	}
+	private int sellerIs;
+	private int buyerIs;
 
 	public String getToken() {
 		return token;
@@ -67,20 +58,20 @@ public class UserLoginStatus {
 		this.loginTime = loginTime;
 	}
 
-	public int getSuperadminIs() {
-		return superadminIs;
+	public int getSellerIs() {
+		return sellerIs;
 	}
 
-	public void setSuperadminIs(int superadminIs) {
-		this.superadminIs = superadminIs;
+	public void setSellerIs(int sellerIs) {
+		this.sellerIs = sellerIs;
 	}
 
-	public int getAdminIs() {
-		return adminIs;
+	public int getBuyerIs() {
+		return buyerIs;
 	}
 
-	public void setAdminIs(int adminIs) {
-		this.adminIs = adminIs;
+	public void setBuyerIs(int buyerIs) {
+		this.buyerIs = buyerIs;
 	}
 
 }

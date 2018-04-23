@@ -1,6 +1,10 @@
 package easywin.module.plat.business;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 
@@ -9,6 +13,8 @@ import easywin.module.plat.entity.UserLoginStatus;
 import redis.clients.jedis.Jedis;
 
 public class GetLoginStatus {
+	
+	
 
 	public static UserLoginStatus todo(HttpServletRequest request, Jedis jedis) {
 		String token = (String) request.getParameter("token");
