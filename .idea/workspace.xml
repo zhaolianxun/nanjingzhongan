@@ -2,56 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/mycenter/login.html" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\AddressManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\AllOrderEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\BuyEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\CartEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\GoodDetailEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\GoodTypeEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\HomeEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\HomeSearchEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\IEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\MyCouponsEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\MyFavoriteEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\MyLitterCoffer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\MyTrackEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\api\UserAction.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\business\GetLoginStatus.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\business\OrderAction.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mall\entity\UserLoginStatus.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mallmanage\api\GoodManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mallmanage\api\GoodTypeManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mallmanage\api\MainrotationManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mallmanage\api\MallBaseInfoEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mallmanage\api\NoticeManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\mallmanage\api\OrderManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\api\AdminAgentManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\api\AdminAppManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\api\AdminTemplateManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\api\AdminUserManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\api\AgentAppManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\api\AgentCoinBillManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\api\AgentUserManageEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\api\AppShopEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\api\MyAppEntrance.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\api\WxOpenP3Authorization.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\task\PullWxMiniappTemplates.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\task\RefreshAuthorizerAccessToken.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\task\WxOpen3Party_GetComponentAccessToken.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\task\WxOpen3Party_GetPreAuthCode.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/.classpath" afterPath="$PROJECT_DIR$/java/easywin/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/business/GetLoginStatus.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/business/GetLoginStatus.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/constant/SysConstant.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/constant/SysConstant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/UserAction.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/UserAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/build/classes/.gitignore" afterPath="$PROJECT_DIR$/java/rrightway/build/classes/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/UserAction.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/UserAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/entity/UserLoginStatus.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/entity/UserLoginStatus.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig_develop/mainConfig.properties" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig_develop/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig_product/mainConfig.properties" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig_product/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig_test/mainConfig.properties" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig_test/mainConfig.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/账号/左左街账号.txt" afterPath="$PROJECT_DIR$/账号/左左街账号.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/项目/忠安销售助手/接口/客户端/联系医院管理.txt" afterPath="$PROJECT_DIR$/项目/忠安销售助手/接口/客户端/联系医院管理.txt" />
     </list>
     <ignored path="nanjingzhongan.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -287,7 +240,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="7" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
