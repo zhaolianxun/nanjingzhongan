@@ -36,6 +36,12 @@ public class UserAction {
 
 	public static Logger logger = Logger.getLogger(UserAction.class);
 
+	/**
+	 * 登录
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/login")
 	public void login(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Jedis jedis = null;
@@ -102,6 +108,12 @@ public class UserAction {
 		}
 	}
 
+	/**
+	 * 登录刷新
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/loginrefresh")
 	public void loginRefresh(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Jedis jedis = null;
@@ -160,6 +172,12 @@ public class UserAction {
 		}
 	}
 
+	/**
+	 * 根据原密码修改密码
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/alterpwdbysrc")
 	public void alterPwdBySms(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -204,6 +222,12 @@ public class UserAction {
 		}
 	}
 
+	/**
+	 * 注册
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/register")
 	public void register(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -221,7 +245,7 @@ public class UserAction {
 				throw new InteractRuntimeException("qq不可空");
 			// 业务处理
 
-			// 更新密码
+			// 校验用户名
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement("select id from t_user where username=?");
 			pst.setObject(1, username);
@@ -230,6 +254,7 @@ public class UserAction {
 				throw new InteractRuntimeException("用户名已存在");
 			pst.close();
 
+			//插入用户
 			pst = connection.prepareStatement(
 					"insert into t_user (id,username,password,password_md5,register_time,qq) values(?,?,?,?,?,?)");
 			pst.setObject(1, RandomStringUtils.randomNumeric(12));

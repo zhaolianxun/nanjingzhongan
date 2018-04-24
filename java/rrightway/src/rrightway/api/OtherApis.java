@@ -25,7 +25,13 @@ public class OtherApis {
 
 	public static Logger logger = Logger.getLogger(OtherApis.class);
 
-	@RequestMapping(value = "type1s")
+	/**
+	 * 加载1级商品分类
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "goodtype1s")
 	public void goodTypeEntrance(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
@@ -64,7 +70,13 @@ public class OtherApis {
 		}
 	}
 
-	@RequestMapping(value = "/type2s")
+	/**
+	 * 加载2级商品分类
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/goodtype2s")
 	public void type2s(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;

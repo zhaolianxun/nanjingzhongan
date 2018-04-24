@@ -1,5 +1,6 @@
 package rrightway.module.plat.module.api.merchant;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -86,15 +87,58 @@ public class PublishGoodEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-			String goodName = StringUtils.trimToNull(request.getParameter("good_name"));
-			if (goodName == null)
-				throw new InteractRuntimeException("good_name 不能空");
 			String activityTitle = StringUtils.trimToNull(request.getParameter("activity_title"));
 			if (activityTitle == null)
 				throw new InteractRuntimeException("activity_title 不能空");
-			String activityTitle = StringUtils.trimToNull(request.getParameter("buyway"));
-			if (activityTitle == null)
-				throw new InteractRuntimeException("activity_title 不能空");
+			String buyWayParam = StringUtils.trimToNull(request.getParameter("buy_way"));
+			if (buyWayParam == null)
+				throw new InteractRuntimeException("buy_way 不能空");
+			int buyWay = Integer.parseInt(buyWayParam);
+			String wayToShopParam = StringUtils.trimToNull(request.getParameter("way_to_shop"));
+			if (wayToShopParam == null)
+				throw new InteractRuntimeException("way_to_shop 不能空");
+			int wayToShop = Integer.parseInt(wayToShopParam);
+			String couponUrl = StringUtils.trimToNull(request.getParameter("coupon_url"));
+			String payPriceParam = StringUtils.trimToNull(request.getParameter("pay_price"));
+			if (payPriceParam == null)
+				throw new InteractRuntimeException("pay_price 不能空");
+			BigDecimal payPrice = new BigDecimal(payPriceParam);
+			String returnMoneyParam = StringUtils.trimToNull(request.getParameter("return_money"));
+			if (returnMoneyParam == null)
+				throw new InteractRuntimeException("return_money 不能空");
+			BigDecimal returnMoney = new BigDecimal(returnMoneyParam);
+			if (returnMoney.compareTo(payPrice) == -1
+					|| returnMoney.subtract(payPrice).compareTo(new BigDecimal(20)) == 1)
+				throw new InteractRuntimeException("不得低于‘付款金额’，不得高于‘付款金额’20元");
+
+			String buyerMincreditParam = StringUtils.trimToNull(request.getParameter("buyer_mincredit"));
+			if (wayToShopParam == null)
+				throw new InteractRuntimeException("buyer_mincredit 不能空");
+			int buyerMincredit = Integer.parseInt(buyerMincreditParam);
+
+			String keepDaysParam = StringUtils.trimToNull(request.getParameter("keep_days"));
+			if (keepDaysParam == null)
+				throw new InteractRuntimeException("keep_days 不能空");
+			int keepDays = Integer.parseInt(keepDaysParam);
+			String goodName = StringUtils.trimToNull(request.getParameter("good_name"));
+			if (goodName == null)
+				throw new InteractRuntimeException("good_name 不能空");
+			String goodType1IdParam = StringUtils.trimToNull(request.getParameter("good_type1_id"));
+			if (goodType1IdParam == null)
+				throw new InteractRuntimeException("good_type1_id 不能空");
+			int goodType1Id = Integer.parseInt(goodType1IdParam);
+			String goodType2IdParam = StringUtils.trimToNull(request.getParameter("good_type2_id"));
+			if (goodType2IdParam == null)
+				throw new InteractRuntimeException("good_type2_id 不能空");
+			int goodType2Id = Integer.parseInt(goodType2IdParam);
+			String goodType1Name = StringUtils.trimToNull(request.getParameter("good_type1_name"));
+			if (goodType1Name == null)
+				throw new InteractRuntimeException("good_type1_name 不能空");
+			String goodType2Name = StringUtils.trimToNull(request.getParameter("good_type2_name"));
+			if (goodType2Name == null)
+				throw new InteractRuntimeException("good_type2_name 不能空");
+			String srcurl = StringUtils.trimToNull(request.getParameter("srcurl"));
+
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)

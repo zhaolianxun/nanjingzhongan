@@ -28,6 +28,13 @@ public class AdminareaManage {
 
 	public static Logger logger = Logger.getLogger(AdminareaManage.class);
 
+	/**
+	 * 加载省
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/provinces", method = RequestMethod.POST)
 	public void provinces(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -66,6 +73,13 @@ public class AdminareaManage {
 		}
 	}
 
+	/**
+	 * 加载市
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/cities", method = RequestMethod.POST)
 	public void cities(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -109,6 +123,13 @@ public class AdminareaManage {
 		}
 	}
 
+	/**
+	 * 加载区
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/distincts", method = RequestMethod.POST)
 	public void distincts(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
