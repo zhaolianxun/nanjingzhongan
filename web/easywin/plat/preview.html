@@ -176,7 +176,20 @@
         }
     });
 
+
     $('#nickname').html(appData.nickName);
+    $.ajax({
+        type: 'POST',
+        data: {app_id:appData.appId},
+        url: '/easywin/p/e/myapp/getoptionalcategory?token='+token,
+        success: function(res){
+            if(res.code == 0){
+                $('#option').html('当前类目：<span style="color: red;">'+res.data.optionalCategoryExplain+'</span>');
+            }else{
+                alert(res.codeMsg);
+            }
+        }
+    });
     if(!appData.commitTemplateVersion) {
         //未提交
         $('#submitCodeAndAudit').show();
@@ -226,18 +239,7 @@
 
 //    var miniappid = appData.appId;
 
-//    $.ajax({
-//        type: 'POST',
-//        data: {app_id:miniappid},
-//        url: '/easywin/p/e/myapp/getoptionalcategory?token='+token,
-//        success: function(res){
-//            if(res.code == 0){
-//                $('#option').html('建议微信小程序类目：<span style="color: red;">'+res.data.optionalCategoryExplain+'</span>');
-//            }else{
-//                alert(res.codeMsg);
-//            }
-//        }
-//    });
+
 
 
 //    $.ajax({

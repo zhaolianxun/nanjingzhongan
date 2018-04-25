@@ -298,8 +298,8 @@ public class MyAppEntrance {
 			if (tplCode.equals("mall"))
 				ext.put("mallId", appId);
 			extJson.put("ext", ext);
-			JSONObject extPages = new JSONObject();
-			extJson.put("extPages", extPages);
+			// JSONObject extPages = new JSONObject();
+			// extJson.put("extPages", extPages);
 			content.put("ext_json", extJson.toJSONString());
 			String contentStr = content.toJSONString();
 			logger.debug(contentStr);
