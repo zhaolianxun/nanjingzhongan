@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/MyAppEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/MyAppEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/appstore.html" afterPath="$PROJECT_DIR$/web/easywin/plat/appstore.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/preview.html" afterPath="$PROJECT_DIR$/web/easywin/plat/preview.html" />
-    </list>
+    <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="" />
     <ignored path="nanjingzhongan.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="myapp.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="myapp.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/easywin/plat/myapp.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.42857143">
-              <caret line="319" column="60" selection-start-line="319" selection-start-column="44" selection-end-line="319" selection-end-column="60" />
+            <state vertical-scroll-proportion="0.10704225">
+              <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
               <folding>
                 <marker date="1524115590239" expanded="true" signature="5693:5771" placeholder="..." />
                 <marker date="1524115590239" expanded="true" signature="6334:6345" placeholder="..." />
@@ -76,12 +72,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="preview.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="preview.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/easywin/plat/preview.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7859155">
-              <caret line="191" column="7" selection-start-line="191" selection-start-column="7" selection-end-line="191" selection-end-column="7" />
+            <state vertical-scroll-proportion="40.82143">
+              <caret line="152" column="38" selection-start-line="152" selection-start-column="38" selection-end-line="152" selection-end-column="38" />
               <folding>
+                <element signature="n#style#0;n#p#1;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
                 <marker date="1524642291095" expanded="true" signature="5503:5514" placeholder="..." />
                 <marker date="1524642291095" expanded="true" signature="7419:7430" placeholder="..." />
               </folding>
@@ -352,10 +350,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -400,25 +398,6 @@
         <state vertical-scroll-proportion="-12.892858">
           <caret line="19" column="9" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/myapp.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.42857143">
-          <caret line="319" column="60" selection-start-line="319" selection-start-column="44" selection-end-line="319" selection-end-column="60" />
-          <folding>
-            <marker date="1524115590239" expanded="true" signature="5693:5771" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="6334:6345" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="7138:7216" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="7304:7348" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="7686:7699" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="9056:9067" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="9739:9817" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="9905:9949" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="10287:10300" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="11818:11829" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -497,11 +476,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat/preview.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7859155">
-          <caret line="191" column="7" selection-start-line="191" selection-start-column="7" selection-end-line="191" selection-end-column="7" />
+        <state vertical-scroll-proportion="40.82143">
+          <caret line="152" column="38" selection-start-line="152" selection-start-column="38" selection-end-line="152" selection-end-column="38" />
           <folding>
+            <element signature="n#style#0;n#p#1;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
             <marker date="1524642291095" expanded="true" signature="5503:5514" placeholder="..." />
             <marker date="1524642291095" expanded="true" signature="7419:7430" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/myapp.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10704225">
+          <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+          <folding>
+            <marker date="1524115590239" expanded="true" signature="5693:5771" placeholder="..." />
+            <marker date="1524115590239" expanded="true" signature="6334:6345" placeholder="..." />
+            <marker date="1524115590239" expanded="true" signature="7138:7216" placeholder="..." />
+            <marker date="1524115590239" expanded="true" signature="7304:7348" placeholder="..." />
+            <marker date="1524115590239" expanded="true" signature="7686:7699" placeholder="..." />
+            <marker date="1524115590239" expanded="true" signature="9056:9067" placeholder="..." />
+            <marker date="1524115590239" expanded="true" signature="9739:9817" placeholder="..." />
+            <marker date="1524115590239" expanded="true" signature="9905:9949" placeholder="..." />
+            <marker date="1524115590239" expanded="true" signature="10287:10300" placeholder="..." />
+            <marker date="1524115590239" expanded="true" signature="11818:11829" placeholder="..." />
           </folding>
         </state>
       </provider>
