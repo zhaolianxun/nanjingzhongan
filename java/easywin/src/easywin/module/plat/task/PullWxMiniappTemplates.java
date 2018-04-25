@@ -71,9 +71,14 @@ public class PullWxMiniappTemplates {
 			for (int i = 0; i < templateList.size(); i++) {
 				JSONObject template = templateList.getJSONObject(i);
 				int wxTemplateId = template.getIntValue("template_id");
-				String tplCode = template.getString("user_desc");
-				String tplVersion = template.getString("user_version");
-				Long createTime = template.getLong("create_time") * 1000l;
+				String wxUserDesc = template.getString("user_desc");
+				String wxUserVersion = template.getString("user_version");
+				String wxSourceMiniprogramAppid = template.getString("source_miniprogram_appid");
+				String wxSourceMiniprogram = template.getString("source_miniprogram");
+				String wxSourceMiniprogramDeveloper = template.getString("developer");
+				String tplCode = wxUserDesc;
+				String tplVersion = wxUserVersion;
+				Long wxCreateTime = template.getLong("create_time");
 
 				pst = connection.prepareStatement(
 						"select (select t.id from t_seed_template t  where  t.tpl_version=? and t.tpl_code=?) id,(select id from t_app_seed where template_code=?) seed_id");
@@ -92,12 +97,17 @@ public class PullWxMiniappTemplates {
 				if (templateIdOld == null) {
 					// 插入新的模板
 					pst = connection.prepareStatement(
-							"insert into t_seed_template (wx_templateid,tpl_version,tpl_code,create_time,seed_id) values(?,?,?,?,?)");
+							"insert into t_seed_template (wx_templateid,tpl_version,tpl_code,wx_create_time,seed_id,wx_user_version,wx_user_desc,wx_source_miniprogram_appid,wx_source_miniprogram,wx_source_miniprogram_developer) values(?,?,?,?,?,?,?,?,?,?)");
 					pst.setObject(1, wxTemplateId);
 					pst.setObject(2, tplVersion);
 					pst.setObject(3, tplCode);
-					pst.setObject(4, createTime);
+					pst.setObject(4, wxCreateTime);
 					pst.setObject(5, seedId);
+					pst.setObject(6, wxUserVersion);
+					pst.setObject(7, wxUserDesc);
+					pst.setObject(8, wxSourceMiniprogramAppid);
+					pst.setObject(9, wxSourceMiniprogram);
+					pst.setObject(10, wxSourceMiniprogramDeveloper);
 					int n = pst.executeUpdate();
 					pst.close();
 					if (n != 1)
@@ -105,12 +115,17 @@ public class PullWxMiniappTemplates {
 				} else {
 					// 更新已有的模板
 					pst = connection.prepareStatement(
-							"update t_seed_template set create_time=?,tpl_version=?,tpl_code=?,seed_id=? where id=?");
-					pst.setObject(1, createTime);
+							"update t_seed_template set wx_create_time=?,tpl_version=?,tpl_code=?,seed_id=?,wx_user_version=?,wx_user_desc=?,wx_source_miniprogram_appid=?,wx_source_miniprogram=?,wx_source_miniprogram_developer=? where id=?");
+					pst.setObject(1, wxCreateTime);
 					pst.setObject(2, tplVersion);
 					pst.setObject(3, tplCode);
 					pst.setObject(4, seedId);
-					pst.setObject(5, templateIdOld);
+					pst.setObject(5, wxUserVersion);
+					pst.setObject(6, wxUserDesc);
+					pst.setObject(7, wxSourceMiniprogramAppid);
+					pst.setObject(8, wxSourceMiniprogram);
+					pst.setObject(9, wxSourceMiniprogramDeveloper);
+					pst.setObject(10, templateIdOld);
 					int n = pst.executeUpdate();
 					pst.close();
 					if (n != 1)
