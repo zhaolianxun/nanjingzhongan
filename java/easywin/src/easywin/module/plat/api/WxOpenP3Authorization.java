@@ -432,7 +432,7 @@ public class WxOpenP3Authorization {
 
 	}
 
-	@RequestMapping(value = "/eventMessage/wx8ed0f8a61df4d270/callback")
+	@RequestMapping(value = "/eventMessage/wxba2af9f621911ee8/callback")
 	public void eventMessageCallback(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;

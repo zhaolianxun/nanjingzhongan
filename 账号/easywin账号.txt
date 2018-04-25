@@ -69,6 +69,12 @@ Ew123456
 2073561396@qq.com
 Ew123456
 
+第三方平台：易睿达
+wechat.open.thirdparty.AppId=wx8ed0f8a61df4d270
+wechat.open.thirdparty.AppSecret=a57046fac2a572b95fd35578c57101c2
+wechat.open.thirdparty.MsgVerificationToken=easywin
+wechat.open.thirdparty.MsgEncryptAndDecryptKey=4umjlSURN4STHjC3vbJHqb5nBLPMwxVA28EGRxeqUdi
+
 正式:
 39.106.71.145
 root=n8huO8A4WZdEzdhP9ttKpXm8nghdLl
