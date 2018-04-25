@@ -1,6 +1,7 @@
 package easywin.module.plat.api;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
@@ -239,11 +240,11 @@ public class WxOpenP3Authorization {
 					"select t.id,t.user_id,u.phone from t_app t inner join t_user u on t.user_id=u.id where t.wx_appid=?");
 			pst.setObject(1, authorizerAppId);
 			ResultSet rs = pst.executeQuery();
-			String existAppId = null;
+			String appId = null;
 			String existUserId = null;
 			String existPhone = null;
 			if (rs.next()) {
-				existAppId = rs.getString("id");
+				appId = rs.getString("id");
 				existUserId = rs.getString("user_id");
 				existPhone = rs.getString("phone");
 			}
@@ -252,7 +253,7 @@ public class WxOpenP3Authorization {
 			pst.close();
 
 			String authorizerAccessToken = authorizationInfo.getString("authorizer_access_token");
-			int authorizerExpiresIn = authorizationInfo.getIntValue("expires_in");
+			long authorizerExpiresIn = authorizationInfo.getIntValue("expires_in") * 1000l;
 			String authorizerRefreshToken = authorizationInfo.getString("authorizer_refresh_token");
 			// "func_info": [{"funcscope_category": {"id":
 			// 1}},{"funcscope_category": {"id": 2}},{"funcscope_category":
@@ -294,7 +295,7 @@ public class WxOpenP3Authorization {
 				throw new InteractRuntimeException(resultVo.getString("errmsg"));
 
 			JSONObject authorizerInfo = resultVo.getJSONObject("authorizer_info");
-			if (existAppId != null) {
+			if (appId != null) {
 				pst = connection.prepareStatement(
 						"update t_app set authorized=1,access_token=?,expires_in=?,refresh_token=?,func_info=?,nick_name=?,head_img=?,user_name=?,principal_name=?,qrcode_url=?,signature=?,authorization_time=? where id=?");
 				pst.setObject(1, authorizerAccessToken);
@@ -308,7 +309,7 @@ public class WxOpenP3Authorization {
 				pst.setObject(9, authorizerInfo.getString("qrcode_url"));
 				pst.setObject(10, authorizerInfo.getString("signature"));
 				pst.setObject(11, new Date().getTime());
-				pst.setObject(12, existAppId);
+				pst.setObject(12, appId);
 				int n = pst.executeUpdate();
 				pst.close();
 				if (n != 1)
@@ -316,7 +317,7 @@ public class WxOpenP3Authorization {
 			} else {
 				pst = connection.prepareStatement(
 						"insert into t_app (id,user_id,seed_id,authorized,wx_appid,access_token,expires_in,refresh_token,func_info,nick_name,head_img,user_name,principal_name,qrcode_url,signature,authorization_time,bind_time,use_endtime,from_agent_id) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-				String appId = RandomStringUtils.randomNumeric(12);
+				appId = RandomStringUtils.randomNumeric(12);
 				pst.setObject(1, appId);
 				pst.setObject(2, fromUserId);
 				pst.setObject(3, seedId);
@@ -412,6 +413,9 @@ public class WxOpenP3Authorization {
 			// throw new InteractRuntimeException(resultVo.getString("errmsg"));
 
 			connection.commit();
+			File appOssRoot = new File(SysConstant.project_ossroot, appId);
+			if (!appOssRoot.exists())
+				appOssRoot.mkdirs();
 			// 返回结果
 			response.sendRedirect("/easywin/plat/index.html?tab=myapp");
 		} catch (Exception e) {

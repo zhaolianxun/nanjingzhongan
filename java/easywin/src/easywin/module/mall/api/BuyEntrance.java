@@ -293,7 +293,7 @@ public class BuyEntrance {
 			connection.setAutoCommit(false);
 			// 查询默认地址
 			pst = connection.prepareStatement(
-					"select u.wx_appid,u.wx_mchid,u.wx_mchkey,t.amount,t.status,(select group_concat(name) from t_mall_order_detail where order_id=t.id) detail from t_mall_order t inner join t_app u on t.mall_id=u.id where t.id=? for update");
+					"select u.wx_appid,u.wx_mchid,u.wx_mchkey,u.wx_mchcertpath,t.amount,t.status,(select group_concat(name) from t_mall_order_detail where order_id=t.id) detail from t_mall_order t inner join t_app u on t.mall_id=u.id where t.id=? for update");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			Integer amount = 0;
@@ -301,6 +301,7 @@ public class BuyEntrance {
 			String wxMchid = null;
 			String wxAppid = null;
 			String wxMchkey = null;
+			String wxMchcertpath = null;
 			String detail = null;
 			if (rs.next()) {
 				amount = rs.getInt("amount");
@@ -309,12 +310,13 @@ public class BuyEntrance {
 				wxAppid = rs.getString("wx_appid");
 				wxMchkey = rs.getString("wx_mchkey");
 				detail = rs.getString("detail");
+				wxMchcertpath = rs.getString("wx_mchcertpath");
 			} else
 				throw new InteractRuntimeException("订单不存在");
 			pst.close();
 
-			if (wxMchid == null || wxAppid == null || wxMchkey == null || wxMchid.isEmpty() || wxAppid.isEmpty()
-					|| wxMchkey.isEmpty())
+			if (wxMchid == null || wxMchcertpath == null || wxMchkey == null || wxMchid.isEmpty()
+					|| wxMchcertpath.isEmpty() || wxMchkey.isEmpty())
 				throw new InteractRuntimeException("商户支付信息未配置或不全");
 			if (amount <= 0)
 				throw new InteractRuntimeException("支付金额有误");

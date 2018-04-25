@@ -73,10 +73,9 @@ public class UserAction {
 
 			// 微信登录
 			String url = new StringBuilder("https://api.weixin.qq.com/sns/component/jscode2session?").append("appid=")
-					.append(SysConstant.project_product ? wxAppid : "wxfe9394ffc135469a").append("&js_code=")
-					.append(jscode).append("&grant_type=").append(accessToken).append("&component_appid=")
-					.append(SysConstant.wechat_open_thirdparty_AppId).append("&component_access_token=")
-					.append(componentAccessToken).toString();
+					.append(wxAppid).append("&js_code=").append(jscode).append("&grant_type=").append(accessToken)
+					.append("&component_appid=").append(SysConstant.wechat_open_thirdparty_AppId)
+					.append("&component_access_token=").append(componentAccessToken).toString();
 			logger.debug("url " + url);
 
 			Request okHttpRequest = new Request.Builder().url(url).build();
@@ -106,7 +105,7 @@ public class UserAction {
 			if (userId == null) {
 				userId = RandomStringUtils.randomNumeric(12);
 				pst = connection.prepareStatement(
-						"insert into t_mall_user (id,mall_id,headimg,wx_openid,wx_sessionkey,register_time,from_user_id) values(?,?,?,?,?,rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')),?");
+						"insert into t_mall_user (id,mall_id,headimg,wx_openid,wx_sessionkey,register_time,from_user_id) values(?,?,?,?,?,rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0'),?)");
 				pst.setObject(1, userId);
 				pst.setObject(2, mallId);
 				pst.setObject(3, "");
@@ -151,6 +150,7 @@ public class UserAction {
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("token", token);
+			data.put("userId", userId);
 			data.put("nickname", loginStatus.getNickname());
 			data.put("phone", phone);
 			HttpRespondWithData.todo(request, response, 0, null, data);
@@ -170,8 +170,15 @@ public class UserAction {
 		}
 	}
 
+	/**
+	 * 登录刷新
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/selfinfo")
-	public void selfInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void loginRefresh(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		Jedis jedis = null;
@@ -207,6 +214,7 @@ public class UserAction {
 			JSONObject data = new JSONObject();
 			data.put("nickname", nickname);
 			data.put("phone", phone);
+			data.put("userId", loginStatus.getUserId());
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -223,6 +231,13 @@ public class UserAction {
 		}
 	}
 
+	/**
+	 * 记录查看商品的足迹
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/recordtrack")
 	public void recordTrack(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;

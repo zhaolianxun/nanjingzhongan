@@ -16,6 +16,7 @@ public class SysConstant {
 	public static boolean project_test = false;
 	public static boolean project_product = false;
 
+	
 	public static SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 	public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 
@@ -23,6 +24,7 @@ public class SysConstant {
 
 	public static String project_domain;
 	public static String project_rooturl;
+	public static String project_ossroot;
 
 	// 错误码
 	public static String errorCodeCnMapperPath = "easywin/config/errorCode_CN.properties";

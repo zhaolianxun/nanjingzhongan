@@ -162,9 +162,8 @@ public class GoodTypeEntrance {
 
 			pst = connection.prepareStatement(
 					"select * from (select t.id,t.add_time,t.cover,t.name,(select min(price) from t_mall_good_sku where good_id=t.id) price,(select min(original_price) from t_mall_good_sku where good_id=t.id) original_price,t.saled_count from t_mall_good t where t.mall_id=?"
-							+ (type1Id == null ? "" : " and t.type1_id=? ")
-							+ (type2Id == null ? "" : " and t.type2_id=? ")
-							+ (type3Id == null ? "" : " and t.type3_id=? ") + " ) tt"
+							+ (type1Id == null ? "" : " and t.type1=? ") + (type2Id == null ? "" : " and t.type2=? ")
+							+ (type3Id == null ? "" : " and t.type3=? ") + " ) tt"
 							+ (sort == 1 ? " order by tt.saled_count desc"
 									: (sort == 2 ? " order by tt.price desc"
 											: (sort == 3 ? " order by tt.price asc" : " order by tt.add_time desc")))
