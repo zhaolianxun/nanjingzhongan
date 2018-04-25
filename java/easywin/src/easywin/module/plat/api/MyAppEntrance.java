@@ -501,19 +501,22 @@ public class MyAppEntrance {
 				throw new InteractRuntimeException(resultVo.getString("errmsg"));
 			JSONArray categoryList = resultVo.getJSONArray("category_list");
 
-			StringBuilder optionalCategoryExplain = new StringBuilder();
+			StringBuilder optionalCategoryExplainSb = new StringBuilder();
 			for (int i = 0; i < categoryList.size(); i++) {
 				JSONObject category = categoryList.getJSONObject(i);
 				String first = StringUtils.trimToEmpty(category.getString("first_class"));
 				String secondClass = StringUtils.trimToEmpty(category.getString("second_class"));
 				String thirdClass = StringUtils.trimToEmpty(category.getString("third_class"));
-				optionalCategoryExplain = optionalCategoryExplain.append(first).append("-").append(secondClass)
-						.append("-").append(thirdClass).append("\n");
+				optionalCategoryExplainSb = optionalCategoryExplainSb.append(",").append(first).append("-")
+						.append(secondClass).append(thirdClass);
 			}
+			String optionalCategoryExplain = "";
+			if (optionalCategoryExplainSb.length() > 0)
+				optionalCategoryExplain = optionalCategoryExplainSb.substring(1);
 
 			// 返回结果
 			JSONObject data = new JSONObject();
-			data.put("optionalCategoryExplain", optionalCategoryExplain.toString());
+			data.put("optionalCategoryExplain", optionalCategoryExplain);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常

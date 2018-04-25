@@ -49,12 +49,8 @@ zhongan2017
 主体信息 徐**	个人
 AppID(小程序ID)	wx255ea7d3779c7491
 AppSecret(小程序密钥) 5752dae58b279f900e8f8a17a893ab09
-
-
-开发小程序所属帐号
-2414236014@qq.com
-第三方平台：易睿达easywin    AppID:wxba2af9f621911ee8
-
+开发小程序所属帐号：易睿达easywin（2414236014@qq.com）（AppID:wxba2af9f621911ee8）
+绑定的微信开放平台帐号：2414236014@qq.com
 -----------------------------
 中安医联体小程序账号
 medicalassociation@163.com
