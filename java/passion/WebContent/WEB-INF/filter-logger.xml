@@ -1,0 +1,14 @@
+<filter>
+	<description>日志打印过滤器</description>
+	<display-name>loggerFilter</display-name>
+	<filter-name>loggerFilter</filter-name>
+	<filter-class>filter.LoggerFilter</filter-class>
+	<init-param>
+		<param-name>exclude</param-name>
+		<param-value></param-value>
+	</init-param>
+</filter>
+<filter-mapping>
+	<filter-name>loggerFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>

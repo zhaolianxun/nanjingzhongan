@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd 
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<!-- <mvc:resources mapping="**/*.html" location="/" /> <mvc:resources mapping="**/*.css" 
+		location="/" /> <mvc:resources mapping="**/*.js" location="/" /> <mvc:resources 
+		mapping="**/*.jpg" location="/" /> <mvc:resources mapping="**/*.gif" location="/" 
+		/> <mvc:resources mapping="**/*.png" location="/" /> <mvc:resources mapping="**/*.jsp" 
+		location="/" /> -->
+
+	<task:annotation-driven scheduler="scheduler" />
+	<task:scheduler id="scheduler" pool-size="5" />
+
+	<context:component-scan base-package="*" />
+
+	<mvc:annotation-driven />
+	<bean id="defaultAnnotationHandlerMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<bean id="annotationMethodHandlerAdapter"
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<context:property-placeholder
+		location="classpath:passion/config/mainConfig.properties" />
+
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+
+		<!-- 连接池保持的初始连接数 -->
+		<property name="initialPoolSize" value="3" />
+		<!-- 连接池保持的最小连接数 -->
+		<property name="minPoolSize" value="3" />
+		<property name="maxPoolSize" value="15" />
+		<!-- 连接池在无空闲连接可用时一次性创建的新数据库连接数 -->
+		<property name="acquireIncrement" value="3" />
+		<!-- 连接的最大空闲时间，如果超过这个时间，某个数据库连接还没有被使用，则会断开掉这个连接,单位秒 -->
+		<property name="maxIdleTime" value="120" />
+		<!-- 连接池在获得新连接失败时重试的次数，如果小于等于0则无限重试直至连接获得成功 -->
+		<property name="acquireRetryAttempts" value="10" />
+		<!-- 连接池在获得新连接时的间隔时间 -->
+		<property name="acquireRetryDelay" value="1000" />
+	</bean>
+
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:passion/config/spring-mybatis.xml" />
+		<property name="mapperLocations"
+			value="classpath:passion/**/config/orm/**/*Mapper.xml" />
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="**.*.dao.mapper" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<import resource="classpath*:/passion/module/**/spring-context.xml" />
+</beans>

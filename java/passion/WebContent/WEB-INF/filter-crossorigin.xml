@@ -1,0 +1,15 @@
+
+<filter>
+	<description>允许跨域过滤器</description>
+	<display-name>crossoriginFilter</display-name>
+	<filter-name>crossoriginFilter</filter-name>
+	<filter-class>filter.CrossoriginFilter</filter-class>
+	<init-param>
+		<param-name>exclude</param-name>
+		<param-value></param-value>
+	</init-param>
+</filter>
+<!-- <filter-mapping>
+	<filter-name>crossoriginFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>  -->
