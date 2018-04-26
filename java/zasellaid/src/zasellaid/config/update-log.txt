@@ -19,6 +19,7 @@ update t_daily_report_adminlook t set report_writer_name=(select aa.realname fro
 修改接口：/c/ae/home;/c/ule/home;/c/hle/home;/c/homeentrance/home
 -增加入参keyw(查询关键字),并修改了相应查询语句
 
-===============0.0.5===============
+===============0.0.5===============2018.04.26 15:21
+修改接口BUG：/c/hle/home;/c/homeentrance/home
 修改方法:void zasellaid.module.client.api.ManageEntrance.lookReport(HttpServletRequest, HttpServletResponse)
 -把查询“管理员查看者名(adminLookerNames)”放在了前面

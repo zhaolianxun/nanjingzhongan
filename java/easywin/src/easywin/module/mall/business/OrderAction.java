@@ -47,6 +47,8 @@ public class OrderAction {
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
+
+			connection.commit();
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));

@@ -109,7 +109,7 @@ public class UserListEntrance {
 
 			List sqlParams = new ArrayList();
 			if (keyw != null) {
-				keyw = new StringBuilder("'%").append(keyw).append("%'").toString();
+				keyw = new StringBuilder("%").append(keyw).append("%").toString();
 				sqlParams.add(keyw);
 				sqlParams.add(keyw);
 			}
@@ -117,7 +117,7 @@ public class UserListEntrance {
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
 					"select admin_look_report_today,id,realname,insert(phone, 4, 4, '****') phone,(select count(id) from t_trace_record where user_id=t.id and from_unixtime(trace_time/1000,'%Y-%m-%d')=DATE_SUB(curdate(),INTERVAL 0 DAY)) trace_count_today,(select count(id) from t_trace_record where user_id=t.id and from_unixtime(trace_time/1000,'%Y-%m-%d')=DATE_SUB(curdate(),INTERVAL 1 DAY)) trace_count_yesterday,(select count(id) from t_contact_hospital where client_user_id=t.id and customer_type=1) junior_customer_count,(select count(id) from t_contact_hospital where client_user_id=t.id and customer_type=2) tracing_customer_count,(select count(id) from t_contact_hospital where client_user_id=t.id and customer_type=3) vital_customer_count,(select if(count(id)>0,1,0) from t_daily_report where user_id=t.id and date=curdate()) daily_report_submit_is,(select if(superior_review is not null and superior_review != '',1,0) from t_daily_report where user_id=t.id and date=curdate()) daily_report_review_is,t.if_admin from t_client_user t where 1=1 "
-							+ (keyw == null ? "" : " and phone like ? ") + (keyw == null ? "" : " and realname like ? ")
+							+ (keyw == null ? "" : " and (phone like ? or realname like ?)")
 							+ "  order by t.register_time desc limit ?,? ");
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));

@@ -4,12 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -19,10 +24,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.wxpay.sdk.WXPay;
+import com.github.wxpay.sdk.WXPayConfig;
+import com.github.wxpay.sdk.WXPayConfigScatterImpl;
+import com.github.wxpay.sdk.WXPayUtil;
 
+import easywin.constant.SysConstant;
 import easywin.entity.InteractRuntimeException;
+import easywin.module.mallmanage.business.OrderAction;
 import easywin.module.plat.business.GetLoginStatus;
 import easywin.module.plat.entity.UserLoginStatus;
+import easywin.util.AESUtil;
 import easywin.util.EasywinDataSource;
 import easywin.util.HttpRespondWithData;
 
@@ -322,18 +334,43 @@ public class OrderManageEntrance {
 
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection.prepareStatement("select id from t_mall_order where id=? for update");
+			pst = connection.prepareStatement(
+					"select t.status,t.refund_status,t.amount,u.wx_appid,u.wx_mchid,u.wx_mchkey,u.wx_mchcertpath from t_mall_order t left join t_app u on t.mall_id=u.id where t.id=? and u.id=? for update");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
-			if (!rs.next()) {
-				pst.close();
-				throw new InteractRuntimeException("订单号有误");
-			}
+			String status = null;
+			String refundStatus = null;
+			String wxMchid = null;
+			String wxAppid = null;
+			String wxMchkey = null;
+			String wxMchcertpath = null;
+			Integer amount = 0;
+			if (rs.next()) {
+				status = rs.getString("status");
+				refundStatus = rs.getString("refundStatus");
+				wxMchid = rs.getString("wx_mchid");
+				wxAppid = rs.getString("wx_appid");
+				wxMchkey = rs.getString("wx_mchkey");
+				wxMchcertpath = rs.getString("wx_mchcertpath");
+				amount = (Integer) rs.getObject("amount");
+
+				if (wxMchid == null || wxMchcertpath == null || wxMchkey == null || wxMchid.isEmpty()
+						|| wxMchcertpath.isEmpty() || wxMchkey.isEmpty())
+					throw new InteractRuntimeException("商户支付信息未配置或不全");
+
+				if (status.equals("0") || status.equals("4"))
+					throw new InteractRuntimeException("订单未支付或已取消");
+				if (refundStatus.equals("1"))
+					throw new InteractRuntimeException("已经申请过退款，正在处理");
+				if (refundStatus.equals("2"))
+					throw new InteractRuntimeException("已退款成功");
+			} else
+				throw new InteractRuntimeException("订单不存在");
 			pst.close();
 
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"update t_mall_order set refund_status='1',refund_time=?,refund_reason=? where id=? and status in ('1','2','3') and refund_status='0'");
+					"update t_mall_order set refund_status='1',refund_reason=? where id=? and status in ('1','2','3') and refund_status='0'");
 			pst.setObject(1, new Date().getTime());
 			pst.setObject(2, reason);
 			pst.setObject(3, orderId);
@@ -341,6 +378,27 @@ public class OrderManageEntrance {
 			pst.close();
 			if (n == 0)
 				throw new InteractRuntimeException("订单未支付或已取消");
+
+			HashMap<String, String> payData = new HashMap<String, String>();
+			payData.put("out_refund_no", orderId);
+			payData.put("out_trade_no", orderId);
+			payData.put("total_fee", amount.toString());
+			payData.put("refund_fee", amount.toString());
+			payData.put("refund_desc", reason);
+			payData.put("notify_url",
+					SysConstant.project_rooturl + "/mm/" + mallId + "/e/order/refund/wxminiappnotify");
+
+			WXPayConfig wXPayConfig = new WXPayConfigScatterImpl(wxAppid, wxMchid, wxMchkey, wxMchcertpath);
+			WXPay wxPay = new WXPay(wXPayConfig);
+			Map<String, String> r = wxPay.refund(payData);
+			System.out.println(r);
+
+			if ("FAIL".equals(r.get("return_code")))
+				throw new InteractRuntimeException(r.get("return_msg"));
+			if ("FAIL".equals(r.get("result_code")))
+				throw new InteractRuntimeException(
+						new StringBuilder(r.get("err_code")).append(":").append(r.get("err_code_des")).toString());
+
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
@@ -350,6 +408,71 @@ public class OrderManageEntrance {
 			if (connection != null)
 				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/refund/wxminiappnotify")
+	public void refundWxminiappNotify(@PathVariable("mallId") String mallId, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String reqData = IOUtils.toString(request.getInputStream());
+			logger.debug("接收到微信退款通知：" + reqData);
+			// 业务处理
+			connection = EasywinDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("select wx_appid,wx_mchid,wx_mchkey from t_app where t.id=?");
+			pst.setObject(1, mallId);
+			ResultSet rs = pst.executeQuery();
+			String wxMchid = null;
+			String wxAppid = null;
+			String wxMchkey = null;
+			if (rs.next()) {
+				wxMchid = rs.getString("wx_mchid");
+				wxAppid = rs.getString("wx_appid");
+				wxMchkey = rs.getString("wx_mchkey");
+			} else
+				throw new InteractRuntimeException("商城不存在");
+			pst.close();
+
+			connection.close();
+
+			// 处理微信返回数据
+			WXPayConfig wXPayConfig = new WXPayConfigScatterImpl(wxAppid, wxMchid, wxMchkey);
+			WXPay wxPay = new WXPay(wXPayConfig);
+			Map<String, String> respData = WXPayUtil.xmlToMap(reqData);
+			if (!"SUCCESS".equals(respData.get("return_code")))
+				throw new InteractRuntimeException(respData.get("return_msg"));
+			String appid = respData.get("appid");
+			String mchId = respData.get("mch_id");
+			String nonceStr = respData.get("nonce_str");
+			String reqInfoStr = respData.get("req_info");
+			Map<String, String> reqInfo = WXPayUtil.xmlToMap(AESUtil.decryptData(reqInfoStr));
+			int settlementRefundFee = Integer.parseInt(respData.get("settlement_refund_fee"));
+			String outTradeNo = respData.get("out_trade_no");
+			String refundStatus = respData.get("refund_status");
+			if ("SUCCESS".equals(refundStatus))
+				OrderAction.refundComplete(outTradeNo, settlementRefundFee);
+			else if ("CHANGE".equals(refundStatus))
+				OrderAction.refundFail(outTradeNo, "退款异常");
+			else if ("REFUNDCLOSE".equals(refundStatus))
+				OrderAction.refundFail(outTradeNo, "退款关闭");
+
+			// 返回结果
+			response.getWriter().write(
+					"<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>");
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			response.getWriter().write("<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA["
+					+ e.getMessage() + "]]></return_msg></xml>");
 		} finally {
 			// 释放资源
 			if (pst != null)

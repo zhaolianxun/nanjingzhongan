@@ -4,10 +4,11 @@
     <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/AllOrderEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/AllOrderEntrance.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/CartEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/CartEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/mallmanage/api/OrderManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/mallmanage/api/OrderManageEntrance.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/UserAction.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/UserAction.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/.settings/org.eclipse.core.resources.prefs" afterPath="$PROJECT_DIR$/java/easywin/.settings/org.eclipse.core.resources.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/项目/easywin/接口/商城/全部订单入口.txt" afterPath="$PROJECT_DIR$/项目/easywin/接口/商城/全部订单入口.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/项目/easywin/接口/商城/购物车入口.txt" afterPath="$PROJECT_DIR$/项目/easywin/接口/商城/购物车入口.txt" />
+      <change type="MODIFICATION" beforePath="C:\temp\GitHub\nanjingzhongan\项目\easywin\接口\商城\全部订单入口.txt" afterPath="C:\temp\GitHub\nanjingzhongan\项目\easywin\接口\商城\全部订单入口.txt" />
+      <change type="MODIFICATION" beforePath="C:\temp\GitHub\nanjingzhongan\项目\easywin\接口\商城\购物车入口.txt" afterPath="C:\temp\GitHub\nanjingzhongan\项目\easywin\接口\商城\购物车入口.txt" />
     </list>
     <ignored path="nanjingzhongan.iws" />
     <ignored path=".idea/workspace.xml" />

@@ -71,7 +71,9 @@ public class HospitalListEntrance {
 			// 查詢订单列表
 			List sqlParams = new ArrayList();
 			if (keyw != null) {
-				keyw = new StringBuilder("'%").append(keyw).append("%'").toString();
+				keyw = new StringBuilder("%").append(keyw).append("%").toString();
+				sqlParams.add(keyw);
+				sqlParams.add(keyw);
 				sqlParams.add(keyw);
 				sqlParams.add(keyw);
 			}
@@ -92,8 +94,8 @@ public class HospitalListEntrance {
 			// 查詢主轮播图
 			pst = connection.prepareStatement(new StringBuilder(
 					"select t.id hospital_id,beloner.realname belonger_realname,insert(beloner.phone, 4, 4, '****') belonger_phone,t.name hospital_name,t.province_name,t.city_name,t.customer_type from t_contact_hospital t left join t_client_user beloner on t.client_user_id=beloner.id where 1=1 ")
-							.append(keyw == null ? "" : " and t.name like ? ")
-							.append(keyw == null ? "" : " and t.dean_name like ? ")
+							.append(keyw == null ? ""
+									: " and (t.name like ? or t.dean_name like ? or t.dean_phone like ? or t.director_phone like ?)")
 							.append(customerType == null ? "" : " and t.customer_type=? ")
 							.append(traceStatus == null ? "" : " and t.trace_status=? ")
 							.append(provinceId == null ? "" : " and t.province_id=? ")
@@ -121,6 +123,8 @@ public class HospitalListEntrance {
 
 			pst = connection.prepareStatement(new StringBuilder(
 					"select count(t.id) total_count,(select count(id) from t_contact_hospital) def_count,(select count(id) from t_contact_hospital where customer_type=1) type1_count,(select count(id) from t_contact_hospital where customer_type=2) type2_count,(select count(id) from t_contact_hospital where customer_type=3) type3_count,(select count(id) from t_contact_hospital where customer_type=4) type4_count from t_contact_hospital t left join t_client_user beloner on t.client_user_id=beloner.id where 1=1 ")
+							.append(keyw == null ? ""
+									: " and (t.name like ? or t.dean_name like ? or t.dean_phone like ? or t.director_phone like ?)")
 							.append(customerType == null ? "" : " and t.customer_type=? ")
 							.append(traceStatus == null ? "" : " and t.trace_status=? ")
 							.append(provinceId == null ? "" : " and t.province_id=? ")

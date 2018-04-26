@@ -32,7 +32,7 @@ public class HomeEntrance {
 	public static Logger logger = Logger.getLogger(HomeEntrance.class);
 
 	@RequestMapping(value = "/home", method = RequestMethod.POST)
-	public void userHome2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void home(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -68,7 +68,9 @@ public class HomeEntrance {
 			List sqlParams = new ArrayList();
 			sqlParams.add(loginStatus.getUserId());
 			if (keyw != null) {
-				keyw = new StringBuilder("'%").append(keyw).append("%'").toString();
+				keyw = new StringBuilder("%").append(keyw).append("%").toString();
+				sqlParams.add(keyw);
+				sqlParams.add(keyw);
 				sqlParams.add(keyw);
 				sqlParams.add(keyw);
 			}
@@ -87,17 +89,19 @@ public class HomeEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			// 查詢主轮播图
-			pst = connection.prepareStatement(new StringBuilder(
+			String sql = new StringBuilder(
 					"select t.id hospital_id,t.name hospital_name,t.province_name,t.city_name,t.customer_type,t.last_trace_time from t_contact_hospital t left join t_client_user beloner on t.client_user_id=beloner.id where 1=1 and t.client_user_id=? ")
-							.append(keyw == null ? "" : " and phone like ? ")
-							.append(keyw == null ? "" : " and realname like ? ")
+							.append(keyw == null ? ""
+									: " and (t.name like ? or t.dean_name like ? or t.dean_phone like ? or t.director_phone like ?)")
 							.append(customerType == null ? "" : " and t.customer_type=? ")
 							.append(traceStatus == null ? "" : " and t.trace_status=? ")
 							.append(provinceId == null ? "" : " and t.province_id=? ")
 							.append(cityId == null ? "" : " and t.city_id=? ")
 							.append(traceStarttime == null ? "" : " and t.last_trace_time >= ? ")
 							.append(traceEndtime == null ? "" : " and t.last_trace_time <= ? ")
-							.append("order by last_trace_time desc limit ?,? ").toString());
+							.append("order by last_trace_time desc limit ?,? ").toString();
+			logger.debug(sql);
+			pst = connection.prepareStatement(sql);
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -117,6 +121,8 @@ public class HomeEntrance {
 
 			pst = connection.prepareStatement(new StringBuilder(
 					"select count(t.id) total_count,(select count(id) from t_contact_hospital where t.client_user_id=client_user_id) def_count,(select count(id) from t_contact_hospital where customer_type=1 and t.client_user_id=client_user_id) type1_count,(select count(id) from t_contact_hospital where customer_type=2 and t.client_user_id=client_user_id) type2_count,(select count(id) from t_contact_hospital where customer_type=3 and t.client_user_id=client_user_id) type3_count,(select count(id) from t_contact_hospital where customer_type=4 and t.client_user_id=client_user_id) type4_count from t_contact_hospital t left join t_client_user beloner on t.client_user_id=beloner.id where 1=1 and t.client_user_id=? ")
+							.append(keyw == null ? ""
+									: " and (t.name like ? or t.dean_name like ? or t.dean_phone like ? or t.director_phone like ?)")
 							.append(customerType == null ? "" : " and t.customer_type=? ")
 							.append(traceStatus == null ? "" : " and t.trace_status=? ")
 							.append(provinceId == null ? "" : " and t.province_id=? ")
