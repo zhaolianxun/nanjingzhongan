@@ -1,0 +1,25 @@
+===============0.0.1===============2018/02/20
+创建数据库zasellaid
+
+===============0.0.2===============2018/03/19 11:11
+#项目部署后立刻执行
+#给跟踪记录添加用户id
+update t_trace_record t inner join t_contact_hospital u on t.contact_hospital_id=u.id set t.user_id=u.client_user_id where t.user_id is null or t.user_id='';
+# 之前的组员归入徐德平（user_id=734982565626）管理员
+update t_client_user set admin_user_id ='734982565626' where admin_user_id is null or admin_user_id=''
+alter table t_contact_hospital add dean_name varchar(32) null;
+
+
+===============0.0.3===============2018/03/25 11:11
+#项目部署后立刻执行
+update t_contact_hospital t set last_trace_time=(select max(trace_time) from t_trace_record where t.id=contact_hospital_id);
+update t_daily_report_adminlook t set report_writer_name=(select aa.realname from t_daily_report a left join t_client_user aa on a.user_id=aa.id where t.report_id=a.id);
+
+===============0.0.4===============2018.04.26 10:00
+修改接口：/c/ae/home;/c/ule/home;/c/hle/home;/c/homeentrance/home
+-增加入参keyw(查询关键字),并修改了相应查询语句
+
+===============0.0.5===============2018.04.26 15:21
+修改接口BUG：/c/hle/home;/c/homeentrance/home
+修改方法:void zasellaid.module.client.api.ManageEntrance.lookReport(HttpServletRequest, HttpServletResponse)
+-把查询“管理员查看者名(adminLookerNames)”放在了前面
