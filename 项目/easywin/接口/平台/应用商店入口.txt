@@ -1,4 +1,0 @@
-应用列表
-/p/e/appshop/apps
-page_no
-page_size

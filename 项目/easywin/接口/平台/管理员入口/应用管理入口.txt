@@ -1,5 +1,0 @@
-应用列表
-/p/e/appmanage/apps
-phone
-page_no
-page_size

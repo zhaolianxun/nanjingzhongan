@@ -1,8 +1,0 @@
-财务审核通过
-/withdraw/financialauditpass
-withdrawId  提现ID
-
-财务审核拒绝
-/withdraw/financialauditrefuse
-withdrawId 提现ID
-financial_audit_note 拒绝原因

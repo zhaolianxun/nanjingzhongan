@@ -1,9 +1,0 @@
-查询病源列表
-/c/h/e/patientinfo/patients
-page_no
-page_size
-
-
-确认转诊的病人
-/c/h/e/patientinfo/confirm
-patient_id

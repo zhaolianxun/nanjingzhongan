@@ -1,4 +1,0 @@
-账单明细列表
-/p/e/agent/coinbill/bills
-page_no
-page_size

@@ -1,6 +1,0 @@
-我的卡券
-/m/e/mc/mycoupons
-mall_id
-used    0未使用  1已使用
-page_no
-page_size

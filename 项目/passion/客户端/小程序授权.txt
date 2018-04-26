@@ -1,4 +1,0 @@
-»ñÈ¡ÊÚÈ¨url
-/c/miniappauth/getauthurl
-shopapp_id
----------
