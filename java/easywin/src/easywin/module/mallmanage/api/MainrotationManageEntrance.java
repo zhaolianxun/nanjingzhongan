@@ -116,6 +116,7 @@ public class MainrotationManageEntrance {
 			if (n == 0)
 				throw new InteractRuntimeException("操作失败");
 			ResultSet rs = pst.getGeneratedKeys();
+			rs.next();
 			int id = rs.getInt(1);
 			pst.close();
 

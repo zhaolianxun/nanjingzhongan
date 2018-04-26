@@ -395,7 +395,15 @@ public class ManageEntrance {
 			connection = ZasellaidDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			// 查詢订单列表
-
+			pst = connection.prepareStatement(
+					"select distinct admin_realname from t_daily_report_adminlook where report_id=? order by look_time desc");
+			pst.setObject(1, reportId);
+			ResultSet rs = pst.executeQuery();
+			JSONArray adminLookerNames = new JSONArray();
+			while (rs.next()) {
+				adminLookerNames.add(rs.getObject("admin_realname"));
+			}
+			
 			pst = connection.prepareStatement("delete from t_daily_report_adminlook where report_id=? and admin_id=?");
 			pst.setObject(1, reportId);
 			pst.setObject(2, loginStatus.getUserId());
@@ -423,15 +431,6 @@ public class ManageEntrance {
 			pst.close();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
-
-			pst = connection.prepareStatement(
-					"select distinct admin_realname from t_daily_report_adminlook where report_id=? order by look_time desc");
-			pst.setObject(1, reportId);
-			ResultSet rs = pst.executeQuery();
-			JSONArray adminLookerNames = new JSONArray();
-			while (rs.next()) {
-				adminLookerNames.add(rs.getObject("admin_realname"));
-			}
 
 			connection.commit();
 			JSONObject data = new JSONObject();
