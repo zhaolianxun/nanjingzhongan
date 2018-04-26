@@ -1,2 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/easywin/config/errorCode_CN.properties=UTF-8
+encoding//src/easywin/config/mainConfig_develop/mainConfig.properties=UTF-8
+encoding//src/easywin/config/mainConfig_product/mainConfig.properties=UTF-8
+encoding//src/easywin/config/mainConfig_test/mainConfig.properties=UTF-8
