@@ -192,7 +192,7 @@ public class UserAction {
 				throw new InteractRuntimeException(20);
 
 			connection = EasywinDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("select phone,nickname from t_mall_user where wx_openid=? and mall_id=?");
+			pst = connection.prepareStatement("select phone,nickname from t_mall_user where id=?");
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			String nickname = null;

@@ -14,6 +14,9 @@ refundStatus  0无退款 1退款中 2成功 3失败
 /m/e/allorder/cancelorder
 order_id
 
+签收
+/m/e/allorder/sign
+order_id
 
 订单信息页
 /m/e/allorder/orderinfopage

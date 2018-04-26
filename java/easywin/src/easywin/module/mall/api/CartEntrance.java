@@ -46,6 +46,7 @@ public class CartEntrance {
 			if (pageSize <= 0)
 				throw new InteractRuntimeException("page_size有误");
 
+			logger.debug("mallId=" + mallId + " pageNoParam=" + pageNoParam + " pageSizeParam=" + pageSizeParam);
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)

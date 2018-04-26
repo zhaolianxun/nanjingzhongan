@@ -173,7 +173,62 @@ public class AllOrderEntrance {
 			pst.setObject(4, loginStatus.getUserId());
 			int n = pst.executeUpdate();
 			if (n == 0)
-				throw new InteractRuntimeException("订单状态有误");
+				throw new InteractRuntimeException("订单已支付，如需取消，请联系卖家退款");
+			pst.close();
+
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/sign")
+	public void sign(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			if (orderId == null)
+				throw new InteractRuntimeException("orderId不可空");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement("select id from t_mall_order where id=? for update");
+			pst.setObject(1, orderId);
+			ResultSet rs = pst.executeQuery();
+			if (!rs.next()) {
+				pst.close();
+				throw new InteractRuntimeException("订单号不存在");
+			}
+			pst.close();
+			// 查詢主轮播图
+			pst = connection.prepareStatement(
+					"update t_mall_order set finish_time=?,finished=1,status=3,receive_time=? where id=? and user_id=? and status='2'");
+			pst.setObject(1, new Date().getTime());
+			pst.setObject(2, new Date().getTime());
+			pst.setObject(3, orderId);
+			pst.setObject(4, loginStatus.getUserId());
+			int n = pst.executeUpdate();
+			if (n == 0)
+				throw new InteractRuntimeException("卖家还没发货或已签收");
 			pst.close();
 
 			connection.commit();

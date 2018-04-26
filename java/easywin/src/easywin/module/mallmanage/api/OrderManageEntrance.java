@@ -340,7 +340,7 @@ public class OrderManageEntrance {
 			int n = pst.executeUpdate();
 			pst.close();
 			if (n == 0)
-				throw new InteractRuntimeException("订单未支付");
+				throw new InteractRuntimeException("订单未支付或已取消");
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
