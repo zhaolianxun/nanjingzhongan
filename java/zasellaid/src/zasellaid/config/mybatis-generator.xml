@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+	<properties resource="zasellaid/config/mainConfig.properties" />
+	<!--数据库驱动 -->
+	<classPathEntry location="C:\temp\apache-tomcat-8.0.43\shared\lib" />
+
+	<context id="DB2Tables">
+		<property name="javaFileEncoding" value="UTF-8" />
+		<commentGenerator>
+			<property name="suppressAllComments" value="false" /><!-- 是否取消注释 -->
+			<property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳 -->
+		</commentGenerator>
+		<!--数据库链接地址账号密码 -->
+		<jdbcConnection driverClass="${jdbc.driver}"
+			connectionURL="${jdbc.url}" userId="${jdbc.username}" password="${jdbc.password}">
+		</jdbcConnection>
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<!--生成Model类存放位置 -->
+		<javaModelGenerator targetPackage="zasellaid.dao.entity"
+			targetProject="zasellaid">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<!--生成映射文件存放位置 -->
+		<sqlMapGenerator targetPackage="zasellaid.config.orm"
+			targetProject="zasellaid">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!--生成Dao类存放位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="zasellaid.dao.mapper" targetProject="zasellaid">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<!--生成对应表及类名 -->
+		<table tableName="t_client_user" domainObjectName="ClientUser"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<property name="useActualColumnNames" value="false" />
+			<!-- <generatedKey column="id" sqlStatement="MySql" identity="true" /> -->
+		</table>
+
+		<table tableName="t_sysparam" domainObjectName="Sysparam"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<property name="useActualColumnNames" value="false" />
+			<!-- <generatedKey column="id" sqlStatement="MySql" identity="true" /> -->
+		</table>
+		
+		<table tableName="t_contact_hospital" domainObjectName="ContactHospital"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<property name="useActualColumnNames" value="false" />
+			<!-- <generatedKey column="id" sqlStatement="MySql" identity="true" /> -->
+		</table>
+		<table tableName="t_trace_record" domainObjectName="TraceRecord"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<property name="useActualColumnNames" value="false" />
+			<!-- <generatedKey column="id" sqlStatement="MySql" identity="true" /> -->
+		</table>
+		
+	</context>
+</generatorConfiguration>

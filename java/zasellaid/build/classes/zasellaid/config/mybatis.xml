@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<properties resource="zasellaid/config/mainConfig.properties">
+	</properties>
+
+	<settings>
+		<setting name="logImpl" value="LOG4J" />
+		<setting name="callSettersOnNulls" value="true" />
+	</settings>
+
+	<!-- <typeAliases> </typeAliases> -->
+
+	<!-- <typeHandlers> </typeHandlers> -->
+
+	<plugins>
+		<plugin interceptor="zasellaid.util.SqlStatementInterceptor"></plugin>
+	</plugins>
+
+	<environments default="passion">
+		<environment id="passion">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+				<property name="poolMaximumActiveConnections" value="5" />
+				<property name="poolMaximumIdleConnections" value="2" />
+				<property name="poolMaximumCheckoutTime" value="20000" />
+				<property name="poolTimeToWait" value="20000" />
+				<property name="poolPingEnabled" value="true" />
+				<property name="poolPingQuery" value="select 1" />
+				<property name="poolPingConnectionsNotUsedFor" value="25000000" />
+			</dataSource>
+		</environment>
+
+	</environments>
+
+	<mappers>
+		<mapper resource="zasellaid/config/orm/ClientUserMapper.xml" />
+		<mapper resource="zasellaid/config/orm/ContactHospitalMapper.xml" />
+		<mapper resource="zasellaid/config/orm/SysparamMapper.xml" />
+		<mapper resource="zasellaid/config/orm/TraceRecordMapper.xml" />
+		<mapper class="zasellaid.dao.mapper.OssMapper" />
+		<mapper class="zasellaid.dao.mapper.AdminareaMapper" />
+		<mapper class="zasellaid.dao.mapper.UserManageMapper" />
+
+		<mapper class="zasellaid.module.client.dao.mapper.AdminEntraceMapper" />
+		<mapper
+			class="zasellaid.module.client.dao.mapper.ContactHospitalManageMapper" />
+		<mapper class="zasellaid.module.client.dao.mapper.TraceRecordManageMapper" />
+	</mappers>
+</configuration>
