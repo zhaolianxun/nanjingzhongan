@@ -253,7 +253,8 @@ public class WxOpenP3Authorization {
 			pst.close();
 
 			String authorizerAccessToken = authorizationInfo.getString("authorizer_access_token");
-			long authorizerExpiresIn = authorizationInfo.getIntValue("expires_in") * 1000l;
+			long authorizerExpiresIn = authorizationInfo.getIntValue("expires_in") ;
+			long expireIn = new Date().getTime()+authorizerExpiresIn* 1000l;
 			String authorizerRefreshToken = authorizationInfo.getString("authorizer_refresh_token");
 			// "func_info": [{"funcscope_category": {"id":
 			// 1}},{"funcscope_category": {"id": 2}},{"funcscope_category":
@@ -299,7 +300,7 @@ public class WxOpenP3Authorization {
 				pst = connection.prepareStatement(
 						"update t_app set authorized=1,access_token=?,expires_in=?,refresh_token=?,func_info=?,nick_name=?,head_img=?,user_name=?,principal_name=?,qrcode_url=?,signature=?,authorization_time=? where id=?");
 				pst.setObject(1, authorizerAccessToken);
-				pst.setObject(2, authorizerExpiresIn);
+				pst.setObject(2, expireIn);
 				pst.setObject(3, authorizerRefreshToken);
 				pst.setObject(4, JSON.toJSONString(funcInfo, SerializerFeature.WriteMapNullValue));
 				pst.setObject(5, authorizerInfo.getString("nick_name"));
@@ -324,7 +325,7 @@ public class WxOpenP3Authorization {
 				pst.setObject(4, 1);
 				pst.setObject(5, authorizerAppId);
 				pst.setObject(6, authorizerAccessToken);
-				pst.setObject(7, authorizerExpiresIn);
+				pst.setObject(7, expireIn);
 				pst.setObject(8, authorizerRefreshToken);
 				pst.setObject(9, JSON.toJSONString(funcInfo, SerializerFeature.WriteMapNullValue));
 				pst.setObject(10, authorizerInfo.getString("nick_name"));
@@ -344,8 +345,9 @@ public class WxOpenP3Authorization {
 
 				if ("1".equals(seedId)) {
 					pst = connection.prepareStatement(
-							"insert into t_mall (id,enter_time) values(?,rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0'))");
+							"insert into t_mall (id,name,enter_time) values(?,?,rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0'))");
 					pst.setObject(1, appId);
+					pst.setObject(2, authorizerInfo.getString("nick_name") + "商城");
 					n = pst.executeUpdate();
 					if (n != 1)
 						throw new InteractRuntimeException("操作失败");
@@ -437,7 +439,7 @@ public class WxOpenP3Authorization {
 	}
 
 	@RequestMapping(value = "/eventMessage/wxba2af9f621911ee8/callback")
-	public void eventMessageCallback(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void eventMessageCallbackWxba2af9f621911ee8(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -506,6 +508,76 @@ public class WxOpenP3Authorization {
 
 	}
 
+	
+	@RequestMapping(value = "/eventMessage/wx8ed0f8a61df4d270/callback")
+	public void eventMessageCallbackWx8ed0f8a61df4d270(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String charset = StringUtils.isEmpty(request.getCharacterEncoding()) ? SysConstant.SYS_CHARSET
+					: request.getCharacterEncoding();
+			String reqData = IOUtils.toString(request.getInputStream(), charset);
+			logger.debug(reqData);
+
+			// 业务处理
+			SAXReader reader = new SAXReader();
+			Document doc = reader.read(new ByteArrayInputStream(reqData.getBytes(charset)));
+			Element root = doc.getRootElement();
+			String msgType = root.elementTextTrim("MsgType");
+			String event = root.elementTextTrim("Event");
+
+			if ("event".equals(msgType)) {
+				connection = EasywinDataSource.dataSource.getConnection();
+				connection.setAutoCommit(false);
+				if ("weapp_audit_success".equals(event)) {
+					String toUserName = root.elementTextTrim("ToUserName");
+					String createTime = root.elementTextTrim("CreateTime");
+					String succTime = root.elementTextTrim("SuccTime");
+					pst = connection
+							.prepareStatement("update t_app set audit_status=2,audit_fail_reason='' where user_name=?");
+					pst.setObject(1, toUserName);
+					int n = pst.executeUpdate();
+					pst.close();
+					if (n != 1)
+						throw new InteractRuntimeException("操作失败");
+				} else if ("weapp_audit_fail".equals(event)) {
+					String toUserName = root.elementTextTrim("ToUserName");
+					String createTime = root.elementTextTrim("CreateTime");
+					String reason = root.elementTextTrim("Reason");
+					String failTime = root.elementTextTrim("FailTime");
+					pst = connection
+							.prepareStatement("update t_app set audit_status=3,audit_fail_reason=? where user_name=?");
+					pst.setObject(1, reason);
+					pst.setObject(2, toUserName);
+					int n = pst.executeUpdate();
+					pst.close();
+					if (n != 1)
+						throw new InteractRuntimeException("操作失败");
+
+				}
+			}
+
+			if (connection != null)
+				connection.commit();
+			// 返回结果
+			JSONObject data = new JSONObject();
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+
+	}
 	public static void main(String[] args) throws DocumentException, UnsupportedEncodingException {
 		JSONObject content = new JSONObject();
 		content.put("action", "add");
