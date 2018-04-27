@@ -119,7 +119,8 @@ public class UserAction {
 				if (n != 1)
 					throw new InteractRuntimeException("操作失败");
 			} else {
-				pst = connection.prepareStatement("update t_mall_user set wx_openid=?,wx_sessionkey=?,nickname=? where id=?");
+				pst = connection
+						.prepareStatement("update t_mall_user set wx_openid=?,wx_sessionkey=?,nickname=? where id=?");
 				pst.setObject(1, openid);
 				pst.setObject(2, sessionKey);
 				pst.setObject(3, nickname);
@@ -138,11 +139,11 @@ public class UserAction {
 			loginStatus.setLoginTime(new Date().getTime());
 			loginStatus.setMallId(mallId);
 			loginStatus.setWxOpenid(openid);
-			String loginRedisKey = new StringBuilder("easywin.mall.login-").append(token).toString();
+			String loginRedisKey = new StringBuilder("easywin.mall.token-").append(token).toString();
 			//// 清除历史登录状态
 			String oldToken = jedis.get(userId);
-			if (oldToken != null)
-				jedis.del(new StringBuilder("easywin.mall.login-").append(oldToken).toString());
+			if (oldToken != null && !oldToken.isEmpty())
+				jedis.del(new StringBuilder("easywin.mall.token-").append(oldToken).toString());
 			jedis.del(userId);
 			//// 设置新登录状态
 			jedis.set(loginRedisKey, JSON.toJSONString(loginStatus));

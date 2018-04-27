@@ -14,7 +14,7 @@ public class GetLoginStatus {
 		String token = (String) request.getParameter("token");
 		if (token == null)
 			return null;
-		String statusStr = jedis.get(token);
+		String statusStr = jedis.get("zasellaid.client.token-" + token);
 		if (statusStr == null || statusStr.equals(""))
 			return null;
 		UserLoginStatus status = JSON.parseObject(statusStr, UserLoginStatus.class);
@@ -29,7 +29,7 @@ public class GetLoginStatus {
 			if (token == null)
 				return null;
 			jedis = SysConstant.jedisPool.getResource();
-			String statusStr = jedis.get(token);
+			String statusStr = jedis.get("zasellaid.client.token-" + token);
 			if (statusStr == null || statusStr.equals(""))
 				return null;
 			UserLoginStatus status = JSON.parseObject(statusStr, UserLoginStatus.class);

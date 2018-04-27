@@ -98,8 +98,15 @@ public class UserAction {
 			status.setMaintainIs(maintainIs);
 			String token = RandomStringUtils.randomNumeric(12);
 			jedis = SysConstant.jedisPool.getResource();
-			jedis.set(token, JSON.toJSONString(status));
-			jedis.expire(token, 7 * 24 * 60 * 60);
+			String oldToken = jedis.get(userId);
+			if (oldToken != null && !oldToken.isEmpty()) {
+				jedis.del("zasellaid.client.token-" + oldToken);
+			}
+			jedis.del(userId);
+			jedis.set("zasellaid.client.token-" + token, JSON.toJSONString(status));
+			jedis.set(userId, token);
+			jedis.expire("zasellaid.client.token-" + token, 7 * 24 * 60 * 60);
+			jedis.expire(userId, 7 * 24 * 60 * 60);
 
 			RefreshUserAlive.bean.run(userId);
 			// TODO 返回结果
@@ -416,7 +423,8 @@ public class UserAction {
 			if (status == null)
 				throw new InteractRuntimeException(20);
 
-			jedis.del(status.getToken());
+			jedis.del("zasellaid.client.token-" + status.getToken());
+			jedis.del(status.getUserId());
 
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);

@@ -14,7 +14,7 @@ public class GetLoginStatus {
 		String token = (String) request.getParameter("token");
 		if (token == null)
 			return null;
-		String loginRedisKey = new StringBuilder("easywin.mall.login-").append(token).toString();
+		String loginRedisKey = new StringBuilder("easywin.mall.token-").append(token).toString();
 		String statusStr = jedis.get(loginRedisKey);
 		if (statusStr == null || statusStr.equals(""))
 			return null;
@@ -30,7 +30,7 @@ public class GetLoginStatus {
 			if (token == null)
 				return null;
 			jedis = SysConstant.jedisPool.getResource();
-			String loginRedisKey = new StringBuilder("easywin.mall.login-").append(token).toString();
+			String loginRedisKey = new StringBuilder("easywin.mall.token-").append(token).toString();
 			String statusStr = jedis.get(loginRedisKey);
 			if (statusStr == null || statusStr.equals(""))
 				return null;

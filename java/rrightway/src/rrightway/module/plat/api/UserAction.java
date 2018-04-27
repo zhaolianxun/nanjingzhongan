@@ -79,11 +79,11 @@ public class UserAction {
 
 			String token = RandomStringUtils.randomNumeric(12);
 			jedis = SysConstant.jedisPool.getResource();
-			jedis.set(token, JSON.toJSONString(loginStatus));
+			jedis.set("rrightway.plat.token-"+token, JSON.toJSONString(loginStatus));
 			jedis.set(loginStatus.getUserId(), token);
 
 			jedis.expire(loginStatus.getUserId(), 7 * 24 * 60 * 60);
-			jedis.expire(token, 7 * 24 * 60 * 60);
+			jedis.expire("rrightway.plat.token-"+token, 7 * 24 * 60 * 60);
 
 			// 返回结果
 			JSONObject data = new JSONObject();
