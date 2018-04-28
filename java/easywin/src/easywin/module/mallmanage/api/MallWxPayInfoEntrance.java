@@ -52,14 +52,14 @@ public class MallWxPayInfoEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢主轮播图
 			pst = connection.prepareStatement(
-					"select wx_mchid,wx_mchkey,if(ISNULL(wx_mchcertpath) || LENGTH(trim(wx_mchcertpath))<1,0,1) mchcertpath_setted from t_app where id=?");
+					"select wx_mchid,wx_mchkey,if(ISNULL(wx_mchcertpath) || LENGTH(trim(wx_mchcertpath))<1,0,1) mchcert_setted from t_app where id=?");
 			pst.setObject(1, mallId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
 			if (rs.next()) {
 				item.put("mchid", rs.getObject("wx_mchid"));
 				item.put("mchkey", rs.getObject("wx_mchkey"));
-				item.put("mchcertpathSetted", rs.getObject("mchcertpath_setted"));
+				item.put("mchcertSetted", rs.getObject("mchcert_setted"));
 			} else {
 				throw new InteractRuntimeException("商城不存在");
 			}
@@ -113,7 +113,7 @@ public class MallWxPayInfoEntrance {
 					mchkey = StringUtils.trimToNull(ff.getString("UTF-8"));
 				if (ff.getFieldName().equals("mchcert")) {
 					if (ff.isFormField())
-						throw new InteractRuntimeException("mchcertpath 必须是文件");
+						throw new InteractRuntimeException("mchcert 必须是文件");
 					mchcert = ff;
 				}
 			}
@@ -156,7 +156,7 @@ public class MallWxPayInfoEntrance {
 			if (n == 0)
 				throw new InteractRuntimeException("商城不存在");
 
-			//更新‘必要信息’是否补全的标致（businessbase_fill）
+			// 更新‘必要信息’是否补全的标致（businessbase_fill）
 			pst = connection.prepareStatement(
 					"update t_app u inner join t_mall t on u.id=t.id set u.businessbase_fill=(case when (isnull(t.name)||length(trim(t.name))=0)||(isnull(u.wx_mchid)||length(trim(u.wx_mchid))=0)||(isnull(u.wx_mchkey)||length(trim(u.wx_mchkey))=0)||(isnull(u.wx_mchcertpath)||length(trim(u.wx_mchcertpath))=0) then 0 else 1 end) where u.id=?");
 			pst.setObject(1, mallId);

@@ -17,11 +17,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import redis.clients.jedis.Jedis;
 import rrightway.constant.SysConstant;
 import rrightway.entity.InteractRuntimeException;
+import rrightway.module.plat.business.GetLoginStatus;
 import rrightway.module.plat.entity.UserLoginStatus;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
@@ -47,41 +49,26 @@ public class HomeEntrance {
 				throw new InteractRuntimeException("pwd不可空");
 
 			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
-					"select id,nickname,realname,seller_is,buyer_is,pwd_md5,phone from t_user where phone=? or username=?");
-			pst.setObject(1, account);
-			pst.setObject(2, account);
+					"select id,cover,name from t_good_type where level=1 order by sort_no asc,name asc");
 			ResultSet rs = pst.executeQuery();
-			UserLoginStatus loginStatus = new UserLoginStatus();
-			if (rs.next()) {
-				if (!DigestUtils.md5Hex(pwd).equals(rs.getString("pwd_md5")))
-					throw new InteractRuntimeException("密码错误");
-				loginStatus.setLoginTime(new Date().getTime());
-				loginStatus.setPhone(rs.getString("phone"));
-				loginStatus.setUserId(rs.getString("id"));
-				loginStatus.setNickname(rs.getString("nickname"));
-				loginStatus.setRealname(rs.getString("realname"));
-				loginStatus.setSellerIs(rs.getInt("seller_is"));
-				loginStatus.setBuyerIs(rs.getInt("buyer_is"));
-			} else
-				throw new InteractRuntimeException("账号不存在");
-
-			String token = RandomStringUtils.randomNumeric(12);
-			jedis = SysConstant.jedisPool.getResource();
-			jedis.set("rrightway.plat.token-" + token, JSON.toJSONString(loginStatus));
-			jedis.set(loginStatus.getUserId(), token);
-
-			jedis.expire(loginStatus.getUserId(), 7 * 24 * 60 * 60);
-			jedis.expire("rrightway.plat.token-" + token, 7 * 24 * 60 * 60);
-
+			JSONArray type1s = new JSONArray();
+			while (rs.next()) {
+				JSONObject type1 = new JSONObject();
+				type1.put("id", rs.getInt("id"));
+				type1.put("cover", rs.getInt("cover"));
+				type1.put("name", rs.getInt("name"));
+				type1s.add(type1);
+			}
+			pst.close();
 			// 返回结果
 			JSONObject data = new JSONObject();
-			data.put("token", token);
-			data.put("userId", loginStatus.getUserId());
-			data.put("phone", loginStatus.getPhone());
-			data.put("realname", loginStatus.getRealname());
-			data.put("nickname", loginStatus.getNickname());
+			data.put("type1s", type1s);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
