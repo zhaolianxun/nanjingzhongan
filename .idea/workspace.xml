@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="" />
+    <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
+      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\module\api\merchant\HomeEntrance.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\module\api\merchant\PublishActivityCowryEntrance.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\temp\GitHub\nanjingzhongan\java\rrightway\src\rrightway\module\plat\module\guest\PublishGoodEntrance.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/mallmanage/api/MallBaseInfoEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/mallmanage/api/MallBaseInfoEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/mallmanage/api/MallWxPayInfoEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/mallmanage/api/MallWxPayInfoEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/MyAppEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/MyAppEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/UserAction.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/UserAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/myapp.html" afterPath="$PROJECT_DIR$/web/easywin/plat/myapp.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="nanjingzhongan.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,19 +44,26 @@
       <file leaf-file-name="myapp.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/easywin/plat/myapp.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7225352">
-              <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.7117647">
+              <caret line="246" column="264" selection-start-line="246" selection-start-column="264" selection-end-line="246" selection-end-column="264" />
               <folding>
-                <marker date="1524115590239" expanded="true" signature="5693:5771" placeholder="..." />
-                <marker date="1524115590239" expanded="true" signature="6334:6345" placeholder="..." />
-                <marker date="1524115590239" expanded="true" signature="7138:7216" placeholder="..." />
-                <marker date="1524115590239" expanded="true" signature="7304:7348" placeholder="..." />
-                <marker date="1524115590239" expanded="true" signature="7686:7699" placeholder="..." />
-                <marker date="1524115590239" expanded="true" signature="9056:9067" placeholder="..." />
-                <marker date="1524115590239" expanded="true" signature="9739:9817" placeholder="..." />
-                <marker date="1524115590239" expanded="true" signature="9905:9949" placeholder="..." />
-                <marker date="1524115590239" expanded="true" signature="10287:10300" placeholder="..." />
-                <marker date="1524115590239" expanded="true" signature="11818:11829" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="5693:5771" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="5836:5845" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="5836:5878" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="6442:6453" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="7246:7324" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="7389:7399" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="7389:7411" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="7389:7416" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="7389:7431" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="7520:7564" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="7902:7915" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="9290:9301" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="9973:10051" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="10117:10159" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="10248:10292" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="10630:10643" placeholder="..." />
+                <marker date="1524895864274" expanded="true" signature="12179:12190" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -157,6 +174,7 @@
         <option value="$PROJECT_DIR$/web/rrightway/mycenter/login.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/appstore.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/preview.html" />
+        <option value="$PROJECT_DIR$/web/easywin/plat/myapp.html" />
       </list>
     </option>
   </component>
@@ -212,6 +230,60 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="easywin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="easywin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plat" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -296,27 +368,27 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -352,16 +424,23 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1524115590239" expanded="true" signature="5693:5771" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="6334:6345" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="7138:7216" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="7304:7348" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="7686:7699" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="9056:9067" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="9739:9817" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="9905:9949" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="10287:10300" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="11818:11829" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="5693:5771" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="5836:5845" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="5836:5878" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="6442:6453" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7246:7324" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7389:7399" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7389:7411" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7389:7416" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7389:7431" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7520:7564" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7902:7915" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="9290:9301" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="9973:10051" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="10117:10159" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="10248:10292" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="10630:10643" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="12179:12190" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -540,19 +619,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat/myapp.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7225352">
-          <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.7117647">
+          <caret line="246" column="264" selection-start-line="246" selection-start-column="264" selection-end-line="246" selection-end-column="264" />
           <folding>
-            <marker date="1524115590239" expanded="true" signature="5693:5771" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="6334:6345" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="7138:7216" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="7304:7348" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="7686:7699" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="9056:9067" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="9739:9817" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="9905:9949" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="10287:10300" placeholder="..." />
-            <marker date="1524115590239" expanded="true" signature="11818:11829" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="5693:5771" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="5836:5845" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="5836:5878" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="6442:6453" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7246:7324" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7389:7399" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7389:7411" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7389:7416" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7389:7431" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7520:7564" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="7902:7915" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="9290:9301" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="9973:10051" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="10117:10159" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="10248:10292" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="10630:10643" placeholder="..." />
+            <marker date="1524895864274" expanded="true" signature="12179:12190" placeholder="..." />
           </folding>
         </state>
       </provider>

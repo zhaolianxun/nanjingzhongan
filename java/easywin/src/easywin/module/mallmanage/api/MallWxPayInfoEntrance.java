@@ -156,6 +156,14 @@ public class MallWxPayInfoEntrance {
 			if (n == 0)
 				throw new InteractRuntimeException("商城不存在");
 
+			//更新‘必要信息’是否补全的标致（businessbase_fill）
+			pst = connection.prepareStatement(
+					"update t_app u inner join t_mall t on u.id=t.id set u.businessbase_fill=(case when (isnull(t.name)||length(trim(t.name))=0)||(isnull(u.wx_mchid)||length(trim(u.wx_mchid))=0)||(isnull(u.wx_mchkey)||length(trim(u.wx_mchkey))=0)||(isnull(u.wx_mchcertpath)||length(trim(u.wx_mchcertpath))=0) then 0 else 1 end) where u.id=?");
+			pst.setObject(1, mallId);
+			n = pst.executeUpdate();
+			if (n == 0)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {

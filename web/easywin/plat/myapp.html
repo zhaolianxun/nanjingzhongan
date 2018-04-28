@@ -194,7 +194,7 @@
                                     '<div class="cardnumtxt">'+ (parseInt(i)+1) +'</div>' +
                                     '<img class="cardicon" src="'+ items[i].headImg +'">' +
                                     '<div class="carddesc">' +
-                                        '<div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+ items[i].nickName +'</div>' +
+                                        '<div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+ items[i].nickName+(!items[i].businessbaseFill?'<span style="color:red;margin-left:15px;font-size: 10px">请进入后台补全信息</span>':'') +'</div>' +
                                        /* '<div style="float:left;font-size: 13px;line-height:50px;">创建时间：2018-2-5</div>' +
                                         '<div class="vtimetxt">有效期至：2028-2-5</div>' +*/
                                     '</div>' +
@@ -212,7 +212,7 @@
                                         '<div class="cardnumtxt">'+ (parseInt(i)+1) +'</div>' +
                                         '<img class="cardicon" src="'+ items[i].headImg +'">' +
                                         '<div class="carddesc">' +
-                                        '<div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+ items[i].nickName +'</div>' +
+                                        '<div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+ items[i].nickName+(!items[i].businessbaseFill?'<span style="color:red;margin-left:15px;font-size: 10px">请进入后台补全信息</span>':'') +'</div>' +
                                         '<div style="float:left;font-size: 13px;line-height:50px;">创建时间：'+ timeFormat(items[i].bindTime) +'</div>' +
                                         '<div class="vtimetxt">有效期至：'+timeFormat(items[i].useEndtime)+'</div>' +
                                         '</div>' +
@@ -227,7 +227,7 @@
                                         '<span>'+ items[i].appId +'</span>' +
                                         '</div>' +
                                         '<button onclick="gotoPreview(this)" onmouseout="closeBox()">预览</button>' +
-                                        '<button onclick="enterManagement(this)">管理后台</button>' +
+                                        '<button onclick="enterManagement(\''+items[i].appId+'\')">管理后台</button>' +
                                         '<button onclick="gotoStatus(\''+items[i].appId+'\')">查看状态</button>' +
                                         '<div class="qrcodeBox">'+
                                         '<img src="images/rectangle1@2x.png">' +
@@ -244,7 +244,7 @@
                                         '<div class="cardnumtxt">'+ (parseInt(i)+1) +'</div>' +
                                         '<img class="cardicon" src="'+ items[i].headImg +'">' +
                                         '<div class="carddesc">' +
-                                        '<div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+ items[i].nickName +'</div>' +
+                                        '<div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+ items[i].nickName +(!items[i].businessbaseFill?'<span style="color:red;margin-left:15px;font-size: 10px">请进入后台补全信息</span>':'') +'</div>' +
                                         '<div style="float:left;font-size: 13px;line-height:50px;">创建时间：'+ timeFormat(items[i].bindTime) +'</div>' +
                                         '<div class="vtimetxt">有效期至：'+timeFormat(items[i].useEndtime)+'</div>' +
                                         '</div>' +
@@ -261,7 +261,7 @@
                                         '</div>' +
                                         '<button onclick="update(this)">更新</button>' +
                                         '<button onclick="gotoPreview(this)" onmouseout="closeBox()">预览</button>' +
-                                        '<button onclick="enterManagement(this)">管理后台</button>' +
+                                        '<button onclick="enterManagement(\''+items[i].appId+'\')">管理后台</button>' +
                                         '<button onclick="gotoStatus(\''+items[i].appId+'\')">查看状态</button>' +
                                         '<div class="qrcodeBox">'+
                                         '<img src="images/rectangle1@2x.png">' +
@@ -337,22 +337,14 @@
             location.href = 'preview.html';
         }
         //管理后台
-        function enterManagement(ele){
-            var spans = ele.parentNode.childNodes[0].childNodes;
-            var miniappid = spans[6].innerHTML;
+        function enterManagement(appId){
+            var app = apps[appId];
             var token = sessionStorage.getItem('token');
-            $.ajax({
-                type: 'POST',
-                data: {miniapp_id:miniappid},
-                url: '/easywin/c/myminiapp/entermanagement?token='+token,
-                success: function(res){
-                    if(res.code == 0){
-                        window.open('/easywin/hospital-publicity/hospital/index.html');
-                    }else{
-                        alert('服务器出错，请稍后重试！');
-                    }
-                }
-            });
+            if(app.templateCode == 'mall'){
+                window.open('/easywin/mallmanage/threeMinuteProgram_maintain/index.html?token='+token+'&mall_id='+appId);
+            }else{
+                alert('未知模板')
+            }
         }
         //关闭预览
         function closeBox() {

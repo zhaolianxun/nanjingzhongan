@@ -38,6 +38,7 @@ public class UserAction {
 
 	/**
 	 * 登录
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
@@ -79,11 +80,11 @@ public class UserAction {
 
 			String token = RandomStringUtils.randomNumeric(12);
 			jedis = SysConstant.jedisPool.getResource();
-			jedis.set("rrightway.plat.token-"+token, JSON.toJSONString(loginStatus));
+			jedis.set("rrightway.plat.token-" + token, JSON.toJSONString(loginStatus));
 			jedis.set(loginStatus.getUserId(), token);
 
 			jedis.expire(loginStatus.getUserId(), 7 * 24 * 60 * 60);
-			jedis.expire("rrightway.plat.token-"+token, 7 * 24 * 60 * 60);
+			jedis.expire("rrightway.plat.token-" + token, 7 * 24 * 60 * 60);
 
 			// 返回结果
 			JSONObject data = new JSONObject();
@@ -110,6 +111,7 @@ public class UserAction {
 
 	/**
 	 * 登录刷新
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
@@ -174,6 +176,7 @@ public class UserAction {
 
 	/**
 	 * 根据原密码修改密码
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
@@ -224,6 +227,7 @@ public class UserAction {
 
 	/**
 	 * 注册
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
@@ -254,7 +258,7 @@ public class UserAction {
 				throw new InteractRuntimeException("用户名已存在");
 			pst.close();
 
-			//插入用户
+			// 插入用户
 			pst = connection.prepareStatement(
 					"insert into t_user (id,username,password,password_md5,register_time,qq) values(?,?,?,?,?,?)");
 			pst.setObject(1, RandomStringUtils.randomNumeric(12));

@@ -64,7 +64,7 @@ public class MyAppEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.head_img,t.seed_id,t.nick_name,t.id,t.current_template_version,t.authorized,t.audit_template_version,t.commit_template_version,t.bind_time,t.commit_status,t.audit_status,t.audit_fail_reason,u.newest_version newest_template_version,t.use_endtime,u.template_code from t_app t inner join t_app_seed u on t.seed_id=u.id where t.user_id=? order by t.bind_time desc limit ?,?");
+					"select t.businessbase_fill,t.head_img,t.seed_id,t.nick_name,t.id,t.current_template_version,t.authorized,t.audit_template_version,t.commit_template_version,t.bind_time,t.commit_status,t.audit_status,t.audit_fail_reason,u.newest_version newest_template_version,t.use_endtime,u.template_code from t_app t inner join t_app_seed u on t.seed_id=u.id where t.user_id=? order by t.bind_time desc limit ?,?");
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, pageSize * (pageNo - 1));
 			pst.setObject(3, pageSize);
@@ -73,6 +73,7 @@ public class MyAppEntrance {
 			while (rs.next()) {
 				JSONObject app = new JSONObject();
 				app.put("appId", rs.getObject("id"));
+				app.put("businessbaseFill", rs.getObject("businessbase_fill"));
 				app.put("headImg", rs.getObject("head_img"));
 				app.put("seedId", rs.getObject("seed_id"));
 				app.put("nickName", rs.getObject("nick_name"));
