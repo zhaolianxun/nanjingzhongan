@@ -61,14 +61,58 @@ public class HomeEntrance {
 			while (rs.next()) {
 				JSONObject type1 = new JSONObject();
 				type1.put("id", rs.getInt("id"));
-				type1.put("cover", rs.getInt("cover"));
-				type1.put("name", rs.getInt("name"));
+				type1.put("cover", rs.getString("cover"));
+				type1.put("name", rs.getString("name"));
 				type1s.add(type1);
 			}
 			pst.close();
+
+			pst = connection
+					.prepareStatement("select cover,type,link from t_mainrotation order by sort_no asc,id desc");
+			rs = pst.executeQuery();
+			JSONArray mainrotations = new JSONArray();
+			while (rs.next()) {
+				JSONObject mainrotation = new JSONObject();
+				mainrotation.put("cover", rs.getString("cover"));
+				mainrotation.put("link", rs.getString("link"));
+				mainrotation.put("type", rs.getString("type"));
+				mainrotations.add(mainrotation);
+			}
+			pst.close();
+
+			pst = connection.prepareStatement(
+					"select id,title,if(length(content)<1000,content,null) content from t_notice order by add_time desc");
+			rs = pst.executeQuery();
+			JSONArray notices = new JSONArray();
+			while (rs.next()) {
+				JSONObject notice = new JSONObject();
+				notice.put("id", rs.getInt("id"));
+				notice.put("title", rs.getString("title"));
+				notice.put("content", rs.getString("content"));
+				notices.add(notice);
+			}
+			pst.close();
+
+			pst = connection.prepareStatement("select id,gift_cover,gift_name,pay_price from t_activity limit 0,10");
+			rs = pst.executeQuery();
+			JSONArray featuredActivities = new JSONArray();
+			while (rs.next()) {
+				JSONObject featuredActivity = new JSONObject();
+				featuredActivity.put("id", rs.getInt("id"));
+				featuredActivity.put("giftCover", rs.getInt("gift_cover"));
+				featuredActivity.put("giftName", rs.getString("gift_name"));
+				featuredActivity.put("payPrice", rs.getBigDecimal("pay_price"));
+				featuredActivities.add(featuredActivity);
+			}
+			pst.close();
+			
+			
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("type1s", type1s);
+			data.put("mainrotations", mainrotations);
+			data.put("notices", notices);
+			data.put("featuredActivities", featuredActivities);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
