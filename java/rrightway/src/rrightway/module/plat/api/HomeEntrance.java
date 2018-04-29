@@ -36,17 +36,10 @@ public class HomeEntrance {
 
 	@RequestMapping(value = "/home")
 	public void home(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Jedis jedis = null;
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-			String account = StringUtils.trimToNull(request.getParameter("account"));
-			if (account == null)
-				throw new InteractRuntimeException("account不可空");
-			String pwd = StringUtils.trimToNull(request.getParameter("pwd"));
-			if (pwd == null)
-				throw new InteractRuntimeException("pwd不可空");
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -105,14 +98,32 @@ public class HomeEntrance {
 				featuredActivities.add(featuredActivity);
 			}
 			pst.close();
-			
-			
+
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("type1s", type1s);
 			data.put("mainrotations", mainrotations);
 			data.put("notices", notices);
 			data.put("featuredActivities", featuredActivities);
+			data.put("hotTrials", featuredActivities);
+			JSONArray floors = new JSONArray();
+			JSONObject f1 = new JSONObject();
+			f1.put("name", "美容护肤");
+			f1.put("f1", featuredActivities);
+			floors.add(f1);
+			JSONObject f2 = new JSONObject();
+			f2.put("name", "精品男装");
+			f2.put("f2", featuredActivities);
+			floors.add(f2);
+			JSONObject f3 = new JSONObject();
+			f3.put("name", "母婴用品");
+			f3.put("f3", featuredActivities);
+			floors.add(f3);
+			JSONObject f4 = new JSONObject();
+			f4.put("name", "鞋子箱包");
+			f4.put("f4", featuredActivities);
+			floors.add(f4);
+			data.put("mayLoves", featuredActivities);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -120,13 +131,12 @@ public class HomeEntrance {
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
-			if (jedis != null)
-				jedis.close();
 			if (pst != null)
 				pst.close();
 			if (connection != null)
 				connection.close();
 		}
 	}
+
 
 }

@@ -59,8 +59,7 @@ public class UserAction {
 
 			// 业务处理
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement(
-					"select id,nickname,realname,seller_is,buyer_is,pwd_md5,phone from t_user where phone=? or username=?");
+			pst = connection.prepareStatement("select id,pwd_md5,phone from t_user where phone=? or username=?");
 			pst.setObject(1, account);
 			pst.setObject(2, account);
 			ResultSet rs = pst.executeQuery();
@@ -71,10 +70,6 @@ public class UserAction {
 				loginStatus.setLoginTime(new Date().getTime());
 				loginStatus.setPhone(rs.getString("phone"));
 				loginStatus.setUserId(rs.getString("id"));
-				loginStatus.setNickname(rs.getString("nickname"));
-				loginStatus.setRealname(rs.getString("realname"));
-				loginStatus.setSellerIs(rs.getInt("seller_is"));
-				loginStatus.setBuyerIs(rs.getInt("buyer_is"));
 			} else
 				throw new InteractRuntimeException("账号不存在");
 
@@ -91,8 +86,6 @@ public class UserAction {
 			data.put("token", token);
 			data.put("userId", loginStatus.getUserId());
 			data.put("phone", loginStatus.getPhone());
-			data.put("realname", loginStatus.getRealname());
-			data.put("nickname", loginStatus.getNickname());
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -133,16 +126,11 @@ public class UserAction {
 			String userId = loginStatus.getUserId();
 
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection
-					.prepareStatement("select phone,nickname,realname,seller_is,buyer_is from t_user where id=?");
+			pst = connection.prepareStatement("select phone from t_user where id=?");
 			pst.setObject(1, userId);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				loginStatus.setPhone(rs.getString("phone"));
-				loginStatus.setNickname(rs.getString("nickname"));
-				loginStatus.setRealname(rs.getString("realname"));
-				loginStatus.setSellerIs(rs.getInt("seller_is"));
-				loginStatus.setBuyerIs(rs.getInt("buyer_is"));
 			} else
 				throw new InteractRuntimeException(20);
 
@@ -156,8 +144,6 @@ public class UserAction {
 			JSONObject data = new JSONObject();
 			data.put("userId", userId);
 			data.put("phone", loginStatus.getPhone());
-			data.put("realname", loginStatus.getRealname());
-			data.put("nickname", loginStatus.getNickname());
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
