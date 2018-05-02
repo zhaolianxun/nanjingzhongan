@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="" />
+    <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/MyAppEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/MyAppEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/WxOpenP3Authorization.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/WxOpenP3Authorization.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/preview.html" afterPath="$PROJECT_DIR$/web/easywin/plat/preview.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="nanjingzhongan.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -59,10 +64,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="altertemplate.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="altertemplate.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/easywin/plat/altertemplate.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.0507042">
+            <state vertical-scroll-proportion="77.35714">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -89,16 +94,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="preview.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="preview.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/easywin/plat/preview.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="152" column="38" selection-start-line="152" selection-start-column="38" selection-end-line="152" selection-end-column="38" />
+            <state vertical-scroll-proportion="-0.123943664">
+              <caret line="150" column="78" selection-start-line="150" selection-start-column="78" selection-end-line="150" selection-end-column="78" />
               <folding>
+                <element signature="n#style#0;n#button#2;n#div#1;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#p#1;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
-                <marker date="1524642291095" expanded="true" signature="5503:5514" placeholder="..." />
-                <marker date="1524642291095" expanded="true" signature="7419:7430" placeholder="..." />
+                <marker date="1525182891967" expanded="true" signature="5863:5874" placeholder="..." />
+                <marker date="1525182891967" expanded="true" signature="7814:7825" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -153,8 +159,8 @@
       <list>
         <option value="$PROJECT_DIR$/web/rrightway/mycenter/login.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/appstore.html" />
-        <option value="$PROJECT_DIR$/web/easywin/plat/preview.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/myapp.html" />
+        <option value="$PROJECT_DIR$/web/easywin/plat/preview.html" />
       </list>
     </option>
   </component>
@@ -245,6 +251,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="easywin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -326,7 +354,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="7" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -425,10 +453,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="152" column="38" selection-start-line="152" selection-start-column="38" selection-end-line="152" selection-end-column="38" />
           <folding>
+            <element signature="n#style#0;n#button#2;n#div#1;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#p#1;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
-            <marker date="1524642291095" expanded="true" signature="5503:5514" placeholder="..." />
-            <marker date="1524642291095" expanded="true" signature="7419:7430" placeholder="..." />
+            <marker date="1525182891967" expanded="true" signature="5863:5874" placeholder="..." />
+            <marker date="1525182891967" expanded="true" signature="7814:7825" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -563,19 +592,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/preview.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="152" column="38" selection-start-line="152" selection-start-column="38" selection-end-line="152" selection-end-column="38" />
-          <folding>
-            <element signature="n#style#0;n#p#1;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
-            <marker date="1524642291095" expanded="true" signature="5503:5514" placeholder="..." />
-            <marker date="1524642291095" expanded="true" signature="7419:7430" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat/myapp.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.344828">
@@ -612,9 +628,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat/altertemplate.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.0507042">
+        <state vertical-scroll-proportion="77.35714">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/preview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.123943664">
+          <caret line="150" column="78" selection-start-line="150" selection-start-column="78" selection-end-line="150" selection-end-column="78" />
+          <folding>
+            <element signature="n#style#0;n#button#2;n#div#1;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#1;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <marker date="1525182891967" expanded="true" signature="5863:5874" placeholder="..." />
+            <marker date="1525182891967" expanded="true" signature="7814:7825" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -148,7 +148,7 @@
             <div class="cardbt-con">
                 <button id="submit" style="display: none;" onclick="submitAudit()">提交审核</button>
                 <button id="submitCodeAndAudit" style="display: none;" onclick="submitCodeAndAudit()">提交审核</button>
-                <button style="display: none;" id="release" onclick="">发布</button>
+                <button style="display: none;" id="release" onclick="release()">发布</button>
             </div>
             <p id="failReason" style="margin: 95px;"></p>
             <div style="clear:both;"></div>
@@ -162,6 +162,20 @@
     var appId = sessionStorage.getItem('appId');
 
     var appData;
+        $.ajax({
+            type: 'POST',
+            async: false,
+            data: {app_id:appId},
+            url: '/easywin/p/e/myapp/getauditstatus?token='+token,
+            success: function(res){
+                if(res.code == 0){
+
+                }else{
+                    alert(res.codeMsg);
+                }
+            }
+        });
+
     $.ajax({
         type: 'POST',
         async: false,
@@ -175,6 +189,7 @@
             }
         }
     });
+
 
 
     $('#nickname').html(appData.nickName);
@@ -193,7 +208,7 @@
     if(!appData.commitTemplateVersion) {
         //未提交
         $('#submitCodeAndAudit').show();
-    }else if(appData.auditStatus != 1 && appData.commitTemplateVersion && appData.currentTemplateVersion != appData.commitTemplateVersion){
+    }else if(appData.auditStatus != 1 && appData.commitTemplateVersion && appData.currentTemplateVersions && appData.currentTemplateVersion != appData.commitTemplateVersion){
         //提交了新版本代码
        if(confirm("发现新版，是否提交审核")){
            submitAudit();
@@ -242,20 +257,7 @@
 
 
 
-//    $.ajax({
-//        type: 'POST',
-//        async: false,
-//        data: {app_id:miniappid},
-//        url: '/easywin/p/e/myapp/getauditstatus?token='+token,
-//        success: function(res){
-//            if(res.code == 0){
-//                appData.auditStatus = res.data.status;
-//
-//            }else{
-//                alert(res.codeMsg);
-//            }
-//        }
-//    });
+
 
 
 
@@ -300,6 +302,23 @@
                     }
                 }
             });
+
+    }
+
+
+    function release(){
+        $.ajax({
+            type: 'POST',
+            data: {app_id:appData.appId},
+            url: '/easywin/p/e/myapp/release?token='+token,
+            success: function(res){
+                if(res.code == 0){
+                    location.reload();
+                }else{
+                    alert(res.codeMsg);
+                }
+            }
+        });
 
     }
 </script>

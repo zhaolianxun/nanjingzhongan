@@ -130,6 +130,8 @@ public class WxOpenP3Authorization {
 			String seedId = request.getParameter("seed_id");
 			if (seedId == null)
 				throw new InteractRuntimeException("seed_id不能为空。");
+			String appId = request.getParameter("app_id");
+			appId = appId == null ? "0" : appId;
 			String agentId = StringUtils.trimToNull(request.getParameter("agent_id"));
 			agentId = agentId == null ? "0" : agentId;
 			// 业务处理
@@ -172,7 +174,7 @@ public class WxOpenP3Authorization {
 					.append("component_appid=").append(SysConstant.wechat_open_thirdparty_AppId)
 					.append("&pre_auth_code=").append(preAuthCode).append("&redirect_uri=")
 					.append(SysConstant.project_rooturl + "/p/wop3a/authcallback/").append(loginStatus.getUserId())
-					.append("/").append(seedId).append("/").append(agentId).append("&auth_type=").append("3")
+					.append("/").append(seedId).append("/").append(agentId).append("/").append(appId).append("&auth_type=").append("3")
 					.toString();
 
 			// 返回结果
@@ -191,10 +193,11 @@ public class WxOpenP3Authorization {
 		}
 	}
 
-	@RequestMapping(value = "/authcallback/{userId}/{seedId}/{agentId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/authcallback/{userId}/{seedId}/{agentId}/{appId}", method = RequestMethod.GET)
 	public void userAuthOfMiniappTemplateCallback(@PathVariable("userId") String fromUserId,
-			@PathVariable("seedId") String seedId, @PathVariable("agentId") String agentId, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+			@PathVariable("seedId") String seedId, @PathVariable("agentId") String agentId,
+			@PathVariable("appId") String appId, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		Jedis jedis = null;
 		Connection connection = null;
 		PreparedStatement pst = null;
@@ -203,6 +206,7 @@ public class WxOpenP3Authorization {
 			String authCode = request.getParameter("auth_code");
 			int authCodeExpiresIn = Integer.parseInt(request.getParameter("expires_in"));
 			agentId = "0".equals(agentId) ? null : agentId;
+			appId = "0".equals(appId) ? null : appId;
 			// 业务处理
 			jedis = SysConstant.jedisPool.getResource();
 			jedis.del(seedId + fromUserId);
@@ -240,21 +244,23 @@ public class WxOpenP3Authorization {
 					"select t.id,t.user_id,u.phone from t_app t inner join t_user u on t.user_id=u.id where t.wx_appid=?");
 			pst.setObject(1, authorizerAppId);
 			ResultSet rs = pst.executeQuery();
-			String appId = null;
+			String existAppId = null;
 			String existUserId = null;
 			String existPhone = null;
 			if (rs.next()) {
-				appId = rs.getString("id");
+				existAppId = rs.getString("id");
 				existUserId = rs.getString("user_id");
 				existPhone = rs.getString("phone");
 			}
+			if (existAppId != null && appId != null && !existAppId.equals(appId))
+				throw new InteractRuntimeException("您的微信小程序公众号已经绑定了其他账号:");
 			if (existUserId != null && !existUserId.equals(fromUserId))
 				throw new InteractRuntimeException("您的微信小程序公众号已经绑定了其他账号:" + existPhone);
 			pst.close();
 
 			String authorizerAccessToken = authorizationInfo.getString("authorizer_access_token");
-			long authorizerExpiresIn = authorizationInfo.getIntValue("expires_in") ;
-			long expireIn = new Date().getTime()+authorizerExpiresIn* 1000l;
+			long authorizerExpiresIn = authorizationInfo.getIntValue("expires_in");
+			long expireIn = new Date().getTime() + authorizerExpiresIn * 1000l;
 			String authorizerRefreshToken = authorizationInfo.getString("authorizer_refresh_token");
 			// "func_info": [{"funcscope_category": {"id":
 			// 1}},{"funcscope_category": {"id": 2}},{"funcscope_category":
@@ -439,7 +445,8 @@ public class WxOpenP3Authorization {
 	}
 
 	@RequestMapping(value = "/eventMessage/wxba2af9f621911ee8/callback")
-	public void eventMessageCallbackWxba2af9f621911ee8(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void eventMessageCallbackWxba2af9f621911ee8(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -508,9 +515,9 @@ public class WxOpenP3Authorization {
 
 	}
 
-	
 	@RequestMapping(value = "/eventMessage/wx8ed0f8a61df4d270/callback")
-	public void eventMessageCallbackWx8ed0f8a61df4d270(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void eventMessageCallbackWx8ed0f8a61df4d270(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -578,6 +585,7 @@ public class WxOpenP3Authorization {
 		}
 
 	}
+
 	public static void main(String[] args) throws DocumentException, UnsupportedEncodingException {
 		JSONObject content = new JSONObject();
 		content.put("action", "add");

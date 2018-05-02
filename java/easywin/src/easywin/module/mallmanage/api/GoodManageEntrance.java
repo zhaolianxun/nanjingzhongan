@@ -455,7 +455,6 @@ public class GoodManageEntrance {
 					}
 
 					// 插入sku
-					boolean sqlParams1Empty = false;
 					List sqlParams1 = new ArrayList();
 					if (skuInventory != null)
 						sqlParams1.add(skuInventory);
@@ -463,14 +462,11 @@ public class GoodManageEntrance {
 						sqlParams1.add(skuPrice);
 					if (skuOriginalPrice != null)
 						sqlParams1.add(skuOriginalPrice);
-					sqlParams1Empty = sqlParams1.isEmpty();
-					sqlParams1.add(skuId);
-					if (!sqlParams1Empty) {
-						String ss = (skuInventory == null ? "" : " ,inventory=?")
-								+ (skuPrice == null ? "" : " ,price=?")
-								+ (skuOriginalPrice == null ? "" : " ,original_price=?");
-						ss = ss.substring(2);
-						pst = connection.prepareStatement("update `t_mall_good_sku` set " + ss + " where id=?");
+					if (!sqlParams1.isEmpty()) {
+						sqlParams1.add(skuId);
+						pst = connection.prepareStatement("update `t_mall_good_sku` set id=id"
+								+ (skuInventory == null ? "" : " ,inventory=?") + (skuPrice == null ? "" : " ,price=?")
+								+ (skuOriginalPrice == null ? "" : " ,original_price=?") + " where id=?");
 						for (int j = 0; j < sqlParams1.size(); j++) {
 							pst.setObject(j + 1, sqlParams1.get(j));
 						}
@@ -657,13 +653,10 @@ public class GoodManageEntrance {
 
 			// 业务处理
 			connection = EasywinDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
 
-			pst = connection
-					.prepareStatement("update t_mall_good set mall_del_time=? and mall_del=? where id=? and mall_id=?");
-			pst.setObject(1, new Date().getTime());
-			pst.setObject(2, 1);
-			pst.setObject(3, goodId);
-			pst.setObject(4, mallId);
+			pst = connection.prepareStatement("delete from t_mall_good where id=?");
+			pst.setObject(1, goodId);
 			int n = pst.executeUpdate();
 			pst.close();
 			if (n == 0)
@@ -671,11 +664,29 @@ public class GoodManageEntrance {
 			else if (n > 1)
 				throw new InteractRuntimeException("操作失败");
 
+			pst = connection.prepareStatement("delete from t_mall_good_attr where good_id=?");
+			pst.setObject(1, goodId);
+			pst.executeUpdate();
+			pst.close();
+
+			pst = connection.prepareStatement("delete from t_mall_good_sku where good_id=?");
+			pst.setObject(1, goodId);
+			pst.executeUpdate();
+			pst.close();
+
+			pst = connection.prepareStatement(
+					"delete t from t_mall_good_attr_value t left join t_mall_good_attr u on t.attr_id=u.id where isnull(u.id) or length(u.id)=0");
+			pst.executeUpdate();
+			pst.close();
+
+			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源

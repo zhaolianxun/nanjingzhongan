@@ -271,7 +271,7 @@ public class MyAppEntrance {
 				pst.close();
 				throw new InteractRuntimeException("模板不存在");
 			}
-			String wxTemplateId = rs.getString("wx_templateid");
+			int wxTemplateId = rs.getInt("wx_templateid");
 			String version = rs.getString("tpl_version");
 			String tplCode = rs.getString("tpl_code");
 			pst.close();
@@ -568,36 +568,39 @@ public class MyAppEntrance {
 			if (auditstatus == 0 || wxAuditId == null)
 				throw new InteractRuntimeException("还未提交审核");
 
-			// 获取小程序的第三方提交代码的页面配置
-			String url = new StringBuilder("https://api.weixin.qq.com/wxa/get_auditstatus?").append("access_token=")
-					.append(accessToken).toString();
-			logger.debug("url " + url);
-			JSONObject content = new JSONObject();
-			content.put("auditid", wxAuditId);
+			String reason = null;
+			if (auditstatus == 1) {
+				// 获取小程序的第三方提交代码的页面配置
+				String url = new StringBuilder("https://api.weixin.qq.com/wxa/get_auditstatus?").append("access_token=")
+						.append(accessToken).toString();
+				logger.debug("url " + url);
+				JSONObject content = new JSONObject();
+				content.put("auditid", wxAuditId);
 
-			Request okHttpRequest = new Request.Builder().url(url)
-					.post(RequestBody.create(MediaType.parse("application/json"), content.toJSONString())).build();
-			Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
-			String responseBody = okHttpResponse.body().string();
-			logger.debug("responseBody " + responseBody);
-			JSONObject resultVo = JSON.parseObject(responseBody);
+				Request okHttpRequest = new Request.Builder().url(url)
+						.post(RequestBody.create(MediaType.parse("application/json"), content.toJSONString())).build();
+				Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+				String responseBody = okHttpResponse.body().string();
+				logger.debug("responseBody " + responseBody);
+				JSONObject resultVo = JSON.parseObject(responseBody);
 
-			if (resultVo.getIntValue("errcode") != 0)
-				throw new InteractRuntimeException(resultVo.getString("errmsg"));
-			int status = resultVo.getIntValue("status");
-			String reason = resultVo.getString("reason");
-			if (status != 1 && status != 2 && status != 0)
-				throw new InteractRuntimeException("未知状态");
-
-			pst = connection.prepareStatement("update t_app set audit_fail_reason=?,audit_status=? where id=?");
-			pst.setObject(1, reason);
-			pst.setObject(2, status == 0 ? 2 : status == 1 ? 3 : 1);
-			pst.setObject(3, appId);
-			int n = pst.executeUpdate();
-			pst.close();
-			if (n != 1)
-				throw new InteractRuntimeException("操作失败");
-
+				if (resultVo.getIntValue("errcode") != 0)
+					throw new InteractRuntimeException(resultVo.getString("errmsg"));
+				int status = resultVo.getIntValue("status");
+				reason = resultVo.getString("reason");
+				if (status != 1 && status != 2 && status != 0)
+					throw new InteractRuntimeException("未知状态");
+				auditstatus = status == 0 ? 2 : status == 1 ? 3 : 1;
+				pst = connection.prepareStatement(
+						"update t_app set audit_fail_reason=?,audit_status=? where id=? and audit_status=1");
+				pst.setObject(1, reason);
+				pst.setObject(2, auditstatus);
+				pst.setObject(3, appId);
+				int n = pst.executeUpdate();
+				pst.close();
+				if (n != 1)
+					throw new InteractRuntimeException("操作失败");
+			}
 			connection.commit();
 			// 返回结果
 			JSONObject data = new JSONObject();
@@ -686,7 +689,7 @@ public class MyAppEntrance {
 			if (useEndtime != null)
 				params.add(useEndtime);
 			params.add(appId);
-			pst = connection.prepareStatement("update t_app set" + (useEndtime == null ? "" : "use_endtime=?,")
+			pst = connection.prepareStatement("update t_app set" + (useEndtime == null ? "" : " use_endtime=?,")
 					+ " audit_status=4,current_template_version=audit_template_version where id=?");
 			for (int i = 0; i < params.size(); i++) {
 				pst.setObject(i + 1, params.get(i));
