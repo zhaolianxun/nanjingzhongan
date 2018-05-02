@@ -23,3 +23,6 @@ update t_daily_report_adminlook t set report_writer_name=(select aa.realname fro
 修改接口BUG：/c/hle/home;/c/homeentrance/home
 修改方法:void zasellaid.module.client.api.ManageEntrance.lookReport(HttpServletRequest, HttpServletResponse)
 -把查询“管理员查看者名(adminLookerNames)”放在了前面
+
+===============0.0.6===============
+增加医院回收站功能
