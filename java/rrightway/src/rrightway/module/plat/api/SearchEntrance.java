@@ -119,11 +119,11 @@ public class SearchEntrance {
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("id", rs.getInt("id"));
-				item.put("giftCover", rs.getInt("gift_cover"));
+				item.put("giftCover", rs.getString("gift_cover"));
 				item.put("giftName", rs.getString("gift_name"));
 				item.put("payPrice", rs.getBigDecimal("pay_price"));
 				item.put("returnMoney", rs.getBigDecimal("return_money"));
-				item.put("buyerNum", rs.getBigDecimal("buyer_num"));
+				item.put("buyerNum", rs.getInt("buyer_num"));
 				items.add(item);
 			}
 			pst.close();

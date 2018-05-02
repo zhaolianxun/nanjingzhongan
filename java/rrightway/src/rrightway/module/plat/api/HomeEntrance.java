@@ -92,7 +92,7 @@ public class HomeEntrance {
 			while (rs.next()) {
 				JSONObject featuredActivity = new JSONObject();
 				featuredActivity.put("id", rs.getInt("id"));
-				featuredActivity.put("giftCover", rs.getInt("gift_cover"));
+				featuredActivity.put("giftCover", rs.getString("gift_cover"));
 				featuredActivity.put("giftName", rs.getString("gift_name"));
 				featuredActivity.put("payPrice", rs.getBigDecimal("pay_price"));
 				featuredActivities.add(featuredActivity);
@@ -137,6 +137,5 @@ public class HomeEntrance {
 				connection.close();
 		}
 	}
-
 
 }

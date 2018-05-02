@@ -90,7 +90,7 @@ public class HomeEntrance {
 			sqlParams.add(pageSize);
 			// 查詢主轮播图
 			String sql = new StringBuilder(
-					"select t.id hospital_id,t.name hospital_name,t.province_name,t.city_name,t.customer_type,t.last_trace_time from t_contact_hospital t left join t_client_user beloner on t.client_user_id=beloner.id where 1=1 and t.client_user_id=? ")
+					"select t.id hospital_id,t.name hospital_name,t.province_name,t.city_name,t.customer_type,t.last_trace_time from t_contact_hospital t left join t_client_user beloner on t.client_user_id=beloner.id where t.client_user_del=0 and t.client_user_id=? ")
 							.append(keyw == null ? ""
 									: " and (t.name like ? or t.dean_name like ? or t.dean_phone like ? or t.director_phone like ?)")
 							.append(customerType == null ? "" : " and t.customer_type=? ")
@@ -120,7 +120,7 @@ public class HomeEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select count(t.id) total_count,(select count(id) from t_contact_hospital where t.client_user_id=client_user_id) def_count,(select count(id) from t_contact_hospital where customer_type=1 and t.client_user_id=client_user_id) type1_count,(select count(id) from t_contact_hospital where customer_type=2 and t.client_user_id=client_user_id) type2_count,(select count(id) from t_contact_hospital where customer_type=3 and t.client_user_id=client_user_id) type3_count,(select count(id) from t_contact_hospital where customer_type=4 and t.client_user_id=client_user_id) type4_count from t_contact_hospital t left join t_client_user beloner on t.client_user_id=beloner.id where 1=1 and t.client_user_id=? ")
+					"select count(t.id) total_count,(select count(id) from t_contact_hospital where client_user_del=0 and t.client_user_id=client_user_id) def_count,(select count(id) from t_contact_hospital where client_user_del=0 and customer_type=1 and t.client_user_id=client_user_id) type1_count,(select count(id) from t_contact_hospital where client_user_del=0 and customer_type=2 and t.client_user_id=client_user_id) type2_count,(select count(id) from t_contact_hospital where client_user_del=0 and customer_type=3 and t.client_user_id=client_user_id) type3_count,(select count(id) from t_contact_hospital where client_user_del=0 and customer_type=4 and t.client_user_id=client_user_id) type4_count from t_contact_hospital t left join t_client_user beloner on t.client_user_id=beloner.id where t.client_user_del=0 and t.client_user_id=? ")
 							.append(keyw == null ? ""
 									: " and (t.name like ? or t.dean_name like ? or t.dean_phone like ? or t.director_phone like ?)")
 							.append(customerType == null ? "" : " and t.customer_type=? ")

@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -379,7 +377,7 @@ public class BuyEntrance {
 
 			// 业务处理
 			connection = EasywinDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("select wx_appid,wx_mchid,wx_mchkey from t_app where t.id=?");
+			pst = connection.prepareStatement("select wx_appid,wx_mchid,wx_mchkey from t_app where id=?");
 			pst.setObject(1, mallId);
 			ResultSet rs = pst.executeQuery();
 			String wxMchid = null;
