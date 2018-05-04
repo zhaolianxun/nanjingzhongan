@@ -55,7 +55,7 @@ public class PatientEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.id,t.realname,t.tel,u.name clinic_name from t_patient t left join t_clinic u on t.clinic_id=u.id  order by t.realname asc limit ?,?");
+					"select t.id,t.realname,t.tel,u.name clinic_name from t_patient t left join t_clinic u on t.clinic_id=u.id order by t.realname asc limit ?,?");
 			pst.setObject(1, pageSize * (pageNo - 1));
 			pst.setObject(2, pageSize);
 			ResultSet rs = pst.executeQuery();

@@ -499,8 +499,18 @@ public class UserListEntrance {
 
 			connection = ZasellaidDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
+
+			pst = connection.prepareStatement(
+					"select distinct admin_realname from t_daily_report_adminlook where report_id=? order by look_time desc");
+			pst.setObject(1, reportId);
+			ResultSet rs = pst.executeQuery();
+			JSONArray adminLookerNames = new JSONArray();
+			while (rs.next()) {
+				adminLookerNames.add(rs.getObject("admin_realname"));
+			}
+
 			// 查詢订单列表
-			if (loginStatus.getIfSuperadmin() != 1) {
+			if (loginStatus.getIfSuperadmin() == 1) {
 				pst = connection
 						.prepareStatement("delete from t_daily_report_adminlook where report_id=? and admin_id=?");
 				pst.setObject(1, reportId);
@@ -531,14 +541,6 @@ public class UserListEntrance {
 					throw new InteractRuntimeException("操作失败");
 			}
 
-			pst = connection.prepareStatement(
-					"select distinct admin_realname from t_daily_report_adminlook where report_id=? order by look_time desc");
-			pst.setObject(1, reportId);
-			ResultSet rs = pst.executeQuery();
-			JSONArray adminLookerNames = new JSONArray();
-			while (rs.next()) {
-				adminLookerNames.add(rs.getObject("admin_realname"));
-			}
 			connection.commit();
 			JSONObject data = new JSONObject();
 			data.put("adminLookerNames", adminLookerNames);
