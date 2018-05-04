@@ -1,4 +1,4 @@
-package rrightway.module.plat.api;
+package rrightway.module.plat.api.pc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

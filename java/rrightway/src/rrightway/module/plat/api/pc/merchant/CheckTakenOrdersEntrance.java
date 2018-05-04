@@ -1,4 +1,4 @@
-package rrightway.module.plat.api.merchant;
+package rrightway.module.plat.api.pc.merchant;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

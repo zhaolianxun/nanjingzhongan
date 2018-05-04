@@ -1,4 +1,4 @@
-package rrightway.module.plat.api.merchant;
+package rrightway.module.plat.api.pc.merchant;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,11 +24,11 @@ import rrightway.module.plat.entity.UserLoginStatus;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
-@Controller("plat.api.merchant.InActivityCowryEntrance")
-@RequestMapping(value = "/p/inactcowriesent")
-public class InActivityCowryEntrance {
+@Controller("plat.api.merchant.AuditingActivityCowryEntrance")
+@RequestMapping(value = "/p/auditcowriesent")
+public class AuditingActivityCowryEntrance {
 
-	public static Logger logger = Logger.getLogger(InActivityCowryEntrance.class);
+	public static Logger logger = Logger.getLogger(AuditingActivityCowryEntrance.class);
 
 	@RequestMapping(value = "/cowries")
 	public void home(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -36,6 +36,8 @@ public class InActivityCowryEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
+			String auditParam = StringUtils.trimToNull(request.getParameter("audit"));
+			Integer audit = auditParam == null ? null : Integer.parseInt(auditParam);
 			String title = StringUtils.trimToNull(request.getParameter("title"));
 			String giftName = StringUtils.trimToNull(request.getParameter("gift_name"));
 			String buyWayParam = StringUtils.trimToNull(request.getParameter("buy_way"));
@@ -54,6 +56,8 @@ public class InActivityCowryEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			List sqlParams = new ArrayList();
+			if (audit != null)
+				sqlParams.add(audit);
 			if (title != null)
 				sqlParams.add(new StringBuilder("%").append(title).append("%").toString());
 			if (giftName != null)
@@ -68,7 +72,8 @@ public class InActivityCowryEntrance {
 				sqlParams.add(publishTimeEnd);
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select id,gift_name,pay_price,return_money,title,await_participant_num,buyer_num,(start_time+keep_days*24*60*60*1000-rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')) remain_time from t_activity where in_activity=1")
+					"select id,gift_name,pay_price,return_money,title,stock,publish_time,audit from t_activity where 1=1 ")
+							.append(audit == null ? "" : " and audit=? ")
 							.append(title == null ? "" : " and title like ? ")
 							.append(giftName == null ? "" : " and gift_name like ? ")
 							.append(couponIf == null ? ""
@@ -85,9 +90,9 @@ public class InActivityCowryEntrance {
 				item.put("payPrice", rs.getObject("pay_price"));
 				item.put("returnMoney", rs.getObject("return_money"));
 				item.put("title", rs.getObject("title"));
-				item.put("awaitParticipantNum", rs.getObject("await_participant_num"));
-				item.put("buyerNum", rs.getObject("buyer_num"));
-				item.put("remainTime", rs.getObject("remain_time"));
+				item.put("stock", rs.getObject("stock"));
+				item.put("publishTime", rs.getObject("publish_time"));
+				item.put("audit", rs.getObject("audit"));
 				items.add(item);
 			}
 			pst.close();

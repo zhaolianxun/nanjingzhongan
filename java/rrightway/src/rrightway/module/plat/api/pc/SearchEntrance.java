@@ -1,4 +1,4 @@
-package rrightway.module.plat.api;
+package rrightway.module.plat.api.pc;
 
 import java.math.BigDecimal;
 import java.sql.Connection;

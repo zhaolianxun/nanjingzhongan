@@ -45,11 +45,7 @@ public class HttpRespondWithData {
 		if (ex instanceof InteractRuntimeException) {
 			InteractRuntimeException ire = (InteractRuntimeException) ex;
 			code = ire.getCode();
-			if (SysConstant.project_environment.equals("test"))
-				codeMsg = StringUtils.trim(new StringBuilder(ire.getMessage()).append(" : ")
-						.append(ExceptionUtils.getStackTrace(ire)).toString());
-			else
-				codeMsg = StringUtils.trim(ire.getMessage());
+			codeMsg = StringUtils.trim(ire.getMessage());
 			data = ire.getData();
 		} else {
 			code = 98;
