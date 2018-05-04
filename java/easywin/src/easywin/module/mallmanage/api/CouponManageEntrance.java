@@ -46,12 +46,13 @@ public class CouponManageEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢主轮播图
 			pst = connection.prepareStatement(
-					"select t.title,t.desc,t.type1_uptomoney,t.type1_submoney,t.type1_starttime,t.type1_endtime from t_mall_coupon t where t.mall_id=?");
+					"select t.id,t.title,t.desc,t.type1_uptomoney,t.type1_submoney,t.type1_starttime,t.type1_endtime from t_mall_coupon t where t.mall_id=?");
 			pst.setObject(1, mallId);
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
 			if (rs.next()) {
 				JSONObject item = new JSONObject();
+				item.put("couponId", rs.getObject("id"));
 				item.put("title", rs.getObject("title"));
 				item.put("desc", rs.getObject("desc"));
 				item.put("type1Uptomoney", rs.getObject("type1_uptomoney"));
