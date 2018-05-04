@@ -80,6 +80,7 @@ public class HomeEntrance {
 			data.put("notices", notices);
 			data.put("featuredActivities", featuredActivities);
 			data.put("mayLoves", featuredActivities);
+			data.put("searchkey_preset", null);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常

@@ -55,8 +55,8 @@ public class MainInitiator implements ServletContextListener {
 			logger.info("【错误码初始化】");
 			initErrorCode();
 			logger.info("【jdbc数据源】");
-			RrightwayDataSource.setupDataSource(SysConstant.jdbc_driver, SysConstant.jdbc_url, SysConstant.jdbc_username,
-					SysConstant.jdbc_password);
+			RrightwayDataSource.setupDataSource(SysConstant.jdbc_driver, SysConstant.jdbc_url,
+					SysConstant.jdbc_username, SysConstant.jdbc_password);
 			logger.info("-------初始化rrightway项目结束-------");
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -108,7 +108,17 @@ public class MainInitiator implements ServletContextListener {
 				.trimToNull(properties.getProperty("wechat.open.thirdparty.MsgVerificationToken"));
 		SysConstant.wechat_open_thirdparty_MsgEncryptAndDecryptKey = StringUtils
 				.trimToNull(properties.getProperty("wechat.open.thirdparty.MsgEncryptAndDecryptKey"));
-
+		
+		
+		SysConstant.ali_open_app_rrightway_appkey = StringUtils
+				.trimToNull(properties.getProperty("ali.open.app.rrightway.appkey"));
+		SysConstant.ali_open_app_rrightway_appsecret = StringUtils
+				.trimToNull(properties.getProperty("ali.open.app.rrightway.appsecret"));
+		SysConstant.ali_open_oauth_url = StringUtils
+				.trimToNull(properties.getProperty("ali.open.oauth.url"));
+		SysConstant.ali_open_gettoken_url = StringUtils
+				.trimToNull(properties.getProperty("ali.open.gettoken.url"));
+		
 		SysConstant.project_domain = StringUtils.trimToNull(properties.getProperty("project.domain"));
 		SysConstant.project_rooturl = StringUtils.trimToNull(properties.getProperty("project.rooturl"));
 		// 外部接口初始化

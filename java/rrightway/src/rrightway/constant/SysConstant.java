@@ -24,7 +24,7 @@ public class SysConstant {
 
 	public static String project_domain;
 	public static String project_rooturl;
-	
+
 	// 错误码
 	public static String errorCodeCnMapperPath = "rrightway/config/errorCode_CN.properties";
 	public static String errorCodeEnMapperPath = "rrightway/config/errorCode_EN.properties";
@@ -52,6 +52,12 @@ public class SysConstant {
 	public static String wechat_open_thirdparty_AppSecret;
 	public static String wechat_open_thirdparty_MsgVerificationToken;
 	public static String wechat_open_thirdparty_MsgEncryptAndDecryptKey;
+
+	
+	public static String ali_open_oauth_url;
+	public static String ali_open_gettoken_url;
+	public static String ali_open_app_rrightway_appkey;
+	public static String ali_open_app_rrightway_appsecret;
 
 	public static void main(String[] args) {
 		System.out.println(urlsWithEmptyPattern.matcher("1,  1,1").find());
