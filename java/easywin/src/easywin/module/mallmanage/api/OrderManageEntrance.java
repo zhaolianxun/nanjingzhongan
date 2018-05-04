@@ -335,6 +335,7 @@ public class OrderManageEntrance {
 			pst = connection.prepareStatement(
 					"select t.status,t.refund_status,t.amount,u.wx_appid,u.wx_mchid,u.wx_mchkey,u.wx_mchcertpath from t_mall_order t left join t_app u on t.mall_id=u.id where t.id=? and u.id=? for update");
 			pst.setObject(1, orderId);
+			pst.setObject(2, mallId);
 			ResultSet rs = pst.executeQuery();
 			String status = null;
 			String refundStatus = null;
@@ -345,7 +346,7 @@ public class OrderManageEntrance {
 			Integer amount = 0;
 			if (rs.next()) {
 				status = rs.getString("status");
-				refundStatus = rs.getString("refundStatus");
+				refundStatus = rs.getString("refund_status");
 				wxMchid = rs.getString("wx_mchid");
 				wxAppid = rs.getString("wx_appid");
 				wxMchkey = rs.getString("wx_mchkey");
@@ -369,9 +370,8 @@ public class OrderManageEntrance {
 			// 查詢订单列表
 			pst = connection.prepareStatement(
 					"update t_mall_order set refund_status='1',refund_reason=? where id=? and status in ('1','2','3') and refund_status='0'");
-			pst.setObject(1, new Date().getTime());
-			pst.setObject(2, reason);
-			pst.setObject(3, orderId);
+			pst.setObject(1, reason);
+			pst.setObject(2, orderId);
 			int n = pst.executeUpdate();
 			pst.close();
 			if (n == 0)
@@ -426,7 +426,7 @@ public class OrderManageEntrance {
 			logger.debug("接收到微信退款通知：" + reqData);
 			// 业务处理
 			connection = EasywinDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("select wx_appid,wx_mchid,wx_mchkey from t_app where t.id=?");
+			pst = connection.prepareStatement("select t.wx_appid,t.wx_mchid,t.wx_mchkey from t_app t where t.id=?");
 			pst.setObject(1, mallId);
 			ResultSet rs = pst.executeQuery();
 			String wxMchid = null;
@@ -452,10 +452,10 @@ public class OrderManageEntrance {
 			String mchId = respData.get("mch_id");
 			String nonceStr = respData.get("nonce_str");
 			String reqInfoStr = respData.get("req_info");
-			Map<String, String> reqInfo = WXPayUtil.xmlToMap(AESUtil.decryptData(reqInfoStr));
-			int settlementRefundFee = Integer.parseInt(respData.get("settlement_refund_fee"));
-			String outTradeNo = respData.get("out_trade_no");
-			String refundStatus = respData.get("refund_status");
+			Map<String, String> reqInfo = WXPayUtil.xmlToMap(AESUtil.decryptData(reqInfoStr, wxMchkey));
+			int settlementRefundFee = Integer.parseInt(reqInfo.get("settlement_refund_fee"));
+			String outTradeNo = reqInfo.get("out_trade_no");
+			String refundStatus = reqInfo.get("refund_status");
 			if ("SUCCESS".equals(refundStatus))
 				OrderAction.refundComplete(outTradeNo, settlementRefundFee);
 			else if ("CHANGE".equals(refundStatus))
