@@ -19,8 +19,8 @@ import rrightway.module.plat.entity.UserLoginStatus;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
-@Controller("plat.api.merchant.HomeEntrance")
-@RequestMapping(value = "/p/homeent")
+@Controller("plat.api.pc.merchant.HomeEntrance")
+@RequestMapping(value = "/p/p/homeent")
 public class HomeEntrance {
 
 	public static Logger logger = Logger.getLogger(HomeEntrance.class);

@@ -1,4 +1,4 @@
-package rrightway.module.plat.api.pc;
+package rrightway.module.plat.api.mobile;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,8 +22,8 @@ import rrightway.module.plat.entity.UserLoginStatus;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
-@Controller("plat.api.pc.ActivityDetailEntrance")
-@RequestMapping(value = "/p/p/actdetent")
+@Controller("plat.api.mobile.ActivityDetailEntrance")
+@RequestMapping(value = "/p/m/actdetent")
 public class ActivityDetailEntrance {
 
 	public static Logger logger = Logger.getLogger(ActivityDetailEntrance.class);
@@ -40,11 +40,14 @@ public class ActivityDetailEntrance {
 			int activityId = Integer.parseInt(activityIdParam);
 
 			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.gift_cover,t.gift_name,t.pay_price,t.return_money,t.publish_time+t.keep_days*24*60*60*1000 end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit_min,t.gift_express_co,t.gift_detail from t_activity t where t.id=?")
-							.toString());
+					"select t.gift_cover,t.gift_name,t.pay_price,t.return_money,t.publish_time+t.keep_days*24*60*60*1000 end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit_min,t.gift_express_co"
+							+ (loginStatus == null ? ",null gift_detail" : ",t.gift_detail")
+							+ " from t_activity t where t.id=?").toString());
 			pst.setObject(1, activityId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();

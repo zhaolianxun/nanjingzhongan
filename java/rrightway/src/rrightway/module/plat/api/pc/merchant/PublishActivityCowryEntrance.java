@@ -25,8 +25,8 @@ import rrightway.module.plat.entity.UserLoginStatus;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
-@Controller("plat.api.merchant.PublishActivityCowryEntrance")
-@RequestMapping(value = "/p/pubactcryent")
+@Controller("plat.api.pc.merchant.PublishActivityCowryEntrance")
+@RequestMapping(value = "/p/p/pubactcryent")
 public class PublishActivityCowryEntrance {
 
 	public static Logger logger = Logger.getLogger(PublishActivityCowryEntrance.class);

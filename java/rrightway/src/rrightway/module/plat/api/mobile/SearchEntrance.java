@@ -1,4 +1,4 @@
-package rrightway.module.plat.api.pc;
+package rrightway.module.plat.api.mobile;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -20,13 +20,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import rrightway.entity.InteractRuntimeException;
-import rrightway.module.plat.business.GetLoginStatus;
-import rrightway.module.plat.entity.UserLoginStatus;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
-@Controller("plat.api.pc.SearchEntrance")
-@RequestMapping(value = "/p/p/searche")
+@Controller("plat.api.mobile.SearchEntrance")
+@RequestMapping(value = "/p/m/searche")
 public class SearchEntrance {
 
 	public static Logger logger = Logger.getLogger(SearchEntrance.class);
@@ -38,6 +36,8 @@ public class SearchEntrance {
 		try {
 			// 获取请求参数
 			String keyw = StringUtils.trimToNull(request.getParameter("keyw"));
+			String type2idParam = StringUtils.trimToNull(request.getParameter("type2_id"));
+			Integer type2Id = type2idParam == null ? null : Integer.parseInt(type2idParam);
 			String type1idParam = StringUtils.trimToNull(request.getParameter("type1_id"));
 			Integer type1Id = type1idParam == null ? null : Integer.parseInt(type1idParam);
 			String couponIfParam = StringUtils.trimToNull(request.getParameter("coupon_if"));
@@ -63,6 +63,7 @@ public class SearchEntrance {
 			if (pageSize <= 0)
 				throw new InteractRuntimeException("page_size有误");
 			// 业务处理
+
 			List sqlParams = new ArrayList();
 			if (keyw != null) {
 				keyw = new StringBuilder("%").append(keyw).append("%").toString();
@@ -70,6 +71,8 @@ public class SearchEntrance {
 			}
 			if (type1Id != null)
 				sqlParams.add(type1Id);
+			if (type2Id != null)
+				sqlParams.add(type2Id);
 			if (wayToShop != null)
 				sqlParams.add(wayToShop);
 			if (buyerMincreditMin != null)
@@ -83,9 +86,10 @@ public class SearchEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select id,gift_cover,gift_name,pay_price,return_money,buyer_num from t_activity where buy_way=1 ")
+					"select id,gift_cover,gift_name,pay_price,return_money,buyer_num from t_activity where buy_way=2 ")
 							.append(keyw == null ? "" : " and gift_name like ? ")
 							.append(type1Id == null ? "" : " and gift_type1_id=? ")
+							.append(type2Id == null ? "" : " and gift_type2_id=? ")
 							.append(wayToShop == null ? "" : " and way_to_shop=? ")
 							.append(buyerMincreditMin == null ? "" : " and buyer_mincredit >= ? ")
 							.append(payPriceMin == null ? "" : " and pay_price >= ? ")

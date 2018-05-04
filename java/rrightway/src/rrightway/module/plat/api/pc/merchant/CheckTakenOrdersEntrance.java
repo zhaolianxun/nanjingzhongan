@@ -24,8 +24,8 @@ import rrightway.module.plat.entity.UserLoginStatus;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
-@Controller("plat.api.merchant.CheckTakenOrdersEntrance")
-@RequestMapping(value = "/p/chktakenent")
+@Controller("plat.api.pc.merchant.CheckTakenOrdersEntrance")
+@RequestMapping(value = "/p/p/chktakenent")
 public class CheckTakenOrdersEntrance {
 
 	public static Logger logger = Logger.getLogger(CheckTakenOrdersEntrance.class);

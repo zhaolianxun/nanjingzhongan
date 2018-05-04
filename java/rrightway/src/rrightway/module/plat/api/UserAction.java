@@ -175,10 +175,10 @@ public class UserAction {
 			// 获取请求参数
 			String oldPwd = StringUtils.trimToNull(request.getParameter("old_pwd"));
 			if (oldPwd == null)
-				throw new InteractRuntimeException("old_pwd不可空");
+				throw new InteractRuntimeException("old_pwd 不可空");
 			String newPwd = StringUtils.trimToNull(request.getParameter("new_pwd"));
 			if (newPwd == null)
-				throw new InteractRuntimeException("new_pwd不可空");
+				throw new InteractRuntimeException("new_pwd 不可空");
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -211,6 +211,137 @@ public class UserAction {
 		}
 	}
 
+	@RequestMapping(value = "/alterpwdbysmsvcode")
+	public void alterPwdBySmsvcode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String phone = StringUtils.trimToNull(request.getParameter("phone"));
+			if (phone == null)
+				throw new InteractRuntimeException("phone 不可空");
+			String smsvcode = StringUtils.trimToNull(request.getParameter("smsvcode"));
+			if (smsvcode == null)
+				throw new InteractRuntimeException("smsvcode 不可空");
+			String newpwd = StringUtils.trimToNull(request.getParameter("newpwd"));
+			if (newpwd == null)
+				throw new InteractRuntimeException("newpwd 不可空");
+
+			// 业务处理
+			// 短信校验
+			String url = new StringBuilder(OutApis.sms_verification_verify).append("?").append("phone=").append(phone)
+					.append("&verification_code=").append(smsvcode).toString();
+			Request okHttpRequest = new Request.Builder().url(url).build();
+			Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+			String responseBody = okHttpResponse.body().string();
+			logger.debug("call out api：" + okHttpResponse.request().url() + "<--- " + responseBody);
+			JSONObject resultVo = JSON.parseObject(responseBody);
+			if (resultVo.getInteger("code") != 0)
+				throw new InteractRuntimeException(resultVo.getString("codeMsg"));
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("update t_user set password=?,password_md5=? where phone=?");
+			pst.setObject(1, newpwd);
+			pst.setObject(2, DigestUtils.md5Hex(newpwd));
+			pst.setObject(3, phone);
+			int n = pst.executeUpdate();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/getphonebyusername")
+	public void getphonebyusername(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String username = StringUtils.trimToNull(request.getParameter("username"));
+			if (username == null)
+				throw new InteractRuntimeException("username 不可空");
+
+			// 业务处理
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("select phone from t_user where username=?");
+			pst.setObject(1, username);
+			ResultSet rs = pst.executeQuery();
+			String phone = null;
+			if (rs.next()) {
+				phone = rs.getString(1);
+			} else
+				throw new InteractRuntimeException("用户名不存在");
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("phone", phone);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/checkphoneexist")
+	public void checkphoneexist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String phone = StringUtils.trimToNull(request.getParameter("phone"));
+			if (phone == null)
+				throw new InteractRuntimeException("phone 不可空");
+
+			// 业务处理
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("select id from t_user where phone=?");
+			pst.setObject(1, phone);
+			ResultSet rs = pst.executeQuery();
+			int exist = 0;
+			if (rs.next()) {
+				exist = 1;
+			}
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("exist", exist);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
 	/**
 	 * 注册
 	 * 
@@ -226,13 +357,13 @@ public class UserAction {
 			// 获取请求参数
 			String username = StringUtils.trimToNull(request.getParameter("username"));
 			if (username == null)
-				throw new InteractRuntimeException("username不可空");
+				throw new InteractRuntimeException("username 不可空");
 			String pwd = StringUtils.trimToNull(request.getParameter("pwd"));
 			if (pwd == null)
-				throw new InteractRuntimeException("pwd不可空");
+				throw new InteractRuntimeException("pwd 不可空");
 			String qq = StringUtils.trimToNull(request.getParameter("qq"));
 			if (qq == null)
-				throw new InteractRuntimeException("qq不可空");
+				throw new InteractRuntimeException("qq 不可空");
 			// 业务处理
 
 			// 校验用户名
@@ -374,13 +505,13 @@ public class UserAction {
 			// 获取请求参数
 			String address = StringUtils.trimToNull(request.getParameter("address"));
 			if (address == null)
-				throw new InteractRuntimeException("address不可空");
+				throw new InteractRuntimeException("address 不可空");
 			String tel = StringUtils.trimToNull(request.getParameter("tel"));
 			if (tel == null)
-				throw new InteractRuntimeException("vcodetel");
+				throw new InteractRuntimeException("tel 不可空");
 			String name = StringUtils.trimToNull(request.getParameter("name"));
 			if (name == null)
-				throw new InteractRuntimeException("name");
+				throw new InteractRuntimeException("name 不可空");
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -422,19 +553,19 @@ public class UserAction {
 			// 获取请求参数
 			String belonger = StringUtils.trimToNull(request.getParameter("belonger"));
 			if (belonger == null)
-				throw new InteractRuntimeException("belonger不可空");
+				throw new InteractRuntimeException("belonger 不可空");
 			String bankname = StringUtils.trimToNull(request.getParameter("bankname"));
 			if (bankname == null)
-				throw new InteractRuntimeException("bankname");
+				throw new InteractRuntimeException("bankname 不可空");
 			String cardno = StringUtils.trimToNull(request.getParameter("cardno"));
 			if (cardno == null)
-				throw new InteractRuntimeException("cardno");
+				throw new InteractRuntimeException("cardno 不可空");
 			String phone = StringUtils.trimToNull(request.getParameter("phone"));
 			if (phone == null)
-				throw new InteractRuntimeException("phone");
+				throw new InteractRuntimeException("phone 不可空");
 			String paypwd = StringUtils.trimToNull(request.getParameter("paypwd"));
 			if (paypwd == null)
-				throw new InteractRuntimeException("paypwd");
+				throw new InteractRuntimeException("paypwd 不可空");
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);

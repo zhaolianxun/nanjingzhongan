@@ -24,8 +24,8 @@ import rrightway.module.plat.entity.UserLoginStatus;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
-@Controller("plat.api.merchant.InActivityCowryEntrance")
-@RequestMapping(value = "/p/inactcowriesent")
+@Controller("plat.api.pc.merchant.InActivityCowryEntrance")
+@RequestMapping(value = "/p/p/inactcowriesent")
 public class InActivityCowryEntrance {
 
 	public static Logger logger = Logger.getLogger(InActivityCowryEntrance.class);

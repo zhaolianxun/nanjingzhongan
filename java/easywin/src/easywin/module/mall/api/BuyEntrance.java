@@ -143,13 +143,13 @@ public class BuyEntrance {
 			String buyerNote = StringUtils.trimToNull(request.getParameter("buyer_note"));
 			String addressId = StringUtils.trimToNull(request.getParameter("address_id"));
 			if (addressId == null)
-				throw new InteractRuntimeException("address_id不可空");
+				throw new InteractRuntimeException("address_id 不可空");
 			String mallId = StringUtils.trimToNull(request.getParameter("mall_id"));
 			if (mallId == null)
-				throw new InteractRuntimeException("mall_id不可空");
+				throw new InteractRuntimeException("mall_id 不可空");
 			String goodsParam = StringUtils.trimToNull(request.getParameter("goods"));
 			if (goodsParam == null)
-				throw new InteractRuntimeException("goods不可空");
+				throw new InteractRuntimeException("goods 不可空");
 			JSONArray goods = JSON.parseArray(goodsParam);
 			if (goods.size() < 1)
 				throw new InteractRuntimeException("请选择商品");
