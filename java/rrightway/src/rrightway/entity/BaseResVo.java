@@ -12,6 +12,15 @@ public class BaseResVo {
 	private String requestId = "";
 	private Object data = new Object();
 
+	public static BaseResVo getSuccess(Object data, String requestId) {
+		BaseResVo resVo = new BaseResVo();
+		resVo.setCode(0);
+		resVo.setCodeMsg(null);
+		resVo.setRequestId(requestId);
+		resVo.setData(data);
+		return resVo;
+	}
+
 	public String getCodeMsg() {
 		return codeMsg;
 	}

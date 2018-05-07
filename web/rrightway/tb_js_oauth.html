@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+</body>
+
+<script>
+
+
+    var token = '662404235269';
+    var accountType = 1;//1买家授权 2卖家授权
+    var go = '/tb_js_oauth_notify.html';
+    $.ajax({
+        type: 'POST',
+        async: false,
+        url: '/rrightway/p/m/bindtaobao/getoauthh5url?token='+token+'&go='+go+'&account_type='+accountType,
+        success: function(res){
+            if(res.code == 0){
+                location.href=res.data.url;
+            }else{
+                alert(res.codeMsg)
+            }
+        }
+    });
+
+</script>
+</html>

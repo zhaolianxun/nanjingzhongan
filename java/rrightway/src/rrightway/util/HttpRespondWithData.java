@@ -37,6 +37,16 @@ public class HttpRespondWithData {
 		response.getWriter().write(resString);
 	}
 
+	public static void todo(HttpServletRequest request, HttpServletResponse response, String data) throws IOException {
+
+		logger.info(data);
+
+		response.setCharacterEncoding(SysConstant.SYS_CHARSET);
+		response.setStatus(200);
+		response.setContentType("application/json;charset=" + SysConstant.SYS_CHARSET);
+		response.getWriter().write(data);
+	}
+
 	public static void exception(HttpServletRequest request, HttpServletResponse response, Exception ex)
 			throws IOException {
 		int code = 0;

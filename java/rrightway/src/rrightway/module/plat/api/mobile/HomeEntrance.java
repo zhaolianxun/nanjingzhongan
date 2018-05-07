@@ -12,9 +12,12 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
+import rrightway.entity.BaseResVo;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
@@ -81,7 +84,10 @@ public class HomeEntrance {
 			data.put("featuredActivities", featuredActivities);
 			data.put("mayLoves", featuredActivities);
 			data.put("searchkey_preset", null);
-			HttpRespondWithData.todo(request, response, 0, null, data);
+
+			HttpRespondWithData.todo(request, response,
+					JSON.toJSONString(BaseResVo.getSuccess(data, (String) request.getAttribute("requestId")),
+							SerializerFeature.WriteMapNullValue, SerializerFeature.DisableCircularReferenceDetect));
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
