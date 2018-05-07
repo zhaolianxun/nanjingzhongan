@@ -83,5 +83,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/aes-jre1.6.1.jar"/>
 	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/wxpay-sdk.jar"/>
+	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/taobao-sdk-java-auto_1515033363091-20180428.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

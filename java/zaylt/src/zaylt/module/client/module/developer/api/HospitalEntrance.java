@@ -283,10 +283,9 @@ public class HospitalEntrance {
 				sqlParams.add(hospitalId);
 				if (connection == null)
 					connection = ZayltDataSource.dataSource.getConnection();
-				pst = connection
-						.prepareStatement("update t_user t inner join t_hospital u on t.hospital_id=u.id set t.id=t.id"
-								+ (phone == null ? "" : ",t.phone=?") + (pwd == null ? "" : ",t.password=?")
-								+ (pwd == null ? "" : ",t.password_md5=?") + " where u.id=?");
+				pst = connection.prepareStatement("update t_user t  set t.id=t.id" + (phone == null ? "" : ",t.phone=?")
+						+ (pwd == null ? "" : ",t.password=?") + (pwd == null ? "" : ",t.password_md5=?")
+						+ " where t.hospital_id=? and t.type=1");
 				for (int i = 0; i < sqlParams.size(); i++)
 					pst.setObject(i + 1, sqlParams.get(i));
 				int n = pst.executeUpdate();
