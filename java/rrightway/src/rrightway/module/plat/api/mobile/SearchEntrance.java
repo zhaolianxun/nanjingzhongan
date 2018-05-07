@@ -29,6 +29,31 @@ public class SearchEntrance {
 
 	public static Logger logger = Logger.getLogger(SearchEntrance.class);
 
+	@RequestMapping(value = "/hotsearch")
+	public void hotsearch(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+
+			JSONObject data = new JSONObject();
+			JSONArray hotsearch = new JSONArray();
+			hotsearch.add("衣服");
+			hotsearch.add("鞋子");
+			data.put("hotsearch", hotsearch);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
 	@RequestMapping(value = "/search")
 	public void home(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -84,9 +109,11 @@ public class SearchEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			connection = RrightwayDataSource.dataSource.getConnection();
-
 			pst = connection.prepareStatement(new StringBuilder(
 					"select id,gift_cover,gift_name,pay_price,return_money,buyer_num from t_activity where buy_way=2 ")
+							.append(couponIf == null ? ""
+									: couponIf == 0 ? " and (isnull(coupon_url) or length(trim(coupon_url))=0) "
+											: "and (!isnull(coupon_url) and length(trim(coupon_url))>0) ")
 							.append(keyw == null ? "" : " and gift_name like ? ")
 							.append(type1Id == null ? "" : " and gift_type1_id=? ")
 							.append(type2Id == null ? "" : " and gift_type2_id=? ")

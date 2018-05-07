@@ -35,7 +35,7 @@ import rrightway.util.RrightwayDataSource;
 @Controller("plat.api.UserAction")
 @RequestMapping(value = "/p/useraction")
 public class UserAction {
-	
+
 	public static Logger logger = Logger.getLogger(UserAction.class);
 
 	/**
@@ -61,7 +61,8 @@ public class UserAction {
 
 			// 业务处理
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("select id,pwd_md5,phone from t_user where phone=? or username=?");
+			pst = connection
+					.prepareStatement("select id,pwd_md5,phone,username from t_user where phone=? or username=?");
 			pst.setObject(1, account);
 			pst.setObject(2, account);
 			ResultSet rs = pst.executeQuery();
@@ -72,6 +73,7 @@ public class UserAction {
 				loginStatus.setLoginTime(new Date().getTime());
 				loginStatus.setPhone(rs.getString("phone"));
 				loginStatus.setUserId(rs.getString("id"));
+				loginStatus.setUsername(rs.getString("username"));
 			} else
 				throw new InteractRuntimeException("账号不存在");
 
@@ -88,6 +90,7 @@ public class UserAction {
 			data.put("token", token);
 			data.put("userId", loginStatus.getUserId());
 			data.put("phone", loginStatus.getPhone());
+			data.put("username", loginStatus.getUsername());
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -128,11 +131,12 @@ public class UserAction {
 			String userId = loginStatus.getUserId();
 
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("select phone from t_user where id=?");
+			pst = connection.prepareStatement("select phone,username from t_user where id=?");
 			pst.setObject(1, userId);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				loginStatus.setPhone(rs.getString("phone"));
+				loginStatus.setUsername(rs.getString("username"));
 			} else
 				throw new InteractRuntimeException(20);
 
@@ -146,6 +150,7 @@ public class UserAction {
 			JSONObject data = new JSONObject();
 			data.put("userId", userId);
 			data.put("phone", loginStatus.getPhone());
+			data.put("username", loginStatus.getUsername());
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -159,6 +164,39 @@ public class UserAction {
 				pst.close();
 			if (connection != null)
 				connection.close();
+		}
+	}
+
+	/**
+	 * 登出
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/logout")
+	public void logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Jedis jedis = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			jedis = SysConstant.jedisPool.getResource();
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request, jedis);
+			if (loginStatus != null) {
+				jedis.del("rrightway.plat.token-" + loginStatus.getToken());
+				jedis.del(loginStatus.getUserId());
+			}
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (jedis != null)
+				jedis.close();
 		}
 	}
 

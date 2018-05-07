@@ -14,13 +14,8 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import rrightway.constant.SysConstant;
 import rrightway.entity.InteractRuntimeException;
 import rrightway.module.plat.business.GetLoginStatus;
@@ -69,8 +64,8 @@ public class BindTaobaoEntrance {
 		}
 	}
 
-	@RequestMapping(value = "/oauthnotify")
-	public void jsoauthnotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/uploadoauthdata")
+	public void uploadoauthdata(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {

@@ -14,7 +14,7 @@
     $.ajax({
         type: 'POST',
         async: false,
-        url: '/rrightway/p/m/bindtaobao/oauthnotify?'+window.location.hash.substr(1),
+        url: '/rrightway/p/m/bindtaobao/uploadoauthdata?'+window.location.hash.substr(1),
         success: function(res){
             if(res.code == 0){
                 //淘宝授权结束

@@ -4,7 +4,16 @@ public class UserLoginStatus {
 	private String token;
 	private String userId;
 	private String phone;
+	private String username;
 	private long loginTime;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	public String getToken() {
 		return token;
