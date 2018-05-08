@@ -187,6 +187,12 @@
                         var items = res.data.apps;
                         for(var i = 0 ; i < items.length ; i ++){
                             apps[items[i].appId]=items[i];
+                            var useEndIf = null;
+                            if(items[i].useEndtime)
+                                useEndIf = false;
+                            if(items[i].useEndtime && Date.parse( new Date()) > items[i].useEndtime)
+                                useEndIf=true;
+
                             if(items[i].authorized == 0){
                                 $('#cardcon').append(
                                 '<div class="carddiv">' +
@@ -214,7 +220,9 @@
                                         '<div class="carddesc">' +
                                         '<div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+ items[i].nickName+(!items[i].businessbaseFill?'<span style="color:red;margin-left:15px;font-size: 10px">请进入后台补全信息</span>':'') +'</div>' +
                                         '<div style="float:left;font-size: 13px;line-height:50px;">创建时间：'+ timeFormat(items[i].bindTime) +'</div>' +
-                                        '<div class="vtimetxt">有效期至：'+timeFormat(items[i].useEndtime)+'</div>' +
+                                        (useEndIf == false? ('<div class="vtimetxt">有效期至：'+timeFormat(items[i].useEndtime)):useEndIf==true?('<div class="vtimetxt" style="color:red;">使用期已过：'+timeFormat(items[i].useEndtime)):'<div class="vtimetxt">')
+                                        +'</div>'
+                                        +
                                         '</div>' +
                                         '<div class="cardbt-con">' +
                                         '<div style="display: none">' +
@@ -246,7 +254,8 @@
                                         '<div class="carddesc">' +
                                         '<div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+ items[i].nickName +(!items[i].businessbaseFill?'<span style="color:red;margin-left:15px;font-size: 10px">请进入后台补全信息</span>':'') +'</div>' +
                                         '<div style="float:left;font-size: 13px;line-height:50px;">创建时间：'+ timeFormat(items[i].bindTime) +'</div>' +
-                                        '<div class="vtimetxt">有效期至：'+timeFormat(items[i].useEndtime)+'</div>' +
+                                        (useEndIf == false? ('<div class="vtimetxt">有效期至：'+timeFormat(items[i].useEndtime)):useEndIf==true?('<div class="vtimetxt" style="color:red;">使用期已过：'+timeFormat(items[i].useEndtime)):'<div class="vtimetxt">')
+                                        +'</div>'+
                                         '</div>' +
                                         '<div class="cardbt-con">' +
                                         '<div style="display: none">' +

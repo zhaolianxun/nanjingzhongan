@@ -196,7 +196,7 @@ public class WxOpenP3Authorization {
 	@RequestMapping(value = "/authcallback/{userId}/{seedId}/{agentId}/{appId}", method = RequestMethod.GET)
 	public void userAuthOfMiniappTemplateCallback(@PathVariable("userId") String fromUserId,
 			@PathVariable("seedId") String seedId, @PathVariable("agentId") String agentId,
-			@PathVariable("appId") String appId, HttpServletRequest request, HttpServletResponse response)
+			@PathVariable("appId") String fromAppId, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		Jedis jedis = null;
 		Connection connection = null;
@@ -206,7 +206,7 @@ public class WxOpenP3Authorization {
 			String authCode = request.getParameter("auth_code");
 			int authCodeExpiresIn = Integer.parseInt(request.getParameter("expires_in"));
 			agentId = "0".equals(agentId) ? null : agentId;
-			appId = "0".equals(appId) ? null : appId;
+			fromAppId = "0".equals(fromAppId) ? null : fromAppId;
 			// 业务处理
 			jedis = SysConstant.jedisPool.getResource();
 			jedis.del(seedId + fromUserId);
@@ -241,22 +241,26 @@ public class WxOpenP3Authorization {
 			connection.setAutoCommit(false);
 			// 所属人判断
 			pst = connection.prepareStatement(
-					"select t.id,t.user_id,u.phone from t_app t inner join t_user u on t.user_id=u.id where t.wx_appid=?");
+					"select t.id,t.user_id,u.phone,t.nick_name from t_app t inner join t_user u on t.user_id=u.id where t.wx_appid=?");
 			pst.setObject(1, authorizerAppId);
 			ResultSet rs = pst.executeQuery();
 			String existAppId = null;
 			String existUserId = null;
 			String existPhone = null;
+			String existNickName = null;
+			
 			if (rs.next()) {
 				existAppId = rs.getString("id");
 				existUserId = rs.getString("user_id");
 				existPhone = rs.getString("phone");
+				existNickName = rs.getString("nick_name");
 			}
-			if (existAppId != null && appId != null && !existAppId.equals(appId))
-				throw new InteractRuntimeException("您的微信小程序公众号已经绑定了其他账号:");
+			pst.close();
+			if (existAppId != null && fromAppId != null && !existAppId.equals(fromAppId))
+				throw new InteractRuntimeException("请选择对应的小程序进行授权："+existNickName);
 			if (existUserId != null && !existUserId.equals(fromUserId))
 				throw new InteractRuntimeException("您的微信小程序公众号已经绑定了其他账号:" + existPhone);
-			pst.close();
+			
 
 			String authorizerAccessToken = authorizationInfo.getString("authorizer_access_token");
 			long authorizerExpiresIn = authorizationInfo.getIntValue("expires_in");
@@ -302,7 +306,7 @@ public class WxOpenP3Authorization {
 				throw new InteractRuntimeException(resultVo.getString("errmsg"));
 
 			JSONObject authorizerInfo = resultVo.getJSONObject("authorizer_info");
-			if (appId != null) {
+			if (existAppId != null) {
 				pst = connection.prepareStatement(
 						"update t_app set authorized=1,access_token=?,expires_in=?,refresh_token=?,func_info=?,nick_name=?,head_img=?,user_name=?,principal_name=?,qrcode_url=?,signature=?,authorization_time=? where id=?");
 				pst.setObject(1, authorizerAccessToken);
@@ -316,16 +320,20 @@ public class WxOpenP3Authorization {
 				pst.setObject(9, authorizerInfo.getString("qrcode_url"));
 				pst.setObject(10, authorizerInfo.getString("signature"));
 				pst.setObject(11, new Date().getTime());
-				pst.setObject(12, appId);
+				pst.setObject(12, existAppId);
 				int n = pst.executeUpdate();
 				pst.close();
 				if (n != 1)
 					throw new InteractRuntimeException("操作失败");
+				
+				File appOssRoot = new File(SysConstant.project_ossroot, existAppId);
+				if (!appOssRoot.exists())
+					appOssRoot.mkdirs();
 			} else {
 				pst = connection.prepareStatement(
 						"insert into t_app (id,user_id,seed_id,authorized,wx_appid,access_token,expires_in,refresh_token,func_info,nick_name,head_img,user_name,principal_name,qrcode_url,signature,authorization_time,bind_time,use_endtime,from_agent_id) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-				appId = RandomStringUtils.randomNumeric(12);
-				pst.setObject(1, appId);
+				String newAppId = RandomStringUtils.randomNumeric(12);
+				pst.setObject(1, newAppId);
 				pst.setObject(2, fromUserId);
 				pst.setObject(3, seedId);
 				pst.setObject(4, 1);
@@ -352,12 +360,16 @@ public class WxOpenP3Authorization {
 				if ("1".equals(seedId)) {
 					pst = connection.prepareStatement(
 							"insert into t_mall (id,name,enter_time) values(?,?,rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0'))");
-					pst.setObject(1, appId);
+					pst.setObject(1, newAppId);
 					pst.setObject(2, authorizerInfo.getString("nick_name") + "商城");
 					n = pst.executeUpdate();
 					if (n != 1)
 						throw new InteractRuntimeException("操作失败");
 				}
+				
+				File appOssRoot = new File(SysConstant.project_ossroot, newAppId);
+				if (!appOssRoot.exists())
+					appOssRoot.mkdirs();
 			}
 			// 设置小程序服务器域名
 			url = new StringBuilder("https://api.weixin.qq.com/wxa/modify_domain?").append("access_token=")
@@ -421,9 +433,6 @@ public class WxOpenP3Authorization {
 			// throw new InteractRuntimeException(resultVo.getString("errmsg"));
 
 			connection.commit();
-			File appOssRoot = new File(SysConstant.project_ossroot, appId);
-			if (!appOssRoot.exists())
-				appOssRoot.mkdirs();
 			// 返回结果
 			response.sendRedirect("/easywin/plat/index.html?tab=myapp");
 		} catch (Exception e) {

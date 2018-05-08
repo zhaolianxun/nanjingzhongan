@@ -48,20 +48,20 @@ public class ActivityDetailEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.gift_cover,t.gift_name,t.pay_price,t.return_money,t.publish_time+t.keep_days*24*60*60*1000 end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit_min,t.gift_express_co"
+					"select t.buyer_num,t.gift_cover,t.gift_name,t.pay_price,t.return_money,(t.publish_time+t.keep_days*24*60*60*1000) end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit_min,t.gift_express_co"
 							+ (loginStatus == null ? ",null gift_detail" : ",t.gift_detail")
 							+ " from t_activity t where t.id=?").toString());
 			pst.setObject(1, activityId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
 			while (rs.next()) {
-				item.put("activityId", rs.getInt("id"));
 				item.put("giftCover", rs.getString("gift_cover"));
 				item.put("giftName", rs.getString("gift_name"));
 				item.put("payPrice", rs.getBigDecimal("pay_price"));
 				item.put("returnMoney", rs.getBigDecimal("return_money"));
 				item.put("endTime", rs.getLong("end_time"));
 				item.put("stock", rs.getInt("stock"));
+				item.put("buyerNum", rs.getInt("buyer_num"));
 				item.put("buyWay", rs.getInt("buy_way"));
 				item.put("couponIf", rs.getInt("coupon_if"));
 				item.put("buyerMincreditMin", rs.getInt("buyer_mincredit_min"));

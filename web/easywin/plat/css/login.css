@@ -23,8 +23,8 @@ ul.list>li{
 }
 .loginBox{
     width: 424px;
-    float: right;
-    margin-right: 300px;
+
+    margin:0 auto;
     margin-top: 200px;
 }
 .loginBg{

@@ -47,15 +47,15 @@
         var seedId = sessionStorage.getItem('seedId');
         var token = sessionStorage.getItem('token');
         var agentId = sessionStorage.getItem('agentId');
-    if(!agentId)
-        agentId='';
+        if(!agentId)
+            agentId='';
         $.ajax({
             type: 'POST',
             data: {seed_id:seedId,agent_id:agentId},
             url: '/easywin/p/wop3a/getauthurl?token='+token,
             success: function(res){
                 if(res.code == 0){
-                    location.href = res.data.url;
+                    window.parent.location.href = res.data.url;
                 }else{
                     alert('请求失败！')
                 }
