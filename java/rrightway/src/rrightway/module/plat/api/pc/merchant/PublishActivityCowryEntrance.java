@@ -55,20 +55,20 @@ public class PublishActivityCowryEntrance {
 			}
 			pst.close();
 
-			pst = connection.prepareStatement("select id,nickname from t_seller_taobaoaccount where user_id=?");
+			pst = connection.prepareStatement("select id,taobao_user_nick from t_taobaoaccount where user_id=? and type=2");
 			rs = pst.executeQuery();
-			JSONArray sellerNicknames = new JSONArray();
+			JSONArray sellerTaobaoUserNicks = new JSONArray();
 			while (rs.next()) {
-				JSONObject sellerNickname = new JSONObject();
-				sellerNickname.put("id", rs.getObject("id"));
-				sellerNickname.put("nickname", rs.getObject("nickname"));
-				sellerNicknames.add(sellerNickname);
+				JSONObject sellerTaobaoUserNick = new JSONObject();
+				sellerTaobaoUserNick.put("id", rs.getObject("id"));
+				sellerTaobaoUserNick.put("sellerTaobaoUserNick", rs.getObject("taobao_user_nick"));
+				sellerTaobaoUserNicks.add(sellerTaobaoUserNick);
 			}
 			pst.close();
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("type1s", type1s);
-			data.put("sellerNicknames", sellerNicknames);
+			data.put("sellerTaobaoUserNicks", sellerTaobaoUserNicks);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常

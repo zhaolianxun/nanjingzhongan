@@ -55,7 +55,7 @@ public class SearchEntrance {
 	}
 
 	@RequestMapping(value = "/search")
-	public void home(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void search(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -130,6 +130,9 @@ public class SearchEntrance {
 																			? " order by return_money-pay_price desc "
 																			: " order by buyer_num desc ")
 							.append(" limit ?,? ").toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
 			while (rs.next()) {

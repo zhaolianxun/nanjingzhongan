@@ -42,7 +42,7 @@ public class MyEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.money,(select count(id) from t_order where buyer_id=t.id and status in (0,3,4)) buyed_count,(select count(id) from t_order where buyer_id=t.id and status in (1)) checked_count,(select count(id) from t_order where buyer_id=t.id and status in (2)) returned_count from t_user t where t.id=?")
+					"select t.right_wallet,t.money,(select count(id) from t_order where buyer_id=t.id and status in (0,3,4)) buyed_count,(select count(id) from t_order where buyer_id=t.id and status in (1)) checked_count,(select count(id) from t_order where buyer_id=t.id and status in (2)) returned_count from t_user t where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
@@ -50,11 +50,13 @@ public class MyEntrance {
 			int checkedCount;
 			int returnedCount;
 			BigDecimal money;
+			BigDecimal rightWallet;
 			if (rs.next()) {
 				buyedCount = rs.getInt("buyed_count");
 				checkedCount = rs.getInt("checked_count");
 				returnedCount = rs.getInt("returned_count");
 				money = rs.getBigDecimal("money");
+				rightWallet = rs.getBigDecimal("right_wallet");
 			} else
 				throw new InteractRuntimeException("用户不存在");
 			pst.close();
@@ -65,6 +67,7 @@ public class MyEntrance {
 			data.put("checkedCount", checkedCount);
 			data.put("returnedCount", returnedCount);
 			data.put("money", money);
+			data.put("rightWallet", rightWallet);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
