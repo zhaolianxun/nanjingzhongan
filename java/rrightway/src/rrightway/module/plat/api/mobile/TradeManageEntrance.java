@@ -46,7 +46,16 @@ public class TradeManageEntrance {
 			String orderTimeEndParam = StringUtils.trimToNull(request.getParameter("order_time_end"));
 			Long orderTimeEnd = orderTimeEndParam == null ? null : Long.parseLong(orderTimeEndParam);
 			String buyerRemindCheckIfParam = StringUtils.trimToNull(request.getParameter("buyer_remind_check_if"));
-			Integer buyerRemindCheckIf = buyerRemindCheckIfParam == null ? null : Integer.parseInt(buyerRemindCheckIfParam);
+			Integer buyerRemindCheckIf = buyerRemindCheckIfParam == null ? null
+					: Integer.parseInt(buyerRemindCheckIfParam);
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
@@ -70,9 +79,10 @@ public class TradeManageEntrance {
 				sqlParams.add(orderTimeStart);
 			if (orderTimeEnd != null)
 				sqlParams.add(orderTimeEnd);
-
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_buyer_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_seller_taobaoaccount st on t.seller_taobaoaccount_id=st.id where t.status=0 ")
+					"select t.buyer_remind_check_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where t.status=0 ")
 							.append(buyerRemindCheckIf == null ? "" : " and t.buyer_remind_check_if=? ")
 							.append(buyerNickname == null ? "" : " and bt.nickname like ? ")
 							.append(sellerNickname == null ? "" : " and st.nickname like ? ")
@@ -80,7 +90,7 @@ public class TradeManageEntrance {
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(orderId == null ? "" : " and t.id like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
-							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").toString());
+							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -96,6 +106,7 @@ public class TradeManageEntrance {
 				item.put("status", rs.getObject("status"));
 				item.put("buyerNickname", rs.getObject("buyer_nickname"));
 				item.put("sellerNickname", rs.getObject("seller_nickname"));
+				item.put("buyerRemindCheckIf", rs.getObject("buyer_remind_check_if"));
 				items.add(item);
 			}
 			pst.close();
@@ -137,10 +148,18 @@ public class TradeManageEntrance {
 			String reviewPicCommitIfParam = StringUtils.trimToNull(request.getParameter("review_pic_commit_if"));
 			Integer reviewPicCommitIf = reviewPicCommitIfParam == null ? null
 					: Integer.parseInt(reviewPicCommitIfParam);
-			String buyerProtectRightsStatusParam = StringUtils.trimToNull(request.getParameter("buyer_protect_rights_status"));
+			String buyerProtectRightsStatusParam = StringUtils
+					.trimToNull(request.getParameter("buyer_protect_rights_status"));
 			Integer buyerProtectRightsStatus = buyerProtectRightsStatusParam == null ? null
 					: Integer.parseInt(buyerProtectRightsStatusParam);
-			
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
@@ -164,9 +183,10 @@ public class TradeManageEntrance {
 				sqlParams.add(orderTimeStart);
 			if (orderTimeEnd != null)
 				sqlParams.add(orderTimeEnd);
-
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_buyer_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_seller_taobaoaccount st on t.seller_taobaoaccount_id=st.id where t.status=1 ")
+					"select t.review_pic,t.buyer_protect_rights_status,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where t.status=1 ")
 							.append(reviewPicCommitIf != null && reviewPicCommitIf == 0 ? ""
 									: " and (ifnull(t.review_pic) or length(trim(t.review_pic))=0) ")
 							.append(buyerProtectRightsStatus == null ? "" : " and t.buyer_protect_rights_status=? ")
@@ -176,7 +196,7 @@ public class TradeManageEntrance {
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(orderId == null ? "" : " and t.id like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
-							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").toString());
+							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -192,6 +212,203 @@ public class TradeManageEntrance {
 				item.put("status", rs.getObject("status"));
 				item.put("buyerNickname", rs.getObject("buyer_nickname"));
 				item.put("sellerNickname", rs.getObject("seller_nickname"));
+				item.put("buyerProtectRightsStatus", rs.getObject("buyer_protect_rights_status"));
+				String reviewPic = rs.getString("review_pic");
+				item.put("review_pic_commit_if",reviewPic == null || reviewPic.isEmpty() ?0:1);
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			JSONObject orders = new JSONObject();
+			orders.put("items", items);
+			data.put("orders", orders);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/returnedorders")
+	public void returnedOrders(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String buyerNickname = StringUtils.trimToNull(request.getParameter("buyer_nickname"));
+			String sellerNickname = StringUtils.trimToNull(request.getParameter("seller_nickname"));
+			String title = StringUtils.trimToNull(request.getParameter("title"));
+			String giftName = StringUtils.trimToNull(request.getParameter("gift_name"));
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			String orderTimeStartParam = StringUtils.trimToNull(request.getParameter("order_time_start"));
+			Long orderTimeStart = orderTimeStartParam == null ? null : Long.parseLong(orderTimeStartParam);
+			String orderTimeEndParam = StringUtils.trimToNull(request.getParameter("order_time_end"));
+			Long orderTimeEnd = orderTimeEndParam == null ? null : Long.parseLong(orderTimeEndParam);
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			List sqlParams = new ArrayList();
+			if (buyerNickname != null)
+				sqlParams.add(new StringBuilder("%").append(buyerNickname).append("%").toString());
+			if (sellerNickname != null)
+				sqlParams.add(new StringBuilder("%").append(sellerNickname).append("%").toString());
+			if (title != null)
+				sqlParams.add(new StringBuilder("%").append(title).append("%").toString());
+			if (giftName != null)
+				sqlParams.add(new StringBuilder("%").append(giftName).append("%").toString());
+			if (orderId != null)
+				sqlParams.add(new StringBuilder("%").append(orderId).append("%").toString());
+			if (orderTimeStart != null)
+				sqlParams.add(orderTimeStart);
+			if (orderTimeEnd != null)
+				sqlParams.add(orderTimeEnd);
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where t.status=2 ")
+							.append(buyerNickname == null ? "" : " and bt.nickname like ? ")
+							.append(sellerNickname == null ? "" : " and st.nickname like ? ")
+							.append(title == null ? "" : " and t.title like ? ")
+							.append(giftName == null ? "" : " and t.gift_name like ? ")
+							.append(orderId == null ? "" : " and t.id like ? ")
+							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
+							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ").toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("orderId", rs.getObject("id"));
+				item.put("giftName", rs.getObject("gift_name"));
+				item.put("payPrice", rs.getObject("pay_price"));
+				item.put("returnMoney", rs.getObject("return_money"));
+				item.put("activityTitle", rs.getObject("activity_title"));
+				item.put("status", rs.getObject("status"));
+				item.put("buyerNickname", rs.getObject("buyer_nickname"));
+				item.put("sellerNickname", rs.getObject("seller_nickname"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			JSONObject orders = new JSONObject();
+			orders.put("items", items);
+			data.put("orders", orders);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+	
+	
+	
+	@RequestMapping(value = "/protectingrightsorders")
+	public void protectingRightsOrders(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String buyerNickname = StringUtils.trimToNull(request.getParameter("buyer_nickname"));
+			String sellerNickname = StringUtils.trimToNull(request.getParameter("seller_nickname"));
+			String title = StringUtils.trimToNull(request.getParameter("title"));
+			String giftName = StringUtils.trimToNull(request.getParameter("gift_name"));
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			String orderTimeStartParam = StringUtils.trimToNull(request.getParameter("order_time_start"));
+			Long orderTimeStart = orderTimeStartParam == null ? null : Long.parseLong(orderTimeStartParam);
+			String orderTimeEndParam = StringUtils.trimToNull(request.getParameter("order_time_end"));
+			Long orderTimeEnd = orderTimeEndParam == null ? null : Long.parseLong(orderTimeEndParam);
+			String buyerProtectRightsStatusParam = StringUtils
+					.trimToNull(request.getParameter("buyer_protect_rights_status"));
+			Integer buyerProtectRightsStatus = buyerProtectRightsStatusParam == null ? null
+					: Integer.parseInt(buyerProtectRightsStatusParam);
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			List sqlParams = new ArrayList();
+			if (buyerNickname != null)
+				sqlParams.add(new StringBuilder("%").append(buyerNickname).append("%").toString());
+			if (sellerNickname != null)
+				sqlParams.add(new StringBuilder("%").append(sellerNickname).append("%").toString());
+			if (title != null)
+				sqlParams.add(new StringBuilder("%").append(title).append("%").toString());
+			if (giftName != null)
+				sqlParams.add(new StringBuilder("%").append(giftName).append("%").toString());
+			if (orderId != null)
+				sqlParams.add(new StringBuilder("%").append(orderId).append("%").toString());
+			if (orderTimeStart != null)
+				sqlParams.add(orderTimeStart);
+			if (orderTimeEnd != null)
+				sqlParams.add(orderTimeEnd);
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.buyer_protect_rights_status,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 ")
+					.append(buyerProtectRightsStatus == null ? "" : " and t.buyer_protect_rights_status like ? ")
+					.append(buyerNickname == null ? "" : " and bt.nickname like ? ")
+							.append(sellerNickname == null ? "" : " and st.nickname like ? ")
+							.append(title == null ? "" : " and t.title like ? ")
+							.append(giftName == null ? "" : " and t.gift_name like ? ")
+							.append(orderId == null ? "" : " and t.id like ? ")
+							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
+							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ").toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("orderId", rs.getObject("id"));
+				item.put("giftName", rs.getObject("gift_name"));
+				item.put("payPrice", rs.getObject("pay_price"));
+				item.put("returnMoney", rs.getObject("return_money"));
+				item.put("activityTitle", rs.getObject("activity_title"));
+				item.put("status", rs.getObject("status"));
+				item.put("buyerNickname", rs.getObject("buyer_nickname"));
+				item.put("sellerNickname", rs.getObject("seller_nickname"));
+				item.put("buyerProtectRightsStatus", rs.getObject("buyer_protect_rights_status"));
 				items.add(item);
 			}
 			pst.close();

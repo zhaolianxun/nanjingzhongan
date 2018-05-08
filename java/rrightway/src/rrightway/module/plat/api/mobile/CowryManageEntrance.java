@@ -247,7 +247,14 @@ public class CowryManageEntrance {
 			Long publishTimeStart = publishTimeStartParam == null ? null : Long.parseLong(publishTimeStartParam);
 			String publishTimeEndParam = StringUtils.trimToNull(request.getParameter("publish_time_end"));
 			Long publishTimeEnd = publishTimeEndParam == null ? null : Long.parseLong(publishTimeEndParam);
-
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
@@ -265,16 +272,17 @@ public class CowryManageEntrance {
 				sqlParams.add(publishTimeStart);
 			if (publishTimeEnd != null)
 				sqlParams.add(publishTimeEnd);
-
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select id,gift_name,pay_price,return_money,title,await_participant_num,buyer_num,(start_time+keep_days*24*60*60*1000-rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')) remain_time from t_activity where in_activity=1")
+					"select id,gift_name,pay_price,return_money,title,await_participant_num,buyer_num,(start_time+keep_days*24*60*60*1000-rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')) remain_time from t_activity where status=1")
 							.append(title == null ? "" : " and title like ? ")
 							.append(giftName == null ? "" : " and gift_name like ? ")
 							.append(couponIf == null ? ""
 									: couponIf == 1 ? " and (!ISNULL(coupon_url) and LENGTH(trim(coupon_url))>1) "
 											: " and (ISNULL(coupon_url) or LENGTH(trim(coupon_url))=0) ")
 							.append(publishTimeStart == null ? "" : " and publish_time >= ? ")
-							.append(publishTimeEnd == null ? "" : " and publish_time <= ? ").toString());
+							.append(publishTimeEnd == null ? "" : " and publish_time <= ? ").append(" limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -319,8 +327,8 @@ public class CowryManageEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-			String auditParam = StringUtils.trimToNull(request.getParameter("audit"));
-			Integer audit = auditParam == null ? null : Integer.parseInt(auditParam);
+			String statusParam = StringUtils.trimToNull(request.getParameter("status"));
+			Integer status = statusParam == null ? null : Integer.parseInt(statusParam);
 			String title = StringUtils.trimToNull(request.getParameter("title"));
 			String giftName = StringUtils.trimToNull(request.getParameter("gift_name"));
 			String buyWayParam = StringUtils.trimToNull(request.getParameter("buy_way"));
@@ -331,7 +339,14 @@ public class CowryManageEntrance {
 			Long publishTimeStart = publishTimeStartParam == null ? null : Long.parseLong(publishTimeStartParam);
 			String publishTimeEndParam = StringUtils.trimToNull(request.getParameter("publish_time_end"));
 			Long publishTimeEnd = publishTimeEndParam == null ? null : Long.parseLong(publishTimeEndParam);
-
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
@@ -339,8 +354,8 @@ public class CowryManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			List sqlParams = new ArrayList();
-			if (audit != null)
-				sqlParams.add(audit);
+			if (status != null)
+				sqlParams.add(status);
 			if (title != null)
 				sqlParams.add(new StringBuilder("%").append(title).append("%").toString());
 			if (giftName != null)
@@ -351,17 +366,18 @@ public class CowryManageEntrance {
 				sqlParams.add(publishTimeStart);
 			if (publishTimeEnd != null)
 				sqlParams.add(publishTimeEnd);
-
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select id,gift_name,pay_price,return_money,title,stock,publish_time,audit from t_activity where 1=1 ")
-							.append(audit == null ? "" : " and audit=? ")
+					"select id,gift_name,pay_price,return_money,title,stock,publish_time,status,audit_fail_reason from t_activity where 1=1 ")
+							.append(status == null ? "" : " and status=? ")
 							.append(title == null ? "" : " and title like ? ")
 							.append(giftName == null ? "" : " and gift_name like ? ")
 							.append(couponIf == null ? ""
 									: couponIf == 1 ? " and (!ISNULL(coupon_url) and LENGTH(trim(coupon_url))>1) "
 											: " and (ISNULL(coupon_url) or LENGTH(trim(coupon_url))=0) ")
 							.append(publishTimeStart == null ? "" : " and publish_time >= ? ")
-							.append(publishTimeEnd == null ? "" : " and publish_time <= ? ").toString());
+							.append(publishTimeEnd == null ? "" : " and publish_time <= ? ").append(" limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -376,7 +392,8 @@ public class CowryManageEntrance {
 				item.put("title", rs.getObject("title"));
 				item.put("stock", rs.getObject("stock"));
 				item.put("publishTime", rs.getObject("publish_time"));
-				item.put("audit", rs.getObject("audit"));
+				item.put("status", rs.getObject("status"));
+				item.put("auditFailReason", rs.getObject("audit_fail_reason"));
 				items.add(item);
 			}
 			pst.close();
