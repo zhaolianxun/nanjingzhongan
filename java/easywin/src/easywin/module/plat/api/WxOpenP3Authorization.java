@@ -174,8 +174,8 @@ public class WxOpenP3Authorization {
 					.append("component_appid=").append(SysConstant.wechat_open_thirdparty_AppId)
 					.append("&pre_auth_code=").append(preAuthCode).append("&redirect_uri=")
 					.append(SysConstant.project_rooturl + "/p/wop3a/authcallback/").append(loginStatus.getUserId())
-					.append("/").append(seedId).append("/").append(agentId).append("/").append(appId).append("&auth_type=").append("3")
-					.toString();
+					.append("/").append(seedId).append("/").append(agentId).append("/").append(appId)
+					.append("&auth_type=").append("3").toString();
 
 			// 返回结果
 			JSONObject data = new JSONObject();
@@ -239,17 +239,31 @@ public class WxOpenP3Authorization {
 
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			// 所属人判断
+
+			pst = connection.prepareStatement("select count(id) from t_user where id=?");
+			pst.setObject(1, agentId);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				int agentExist = rs.getInt(1);
+				if (agentExist == 0)
+					throw new InteractRuntimeException("代理不存在");
+				else if (agentExist > 1)
+					throw new InteractRuntimeException("代理不明");
+			} else
+				throw new InteractRuntimeException("代理不存在");
+
 			pst = connection.prepareStatement(
 					"select t.id,t.user_id,u.phone,t.nick_name from t_app t inner join t_user u on t.user_id=u.id where t.wx_appid=?");
 			pst.setObject(1, authorizerAppId);
-			ResultSet rs = pst.executeQuery();
+			rs = pst.executeQuery();
 			String existAppId = null;
 			String existUserId = null;
 			String existPhone = null;
 			String existNickName = null;
-			
+			Integer agentExist = null;
+
 			if (rs.next()) {
+				agentExist = (Integer) rs.getObject("agentExist");
 				existAppId = rs.getString("id");
 				existUserId = rs.getString("user_id");
 				existPhone = rs.getString("phone");
@@ -257,10 +271,9 @@ public class WxOpenP3Authorization {
 			}
 			pst.close();
 			if (existAppId != null && fromAppId != null && !existAppId.equals(fromAppId))
-				throw new InteractRuntimeException("请选择对应的小程序进行授权："+existNickName);
+				throw new InteractRuntimeException("请选择对应的小程序进行授权：" + existNickName);
 			if (existUserId != null && !existUserId.equals(fromUserId))
 				throw new InteractRuntimeException("您的微信小程序公众号已经绑定了其他账号:" + existPhone);
-			
 
 			String authorizerAccessToken = authorizationInfo.getString("authorizer_access_token");
 			long authorizerExpiresIn = authorizationInfo.getIntValue("expires_in");
@@ -325,7 +338,7 @@ public class WxOpenP3Authorization {
 				pst.close();
 				if (n != 1)
 					throw new InteractRuntimeException("操作失败");
-				
+
 				File appOssRoot = new File(SysConstant.project_ossroot, existAppId);
 				if (!appOssRoot.exists())
 					appOssRoot.mkdirs();
@@ -366,7 +379,7 @@ public class WxOpenP3Authorization {
 					if (n != 1)
 						throw new InteractRuntimeException("操作失败");
 				}
-				
+
 				File appOssRoot = new File(SysConstant.project_ossroot, newAppId);
 				if (!appOssRoot.exists())
 					appOssRoot.mkdirs();

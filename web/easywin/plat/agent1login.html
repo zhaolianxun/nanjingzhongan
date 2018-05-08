@@ -2,22 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Passion平台</title>
+    <title>3分钟平台</title>
     <link rel="stylesheet" href="css/login.css">
     <script type="text/javascript" src="libs/default.js"></script>
 
 </head>
 <body style="background:url('images/bg.png') 0 0 no-repeat">
-    <div class="leftText">
-        <p class="titleText">Easywin平台</p>
-        <ul class="list">
-            <li>名医专家介绍</li>
-            <li>医院简介</li>
-            <li>著名医生团队</li>
-            <li>特色科室</li>
-            <li>活动宣传</li>
-        </ul>
-    </div>
+
 
     <div class="loginBox">
         <div class="loginBg">
@@ -34,7 +25,7 @@
             </div>
 
         </div>
-        <p class="tips tipsTop">欢迎加入Passion平台</p>
+        <p class="tips tipsTop">欢迎加入3分钟平台</p>
         <p class="tips">联系电话：025-68620547</p>
     </div>
 
@@ -78,7 +69,7 @@
                     type: 'POST',
                     async: false,
                     data: {phone: phone ,password : password},
-                    url: '/p/useraction/login',
+                    url: '/easywin/p/useraction/login',
                     success: function(res){
                         if(res.code == 0){
                             var token = res.data.token;
