@@ -68,9 +68,19 @@
             </div>
         </div>
         <div class="control-group" style="display: none;" id="agentDomainBlock">
-            <label class="control-label" for="phone">代理域名</label>
+            <label class="control-label" for="agentDomain">代理域名</label>
             <div class="inputBox">
                 <input type="text" id="agentDomain" placeholder="代理域名">
+            </div>
+        </div>
+        <div class="control-group" style="display: none;" id="agentLevelBlock">
+            <label class="control-label" for="agentLevel">代理级别</label>
+            <div class="inputBox">
+                <select type="text" id="agentLevel" >
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
             </div>
         </div>
         <div class="control-group" style="margin-top: 50px;">
@@ -81,48 +91,16 @@
 
 <script>
     function agentCheck(thiss){
-       if(thiss.value==1)
-            $('#agentDomainBlock').css('display','block');
-        else
-           $('#agentDomainBlock').css('display','none');
-    }
-    function addCoin(){
-        var coin = prompt('请输入');
-        if(!coin)
-            return;
-        $.ajax({
-            type: 'POST',
-            data: {user_id:userData.userId, coin:coin},
-            url: '/p/e/usermanage/addagentcoin?token='+token,
-            success: function(res){
-                if(res.code == 0){
-                    alert('修改成功！');
-                    location.href = 'userlist.html';
-                }else{
-                    alert(res.codeMsg);
-                }
-            }
-        });
+       if(thiss.value==1) {
+           $('#agentDomainBlock').css('display', 'block');
+           $('#agentLevelBlock').css('display', 'block');
+       }
+        else {
+           $('#agentDomainBlock').css('display', 'none');
+           $('#agentLevelBlock').css('display', 'none');
+       }
     }
 
-    function subCoin(){
-        var coin =  prompt('请输入');
-        if(!coin)
-            return;
-        $.ajax({
-            type: 'POST',
-            data: {user_id:userData.userId, coin:coin},
-            url: '/easywin/p/e/usermanage/subagentcoin?token='+token,
-            success: function(res){
-                if(res.code == 0){
-                    alert('修改成功！');
-                    location.href = 'userlist.html';
-                }else{
-                    alert(res.codeMsg);
-                }
-            }
-        });
-    }
     var token = sessionStorage.getItem('token');
     var userData = JSON.parse(sessionStorage.getItem('userData'));
     $('#realname').val(userData.realname);
@@ -130,6 +108,8 @@
     $('#phone').val(userData.phone);
     $('#agentCoin').val(userData.agentCoin);
     $("input[name=agentIs][value='" + userData.agentIs + "']").click();
+    $('#agentDomain').val(userData.agentDomain);
+    $('#agentLevel').val(userData.agentLevel);
 
     $('#submit').click(function(){
 
@@ -138,11 +118,12 @@
         var password = $('#password').val();
         var nickname = $('#nickname').val();
         var agentDomain = $('#agentDomain').val();
+        var agentLevel = $('#agentLevel').val();
         var phone = $('#phone').val();
         var agentIs = $('input[name=agentIs]:checked').val();
         $.ajax({
             type: 'POST',
-            data: {user_id:userId, realname:realname, phone:phone, password:password, nickname:nickname,agent_is:agentIs,agent_domain:agentDomain},
+            data: {user_id:userId, realname:realname, phone:phone, password:password, nickname:nickname,agent_is:agentIs,agent_domain:agentDomain,agent_level:agentLevel},
             url: '/easywin/p/e/usermanage/alter?token='+token,
             success: function(res){
                 if(res.code == 0){

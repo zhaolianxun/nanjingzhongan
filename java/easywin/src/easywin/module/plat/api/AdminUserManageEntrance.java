@@ -62,8 +62,8 @@ public class AdminUserManageEntrance {
 				sqlParams.add(new StringBuilder("%").append(phone).append("%").toString());
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
-			pst = connection
-					.prepareStatement("select agent_is,agent_coin,id,phone,nickname,realname from t_user where 1=1 "
+			pst = connection.prepareStatement(
+					"select agent_level,agent_domain,agent_is,agent_coin,id,phone,nickname,realname from t_user where 1=1 "
 							+ (phone == null ? "" : " and phone like ? ") + " order by register_time desc limit ?,?");
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -77,6 +77,8 @@ public class AdminUserManageEntrance {
 				item.put("realname", rs.getObject("realname"));
 				item.put("agentIs", rs.getObject("agent_is"));
 				item.put("agentCoin", rs.getObject("agent_coin"));
+				item.put("agentDomain", rs.getObject("agent_domain"));
+				item.put("agentLevel", rs.getObject("agent_level"));
 				items.add(item);
 			}
 			pst.close();

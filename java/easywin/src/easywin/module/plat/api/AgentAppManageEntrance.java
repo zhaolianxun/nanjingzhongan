@@ -63,7 +63,7 @@ public class AgentAppManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
-					"select case when v.agent_level=1 then u.agent1_price when v.agent_level=2 then u.agent2_price when v.agent_level=3 then u.agent3_price end agent_price,t.head_img,t.seed_id,t.nick_name,t.id,t.current_template_version,t.authorized,t.audit_template_version,t.commit_template_version,t.bind_time,t.commit_status,t.audit_status,t.audit_fail_reason,u.newest_version newest_template_version,t.use_endtime,u.template_code from t_app t left join t_app_seed u on t.seed_id=u.id left join t_user v on v.id=t.user_id where 1=1 and from_agent_id=?"
+					"select case when v.agent_level=1 then u.agent1_price when v.agent_level=2 then u.agent2_price when v.agent_level=3 then u.agent3_price end agent_price,t.head_img,t.seed_id,t.nick_name,t.id,t.current_template_version,t.authorized,t.audit_template_version,t.commit_template_version,t.bind_time,t.commit_status,t.audit_status,t.audit_fail_reason,u.newest_version newest_template_version,t.use_endtime,u.template_code from t_app t left join t_app_seed u on t.seed_id=u.id left join t_user v on v.id=t.from_agent_id where 1=1 and t.from_agent_id=?"
 							+ (phone == null ? "" : " and phone=?") + " order by t.bind_time desc limit ?,?");
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));

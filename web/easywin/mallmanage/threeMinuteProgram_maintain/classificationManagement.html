@@ -426,12 +426,13 @@
                         $('#tbody2').children().remove();
                         var data = data.data;
                         for (var i = 0; i < data.types.items.length; i++) {
-                            $('#tbody2').append('<tr>' +
+                            $('#tbody2').append('<tr id="type2'+data.types.items[i].id+'">' +
                             '<td>' + data.types.items[i].id + '</td>' +
                             '<td>' + data.types.items[i].name + '</td>' +
                             '<td>' +
                             '<img class="lf userCard_img_1" src="'+data.types.items[i].cover+'" alt=""/>' +
-                            '</td>' +
+                                    '<a href="javascript:;"  style="margin-right: 10px;" class="delete layui-btn layui-btn-danger layui-btn-mini" onclick="delType2('+data.types.items[i].id+')">删除</a>' +
+                                    '</td>' +
                             '</tr>');
 //                            $("select").append("<option value='"+ data.types.items[i].id+"'>"+ data.types.items[i].name+"</option>");
                         }
@@ -526,6 +527,25 @@
             height: 100
         });
     });
+
+    function delType2(type2Id){
+        $.ajax({
+            type: 'POST',
+            data: {type_id: type2Id, token: token},
+            url: '/easywin/mm/'+mall_id+'/e/goodtype/deltype',
+            success: function (data) {
+                if (data.code == 0) {
+                    layer.msg('删除成功！', {
+                        time: 2000
+                    });
+                   $('#type2'+type2Id).hide()
+                } else if (data.code == 20) {
+                    alert('登录已失效，请重新登录！！');
+//                        window.parent.location.href = 'login.html';
+                }
+            }
+        })
+    }
 </script>
 </body>
 

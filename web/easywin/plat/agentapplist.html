@@ -143,7 +143,6 @@
                                 '<div class="vtimetxt">有效期至：'+timeFormat(items[i].useEndtime)+'</div>' +
                                 '</div>' +
                                 '<div class="cardbt-con">' +
-                                '<button onclick="gotoAuth('+ items[i].seedId +')">前往授权</button>' +
                                 '<button onclick="grantAppUseTime(\''+items[i].appId+'\',\''+items[i].price+'\')">增加1年</button>' +
                                 '</div>' +
                                 '<div style="clear:both;"></div>' +
@@ -171,8 +170,6 @@
                                 '<span>'+ items[i].appId +'</span>' +
                                 '</div>' +
                                 '<button onclick="gotoPreview(this)">预览</button>' +
-                                '<button onclick="enterManagement(this)">管理后台</button>' +
-                                '<button onclick="gotoStatus(this)">查看状态</button>' +
                                 '<button onclick="grantAppUseTime(\''+items[i].appId+'\',\''+items[i].agentPrice+'\')">增加1年</button>' +
                                 '</div>' +
                                 '<div style="clear:both;"></div>' +
@@ -186,27 +183,13 @@
     }
     requestAppList();
     //提交审核
-    function gotoAuth(templateId) {
 
-        $.ajax({
-            type: 'POST',
-            data: {template_id:templateId},
-            url: '/p/e/appmanage/getauthurl?token='+token,
-            success: function(res){
-                if(res.code == 0){
-                    location.href = res.data.url;
-                }else{
-                    alert(res.codeMsg)
-                }
-            }
-        })
-    }
     //预览
     function gotoPreview(ele){
         var spans = ele.parentNode.childNodes[0].childNodes;
         var appId = spans[4].innerHTML;
         var token = sessionStorage.getItem('token');
-        var src = '/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
+        var src = '/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
         $('#qrcode').attr('src',src);
         $('.qrcodeBox').show();
     }
@@ -216,7 +199,7 @@
             $.ajax({
                 type: 'POST',
                 data: {app_id:appId},
-                url: '/p/e/agent/appmanage/grantappusetime?token='+token,
+                url: '/easywin/p/e/agent/appmanage/grantappusetime?token='+token,
                 success: function(res){
                     if(res.code == 0){
                         location.reload();
@@ -226,39 +209,7 @@
                 }
             })
     }
-    //查看状态
-    function gotoStatus(ele){
-        var spans = ele.parentNode.childNodes[0].childNodes;
-        var appData = JSON.stringify({
-            nickname:spans[0].innerHTML,
-            auditStatus:spans[1].innerHTML,
-            commitStatus:spans[2].innerHTML,
-           // submitAudit:spans[3].innerHTML,
-           // released:spans[4].innerHTML,
-            auditFailReason:spans[3].innerHTML,
-            appId:spans[4].innerHTML
-        });
-        sessionStorage.setItem('appData',appData);
-        location.href = 'preview.html';
-    }
-    //管理后台
-    function enterManagement(ele){
-        var spans = ele.parentNode.childNodes[0].childNodes;
-        var miniappid = spans[6].innerHTML;
 
-        $.ajax({
-            type: 'POST',
-            data: {miniapp_id:miniappid},
-            url: '/c/myminiapp/entermanagement?token='+token,
-            success: function(res){
-                if(res.code == 0){
-                    window.open('http://passion.njshangka.com/hospital-publicity/hospital/index.html');
-                }else{
-                    alert('服务器出错，请稍后重试！');
-                }
-            }
-        });
-    }
     //隐藏遮罩层
     function closeBox(ele){
         ele.style.display = 'none';
