@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3分钟平台</title>
+    <script src="libs/jquery.min.js"></script>
+    <script src="libs/shake.js"></script>
+    <script src="libs/jquery.cookie.js"></script>
+    <script src="libs/vue.js"></script>
+    <script src="libs/default.js"></script>
+
+</head>
+<style>
+
+</style>
+<script type="text/javascript">
+    var token = $.cookie('token');
+    if(!token)
+        location.href="login.html#go=index.html";
+
+
+</script>
+
+<body style="margin:0;">
+    <div  style="border-bottom:1px solid #e4e5e7;height:61px;">
+        <div style="background:#f7f9fa;border-right:1px solid #e4e5e7;width:200px;height:61px;float:left;text-align: center;"><div style="font-weight: 700;font-size: 24px;position: relative;top:50%;transform: translateY(-50%);color:#34495e;">3分钟平台</div></div>
+        <div style="height:61px;float:right;position: relative;right:50px;"><a href="javascript:logout()" style="font-size: 14px;position: relative;top:50%;transform: translateY(-50%);">退出登录</a></div>
+    </div>
+    <div style="clear:both"></div>
+
+        <div style="width:200px;border-right:1px solid #e4e5e7;position: absolute;top: 62px;left: 0px;;bottom: 0;">
+            <div style="width:200px;border-bottom:1px solid #e4e5e7;text-align:center;padding:10px 0;">
+                        <img src="img/head.png" style="width:60px;">
+                        <div style="color:#777;" id="showphone"> {{ message }}</div>
+            </div>
+            <div style="width:200px;border-bottom:1px solid #e4e5e7;font-size: 14px;font-weight: 700;color:#34495e" onclick="$.get('appstore.html', function(res){$('#subpage').html(res)});">
+                <div style="margin:10px 0 10px 10px" >应用商店</div>
+            </div>
+            <div style="width:200px;border-bottom:1px solid #e4e5e7;font-size: 14px;font-weight: 700;color:#34495e" onclick="$.get('myapp.html', function(res){$('#subpage').html(res)});">
+                <div style="margin:10px 0 10px 10px" >我的应用</div>
+            </div>
+
+        </div>
+        <div id="subpage" style="position: absolute;top: 62px;left: 201px;right: 0;bottom: 0;">
+
+        </div>
+
+</body>
+<script type="text/javascript">
+    var showphone = new Vue({
+        el: '#showphone',
+        data: {
+            message: $.cookie('phone')
+        }
+    })
+
+
+    var queryStrObj= parseQueryStr(location.search.substr(1));
+    if(queryStrObj.tab=='appstore'){
+       $.get('appstore.html', function(res){$('#subpage').html(res)});
+    }else if(queryStrObj.tab=='myapp'){
+        $.get('myapp.html', function(res){$('#subpage').html(res)});
+    }else{
+        $.get('appstore.html', function(res){$('#subpage').html(res)});
+    }
+
+
+    function logout(){
+        $.removeCookie('token');
+        location.href="login.html";
+    }
+
+
+
+</script>
+</html>

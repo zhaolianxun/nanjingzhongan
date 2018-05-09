@@ -87,7 +87,7 @@
                             $.ajax({
                                 type: 'POST',
                                 async: false,
-                                url: '/easywin/p/useraction/selfinfo?token='+token,
+                                url: '/easywin/p/useraction/loginrefresh?token='+token,
                                 success: function(res){
                                     if(res.code == 0){
                                         localStorage.setItem('superadminIs',res.data.superadminIs);

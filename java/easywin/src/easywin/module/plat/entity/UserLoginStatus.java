@@ -7,7 +7,6 @@ public class UserLoginStatus {
 	private String nickname;
 	private String realname;
 	private long loginTime;
-	private int superadminIs;
 	private int adminIs;
 	private int agentIs;
 
@@ -67,13 +66,6 @@ public class UserLoginStatus {
 		this.loginTime = loginTime;
 	}
 
-	public int getSuperadminIs() {
-		return superadminIs;
-	}
-
-	public void setSuperadminIs(int superadminIs) {
-		this.superadminIs = superadminIs;
-	}
 
 	public int getAdminIs() {
 		return adminIs;

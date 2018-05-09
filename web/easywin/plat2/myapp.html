@@ -1,0 +1,357 @@
+
+    <link rel="stylesheet" type="text/css" href="libs/iziToast/css/iziToast.min.css">
+    <script type="text/javascript" src="libs/iziToast/js/iziToast.min.js"></script>
+    <style type="text/css">
+
+    body{margin:0;}
+       #myappContent .cardcon {
+            padding: 20px 35px
+        }
+
+       #myappContent .carddiv {
+            min-width: 800px;
+            height: 110px;
+            background: #fff;
+            padding: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 2px 4px #ccc
+        }
+
+       #myappContent .carddiv button {
+            font-size: 13px;
+            background: #fff;
+            border: 1px solid #269abc;
+            color: #269abc;
+            border-radius: 3px;
+            width: 70px;
+            height: 25px;
+            margin-top: 32px;
+            margin-right: 8px
+        }
+
+       #myappContent .carddiv button:hover {
+            background: #269abc;
+            color: #fff
+        }
+
+       #myappContent  .cardnumimg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 41px
+        }
+
+       #myappContent  .cardnumtxt {
+            position: absolute;
+            top: 2px;
+            left: 7px;
+            color: #fff;
+            font-weight: 700
+        }
+
+       #myappContent  .cardicon {
+            width: 75px;
+            float: left;
+            margin-left: 30px;
+            margin-top: 8px;
+            border-radius: 12px
+        }
+
+       #myappContent  .carddesc {
+            float: left;
+            vertical-align: top;
+            margin-left: 18px;
+            font-size: 16px;
+            width: 380px;
+            overflow: hidden
+        }
+
+       #myappContent  .cardbt-con {
+            float: right;
+            margin-top: 2px;
+            margin-right: 20px
+        }
+
+       #myappContent .vtimetxt {
+            float: left;
+            margin-left: 15px;
+            color: #3c0;
+            font-size: 13px;
+            line-height: 50px
+        }
+       #myappContent  .qrcodeBox{
+            width: 214px;
+            height: 242px;
+            position: absolute;
+            top: 70px;
+            right: 125px;
+            display: none;
+            z-index: 100;
+        }
+       #myappContent  .qrcode{
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            top: 35px;
+            left: 7px;
+        }
+       #myappContent  #prompt{
+            border-radius: 8px;
+            width: 412px;
+            height: 202px;
+            background-color: #fff;
+            margin: 0 auto;
+            position: relative;
+            display: none;
+        }
+       #myappContent  .tips{
+            color: #000;
+            font-size: 20px;
+            line-height: 140px;
+            text-align: center;
+            margin: 0;
+        }
+       #myappContent .btnBox{
+            width: 195px;
+            margin: 15px auto;
+        }
+       #myappContent  .Btn{
+            color: #fff;
+            width: 80px;
+            height: 30px;
+            border-radius: 3px;
+            text-align: center;
+        }
+       #myappContent  .cancelBtn{
+            background-color: #ec6941;
+            margin-right: 30px;
+        }
+       #myappContent  .alterBtn{
+            background-color: #00a0e9;
+        }
+       #myappContent  hr{
+            margin: 0;
+        }
+
+    </style>
+
+<div id="myappContent">
+   <!-- <div style="height:51px;border-bottom:1px solid #ddd;background:#fff">
+        <span style="line-height:50px;float:left;margin-left:66px">
+            <a style="display:none" href="javascript:window.parent.memuClick('userinfo');">控制台</a>
+            <span style="margin:0 10px;display:none">/</span>
+            <a href="myapp.html">我的应用</a>
+        </span>
+    </div>-->
+    <div id="body-con" class="body-con">
+        <div id="cardcon" class="cardcon">
+        </div>
+    </div>
+
+    <div id="prompt">
+        <p class="tips">请先进入后台管理编辑资料！</p>
+        <hr/>
+        <div class="btnBox">
+            <button class="cancelBtn btn Btn" onclick="closePrompt()">取消</button>
+            <button class="alterBtn btn Btn">编辑</button>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function add0(m){return m<10?'0'+m:m }
+        //时间戳转化成时间格式
+        function timeFormat(timestamp){
+            var time = new Date(parseInt(timestamp));
+            var year = time.getFullYear();
+            var month = time.getMonth()+1;
+            var date = time.getDate();
+            return year+'-'+add0(month)+'-'+add0(date);
+        }
+
+        var apps={};
+
+            $.ajax({
+                type: "POST",
+                data: {page_no:1,page_size: 20},
+                url:"/easywin/p/e/myapp/apps?token="+token,
+                success: function (res) {
+                    if(res.code == 0){
+                        var items = res.data.apps;
+                        for(var i = 0 ; i < items.length ; i ++){
+                            var a = items[i];
+                            apps[a.appId]=a;
+                            var useEndIf = null;
+                            if(a.useEndtime)
+                                useEndIf = false;
+                            if(a.useEndtime && Date.parse( new Date()) > a.useEndtime)
+                                useEndIf=true;
+
+                            if(a.authorized == 0){
+                                $('#cardcon').append(
+                                '<div class="carddiv">' +
+                                    '<img class="cardnumimg" src="img/cardsanjiao.png">' +
+                                    '<div class="cardnumtxt">'+ (parseInt(i)+1) +'</div>' +
+                                    '<img class="cardicon" src="'+ items[i].headImg +'">' +
+                                    '<div class="carddesc">' +
+                                        '<div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+ items[i].nickName+(!items[i].businessbaseFill?'<span style="color:red;margin-left:15px;font-size: 10px">请进入后台补全信息</span>':'') +'</div>' +
+                                       /* '<div style="float:left;font-size: 13px;line-height:50px;">创建时间：2018-2-5</div>' +
+                                        '<div class="vtimetxt">有效期至：2028-2-5</div>' +*/
+                                    '</div>' +
+                                    '<div class="cardbt-con">' +
+                                        '<button onclick="gotoAuth('+ items[i].seedId +')">前往授权</button>' +
+                                    '</div>' +
+                                    '<div style="clear:both;"></div>' +
+                                '</div>'
+                                )
+                            }else{
+                                if(!items[i].commitTemplateVersion || items[i].commitTemplateVersion == items[i].newestTemplateVersion){
+                                    $('#cardcon').append(
+                                        '<div class="carddiv">' +
+                                        '<img class="cardnumimg" src="img/cardsanjiao.png">' +
+                                        '<div class="cardnumtxt">'+ (parseInt(i)+1) +'</div>' +
+                                        '<img class="cardicon" src="'+ items[i].headImg +'">' +
+                                        '<div class="carddesc">' +
+                                        '<div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+ items[i].nickName+(!items[i].businessbaseFill?'<span style="color:red;margin-left:15px;font-size: 10px">请进入后台补全信息</span>':'') +'</div>' +
+                                        '<div style="float:left;font-size: 13px;line-height:50px;">创建时间：'+ timeFormat(items[i].bindTime) +'</div>' +
+                                        (useEndIf == false? ('<div class="vtimetxt">有效期至：'+timeFormat(items[i].useEndtime)):useEndIf==true?('<div class="vtimetxt" style="color:red;">使用期已过：'+timeFormat(items[i].useEndtime)):'<div class="vtimetxt">')
+                                        +'</div>'
+                                        +
+                                        '</div>' +
+                                        '<div class="cardbt-con">' +
+                                        '<div style="display: none">' +
+                                        '<span>'+ items[i].nickName +'</span>' +
+                                        '<span>'+ items[i].auditStatus +'</span>' +
+                                        '<span>'+ items[i].commitStatus +'</span>' +
+                                        '<span>'+ items[i].submitAudit +'</span>' +//去掉
+                                       '<span>'+ items[i].released +'</span>' +//去掉
+                                        '<span>'+ items[i].auditFailReason +'</span>' +
+                                        '<span>'+ items[i].appId +'</span>' +
+                                        '</div>' +
+                                        '<button onclick="gotoPreview(this)" onmouseout="closeBox()">预览</button>' +
+                                        '<button onclick="enterManagement(\''+items[i].appId+'\')">管理后台</button>' +
+                                        '<button onclick="gotoStatus(\''+items[i].appId+'\')">查看状态</button>' +
+                                        '<div class="qrcodeBox">'+
+                                        '<img src="img/rectangle1@2x.png">' +
+                                        '<img id="qrcode" class="qrcode" src="">' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div style="clear:both;"></div>' +
+                                        '</div>'
+                                    )
+                                }else{
+                                    $('#cardcon').append(
+                                        '<div class="carddiv">' +
+                                        '<img class="cardnumimg" src="img/cardsanjiao.png">' +
+                                        '<div class="cardnumtxt">'+ (parseInt(i)+1) +'</div>' +
+                                        '<img class="cardicon" src="'+ items[i].headImg +'">' +
+                                        '<div class="carddesc">' +
+                                        '<div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+ items[i].nickName +(!items[i].businessbaseFill?'<span style="color:red;margin-left:15px;font-size: 10px">请进入后台补全信息</span>':'') +'</div>' +
+                                        '<div style="float:left;font-size: 13px;line-height:50px;">创建时间：'+ timeFormat(items[i].bindTime) +'</div>' +
+                                        (useEndIf == false? ('<div class="vtimetxt">有效期至：'+timeFormat(items[i].useEndtime)):useEndIf==true?('<div class="vtimetxt" style="color:red;">使用期已过：'+timeFormat(items[i].useEndtime)):'<div class="vtimetxt">')
+                                        +'</div>'+
+                                        '</div>' +
+                                        '<div class="cardbt-con">' +
+                                        '<div style="display: none">' +
+                                        '<span>'+ items[i].nickName +'</span>' +
+                                        '<span>'+ items[i].auditStatus +'</span>' +
+                                        '<span>'+ items[i].commitStatus +'</span>' +
+                                        '<span>'+ items[i].submitAudit +'</span>' +
+                                       '<span>'+ items[i].released +'</span>' +
+                                        '<span>'+ items[i].auditFailReason +'</span>' +
+                                        '<span>'+ items[i].appId +'</span>' +
+                                        '<span>'+ items[i].newestTemplateVersion +'</span>' +
+                                        '</div>' +
+                                        '<button onclick="update(this)">更新</button>' +
+                                        '<button onclick="gotoPreview(this)" onmouseout="closeBox()">预览</button>' +
+                                        '<button onclick="enterManagement(\''+items[i].appId+'\')">管理后台</button>' +
+                                        '<button onclick="gotoStatus(\''+items[i].appId+'\')">查看状态</button>' +
+                                        '<div class="qrcodeBox">'+
+                                        '<img src="img/rectangle1@2x.png">' +
+                                        '<img class="qrcode" src="">' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div style="clear:both;"></div>' +
+                                        '</div>'
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+
+        //提交审核
+        function gotoAuth(seedId) {
+            $.ajax({
+                type: 'POST',
+                data: {seed_id:seedId},
+                url: '/easywin/p/wop3a/getauthurl?token='+token,
+                success: function(res){
+                    if(res.code == 0){
+                        location.href = res.data.url;
+                    }else{
+                        alert('请求失败！')
+                    }
+                }
+            })
+        }
+        var isFirst = true;
+        //预览
+        function gotoPreview(ele){
+            var spans = ele.parentNode.childNodes[0].childNodes;
+            var miniappId = spans[6].innerHTML;
+                var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+miniappId;
+                var imgBox = ele.parentNode.lastChild;
+                var img = imgBox.childNodes[1];
+                img.src = src;
+                imgBox.style.display = 'block';
+        }
+        //更新
+        function update(ele){
+            var flag = confirm('确定要更新版本吗？');
+            if(flag == true){
+                var token = sessionStorage.getItem('token');
+                var spans = ele.parentNode.childNodes[0].childNodes;
+                var miniappId = spans[6].innerHTML;
+                var newestTemplateVersion = spans[7].innerHTML;
+                $.ajax({
+                    type: 'POST',
+                    data: {app_id:miniappId,template_version:newestTemplateVersion},
+                    url: '/easywin/p/e/myapp/commitcode?token='+token,
+                    success: function(res){
+                        if(res.code == 0){
+                            console.log(res)
+                        }else{
+                            alert(res.codeMsg);
+                        }
+                    }
+                })
+            }else{
+                console.log('cancel')
+            }
+        }
+        //查看状态
+        function gotoStatus(appId){
+            sessionStorage.setItem('appId',appId);
+            location.href = 'preview.html';
+        }
+        //管理后台
+        function enterManagement(appId){
+            var app = apps[appId];
+            if(app.templateCode == 'mall'){
+                window.open('/easywin/mallmanage/threeMinuteProgram_maintain/index.html?token='+token+'&mall_id='+appId);
+            }else{
+                alert('未知模板')
+            }
+        }
+        //关闭预览
+        function closeBox() {
+            $('.qrcodeBox').fadeOut();
+        }
+        //关闭提示框
+        function closePrompt(){
+            $('#prompt').fadeOut();
+        }
+    </script>
+</div>

@@ -3,6 +3,7 @@ package easywin.module.plat.api;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +13,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +30,6 @@ import easywin.util.HttpRespondWithData;
 import okhttp3.Request;
 import okhttp3.Response;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 @Controller("plat.api.UserAction")
 @RequestMapping(value = "/p/useraction")
@@ -55,7 +54,7 @@ public class UserAction {
 			// 业务处理
 			connection = EasywinDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
-					"select id,nickname,realname,loginable_is,admin_is,superadmin_is,agent_is from t_user where phone=? and password_md5=?");
+					"select id,nickname,realname,loginable_is,admin_is,agent_is from t_user where phone=? and password_md5=?");
 			pst.setObject(1, phone);
 			pst.setObject(2, DigestUtils.md5Hex(password));
 			ResultSet rs = pst.executeQuery();
@@ -67,7 +66,6 @@ public class UserAction {
 				loginStatus.setNickname(rs.getString("nickname"));
 				loginStatus.setRealname(rs.getString("realname"));
 				loginStatus.setAdminIs(rs.getInt("admin_is"));
-				loginStatus.setSuperadminIs(rs.getInt("superadmin_is"));
 				loginStatus.setAgentIs(rs.getInt("agent_is"));
 			} else
 				throw new InteractRuntimeException("用户名或密码错误");
@@ -86,6 +84,10 @@ public class UserAction {
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("token", token);
+			data.put("phone", loginStatus.getPhone());
+			data.put("nickname", loginStatus.getNickname());
+			data.put("adminIs", loginStatus.getAdminIs());
+			data.put("agentIs", loginStatus.getAgentIs());
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -102,8 +104,8 @@ public class UserAction {
 		}
 	}
 
-	@RequestMapping(value = "/selfinfo")
-	public void selfInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/loginrefresh")
+	public void loginRefresh(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
 			// 获取请求参数
 
@@ -115,7 +117,7 @@ public class UserAction {
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("nickname", loginStatus.getNickname());
-			data.put("superadminIs", loginStatus.getSuperadminIs());
+			data.put("phone", loginStatus.getPhone());
 			data.put("adminIs", loginStatus.getAdminIs());
 			data.put("agentIs", loginStatus.getAgentIs());
 			HttpRespondWithData.todo(request, response, 0, null, data);
@@ -267,15 +269,9 @@ public class UserAction {
 	}
 
 	public static void main(String[] args) {
-		GenericObjectPoolConfig config = new GenericObjectPoolConfig();
-		SysConstant.jedisPool = new JedisPool(config, "121.40.168.181", 6480, 10000, "Lx1990159sJspeafdQM");
-		Jedis jedis = SysConstant.jedisPool.getResource();
-		UserLoginStatus loginStatus = new UserLoginStatus();
-		loginStatus.setUserId("1");
-		loginStatus.setAdminIs(0);
-		loginStatus.setPhone("11111111111");
-		loginStatus.setLoginTime(new Date().getTime());
-		jedis.set("888888888888", JSON.toJSONString(loginStatus));
-		jedis.close();
+		Calendar c = Calendar.getInstance();
+		System.out.println(c.getTime());
+		c.add(Calendar.DATE, -0);
+		System.out.println(Integer.parseInt("-1"));
 	}
 }
