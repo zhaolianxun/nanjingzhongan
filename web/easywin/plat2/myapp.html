@@ -146,17 +146,22 @@
     </div>-->
     <div id="body-con" class="body-con">
         <div id="cardcon" class="cardcon">
+            <div class="carddivFather">
+                <img class="cardnumimg" src="img/cardsanjiao.png">
+                <div class="cardnumtxt">{{no}}</div>
+                <img class="cardicon" src="'+ items[i].headImg +'">
+                <div class="carddesc">
+                    <div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+ items[i].nickName+(!items[i].businessbaseFill?'<span style="color:red;margin-left:15px;font-size: 10px">请进入后台补全信息</span>':'') </div>
+                    </div>
+                <div class="cardbt-con">
+                    <button onclick="gotoAuth({{seedId}})">前往授权</button>
+                    </div>
+                <div style="clear:both;"></div>
+            </div>
         </div>
     </div>
 
-    <div id="prompt">
-        <p class="tips">请先进入后台管理编辑资料！</p>
-        <hr/>
-        <div class="btnBox">
-            <button class="cancelBtn btn Btn" onclick="closePrompt()">取消</button>
-            <button class="alterBtn btn Btn">编辑</button>
-        </div>
-    </div>
+</div>
 
     <script type="text/javascript">
         function add0(m){return m<10?'0'+m:m }
@@ -354,4 +359,4 @@
             $('#prompt').fadeOut();
         }
     </script>
-</div>
+

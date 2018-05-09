@@ -2,36 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/cardsanjiao.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/div1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/head.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/icon001.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/icon002.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/img1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/img2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/rectangle1@2x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/showcode1.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/appstore.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/bootstrap/css/bootstrap.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/default.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/iziToast/css/iziToast.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/iziToast/js/iziToast.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/jquery.cookie.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/jquery.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/json2.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/mallintro.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/myapp.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/register.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/shake.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/vue.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/UserAction.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/UserAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/entity/UserLoginStatus.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/entity/UserLoginStatus.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/login.html" afterPath="$PROJECT_DIR$/web/easywin/plat/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat2/login.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat2/myapp.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/myapp.html" />
     </list>
     <ignored path="nanjingzhongan.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -82,24 +53,27 @@
       <file leaf-file-name="myapp.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/easywin/plat2/myapp.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5029412">
-              <caret line="189" column="40" selection-start-line="189" selection-start-column="40" selection-end-line="189" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.7205882">
+              <caret line="157" column="26" selection-start-line="157" selection-start-column="26" selection-end-line="157" selection-end-column="26" />
               <folding>
-                <marker date="1525878863959" expanded="true" signature="5890:5968" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="6033:6075" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="6639:6650" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="7440:7518" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="7583:7625" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="7714:7758" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="7980:7990" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="8324:8337" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="9709:9720" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="10389:10467" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="10533:10575" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="10664:10708" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="10930:10940" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="11233:11246" placeholder="..." />
-                <marker date="1525878863959" expanded="true" signature="12779:12790" placeholder="..." />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <marker date="1525879182487" expanded="true" signature="6375:6453" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="6518:6560" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="7124:7135" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="7925:8003" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="8068:8110" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="8199:8243" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="8465:8475" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="8809:8822" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="10194:10205" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="10874:10952" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="11018:11060" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="11149:11193" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="11415:11425" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="11718:11731" placeholder="..." />
+                <marker date="1525879182487" expanded="true" signature="13264:13275" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -1005,24 +979,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat2/myapp.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5029412">
-          <caret line="189" column="40" selection-start-line="189" selection-start-column="40" selection-end-line="189" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.7205882">
+          <caret line="157" column="26" selection-start-line="157" selection-start-column="26" selection-end-line="157" selection-end-column="26" />
           <folding>
-            <marker date="1525878863959" expanded="true" signature="5890:5968" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="6033:6075" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="6639:6650" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="7440:7518" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="7583:7625" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="7714:7758" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="7980:7990" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="8324:8337" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="9709:9720" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="10389:10467" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="10533:10575" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="10664:10708" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="10930:10940" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="11233:11246" placeholder="..." />
-            <marker date="1525878863959" expanded="true" signature="12779:12790" placeholder="..." />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <marker date="1525879182487" expanded="true" signature="6375:6453" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="6518:6560" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="7124:7135" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="7925:8003" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="8068:8110" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="8199:8243" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="8465:8475" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="8809:8822" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="10194:10205" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="10874:10952" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="11018:11060" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="11149:11193" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="11415:11425" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="11718:11731" placeholder="..." />
+            <marker date="1525879182487" expanded="true" signature="13264:13275" placeholder="..." />
           </folding>
         </state>
       </provider>
