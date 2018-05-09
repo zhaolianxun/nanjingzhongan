@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat2/myapp.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/myapp.html" />
-    </list>
+    <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="" />
     <ignored path="nanjingzhongan.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
