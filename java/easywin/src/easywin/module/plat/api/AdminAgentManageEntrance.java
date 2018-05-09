@@ -115,7 +115,6 @@ public class AdminAgentManageEntrance {
 			Integer coin = Integer.parseInt(coinParam);
 			if (coin <= 0)
 				throw new InteractRuntimeException("coin 必须大于0");
-
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)

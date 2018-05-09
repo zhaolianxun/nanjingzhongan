@@ -117,6 +117,8 @@ public class AdminUserManageEntrance {
 			Integer agentIs = agentIsParam == null ? null : Integer.parseInt(agentIsParam);
 			String agentLevelParam = StringUtils.trimToNull(request.getParameter("agent_level"));
 			Integer agentLevel = agentLevelParam == null ? null : Integer.parseInt(agentLevelParam);
+			String agentDomain = StringUtils.trimToNull(request.getParameter("agent_domain"));
+
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
@@ -142,13 +144,14 @@ public class AdminUserManageEntrance {
 				sqlParams.add(agentIs);
 			if (agentLevel != null)
 				sqlParams.add(agentLevel);
-
+			if (agentDomain != null)
+				sqlParams.add(agentDomain);
 			sqlParams.add(userId);
 			pst = connection.prepareStatement("update t_user set id=id" + (password == null ? "" : " ,password=?")
 					+ (password == null ? "" : " ,password_md5=?") + (realname == null ? "" : " ,realname=?")
 					+ (nickname == null ? "" : " ,nickname=?") + (phone == null ? "" : " ,phone=?")
 					+ (agentIs == null ? "" : " ,agent_is=?") + (agentLevel == null ? "" : " ,agent_level=?")
-					+ " where id=?");
+					+ (agentDomain == null ? "" : " ,agent_domain=?") + " where id=?");
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));
 

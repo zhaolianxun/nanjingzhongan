@@ -52,7 +52,7 @@ public class LoggerFilter implements Filter {
 
 		request.setAttribute("requestId", requestId);
 		request.setAttribute("requestTime", now);
-
+		
 		logger.info(new StringBuilder().append("track new request ").append(requestId).append(" 【")
 				.append(httpReq.getMethod()).append(" ").append(httpReq.getRequestURI()).append("?")
 				.append(StringUtils.trimToEmpty(httpReq.getQueryString())).append("】").toString());

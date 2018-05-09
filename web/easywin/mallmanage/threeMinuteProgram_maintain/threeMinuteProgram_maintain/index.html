@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>三分钟小程序管理平台</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+
+		<link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="css/global.css" media="all">
+		<link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+
+	</head>
+
+	<body>
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header header header-demo">
+				<div class="layui-main">
+					<div class="admin-login-box">
+						<a class="logo" style="left: 0;" href="javascript:void(0);">
+							<span id="title" style="font-size: 22px;">三分钟小程序管理后台</span>
+						</a>
+					</div>
+					<ul class="layui-nav admin-header-item" style="margin-right: 50px;">
+						<li id="user" class="layui-nav-item" style="display: none;">
+							<a href="javascript:;" class="admin-header-user">
+								<!--<img src="images/0.jpg" />-->
+								<span id="userName"></span>
+							</a>
+							<dl class="layui-nav-child">
+								<!--<dd>
+									<a href="javascript:;"><i class="fa fa-user-circle" aria-hidden="true"></i> 个人信息</a>
+								</dd>
+								<dd>
+									<a href="javascript:;"><i class="fa fa-gear" aria-hidden="true"></i> 设置</a>
+								</dd>-->
+								<dd>
+									<!--<a id="signOut" href="javascript:;">注销</a>-->
+								</dd>
+							</dl>
+						</li>
+                        <!--<li id="noUser" style="margin: 25px 0;">您好，请先<a href="login.html"> 登录 </a></li>-->
+					</ul>
+					<ul class="layui-nav admin-header-item-mobile">
+						<li class="layui-nav-item">
+							<a href="login.html">注销</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-side layui-bg-black" id="admin-side">
+				<div class="layui-side-scroll" id="admin-navbar-side" lay-filter="side"></div>
+			</div>
+			<div class="layui-body" style="bottom: 0;border-left: solid 2px #1AA094;" id="admin-body">
+				<div class="layui-tab admin-nav-card layui-tab-brief" lay-filter="admin-tab">
+					<ul class="layui-tab-title">
+						<li class="layui-this">
+							<cite>首页</cite>
+						</li>
+					</ul>
+					<div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;">
+						<div class="layui-tab-item layui-show">
+							<iframe id="iframe" src="main.html"></iframe>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="site-tree-mobile layui-hide">
+				<i class="layui-icon">&#xe602;</i>
+			</div>
+			<div class="site-mobile-shade"></div>
+
+			
+			<script type="text/javascript" src="plugins/layui/layui.js"></script>
+			<script type="text/javascript" src="datas/nav.js"></script>
+			<script src="js/index.js"></script>
+			<script>
+
+                function getRequest() {
+                    var url = location.search; //获取url中"?"符后的字串
+                    var theRequest = new Object();
+                    if (url.indexOf("?") != -1) {
+                        var str = url.substr(1);
+                        strs = str.split("&");
+                        for(var i = 0; i < strs.length; i ++) {
+                            theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                        }
+                    }
+                    return theRequest;
+                }
+                var token=getRequest().token
+                var mall_id=getRequest().mall_id
+                localStorage.setItem("token", token);
+                localStorage.setItem("mall_id", mall_id);
+                console.log(token)
+
+
+
+
+				layui.use('layer', function() {
+					var $ = layui.jquery,
+						layer = layui.layer;
+
+                    var userName = localStorage.getItem('userName');
+                    if(userName){
+                        $('#user').css('display','block');
+                        $('#noUser').css('display','none');
+                        $('#userName').html(userName);
+                        var module = localStorage.getItem('module');
+                        module = module.split(',');
+                        for(var i = 0; i < module.length ; i ++){
+                            navs[module[i]].display = true;
+                        }
+                    }
+                    var hospitalId = localStorage.getItem('hospitalId');
+                    var hospitalName = localStorage.getItem('hospitalName');
+                    if(hospitalId){
+                        $('#title').html(hospitalName);
+                        navs[10].spread = true;
+                    }
+                    var officeId = localStorage.getItem('officeId');
+                    var officeName = localStorage.getItem('officeName');
+                    if(officeId&&officeName!='本医院'){
+                        $('#title').html(hospitalName + '  ' +officeName);
+                        navs[10].children.splice(0,3);
+                    }
+                    $('#signOut').click(function(){
+                        localStorage.clear();
+                        location.href = 'login.html';
+                    })
+				});
+			</script>
+		</div>
+	</body>
+
+</html>

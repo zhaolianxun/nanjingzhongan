@@ -125,6 +125,8 @@ public class WxOpenP3Authorization {
 	@RequestMapping(value = "/getauthurl", method = RequestMethod.POST)
 	public void getAuthUrl(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Jedis jedis = null;
+		Connection connection = null;
+		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
 			String seedId = request.getParameter("seed_id");
@@ -132,13 +134,24 @@ public class WxOpenP3Authorization {
 				throw new InteractRuntimeException("seed_id不能为空。");
 			String appId = request.getParameter("app_id");
 			appId = appId == null ? "0" : appId;
-			String agentId = StringUtils.trimToNull(request.getParameter("agent_id"));
-			agentId = agentId == null ? "0" : agentId;
+			String agentDomain = request.getHeader("Host");
+			agentDomain = agentDomain == null || agentDomain.isEmpty() ? request.getRemoteHost() : agentDomain;
+
 			// 业务处理
 			jedis = SysConstant.jedisPool.getResource();
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request, jedis);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("select id from t_user where agent_domain=?");
+			pst.setObject(1, agentDomain);
+			ResultSet rs = pst.executeQuery();
+			String agentId = null;
+			if (rs.next())
+				agentId = rs.getString(1);
+			else
+				throw new InteractRuntimeException("代理不存在");
 
 			String componentAccessToken = jedis.get(SysConstant.wechat_open_thirdparty_AppId + "-componentAccessToken");
 

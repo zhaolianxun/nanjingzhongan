@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="6c6a1066-e750-4889-9517-fa783864643c" name="hospitalmanagement" url="http://192.168.1.200">
+        <fileTransfer anonymous="true" host="192.168.1.200" port="21" rootFolder="/hospital-publicity/hospitalmanagement">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

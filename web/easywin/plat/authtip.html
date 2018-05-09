@@ -57,7 +57,7 @@
                 if(res.code == 0){
                     window.parent.location.href = res.data.url;
                 }else{
-                    alert('请求失败！')
+                    alert(res.codeMsg)
                 }
             }
         })

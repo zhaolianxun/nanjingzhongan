@@ -191,7 +191,6 @@ public class UserAction {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-			String agentId = StringUtils.trimToNull(request.getParameter("agent_id"));
 			String phone = StringUtils.trimToNull(request.getParameter("phone"));
 			if (phone == null)
 				throw new InteractRuntimeException("phone不可空");
@@ -201,6 +200,8 @@ public class UserAction {
 			String password = StringUtils.trimToNull(request.getParameter("password"));
 			if (password == null)
 				throw new InteractRuntimeException("password不可空");
+			String agentDomain = request.getHeader("Host");
+			agentDomain = agentDomain == null || agentDomain.isEmpty() ? request.getRemoteHost() : agentDomain;
 
 			// 业务处理
 			// 短信校验
@@ -225,14 +226,16 @@ public class UserAction {
 				throw new InteractRuntimeException("手机号已存在");
 			pst.close();
 
-			if (agentId != null) {
-				pst = connection.prepareStatement("select id from t_user where id=?");
-				pst.setObject(1, agentId);
-				rs = pst.executeQuery();
-				if (!rs.next())
-					throw new InteractRuntimeException("代理不存在");
-				pst.close();
-			}
+			pst = connection.prepareStatement("select id from t_user where agent_domain=?");
+			pst.setObject(1, agentDomain);
+			rs = pst.executeQuery();
+			String agentId = null;
+			if (rs.next())
+				agentId = rs.getString(1);
+			else
+				throw new InteractRuntimeException("代理不存在");
+
+			pst.close();
 
 			pst = connection.prepareStatement(
 					"insert into t_user (id,phone,password,password_md5,register_time,from_agent_id) values(?,?,?,?,?,?)");

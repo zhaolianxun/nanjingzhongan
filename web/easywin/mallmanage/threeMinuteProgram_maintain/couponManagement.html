@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>地推人员</title>
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="js/image-file-visible.js"></script>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css"/>
+    <script type="text/javascript" src="plugins/layui/layui.js"></script>
+    <script src="js/addTmpImg.js"></script>
+    <style>
+        .layui-form-label {
+            width: 45px;
+        }
+
+        #land {
+            width: 100% !important;
+        }
+
+        .lf {
+            float: left;
+        }
+
+        .rt {
+            float: right;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        #pic2 {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            /* top: 10px; */
+            /* float: right; */
+            /* right: 0; */
+            opacity: 0;
+            /*left: 0;*/
+        }
+
+        #image_wrap2 img {
+            width: 100px !important;
+            height: 100px !important;
+        }
+
+        /*.avater_titie{*/
+        /*background: url('icon/touxiang.png') no-repeat;*/
+        /*width:25%;*/
+        /*}*/
+        input {
+            font-size: 15px !important;
+        }
+
+        .userCard_img,
+        {
+            background: url("images/add.png") no-repeat;
+            background-size: 100%;
+        }
+
+        .addTwoLink {
+            width: 500px;
+            height: 400px;
+            position: fixed;
+            top: 10px;
+            z-index: 999;
+            background: #FFFFFF;
+            left: 20%;
+            border: 1px solid #e5e5e5;
+            overflow-y: scroll;
+        }
+
+        .makeSure, .refuse {
+            width: 60px;
+            height: 30px;
+            display: inline-block;
+            margin-left: 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background: #009688;
+            color: #FFFFFF;
+            border: 0;
+            border-radius: 3px;
+        }
+
+        .userCard_img_1 {
+            width: 50px;
+            height: 50px;
+        }
+        input[type='text']{
+            display: inline-block;
+            height: 30px;
+            width:200px;
+            padding: 0 10px;
+            margin: 5px;
+            border: 1px solid #f2f2f2;
+        }
+        .timeInput{
+            display: inline-block;
+            width:224px;
+            border: 1px solid #f2f2f2;
+        }
+        #time{
+            z-index: 999;
+            text-align: center;
+            position: fixed;
+            top: 100px;
+            left: 25%;
+            width: 50%;
+            min-width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid #f2f2f2;
+        }
+        .layui-input{
+            height: 30px;
+            width: 224px;
+            margin: 5px 0;
+            border: 1px solid #f2f2f2;
+        }
+        #screen{
+            width: 50px;
+            height: 30px;
+            /*display: block;*/
+        }
+        .select{
+            display: inline-block;
+            width:100% ;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <!--<blockquote class="layui-elem-quote">-->
+        <div class="layui-form-pane" id="time" style="display:none">
+            <div><input type="text" class="title" placeholder="请输入标题"/></div>
+            <div><input type="text" class="desc" placeholder="请输入描述"/></div>
+            <div><input type="text" class="upToMoney" placeholder="请输入满足金额"/></div>
+            <div><input type="text" class="subMoney" placeholder="请输入优惠金额"/></div>
+            <!--<div class="layui-form-item" style="margin-top: 10px;margin-left: 5px">-->
+                <div class="timeInput" >
+                    <input class="layui-input" placeholder="开始时间" id="start"
+                           onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                    <input class="layui-input" placeholder="截止时间" id="end"
+                           onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                </div>
+                <!--<button class="layui-btn layui-btn-small" id="screen">筛选</button>-->
+                <div class="select">
+                    <a  href="javascript:;" style="margin-top: 3px;" class="layui-btn layui-btn-small" id="screen">筛选</a>
+                </div>
+            </div>
+        <!--</div>-->
+    <!--</blockquote>-->
+
+<div class="admin-main">
+    <blockquote class="layui-elem-quote">
+        <div>
+            <label class="layui-form-label" style="width:90px ">添加操作：</label>
+            <a href="javascript:;" class=" layui-btn layui-btn-warm layui-btn-small" id="addOne">
+                <i class="layui-icon">&#xe608;</i> 添加公告
+            </a>
+
+            <a href="javascript:;" style="float: right;" class="layui-btn layui-btn-small" id="refresh">
+                刷新
+            </a>
+        </div>
+
+    </blockquote>
+    <fieldset id="land" class="layui-elem-field lf">
+        <legend>一级分类</legend>
+        <div class="layui-field-box">
+            <table id="table1" class="lf site-table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>标题</th>
+                    <th>内容</th>
+                    <th>满额</th>
+                    <th>优惠</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody1">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+
+
+    <div class="admin-table-page">
+        <div id="page" class="page"></div>
+    </div>
+</div>
+
+
+<script>
+    var token = localStorage.getItem("token");
+    var mall_id = localStorage.getItem("mall_id");
+
+    var totalPage;
+    var id = '';
+    layui.config({
+        base: 'plugins/layui/modules/'
+    });
+
+    layui.use(['icheck', 'laypage', 'layer'], function () {
+        var $ = layui.jquery,
+                laypage = layui.laypage,
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+//        //添加优惠券
+        $('#addOne').on('click', function () {
+            $('#time').css('display','block');
+        });
+        var start = '';
+        var end = '';
+        $('#screen').click(function(){
+            if($('#start').val() != ''){start = Date.parse($('#start').val())}else{start =''}
+            if($('#end').val() != ''){end =  Date.parse($('#end').val())}else{end =  ''}
+            var title=$('.title').val();
+            var desc=$('.desc').val();
+            var uptomoney=$('.upToMoney').val()*100;
+            var submoney=$('.subMoney').val()*100;
+            $.ajax({
+                type: 'POST',
+                data: {token: token,title:title,desc:desc,uptomoney:uptomoney,submoney:submoney,starttime:start,endtime:end},
+                url: '/easywin/mm/' + mall_id + '/e/couponm/addfulloff',
+                success: function (data) {
+                    if (data.code == 0) {
+                        $('#time').css('display','none');
+                        $('#refresh').click();
+                    } else if (data.code == 20) {
+                        alert('登录已失效，请重新登录！！');
+//                        window.parent.location.href = 'login.html';
+                    }
+                }
+            });
+        })
+
+        function getData() {
+            $.ajax({
+                type: 'POST',
+                data: {token: token},
+                url: '/easywin/mm/' + mall_id + '/e/couponm/coupons',
+                success: function (data) {
+                    if (data.code == 0) {
+                        $('#tbody1').children().remove();
+                        var data = data.data;
+                        for (var i = 0; i < data.coupons.items.length; i++) {
+                            $('#tbody1').append('<tr>' +
+
+                            '<td>' + data.coupons.items[i].couponId + '</td>' +
+                            '<td>' + data.coupons.items[i].title + '</td>' +
+                            '<td>' + data.coupons.items[i].desc + '</td>' +
+                            '<td>' + data.coupons.items[i].type1Uptomoney + '</td>' +
+                            '<td>' + data.coupons.items[i].type1Submoney + '</td>' +
+                            '<td>' + new Date(parseInt(data.coupons.items[i].type1Starttime)).toLocaleString() + '</td>' +
+                            '<td>' + new Date(parseInt(data.coupons.items[i].type1Endtime)).toLocaleString() + '</td>' +
+                            '<td>' +
+                            '<a href="javascript:;"  style="margin-right: 10px;" class="delete layui-btn layui-btn-danger layui-btn-mini">删除</a>' +
+                            '</td>' +
+                            '</tr>');
+                        }
+                    } else if (data.code == 20) {
+                        alert('登录已失效，请重新登录！！');
+//                        window.parent.location.href = 'login.html';
+                    }
+                }
+            });
+        }
+
+        getData();
+//        删除信息
+        $('#tbody1').on('click', 'a.delete', function () {
+            var coupon_id = $(this).parent().parent().children('td:first').html();
+            console.log(id);
+            $.ajax({
+                type: 'POST',
+                data: {token: token,coupon_id:coupon_id},
+                url: '/easywin/mm/' + mall_id + 'e/couponm/del' ,
+                success: function (data) {
+                    if (data.code == 0) {
+                        layer.msg('删除成功！', {
+                            time: 2000
+                        });
+                        $('#refresh').click();
+                    } else if (data.code == 20) {
+                        alert('登录已失效，请重新登录！！');
+//                        window.parent.location.href = 'login.html';
+                    }
+                }
+            })
+        });
+
+//        //刷新
+        $('#refresh').click(function () {
+            getData();
+        });
+
+
+    });
+</script>
+<script>
+    layui.use('laydate', function () {
+        var $ = layui.jquery,
+                laydate = layui.laydate;
+    });
+</script>
+<script>
+//    function exportData() {
+//        var land = document.getElementById('land');
+//        if (land.style.display == 'block') {
+//            // 使用outerHTML属性获取整个table元素的HTML代码（包括<table>标签），然后包装成一个完整的HTML文档，设置charset为urf-8以防止中文乱码
+//            var html = "<html><head><meta charset='utf-8' /></head><body>" + document.getElementById("table1").outerHTML + "</body></html>";
+//            // 实例化一个Blob对象，其构造函数的第一个参数是包含文件内容的数组，第二个参数是包含文件类型属性的对象
+//            var blob = new Blob([html], {type: "application/vnd.ms-excel"});
+//            var a = document.getElementById("export");
+//            // 利用URL.createObjectURL()方法为a元素生成blob URL
+//            a.href = URL.createObjectURL(blob);
+//            // 设置文件名，目前只有Chrome和FireFox支持此属性
+//            a.download = "地推人员表.xls";
+//        } else {
+//            // 使用outerHTML属性获取整个table元素的HTML代码（包括<table>标签），然后包装成一个完整的HTML文档，设置charset为urf-8以防止中文乱码
+//            var html = "<html><head><meta charset='utf-8' /></head><body>" + document.getElementById("table2").outerHTML + "</body></html>";
+//            // 实例化一个Blob对象，其构造函数的第一个参数是包含文件内容的数组，第二个参数是包含文件类型属性的对象
+//            var blob = new Blob([html], {type: "application/vnd.ms-excel"});
+//            var a = document.getElementById("export");
+//            // 利用URL.createObjectURL()方法为a元素生成blob URL
+//            a.href = URL.createObjectURL(blob);
+//            // 设置文件名，目前只有Chrome和FireFox支持此属性
+//            a.download = "受邀人员表.xls";
+//        }
+//    }
+
+
+</script>
+</body>
+
+</html>
