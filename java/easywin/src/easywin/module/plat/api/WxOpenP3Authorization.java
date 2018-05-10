@@ -132,7 +132,7 @@ public class WxOpenP3Authorization {
 			String seedId = request.getParameter("seed_id");
 			if (seedId == null)
 				throw new InteractRuntimeException("seed_id不能为空。");
-			String appId = request.getParameter("app_id");
+			String appId = StringUtils.trimToNull(request.getParameter("app_id"));
 			appId = appId == null ? "0" : appId;
 			String agentDomain = request.getHeader("Host");
 			agentDomain = agentDomain == null || agentDomain.isEmpty() ? request.getRemoteHost() : agentDomain;
@@ -479,21 +479,30 @@ public class WxOpenP3Authorization {
 
 	}
 
-	@RequestMapping(value = "/eventMessage/wxba2af9f621911ee8/callback")
-	public void eventMessageCallbackWxba2af9f621911ee8(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	@RequestMapping(value = "/eventMessage/{appId}/callback")
+	public void eventMessageCallbackWx8ed0f8a61df4d270(@PathVariable("appId") String appId, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
+			String timestamp = request.getParameter("timestamp");
+			String nonce = request.getParameter("nonce");
+			String msgSignature = request.getParameter("msg_signature");
 			String charset = StringUtils.isEmpty(request.getCharacterEncoding()) ? SysConstant.SYS_CHARSET
 					: request.getCharacterEncoding();
 			String reqData = IOUtils.toString(request.getInputStream(), charset);
 			logger.debug(reqData);
 
 			// 业务处理
+			WXBizMsgCrypt pc = new WXBizMsgCrypt(SysConstant.wechat_open_thirdparty_MsgVerificationToken,
+					SysConstant.wechat_open_thirdparty_MsgEncryptAndDecryptKey,
+					SysConstant.wechat_open_thirdparty_AppId);
+			String result2 = pc.decryptMsg(msgSignature, timestamp, nonce, reqData);
+			logger.debug("解密后: " + result2);
+
 			SAXReader reader = new SAXReader();
-			Document doc = reader.read(new ByteArrayInputStream(reqData.getBytes(charset)));
+			Document doc = reader.read(new ByteArrayInputStream(result2.getBytes(charset)));
 			Element root = doc.getRootElement();
 			String msgType = root.elementTextTrim("MsgType");
 			String event = root.elementTextTrim("Event");
@@ -506,8 +515,8 @@ public class WxOpenP3Authorization {
 					String createTime = root.elementTextTrim("CreateTime");
 					String succTime = root.elementTextTrim("SuccTime");
 					pst = connection
-							.prepareStatement("update t_app set audit_status=2,audit_fail_reason='' where user_name=?");
-					pst.setObject(1, toUserName);
+							.prepareStatement("update t_app set audit_status=2,audit_fail_reason='' where wx_appid=?");
+					pst.setObject(1, appId);
 					int n = pst.executeUpdate();
 					pst.close();
 					if (n != 1)
@@ -518,80 +527,9 @@ public class WxOpenP3Authorization {
 					String reason = root.elementTextTrim("Reason");
 					String failTime = root.elementTextTrim("FailTime");
 					pst = connection
-							.prepareStatement("update t_app set audit_status=3,audit_fail_reason=? where user_name=?");
+							.prepareStatement("update t_app set audit_status=3,audit_fail_reason=? where wx_appid=?");
 					pst.setObject(1, reason);
-					pst.setObject(2, toUserName);
-					int n = pst.executeUpdate();
-					pst.close();
-					if (n != 1)
-						throw new InteractRuntimeException("操作失败");
-
-				}
-			}
-
-			if (connection != null)
-				connection.commit();
-			// 返回结果
-			JSONObject data = new JSONObject();
-			HttpRespondWithData.todo(request, response, 0, null, data);
-		} catch (Exception e) {
-			// 处理异常
-			logger.info(ExceptionUtils.getStackTrace(e));
-			if (connection != null)
-				connection.rollback();
-			HttpRespondWithData.exception(request, response, e);
-		} finally {
-			// 释放资源
-			if (pst != null)
-				pst.close();
-			if (connection != null)
-				connection.close();
-		}
-
-	}
-
-	@RequestMapping(value = "/eventMessage/wx8ed0f8a61df4d270/callback")
-	public void eventMessageCallbackWx8ed0f8a61df4d270(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		Connection connection = null;
-		PreparedStatement pst = null;
-		try {
-			// 获取请求参数
-			String charset = StringUtils.isEmpty(request.getCharacterEncoding()) ? SysConstant.SYS_CHARSET
-					: request.getCharacterEncoding();
-			String reqData = IOUtils.toString(request.getInputStream(), charset);
-			logger.debug(reqData);
-
-			// 业务处理
-			SAXReader reader = new SAXReader();
-			Document doc = reader.read(new ByteArrayInputStream(reqData.getBytes(charset)));
-			Element root = doc.getRootElement();
-			String msgType = root.elementTextTrim("MsgType");
-			String event = root.elementTextTrim("Event");
-
-			if ("event".equals(msgType)) {
-				connection = EasywinDataSource.dataSource.getConnection();
-				connection.setAutoCommit(false);
-				if ("weapp_audit_success".equals(event)) {
-					String toUserName = root.elementTextTrim("ToUserName");
-					String createTime = root.elementTextTrim("CreateTime");
-					String succTime = root.elementTextTrim("SuccTime");
-					pst = connection
-							.prepareStatement("update t_app set audit_status=2,audit_fail_reason='' where user_name=?");
-					pst.setObject(1, toUserName);
-					int n = pst.executeUpdate();
-					pst.close();
-					if (n != 1)
-						throw new InteractRuntimeException("操作失败");
-				} else if ("weapp_audit_fail".equals(event)) {
-					String toUserName = root.elementTextTrim("ToUserName");
-					String createTime = root.elementTextTrim("CreateTime");
-					String reason = root.elementTextTrim("Reason");
-					String failTime = root.elementTextTrim("FailTime");
-					pst = connection
-							.prepareStatement("update t_app set audit_status=3,audit_fail_reason=? where user_name=?");
-					pst.setObject(1, reason);
-					pst.setObject(2, toUserName);
+					pst.setObject(2, appId);
 					int n = pst.executeUpdate();
 					pst.close();
 					if (n != 1)

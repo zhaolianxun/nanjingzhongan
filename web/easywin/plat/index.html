@@ -248,9 +248,9 @@
     </body>
     <script>
         $('[name="name"]').html(localStorage.getItem('name'));
-        var ifSuperadmin = localStorage.getItem('superadminIs');
+        var adminIs = localStorage.getItem('adminIs');
         var agentIs = localStorage.getItem('agentIs');
-        if(ifSuperadmin == 1){
+        if(adminIs == 1){
             $('#tabchild1').show();
         }
         if(agentIs == 1){

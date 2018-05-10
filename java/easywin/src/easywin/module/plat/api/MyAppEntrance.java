@@ -127,7 +127,7 @@ public class MyAppEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.head_img,t.seed_id,t.nick_name,t.id,t.current_template_version,t.authorized,t.audit_template_version,t.commit_template_version,t.bind_time,t.commit_status,t.audit_status,t.audit_fail_reason,u.newest_version newest_template_version,t.use_endtime,u.template_code from t_app t inner join t_app_seed u on t.seed_id=u.id where t.id=?");
+					"select t.businessbase_fill,t.head_img,t.seed_id,t.nick_name,t.id,t.current_template_version,t.authorized,t.audit_template_version,t.commit_template_version,t.bind_time,t.commit_status,t.audit_status,t.audit_fail_reason,u.newest_version newest_template_version,t.use_endtime,u.template_code from t_app t inner join t_app_seed u on t.seed_id=u.id where t.id=?");
 			pst.setObject(1, appId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject app = new JSONObject();
@@ -147,6 +147,7 @@ public class MyAppEntrance {
 				app.put("newestTemplateVersion", rs.getObject("newest_template_version"));
 				app.put("useEndtime", rs.getObject("use_endtime"));
 				app.put("templateCode", rs.getObject("template_code"));
+				app.put("businessbaseFill", rs.getObject("businessbase_fill"));
 			}
 			pst.close();
 

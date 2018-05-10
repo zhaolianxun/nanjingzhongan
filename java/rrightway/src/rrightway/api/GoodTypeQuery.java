@@ -92,7 +92,7 @@ public class GoodTypeQuery {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			// 查詢主轮播图
 			pst = connection.prepareStatement(
-					"select id,name,cover from t_mall_good_type where level=2 and upid=? order by name asc");
+					"select id,name,cover from t_good_type where level=2 and upid=? order by name asc");
 			pst.setObject(1, type1Id);
 			ResultSet rs = pst.executeQuery();
 			JSONArray type2s = new JSONArray();

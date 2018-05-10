@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="libs/iziToast/css/iziToast.min.css">
-    <script type="text/javascript" src="libs/jquery.min.js"></script>
-    <script type="text/javascript" src="libs/iziToast/js/iziToast.min.js"></script>
-    <script type="text/javascript" src="libs/json2.js"></script>
+    <script type="text/javascript" src="../libs/jquery.min.js"></script>
+    <script type="text/javascript" src="../libs/json2.js"></script>
+    <script src="../libs/jquery.cookie.js"></script>
+
     <style type="text/css">
-        body {
-            background: #f1f3f6
-        }
+
         .cardcon {
             padding: 20px 35px
         }
@@ -82,7 +79,7 @@
         }
     </style>
 </head>
-<body>
+<body style="margin:20px">
 <div style="height:51px;border-bottom:1px solid #ddd;background:#fff">
     <span style="line-height:50px;float:left;margin-left:66px">
         <a style="display:none" href="javascript:window.parent.memuClick('userinfo');">控制台</a>
@@ -98,28 +95,25 @@
 <div>
     <span>手机号</span><input type="text" id="queryPhone" />
 </div>
-<div id="body-con" class="body-con">
-    <div id="cardcon" class="cardcon">
-        <table class="table table-hover table-bordered table-striped table-condensed">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>用户名</th>
-                <th>手机号</th>
-                <th>昵称</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody id="content"></tbody>
-        </table>
+<div id="usersPad">
+        <div class="titleBar" style="height:25px;width:603px;border:1px solid #e4e5e7;line-height: 25px; background: #f1f3f6">
+            <div style="height:25px;float:left;border-right:1px solid #e4e5e7;width:200px;text-align: center;">手机</div>
+            <div style="height:25px;float:left;border-right:1px solid #e4e5e7;width:100px;text-align: center">代理</div>
+            <div style="height:25px;float:left;border-right:1px solid #e4e5e7;width:100px;text-align: center">注册时间</div>
+            <div style="height:25px;float:left;text-align: center;width:200px;">操作</div>
+        </div>
+    <div class="dataItems">
+
     </div>
 </div>
 
+
 <script type="text/javascript">
+    var token = $.cookie('token');
+    onload();
 
     function requestUserList() {
-        var token = sessionStorage.getItem('token');
-        $('#content').empty()
+        $('#content').empty();
         $.ajax({
             type: "POST",
             data: {page_no: 1,page_size: 50,phone:$('#queryPhone').val()},
@@ -127,28 +121,30 @@
             success: function (res) {
                 if(res.code == 0){
                     var items = res.data.users.items;
+                    if(items.length>0)
+                        $('#usersPad>.dataItems').empty();
                     for(var i = 0 ; i < items.length ; i++){
-                        $('#content').append(
-                            '<tr>' +
-                            '<td>'+ items[i].userId +'</td>' +
-                            '<td>'+ (items[i].realname||'') +'</td>' +
-                            '<td>'+ (items[i].phone||'') +'</td>' +
-                            '<td>'+ (items[i].nickname||'') +'</td>' +
-                            '<td><button class="btn btn-primary btn-sm" onclick=\'alterUser('+JSON.stringify(items[i])+')\'>修改</button></td>' +
-                            '</tr>'
+                        $('#usersPad>.dataItems').append(
+                            '<div style="height:35px;width:603px;border:1px solid #e4e5e7;line-height: 35px;">' +
+                            '<div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:200px;text-align: center;">'+ items[i].phone +'</div>' +
+                            '<div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:100px;text-align: center">'+ (items[i].agentIs==1?'是':'否') +'</div>' +
+                            '<div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:100px;text-align: center">'+ (new Date(items[i].registerTime).toLocaleDateString()) +'</div>' +
+                            '<div style="height:35px;float:left;text-align: center;width:200px;"><button  onclick=\'alterUser(\"'+items[i].userId+'\")\'>详情</button></div>' +
+                            '</div>'
                         )
                     }
                 }else{
-                    alert("请求数据出错")
+                    alert( res.codeMsg)
                 }
             }
         })
     }
 
-    function alterUser(ele){
-        sessionStorage.setItem('userData',JSON.stringify(ele));
-        location.href = 'alteruser.html';
+    function alterUser(userId){
+        location.href = 'userinfo.html?user_id='+userId;
     }
-    requestUserList()
+   function onload(){
+        requestUserList()
+    }
 </script>
 </body>

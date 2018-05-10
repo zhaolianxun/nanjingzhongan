@@ -48,6 +48,13 @@
 </body>
 <script>
 
+    document.onkeydown=keyListener;
+    function keyListener(e){
+        if(e.keyCode == 13){
+            register();
+        }
+    }
+
     function getCode(){
         var phone = $('[name="phone"]').val();
         if(phone.length != 11){

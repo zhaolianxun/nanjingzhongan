@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3分钟平台</title>
+    <script src="../libs/jquery.min.js"></script>
+    <script src="../libs/shake.js"></script>
+    <script src="../libs/jquery.cookie.js"></script>
+    <script src="../libs/vue.js"></script>
+    <script src="../libs/default.js"></script>
+
+</head>
+<style type="text/css">
+
+
+</style>
+
+
+<body style="margin:0;">
+<!--
+<div style="border-bottom:1px solid #e4e5e7;height:50px;padding-left: 10px;"><button style="width:50px;height:35px;position: relative;top:50%;transform:translateY(-50%);">编 辑</button></div>
+-->
+
+<div style="text-align: center;padding-top:20px">
+<div style="margin-top:20px;"><span>代理币 : </span><span id="agentCoin"></span></div>
+<div style="margin-top:20px;"><span>代理等级 : </span><span id="agentLevel"></span></div>
+<div style="margin-top:20px;"><span>代理域名 : </span><span id="agentDomain"></span></div>
+</div>
+</body>
+<script>
+    var token = $.cookie('token');
+    $.ajax({
+        type: 'POST',
+        url: '/easywin/p/e/agent/agentinfoent/ent?token='+ token,
+        success: function (res) {
+            if(res.code == 0){
+                var items = res.data.seeds;
+                $('#agentCoin').text(res.data.agentCoin/100);
+                $('#agentLevel').text(res.data.agentLevel);
+                $('#agentDomain').text(res.data.agentDomain);
+            }else
+                alert(res.codeMsg)
+        }
+    })
+
+
+</script>
+</html>

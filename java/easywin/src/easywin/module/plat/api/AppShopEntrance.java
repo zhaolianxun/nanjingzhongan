@@ -12,15 +12,23 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import easywin.constant.SysConstant;
 import easywin.entity.InteractRuntimeException;
 import easywin.module.plat.business.GetLoginStatus;
 import easywin.module.plat.entity.UserLoginStatus;
 import easywin.util.EasywinDataSource;
 import easywin.util.HttpRespondWithData;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import redis.clients.jedis.Jedis;
 
 @Controller("plat.api.AppShopEntrance")
 @RequestMapping(value = "/p/e/appshop")

@@ -90,7 +90,7 @@
                                 url: '/easywin/p/useraction/loginrefresh?token='+token,
                                 success: function(res){
                                     if(res.code == 0){
-                                        localStorage.setItem('superadminIs',res.data.superadminIs);
+                                        localStorage.setItem('adminIs',res.data.adminIs);
                                         localStorage.setItem('agentIs',res.data.agentIs);
                                         location.href = 'index.html';
                                     }else{

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3分钟平台</title>
+    <script src="../libs/jquery.min.js"></script>
+    <script src="../libs/shake.js"></script>
+    <script src="../libs/jquery.cookie.js"></script>
+    <script src="../libs/vue.js"></script>
+    <script src="../libs/default.js"></script>
+
+</head>
+    <style type="text/css">
+
+        #previewContent  .cardcon {
+            padding: 20px 35px
+        }
+
+        #previewContent   .carddiv {
+            min-width: 800px;
+            height: 110px;
+            background: #fff;
+            padding: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 2px 4px #ccc
+        }
+
+        #previewContent   .carddiv button {
+            font-size: 13px;
+            background: #fff;
+            border: 1px solid #269abc;
+            color: #269abc;
+            border-radius: 3px;
+            width: 70px;
+            height: 25px;
+            margin-top: 32px;
+            margin-right: 8px
+        }
+
+        #previewContent  .carddiv button:hover {
+            background: #269abc;
+            color: #fff
+        }
+
+        #previewContent  .cardnumimg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 41px
+        }
+
+        #previewContent   .cardnumtxt {
+            position: absolute;
+            top: 2px;
+            left: 7px;
+            color: #fff;
+            font-weight: 700
+        }
+
+        #previewContent   .cardicon {
+            width: 75px;
+            float: left;
+            margin-left: 30px;
+            margin-top: 8px;
+            border-radius: 12px
+        }
+
+        #previewContent    .carddesc {
+            float: left;
+            vertical-align: top;
+            margin-left: 18px;
+            font-size: 16px;
+            width: 380px;
+            overflow: hidden
+        }
+
+        #previewContent   .cardbt-con {
+            position: absolute;
+            top: 0;
+            right: 0;
+            float: right;
+            margin-top: 8px;
+            margin-right: 40px;
+        }
+
+        #previewContent  .vtimetxt {
+            float: left;
+            margin-left: 15px;
+            color: #3c0;
+            font-size: 13px;
+            line-height: 50px
+        }
+        .imgBox{
+            display: inline-block;
+            width: 92px;
+            position: relative;
+        }
+        #previewContent   .imgBox>img{
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #previewContent  .imgBox>span{
+            position: relative;
+            top: 8px;
+            left: 5px;
+            color: #fff;
+            font-size: 12px;
+        }
+      #previewContent  #option{
+            position: absolute;
+            left: 110px;
+            bottom: 0;
+        }
+    </style>
+<body style="margin:0;">
+<div id="previewContent">
+    <div style="height:51px;border-bottom:1px solid #ddd;background:#fff">
+            <span style="line-height:50px;float:left;margin-left:66px">
+                <a style="display:none" href="javascript:window.parent.memuClick('userinfo');">控制台</a>
+                <span style="margin:0 10px;display:none">/</span>
+                <a href="../myapp.html">我的应用</a> &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
+                <span id="nickname"></span>
+            </span>
+    </div>
+    <div id="body-con" class="body-con">
+        <div id="cardcon" class="cardcon">
+            <div class="carddiv">
+                <span style="font-size: 14px;font-weight: 700;position: absolute;top: 25px;left: 25px;">产品状态</span>
+                <div style="margin-top: 26px;margin-left: 100px;">
+                    <div id="submitAudit" class="imgBox">
+                        <img src="../img/icon001.png">
+                        <span>1 提交审核</span>
+                    </div>
+                    <div id="auditing" class="imgBox">
+                        <img src="../img/icon001.png">
+                        <span>&nbsp; 2 审核中 </span>
+                    </div>
+                    <div id="auditStatus" class="imgBox">
+                        <img src="../img/icon001.png">
+                        <span>3 审核通过</span>
+                    </div>
+                    <div id="released" class="imgBox">
+                        <img src="../img/icon001.png">
+                        <span>&nbsp; 4 已发布 </span>
+                    </div>
+                </div>
+                <p id="option"></p>
+              <!--  <div class="cardbt-con">
+                    <button id="submit" style="display: none;" onclick="submitAudit()">提交审核</button>
+                    <button id="submitCodeAndAudit" style="display: none;" onclick="submitCodeAndAudit()">提交审核</button>
+                    <button style="display: none;" id="release" onclick="release()">发布</button>
+                </div>-->
+                <p id="failReason" style="margin: 95px;"></p>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+
+    var queryStrObj= parseQueryStr(location.search.substr(1));
+    var appId = queryStrObj.app_id;
+    var token = $.cookie('token');
+
+    var appData;
+        $.ajax({
+            type: 'POST',
+            async: false,
+            data: {app_id:appId},
+            url: '/easywin/p/e/agent/appmanage/getauditstatus?token='+token,
+            success: function(res){
+                if(res.code == 0){
+
+                }else{
+                    alert(res.codeMsg);
+                }
+            }
+        });
+
+    $.ajax({
+        type: 'POST',
+        async: false,
+        data: {app_id:appId},
+        url: '/easywin/p/e/agent/appmanage/appinfo?token='+token,
+        success: function(res){
+            if(res.code == 0){
+                appData = res.data;
+            }else{
+                alert(res.codeMsg);
+            }
+        }
+    });
+
+
+
+    $('#nickname').html(appData.nickName);
+    $.ajax({
+        type: 'POST',
+        data: {app_id:appData.appId},
+        url: '/easywin/p/e/agent/appmanage/getoptionalcategory?token='+token,
+        success: function(res){
+            if(res.code == 0){
+                $('#option').html('当前类目：<span style="color: red;">'+res.data.optionalCategoryExplain+'</span>');
+            }else{
+                alert(res.codeMsg);
+            }
+        }
+    });
+
+
+    if(!appData.commitTemplateVersion) {
+        //未提交
+
+    }else if(appData.auditStatus ==4){
+        $('#released img').attr('src','../img/icon002.png');
+        $('#released').siblings().children('img').attr('src','img/icon001.png');
+
+    }else if(appData.auditStatus == 2){//0未提交  1已提交  2通过  3失败  4已发布
+        $('#auditStatus img').attr('src','../img/icon002.png');
+        $('#auditStatus').siblings().children('img').attr('src','../img/icon001.png');
+
+    }else if(appData.auditStatus == 1){
+        $('#auditing img').attr('src','../img/icon002.png');
+        $('#auditing').siblings().children('img').attr('src','../img/icon001.png');
+
+    }else if(appData.auditStatus == 3){
+        $('#auditStatus img').attr('src','../img/icon002.png');
+        $('#auditStatus').siblings().children('img').attr('src','../img/icon001.png');
+        $('#auditStatus').children('span').html('3 审核失败');
+
+        $('#failReason').html('<span style="color: red;">失败原因：</span>'+appData.auditFailReason);
+    }else if(appData.auditStatus == 0){
+
+    }
+
+//    var miniappid = appData.appId;
+
+
+
+
+
+
+
+</script>
+
+</html>

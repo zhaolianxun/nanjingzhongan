@@ -50,15 +50,100 @@ public class SafetySetEntrance {
 
 			// 更新密码
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("update t_user set paypwd=?,paypwd_md5=? where id=?");
+			pst = connection.prepareStatement(
+					"update t_user set paypwd=?,paypwd_md5=? where id=? and isnull(paypwd) and isnull(paypwd_md5) and length(paypwd)=0 and length(paypwd_md5)=0");
 			pst.setObject(1, paypwd);
 			pst.setObject(2, DigestUtils.md5Hex(paypwd));
 			pst.setObject(3, loginStatus.getUserId());
 			int n = pst.executeUpdate();
 			if (n != 1)
-				throw new InteractRuntimeException("操作失败");
+				throw new InteractRuntimeException("失败，已设置过支付密码，请使用修改操作。");
 
 			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/paypwdexist")
+	public void paypwdexist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("select paypwd,paypwd_md5 from t_user where id=?");
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			int paypwdExist = 0;
+			if (rs.next()) {
+				paypwdExist = StringUtils.isEmpty(rs.getString("paypwd"))
+						|| StringUtils.isEmpty(rs.getString("paypwd_md5")) ? 0 : 1;
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("paypwdExist", paypwdExist);
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/boundphoneexist")
+	public void boundphoneexist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("select insert(phone, 4, 4, '****') c from t_user where id=?");
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			int phoneExist = 0;
+			String phone = null;
+			if (rs.next()) {
+				phone = rs.getString("phone");
+				phoneExist = StringUtils.isEmpty(rs.getString("phone")) ? 0 : 1;
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("phoneExist", phoneExist);
+			data.put("phone", phone);
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
@@ -103,9 +188,66 @@ public class SafetySetEntrance {
 
 			// 更新密码
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("update t_user set phone=? where id=?");
+			pst = connection
+					.prepareStatement("update t_user set phone=? where id=? and isnull(phone) and length(phone)=0");
 			pst.setObject(1, phone);
 			pst.setObject(2, loginStatus.getUserId());
+			int n = pst.executeUpdate();
+			if (n != 1)
+				throw new InteractRuntimeException("手机号已绑定过，请使用修改操作");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/alterbindphone")
+	public void alterbindphone(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String phoneOld = StringUtils.trimToNull(request.getParameter("phone_old"));
+			if (phoneOld == null)
+				throw new InteractRuntimeException("phone_old 不可空");
+			String phone = StringUtils.trimToNull(request.getParameter("phone"));
+			if (phone == null)
+				throw new InteractRuntimeException("phone 不可空");
+			String vcode = StringUtils.trimToNull(request.getParameter("vcode"));
+			if (vcode == null)
+				throw new InteractRuntimeException("vcode 不可空");
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			// 短信校验
+			String url = new StringBuilder(OutApis.sms_verification_verify).append("?").append("phone=")
+					.append(phoneOld).append("&verification_code=").append(vcode).toString();
+			Request okHttpRequest = new Request.Builder().url(url).build();
+			Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+			String responseBody = okHttpResponse.body().string();
+			logger.debug("call out api：" + okHttpResponse.request().url() + "<--- " + responseBody);
+			JSONObject resultVo = JSON.parseObject(responseBody);
+			if (resultVo.getInteger("code") != 0)
+				throw new InteractRuntimeException(resultVo.getString("codeMsg"));
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("update t_user set phone=? where id=? and phone=?");
+			pst.setObject(1, phone);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, phoneOld);
 			int n = pst.executeUpdate();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -173,6 +315,48 @@ public class SafetySetEntrance {
 		}
 	}
 
+	@RequestMapping(value = "/getreceiverinfo")
+	public void getreceiverinfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection
+					.prepareStatement("select receiver_address,receiver_name,receiver_tel from t_user where id=?");
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			JSONObject data = new JSONObject();
+			if (rs.next()) {
+				data.put("receiverAddress", "receiver_address");
+				data.put("receiverName", "receiver_name");
+				data.put("receiverTel", "receiver_tel");
+			}
+			pst.close();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	
+	
 	@RequestMapping(value = "/setbankinfo")
 	public void setbankinfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -218,6 +402,215 @@ public class SafetySetEntrance {
 			pst.setObject(3, cardno);
 			pst.setObject(4, phone);
 			pst.setObject(5, belonger);
+			int n = pst.executeUpdate();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	/**
+	 * 根据原密码修改密码
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/alterpwdbysrc")
+	public void alterPwdBySms(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String oldPwd = StringUtils.trimToNull(request.getParameter("old_pwd"));
+			if (oldPwd == null)
+				throw new InteractRuntimeException("old_pwd 不可空");
+			String newPwd = StringUtils.trimToNull(request.getParameter("new_pwd"));
+			if (newPwd == null)
+				throw new InteractRuntimeException("new_pwd 不可空");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("update t_user set pwd=?,pwd_md5=? where id=? and pwd_md5=?");
+			pst.setObject(1, newPwd);
+			pst.setObject(2, DigestUtils.md5Hex(newPwd));
+			pst.setObject(3, loginStatus.getUserId());
+			pst.setObject(4, DigestUtils.md5Hex(oldPwd));
+			int n = pst.executeUpdate();
+			if (n == 0)
+				throw new InteractRuntimeException("原密码错误");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/alterpaypwdbysrc")
+	public void alterPayPwdBySms(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String oldPwd = StringUtils.trimToNull(request.getParameter("old_pwd"));
+			if (oldPwd == null)
+				throw new InteractRuntimeException("old_pwd 不可空");
+			String newPwd = StringUtils.trimToNull(request.getParameter("new_pwd"));
+			if (newPwd == null)
+				throw new InteractRuntimeException("new_pwd 不可空");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("update t_user set paypwd=?,paypwd_md5=? where id=? and paypwd_md5=?");
+			pst.setObject(1, newPwd);
+			pst.setObject(2, DigestUtils.md5Hex(newPwd));
+			pst.setObject(3, loginStatus.getUserId());
+			pst.setObject(4, DigestUtils.md5Hex(oldPwd));
+			int n = pst.executeUpdate();
+			if (n == 0)
+				throw new InteractRuntimeException("原密码错误");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/alterpwdbysmsvcode")
+	public void alterPwdBySmsvcode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String phone = StringUtils.trimToNull(request.getParameter("phone"));
+			if (phone == null)
+				throw new InteractRuntimeException("phone 不可空");
+			String smsvcode = StringUtils.trimToNull(request.getParameter("smsvcode"));
+			if (smsvcode == null)
+				throw new InteractRuntimeException("smsvcode 不可空");
+			String newpwd = StringUtils.trimToNull(request.getParameter("newpwd"));
+			if (newpwd == null)
+				throw new InteractRuntimeException("newpwd 不可空");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			// 短信校验
+			String url = new StringBuilder(OutApis.sms_verification_verify).append("?").append("phone=").append(phone)
+					.append("&verification_code=").append(smsvcode).toString();
+			Request okHttpRequest = new Request.Builder().url(url).build();
+			Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+			String responseBody = okHttpResponse.body().string();
+			logger.debug("call out api：" + okHttpResponse.request().url() + "<--- " + responseBody);
+			JSONObject resultVo = JSON.parseObject(responseBody);
+			if (resultVo.getInteger("code") != 0)
+				throw new InteractRuntimeException(resultVo.getString("codeMsg"));
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("update t_user set pwd=?,pwd_md5=? where phone=?");
+			pst.setObject(1, newpwd);
+			pst.setObject(2, DigestUtils.md5Hex(newpwd));
+			pst.setObject(3, phone);
+			int n = pst.executeUpdate();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/alterpaypwdbysmsvcode")
+	public void alterPaypwdBySmsvcode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String phone = StringUtils.trimToNull(request.getParameter("phone"));
+			if (phone == null)
+				throw new InteractRuntimeException("phone 不可空");
+			String smsvcode = StringUtils.trimToNull(request.getParameter("smsvcode"));
+			if (smsvcode == null)
+				throw new InteractRuntimeException("smsvcode 不可空");
+			String newpwd = StringUtils.trimToNull(request.getParameter("newpwd"));
+			if (newpwd == null)
+				throw new InteractRuntimeException("newpwd 不可空");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			// 短信校验
+			String url = new StringBuilder(OutApis.sms_verification_verify).append("?").append("phone=").append(phone)
+					.append("&verification_code=").append(smsvcode).toString();
+			Request okHttpRequest = new Request.Builder().url(url).build();
+			Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+			String responseBody = okHttpResponse.body().string();
+			logger.debug("call out api：" + okHttpResponse.request().url() + "<--- " + responseBody);
+			JSONObject resultVo = JSON.parseObject(responseBody);
+			if (resultVo.getInteger("code") != 0)
+				throw new InteractRuntimeException(resultVo.getString("codeMsg"));
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("update t_user set paypwd=?,paypwd_md5=? where phone=?");
+			pst.setObject(1, newpwd);
+			pst.setObject(2, DigestUtils.md5Hex(newpwd));
+			pst.setObject(3, phone);
 			int n = pst.executeUpdate();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");

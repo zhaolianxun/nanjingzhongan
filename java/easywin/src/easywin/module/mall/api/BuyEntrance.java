@@ -56,7 +56,7 @@ public class BuyEntrance {
 			JSONArray goods = JSON.parseArray(goodsParam);
 			if (goods.size() < 1)
 				throw new InteractRuntimeException("请选择商品");
-
+			logger.debug(goods);
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
@@ -140,6 +140,7 @@ public class BuyEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
+			String couponId = StringUtils.trimToNull(request.getParameter("coupon_id"));
 			String buyerNote = StringUtils.trimToNull(request.getParameter("buyer_note"));
 			String addressId = StringUtils.trimToNull(request.getParameter("address_id"));
 			if (addressId == null)

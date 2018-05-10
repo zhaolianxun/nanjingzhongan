@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="../libs/jquery.min.js"></script>
+    <script src="../libs/jquery.cookie.js"></script>
+    <script src="../libs/default.js"></script>
+
+</head>
+<body style="margin:20px">
+
+<div id="userInfo" >
+    <div style="width:600px;border:1px solid #e4e5e7;line-height: 35px;float:left">
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:99px">手机</div><div id="phoneGroove" style="height:35px;float:left;width:200px"></div></div>
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:98px;border-left:1px solid #e4e5e7;">代理</div><div  id="agentIsGroove" style="height:35px;float:left;width:176px"></div><div onclick="agentIsAlterPadOnload()" style="float:right;width:24px;text-align: center;font-size: 11px;line-height: normal;vertical-align: bottom">修改</div></div>
+    </div>
+    <div style="clear:both;"></div>
+    <div style="width:600px;border:1px solid #e4e5e7;line-height: 35px;float:left">
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:99px;">注册时间</div><div  id="registerTimeGroove" style="height:35px;float:left;width:200px"></div></div>
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:98px;border-left:1px solid #e4e5e7;">归属代理</div><div  id="fromAgentPhoneGroove" style="height:35px;float:left;width:200px"></div></div>
+    </div>
+</div>
+<div style="clear:both;"></div>
+<div id="agentInfo" style="display:none;">
+    <div style="width:600px;border:1px solid #e4e5e7;line-height: 35px;float:left;">
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:99px;">代理币</div><div  id="agentCoinGroove" style="height:35px;float:left;width:176px"></div><div onclick="alterAgentCoinPadOnload()" style="float:right;width:24px;text-align: center;font-size: 11px;line-height: normal;vertical-align: bottom">修改</div></div>
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:98px;border-left:1px solid #e4e5e7;">代理域名</div><div  id="agentDomainGroove" style="height:35px;float:left;width:200px"></div></div>
+    </div>
+    <div style="clear:both;"></div>
+    <div style="width:600px;border:1px solid #e4e5e7;line-height: 35px;float:left;">
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:99px;">代理等级</div><div  id="agentLevelGroove" style="height:35px;float:left;width:200px"></div></div>
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:98px;border-left:1px solid #e4e5e7;"></div><div  style="height:35px;float:left;width:200px"></div></div>
+    </div>
+</div>
+
+
+
+
+<div id="agentIsAlterPad" style="display:none;width:500px;padding:15px;position:absolute;background-color: #004974;text-align: center;">
+    <div style="position:absolute;top:5px;right:5px;font-weight: 800" onclick="$('#agentIsAlterPad').hide()">X</div>
+    <div style="width:100%"><div style="float:left;">代理</div><div style="float:left;"><select id="alterAgentIs" onchange="alterAgentIsChange(this)"><option value="1">是</option><option value="0">否</option></select></div></div>
+    <div style="clear:both;"></div>
+<div id="agentIsYesShowPad" style="display: none;">
+    <div><div style="float:left;margin-top:15px">代理等级</div><div style="float:left;"><select id="alterAgentLevel"><option  value="1">1</option><option  value="2">2</option><option  value="3">3</option></select></div></div>
+    <div style="clear:both;"></div>
+    <div><div style="float:left;margin-top:15px">代理域名</div><div style="float:left;"><input id="alterAgentDomain" type="text" style="border:none;width:100%;height:100%;" /></div></div>
+    <div style="clear:both;"></div>
+</div>
+    <div style="text-align: center;margin-top:15px;">
+         <button style="width:30%;height:30px" onclick="alterAgentIs()">确定</button>
+         <button style="width:30%;height:30px" onclick="$('#agentIsAlterPad').hide()">取消</button>
+    </div>
+
+    <script>
+
+        function agentIsAlterPadOnload(){
+            var alterAgentIs = $('#alterAgentIs');
+            alterAgentIs.val(user.agentIs);
+            $('#alterAgentLevel').val(user.agentLevel);
+            $('#alterAgentDomain').val(user.agentDomain);
+
+            alterAgentIsChange(alterAgentIs.get(0));
+
+            $('#agentIsAlterPad').show()
+        }
+
+        function alterAgentIsChange(thiss){
+            if(thiss.value==1){
+                $('#agentIsYesShowPad').show()
+            }else if(thiss.value==0){
+                $('#agentIsYesShowPad').hide()
+            }
+        }
+        function alterAgentIs(){
+            $.ajax({
+                type: "POST",
+                data:{agent_is:$('#alterAgentIs').val(),agent_level:$('#alterAgentLevel').val(),agent_domain:$('#alterAgentDomain').val()},
+                url:"/easywin/p/e/admin/usermanage/alter?token=" + token+'&user_id='+userId,
+                success: function (res) {
+                    if(res.code == 0){
+                        location.reload();
+                    }else{
+                        alert( res.codeMsg)
+                    }
+                }
+            })
+        }
+    </script>
+</div>
+
+
+
+
+<div id="alterAgentCoinPad" style="display:none;width:500px;padding:15px;position:absolute;background-color: #004974;text-align: center;">
+    <input id="alterAgentCoin" type="number"/><button onclick="addAgentCoin()">增加</button><button onclick="subAgentCoin()">减少</button>
+<div style="text-align: center;">
+    <button style="width:30%;height:30px" onclick="$('#alterAgentCoinPad').hide()">关闭</button>
+</div>
+    <script>
+
+        function alterAgentCoinPadOnload(){
+            var alterAgentCoin = $('#alterAgentCoin');
+            alterAgentCoin.val(user.agentCoin/100);
+
+            $('#alterAgentCoinPad').show()
+        }
+
+
+        function addAgentCoin(){
+           var varCoin= prompt('输入金额');
+            if(!varCoin)
+                return;
+            $.ajax({
+                type: "POST",
+                data:{coin:varCoin*100},
+                url:"/easywin/p/e/admin/usermanage/addagentcoin?token=" + token+'&user_id='+userId,
+                success: function (res) {
+                    if(res.code == 0){
+                        location.reload();
+                    }else{
+                        alert( res.codeMsg)
+                    }
+                }
+            })
+        }
+
+        function subAgentCoin(){
+            var varCoin= prompt('输入金额');
+            if(!varCoin)
+                return;
+            $.ajax({
+                type: "POST",
+                data:{coin:varCoin*100},
+                url:"/easywin/p/e/admin/usermanage/subagentcoin?token=" + token+'&user_id='+userId,
+                success: function (res) {
+                    if(res.code == 0){
+                        location.reload();
+                    }else{
+                        alert( res.codeMsg)
+                    }
+                }
+            })
+        }
+    </script>
+</div>
+<script type="text/javascript">
+    var token = $.cookie('token');
+    var queryStrObj= parseQueryStr(location.search.substr(1));
+    var userId = queryStrObj.user_id;
+    var user ;
+    onload();
+
+    function onload() {
+
+        $.ajax({
+            type: "GET",
+            url:"/easywin/p/e/admin/usermanage/userinfo?token=" + token+'&user_id='+userId,
+            success: function (res) {
+                if(res.code == 0){
+                    user=res.data;
+                    $('#phoneGroove').text(res.data.phone);
+                    $('#agentIsGroove').text(res.data.agentIs == 1?'是':'否');
+                    $('#registerTimeGroove').text( new Date(res.data.registerTime).toLocaleDateString());
+                    $('#fromAgentPhoneGroove').text(res.data.fromAgentPhone);
+                    if(res.data.agentIs == 1){
+                        $('#agentCoinGroove').text(res.data.agentCoin/100);
+                        $('#agentDomainGroove').text(res.data.agentDomain);
+                        $('#agentLevelGroove').text(res.data.agentLevel);
+                        $('#agentInfo').show();
+                    }
+                }else{
+                    alert( res.codeMsg)
+                }
+            }
+        })
+    }
+
+
+
+</script>
+</body>

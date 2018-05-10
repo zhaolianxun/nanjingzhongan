@@ -200,57 +200,6 @@ public class UserAction {
 		}
 	}
 
-	/**
-	 * 根据原密码修改密码
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/alterpwdbysrc")
-	public void alterPwdBySms(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Connection connection = null;
-		PreparedStatement pst = null;
-		try {
-			// 获取请求参数
-			String oldPwd = StringUtils.trimToNull(request.getParameter("old_pwd"));
-			if (oldPwd == null)
-				throw new InteractRuntimeException("old_pwd 不可空");
-			String newPwd = StringUtils.trimToNull(request.getParameter("new_pwd"));
-			if (newPwd == null)
-				throw new InteractRuntimeException("new_pwd 不可空");
-
-			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
-			if (loginStatus == null)
-				throw new InteractRuntimeException(20);
-
-			// 更新密码
-			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("update t_user set password=?,password_md5=? where id=? and pwd_md5=?");
-			pst.setObject(1, newPwd);
-			pst.setObject(2, DigestUtils.md5Hex(newPwd));
-			pst.setObject(3, loginStatus.getUserId());
-			pst.setObject(3, DigestUtils.md5Hex(oldPwd));
-			int n = pst.executeUpdate();
-			if (n == 0)
-				throw new InteractRuntimeException("原密码错误");
-
-			// 返回结果
-			HttpRespondWithData.todo(request, response, 0, null, null);
-		} catch (Exception e) {
-			// 处理异常
-			logger.info(ExceptionUtils.getStackTrace(e));
-			HttpRespondWithData.exception(request, response, e);
-		} finally {
-			// 释放资源
-			if (pst != null)
-				pst.close();
-			if (connection != null)
-				connection.close();
-		}
-	}
-
 	@RequestMapping(value = "/alterpwdbysmsvcode")
 	public void alterPwdBySmsvcode(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -417,7 +366,7 @@ public class UserAction {
 
 			// 插入用户
 			pst = connection.prepareStatement(
-					"insert into t_user (id,username,password,password_md5,register_time,qq) values(?,?,?,?,?,?)");
+					"insert into t_user (id,username,pwd,pwd_md5,register_time,qq) values(?,?,?,?,?,?)");
 			pst.setObject(1, RandomStringUtils.randomNumeric(12));
 			pst.setObject(2, username);
 			pst.setObject(3, pwd);
@@ -445,5 +394,4 @@ public class UserAction {
 		}
 	}
 
-	
 }
