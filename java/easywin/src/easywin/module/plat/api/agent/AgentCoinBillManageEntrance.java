@@ -36,6 +36,7 @@ public class AgentCoinBillManageEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
+			String keyw = StringUtils.trimToNull(request.getParameter("keyw"));
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
 			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
 			if (pageNo <= 0)
@@ -55,11 +56,13 @@ public class AgentCoinBillManageEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			List sqlParams = new ArrayList();
+			if (keyw != null)
+				sqlParams.add("%" + keyw + "%");
 			sqlParams.add(loginStatus.getUserId());
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
-			pst = connection.prepareStatement(
-					"select remain,amount,source,time from t_agent_coin_bill where 1=1 and user_id=? order by time desc limit ?,?");
+			pst = connection.prepareStatement("select remain,amount,source,time from t_agent_coin_bill where 1=1 "
+					+ (keyw == null ? "" : " and source like ? ") + " and user_id=? order by time desc limit ?,?");
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));
 

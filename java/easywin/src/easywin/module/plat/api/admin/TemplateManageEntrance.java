@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -37,6 +38,7 @@ public class TemplateManageEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
+			String name = StringUtils.trimToNull(request.getParameter("name"));
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
 			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
 			if (pageNo <= 0)
@@ -55,14 +57,71 @@ public class TemplateManageEntrance {
 				throw new InteractRuntimeException("您不是管理员");
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢订单列表
+			List sqlParams = new ArrayList();
+			if (name != null)
+				sqlParams.add(new StringBuilder("%").append(name).append("%").toString());
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
-					"select id,price,agent1_price,agent2_price,agent3_price,icon,name,summary,intro_pic,remark from t_app_seed order by create_time asc limit ?,?");
-			pst.setObject(1, pageSize * (pageNo - 1));
-			pst.setObject(2, pageSize);
+					"select id,price,agent1_price,agent2_price,agent3_price,icon,name,summary,intro_pic,remark from t_app_seed where 1=1 "
+							+ (name == null ? "" : " and name like ? ") + " order by create_time asc limit ?,?");
+			for (int i = 0; i < sqlParams.size(); i++)
+				pst.setObject(i + 1, sqlParams.get(i));
 			ResultSet rs = pst.executeQuery();
 			JSONArray seeds = new JSONArray();
 			while (rs.next()) {
 				JSONObject seed = new JSONObject();
+				seed.put("seedId", rs.getObject("id"));
+				seed.put("price", rs.getObject("price"));
+				seed.put("icon", rs.getObject("icon"));
+				seed.put("name", rs.getObject("name"));
+				seeds.add(seed);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("seeds", seeds);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/tmpl")
+	public void tmpl(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String seedIdParam = StringUtils.trimToNull(request.getParameter("seed_id"));
+			if (seedIdParam == null)
+				throw new InteractRuntimeException("seed_id 不能空");
+			int seedId = Integer.parseInt(seedIdParam);
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			if (loginStatus.getAdminIs() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+			connection = EasywinDataSource.dataSource.getConnection();
+			// 查詢订单列表
+			pst = connection.prepareStatement(
+					"select id,price,agent1_price,agent2_price,agent3_price,icon,name,summary,intro_pic,remark from t_app_seed where id=? ");
+			pst.setObject(1, seedId);
+			ResultSet rs = pst.executeQuery();
+			JSONObject seed = new JSONObject();
+			while (rs.next()) {
 				seed.put("seedId", rs.getObject("id"));
 				seed.put("price", rs.getObject("price"));
 				seed.put("agent1Price", rs.getObject("agent1_price"));
@@ -73,13 +132,12 @@ public class TemplateManageEntrance {
 				seed.put("summary", rs.getObject("summary"));
 				seed.put("introPic", rs.getObject("intro_pic"));
 				seed.put("remark", rs.getObject("remark"));
-				seeds.add(seed);
 			}
 			pst.close();
 
 			// 返回结果
 			JSONObject data = new JSONObject();
-			data.put("seeds", seeds);
+			data.putAll(seed);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常

@@ -80,26 +80,19 @@
     </style>
 </head>
 <body style="margin:20px">
-<div style="height:51px;border-bottom:1px solid #ddd;background:#fff">
-    <span style="line-height:50px;float:left;margin-left:66px">
-        <a style="display:none" href="javascript:window.parent.memuClick('userinfo');">控制台</a>
-        <span style="margin:0 10px;display:none">/</span>用户列表
-    </span>
-    <span style="line-height:50px;float:right;margin-right:50px">
-         <a href="adduser.html">新增用户</a>
-    </span>
-</div>
 <div>
     <input  type="button" value="查询" onclick="requestUserList()"/>
 </div>
-<div>
-    <span>手机号</span><input type="text" id="queryPhone" />
+<div style="margin-top:15px;border-top:1px solid #e4e5e7;border-left:1px solid #e4e5e7;float:left;">
+    <div style="border-bottom:1px solid #e4e5e7;height:20px"><span style="border-right:1px solid #e4e5e7;padding:0 5px;">名字</span><span  style="padding:0 5px;border-right:1px solid #e4e5e7;"><input type="text" id="queryName" style="padding:0;border:none;" /></span></div>
 </div>
-<div id="usersPad">
-        <div class="titleBar" style="height:25px;width:602px;border:1px solid #e4e5e7;line-height: 25px; background: #f1f3f6">
-            <div style="height:25px;float:left;border-right:1px solid #e4e5e7;width:200px;text-align: center;">金额</div>
-            <div style="height:25px;float:left;border-right:1px solid #e4e5e7;width:300px;text-align: center">来源</div>
-            <div style="height:25px;float:left;;width:100px;text-align: center">时间</div>
+<div style="clear: both;"></div>
+<div id="usersPad" style="margin-top:15px;">
+        <div class="titleBar" style="height:25px;width:603px;border:1px solid #e4e5e7;line-height: 25px; background: #f1f3f6">
+            <div style="height:25px;float:left;border-right:1px solid #e4e5e7;width:200px;text-align: center;">图标</div>
+            <div style="height:25px;float:left;border-right:1px solid #e4e5e7;width:200px;text-align: center">名字</div>
+            <div style="height:25px;float:left;border-right:1px solid #e4e5e7;width:100px;text-align: center">价格</div>
+            <div style="height:25px;float:left;width:100px;text-align: center">操作</div>
         </div>
     <div class="dataItems">
 
@@ -111,22 +104,31 @@
     var token = $.cookie('token');
     onload();
 
+    document.onkeydown=keyListener;
+    function keyListener(e){
+        if(e.keyCode == 13){
+            var act = document.activeElement.id;
+            if(act=='queryName')
+                requestUserList();
+        }
+    }
+
     function requestUserList() {
-        $('#content').empty();
         $.ajax({
             type: "GET",
-            url:"/easywin/p/e/agent/agentcoinbill/bills?token=" + token,
+            url:"/easywin/p/e/admin/tmplmanage/tmpls?token=" + token+'&name='+$('#queryName').val(),
             success: function (res) {
                 if(res.code == 0){
-                    var items = res.data.bills.items;
+                    var items = res.data.seeds;
                     if(items.length>0)
                         $('#usersPad>.dataItems').empty();
                     for(var i = 0 ; i < items.length ; i++){
                         $('#usersPad>.dataItems').append(
-                            '<div style="height:35px;width:602px;border:1px solid #e4e5e7;line-height: 35px;">' +
-                            '<div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:200px;text-align: center;">'+ items[i].amount/10 +'</div>' +
-                            '<div title="'+items[i].source+'" style="height:35px;float:left;border-right:1px solid #e4e5e7;width:300px;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">'+ items[i].source +'</div>' +
-                            '<div style="height:35px;float:left;width:100px;text-align: center">'+ new Date(items[i].time).toLocaleDateString() +'</div>' +
+                            '<div style="height:35px;width:603px;border:1px solid #e4e5e7;line-height: 35px;">' +
+                            '<div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:200px;text-align: center;">'+ (items[i].icon?('<img style="height:35px" src="'+items[i].icon+'"/>'):'')+'</div>' +
+                            '<div title="'+items[i].source+'" style="height:35px;float:left;border-right:1px solid #e4e5e7;width:200px;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">'+ items[i].name +'</div>' +
+                            '<div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:100px;text-align: center">'+ items[i].price/100 +'</div>' +
+                            '<div style="height:25px;float:left;width:100px;text-align: center"><button onclick="alterSeed(\''+items[i].seedId+'\')" >修改</button></div>'+
                             '</div>'
                         )
                     }
@@ -137,8 +139,8 @@
         })
     }
 
-    function alterUser(userId){
-        location.href = 'userinfo.html?user_id='+userId;
+    function alterSeed(seedId){
+        location.href = 'tmpinfo.html?seed_id='+seedId;
     }
    function onload(){
         requestUserList()

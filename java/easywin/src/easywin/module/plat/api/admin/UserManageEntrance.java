@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -351,5 +353,14 @@ public class UserManageEntrance {
 			if (connection != null)
 				connection.close();
 		}
+	}
+
+	public static void main(String[] args) {
+		Map map1;
+		Map map2;
+		map1 = new HashMap();
+		map2 = map1;
+		map1.put("1", 1);
+		System.out.println(map2);
 	}
 }

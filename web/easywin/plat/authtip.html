@@ -1,57 +1,48 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap.min.css">
-    <script type="text/javascript" src="libs/default.js"></script>
+    <meta charset="UTF-8">
+    <title>3分钟平台</title>
     <script src="libs/jquery.min.js"></script>
-    <style type="text/css">body {
-        min-width: 800px;
-        margin: 0;
-        background: #f1f3f6
-    }
+    <script src="libs/shake.js"></script>
+    <script src="libs/jquery.cookie.js"></script>
+    <script src="libs/vue.js"></script>
+    <script src="libs/default.js"></script>
 
-    .body-con {
+</head>
+<style type="text/css">
+
+
+    #authtipContent  .body-con {
         width: 95%;
         margin: 0 auto
     }
 
-    .form-con {
+    #authtipContent  .form-con {
         background: #fff;
         box-shadow: 1px 1px 12px #ccc;
         margin-top: 20px;
         margin-bottom: 100px
     }
 
-    .form-group {
+    #authtipContent  .form-group {
         width: 500px;
         margin: 0 auto;
         margin-top: 30px
-    }</style>
-</head>
-<body>
-<div class="body-con">
-    <div class="form-con">
-        <div style="text-align:center">
-            <div style="font-size:22px;color:#777;padding-top:45px">在开始前，请确保您已经注册了一个微信小程序</div>
-            <button style="height:45px;width:160px;margin:40px 0;display:inline-block;background-color:#fec803;border-color:#fec803" type="button" class="btn btn-success" onclick="gotoAuth()">立即授权
-            </button>
-            <div style="padding:0 40px">温馨提示：一个小程序账号目前仅能在Passion平台绑定一个模板。</div>
-            <div style="font-size:12px;margin-top:6px">如果你还没有小程序账号，请前往<a href="https://mp.weixin.qq.com/" target="_blank">微信公众平台</a>进行注册</div>
-        </div>
-        <div style="height:50px"></div>
-    </div>
-</div>
+    }
+</style>
 
-<script type="text/javascript">
+
+<script>
+
+
+
     function gotoAuth() {
-        var seedId = sessionStorage.getItem('seedId');
-        var token = sessionStorage.getItem('token');
-        var agentId = sessionStorage.getItem('agentId');
-        if(!agentId)
-            agentId='';
+        var token = $.cookie('token');
+        var queryStrObj= parseQueryStr(location.search.substr(1));
         $.ajax({
             type: 'POST',
-            data: {seed_id:seedId,agent_id:agentId},
+            data: {seed_id:queryStrObj.seed_id},
             url: '/easywin/p/wop3a/getauthurl?token='+token,
             success: function(res){
                 if(res.code == 0){
@@ -63,4 +54,22 @@
         })
     }
 </script>
+<body style="margin:0;">
+
+
+<div id="authtipContent" style="padding:15px;background:#f7f9fa;height:100%;">
+    <div class="body-con">
+        <div class="form-con">
+            <div style="text-align:center">
+                <div style="font-size:22px;color:#777;padding-top:45px">在开始前，请确保您已经注册了一个微信小程序</div>
+                <button style="height:45px;width:160px;margin:40px 0;display:inline-block;background-color:#fec803;border-color:#fec803" type="button" class="btn btn-success" onclick="gotoAuth()">立即授权
+                </button>
+                <div style="padding:0 40px">温馨提示：一个小程序账号目前仅能在Passion平台绑定一个模板。</div>
+                <div style="font-size:12px;margin-top:6px">如果你还没有小程序账号，请前往<a href="https://mp.weixin.qq.com/" target="_blank">微信公众平台</a>进行注册</div>
+            </div>
+            <div style="height:50px"></div>
+        </div>
+    </div>
+</div>
 </body>
+</html>

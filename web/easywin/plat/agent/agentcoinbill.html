@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="../libs/jquery.min.js"></script>
+    <script type="text/javascript" src="../libs/json2.js"></script>
+    <script src="../libs/jquery.cookie.js"></script>
+
+    <style type="text/css">
+
+        .cardcon {
+            padding: 20px 35px
+        }
+        .carddiv {
+            min-width: 800px;
+            height: 110px;
+            background: #fff;
+            padding: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 2px 4px #ccc
+        }
+        .carddiv button {
+            font-size: 13px;
+            background: #fff;
+            border: 1px solid #269abc;
+            color: #269abc;
+            border-radius: 3px;
+            width: 70px;
+            height: 25px;
+            margin-top: 32px;
+            margin-right: 8px
+        }
+        .carddiv button:hover {
+            background: #269abc;
+            color: #fff
+        }
+        .cardnumimg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 41px
+        }
+        .cardnumtxt {
+            position: absolute;
+            top: 2px;
+            left: 7px;
+            color: #fff;
+            font-weight: 700
+        }
+        .cardicon {
+            width: 75px;
+            float: left;
+            margin-left: 30px;
+            margin-top: 8px;
+            border-radius: 12px
+        }
+        .carddesc {
+            float: left;
+            vertical-align: top;
+            margin-left: 18px;
+            font-size: 16px;
+            width: 380px;
+            overflow: hidden
+        }
+        .cardbt-con {
+            float: right;
+            margin-top: 2px;
+            margin-right: 20px
+        }
+        .vtimetxt {
+            float: left;
+            margin-left: 15px;
+            color: #3c0;
+            font-size: 13px;
+            line-height: 50px
+        }
+        #content td{
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body style="margin:20px">
+<div>
+    <input  type="button" value="查询" onclick="requestUserList()"/>
+</div>
+<div style="margin-top:15px;border-top:1px solid #e4e5e7;border-left:1px solid #e4e5e7;float:left;">
+    <div style="border-bottom:1px solid #e4e5e7;height:20px"><span style="border-right:1px solid #e4e5e7;padding:0 5px;">关键字</span><span  style="padding:0 5px;border-right:1px solid #e4e5e7;"><input type="text" id="queryKeyw" style="padding:0;border:none;" /></span></div>
+</div>
+<div style="clear: both;"></div>
+<div id="usersPad" style="margin-top:15px;">
+        <div class="titleBar" style="height:25px;width:602px;border:1px solid #e4e5e7;line-height: 25px; background: #f1f3f6">
+            <div style="height:25px;float:left;border-right:1px solid #e4e5e7;width:200px;text-align: center;">金额</div>
+            <div style="height:25px;float:left;border-right:1px solid #e4e5e7;width:300px;text-align: center">来源</div>
+            <div style="height:25px;float:left;;width:100px;text-align: center">时间</div>
+        </div>
+    <div class="dataItems">
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var token = $.cookie('token');
+    onload();
+
+    document.onkeydown=keyListener;
+    function keyListener(e){
+        if(e.keyCode == 13){
+            var act = document.activeElement.id;
+            if(act=='queryKeyw')
+                requestUserList();
+        }
+    }
+
+    function requestUserList() {
+        $.ajax({
+            type: "GET",
+            url:"/easywin/p/e/agent/agentcoinbill/bills?token=" + token+'&keyw='+$('#queryKeyw').val(),
+            success: function (res) {
+                if(res.code == 0){
+                    var items = res.data.bills.items;
+                    if(items.length>0)
+                        $('#usersPad>.dataItems').empty();
+                    for(var i = 0 ; i < items.length ; i++){
+                        $('#usersPad>.dataItems').append(
+                            '<div style="height:35px;width:602px;border:1px solid #e4e5e7;line-height: 35px;">' +
+                            '<div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:200px;text-align: center;">'+ items[i].amount/10 +'</div>' +
+                            '<div title="'+items[i].source+'" style="height:35px;float:left;border-right:1px solid #e4e5e7;width:300px;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">'+ items[i].source +'</div>' +
+                            '<div style="height:35px;float:left;width:100px;text-align: center">'+ new Date(items[i].time).toLocaleDateString() +'</div>' +
+                            '</div>'
+                        )
+                    }
+                }else{
+                    alert( res.codeMsg)
+                }
+            }
+        })
+    }
+
+    function alterUser(userId){
+        location.href = 'userinfo.html?user_id='+userId;
+    }
+   function onload(){
+        requestUserList()
+    }
+</script>
+</body>

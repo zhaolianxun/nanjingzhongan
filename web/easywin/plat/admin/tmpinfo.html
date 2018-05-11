@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="../libs/jquery.min.js"></script>
+    <script src="../libs/jquery.cookie.js"></script>
+    <script src="../libs/default.js"></script>
+    <script src="../libs/upload.js"></script>
+
+</head>
+<body style="margin:20px">
+
+<div id="itemInfo" >
+    <div style="width:600px;border:1px solid #e4e5e7;line-height: 35px;float:left">
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:99px">模板名</div><div id="name" style="height:35px;float:left;width:176px"></div><div onclick="alterName()" style="cursor:pointer;height:35px;float:right;width:24px;text-align: center;font-size: 11px;background-color: #e4e5e7">修改</div></div>
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:98px;border-left:1px solid #e4e5e7;">图标</div><div  id="icon" style="height:35px;float:left;width:176px"></div><div onclick="alterIcon()" style="cursor:pointer;height:35px;float:right;width:24px;text-align: center;font-size: 11px;background-color: #e4e5e7">修改</div></div>
+    </div>
+    <div style="clear:both;"></div>
+    <div style="width:600px;border:1px solid #e4e5e7;line-height: 35px;float:left">
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:99px;">概要</div><div  id="summary" style="height:35px;float:left;width:176px"></div><div onclick="alterSummary()" style="cursor:pointer;height:35px;float:right;width:24px;text-align: center;font-size: 11px;background-color: #e4e5e7">修改</div></div>
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:98px;border-left:1px solid #e4e5e7;">介绍图</div><div  id="introPic" style="height:35px;float:left;width:176px"></div><div onclick="alterIntroPic()" style="cursor:pointer;height:35px;float:right;width:24px;text-align: center;font-size: 11px;background-color: #e4e5e7">修改</div></div>
+    </div>
+    <div style="clear:both;"></div>
+    <div style="width:600px;border:1px solid #e4e5e7;line-height: 35px;float:left">
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:99px;">价格</div><div  id="price" style="height:35px;float:left;width:176px"></div><div onclick="alterPrice()" style="cursor:pointer;height:35px;float:right;width:24px;text-align: center;font-size: 11px;background-color: #e4e5e7">修改</div></div>
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:98px;border-left:1px solid #e4e5e7;">1级代理价格</div><div  id="agent1Price" style="height:35px;float:left;width:176px"></div><div onclick="alterAgent1Price()" style="cursor:pointer;height:35px;float:right;width:24px;text-align: center;font-size: 11px;background-color: #e4e5e7">修改</div></div>
+    </div>
+    <div style="clear:both;"></div>
+
+    <div style="width:600px;border:1px solid #e4e5e7;line-height: 35px;float:left">
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:99px;">2级代理价格</div><div  id="agent2Price" style="height:35px;float:left;width:176px"></div><div onclick="alterAgent2Price()" style="cursor:pointer;height:35px;float:right;width:24px;text-align: center;font-size: 11px;background-color: #e4e5e7">修改</div></div>
+        <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:98px;border-left:1px solid #e4e5e7;">3级代理价格</div><div  id="agent3Price" style="height:35px;float:left;width:176px"></div><div onclick="alterAgent3Price()" style="cursor:pointer;height:35px;float:right;width:24px;text-align: center;font-size: 11px;background-color: #e4e5e7">修改</div></div>
+    </div>
+    <div style="clear:both;"></div>
+
+    <div style="width:600px;border:1px solid #e4e5e7;line-height: 35px;float:left;;">
+            <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:99px;">备注</div><div  id="remark" style="height:35px;float:left;width:176px"></div><div onclick="alterRemark()" style="cursor:pointer;height:35px;float:right;width:24px;text-align: center;font-size: 11px;background-color: #e4e5e7">修改</div></div>
+            <div style="width:300px;float:left;text-align: center;"><div style="height:35px;float:left;border-right:1px solid #e4e5e7;width:98px;border-left:1px solid #e4e5e7;"></div><div  style="height:35px;float:left;width:200px"></div></div>
+        </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+    var token = $.cookie('token');
+    var queryStrObj= parseQueryStr(location.search.substr(1));
+    var id = queryStrObj.seed_id;
+    var item ;
+    onload();
+
+
+    function alterIcon(){
+        var input=document.createElement("input");
+        input.type='file';
+        input.id='iconAlterFileSelector';
+        input.name='file';
+        input.style.display='none';
+        addEvent(input,'change',function(){
+           var url= uploadImg('iconAlterFileSelector')
+            alter('icon',url);
+            $('#icon').html('<img style="width:35px;cursor:pointer;" onclick="imgShow(this)" src="'+url+'" />');
+            this.parentElement.removeChild(this);
+        })
+        document.body.appendChild(input);
+        input.click();
+    }
+    function alterIntroPic(){
+        var input=document.createElement("input");
+        input.type='file';
+        input.id='introPicAlterFileSelector';
+        input.name='file';
+        input.style.display='none';
+        addEvent(input,'change',function(){
+            var url= uploadImg('introPicAlterFileSelector')
+            alter('intro_pic',url);
+            $('#introPic').html('<img style="width:35px;cursor:pointer;" onclick="imgShow(this)" src="'+url+'" />');
+            this.parentElement.removeChild(this);
+        })
+        document.body.appendChild(input);
+        input.click();
+    }
+function alterName(){
+    var value= prompt('输入模板名');
+    if(!value)
+        return;
+    alter('name',value);
+}
+    function alterSummary(){
+        var value= prompt('输入概要');
+        if(!value)
+            return;
+        alter('summary',value);
+    }
+    function alterRemark(){
+        var value= prompt('输入备注');
+        if(!value)
+            return;
+        alter('remark',value);
+    }
+    function alterPrice(){
+        var value= prompt('输入价格');
+        if(!value)
+            return;
+        if(isNaN(value)){
+            alert('请输出数字')
+                return;
+        }
+        if(value < 0){
+            alert('不可小于0')
+            return;
+        }
+        alter('price',value*100);
+    }
+    function alterAgent1Price(){
+        var value= prompt('输入代理1价格');
+        if(!value)
+            return;
+            if(isNaN(value)){
+                alert('请输出数字')
+                return;
+            }
+        if(value < 0){
+            alert('不可小于0')
+            return;
+        }
+        alter('agent1_price',value*100);
+    }
+    function alterAgent2Price(){
+        var value= prompt('输入代理2价格');
+        if(!value)
+            return;
+            if(isNaN(value)){
+                alert('请输出数字')
+                return;
+            }
+        if(value < 0){
+            alert('不可小于0')
+            return;
+        }
+        alter('agent2_price',value*100);
+    }
+    function alterAgent3Price(){
+        var value= prompt('输入代理3价格');
+        if(!value)
+            return;
+            if(isNaN(value)){
+                alert('请输出数字')
+                return;
+            }
+        if(value < 0){
+            alert('不可小于0')
+            return;
+        }
+        alter('agent3_price',value*100);
+    }
+    function alter(name,value){
+        var data = {};
+        data[name]=value;
+        data.seed_id=id;
+        $.ajax({
+            type: "POST",
+            data:data,
+            url:"/easywin/p/e/admin/tmplmanage/alter?token=" + token,
+            success: function (res) {
+                if(res.code == 0){
+                    location.reload();
+                }else{
+                    alert( res.codeMsg)
+                }
+            }
+        })
+    }
+
+
+    function onload() {
+
+        $.ajax({
+            type: "GET",
+            url:"/easywin/p/e/admin/tmplmanage/tmpl?token=" + token+'&seed_id='+id,
+            success: function (res) {
+                if(res.code == 0){
+                    item=res.data;
+                    $('#price').text(res.data.price/100);
+                    $('#agent1Price').text(res.data.agent1Price/100);
+                    $('#agent2Price').text(res.data.agent2Price/100);
+                    $('#agent3Price').text(res.data.agent3Price/100);
+                    $('#icon').html('<img style="width:35px;cursor:pointer;" onclick="imgShow(this)" src="'+res.data.icon+'" />');
+                    $('#name').text(res.data.name);
+                    $('#summary').text(res.data.summary);
+                    $('#introPic').html('<img style="width:35px;cursor:pointer;" onclick="imgShow(this)" src="'+res.data.introPic+'" />');
+                    $('#remark').text(res.data.remark);
+                }else{
+                    alert( res.codeMsg)
+                }
+            }
+        })
+    }
+
+
+
+</script>
+</body>

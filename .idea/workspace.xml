@@ -2,37 +2,144 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/agent/agentcoinbill.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/agent/agentinfo.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/agent/applist.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/agent/apppreview.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/authtip.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/preview.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/admin/userinfo.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/admin/usermanage.html" />
-      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\java\easywin\src\easywin\module\plat\api\AdminAgentManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/admin/AgentManageEntrance.java" />
-      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\java\easywin\src\easywin\module\plat\api\AdminAppManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/admin/AppManageEntrance.java" />
-      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\java\easywin\src\easywin\module\plat\api\AdminTemplateManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/admin/TemplateManageEntrance.java" />
-      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\java\easywin\src\easywin\module\plat\api\AdminUserManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/admin/UserManageEntrance.java" />
-      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\java\easywin\src\easywin\module\plat\api\AgentAppManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/agent/AppManageEntrance.java" />
-      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\java\easywin\src\easywin\module\plat\api\AgentCoinBillManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/agent/AgentCoinBillManageEntrance.java" />
-      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\java\easywin\src\easywin\module\plat\api\AgentUserManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/agent/UserManageEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/BuyEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/BuyEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/api/GoodTypeQuery.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/api/GoodTypeQuery.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/MyAppEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/MyAppEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SafetySetEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SafetySetEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/UserAction.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/UserAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/WxOpenP3Authorization.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/WxOpenP3Authorization.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat2/appstore.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/appstore.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/index.html" afterPath="$PROJECT_DIR$/web/easywin/plat/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat2/index.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/login.html" afterPath="$PROJECT_DIR$/web/easywin/plat/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat2/login.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_test/mainConfig.properties" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_test/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat2/mallintro.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/mallintro.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat2/myapp.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/myapp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/default.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat2/myapp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/admin/tmpinfo.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/admin/tmpmanage.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/libs/upload.js" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\admin\userinfo.html" afterPath="$PROJECT_DIR$/web/easywin/plat/admin/userinfo.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\admin\usermanage.html" afterPath="$PROJECT_DIR$/web/easywin/plat/admin/usermanage.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\agent\agentcoinbill.html" afterPath="$PROJECT_DIR$/web/easywin/plat/agent/agentcoinbill.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\agent\agentinfo.html" afterPath="$PROJECT_DIR$/web/easywin/plat/agent/agentinfo.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\agent\applist.html" afterPath="$PROJECT_DIR$/web/easywin/plat/agent/applist.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\agent\apppreview.html" afterPath="$PROJECT_DIR$/web/easywin/plat/agent/apppreview.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\appstore.html" afterPath="$PROJECT_DIR$/web/easywin/plat/appstore.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\authtip.html" afterPath="$PROJECT_DIR$/web/easywin/plat/authtip.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img\0.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/images/0.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img\1.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/images/1.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img\bg.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/images/bg.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img\cardsanjiao.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/images/cardsanjiao.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img\div1.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/images/div1.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img\head.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/images/head.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img\icon001.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/images/icon001.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img\icon002.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/images/icon002.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img\img1.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/images/img1.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img\img2.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/images/img2.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img\rectangle1@2x.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/images/rectangle1@2x.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img\showcode1.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/images/showcode1.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\index.html" afterPath="$PROJECT_DIR$/web/easywin/plat/index.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\libs\bootstrap\css\bootstrap.min.css" afterPath="$PROJECT_DIR$/web/easywin/plat/libs/bootstrap/css/bootstrap.min.css" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\libs\jquery.cookie.js" afterPath="$PROJECT_DIR$/web/easywin/plat/libs/jquery.cookie.js" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\libs\vue.js" afterPath="$PROJECT_DIR$/web/easywin/plat/libs/vue.js" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\login.html" afterPath="$PROJECT_DIR$/web/easywin/plat/login.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\mallintro.html" afterPath="$PROJECT_DIR$/web/easywin/plat/mallintro.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\adduser.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/adduser.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\agentalteruser.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/agentalteruser.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\agentapplist.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/agentapplist.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\agentlist.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/agentlist.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\agentuserlist.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/agentuserlist.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\alteragent.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/alteragent.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\altertemplate.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/altertemplate.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\alteruser.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/alteruser.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\appbind.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/appbind.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\applist.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/applist.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\appstore.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/appstore.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\authtip.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/authtip.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\css\iindex.css" afterPath="$PROJECT_DIR$/web/easywin/plat2/css/iindex.css" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\css\login.css" afterPath="$PROJECT_DIR$/web/easywin/plat2/css/login.css" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\iindex.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/iindex.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\iinfo.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/iinfo.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\iinside.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/iinside.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\ijoin.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/ijoin.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\ilist.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/ilist.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\images\0.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat/img/0.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\images\1.png" afterPath="$PROJECT_DIR$/web/easywin/plat/img/1.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\images\bg.png" afterPath="$PROJECT_DIR$/web/easywin/plat/img/bg.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\images\cardsanjiao.png" afterPath="$PROJECT_DIR$/web/easywin/plat/img/cardsanjiao.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\images\div1.png" afterPath="$PROJECT_DIR$/web/easywin/plat/img/div1.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\images\head.png" afterPath="$PROJECT_DIR$/web/easywin/plat/img/head.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\images\icon001.png" afterPath="$PROJECT_DIR$/web/easywin/plat/img/icon001.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\images\icon002.png" afterPath="$PROJECT_DIR$/web/easywin/plat/img/icon002.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\images\img1.png" afterPath="$PROJECT_DIR$/web/easywin/plat/img/img1.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\images\img2.png" afterPath="$PROJECT_DIR$/web/easywin/plat/img/img2.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\images\rectangle1@2x.png" afterPath="$PROJECT_DIR$/web/easywin/plat/img/rectangle1@2x.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\images\showcode1.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat/img/showcode1.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\imarket.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/imarket.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\111.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/111.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\222.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/222.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\333.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/333.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\444.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/444.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\555.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/555.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\666.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/666.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\777.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/777.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\888.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/888.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\WCOA.svg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/WCOA.svg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\accessory-app.svg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/accessory-app.svg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\article.svg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/article.svg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\code-drainage.svg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/code-drainage.svg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\contact.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/contact.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\dy.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/dy.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\dyicon.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/dyicon.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\file_59ddc40beac9d.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/file_59ddc40beac9d.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\file_59e49d33e42b3.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/file_59e49d33e42b3.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\file_59e712eebd974.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/file_59e712eebd974.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\file_59f16ea307582.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/file_59f16ea307582.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\file_59f2ef3cd1ac0.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/file_59f2ef3cd1ac0.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\file_59f97f4ede4b7.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/file_59f97f4ede4b7.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\find-app.svg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/find-app.svg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\foot.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/foot.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\fz.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/fz.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\join.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/join.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\mini-apps.svg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/mini-apps.svg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\pc.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/pc.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\pcicon.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/pcicon.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\pin_qrcode.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/pin_qrcode.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\qy.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/qy.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\qyicon.jpeg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/qyicon.jpeg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\recommend-friend.svg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/recommend-friend.svg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\scan-code.svg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/scan-code.svg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\share-wx.svg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/share-wx.svg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\shoping.jpeg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/shoping.jpeg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\timg.jpeg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/timg.jpeg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\top-search.svg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/top-search.svg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\tq.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/tq.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\tqicon.jpg" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/tqicon.jpg" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\tu111.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/tu111.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img\tu2.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/img/tu2.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\index.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/index.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\intro.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/intro.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\io2o.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/io2o.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\iorder.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/iorder.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\istore.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/istore.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\iwisdom.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/iwisdom.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\iwm.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/iwm.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\bootstrap\css\bootstrap.min.css" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/bootstrap/css/bootstrap.min.css" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\css\layui.css" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/css/layui.css" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\css\modules\code.css" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/css/modules/code.css" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\css\modules\laydate\icon.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/css/modules/laydate/icon.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\css\modules\laydate\laydate.css" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/css/modules/laydate/laydate.css" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\css\modules\layer\default\icon-ext.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/css/modules/layer/default/icon-ext.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\css\modules\layer\default\icon.png" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/css/modules/layer/default/icon.png" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\css\modules\layer\default\layer.css" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/css/modules/layer/default/layer.css" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\css\modules\layer\default\loading-0.gif" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/css/modules/layer/default/loading-0.gif" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\css\modules\layer\default\loading-1.gif" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/css/modules/layer/default/loading-1.gif" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\css\modules\layer\default\loading-2.gif" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/css/modules/layer/default/loading-2.gif" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\default.css" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/default.css" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\upoload.js" afterPath="$PROJECT_DIR$/web/easywin/plat2/libs/upoload.js" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\login.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/login.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\plat\u\v\appbind.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/plat/u/v/appbind.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\templatelist.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/templatelist.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\test.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/test.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\userlist.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/userlist.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/agent/AgentCoinBillManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/agent/AgentCoinBillManageEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/admin/TemplateManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/admin/TemplateManageEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/admin/UserManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/admin/UserManageEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/libs/default.js" afterPath="$PROJECT_DIR$/web/easywin/plat/libs/default.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/myapp.html" afterPath="$PROJECT_DIR$/web/easywin/plat/myapp.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/preview.html" afterPath="$PROJECT_DIR$/web/easywin/plat/preview.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat2/preview.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/preview.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/register.html" afterPath="$PROJECT_DIR$/web/easywin/plat/register.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat2/register.html" afterPath="$PROJECT_DIR$/web/easywin/plat2/register.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/userlist.html" afterPath="$PROJECT_DIR$/web/easywin/plat/userlist.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="nanjingzhongan.iws" />
@@ -55,10 +162,10 @@
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/index.html">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.357143">
-              <caret line="47" column="210" selection-start-line="47" selection-start-column="210" selection-end-line="47" selection-end-column="210" />
+            <state vertical-scroll-proportion="-0.6785714">
+              <caret line="55" column="18" selection-start-line="55" selection-start-column="18" selection-end-line="55" selection-end-column="18" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -83,6 +190,8 @@
                 <element signature="n#style#0;n#div#0;n#div#5;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#6;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#6;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#iframe#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -90,94 +199,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="appstore.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/appstore.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.535715">
-              <caret line="68" column="41" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="54" />
-              <folding>
-                <marker date="1525937459877" expanded="true" signature="1209:1275" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/login.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.142858">
-              <caret line="92" column="41" selection-start-line="92" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="usermanage.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/admin/usermanage.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.642857">
-              <caret line="98" column="124" selection-start-line="98" selection-start-column="124" selection-end-line="98" selection-end-column="124" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#span#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#span#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <marker date="1525960978030" expanded="true" signature="4060:4067" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4060:4072" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4060:4127" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4174:4259" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4186:4197" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4186:4228" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4186:4240" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4332:4416" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4344:4354" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4344:4355" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4504:4588" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4701:4755" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4713:4723" placeholder="..." />
-                <marker date="1525960978030" expanded="true" signature="4713:4724" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="authtip.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/authtip.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.107143">
-              <caret line="9" column="29" selection-start-line="9" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="userinfo.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/admin/userinfo.html">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/admin/userinfo.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.071428">
-              <caret line="113" column="38" selection-start-line="113" selection-start-column="38" selection-end-line="113" selection-end-column="38" />
+            <state vertical-scroll-proportion="-5.2413793">
+              <caret line="100" column="7" selection-start-line="100" selection-start-column="7" selection-end-line="102" selection-end-column="19" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
@@ -197,6 +230,7 @@
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
@@ -210,53 +244,80 @@
                 <element signature="n#style#0;n#div#1;n#div#1;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#3;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#span#1;n#div#1;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#2;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#2;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#1;n#div#2;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#0;n#div#4;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#1;n#div#4;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#0;n#div#0;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#div#2;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#1;n#div#2;n#div#3;n#body#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="usermanage.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/admin/usermanage.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-41.285713">
+              <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#1;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#span#1;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <marker date="1526011054220" expanded="true" signature="4265:4332" placeholder="..." />
+                <marker date="1526011054220" expanded="true" signature="4379:4464" placeholder="..." />
+                <marker date="1526011054220" expanded="true" signature="4537:4621" placeholder="..." />
+                <marker date="1526011054220" expanded="true" signature="4709:4793" placeholder="..." />
+                <marker date="1526011054220" expanded="true" signature="4906:4960" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="agentcoinbill.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/agent/agentcoinbill.html">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/agent/agentcoinbill.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-21.964285">
-              <caret line="127" column="130" selection-start-line="127" selection-start-column="130" selection-end-line="127" selection-end-column="130" />
+            <state vertical-scroll-proportion="-24.678572">
+              <caret line="89" column="42" selection-start-line="89" selection-start-column="42" selection-end-line="89" selection-end-column="42" />
               <folding>
+                <element signature="n#style#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#1;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#span#1;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#2;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <marker date="1525966321212" expanded="true" signature="3866:3933" placeholder="..." />
-                <marker date="1525966321212" expanded="true" signature="3980:4065" placeholder="..." />
-                <marker date="1525966321212" expanded="true" signature="4170:4271" placeholder="..." />
-                <marker date="1525966321212" expanded="true" signature="4390:4443" placeholder="..." />
+                <marker date="1526010863017" expanded="true" signature="4032:4099" placeholder="..." />
+                <marker date="1526010863017" expanded="true" signature="4146:4231" placeholder="..." />
+                <marker date="1526010863017" expanded="true" signature="4336:4437" placeholder="..." />
+                <marker date="1526010863017" expanded="true" signature="4556:4609" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="applist.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/agent/applist.html">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/agent/applist.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.5689654">
-              <caret line="91" column="26" selection-start-line="91" selection-start-column="26" selection-end-line="91" selection-end-column="26" />
+            <state vertical-scroll-proportion="-33.32143">
+              <caret line="281" column="23" selection-start-line="281" selection-start-column="23" selection-end-line="281" selection-end-column="23" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -277,39 +338,106 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="apppreview.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/agent/apppreview.html">
+      <file leaf-file-name="tmpinfo.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/admin/tmpinfo.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.6785714">
-              <caret line="21" column="29" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+            <state vertical-scroll-proportion="-20.357143">
+              <caret line="75" column="28" selection-start-line="75" selection-start-column="19" selection-end-line="75" selection-end-column="28" />
               <folding>
-                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1525953514975" expanded="true" signature="6240:6251" placeholder="..." />
-                <marker date="1525953514975" expanded="true" signature="7328:7339" placeholder="..." />
+                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#1;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#5;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#6;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#6;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#6;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#6;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#1;n#div#6;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#7;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="agentinfo.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/agent/agentinfo.html">
+      <file leaf-file-name="upoload.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/libs/upoload.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.55774647">
-              <caret line="35" column="30" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="upload.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/upload.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tmpmanage.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/admin/tmpmanage.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.51830983">
+              <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
               <folding>
-                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+                <marker date="1526018861621" expanded="true" signature="4140:4207" placeholder="..." />
+                <marker date="1526018861621" expanded="true" signature="4254:4339" placeholder="..." />
+                <marker date="1526018861621" expanded="true" signature="4716:4800" placeholder="..." />
+                <marker date="1526018861621" expanded="true" signature="4877:4930" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="default.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/default.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="30" column="6" selection-start-line="28" selection-start-column="3" selection-end-line="30" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -330,10 +458,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/web/rrightway/tb_js_oauth.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/tb_js_oauth_notify.html" />
-        <option value="$PROJECT_DIR$/web/easywin/plat/css/login.css" />
-        <option value="$PROJECT_DIR$/web/easywin/plat/myapp.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/register.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/plat/iindex.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/css/iindex.css" />
@@ -357,7 +481,6 @@
         <option value="$PROJECT_DIR$/web/easywin/plat/alteruser.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/alteragent.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/agentapplist.html" />
-        <option value="$PROJECT_DIR$/web/easywin/plat2/libs/default.js" />
         <option value="$PROJECT_DIR$/web/easywin/plat2/appstore1.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat2/libs/bootstrap/css/bootstrap.min.css" />
         <option value="$PROJECT_DIR$/web/easywin/plat2/mallintro.html" />
@@ -376,11 +499,16 @@
         <option value="$PROJECT_DIR$/web/easywin/plat/index.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/login.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/userlist.html" />
-        <option value="$PROJECT_DIR$/web/easywin/plat2/agent/applist.html" />
-        <option value="$PROJECT_DIR$/web/easywin/plat2/admin/usermanage.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat2/admin/userinfo.html" />
-        <option value="$PROJECT_DIR$/web/easywin/plat2/index.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat2/agent/agentcoinbill.html" />
+        <option value="$PROJECT_DIR$/web/easywin/plat2/admin/usermanage.html" />
+        <option value="$PROJECT_DIR$/web/easywin/plat2/index.html" />
+        <option value="$PROJECT_DIR$/web/easywin/plat2/libs/default.js" />
+        <option value="$PROJECT_DIR$/web/easywin/plat2/agent/applist.html" />
+        <option value="$PROJECT_DIR$/web/easywin/plat2/libs/upoload.js" />
+        <option value="$PROJECT_DIR$/web/easywin/plat2/libs/upload.js" />
+        <option value="$PROJECT_DIR$/web/easywin/plat2/admin/tmpinfo.html" />
+        <option value="$PROJECT_DIR$/web/easywin/plat2/admin/tmpmanage.html" />
       </list>
     </option>
   </component>
@@ -420,8 +548,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -490,38 +616,14 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="plat2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="easywin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plat2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="admin" />
+              <option name="myItemId" value="plat" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -534,11 +636,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\agent" />
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\libs" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\admin" />
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\agent" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\img" />
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\libs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\agent" />
@@ -611,7 +713,7 @@
     <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.200625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -651,70 +753,42 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/iinside.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.7126436">
-          <caret line="70" column="48" selection-start-line="70" selection-start-column="48" selection-end-line="70" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/iinfo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9310346">
-          <caret line="57" column="48" selection-start-line="57" selection-start-column="48" selection-end-line="57" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/iwm.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.3678162">
-          <caret line="71" column="48" selection-start-line="71" selection-start-column="48" selection-end-line="71" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/istore.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.8965516">
-          <caret line="51" column="9" selection-start-line="32" selection-start-column="4" selection-end-line="51" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/iwisdom.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/iwisdom.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="18.471264">
           <caret line="70" column="48" selection-start-line="70" selection-start-column="48" selection-end-line="70" selection-end-column="48" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/imarket.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/imarket.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-21.035715">
           <caret line="54" column="45" selection-start-line="54" selection-start-column="45" selection-end-line="54" selection-end-column="45" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/iindex.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/iindex.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-51.57143">
           <caret line="130" column="36" selection-start-line="130" selection-start-column="36" selection-end-line="130" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/adduser.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/adduser.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/test.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/test.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/authtip.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/authtip.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-18.214285">
           <caret line="59" column="37" selection-start-line="59" selection-start-column="37" selection-end-line="59" selection-end-column="37" />
@@ -743,49 +817,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/agentlist.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/agentlist.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.3084507">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/alteruser.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/alteruser.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.24558823">
           <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/alteragent.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/alteragent.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.24084507">
           <caret line="90" column="26" selection-start-line="90" selection-start-column="26" selection-end-line="90" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/css/iindex.css">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/css/iindex.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8788732">
           <caret line="0" column="48006" selection-start-line="0" selection-start-column="48006" selection-end-line="0" selection-end-column="48006" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/css/login.css">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/css/login.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="88" column="21" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/register.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/register.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.775862">
           <caret line="117" column="5" selection-start-line="60" selection-start-column="4" selection-end-line="117" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/libs/shake.js">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/shake.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -793,7 +867,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/libs/jquery.cookie.js">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/jquery.cookie.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -808,22 +882,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/default.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat2/libs/default.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
-          <folding />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/libs/vue.js">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/vue.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -831,19 +897,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/intro.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/intro.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="76" column="10" selection-start-line="52" selection-start-column="4" selection-end-line="76" selection-end-column="10" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#img#1;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#img#2;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/appstore.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/appstore.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="139" column="39" selection-start-line="139" selection-start-column="32" selection-end-line="139" selection-end-column="39" />
@@ -851,15 +912,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/libs/iziToast/js/iziToast.min.js">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/iziToast/js/iziToast.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/libs/bootstrap/css/bootstrap.min.css">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/bootstrap/css/bootstrap.min.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4" column="15196" selection-start-line="4" selection-start-column="15118" selection-end-line="4" selection-end-column="15196" />
@@ -867,43 +927,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/myapp.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/myapp.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.8965516">
           <caret line="236" column="100" selection-start-line="236" selection-start-column="77" selection-end-line="236" selection-end-column="100" />
           <folding>
             <element signature="n#style#0;n#span#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525767194788" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/preview.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/preview.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-17.642857">
           <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
-          <folding>
-            <marker date="1525182891967" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525182891967" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/mallintro.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/mallintro.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.9642856">
           <caret line="50" column="3" selection-start-line="50" selection-start-column="3" selection-end-line="50" selection-end-column="3" />
@@ -915,7 +957,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/register.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/register.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.392857">
           <caret line="50" column="35" selection-start-line="50" selection-start-column="35" selection-end-line="50" selection-end-column="35" />
@@ -923,10 +965,130 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/myapp.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/agentalteruser.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.178572">
-          <caret line="273" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="350" selection-end-column="7" />
+        <state vertical-scroll-proportion="-0.6785714">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/agentapplist.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.535715">
+          <caret line="211" column="0" selection-start-line="196" selection-start-column="3" selection-end-line="211" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#a#0;n#span#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/agentuserlist.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="71.67857">
+          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-19.571428">
+          <caret line="92" column="69" selection-start-line="92" selection-start-column="69" selection-end-line="92" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="3.310345">
+          <caret line="309" column="24" selection-start-line="309" selection-start-column="24" selection-end-line="309" selection-end-column="24" />
+          <folding>
+            <element signature="n#style#0;n#li#1;n#ul#0;n#body#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#li#1;n#ul#0;n#body#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/userlist.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.75">
+          <caret line="125" column="29" selection-start-line="125" selection-start-column="29" selection-end-line="125" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/appstore.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.535715">
+          <caret line="68" column="41" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/authtip.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="29" selection-start-line="9" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/agent/apppreview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="29" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1525953514975" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1525953514975" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.464286">
+          <caret line="64" column="2" selection-start-line="64" selection-start-column="2" selection-end-line="69" selection-end-column="5" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/preview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="28.25">
+          <caret line="215" column="104" selection-start-line="215" selection-start-column="104" selection-end-line="215" selection-end-column="104" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1525946807636" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1525946807636" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/myapp.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.214285">
+          <caret line="329" column="19" selection-start-line="329" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -945,217 +1107,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/preview.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/agent/agentinfo.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.857143">
-          <caret line="215" column="104" selection-start-line="215" selection-start-column="104" selection-end-line="215" selection-end-column="104" />
+        <state vertical-scroll-proportion="-13.142858">
+          <caret line="35" column="30" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1525946807636" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525946807636" expanded="true" signature="-1:-1" placeholder="..." />
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/agentalteruser.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/libs/upoload.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6785714">
-          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/agentapplist.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/default.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.535715">
-          <caret line="211" column="0" selection-start-line="196" selection-start-column="3" selection-end-line="211" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#a#0;n#span#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <marker date="1525836150591" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525836150591" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525836150591" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525836150591" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525836150591" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525836150591" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1525836150591" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/agentuserlist.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="71.67857">
-          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="30" column="6" selection-start-line="28" selection-start-column="3" selection-end-line="30" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/login.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/upload.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.571428">
-          <caret line="92" column="69" selection-start-line="92" selection-start-column="69" selection-end-line="92" selection-end-column="69" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.310345">
-          <caret line="309" column="24" selection-start-line="309" selection-start-column="24" selection-end-line="309" selection-end-column="24" />
-          <folding>
-            <element signature="n#style#0;n#li#1;n#ul#0;n#body#0;n#div#1;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#li#1;n#ul#0;n#body#0;n#div#1;n#body#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/userlist.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.75">
-          <caret line="125" column="29" selection-start-line="125" selection-start-column="29" selection-end-line="125" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/appstore.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.535715">
-          <caret line="68" column="41" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="54" />
-          <folding>
-            <marker date="1525937459877" expanded="true" signature="1209:1275" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.142858">
-          <caret line="92" column="41" selection-start-line="92" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/authtip.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.107143">
-          <caret line="9" column="29" selection-start-line="9" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/admin/usermanage.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.642857">
-          <caret line="98" column="124" selection-start-line="98" selection-start-column="124" selection-end-line="98" selection-end-column="124" />
-          <folding>
-            <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#span#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#span#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <marker date="1525960978030" expanded="true" signature="4060:4067" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4060:4072" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4060:4127" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4174:4259" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4186:4197" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4186:4228" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4186:4240" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4332:4416" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4344:4354" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4344:4355" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4504:4588" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4701:4755" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4713:4723" placeholder="..." />
-            <marker date="1525960978030" expanded="true" signature="4713:4724" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/admin/userinfo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.071428">
-          <caret line="113" column="38" selection-start-line="113" selection-start-column="38" selection-end-line="113" selection-end-column="38" />
-          <folding>
-            <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#1;n#div#2;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#3;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#div#4;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#1;n#div#4;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#div#0;n#div#4;n#body#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.357143">
-          <caret line="47" column="210" selection-start-line="47" selection-start-column="210" selection-end-line="47" selection-end-column="210" />
+        <state vertical-scroll-proportion="-0.6785714">
+          <caret line="55" column="18" selection-start-line="55" selection-start-column="18" selection-end-line="55" selection-end-column="18" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1180,33 +1173,91 @@
             <element signature="n#style#0;n#div#0;n#div#5;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#6;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#6;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#iframe#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/agent/agentcoinbill.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/admin/tmpinfo.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.964285">
-          <caret line="127" column="130" selection-start-line="127" selection-start-column="130" selection-end-line="127" selection-end-column="130" />
+        <state vertical-scroll-proportion="-20.357143">
+          <caret line="75" column="28" selection-start-line="75" selection-start-column="19" selection-end-line="75" selection-end-column="28" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-            <marker date="1525966321212" expanded="true" signature="3866:3933" placeholder="..." />
-            <marker date="1525966321212" expanded="true" signature="3980:4065" placeholder="..." />
-            <marker date="1525966321212" expanded="true" signature="4170:4271" placeholder="..." />
-            <marker date="1525966321212" expanded="true" signature="4390:4443" placeholder="..." />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#1;n#div#4;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#5;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#6;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#6;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#6;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#1;n#div#6;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#7;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#8;n#div#0;n#body#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/agent/applist.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/agent/agentcoinbill.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.5689654">
-          <caret line="91" column="26" selection-start-line="91" selection-start-column="26" selection-end-line="91" selection-end-column="26" />
+        <state vertical-scroll-proportion="-24.678572">
+          <caret line="89" column="42" selection-start-line="89" selection-start-column="42" selection-end-line="89" selection-end-column="42" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#span#1;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <marker date="1526010863017" expanded="true" signature="4032:4099" placeholder="..." />
+            <marker date="1526010863017" expanded="true" signature="4146:4231" placeholder="..." />
+            <marker date="1526010863017" expanded="true" signature="4336:4437" placeholder="..." />
+            <marker date="1526010863017" expanded="true" signature="4556:4609" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/agent/applist.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-33.32143">
+          <caret line="281" column="23" selection-start-line="281" selection-start-column="23" selection-end-line="281" selection-end-column="23" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1226,35 +1277,107 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/agent/apppreview.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/admin/userinfo.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6785714">
-          <caret line="21" column="29" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+        <state vertical-scroll-proportion="-5.2413793">
+          <caret line="100" column="7" selection-start-line="100" selection-start-column="7" selection-end-line="102" selection-end-column="19" />
           <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1525953514975" expanded="true" signature="6240:6251" placeholder="..." />
-            <marker date="1525953514975" expanded="true" signature="7328:7339" placeholder="..." />
+            <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#span#1;n#div#1;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#2;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#div#2;n#div#3;n#body#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/agent/agentinfo.html">
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/admin/usermanage.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55774647">
-          <caret line="35" column="30" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
+        <state vertical-scroll-proportion="-41.285713">
+          <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#span#1;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <marker date="1526011054220" expanded="true" signature="4265:4332" placeholder="..." />
+            <marker date="1526011054220" expanded="true" signature="4379:4464" placeholder="..." />
+            <marker date="1526011054220" expanded="true" signature="4537:4621" placeholder="..." />
+            <marker date="1526011054220" expanded="true" signature="4709:4793" placeholder="..." />
+            <marker date="1526011054220" expanded="true" signature="4906:4960" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/admin/tmpmanage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.51830983">
+          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
+            <marker date="1526018861621" expanded="true" signature="4140:4207" placeholder="..." />
+            <marker date="1526018861621" expanded="true" signature="4254:4339" placeholder="..." />
+            <marker date="1526018861621" expanded="true" signature="4716:4800" placeholder="..." />
+            <marker date="1526018861621" expanded="true" signature="4877:4930" placeholder="..." />
           </folding>
         </state>
       </provider>
