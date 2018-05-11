@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +59,7 @@ public class PatientInfoEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.id,t.realname,tel,status from t_patient t  where t.clinic_id=? order by t.realname asc limit ?,?");
+					"select t.sickness,t.id,t.realname,tel,status from t_patient t  where t.clinic_id=? order by t.realname asc limit ?,?");
 			pst.setObject(1, loginStatus.getClinicId());
 			pst.setObject(2, pageSize * (pageNo - 1));
 			pst.setObject(3, pageSize);
@@ -70,6 +71,7 @@ public class PatientInfoEntrance {
 				item.put("realname", rs.getObject("realname"));
 				item.put("tel", rs.getObject("tel"));
 				item.put("status", rs.getObject("status"));
+				item.put("sickness", rs.getObject("sickness"));
 				items.add(item);
 			}
 			pst.close();
@@ -106,6 +108,114 @@ public class PatientInfoEntrance {
 			String tel = StringUtils.trimToNull(request.getParameter("tel"));
 			if (tel == null)
 				throw new InteractRuntimeException("tel 不能为空");
+			String sickness = StringUtils.trimToNull(request.getParameter("sickness"));
+			String remark = StringUtils.trimToNull(request.getParameter("remark"));
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (!loginStatus.getType().equals("2"))
+				throw new InteractRuntimeException("您不是门诊用户");
+
+			connection = ZayltDataSource.dataSource.getConnection();
+			// 查詢订单列表
+			pst = connection.prepareStatement(
+					"insert into t_patient (id,clinic_id,hospital_id,realname,tel,sickness,remark) values(?,?,?,?,?,?,?)");
+			String id = RandomStringUtils.randomNumeric(12);
+			pst.setObject(1, id);
+			pst.setObject(2, loginStatus.getClinicId());
+			pst.setObject(3, loginStatus.getHospitalId());
+			pst.setObject(4, realname);
+			pst.setObject(5, tel);
+			pst.setObject(6, sickness);
+			pst.setObject(7, remark);
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("patientId", id);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/addremark")
+	@Transactional(rollbackFor = Exception.class)
+	public void addremark(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String patientId = StringUtils.trimToNull(request.getParameter("patient_id"));
+			if (patientId == null)
+				throw new InteractRuntimeException("patient_id 不能为空");
+			String remark = StringUtils.trimToNull(request.getParameter("remark"));
+			if (remark == null)
+				throw new InteractRuntimeException("remark 不能为空");
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (!loginStatus.getType().equals("2"))
+				throw new InteractRuntimeException("您不是门诊用户");
+
+			connection = ZayltDataSource.dataSource.getConnection();
+			// 查詢订单列表
+			pst = connection
+					.prepareStatement("insert into t_patient_remark (patient_id,remark,add_time) values(?,?,?)");
+			pst.setObject(1, patientId);
+			pst.setObject(2, remark);
+			pst.setObject(3, new Date().getTime());
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/remarks")
+	@Transactional(rollbackFor = Exception.class)
+	public void remarks(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String patientId = StringUtils.trimToNull(request.getParameter("patient_id"));
+			if (patientId == null)
+				throw new InteractRuntimeException("patient_id 不能为空");
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -117,21 +227,25 @@ public class PatientInfoEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"insert into t_patient (id,clinic_id,hospital_id,realname,tel) values(?,?,?,?,?)");
-			String id = RandomStringUtils.randomNumeric(12);
-			pst.setObject(1, id);
-			pst.setObject(2, loginStatus.getClinicId());
-			pst.setObject(3, loginStatus.getHospitalId());
-			pst.setObject(4, realname);
-			pst.setObject(5, tel);
-			int n = pst.executeUpdate();
+					"select t.remark,t.add_time from t_patient_remark t  where t.patient_id=? order by t.add_time desc limit ?,?");
+			pst.setObject(1, patientId);
+			pst.setObject(2, pageSize * (pageNo - 1));
+			pst.setObject(3, pageSize);
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("remark", rs.getObject("remark"));
+				item.put("addTime", rs.getObject("add_time"));
+				items.add(item);
+			}
 			pst.close();
-			if (n != 1)
-				throw new InteractRuntimeException("操作失败");
 
 			// 返回结果
 			JSONObject data = new JSONObject();
-			data.put("patientId", id);
+			JSONObject patients = new JSONObject();
+			patients.put("items", items);
+			data.put("patients", patients);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -157,6 +271,8 @@ public class PatientInfoEntrance {
 			if (patientId == null)
 				throw new InteractRuntimeException("patient_id 不能空");
 			String realname = StringUtils.trimToNull(request.getParameter("realname"));
+			String remark = StringUtils.trimToNull(request.getParameter("remark"));
+			String sickness = StringUtils.trimToNull(request.getParameter("sickness"));
 			String tel = StringUtils.trimToNull(request.getParameter("tel"));
 
 			// 业务处理
@@ -167,6 +283,10 @@ public class PatientInfoEntrance {
 				throw new InteractRuntimeException("您不是门诊用户");
 
 			List sqlParams = new ArrayList();
+			if (remark != null)
+				sqlParams.add(remark);
+			if (sickness != null)
+				sqlParams.add(sickness);
 			if (realname != null)
 				sqlParams.add(realname);
 			if (tel != null)
@@ -174,7 +294,8 @@ public class PatientInfoEntrance {
 			if (!sqlParams.isEmpty()) {
 				sqlParams.add(patientId);
 				connection = ZayltDataSource.dataSource.getConnection();
-				pst = connection.prepareStatement("update t_patient set id=id" + (realname == null ? "" : ",realname=?")
+				pst = connection.prepareStatement("update t_patient set id=id" + (remark == null ? "" : ",remark=?")
+						+ (sickness == null ? "" : ",sickness=?") + (realname == null ? "" : ",realname=?")
 						+ (tel == null ? "" : ",tel=?") + " where id=?");
 				String id = RandomStringUtils.randomNumeric(12);
 				for (int i = 0; i < sqlParams.size(); i++)

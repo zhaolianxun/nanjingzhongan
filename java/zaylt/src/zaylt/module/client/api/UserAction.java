@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import easywin.util.EasywinDataSource;
+import okhttp3.Request;
+import okhttp3.Response;
 import redis.clients.jedis.Jedis;
 import zaylt.constant.SysConstant;
 import zaylt.entity.InteractRuntimeException;
@@ -33,6 +36,122 @@ import zaylt.util.ZayltDataSource;
 public class UserAction {
 
 	public static Logger logger = Logger.getLogger(UserAction.class);
+
+	@RequestMapping(value = "/wxapplogin")
+	@Transactional(rollbackFor = Exception.class)
+	public void wxapplogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Jedis jedis = null;
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String jscode = StringUtils.trimToNull(request.getParameter("jscode"));
+			if (jscode == null)
+				throw new InteractRuntimeException("jscode不可空");
+			String nickname = StringUtils.trimToNull(request.getParameter("nickname"));
+
+			// 微信登录
+			String url = new StringBuilder("https://api.weixin.qq.com/sns/jscode2session?").append("appid=")
+					.append(SysConstant.wx_smallapp_appid)
+					.append("&secret=").append(SysConstant.wx_smallapp_appsecret)
+					.append("&js_code=").append(jscode)
+					.append("&grant_type=authorization_code").toString();
+			logger.debug("url " + url);
+
+			Request okHttpRequest = new Request.Builder().url(url).build();
+			Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+			String responseBody = okHttpResponse.body().string();
+			logger.debug("responseBody " + responseBody);
+			JSONObject resultVo = JSON.parseObject(responseBody);
+
+			Integer errcode = resultVo.getInteger("errcode");
+			if (errcode != null && errcode != 0)
+				throw new InteractRuntimeException(resultVo.getString("errmsg"));
+			String openid = resultVo.getString("openid");
+			String sessionKey = resultVo.getString("session_key");
+
+			// 更新数据库用户信息
+			connection = ZayltDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("select id,phone from t_user where wx_openid=?");
+			pst.setObject(1, openid);
+			ResultSet rs = pst.executeQuery();
+			String userId = null;
+			String phone = null;
+			if (rs.next()) {
+				userId = rs.getString(1);
+				phone = rs.getString(2);
+			}
+			pst.close();
+			if (userId == null) {
+				userId = RandomStringUtils.randomNumeric(12);
+				pst = connection.prepareStatement(
+						"insert into t_mall_user (id,wx_openid,wx_sessionkey,register_time) values(?,?,?,?,?,rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0'),?,?)");
+				pst.setObject(1, userId);
+				pst.setObject(2, mallId);
+				pst.setObject(3, "");
+				pst.setObject(4, openid);
+				pst.setObject(5, sessionKey);
+				pst.setObject(6, fromUserId);
+				pst.setObject(7, nickname);
+				int n = pst.executeUpdate();
+				pst.close();
+				if (n != 1)
+					throw new InteractRuntimeException("操作失败");
+			} else {
+				pst = connection
+						.prepareStatement("update t_mall_user set wx_openid=?,wx_sessionkey=?,nickname=? where id=?");
+				pst.setObject(1, openid);
+				pst.setObject(2, sessionKey);
+				pst.setObject(3, nickname);
+				pst.setObject(4, userId);
+				int n = pst.executeUpdate();
+				pst.close();
+				if (n != 1)
+					throw new InteractRuntimeException("操作失败");
+			}
+
+			// 缓存登录状态
+			String token = RandomStringUtils.randomNumeric(12);
+
+			UserLoginStatus loginStatus = new UserLoginStatus();
+			loginStatus.setUserId(userId);
+			loginStatus.setLoginTime(new Date().getTime());
+			loginStatus.setMallId(mallId);
+			loginStatus.setWxOpenid(openid);
+			String loginRedisKey = new StringBuilder("easywin.mall.token-").append(token).toString();
+			//// 清除历史登录状态
+			String oldToken = jedis.get(userId);
+			if (oldToken != null && !oldToken.isEmpty())
+				jedis.del(new StringBuilder("easywin.mall.token-").append(oldToken).toString());
+			jedis.del(userId);
+			//// 设置新登录状态
+			jedis.set(loginRedisKey, JSON.toJSONString(loginStatus));
+			jedis.set(userId, token);
+			jedis.expire(loginRedisKey, 30 * 24 * 60 * 60);
+			jedis.expire(userId, 30 * 24 * 60 * 60);
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("token", token);
+			data.put("userId", userId);
+			data.put("nickname", loginStatus.getNickname());
+			data.put("phone", phone);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (jedis != null)
+				jedis.close();
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
 
 	@RequestMapping(value = "/login")
 	@Transactional(rollbackFor = Exception.class)

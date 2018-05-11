@@ -47,6 +47,10 @@ public class SysConstant {
 	public static String jdbc_username = null;
 	public static String jdbc_password = null;
 
+	public static String wx_smallapp_appid = null;
+	public static String wx_smallapp_appsecret = null;
+
+	
 	public static void main(String[] args) {
 		System.out.println(urlsWithEmptyPattern.matcher("1,  1,1").find());
 	}

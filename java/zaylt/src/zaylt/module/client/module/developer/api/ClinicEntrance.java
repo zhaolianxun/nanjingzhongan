@@ -349,7 +349,7 @@ public class ClinicEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.id,t.realname,t.tel,u.name clinic_name from t_patient t left join t_clinic u on t.clinic_id=u.id where t.clinic_id=?  order by t.realname asc limit ?,?");
+					"select t.sickness,t.id,t.realname,t.tel,u.name clinic_name from t_patient t left join t_clinic u on t.clinic_id=u.id where t.clinic_id=?  order by t.realname asc limit ?,?");
 			pst.setObject(1, clinicId);
 			pst.setObject(2, pageSize * (pageNo - 1));
 			pst.setObject(3, pageSize);
@@ -361,6 +361,7 @@ public class ClinicEntrance {
 				item.put("realname", rs.getObject("realname"));
 				item.put("tel", rs.getObject("tel"));
 				item.put("clinicName", rs.getObject("clinic_name"));
+				item.put("sickness", rs.getObject("sickness"));
 				items.add(item);
 			}
 			pst.close();

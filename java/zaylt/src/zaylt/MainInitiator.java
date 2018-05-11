@@ -101,6 +101,10 @@ public class MainInitiator implements ServletContextListener {
 		SysConstant.jdbc_username = properties.getProperty("jdbc.username");
 		SysConstant.jdbc_password = properties.getProperty("jdbc.password");
 
+		SysConstant.wx_smallapp_appid = StringUtils.trimToNull(properties.getProperty("wx.smallapp.appid"));
+		SysConstant.wx_smallapp_appsecret = StringUtils.trimToNull(properties.getProperty("wx.smallapp.appsecret"));
+
+		
 		SysConstant.project_domain = StringUtils.trimToNull(properties.getProperty("project.domain"));
 		// 外部接口初始化
 		OutApis.sms_verification_verify = StringUtils
