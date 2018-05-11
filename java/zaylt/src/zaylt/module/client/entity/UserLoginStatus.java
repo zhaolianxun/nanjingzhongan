@@ -3,8 +3,6 @@ package zaylt.module.client.entity;
 public class UserLoginStatus {
 	private String token;
 	private String userId;
-	private String nickname;
-	private String realname;
 	private String phone;
 	private String type;
 	private Integer hospitalId;
@@ -57,22 +55,6 @@ public class UserLoginStatus {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
-	public String getRealname() {
-		return realname;
-	}
-
-	public void setRealname(String realname) {
-		this.realname = realname;
 	}
 
 	public long getLoginTime() {
