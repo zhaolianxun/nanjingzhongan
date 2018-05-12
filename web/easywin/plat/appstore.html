@@ -8,7 +8,7 @@
     <script src="libs/jquery.cookie.js"></script>
     <script src="libs/vue.js"></script>
     <script src="libs/default.js"></script>
-
+<link rel="stylesheet" href="libs/default.css"/>
 </head>
 <style type="text/css">
 
@@ -30,6 +30,9 @@
         margin: 0 auto;
         margin-top: 30px
     }
+
+
+
 </style>
 
 
@@ -45,13 +48,13 @@
                 for(var i = 0 ; i < items.length ; i ++){
                     var seed = items[i];
                     $('#appstoreContent').append(
-                            '<div class="carddiv" style="background:white;padding:15px;border: 1px solid #e4e5e7;float:left">' +
+                            '<div class="carddiv" style="background:white;padding:15px;border: 1px solid #e4e5e7;float:left;margin-left: 25px; margin-top: 30px;">' +
                             '<img src="'+ seed.icon +'" style="float:left" width="70px">' +
                             '<div style="float:left;vertical-align:top;margin-left:10px;font-size:16px">' +
-                            '<div><span style="font-weight:700">'+ seed.name +'</span><a class="qrcodelink" href="javascript:" style="font-size:13px;margin-left:10px">扫码体验</a></div>' +/*<img class="qrcodeimg" src="images/showcode1.jpg">*/
-                            '<div style="font-weight:700;margin:5px 0;font-size:13px;color:#d60905">¥'+seed.price/100 +'<p style="font-size: 12px;color:#000;width: 100px;overflow: hidden;height: 14px;float: right;line-height: 18px;">'+ seed.remark +'</p></div>' +
-                            '<button onclick="location.href=\'mallintro.html\'" style="margin-right:10px">查看详情</button>' +
-                            '<button onclick="location.href=\'authtip.html?seed_id='+seed.seedId+'\'">立即使用</button>' +
+                            '<div><span style="font-weight:700">'+ seed.name +'</span><a class="qrcodelink default-hover-underline" href="javascript:" style="display:inline-block;font-size:13px;margin-left:10px;color: #337ab7;text-decoration: none;" >扫码体验</a></div>' +/*<img class="qrcodeimg" src="images/showcode1.jpg">*/
+                            '<div style="font-weight:700;margin:5px 0;font-size:13px;color:#d60905">¥'+seed.price/100 +'<p style="font-size: 12px;color:#000;width: 100px;overflow: hidden;height: 14px;float: right;line-height: 18px;margin: 0 0 10px;">'+ seed.remark +'</p></div>' +
+                            '<button onmouseout="this.style[\'background\']=\'#fff\';this.style.color=\'#269abc\'" onmouseover="this.style[\'background\']=\'#269abc\';this.style.color=\'#fff\'" onclick="location.href=\'mallintro.html\'" style="margin-right:10px;font-size: 13px; background: #fff; border: 1px solid #269abc;color: #269abc;border-radius: 3px;width: 70px;height: 25px;cursor: pointer;">查看详情</button>' +
+                            '<button onmouseout="this.style[\'background\']=\'#fff\';this.style.color=\'#269abc\'" onmouseover="this.style[\'background\']=\'#269abc\';this.style.color=\'#fff\'" onclick="location.href=\'authtip.html?seed_id='+seed.seedId+'\'" style="font-size: 13px; background: #fff; border: 1px solid #269abc;color: #269abc;border-radius: 3px;width: 70px;height: 25px;cursor: pointer;">立即使用</button>' +
                             '</div>' +
                             '<div style="clear:both"></div>' +
                             '<div style="margin-top:10px;height:30px;overflow:hidden">'+ seed.summary +'</div>' +
@@ -66,7 +69,7 @@
 
 
 </script>
-<body style="margin:0;background:#f7f9fa;padding:15px;">
+<body style='margin:0;background:#f7f9fa;padding:15px;'>
 <div id="appstoreContent" style="">
 
 </div>
