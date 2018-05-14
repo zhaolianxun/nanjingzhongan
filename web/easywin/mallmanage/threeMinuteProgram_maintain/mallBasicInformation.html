@@ -95,7 +95,7 @@
                                 <h5 style="margin-top: 20px;margin-bottom: 20px">一、店铺名称:</h5>
                                 <div class="el-form-item__content">
                                     <div class="el-input">
-                                        <input autocomplete="off" type="text" rows="2" validateevent="true" class="name el-input__inner">
+                                        <input autocomplete="off" type="text" rows="2" validateevent="true" class="name el-input__inner" style="width:184px;">
                                     </div>
                                 </div>
                             </div>
@@ -120,10 +120,10 @@
 
                         <form id="userCard" class="userCard">
                             <h5 style="margin-top: 20px;margin-bottom: 20px">三、请上传图片:</h5>
-                            <div class="mingpian rt">
-                                <input id="pic2" name="file" type="file" />
-                                <div id="image_wrap2" class="lf userCard_img">
-                                    <img   class="lf userCard_img_1" src="images/add.png" alt=""/>
+                            <div class="mingpian rt" >
+                                <input id="pic2" name="file" type="file" style="cursor:pointer"/>
+                                <div id="image_wrap2" class="lf userCard_img" >
+                                    <img class="lf userCard_img_1"   src="images/add.png" />
                                 </div>
 
                             </div>
@@ -215,7 +215,7 @@
             success: function (data) {
                 if (data.code == 0) {
                     $('.el-input__inner').val(data.data.name);
-                    if(data.data.headimg!=''){
+                    if(data.data.headimg){
                         $('.userCard_img_1').attr('src',data.data.headimg)
                     }
 

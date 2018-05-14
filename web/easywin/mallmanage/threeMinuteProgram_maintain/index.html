@@ -4,7 +4,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>三分钟小程序管理平台</title>
+		<title id="pageTitle"></title>
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +24,7 @@
 				<div class="layui-main">
 					<div class="admin-login-box">
 						<a class="logo" style="left: 0;" href="javascript:void(0);">
-							<span id="title" style="font-size: 22px;">三分钟小程序管理后台</span>
+							<span id="title" style="font-size: 22px;"></span>
 						</a>
 					</div>
 					<ul class="layui-nav admin-header-item" style="margin-right: 50px;">
@@ -77,11 +77,40 @@
 			</div>
 			<div class="site-mobile-shade"></div>
 
-			
 			<script type="text/javascript" src="plugins/layui/layui.js"></script>
 			<script type="text/javascript" src="datas/nav.js"></script>
+			<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
 			<script src="js/index.js"></script>
 			<script>
+				var token=getRequest().token
+				var mall_id=getRequest().mall_id
+				localStorage.setItem("token", token);
+				localStorage.setItem("mall_id", mall_id);
+				onload();
+				function onload(){
+					$.ajax( {
+						type: 'POST',
+
+						url: '/easywin/mm/'+mall_id+'/e/home/home?token='+token,
+						success: function(data){
+							if(data.code == 0){
+								$('#pageTitle').text(data.data.mallName+'管理平台')
+								$('#title').text(data.data.mallName+'管理平台')
+
+								if(!data.data.wxMchidFill){
+									alert('请至\'支付配置\'设置微信商户号等信息')
+								}else if(!data.data.wxMchkeyFill)
+									alert('请至\'支付配置\'设置微信商户秘钥等信息')
+								else if(!data.data.wxMchcertpathFill)
+									alert('请至\'支付配置\'设置微信商户证书等信息')
+								else if(!data.data.mallName)
+									alert('请至\'商城基本信息\'设置商城名')
+							}else{
+								alert(data.codeMsg)
+							}
+						}
+					} );
+				}
 
                 function getRequest() {
                     var url = location.search; //获取url中"?"符后的字串
@@ -95,10 +124,7 @@
                     }
                     return theRequest;
                 }
-                var token=getRequest().token
-                var mall_id=getRequest().mall_id
-                localStorage.setItem("token", token);
-                localStorage.setItem("mall_id", mall_id);
+
                 console.log(token)
 
 
