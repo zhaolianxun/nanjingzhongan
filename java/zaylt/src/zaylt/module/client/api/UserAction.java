@@ -51,16 +51,20 @@ public class UserAction {
 
 			// 更新数据库用户信息
 			connection = ZayltDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("select id,phone,type from t_user where wx_openid=?");
+			pst = connection.prepareStatement("select id,phone,type,hospital_id,clinic_id from t_user where wx_openid=?");
 			pst.setObject(1, openid);
 			ResultSet rs = pst.executeQuery();
 			String userId = null;
 			String phone = null;
 			String type = null;
+			Integer hospitalId = null;
+			Integer clinicId = null;
 			if (rs.next()) {
 				userId = rs.getString(1);
 				phone = rs.getString(2);
 				type = rs.getString(3);
+				 hospitalId = (Integer) rs.getObject("hospital_id");
+				 clinicId = (Integer) rs.getObject("clinic_id");
 			} else
 				throw new InteractRuntimeException("未绑定手机");
 			pst.close();
@@ -72,8 +76,11 @@ public class UserAction {
 			loginStatus.setUserId(userId);
 			loginStatus.setLoginTime(new Date().getTime());
 			loginStatus.setType(type);
+			loginStatus.setHospitalId(hospitalId);
+			loginStatus.setClinicId(clinicId);
 			String loginRedisKey = new StringBuilder("zaylt.client.login-").append(token).toString();
 			//// 清除历史登录状态
+			jedis = SysConstant.jedisPool.getResource();
 			String oldToken = jedis.get(userId);
 			if (oldToken != null && !oldToken.isEmpty())
 				jedis.del(new StringBuilder("zaylt.client.login-").append(oldToken).toString());
@@ -120,31 +127,23 @@ public class UserAction {
 			String phone = StringUtils.trimToNull(request.getParameter("phone"));
 			if (phone == null)
 				throw new InteractRuntimeException("phone 不可空");
-			String smsvcode = StringUtils.trimToNull(request.getParameter("smsvcode"));
-			if (smsvcode == null)
-				throw new InteractRuntimeException("smsvcode 不可空");
-			// 短信校验
-			String url = new StringBuilder(OutApis.sms_verification_verify).append("?").append("phone=").append(phone)
-					.append("&verification_code=").append(smsvcode).toString();
-			Request okHttpRequest = new Request.Builder().url(url).build();
-			Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
-			String responseBody = okHttpResponse.body().string();
-			logger.debug("call out api：" + okHttpResponse.request().url() + "<--- " + responseBody);
-			JSONObject resultVo = JSON.parseObject(responseBody);
-			if (resultVo.getInteger("code") != 0 || resultVo.getJSONObject("data").getInteger("ifSuccess") != 1) {
-				throw new InteractRuntimeException(resultVo.getString("codeMsg"));
-			}
+			String pwd = StringUtils.trimToNull(request.getParameter("pwd"));
+			if (pwd == null)
+				throw new InteractRuntimeException("pwd 不可空");
 
 			// 更新数据库用户信息
 			connection = ZayltDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("select id from t_user where phone=?");
+			pst = connection.prepareStatement("select id,password_md5 from t_user where phone=?");
 			pst.setObject(1, phone);
 			ResultSet rs = pst.executeQuery();
 			String userId = null;
 			if (rs.next()) {
 				userId = rs.getString(1);
+				String srcPwdMd5 = rs.getString(2);
 				pst.close();
 
+				if (!srcPwdMd5.equals(DigestUtils.md5Hex(pwd)))
+					throw new InteractRuntimeException("密码错误");
 				pst = connection.prepareStatement("update t_user set wx_openid=? where id=?");
 				pst.setObject(1, openid);
 				pst.setObject(2, userId);
@@ -218,6 +217,7 @@ public class UserAction {
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("boundPhoneIf", boundPhoneIf);
+			data.put("openid", openid);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常

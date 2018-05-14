@@ -3,6 +3,7 @@ package zaylt.module.client.module.hospital.api;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,6 @@ public class PatientInfoEntrance {
 
 	public static Logger logger = Logger.getLogger(PatientInfoEntrance.class);
 
-	
 	@RequestMapping(value = "/addremark")
 	@Transactional(rollbackFor = Exception.class)
 	public void addremark(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -83,6 +83,7 @@ public class PatientInfoEntrance {
 	public void remarks(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
+		Statement st = null;
 		try {
 			// 获取请求参数
 			String patientId = StringUtils.trimToNull(request.getParameter("patient_id"));
@@ -106,8 +107,11 @@ public class PatientInfoEntrance {
 
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
+			st = connection.createStatement();
+			st.execute("set @rownum=0;");
+			st.close();
 			pst = connection.prepareStatement(
-					"select t.remark,t.add_time from t_patient_remark t  where t.patient_id=? order by t.add_time desc limit ?,?");
+					"set @rownum=0;select * from (select  (@rownum:=@rownum+1) rownum,t.remark,t.add_time from t_patient_remark t  where t.patient_id=? order by t.add_time asc) tt order by tt.rownum desc limit ?,?");
 			pst.setObject(1, patientId);
 			pst.setObject(2, pageSize * (pageNo - 1));
 			pst.setObject(3, pageSize);
@@ -117,6 +121,7 @@ public class PatientInfoEntrance {
 				JSONObject item = new JSONObject();
 				item.put("remark", rs.getObject("remark"));
 				item.put("addTime", rs.getObject("add_time"));
+				item.put("rownum", rs.getObject("rownum"));
 				items.add(item);
 			}
 			pst.close();
@@ -135,12 +140,13 @@ public class PatientInfoEntrance {
 			// 释放资源
 			if (pst != null)
 				pst.close();
+			if (st != null)
+				st.close();
 			if (connection != null)
 				connection.close();
 		}
 	}
-	
-	
+
 	@RequestMapping(value = "/patients")
 	@Transactional(rollbackFor = Exception.class)
 	public void patients(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -39,9 +39,6 @@
 </div>
 
 
-
-
-
 <script type="text/javascript">
     var token = $.cookie('token');
     var queryStrObj= parseQueryStr(location.search.substr(1));
@@ -57,12 +54,12 @@
         input.name='file';
         input.style.display='none';
         addEvent(input,'change',function(){
+           document.body.appendChild(input);
            var url= uploadImg('iconAlterFileSelector')
             alter('icon',url);
             $('#icon').html('<img style="width:35px;cursor:pointer;" onclick="imgShow(this)" src="'+url+'" />');
             this.parentElement.removeChild(this);
         })
-        document.body.appendChild(input);
         input.click();
     }
     function alterIntroPic(){
@@ -72,12 +69,12 @@
         input.name='file';
         input.style.display='none';
         addEvent(input,'change',function(){
+            document.body.appendChild(input);
             var url= uploadImg('introPicAlterFileSelector')
             alter('intro_pic',url);
             $('#introPic').html('<img style="width:35px;cursor:pointer;" onclick="imgShow(this)" src="'+url+'" />');
             this.parentElement.removeChild(this);
         })
-        document.body.appendChild(input);
         input.click();
     }
 function alterName(){

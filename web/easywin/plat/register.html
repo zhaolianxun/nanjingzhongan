@@ -17,23 +17,23 @@
 <body style="background:url('img/bg.png') 0 0 no-repeat">
 
 <div style="width: 424px;margin:0 auto;margin-top: 150px;">
-    <div  style="width: 424px;background-color: #ffffff;">
+    <div  style="width: 424px;background-color: rgba(255,255,255,0.8);border-radius:10px">
         <p  style=" font-size: 22px;font-weight: 500;text-align: center;padding-top: 30px;padding-bottom: 15px;">加入我们</p>
         <div style="margin:0 auto;width:300px">
-            <input type="type" onkeydown="if(event.keyCode==8 || event.keyCode==9 ||(event.keyCode>=96 && event.keyCode<=105) || (event.keyCode>=48 && event.keyCode<=57)) return true; else return false;" name="phone" placeholder="手机号" style="text-align: center;height: 30px;width:100%">
+            <input type="type" onkeydown="if(event.keyCode==8 || event.keyCode==9 ||(event.keyCode>=96 && event.keyCode<=105) || (event.keyCode>=48 && event.keyCode<=57)) return true; else return false;" name="phone" placeholder="手机号" style="border: 1px solid #ccc;background-color: #FAFFBD;text-align: center;height: 30px;width:100%">
         </div>
         <div style="margin:0 auto;width:300px">
-            <input type="password" name="password" placeholder="密码" style="text-align: center;height: 30px;width:100%">
+            <input type="password" name="password" placeholder="密码" style="text-align: center;height: 30px;width:100%;background-color: #FAFFBD;border: 1px solid #ccc;">
         </div>
         <div style="margin:0 auto;width:300px">
-            <input type="password" name="password_2" placeholder="确认密码" style="text-align: center;height: 30px;width:100%">
+            <input type="password" name="password_2" placeholder="确认密码" style="text-align: center;height: 30px;width:100%;background-color: #FAFFBD;border: 1px solid #ccc;">
         </div>
         <div style="margin:0 auto;width:300px;">
-            <input type="text" name="code" placeholder="请输入短信验证码" style="float:left;width:200px;height: 30px;text-align: center;">
-            <button class="getCode" id="getCode" onclick="getCode()" style="float:right;height: 35px;width:90px">获取验证码</button>
+            <input type="text" name="code" placeholder="请输入短信验证码" style="float:left;width:200px;height: 30px;text-align: center;background-color: #FAFFBD;border: 1px solid #ccc;">
+            <button class="getCode" id="getCode" onclick="getCode()" style="float:right;height: 35px;width:90px;border:none;background-color: #32afff;color: #fff">获取验证码</button>
         </div>
         <div style="margin:0 auto;width:300px">
-            <button  onclick="register()" style="width:100%;height: 45px;margin-top:15px">立即注册</button>
+            <button  onclick="register()" style="width:100%;height: 45px;margin-top:15px;border:none;background-color: #32afff;color: #fff;">立即注册</button>
         </div>
         <div style="margin:0 auto;width:300px">
             <p style="text-align: right;font-size:14px;padding-bottom: 5px;">已有账号？<a href="login.html">立即登录</a></p>
@@ -63,14 +63,14 @@
             $.ajax({
                 type: 'POST',
                 data: {phone:phone},
-                url: '/sms/verification/send',
+                url: '/sms/verification/send?client=easywin',
                 success: function(res){
                     if(res.code == 0){
-                        alert('验证码发送成功！');
                         var $getCode = $('#getCode');
                         $getCode.removeAttr('onclick');
                         $getCode.css('cursor','wait');
-                        var time = 30;
+                        alert('验证码发送成功！');
+                        var time = 60;
                         var timer = setInterval(function(){
                             time--;
                             $getCode.html(time+' s');
