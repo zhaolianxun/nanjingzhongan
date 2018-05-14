@@ -111,7 +111,7 @@ public class PatientInfoEntrance {
 			st.execute("set @rownum=0;");
 			st.close();
 			pst = connection.prepareStatement(
-					"set @rownum=0;select * from (select  (@rownum:=@rownum+1) rownum,t.remark,t.add_time from t_patient_remark t  where t.patient_id=? order by t.add_time asc) tt order by tt.rownum desc limit ?,?");
+					"select * from (select  (@rownum:=@rownum+1) rownum,t.remark,t.add_time from t_patient_remark t  where t.patient_id=? order by t.add_time asc) tt order by tt.rownum desc limit ?,?");
 			pst.setObject(1, patientId);
 			pst.setObject(2, pageSize * (pageNo - 1));
 			pst.setObject(3, pageSize);
@@ -186,6 +186,7 @@ public class PatientInfoEntrance {
 				item.put("tel", rs.getObject("tel"));
 				item.put("clinicName", rs.getObject("clinic_name"));
 				item.put("status", rs.getObject("status"));
+				item.put("sickness", rs.getObject("sickness"));
 				items.add(item);
 			}
 			pst.close();
