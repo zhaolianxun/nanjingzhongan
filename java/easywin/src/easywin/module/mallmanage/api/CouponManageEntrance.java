@@ -3,7 +3,9 @@ package easywin.module.mallmanage.api;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -102,6 +104,78 @@ public class CouponManageEntrance {
 			// 查詢主轮播图
 			pst = connection.prepareStatement("delete from t_mall_coupon where id=?");
 			pst.setObject(1, couponId);
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/alterfulloff")
+	public void alterFulloff(@PathVariable("mallId") String mallId, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String couponIdParam = StringUtils.trimToNull(request.getParameter("coupon_id"));
+			if (couponIdParam == null)
+				throw new InteractRuntimeException("coupon_id 不能为空");
+			int couponId = Integer.parseInt(couponIdParam);
+			String title = StringUtils.trimToNull(request.getParameter("title"));
+			String desc = StringUtils.trimToNull(request.getParameter("desc"));
+			String uptomoneyParam = StringUtils.trimToNull(request.getParameter("uptomoney"));
+			Integer uptomoney = uptomoneyParam == null ? null : Integer.parseInt(uptomoneyParam);
+			String submoneyParam = StringUtils.trimToNull(request.getParameter("submoney"));
+			Integer submoney = submoneyParam == null ? null : Integer.parseInt(submoneyParam);
+			String starttimeParam = StringUtils.trimToNull(request.getParameter("starttime"));
+			Long starttime = starttimeParam == null ? null : Long.parseLong(starttimeParam);
+			String endtimeParam = StringUtils.trimToNull(request.getParameter("endtime"));
+			Long endtime = endtimeParam == null ? null : Long.parseLong(endtimeParam);
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			// 查詢主轮播图
+			List sqlParams = new ArrayList();
+			if (desc == null)
+				sqlParams.add(desc);
+			if (uptomoney == null)
+				sqlParams.add(uptomoney);
+			if (submoney == null)
+				sqlParams.add(submoney);
+			if (starttime == null)
+				sqlParams.add(starttime);
+			if (endtime == null)
+				sqlParams.add(endtime);
+			if (title == null)
+				sqlParams.add(title);
+			sqlParams.add(couponId);
+			pst = connection.prepareStatement(new StringBuilder("update t_mall_coupon set id=id")
+					.append(desc == null ? "" : ",desc=?").append(uptomoney == null ? "" : ",type1_uptomoney=?")
+					.append(submoney == null ? "" : ",type1_submoney=?")
+					.append(starttime == null ? "" : ",type1_starttime=?")
+					.append(endtime == null ? "" : ",type1_endtime=?")
+					.append(title == null ? "" : ",title=?").append(" where id=?").toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, i);
+			}
 			int n = pst.executeUpdate();
 			pst.close();
 			if (n != 1)

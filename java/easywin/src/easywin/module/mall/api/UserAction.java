@@ -55,7 +55,7 @@ public class UserAction {
 			String appId = mallId;
 			String fromUserId = StringUtils.trimToNull(request.getParameter("from"));
 			connection = EasywinDataSource.dataSource.getConnection();
-
+			logger.debug("mallId " + mallId);
 			// 查询登录的商城信息
 			pst = connection.prepareStatement(
 					"select t.access_token,t.wx_appid from t_app t inner join t_mall u on t.id=u.id where t.id=?");

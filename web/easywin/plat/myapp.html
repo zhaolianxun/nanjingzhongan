@@ -263,8 +263,10 @@
                                     newCarddiv.find('.updatebtn').css('display','');
                                     newCarddiv.find('.updatebtn').attr('onclick','update(\''+ a.appId+'\',\''+ a.newestTemplateVersion+'\')')
                                 }
+                                if(a.commitStatus == 1){
                                     newCarddiv.find('.previewbtn').css('display','');
                                     newCarddiv.find('.previewbtn').attr('onclick','gotoPreview(\''+ a.appId+'\')')
+                                }
                                     newCarddiv.find('.managebtn').css('display','');
                                     newCarddiv.find('.managebtn').attr('onclick','enterManagement(\''+ a.appId+'\')')
                                     newCarddiv.find('.lookstatusbtn').css('display','');
@@ -302,24 +304,34 @@
         }
         //更新
         function update(appId,newestTemplateVersion){
-
-            var flag = confirm('确定要更新版本吗？');
-            if(flag == true){
-                $.ajax({
-                    type: 'POST',
-                    data: {app_id:appId,template_version:newestTemplateVersion},
-                    url: '/easywin/p/e/myapp/commitcode?token='+token,
-                    success: function(res){
-                        if(res.code == 0){
-                            console.log(res)
-                        }else{
-                            alert(res.codeMsg);
-                        }
-                    }
-                })
-            }else{
-                console.log('cancel')
+            if(!apps[appId].businessbaseFill){
+                alert('请进入"后台管理"补全信息')
+                return;
             }
+            $.ajax({
+                type: 'POST',
+                async: false,
+                data: {app_id:appId,template_version:newestTemplateVersion},
+                url: '/easywin/p/e/myapp/commitcode?token='+token,
+                success: function(res){
+                    if(res.code == 0){
+                        $.ajax({
+                            type: 'POST',
+                            data: {app_id:appId},
+                            url: '/easywin/p/e/myapp/submitaudit?token='+token,
+                            success: function(res){
+                                if(res.code == 0){
+                                    location.reload();
+                                }else{
+                                    alert(res.codeMsg);
+                                }
+                            }
+                        });
+                    }else{
+                        alert('提交失败！')
+                    }
+                }
+            });
         }
         //查看状态
         function gotoStatus(appId){
