@@ -43,6 +43,7 @@ public class AppShopEntrance {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
+			logger.debug("1");
 			// 获取请求参数
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
 			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
@@ -52,19 +53,22 @@ public class AppShopEntrance {
 			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
 			if (pageSize <= 0)
 				throw new InteractRuntimeException("page_size有误");
-
+			logger.debug("2");
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-
+			logger.debug("3");
 			connection = EasywinDataSource.dataSource.getConnection();
+			logger.debug("4");
 			// 查詢订单列表
 			pst = connection.prepareStatement(
 					"select id,price,icon,name,summary,intro_pic,remark,newest_version from t_app_seed order by create_time asc limit ?,?");
+			logger.debug("5");
 			pst.setObject(1, pageSize * (pageNo - 1));
 			pst.setObject(2, pageSize);
 			ResultSet rs = pst.executeQuery();
+			logger.debug("6");
 			JSONArray seeds = new JSONArray();
 			while (rs.next()) {
 				JSONObject seed = new JSONObject();
@@ -78,12 +82,15 @@ public class AppShopEntrance {
 				seed.put("newestVersion", rs.getObject("newest_version"));
 				seeds.add(seed);
 			}
+			logger.debug("7");
 			pst.close();
-
+			logger.debug("8");
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("seeds", seeds);
+			logger.debug("9");
 			HttpRespondWithData.todo(request, response, 0, null, data);
+			logger.debug("10");
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));

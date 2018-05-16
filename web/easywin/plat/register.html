@@ -5,6 +5,7 @@
     <title>3分钟平台</title>
     <script src="libs/jquery.min.js"></script>
     <script src="libs/shake.js"></script>
+    <script src="libs/default.js"></script>
 
 </head>
 <style>
@@ -64,6 +65,12 @@
                 type: 'POST',
                 data: {phone:phone},
                 url: '/sms/verification/send?client=easywin',
+                complete:function(){
+                    waitShowStop()
+                },
+                beforeSend:function(){
+                    waitShow();
+                },
                 success: function(res){
                     if(res.code == 0){
                         var $getCode = $('#getCode');
@@ -110,6 +117,12 @@
                 async: false,
                 data: {phone: phone,verification_code:code,password: password},
                 url: '/easywin/p/useraction/register',
+                complete:function(){
+                    waitShowStop()
+                },
+                beforeSend:function(){
+                    waitShow();
+                },
                 success: function(res){
                     if(res.code == 0){
                         alert('注册成功！');

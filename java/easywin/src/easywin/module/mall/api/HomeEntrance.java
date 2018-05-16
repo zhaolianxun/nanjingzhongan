@@ -198,8 +198,6 @@ public class HomeEntrance {
 			if (pageSize <= 0)
 				throw new InteractRuntimeException("page_size有误");
 
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
-
 			// 业务处理
 			connection = EasywinDataSource.dataSource.getConnection();
 

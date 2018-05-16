@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -97,7 +98,7 @@ public class AppManageEntrance {
 				app.put("templateCode", rs.getObject("template_code"));
 				app.put("agentPrice", rs.getObject("agent_price"));
 				app.put("businessbaseFill", rs.getObject("businessbase_fill"));
-				
+
 				apps.add(app);
 			}
 			pst.close();
@@ -441,6 +442,59 @@ public class AppManageEntrance {
 			logger.info(ExceptionUtils.getStackTrace(e));
 			if (connection != null)
 				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/qrcode")
+	public void qrcode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String appId = StringUtils.trimToNull(request.getParameter("app_id"));
+			if (appId == null)
+				throw new InteractRuntimeException("app_id 不能为空");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			// 查詢订单列表
+			pst = connection.prepareStatement("select t.access_token from t_app t where t.id=?");
+			pst.setObject(1, appId);
+			ResultSet rs = pst.executeQuery();
+			String accessToken = null;
+			if (rs.next()) {
+				accessToken = rs.getString("access_token");
+			} else
+				throw new InteractRuntimeException("模板不存在");
+			pst.close();
+
+			String url = new StringBuilder("https://api.weixin.qq.com/wxa/getwxacodeunlimit").append("?")
+					.append("access_token=").append(accessToken).toString();
+			JSONObject od = new JSONObject();
+			od.put("scene", 1);
+			Request okHttpRequest = new Request.Builder().url(url)
+					.post(RequestBody.create(MediaType.parse("application/json"), od.toJSONString())).build();
+			Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+
+			// 返回结果
+			response.setCharacterEncoding(SysConstant.SYS_CHARSET);
+			response.setStatus(200);
+			IOUtils.copy(okHttpResponse.body().byteStream(), response.getOutputStream());
+			okHttpResponse.close();
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源

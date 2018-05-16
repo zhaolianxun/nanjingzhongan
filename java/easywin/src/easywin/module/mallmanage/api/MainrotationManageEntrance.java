@@ -3,6 +3,8 @@ package easywin.module.mallmanage.api;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -78,6 +80,75 @@ public class MainrotationManageEntrance {
 		}
 	}
 
+	
+	@RequestMapping(value = "goods")
+	public void goods(@PathVariable("mallId") String mallId, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String name = StringUtils.trimToNull(request.getParameter("name"));
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			// 查詢主轮播图
+			List sqlParams = new ArrayList();
+			sqlParams.add(mallId);
+			if (name != null)
+				sqlParams.add(name);
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			pst = connection.prepareStatement(
+					"select (select sum(inventory) from t_mall_good_sku where good_id=t.id) inventory,t.id,t.name,(select min(price) min_price from t_mall_good_sku where good_id=t.id) price,t.onsale,t.cover from t_mall_good t where  t.mall_id=?"
+							+ (name == null ? "" : " and t.name=?") + " order by t.add_time desc limit ?,?");
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("goodId", rs.getObject("id"));
+				item.put("name", rs.getObject("name"));
+				item.put("price", rs.getObject("price"));
+				item.put("onsale", rs.getObject("onsale"));
+				item.put("inventory", rs.getObject("inventory"));
+				item.put("cover", rs.getObject("cover"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("goods", items);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+	
+	
 	@RequestMapping(value = "/add")
 	public void addType1(@PathVariable("mallId") String mallId, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {

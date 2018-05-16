@@ -83,6 +83,12 @@
                 async: false,
                 data: {phone: phone ,password : password},
                 url: '/easywin/p/useraction/login',
+                complete:function(){
+                    waitShowStop()
+                },
+                beforeSend:function(){
+                    waitShow();
+                },
                 success: function(res){
                     if(res.code == 0){
                         $.cookie('token',res.data.token, { expires: 7 });

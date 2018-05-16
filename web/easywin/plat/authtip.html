@@ -44,6 +44,12 @@
             type: 'POST',
             data: {seed_id:queryStrObj.seed_id},
             url: '/easywin/p/wop3a/getauthurl?token='+token,
+            complete:function(){
+                waitShowStop()
+            },
+            beforeSend:function(){
+                waitShow();
+            },
             success: function(res){
                 if(res.code == 0){
                     window.parent.location.href = res.data.url;

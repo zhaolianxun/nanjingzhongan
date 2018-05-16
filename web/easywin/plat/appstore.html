@@ -47,12 +47,26 @@
 </style>
 
 
+
+<body style='margin:0;background:#f7f9fa;padding:15px;'>
+<div id="appstoreContent" style="">
+
+</div>
+
+
+</body>
 <script>
     var token = $.cookie('token');
     $.ajax({
         type: 'POST',
         data: {page_no: 1, page_size: 20},
         url: '/easywin/p/e/appshop/apps?token='+ token,
+        complete:function(){
+            waitShowStop()
+        },
+        beforeSend:function(){
+            waitShow();
+        },
         success: function (res) {
             if(res.code == 0){
                 var items = res.data.seeds;
@@ -81,11 +95,4 @@
 
 
 </script>
-<body style='margin:0;background:#f7f9fa;padding:15px;'>
-<div id="appstoreContent" style="">
-
-</div>
-
-
-</body>
 </html>

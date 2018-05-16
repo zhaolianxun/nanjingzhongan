@@ -208,7 +208,7 @@ public class WxOpenP3Authorization {
 
 	@RequestMapping(value = "/authcallback/{userId}/{seedId}/{agentId}/{appId}", method = RequestMethod.GET)
 	public void userAuthOfMiniappTemplateCallback(@PathVariable("userId") String fromUserId,
-			@PathVariable("seedId") String seedId, @PathVariable("agentId") String agentId,
+			@PathVariable("seedId") String seedId, @PathVariable("agentId") String fromAgentId,
 			@PathVariable("appId") String fromAppId, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		Jedis jedis = null;
@@ -218,7 +218,7 @@ public class WxOpenP3Authorization {
 			// 获取请求参数
 			String authCode = request.getParameter("auth_code");
 			int authCodeExpiresIn = Integer.parseInt(request.getParameter("expires_in"));
-			agentId = "0".equals(agentId) ? null : agentId;
+			fromAgentId = "0".equals(fromAgentId) ? null : fromAgentId;
 			fromAppId = "0".equals(fromAppId) ? null : fromAppId;
 			// 业务处理
 			jedis = SysConstant.jedisPool.getResource();
@@ -254,7 +254,7 @@ public class WxOpenP3Authorization {
 			connection.setAutoCommit(false);
 
 			pst = connection.prepareStatement("select count(id) from t_user where id=?");
-			pst.setObject(1, agentId);
+			pst.setObject(1, fromAgentId);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				int agentExist = rs.getInt(1);
@@ -266,28 +266,32 @@ public class WxOpenP3Authorization {
 				throw new InteractRuntimeException("代理不存在");
 
 			pst = connection.prepareStatement(
-					"select t.id,t.user_id,u.phone,t.nick_name from t_app t inner join t_user u on t.user_id=u.id where t.wx_appid=?");
+					"select agent.phone from_agent_phone,t.from_agent_id,t.id,t.user_id,u.phone,t.nick_name from t_app t inner join t_user u on t.user_id=u.id left join t_user agent on t.from_agent_id=agent.id where t.wx_appid=?");
 			pst.setObject(1, authorizerAppId);
 			rs = pst.executeQuery();
 			String existAppId = null;
 			String existUserId = null;
 			String existPhone = null;
 			String existNickName = null;
-			Integer agentExist = null;
-
+			String existFromAgentId = null;
+			String existFromAgentPhone = null;
+			
 			if (rs.next()) {
-				agentExist = (Integer) rs.getObject("agentExist");
 				existAppId = rs.getString("id");
 				existUserId = rs.getString("user_id");
 				existPhone = rs.getString("phone");
 				existNickName = rs.getString("nick_name");
+				existFromAgentId = rs.getString("from_agent_id");
+				existFromAgentPhone = rs.getString("from_agent_phone");
 			}
 			pst.close();
 			if (existAppId != null && fromAppId != null && !existAppId.equals(fromAppId))
 				throw new InteractRuntimeException("请选择对应的小程序进行授权：" + existNickName);
 			if (existUserId != null && !existUserId.equals(fromUserId))
-				throw new InteractRuntimeException("您的微信小程序公众号已经绑定了其他账号:" + existPhone);
-
+				throw new InteractRuntimeException("您的微信小程序公众号已经绑定了其他账号 账号:" + existPhone);
+			if (existFromAgentId != null && !existFromAgentId.equals(fromAgentId))
+				throw new InteractRuntimeException("您的微信小程序公众号已授权给了其他代理 代理号:" + existFromAgentPhone);
+			
 			String authorizerAccessToken = authorizationInfo.getString("authorizer_access_token");
 			long authorizerExpiresIn = authorizationInfo.getIntValue("expires_in");
 			long expireIn = new Date().getTime() + authorizerExpiresIn * 1000l;
@@ -377,7 +381,7 @@ public class WxOpenP3Authorization {
 				pst.setObject(16, new Date().getTime());
 				pst.setObject(17, new Date().getTime());
 				pst.setObject(18, new Date().getTime() + 7 * 24 * 60 * 60 * 1000l);
-				pst.setObject(19, agentId);
+				pst.setObject(19, fromAgentId);
 				int n = pst.executeUpdate();
 				pst.close();
 				if (n != 1)

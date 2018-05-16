@@ -171,7 +171,7 @@
                     <button class="grantAppUseTimeBtn">增加1年</button>
                     <button class="updatebtn" style="display:none">更新</button>
                     <button class="goauthbtn" style="display:none">前往授权</button>
-                    <button class="previewbtn" style="display:none" onmouseout="closeBox()">预览</button>
+                    <button class="previewbtn" style="display:none" onmouseout="closeBox()">二维码</button>
                     <button class="managebtn" style="display:none">管理后台</button>
                     <button class="lookstatusbtn" style="display:none">查看状态</button>
                     <div class="qrcodeBox" style="display:none">
@@ -229,11 +229,11 @@
                         newCarddiv.find('.cardname').text(a.nickName);
                     newCarddiv.find('.cardicon').attr('src',a.headImg);
                     newCarddiv.find('.belonger').text('所属用户: '+a.phone);
-                        if(a.businessbaseFill==0||!a.businessbaseFill)
-                            newCarddiv.find('.cardmsg').text('信息未补全');
-                        else if(a.authorized == 0){
+                         if(a.authorized == 0){
                             newCarddiv.find('.cardmsg').text('未授权');
-                        }else if(useEndIf == true){
+                        }else　if(a.businessbaseFill==0||!a.businessbaseFill)
+                        newCarddiv.find('.cardmsg').text('信息未补全');
+                    else if(useEndIf == true){
                             newCarddiv.find('.cardmsg').css('color','red');
                             newCarddiv.find('.cardmsg').text('使用期已过：'+ timeFormat(a.useEndtime));
                         }else if(a.auditStatus==3){
@@ -270,7 +270,7 @@
 
     //预览
     function gotoPreview(appId){
-        var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
+        var src ='/easywin/p/e/agent/appmanage/qrcode?token='+token+'&app_id='+appId;
         $('#carddivSon'+appId+' .qrcodeBox').css('display','block');
         $('#carddivSon'+appId+' .qrcodeBox .qrcode').attr('src',src);
 

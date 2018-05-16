@@ -206,6 +206,12 @@
                 type: "POST",
                 data: {page_no:1,page_size: 20},
                 url:"/easywin/p/e/myapp/apps?token="+token,
+                complete:function(){
+                    waitShowStop()
+                },
+                beforeSend:function(){
+                    waitShow();
+                },
                 success: function (res) {
                     if(res.code == 0){
                         var items = res.data.apps;
@@ -229,6 +235,7 @@
                                 newCarddiv.find('.cardicon').attr('src',a.headImg);
                                 newCarddiv.css('display','block');
                                 newCarddiv.appendTo(cardcon);
+                                newCarddiv.find('.cardmsg').text('未授权');
                             }else{
 
                                     var newCarddiv = $('#carddivFather').clone(true);
@@ -280,18 +287,25 @@
                 }
             })
 
-        //提交审核
+
         function gotoAuth(seedId,appId) {
+
             $.ajax({
                 type: 'POST',
                 data: {seed_id:seedId,app_id:appId},
                 url: '/easywin/p/wop3a/getauthurl?token='+token,
                 success: function(res){
                     if(res.code == 0){
-                        location.href = res.data.url;
+                        window.parent.location.href = res.data.url;
                     }else{
                         alert('请求失败！')
                     }
+                },
+                complete:function(){
+                    waitShowStop()
+                },
+                beforeSend:function(){
+                    waitShow();
                 }
             })
         }
@@ -313,12 +327,24 @@
                 async: false,
                 data: {app_id:appId,template_version:newestTemplateVersion},
                 url: '/easywin/p/e/myapp/commitcode?token='+token,
+                complete:function(){
+                    waitShowStop()
+                },
+                beforeSend:function(){
+                    waitShow();
+                },
                 success: function(res){
                     if(res.code == 0){
                         $.ajax({
                             type: 'POST',
                             data: {app_id:appId},
                             url: '/easywin/p/e/myapp/submitaudit?token='+token,
+                            complete:function(){
+                                waitShowStop()
+                            },
+                            beforeSend:function(){
+                                waitShow();
+                            },
                             success: function(res){
                                 if(res.code == 0){
                                     location.reload();
