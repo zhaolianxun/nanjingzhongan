@@ -52,7 +52,7 @@ public class CouponManageEntrance {
 			pst.setObject(1, mallId);
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
-			if (rs.next()) {
+			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("couponId", rs.getObject("id"));
 				item.put("title", rs.getObject("title"));

@@ -68,6 +68,13 @@ public class HomeEntrance {
 			}
 			pst.close();
 
+			if (mainrotaions.isEmpty()) {
+				JSONObject mainrotaion = new JSONObject();
+				mainrotaion.put("pic", "http://passion.njshangka.com/oss/easywin/defaultmainroll.jpg");
+				mainrotaion.put("type", 0);
+				mainrotaion.put("link", null);
+				mainrotaions.add(mainrotaion);
+			}
 			// 查詢公告
 			pst = connection.prepareStatement(
 					"select content from t_mall_notice where mall_id=? order by add_time desc limit 0,20");
@@ -80,6 +87,20 @@ public class HomeEntrance {
 				notices.add(notice);
 			}
 			pst.close();
+
+			pst = connection.prepareStatement("select name from t_mall where id=?");
+			pst.setObject(1, mallId);
+			rs = pst.executeQuery();
+			String mallName = null;
+			if (rs.next()) {
+				mallName = rs.getString("name");
+			}
+			pst.close();
+			if (notices.isEmpty()) {
+				JSONObject notice = new JSONObject();
+				notice.put("content", "欢迎使用" + mallName);
+				notices.add(notice);
+			}
 
 			// 查询所有商品
 			pst = connection.prepareStatement(
@@ -143,6 +164,7 @@ public class HomeEntrance {
 			data.put("notices", notices);
 			data.put("mainrotaions", mainrotaions);
 			data.put("coupons", coupons);
+			data.put("mallName", mallName);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -157,6 +179,66 @@ public class HomeEntrance {
 		}
 	}
 
+	
+	@RequestMapping(value = "paging")
+	public void paging(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String mallId = request.getParameter("mall_id");
+			if (mallId == null || mallId.trim() == "")
+				throw new InteractRuntimeException("mall_id不可空");
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+
+			// 业务处理
+			connection = EasywinDataSource.dataSource.getConnection();
+
+			// 查询所有商品
+			pst = connection.prepareStatement(
+					"select t.id goodId,t.cover,t.name,(select min(price) from t_mall_good_sku where good_id=t.id) price,(select min(original_price) from t_mall_good_sku where good_id=t.id) originalPrice,t.saled_count saledCount from t_mall_good t where t.mall_id=? order by t.add_time desc limit ?,?");
+			pst.setObject(1, mallId);
+			pst.setObject(2, pageSize * (pageNo - 1));
+			pst.setObject(3, pageSize);
+			ResultSet rs = pst.executeQuery();
+			JSONArray goods = new JSONArray();
+			while (rs.next()) {
+				JSONObject good = new JSONObject();
+				good.put("goodId", rs.getObject(1));
+				good.put("cover", rs.getObject(2));
+				good.put("name", rs.getObject(3));
+				good.put("price", rs.getObject(4));
+				good.put("originalPrice", rs.getObject(5));
+				good.put("saledCount", rs.getObject(6));
+				goods.add(good);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("goods", goods);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
 	@RequestMapping(value = "/getcoupon")
 	public void getcoupon(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;

@@ -28,48 +28,49 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-@Controller("mallManage.api.HomeEntrance")
-@RequestMapping(value = "/mm/{mallId}/e/home")
-public class HomeEntrance {
+@Controller("mallManage.api.AppQrcodeEntrance")
+@RequestMapping(value = "/mm/{mallId}/e/appqrcode")
+public class AppQrcodeEntrance {
 
-	public static Logger logger = Logger.getLogger(HomeEntrance.class);
+	public static Logger logger = Logger.getLogger(AppQrcodeEntrance.class);
 
-	@RequestMapping(value = "home")
-	public void goodDetailEntrance(@PathVariable("mallId") String mallId, HttpServletRequest request,
+	@RequestMapping(value = "/appqrcode")
+	public void appqrcode(@PathVariable("mallId") String mallId, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 
 			connection = EasywinDataSource.dataSource.getConnection();
-			// 查詢主轮播图
-			pst = connection.prepareStatement(
-					"select t.name,u.nick_name,u.wx_mchid,u.wx_mchkey,u.wx_mchcertpath from t_mall t left join t_app u on t.id=u.id where t.id=?");
+			// 查詢订单列表
+			pst = connection.prepareStatement("select u.access_token from t_app u where u.id=?");
 			pst.setObject(1, mallId);
 			ResultSet rs = pst.executeQuery();
-			JSONObject item = new JSONObject();
+			String accessToken = null;
 			if (rs.next()) {
-				item.put("mallName", rs.getObject("name"));
-				item.put("fromWxminiappName", rs.getObject("nick_name"));
-				String wxMchid = rs.getString("wx_mchid");
-				item.put("wxMchidFill", wxMchid == null || wxMchid.isEmpty() ? 0 : 1);
-				String wxMchkey = rs.getString("wx_mchkey");
-				item.put("wxMchkeyFill", wxMchkey == null || wxMchkey.isEmpty() ? 0 : 1);
-				String wxMchcertpath = rs.getString("wx_mchcertpath");
-				item.put("wxMchcertpathFill", wxMchcertpath == null || wxMchcertpath.isEmpty() ? 0 : 1);
-			}
+				accessToken = rs.getString("access_token");
+			} else
+				throw new InteractRuntimeException("app不存在");
 			pst.close();
 
+			String url = new StringBuilder("https://api.weixin.qq.com/wxa/getwxacodeunlimit").append("?")
+					.append("access_token=").append(accessToken).toString();
+			JSONObject od = new JSONObject();
+			od.put("scene", 1);
+			Request okHttpRequest = new Request.Builder().url(url)
+					.post(RequestBody.create(MediaType.parse("application/json"), od.toJSONString())).build();
+			Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+
 			// 返回结果
-			JSONObject data = new JSONObject();
-			data.putAll(item);
-			HttpRespondWithData.todo(request, response, 0, null, data);
+			response.setCharacterEncoding(SysConstant.SYS_CHARSET);
+			response.setStatus(200);
+			IOUtils.copy(okHttpResponse.body().byteStream(), response.getOutputStream());
+			okHttpResponse.close();
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
@@ -82,6 +83,4 @@ public class HomeEntrance {
 				connection.close();
 		}
 	}
-
-	
 }

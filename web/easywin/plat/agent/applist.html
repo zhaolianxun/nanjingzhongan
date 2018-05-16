@@ -229,7 +229,7 @@
                         newCarddiv.find('.cardname').text(a.nickName);
                     newCarddiv.find('.cardicon').attr('src',a.headImg);
                     newCarddiv.find('.belonger').text('所属用户: '+a.phone);
-                        if(!a.businessbaseFill)
+                        if(a.businessbaseFill==0||!a.businessbaseFill)
                             newCarddiv.find('.cardmsg').text('信息未补全');
                         else if(a.authorized == 0){
                             newCarddiv.find('.cardmsg').text('未授权');
