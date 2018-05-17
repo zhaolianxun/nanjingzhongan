@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +58,8 @@ public class BuyEntrance {
 			JSONArray goods = JSON.parseArray(goodsParam);
 			if (goods.size() < 1)
 				throw new InteractRuntimeException("请选择商品");
+			String couponIdParam = StringUtils.trimToNull(request.getParameter("coupon_id"));
+			Integer couponId = couponIdParam == null ? null : Integer.parseInt(couponIdParam);
 			logger.debug(goods);
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -79,6 +83,41 @@ public class BuyEntrance {
 				address.put("provinceName", rs.getObject("province_name"));
 				address.put("cityName", rs.getObject("city_name"));
 				address.put("districtName", rs.getObject("district_name"));
+			}
+			pst.close();
+
+			pst = connection.prepareStatement(
+					"select t.used,c.type,c.type1_uptomoney,c.type1_submoney,c.type1_starttime,c.type1_endtime t_mall_usercoupon t inner join t_mall_coupon c on t.coupon_id=c.id where t.id=? and t.user_id=? and t.mall_id=?");
+			pst.setObject(1, couponId);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, mallId);
+			rs = pst.executeQuery();
+			Integer couponUsed;
+			Integer couponType;
+			Integer couponType1Uptomoney;
+			Integer couponType1Submoney;
+			Long couponType1Starttime;
+			Long couponType1Endtime;
+			if (rs.next()) {
+				couponUsed = rs.getInt("used");
+				if (couponUsed == 1)
+					throw new InteractRuntimeException("优惠券已使用");
+				couponType = rs.getInt("type");
+				if (couponType == 1) {
+					couponType1Uptomoney = rs.getInt("type1_uptomoney");
+					couponType1Submoney = rs.getInt("type1_submoney");
+					couponType1Starttime = rs.getLong("type1_starttime");
+					if (new Date().getTime() < couponType1Starttime)
+						throw new InteractRuntimeException("优惠券还未到使用时间");
+					couponType1Endtime = rs.getLong("type1_endtime");
+					if (new Date().getTime() > couponType1Endtime)
+						throw new InteractRuntimeException("优惠券已过期");
+
+				} else {
+					throw new InteractRuntimeException("优惠券类型不明");
+				}
+			} else {
+				throw new InteractRuntimeException("优惠券不存在");
 			}
 			pst.close();
 
@@ -110,11 +149,18 @@ public class BuyEntrance {
 					gotGood.put("cover", rs.getObject("cover"));
 					gotGoods.add(gotGood);
 
-					totalPrice = totalPrice + price;
+					totalPrice = totalPrice + price * cnt;
 				}
 				pst.close();
 			}
 
+			if (couponId != null && couponType == 1) {
+				if (totalPrice >= couponType1Uptomoney) {
+					totalPrice = totalPrice - couponType1Submoney;
+					if (totalPrice < 0)
+						totalPrice = 0;
+				}
+			}
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("address", address);
@@ -416,6 +462,71 @@ public class BuyEntrance {
 			logger.info(ExceptionUtils.getStackTrace(e));
 			response.getWriter().write("<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA["
 					+ e.getMessage() + "]]></return_msg></xml>");
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/mycoupons")
+	public void mycoupons(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String mallId = StringUtils.trimToNull(request.getParameter("mall_id"));
+			if (mallId == null)
+				throw new InteractRuntimeException("mall_id不可空");
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			// 业务处理
+			connection = EasywinDataSource.dataSource.getConnection();
+			// 查询优惠券
+			List sqlParams = new ArrayList();
+			sqlParams.add(mallId);
+			sqlParams.add(loginStatus.getUserId());
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			pst = connection.prepareStatement(
+					"select tt.id,t.title,t.desc,t.type,t.type1_uptomoney,t.type1_submoney,t.type1_starttime,t.type1_endtime from t_mall_coupon t right join t_mall_usercoupon tt on t.id=tt.coupon_id where tt.mall_id=? and tt.user_id=?  and tt.used=0  order by tt.get_time desc limit ?,?");
+			for (int i = 0; i < sqlParams.size(); i++)
+				pst.setObject(i + 1, sqlParams.get(i));
+			ResultSet rs = pst.executeQuery();
+			JSONArray coupons = new JSONArray();
+			while (rs.next()) {
+				JSONObject coupon = new JSONObject();
+				coupon.put("title", rs.getObject("title"));
+				coupon.put("couponId", rs.getObject("id"));
+				coupon.put("desc", rs.getObject("desc"));
+				coupon.put("type", rs.getObject("type"));
+				coupon.put("type1Starttime", rs.getObject("type1_starttime"));
+				coupon.put("type1Endtime", rs.getObject("type1_endtime"));
+				coupon.put("type1Uptomoney", rs.getObject("type1_uptomoney"));
+				coupon.put("type1Submoney", rs.getObject("type1_submoney"));
+				coupons.add(coupon);
+			}
+			pst.close();
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("coupons", coupons);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
 			if (pst != null)
