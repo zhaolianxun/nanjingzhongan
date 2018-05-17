@@ -104,7 +104,7 @@ public class HomeEntrance {
 
 			// 查询所有商品
 			pst = connection.prepareStatement(
-					"select t.id goodId,t.cover,t.name,(select min(price) from t_mall_good_sku where good_id=t.id) price,(select min(original_price) from t_mall_good_sku where good_id=t.id) originalPrice,t.saled_count saledCount from t_mall_good t where t.mall_id=? order by t.add_time desc limit ?,?");
+					"select t.id goodId,t.cover,t.name,(select min(price) from t_mall_good_sku where good_id=t.id) price,(select min(original_price) from t_mall_good_sku where good_id=t.id) originalPrice,t.saled_count saledCount from t_mall_good t where t.onsale=1 and t.mall_id=? order by t.add_time desc limit ?,?");
 			pst.setObject(1, mallId);
 			pst.setObject(2, pageSize * (pageNo - 1));
 			pst.setObject(3, pageSize);
@@ -122,6 +122,7 @@ public class HomeEntrance {
 			}
 			pst.close();
 
+			
 			// 查询优惠券
 			List sqlParams = new ArrayList();
 			if (loginStatus != null) {

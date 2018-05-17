@@ -102,7 +102,7 @@
 
     </div>
     <div class="paging" style="margin-top:10px">
-        <a class="default-hover-underline" style="cursor:pointer;">上一页</a>|<span class="default-hover-underline" style="cursor:pointer">下一页</span>|<span>第页</span>|<span>总数</span>|<input onkeydown="return keyLimit()" type="text" style="width:30px"/><span class="default-hover-underline" style="cursor:pointer">跳转</span>
+        <a class="default-hover-underline" style="cursor:pointer;" onclick="prevPage()">上一页</a>|<span class="default-hover-underline" style="cursor:pointer"  onclick="nextPage()">下一页</span>|<span class="currentPageShow">第页</span>|<span class="totalItemCountShow">总数</span>|<span class="totalPageCountShow">共页</span>|<input class="goPageNo" onkeydown="return keyLimit()" type="text" style="width:30px;ime-mode:disabled" onpaste="return false"/><span class="default-hover-underline" style="cursor:pointer" onclick="goPage()">跳转</span>
     </div>
 </div>
 
@@ -111,7 +111,12 @@
 
 <script type="text/javascript">
     var token = $.cookie('token');
+    var pageNo = 1;
+    var pageSize=15;
+    var totalItemCount = 0;
+    var totalPageCount = 0;
     onload();
+
 
     document.onkeydown=keyListener;
     function keyListener(e){
@@ -128,18 +133,49 @@
         else
             return false;
     }
+    function goPage() {
+       var goPageNo = $('#usersPad .paging .goPageNo').val();
+        if(goPageNo<=0){
+            return;
+        }else if(goPageNo > totalPageCount){
+            return
+        }
+        pageNo = goPageNo;
+        requestUserList();
+    }
+    function prevPage() {
+        if((Number(pageNo)-1)<=0){
+            pageNo=1;
+            return;
+        }
+        pageNo--;
+        requestUserList();
+    }
+    function nextPage() {
+        if((Number(pageNo)+1)>totalPageCount){
+            pageNo = totalPageCount;
+            return;
+        }
+        pageNo++;
+        requestUserList();
+    }
 
-    function requestUserList() {
-
+        function requestUserList() {
         $.ajax({
             type: "POST",
-            data: {page_no: 1,page_size: 50,phone:$('#queryPhone').val()},
+            data: {page_no: pageNo,page_size: pageSize,phone:$('#queryPhone').val()},
             url:"/easywin/p/e/admin/usermanage/users?token=" + token,
             success: function (res) {
                 if(res.code == 0){
                     var items = res.data.users.items;
-                    if(items.length>0)
+                    if(items.length>0){
                         $('#usersPad>.dataItems').empty();
+                        totalItemCount= res.data.users.count;
+                        totalPageCount = Math.ceil(totalItemCount/pageSize);
+                        $('#usersPad .paging .currentPageShow').text('第'+pageNo+'页')
+                        $('#usersPad .paging .totalItemCountShow').text('共'+totalItemCount+'条')
+                        $('#usersPad .paging .totalPageCountShow').text('共'+totalPageCount+'页')
+                    }
                     for(var i = 0 ; i < items.length ; i++){
                         $('#usersPad>.dataItems').append(
                             '<div style="height:35px;width:603px;border:1px solid #e4e5e7;line-height: 35px;">' +

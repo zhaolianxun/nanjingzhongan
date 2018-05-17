@@ -97,11 +97,13 @@ public class BuyEntrance {
 				String valueNames = goods.getJSONObject(i).getString("valueNames");
 
 				pst = connection.prepareStatement(
-						"select u.price,t.name,t.cover from t_mall_good_sku u inner join t_mall_good t on t.id=u.good_id where u.good_id=? and u.id=?");
+						"select t.onsale,u.price,t.name,t.cover from t_mall_good_sku u inner join t_mall_good t on t.id=u.good_id where u.good_id=? and u.id=?");
 				pst.setObject(1, id);
 				pst.setObject(2, skuId);
 				rs = pst.executeQuery();
 				if (rs.next()) {
+					if (rs.getInt("onsale") == 0)
+						throw new InteractRuntimeException("商品已经下架");
 					JSONObject gotGood = new JSONObject();
 					gotGood.put("id", id);
 					gotGood.put("count", cnt);
@@ -237,6 +239,8 @@ public class BuyEntrance {
 			String couponIdParam = StringUtils.trimToNull(request.getParameter("coupon_id"));
 			Integer couponId = couponIdParam == null ? null : Integer.parseInt(couponIdParam);
 			String buyerNote = StringUtils.trimToNull(request.getParameter("buyer_note"));
+			String fromCartParam = StringUtils.trimToNull(request.getParameter("from_cart"));
+			int fromCart = fromCartParam == null ? 0 : Integer.parseInt(fromCartParam);
 			String addressId = StringUtils.trimToNull(request.getParameter("address_id"));
 			if (addressId == null)
 				throw new InteractRuntimeException("address_id 不可空");
@@ -288,11 +292,13 @@ public class BuyEntrance {
 				String name = null;
 				String cover = null;
 				pst = connection.prepareStatement(
-						"select u.price,t.name,t.cover from t_mall_good_sku u inner join t_mall_good t on t.id=u.good_id where u.good_id=? and u.id=?");
+						"select t.onsale,u.price,t.name,t.cover from t_mall_good_sku u inner join t_mall_good t on t.id=u.good_id where u.good_id=? and u.id=?");
 				pst.setObject(1, goodId);
 				pst.setObject(2, skuId);
 				rs = pst.executeQuery();
 				if (rs.next()) {
+					if (rs.getInt("onsale") == 0)
+						throw new InteractRuntimeException("商品已经下架");
 					price = rs.getInt("price");
 					name = rs.getString("name");
 					cover = rs.getString("cover");
@@ -321,6 +327,23 @@ public class BuyEntrance {
 					throw new InteractRuntimeException("生成订单明细失败");
 				pst.close();
 			}
+
+			if (fromCart == 1) {
+				pst = connection.prepareStatement(
+						"delete from t_mall_cart where good_id=? and sku_id=? and mall_id=? and user_id=?");
+				for (int i = 0; i < goods.size(); i++) {
+					String goodId = goods.getJSONObject(i).getString("id");
+					int skuId = goods.getJSONObject(i).getInteger("skuId");
+					pst.setObject(1, goodId);
+					pst.setObject(2, skuId);
+					pst.setObject(3, mallId);
+					pst.setObject(4, loginStatus.getUserId());
+					pst.addBatch();
+				}
+				pst.executeUpdate();
+				pst.close();
+			}
+
 			Integer originalTotalPrice = totalPrice;
 			Integer subMoney = 0;
 			String couponTitle = null;

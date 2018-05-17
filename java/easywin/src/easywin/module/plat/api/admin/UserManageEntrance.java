@@ -80,10 +80,25 @@ public class UserManageEntrance {
 			}
 			pst.close();
 
+			sqlParams = new ArrayList();
+			if (phone != null)
+				sqlParams.add(new StringBuilder("%").append(phone).append("%").toString());
+			pst = connection.prepareStatement("select count(id) total_count from t_user where 1=1 "
+					+ (phone == null ? "" : " and phone like ? "));
+			for (int i = 0; i < sqlParams.size(); i++)
+				pst.setObject(i + 1, sqlParams.get(i));
+			rs = pst.executeQuery();
+			JSONObject sum = new JSONObject();
+			if (rs.next()) {
+				sum.put("count", rs.getObject("total_count"));
+			}
+			pst.close();
+
 			// 返回结果
 			JSONObject data = new JSONObject();
 			JSONObject users = new JSONObject();
 			users.put("items", items);
+			users.putAll(sum);
 			data.put("users", users);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
