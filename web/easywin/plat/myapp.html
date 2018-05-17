@@ -247,7 +247,7 @@
                                         newCarddiv.find('.cardmsg').text('请进入"后台管理"补全信息');
                                     else if(useEndIf == true){
                                         newCarddiv.find('.cardmsg').css('color','red');
-                                        newCarddiv.find('.cardmsg').text('使用期已过：'+ timeFormat(a.useEndtime));
+                                        newCarddiv.find('.cardmsg').text('使用期已过,请联系代理');
                                     }else if(a.auditStatus==3){
                                         newCarddiv.find('.cardmsg').text('审核失败:'+ a.auditFailReason);
                                     }else if(a.auditStatus==2){

@@ -52,7 +52,7 @@ public class MallWxPayInfoEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢主轮播图
 			pst = connection.prepareStatement(
-					"select wx_mchid,wx_mchkey,if(ISNULL(wx_mchcertpath) || LENGTH(trim(wx_mchcertpath))<1,0,1) mchcert_setted from t_app where id=?");
+					"select reverse(substring_index(reverse(replace(wx_mchcertpath,'\\','/')),'/',1)) wx_mchcert_filename,wx_mchid,wx_mchkey,if(ISNULL(wx_mchcertpath) || LENGTH(trim(wx_mchcertpath))<1,0,1) mchcert_setted from t_app where id=?");
 			pst.setObject(1, mallId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
@@ -60,6 +60,7 @@ public class MallWxPayInfoEntrance {
 				item.put("mchid", rs.getObject("wx_mchid"));
 				item.put("mchkey", rs.getObject("wx_mchkey"));
 				item.put("mchcertSetted", rs.getObject("mchcert_setted"));
+				item.put("mchcertFilename", rs.getObject("wx_mchcert_filename"));
 			} else {
 				throw new InteractRuntimeException("商城不存在");
 			}

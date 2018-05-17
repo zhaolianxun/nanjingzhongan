@@ -4,7 +4,7 @@
     <script type="text/javascript" src="../libs/jquery.min.js"></script>
     <script type="text/javascript" src="../libs/json2.js"></script>
     <script src="../libs/jquery.cookie.js"></script>
-    <link rel="stylesheet" href="../libs/default.css"/>
+    <link rel="stylesheet" href="libs/default.css"/>
 
     <style type="text/css">
 
@@ -78,8 +78,6 @@
         #content td{
             vertical-align: middle;
         }
-
-
     </style>
 </head>
 <body style="margin:20px">
@@ -101,9 +99,6 @@
     <div class="dataItems">
 
     </div>
-    <div class="paging" style="margin-top:10px">
-        <a class="default-hover-underline" style="cursor:pointer;">上一页</a>|<span class="default-hover-underline" style="cursor:pointer">下一页</span>|<span>第页</span>|<span>总数</span>|<input onkeydown="return keyLimit()" type="text" style="width:30px"/><span class="default-hover-underline" style="cursor:pointer">跳转</span>
-    </div>
 </div>
 
 
@@ -122,19 +117,12 @@
         }
     }
 
-    function keyLimit(){
-        if((event.ctrlKey && (event.keyCode==67 ||event.keyCode==65 || event.keyCode==88|| event.keyCode==86|| event.keyCode==90))||event.keyCode==8 || event.keyCode==9 ||(event.keyCode>=96 && event.keyCode<=105) || (event.keyCode>=48 && event.keyCode<=57))
-            return true;
-        else
-            return false;
-    }
-
     function requestUserList() {
 
         $.ajax({
             type: "POST",
             data: {page_no: 1,page_size: 50,phone:$('#queryPhone').val()},
-            url:"/easywin/p/e/admin/usermanage/users?token=" + token,
+            url:"/easywin/p/e/agent/usermanage/users?token=" + token,
             success: function (res) {
                 if(res.code == 0){
                     var items = res.data.users.items;

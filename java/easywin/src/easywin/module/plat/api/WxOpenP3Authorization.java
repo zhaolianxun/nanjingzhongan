@@ -203,6 +203,10 @@ public class WxOpenP3Authorization {
 			// 释放资源
 			if (jedis != null)
 				jedis.close();
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
 		}
 	}
 
@@ -275,7 +279,7 @@ public class WxOpenP3Authorization {
 			String existNickName = null;
 			String existFromAgentId = null;
 			String existFromAgentPhone = null;
-			
+
 			if (rs.next()) {
 				existAppId = rs.getString("id");
 				existUserId = rs.getString("user_id");
@@ -291,7 +295,7 @@ public class WxOpenP3Authorization {
 				throw new InteractRuntimeException("您的微信小程序公众号已经绑定了其他账号 账号:" + existPhone);
 			if (existFromAgentId != null && !existFromAgentId.equals(fromAgentId))
 				throw new InteractRuntimeException("您的微信小程序公众号已授权给了其他代理 代理号:" + existFromAgentPhone);
-			
+
 			String authorizerAccessToken = authorizationInfo.getString("authorizer_access_token");
 			long authorizerExpiresIn = authorizationInfo.getIntValue("expires_in");
 			long expireIn = new Date().getTime() + authorizerExpiresIn * 1000l;
@@ -435,32 +439,28 @@ public class WxOpenP3Authorization {
 				throw new InteractRuntimeException(resultVo.getString("errmsg"));
 
 			// 设置小程序业务域名
-			// url = new
-			// StringBuilder("https://api.weixin.qq.com/wxa/setwebviewdomain?").append("access_token=")
-			// .append(authorizerAccessToken);
-			// logger.debug("url " + url);
-			//
-			// content = new JSONObject();
-			// content.put("action", "set");
-			// JSONArray webviewdomain = new JSONArray();
-			// webviewdomain.add("https://easywin.njshangka.com");
-			// content.put("webviewdomain", webviewdomain);
-			//
-			// contentStr = content.toJSONString();
-			// logger.debug(contentStr);
-			//
-			// body = RequestBody.create(MediaType.parse("application/json"),
-			// contentStr);
-			//
-			// okHttpRequest = new
-			// Request.Builder().url(url.toString()).post(body).build();
-			// okHttpResponse =
-			// SysConstant.okHttpClient.newCall(okHttpRequest).execute();
-			// responseBody = okHttpResponse.body().string();
-			// logger.debug("responseBody " + responseBody);
-			// resultVo = JSON.parseObject(responseBody);
-			// if (resultVo.getIntValue("errcode") != 0)
-			// throw new InteractRuntimeException(resultVo.getString("errmsg"));
+			url = new StringBuilder("https://api.weixin.qq.com/wxa/setwebviewdomain?").append("access_token=")
+					.append(authorizerAccessToken);
+			logger.debug("url " + url);
+
+			content = new JSONObject();
+			content.put("action", "set");
+			JSONArray webviewdomain = new JSONArray();
+			webviewdomain.add("https://" + SysConstant.project_domain);
+			content.put("webviewdomain", webviewdomain);
+
+			contentStr = content.toJSONString();
+			logger.debug(contentStr);
+
+			body = RequestBody.create(MediaType.parse("application/json"), contentStr);
+
+			okHttpRequest = new Request.Builder().url(url.toString()).post(body).build();
+			okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+			responseBody = okHttpResponse.body().string();
+			logger.debug("responseBody " + responseBody);
+			resultVo = JSON.parseObject(responseBody);
+			if (resultVo.getIntValue("errcode") != 0)
+				throw new InteractRuntimeException(resultVo.getString("errmsg"));
 
 			connection.commit();
 			// 返回结果
@@ -484,7 +484,7 @@ public class WxOpenP3Authorization {
 	}
 
 	@RequestMapping(value = "/eventMessage/{appId}/callback")
-	public void eventMessageCallbackWx8ed0f8a61df4d270(@PathVariable("appId") String appId, HttpServletRequest request,
+	public void eventMessageCallback(@PathVariable("appId") String appId, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;

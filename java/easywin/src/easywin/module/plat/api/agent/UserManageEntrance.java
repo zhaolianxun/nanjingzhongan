@@ -31,8 +31,62 @@ public class UserManageEntrance {
 
 	public static Logger logger = Logger.getLogger(UserManageEntrance.class);
 
+	@RequestMapping(value = "/userinfo")
+	public void userinfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String userId = StringUtils.trimToNull(request.getParameter("user_id"));
+			if (userId == null)
+				throw new InteractRuntimeException("user_id 不能为空");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			if (loginStatus.getAgentIs() != 1)
+				throw new InteractRuntimeException("您不是代理");
+			connection = EasywinDataSource.dataSource.getConnection();
+
+			// 查詢订单列表
+			pst = connection.prepareStatement(
+					"select u.agent_coin,u.agent_level,u.agent_domain,u.agent_is,u.id,u.phone,u.register_time,a.phone from_agent_phone from t_user u left join t_user a on u.from_agent_id=a.id where u.id=?");
+			pst.setObject(1, userId);
+			ResultSet rs = pst.executeQuery();
+			JSONObject item = new JSONObject();
+			while (rs.next()) {
+				item.put("userId", rs.getObject("id"));
+				item.put("phone", rs.getObject("phone"));
+				item.put("agentIs", rs.getObject("agent_is"));
+				item.put("agentCoin", rs.getObject("agent_coin"));
+				item.put("agentLevel", rs.getObject("agent_level"));
+				item.put("agentDomain", rs.getObject("agent_domain"));
+				item.put("fromAgentPhone", rs.getObject("from_agent_phone"));
+				item.put("registerTime", rs.getObject("register_time"));
+			}
+			pst.close();
+
+			JSONObject data = new JSONObject();
+			data.putAll(item);
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
 	@RequestMapping(value = "/users")
-	public void templates(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void users(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -62,8 +116,8 @@ public class UserManageEntrance {
 				sqlParams.add(new StringBuilder("%").append(phone).append("%").toString());
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
-			pst = connection
-					.prepareStatement("select id,phone,nickname,realname from t_user where 1=1 and from_agent_id=? "
+			pst = connection.prepareStatement(
+					"select id,phone,nickname,realname,register_time from t_user where 1=1 and from_agent_id=? "
 							+ (phone == null ? "" : " and phone like ? ") + " order by register_time desc limit ?,?");
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -75,6 +129,7 @@ public class UserManageEntrance {
 				item.put("phone", rs.getObject("phone"));
 				item.put("nickname", rs.getObject("nickname"));
 				item.put("realname", rs.getObject("realname"));
+				item.put("registerTime", rs.getObject("register_time"));
 				items.add(item);
 			}
 			pst.close();
@@ -111,8 +166,6 @@ public class UserManageEntrance {
 			String realname = StringUtils.trimToNull(request.getParameter("realname"));
 			String phone = StringUtils.trimToNull(request.getParameter("phone"));
 			String password = StringUtils.trimToNull(request.getParameter("password"));
-			String agentIsParam = StringUtils.trimToNull(request.getParameter("agent_is"));
-			Integer agentIs = agentIsParam == null ? null : Integer.parseInt(agentIsParam);
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -135,15 +188,12 @@ public class UserManageEntrance {
 				sqlParams.add(nickname);
 			if (phone != null)
 				sqlParams.add(phone);
-			if (agentIs != null) {
-				sqlParams.add(agentIs);
-			}
 			sqlParams.add(userId);
 			sqlParams.add(loginStatus.getUserId());
 			pst = connection.prepareStatement("update t_user set id=id" + (password == null ? "" : " ,password=?")
 					+ (password == null ? "" : " ,password_md5=?") + (realname == null ? "" : " ,realname=?")
 					+ (nickname == null ? "" : " ,nickname=?") + (phone == null ? "" : " ,phone=?")
-					+ (agentIs == null ? "" : " ,agent_is=?") + " where id=? and from_agent_id=?");
+					+ " where id=? and from_agent_id=?");
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));
 

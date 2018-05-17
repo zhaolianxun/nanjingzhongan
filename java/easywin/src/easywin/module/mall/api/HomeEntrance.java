@@ -32,7 +32,7 @@ public class HomeEntrance {
 	public static Logger logger = Logger.getLogger(HomeEntrance.class);
 
 	@RequestMapping(value = "")
-	public void goodDetailEntrance(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void entrance(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -179,7 +179,6 @@ public class HomeEntrance {
 		}
 	}
 
-	
 	@RequestMapping(value = "paging")
 	public void paging(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -237,6 +236,7 @@ public class HomeEntrance {
 				connection.close();
 		}
 	}
+
 	@RequestMapping(value = "/getcoupon")
 	public void getcoupon(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;

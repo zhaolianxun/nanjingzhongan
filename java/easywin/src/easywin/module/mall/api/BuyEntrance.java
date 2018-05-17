@@ -59,7 +59,7 @@ public class BuyEntrance {
 			if (goods.size() < 1)
 				throw new InteractRuntimeException("请选择商品");
 			String couponIdParam = StringUtils.trimToNull(request.getParameter("coupon_id"));
-			Integer couponId = couponIdParam == null ? null : Integer.parseInt(couponIdParam);
+			Integer selectedCouponId = couponIdParam == null ? null : Integer.parseInt(couponIdParam);
 			logger.debug(goods);
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -83,41 +83,6 @@ public class BuyEntrance {
 				address.put("provinceName", rs.getObject("province_name"));
 				address.put("cityName", rs.getObject("city_name"));
 				address.put("districtName", rs.getObject("district_name"));
-			}
-			pst.close();
-
-			pst = connection.prepareStatement(
-					"select t.used,c.type,c.type1_uptomoney,c.type1_submoney,c.type1_starttime,c.type1_endtime t_mall_usercoupon t inner join t_mall_coupon c on t.coupon_id=c.id where t.id=? and t.user_id=? and t.mall_id=?");
-			pst.setObject(1, couponId);
-			pst.setObject(2, loginStatus.getUserId());
-			pst.setObject(3, mallId);
-			rs = pst.executeQuery();
-			Integer couponUsed;
-			Integer couponType;
-			Integer couponType1Uptomoney;
-			Integer couponType1Submoney;
-			Long couponType1Starttime;
-			Long couponType1Endtime;
-			if (rs.next()) {
-				couponUsed = rs.getInt("used");
-				if (couponUsed == 1)
-					throw new InteractRuntimeException("优惠券已使用");
-				couponType = rs.getInt("type");
-				if (couponType == 1) {
-					couponType1Uptomoney = rs.getInt("type1_uptomoney");
-					couponType1Submoney = rs.getInt("type1_submoney");
-					couponType1Starttime = rs.getLong("type1_starttime");
-					if (new Date().getTime() < couponType1Starttime)
-						throw new InteractRuntimeException("优惠券还未到使用时间");
-					couponType1Endtime = rs.getLong("type1_endtime");
-					if (new Date().getTime() > couponType1Endtime)
-						throw new InteractRuntimeException("优惠券已过期");
-
-				} else {
-					throw new InteractRuntimeException("优惠券类型不明");
-				}
-			} else {
-				throw new InteractRuntimeException("优惠券不存在");
 			}
 			pst.close();
 
@@ -153,19 +118,102 @@ public class BuyEntrance {
 				}
 				pst.close();
 			}
+			Integer originalTotalPrice = totalPrice;
+			Integer subMoney = 0;
 
-			if (couponId != null && couponType == 1) {
-				if (totalPrice >= couponType1Uptomoney) {
-					totalPrice = totalPrice - couponType1Submoney;
-					if (totalPrice < 0)
-						totalPrice = 0;
+			JSONObject selectedCoupon = new JSONObject();
+			if (selectedCouponId != null) {
+				pst = connection.prepareStatement(
+						"select c.title,t.used,c.type,c.type1_uptomoney,c.type1_submoney,c.type1_starttime,c.type1_endtime from t_mall_usercoupon t inner join t_mall_coupon c on t.coupon_id=c.id where t.id=? and t.user_id=? and t.mall_id=?");
+				pst.setObject(1, selectedCouponId);
+				pst.setObject(2, loginStatus.getUserId());
+				pst.setObject(3, mallId);
+				rs = pst.executeQuery();
+				if (rs.next()) {
+					Integer couponUsed = rs.getInt("used");
+					if (couponUsed == 1)
+						throw new InteractRuntimeException("优惠券已使用");
+					Integer couponType = rs.getInt("type");
+					selectedCoupon.put("type", couponType);
+					String couponTitle = rs.getString("title");
+					if (couponType == 1) {
+
+						Integer couponType1Uptomoney = rs.getInt("type1_uptomoney");
+						Integer couponType1Submoney = rs.getInt("type1_submoney");
+						Long couponType1Starttime = rs.getLong("type1_starttime");
+						if (new Date().getTime() < couponType1Starttime)
+							throw new InteractRuntimeException("优惠券还未到使用时间");
+						Long couponType1Endtime = rs.getLong("type1_endtime");
+						if (new Date().getTime() > couponType1Endtime)
+							throw new InteractRuntimeException("优惠券已过期");
+						if (originalTotalPrice < couponType1Uptomoney)
+							throw new InteractRuntimeException("没满足优惠券金额");
+
+						selectedCoupon.put("type1Uptomoney", couponType1Uptomoney);
+						selectedCoupon.put("type1Submoney", couponType1Submoney);
+						selectedCoupon.put("type1Starttime", couponType1Starttime);
+						selectedCoupon.put("type1Endtime", couponType1Endtime);
+						selectedCoupon.put("title", couponTitle);
+
+						subMoney = couponType1Submoney;
+						subMoney = totalPrice < subMoney ? totalPrice : subMoney;
+						totalPrice = totalPrice - subMoney;
+					} else {
+						throw new InteractRuntimeException("优惠券类型不明");
+					}
+				} else {
+					throw new InteractRuntimeException("优惠券不存在");
 				}
+				pst.close();
 			}
+
+			List sqlParams = new ArrayList();
+			sqlParams.add(mallId);
+			sqlParams.add(loginStatus.getUserId());
+			pst = connection.prepareStatement(
+					"select tt.id,t.title,t.desc,t.type,t.type1_uptomoney,t.type1_submoney,t.type1_starttime,t.type1_endtime from t_mall_coupon t right join t_mall_usercoupon tt on t.id=tt.coupon_id where tt.mall_id=? and tt.user_id=?  and tt.used=0  order by tt.get_time desc");
+			for (int i = 0; i < sqlParams.size(); i++)
+				pst.setObject(i + 1, sqlParams.get(i));
+			rs = pst.executeQuery();
+			JSONArray usableCoupons = new JSONArray();
+			while (rs.next()) {
+				JSONObject coupon = new JSONObject();
+				coupon.put("title", rs.getObject("title"));
+				coupon.put("couponId", rs.getObject("id"));
+				coupon.put("desc", rs.getObject("desc"));
+				int type = rs.getInt("type");
+				if (type == 1) {
+					Integer couponType1Uptomoney = rs.getInt("type1_uptomoney");
+					Integer couponType1Submoney = rs.getInt("type1_submoney");
+					Long couponType1Starttime = rs.getLong("type1_starttime");
+					if (new Date().getTime() < couponType1Starttime)
+						continue;
+					Long couponType1Endtime = rs.getLong("type1_endtime");
+					if (new Date().getTime() > couponType1Endtime)
+						continue;
+					if (originalTotalPrice < couponType1Uptomoney)
+						continue;
+
+					coupon.put("type1Starttime", couponType1Starttime);
+					coupon.put("type1Endtime", couponType1Endtime);
+					coupon.put("type1Uptomoney", couponType1Uptomoney);
+					coupon.put("type1Submoney", couponType1Submoney);
+				} else
+					continue;
+				coupon.put("type", type);
+				usableCoupons.add(coupon);
+			}
+			pst.close();
+
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("address", address);
 			data.put("goods", gotGoods);
+			data.put("selectedCoupon", selectedCoupon);
+			data.put("originalTotalPrice", originalTotalPrice);
 			data.put("totalPrice", totalPrice);
+			data.put("subMoney", subMoney);
+			data.put("usableCoupons", usableCoupons);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -186,7 +234,8 @@ public class BuyEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-			String couponId = StringUtils.trimToNull(request.getParameter("coupon_id"));
+			String couponIdParam = StringUtils.trimToNull(request.getParameter("coupon_id"));
+			Integer couponId = couponIdParam == null ? null : Integer.parseInt(couponIdParam);
 			String buyerNote = StringUtils.trimToNull(request.getParameter("buyer_note"));
 			String addressId = StringUtils.trimToNull(request.getParameter("address_id"));
 			if (addressId == null)
@@ -210,7 +259,7 @@ public class BuyEntrance {
 			connection.setAutoCommit(false);
 			// 查询默认地址
 			pst = connection.prepareStatement(
-					"select receiver_name,phone,province_name||' '||city_name||' '||district_name||' '||full_address full_address from t_mall_address where id=?");
+					"select receiver_name,phone,concat(concat(concat(province_name,city_name),district_name),full_address) full_address  from t_mall_address where id=?");
 			pst.setObject(1, addressId);
 			ResultSet rs = pst.executeQuery();
 			String receiverName = null;
@@ -252,7 +301,7 @@ public class BuyEntrance {
 				}
 				pst.close();
 
-				totalPrice = totalPrice + price;
+				totalPrice = totalPrice + price * cnt;
 				totalCount = totalCount + cnt;
 
 				// 插入订单明细
@@ -272,10 +321,55 @@ public class BuyEntrance {
 					throw new InteractRuntimeException("生成订单明细失败");
 				pst.close();
 			}
+			Integer originalTotalPrice = totalPrice;
+			Integer subMoney = 0;
+			String couponTitle = null;
+			if (couponId != null) {
+				pst = connection.prepareStatement(
+						"select t.used,c.type,c.type1_uptomoney,c.type1_submoney,c.type1_starttime,c.type1_endtime from t_mall_usercoupon t inner join t_mall_coupon c on t.coupon_id=c.id where t.id=? and t.user_id=? and t.mall_id=?");
+				pst.setObject(1, couponId);
+				pst.setObject(2, loginStatus.getUserId());
+				pst.setObject(3, mallId);
+				rs = pst.executeQuery();
+				Integer couponUsed;
+				Integer couponType;
+				Integer couponType1Uptomoney;
+				Integer couponType1Submoney;
+				Long couponType1Starttime;
+				Long couponType1Endtime;
+				if (rs.next()) {
+					couponUsed = rs.getInt("used");
+					if (couponUsed == 1)
+						throw new InteractRuntimeException("优惠券已使用");
+					couponType = rs.getInt("type");
+					couponTitle = rs.getString("title");
+					if (couponType == 1) {
+						couponType1Uptomoney = rs.getInt("type1_uptomoney");
+						couponType1Submoney = rs.getInt("type1_submoney");
+						couponType1Starttime = rs.getLong("type1_starttime");
+						if (new Date().getTime() < couponType1Starttime)
+							throw new InteractRuntimeException("优惠券还未到使用时间");
+						couponType1Endtime = rs.getLong("type1_endtime");
+						if (new Date().getTime() > couponType1Endtime)
+							throw new InteractRuntimeException("优惠券已过期");
+						if (originalTotalPrice < couponType1Uptomoney)
+							throw new InteractRuntimeException("没满足优惠券金额");
+
+						subMoney = couponType1Submoney;
+						subMoney = totalPrice < subMoney ? totalPrice : subMoney;
+						totalPrice = totalPrice - subMoney;
+					} else {
+						throw new InteractRuntimeException("优惠券类型不明");
+					}
+				} else {
+					throw new InteractRuntimeException("优惠券不存在");
+				}
+				pst.close();
+			}
 
 			// 插入订单
 			pst = connection.prepareStatement(
-					"insert into t_mall_order (id,mall_id,user_id,amount,good_count,status,order_time,receiver_name,receiver_phone,receiver_address,buyer_note) values(?,?,?,?,?,?,?,?,?,?,?)");
+					"insert into t_mall_order (id,mall_id,user_id,amount,good_count,status,order_time,receiver_name,receiver_phone,receiver_address,buyer_note,coupon_id,submoney,original_total_amount,coupon_title) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			pst.setObject(1, orderId);
 			pst.setObject(2, mallId);
 			pst.setObject(3, loginStatus.getUserId());
@@ -290,6 +384,11 @@ public class BuyEntrance {
 				pst.setObject(11, buyerNote);
 			else
 				pst.setNull(11, Types.VARCHAR);
+			pst.setObject(12, couponId);
+			pst.setObject(13, subMoney);
+			pst.setObject(14, originalTotalPrice);
+			pst.setObject(15, couponTitle);
+
 			int n = pst.executeUpdate();
 			if (n == 0)
 				throw new InteractRuntimeException("生成订单失败");
@@ -360,42 +459,52 @@ public class BuyEntrance {
 				throw new InteractRuntimeException("订单不存在");
 			pst.close();
 
-			if (wxMchid == null || wxMchkey == null || wxMchid.isEmpty() || wxMchkey.isEmpty())
-				throw new InteractRuntimeException("商户支付信息未配置或不全");
-			if (amount <= 0)
-				throw new InteractRuntimeException("支付金额有误");
-			if (!status.equals("0"))
-				throw new InteractRuntimeException("订单状态有误");
+			int payStatus = 0;
+			if (amount == 0) {
+				payStatus = 1;
+				OrderAction.payComplete(orderId, null, amount, "1");
+			}
 
-			// 微信统一下单
-			HashMap<String, String> payData = new HashMap<String, String>();
-			payData.put("body", "商品购买");
-			payData.put("detail", detail);
-			payData.put("out_trade_no", orderId);
-			payData.put("total_fee", amount.toString());
-			payData.put("spbill_create_ip", request.getRemoteAddr());
-			payData.put("notify_url", SysConstant.project_rooturl + "/m/e/buy/pay/wxminiappnotify/" + mallId);
-			payData.put("trade_type", "JSAPI");
-			payData.put("openid", loginStatus.getWxOpenid());
+			Map frontPayInfo = null;
+			if (payStatus == 0) {
+				if (wxMchid == null || wxMchkey == null || wxMchid.isEmpty() || wxMchkey.isEmpty())
+					throw new InteractRuntimeException("商户支付信息未配置或不全");
+				if (amount <= 0)
+					throw new InteractRuntimeException("支付金额有误");
+				if (!status.equals("0"))
+					throw new InteractRuntimeException("订单状态有误");
 
-			WXPayConfig wXPayConfig = new WXPayConfigScatterImpl(wxAppid, wxMchid, wxMchkey);
-			WXPay wxPay = new WXPay(wXPayConfig);
-			Map<String, String> r = wxPay.unifiedOrder(payData);
-			System.out.println(r);
+				// 微信统一下单
+				HashMap<String, String> payData = new HashMap<String, String>();
+				payData.put("body", "商品购买");
+				payData.put("detail", detail);
+				payData.put("out_trade_no", orderId);
+				payData.put("total_fee", amount.toString());
+				payData.put("spbill_create_ip", request.getRemoteAddr());
+				payData.put("notify_url", SysConstant.project_rooturl + "/m/e/buy/pay/wxminiappnotify/" + mallId);
+				payData.put("trade_type", "JSAPI");
+				payData.put("openid", loginStatus.getWxOpenid());
 
-			if ("FAIL".equals(r.get("return_code")))
-				throw new InteractRuntimeException(r.get("return_msg"));
-			if ("FAIL".equals(r.get("result_code")))
-				throw new InteractRuntimeException(
-						new StringBuilder(r.get("err_code")).append(":").append(r.get("err_code_des")).toString());
-			// 生成前端支付信息
-			Map frontPayInfo = wxPay.genFrontPayInfo(r.get("prepay_id"));
+				WXPayConfig wXPayConfig = new WXPayConfigScatterImpl(wxAppid, wxMchid, wxMchkey);
+				WXPay wxPay = new WXPay(wXPayConfig);
+				Map<String, String> r = wxPay.unifiedOrder(payData);
+				System.out.println(r);
+
+				if ("FAIL".equals(r.get("return_code")))
+					throw new InteractRuntimeException(r.get("return_msg"));
+				if ("FAIL".equals(r.get("result_code")))
+					throw new InteractRuntimeException(
+							new StringBuilder(r.get("err_code")).append(":").append(r.get("err_code_des")).toString());
+				// 生成前端支付信息
+				frontPayInfo = wxPay.genFrontPayInfo(r.get("prepay_id"));
+			}
 
 			connection.commit();
 
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.putAll(frontPayInfo);
+			data.put("payStatus", payStatus);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -511,7 +620,7 @@ public class BuyEntrance {
 				coupon.put("title", rs.getObject("title"));
 				coupon.put("couponId", rs.getObject("id"));
 				coupon.put("desc", rs.getObject("desc"));
-				coupon.put("type", rs.getObject("type"));
+				coupon.put("type", rs.getInt("type"));
 				coupon.put("type1Starttime", rs.getObject("type1_starttime"));
 				coupon.put("type1Endtime", rs.getObject("type1_endtime"));
 				coupon.put("type1Uptomoney", rs.getObject("type1_uptomoney"));

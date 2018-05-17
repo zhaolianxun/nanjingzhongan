@@ -58,7 +58,7 @@ public class UserAction {
 			logger.debug("mallId " + mallId);
 			// 查询登录的商城信息
 			pst = connection.prepareStatement(
-					"select t.access_token,t.wx_appid from t_app t inner join t_mall u on t.id=u.id where t.id=?");
+					"select t.access_token,t.wx_appid,t.use_endtime from t_app t inner join t_mall u on t.id=u.id where t.id=?");
 			pst.setObject(1, appId);
 			ResultSet rs = pst.executeQuery();
 			if (!rs.next()) {
@@ -67,7 +67,12 @@ public class UserAction {
 			}
 			String accessToken = rs.getString(1);
 			String wxAppid = rs.getString(2);
+			Long useEndtime = rs.getLong("use_endtime");
 			pst.close();
+
+			if (useEndtime < new Date().getTime()) {
+				throw new InteractRuntimeException("商城已到期");
+			}
 
 			jedis = SysConstant.jedisPool.getResource();
 			String componentAccessToken = jedis.get(SysConstant.wechat_open_thirdparty_AppId + "-componentAccessToken");
@@ -139,11 +144,11 @@ public class UserAction {
 			loginStatus.setLoginTime(new Date().getTime());
 			loginStatus.setMallId(mallId);
 			loginStatus.setWxOpenid(openid);
-			String loginRedisKey = new StringBuilder("easywin.mall.token-").append(token).toString();
+			String loginRedisKey = new StringBuilder(SysConstant.MALL_Login_Token_Prefix).append(token).toString();
 			//// 清除历史登录状态
 			String oldToken = jedis.get(userId);
 			if (oldToken != null && !oldToken.isEmpty())
-				jedis.del(new StringBuilder("easywin.mall.token-").append(oldToken).toString());
+				jedis.del(new StringBuilder(SysConstant.MALL_Login_Token_Prefix).append(oldToken).toString());
 			jedis.del(userId);
 			//// 设置新登录状态
 			jedis.set(loginRedisKey, JSON.toJSONString(loginStatus));
@@ -196,20 +201,30 @@ public class UserAction {
 				throw new InteractRuntimeException(20);
 
 			connection = EasywinDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("select phone,nickname from t_mall_user where id=?");
+			pst = connection.prepareStatement(
+					"select t.phone,t.nickname,u.use_endtime from t_mall_user t inner join t_app u on t.mall_id=u.id where t.id=?");
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			String nickname = null;
 			String phone = null;
+			long useEndtime;
 			if (rs.next()) {
 				phone = rs.getString("phone");
 				nickname = rs.getString("nickname");
+				useEndtime = rs.getLong("use_endtime");
 			} else
 				throw new InteractRuntimeException(20);
 			pst.close();
 
+			String loginRedisKey = new StringBuilder(SysConstant.MALL_Login_Token_Prefix).append(loginStatus.getToken())
+					.toString();
+			if (useEndtime < new Date().getTime()) {
+				jedis.del(loginStatus.getUserId());
+				jedis.del(loginRedisKey);
+				throw new InteractRuntimeException("商城已到期");
+			}
+
 			loginStatus.setNickname(nickname);
-			String loginRedisKey = new StringBuilder("easywin.mall.login-").append(loginStatus.getToken()).toString();
 			jedis.set(loginRedisKey, JSON.toJSONString(loginStatus));
 			jedis.expire(loginRedisKey, 30 * 24 * 60 * 60);
 			jedis.expire(loginStatus.getUserId(), 30 * 24 * 60 * 60);

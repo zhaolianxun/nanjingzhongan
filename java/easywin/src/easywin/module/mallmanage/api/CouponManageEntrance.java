@@ -171,8 +171,8 @@ public class CouponManageEntrance {
 					.append(desc == null ? "" : ",desc=?").append(uptomoney == null ? "" : ",type1_uptomoney=?")
 					.append(submoney == null ? "" : ",type1_submoney=?")
 					.append(starttime == null ? "" : ",type1_starttime=?")
-					.append(endtime == null ? "" : ",type1_endtime=?")
-					.append(title == null ? "" : ",title=?").append(" where id=?").toString());
+					.append(endtime == null ? "" : ",type1_endtime=?").append(title == null ? "" : ",title=?")
+					.append(" where id=?").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, i);
 			}
@@ -217,6 +217,8 @@ public class CouponManageEntrance {
 			if (submoneyParam == null)
 				throw new InteractRuntimeException("submoney 不能为空");
 			int submoney = Integer.parseInt(submoneyParam);
+			if (submoney >= uptomoney)
+				throw new InteractRuntimeException("优惠金额不可大于门槛金额");
 			String starttimeParam = StringUtils.trimToNull(request.getParameter("starttime"));
 			if (starttimeParam == null)
 				throw new InteractRuntimeException("starttime 不能为空");
@@ -225,6 +227,10 @@ public class CouponManageEntrance {
 			if (endtimeParam == null)
 				throw new InteractRuntimeException("endtime 不能为空");
 			long endtime = Long.parseLong(endtimeParam);
+			if (endtime < starttime)
+				throw new InteractRuntimeException("结束时间不可小于开始时间");
+			if (starttime <= new Date().getTime())
+				throw new InteractRuntimeException("开始时间不可小于现在");
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)

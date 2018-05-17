@@ -299,6 +299,12 @@
                             type: 'POST',
                             data: {app_id:appData.appId},
                             url: '/easywin/p/e/myapp/submitaudit?token='+token,
+                            complete:function(){
+                                waitShowStop()
+                            },
+                            beforeSend:function(){
+                                waitShow();
+                            },
                             success: function(res){
                                 if(res.code == 0){
                                     location.reload();

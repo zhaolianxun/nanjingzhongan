@@ -73,12 +73,12 @@ public class UserAction {
 			jedis = SysConstant.jedisPool.getResource();
 			String oldToken = jedis.get(loginStatus.getUserId());
 			if (oldToken != null && !oldToken.isEmpty())
-				jedis.del("easywin.plat.token-" + oldToken);
+				jedis.del(SysConstant.PLAT_Login_Token_Prefix + oldToken);
 			jedis.del(loginStatus.getUserId());
 			String token = RandomStringUtils.randomNumeric(12);
-			jedis.set("easywin.plat.token-" + token, JSON.toJSONString(loginStatus));
+			jedis.set(SysConstant.PLAT_Login_Token_Prefix + token, JSON.toJSONString(loginStatus));
 			jedis.set(loginStatus.getUserId(), token);
-			jedis.expire("easywin.plat.token-" + token, 7 * 24 * 60 * 60);
+			jedis.expire(SysConstant.PLAT_Login_Token_Prefix + token, 7 * 24 * 60 * 60);
 			jedis.expire(loginStatus.getUserId(), 7 * 24 * 60 * 60);
 
 			// 返回结果

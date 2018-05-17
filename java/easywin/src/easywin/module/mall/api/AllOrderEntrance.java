@@ -194,6 +194,64 @@ public class AllOrderEntrance {
 		}
 	}
 
+	@RequestMapping(value = "/delorder")
+	public void del(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			if (orderId == null)
+				throw new InteractRuntimeException("orderId不可空");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement("select id,finished from t_mall_order where id=? for update");
+			pst.setObject(1, orderId);
+			ResultSet rs = pst.executeQuery();
+			int finished;
+			if (rs.next()) {
+				finished = rs.getInt("finished");
+			} else
+				throw new InteractRuntimeException("订单不存在");
+			pst.close();
+
+			if (finished == 0)
+				throw new InteractRuntimeException("未结束的订单不可删除");
+
+			// 查詢主轮播图
+			pst = connection
+					.prepareStatement("update t_mall_order set user_del=1 where id=? and user_id=? and finished=1");
+			pst.setObject(1, orderId);
+			pst.setObject(2, loginStatus.getUserId());
+			int n = pst.executeUpdate();
+			if (n == 0)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
 	@RequestMapping(value = "/sign")
 	public void sign(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -267,7 +325,7 @@ public class AllOrderEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select order_time,status,amount,receiver_name,receiver_phone,receiver_address,buyer_note from t_mall_order where id=? ");
+					"select order_time,status,amount,receiver_name,receiver_phone,receiver_address,buyer_note,coupon_title from t_mall_order where id=? ");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject order = new JSONObject();
@@ -280,6 +338,7 @@ public class AllOrderEntrance {
 				order.put("receiverPhone", rs.getObject("receiver_phone"));
 				order.put("receiverAddress", rs.getObject("receiver_address"));
 				order.put("buyerNote", rs.getObject("buyer_note"));
+				order.put("couponTitle", rs.getObject("coupon_title"));
 				pst.close();
 
 				pst = connection.prepareStatement(

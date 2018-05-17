@@ -16,7 +16,9 @@ public class SysConstant {
 	public static boolean project_test = false;
 	public static boolean project_product = false;
 
-	
+	public static String MALL_Login_Token_Prefix = "easywin.mall.token-";
+	public static String PLAT_Login_Token_Prefix = "easywin.plat.token-";
+
 	public static SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 	public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 
