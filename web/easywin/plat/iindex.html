@@ -378,6 +378,7 @@
     </p>
 
 </div><script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="libs/jquery.cookie.js"></script>
 <script src="https://cdn.bootcss.com/Swiper/4.0.1/js/swiper.min.js"></script>
 <script>
     $(function () {
@@ -393,6 +394,14 @@
             }
         })
     })
+    function logout(){
+        $.removeCookie('token');
+        location.reload()
+    }
+    var loginPhone = $.cookie('phone');
+    var loginToken = $.cookie('token');
+if(loginToken)
+    $('.login-span-wrap').html('<span class="nav-reg" style="margin-right:10px">'+loginPhone+'</span> <a href="/easywin/plat/index.html"><span class="nav-reg">进入</span></a>' + ' <a href="javascript:" onclick="logout()"><span class="nav-reg">退出</span></a>')
 </script>
 </body>
 </html>

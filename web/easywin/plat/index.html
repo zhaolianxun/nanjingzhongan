@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>3分钟平台</title>
+    <title>三分钟平台</title>
     <script src="libs/jquery.min.js"></script>
     <script src="libs/shake.js"></script>
     <script src="libs/jquery.cookie.js"></script>
@@ -23,7 +23,7 @@
 
 <body style="margin:0;">
     <div  style="border-bottom:1px solid #e4e5e7;height:61px;">
-        <div style="background:#f7f9fa;border-right:1px solid #e4e5e7;width:200px;height:61px;float:left;text-align: center;"><div style="font-weight: 700;font-size: 24px;position: relative;top:50%;transform: translateY(-50%);color:#34495e;">3分钟平台</div></div>
+        <div onclick="location.href='iindex.html'" style="cursor:pointer;background:#f7f9fa;border-right:1px solid #e4e5e7;width:200px;height:61px;float:left;text-align: center;"><div  style="font-weight: 700;font-size: 24px;position: relative;top:50%;transform: translateY(-50%);color:#34495e;">三分钟平台</div></div>
         <div style="height:61px;float:right;position: relative;right:50px;"><a href="javascript:logout()" style="font-size: 14px;position: relative;top:50%;transform: translateY(-50%);">退出登录</a></div>
     </div>
     <div style="clear:both"></div>
@@ -99,7 +99,7 @@
 
     function logout(){
         $.removeCookie('token');
-        location.href="login.html";
+        location.href="iindex.html";
     }
 
 
