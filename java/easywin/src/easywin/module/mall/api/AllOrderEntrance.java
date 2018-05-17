@@ -325,7 +325,7 @@ public class AllOrderEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select order_time,status,amount,receiver_name,receiver_phone,receiver_address,buyer_note,coupon_title from t_mall_order where id=? ");
+					"select submoney,original_total_amount,cancel_reason,refund_time,refund_fail_reason,refund_reason,refund_status,order_time,status,amount,receiver_name,receiver_phone,receiver_address,buyer_note,coupon_title from t_mall_order where id=? ");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject order = new JSONObject();
@@ -334,11 +334,18 @@ public class AllOrderEntrance {
 				order.put("orderTime", rs.getObject("order_time"));
 				order.put("status", rs.getObject("status"));
 				order.put("amount", rs.getObject("amount"));
+				order.put("originalTotalAmount", rs.getObject("original_total_amount"));
+				order.put("submoney", rs.getObject("submoney"));
 				order.put("receiverName", rs.getObject("receiver_name"));
 				order.put("receiverPhone", rs.getObject("receiver_phone"));
 				order.put("receiverAddress", rs.getObject("receiver_address"));
 				order.put("buyerNote", rs.getObject("buyer_note"));
 				order.put("couponTitle", rs.getObject("coupon_title"));
+				order.put("refundStatus", rs.getObject("refund_status"));
+				order.put("refundReason", rs.getObject("refund_reason"));
+				order.put("refundFailReason", rs.getObject("refund_fail_reason"));
+				order.put("refundTime", rs.getObject("refund_time"));
+				order.put("cancelReason", rs.getObject("cancel_reason"));
 				pst.close();
 
 				pst = connection.prepareStatement(

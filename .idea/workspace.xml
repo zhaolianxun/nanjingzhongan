@@ -2,10 +2,144 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/admin/UserManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/admin/UserManageEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/agent/UserManageEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/agent/UserManageEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/admin/usermanage.html" afterPath="$PROJECT_DIR$/web/easywin/plat/admin/usermanage.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/agent/usermanage.html" afterPath="$PROJECT_DIR$/web/easywin/plat/agent/usermanage.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/111.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/2.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/222.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/333.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/444.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/555.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/666.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/777.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/888.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/O2O-e-commerce-banner.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/O2O-e-commerce-banner.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/O2O-e-commerce-code.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/O2O-e-commerce-ico1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/O2O-e-commerce-ico2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/O2O-e-commerce-ico3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/O2O-e-commerce-ico4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/arrow.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/banner.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/cate-take-out-banner.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/cate-take-out-banner.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/cate-take-out-code.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/cate-take-out-ico1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/cate-take-out-ico2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/cate-take-out-ico3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/cate-take-out-ico4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/contact.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/dy.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/dyicon.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/file_59ddc40beac9d.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/file_59e49d33e42b3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/file_59e712eebd974.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/file_59f16ea307582.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/file_59f2ef3cd1ac0.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/file_59f97f4ede4b7.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/foot.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/fz-p-1.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/fz-p-2.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/fz-p-3.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/fz.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/img-1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/join.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/level-1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/level-2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/level-3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/many-stores-platform-banner.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/many-stores-platform-demonstrate1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/many-stores-platform-demonstrate2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/many-stores-platform-demonstrate3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/many-stores-platform-demonstrate4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/many-stores-platform-ico1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/many-stores-platform-ico2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/many-stores-platform-ico3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/many-stores-platform-ico4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/marketing-tool-banner.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/marketing-tool-banner.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/marketing-tool-ico1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/marketing-tool-ico2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/marketing-tool-ico3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/marketing-tool-ico4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/news-information-banner.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/news-information-banner.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/news-information-code.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/news-information-ico1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/news-information-ico2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/news-information-ico3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/news-information-ico4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/pc.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/pcicon.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/pin1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/pin2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/pin3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/pin4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/pin_qrcode.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/proxy-1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/proxy-2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/proxy-3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/proxy-4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/proxy-5.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/proxy-6.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/proxy-7.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/proxy-8.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/qy.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/qyicon.jpeg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/reservation-service-banner.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/reservation-service-banner.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/reservation-service-ico1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/reservation-service-ico2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/reservation-service-ico3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/reservation-service-ico4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/shop-system-banner.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/shop-system-banner.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/shop-system-code.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/shop-system-ico1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/shop-system-ico2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/shop-system-ico3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/shop-system-ico4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/shoping.jpeg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/timg.jpeg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/tq.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/tqicon.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/tu111.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/tu2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/wisdom-stores-banner.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/wisdom-stores-banner.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/wisdom-stores-code.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/wisdom-stores-demonstrate1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/wisdom-stores-demonstrate2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/wisdom-stores-demonstrate3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/wisdom-stores-demonstrate4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/wisdom-stores-ico1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/wisdom-stores-ico2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/wisdom-stores-ico3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/wisdom-stores-ico4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/WCOA.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/accessory-app.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/article.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/code-drainage.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/find-app.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/css/iindex.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/iindex.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/iinfo.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/iinside.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/ijoin.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/ilist.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/imarket.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/io2o.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/iorder.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/istore.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/iwisdom.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/iwm.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/mini-apps.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/recommend-friend.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/scan-code.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/share-wx.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/top-search.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/AllOrderEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/AllOrderEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig.properties" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="nanjingzhongan.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,11 +160,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="login.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="login.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/easywin/plat/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.071428">
-              <caret line="90" column="18" selection-start-line="85" selection-start-column="15" selection-end-line="90" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.6112676">
+              <caret line="98" column="47" selection-start-line="98" selection-start-column="47" selection-end-line="98" selection-end-column="47" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -45,32 +179,115 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="register.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat/register.html">
+      <file leaf-file-name="appstore.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/appstore.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.035714">
-              <caret line="23" column="203" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="203" />
+            <state vertical-scroll-proportion="27.821428">
+              <caret line="10" column="22" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#0;n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="appstore.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat/appstore.html">
+      <file leaf-file-name="preview.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/preview.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.0971831">
-              <caret line="10" column="22" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+            <state vertical-scroll-proportion="-19.0">
+              <caret line="306" column="30" selection-start-line="306" selection-start-column="30" selection-end-line="306" selection-end-column="30" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1526527636538" expanded="true" signature="6354:6365" placeholder="..." />
+                <marker date="1526527636538" expanded="true" signature="8280:8291" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="intro.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/intro.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-15.5">
+              <caret line="68" column="38" selection-start-line="68" selection-start-column="38" selection-end-line="68" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.75">
+              <caret line="309" column="24" selection-start-line="309" selection-start-column="24" selection-end-line="309" selection-end-column="24" />
+              <folding>
+                <element signature="n#style#0;n#li#1;n#ul#0;n#body#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#li#1;n#ul#0;n#body#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="imarket.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/imarket.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="iindex.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat2/iindex.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-48.42857">
+              <caret line="72" column="38" selection-start-line="72" selection-start-column="38" selection-end-line="72" selection-end-column="38" />
+              <folding>
+                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#3;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#4;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#4;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#5;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#5;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#6;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#6;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#8;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#8;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#iframe#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -121,152 +338,6 @@
                 <marker date="1526547251020" expanded="true" signature="6713:6797" placeholder="..." />
                 <marker date="1526547251020" expanded="true" signature="6885:6969" placeholder="..." />
                 <marker date="1526547251020" expanded="true" signature="7082:7136" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="default.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/default.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="default.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/default.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="69" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.321428">
-              <caret line="72" column="38" selection-start-line="72" selection-start-column="38" selection-end-line="72" selection-end-column="38" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#3;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#4;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#5;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#5;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#6;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#6;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#8;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#8;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#iframe#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="userinfo.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat/admin/userinfo.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-59.035713">
-              <caret line="125" column="37" selection-start-line="125" selection-start-column="37" selection-end-line="125" selection-end-column="37" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#2;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#2;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#0;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#span#1;n#div#1;n#div#1;n#div#1;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#0;n#div#2;n#div#3;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#1;n#div#2;n#div#3;n#body#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="applist.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat/agent/applist.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.107142">
-              <caret line="282" column="33" selection-start-line="282" selection-start-column="23" selection-end-line="282" selection-end-column="33" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#1;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#2;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#3;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#4;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#5;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -446,7 +517,33 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="plat" />
+              <option name="myItemId" value="plat2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="easywin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plat2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -469,88 +566,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="plat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="easywin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="img" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="easywin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="agent" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="easywin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -592,11 +607,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\agent" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\img" />
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\css" />
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat" />
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\agent" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin" />
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat\libs\bootstrap\css" />
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\libs\bootstrap\css" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\plat2\agent" />
@@ -666,10 +681,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -709,27 +724,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/alteruser.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24558823">
-          <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/alteragent.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24084507">
-          <caret line="90" column="26" selection-start-line="90" selection-start-column="26" selection-end-line="90" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/css/iindex.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8788732">
-          <caret line="0" column="48006" selection-start-line="0" selection-start-column="48006" selection-end-line="0" selection-end-column="48006" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat2/css/login.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -764,13 +758,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/intro.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="76" column="10" selection-start-line="52" selection-start-column="4" selection-end-line="76" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -826,13 +813,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-19.571428">
           <caret line="92" column="69" selection-start-line="92" selection-start-column="69" selection-end-line="92" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.310345">
-          <caret line="309" column="24" selection-start-line="309" selection-start-column="24" selection-end-line="309" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -1024,23 +1004,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/preview.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-106.53571">
-          <caret line="306" column="30" selection-start-line="306" selection-start-column="30" selection-end-line="306" selection-end-column="30" />
-          <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1526527636538" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1526527636538" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat/myapp.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-13.571428">
@@ -1127,61 +1090,6 @@
             <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.321428">
-          <caret line="72" column="38" selection-start-line="72" selection-start-column="38" selection-end-line="72" selection-end-column="38" />
-          <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#4;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#5;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#6;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#8;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#8;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#iframe#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.071428">
-          <caret line="90" column="18" selection-start-line="85" selection-start-column="15" selection-end-line="90" selection-end-column="18" />
-          <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1326,10 +1234,125 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat/appstore.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.0971831">
+        <state vertical-scroll-proportion="27.821428">
           <caret line="10" column="22" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/preview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-19.0">
+          <caret line="306" column="30" selection-start-line="306" selection-start-column="30" selection-end-line="306" selection-end-column="30" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1526527636538" expanded="true" signature="6354:6365" placeholder="..." />
+            <marker date="1526527636538" expanded="true" signature="8280:8291" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/intro.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.5">
+          <caret line="68" column="38" selection-start-line="68" selection-start-column="38" selection-end-line="68" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.75">
+          <caret line="309" column="24" selection-start-line="309" selection-start-column="24" selection-end-line="309" selection-end-column="24" />
+          <folding>
+            <element signature="n#style#0;n#li#1;n#ul#0;n#body#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#li#1;n#ul#0;n#body#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/imarket.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/css/iindex.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat2/iindex.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-48.42857">
+          <caret line="72" column="38" selection-start-line="72" selection-start-column="38" selection-end-line="72" selection-end-column="38" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#3;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#4;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#4;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#5;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#5;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#6;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#8;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#8;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#iframe#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6112676">
+          <caret line="98" column="47" selection-start-line="98" selection-start-column="47" selection-end-line="98" selection-end-column="47" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
