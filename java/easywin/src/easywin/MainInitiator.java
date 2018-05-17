@@ -47,7 +47,7 @@ public class MainInitiator implements ServletContextListener {
 			Security.addProvider(new BouncyCastleProvider());
 			PropertyConfigurator.configure(
 					MainInitiator.class.getClassLoader().getResourceAsStream("easywin/config/mainConfig.properties"));
-			logger.info("-------初始化easywin项目-------");
+			logger.info("-------初始化easywin_" + SysConstant.project_environment + "项目-------");
 			logger.info("【系统常量初始化】");
 			initConstant();
 			logger.info("【JedisPool初始化】");
@@ -57,7 +57,7 @@ public class MainInitiator implements ServletContextListener {
 			logger.info("【jdbc数据源】");
 			EasywinDataSource.setupDataSource(SysConstant.jdbc_driver, SysConstant.jdbc_url, SysConstant.jdbc_username,
 					SysConstant.jdbc_password);
-			logger.info("-------初始化easywin项目结束-------");
+			logger.info("-------初始化easywin_" + SysConstant.project_environment + "项目结束-------");
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
