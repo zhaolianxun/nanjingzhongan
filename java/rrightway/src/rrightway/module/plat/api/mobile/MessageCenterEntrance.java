@@ -58,9 +58,9 @@ public class MessageCenterEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.title,right(t.content, 100) content,t.type,t.read_if,t.send_time from t_message where 1=1 ")
+					"select t.id,t.title,right(t.content, 100) content,t.type,t.read_if,t.send_time from t_message t where 1=1 ")
 							.append(type == null ? "" : " and t.type =? ")
-							.append(" limit ?,? order by t.read_if asc,t.send_time desc").toString());
+							.append(" order by t.read_if asc,t.send_time desc limit ?,?").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -72,8 +72,8 @@ public class MessageCenterEntrance {
 				item.put("title", rs.getObject("title"));
 				item.put("content", rs.getObject("content"));
 				item.put("type", rs.getObject("type"));
-				item.put("read_if", rs.getObject("read_if"));
-				item.put("send_time", rs.getObject("send_time"));
+				item.put("readIf", rs.getObject("read_if"));
+				item.put("sendTime", rs.getObject("send_time"));
 				items.add(item);
 			}
 			pst.close();
@@ -115,17 +115,20 @@ public class MessageCenterEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.title,t.content,t.type,t.read_if,t.send_time from t_message where id=?").toString());
+					"select t.id,t.title,t.content,t.type,t.read_if,t.send_time from t_message t where t.id=?")
+							.toString());
 			pst.setObject(1, messageId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
-			while (rs.next()) {
+			if (rs.next()) {
 				item.put("messageId", rs.getObject("id"));
 				item.put("title", rs.getObject("title"));
 				item.put("content", rs.getObject("content"));
 				item.put("type", rs.getObject("type"));
-				item.put("read_if", rs.getObject("read_if"));
+				item.put("readFf", rs.getObject("read_if"));
 				item.put("send_time", rs.getObject("send_time"));
+			} else {
+				throw new InteractRuntimeException("消息不存在");
 			}
 			pst.close();
 

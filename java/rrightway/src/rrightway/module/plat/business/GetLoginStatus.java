@@ -2,6 +2,8 @@ package rrightway.module.plat.business;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+
 import com.alibaba.fastjson.JSON;
 
 import rrightway.constant.SysConstant;
@@ -10,11 +12,14 @@ import redis.clients.jedis.Jedis;
 
 public class GetLoginStatus {
 
+	public static Logger logger = Logger.getLogger(GetLoginStatus.class);
+
 	public static UserLoginStatus todo(HttpServletRequest request, Jedis jedis) {
 		String token = (String) request.getParameter("token");
+		logger.debug("token : " + token);
 		if (token == null)
 			return null;
-		String statusStr = jedis.get("rrightway.plat.token-"+token);
+		String statusStr = jedis.get("rrightway.plat.token-" + token);
 		if (statusStr == null || statusStr.equals(""))
 			return null;
 		UserLoginStatus status = JSON.parseObject(statusStr, UserLoginStatus.class);
@@ -26,10 +31,11 @@ public class GetLoginStatus {
 		Jedis jedis = null;
 		try {
 			String token = (String) request.getParameter("token");
+			logger.debug("token : " + token);
 			if (token == null)
 				return null;
 			jedis = SysConstant.jedisPool.getResource();
-			String statusStr = jedis.get("rrightway.plat.token-"+token);
+			String statusStr = jedis.get("rrightway.plat.token-" + token);
 			if (statusStr == null || statusStr.equals(""))
 				return null;
 			UserLoginStatus status = JSON.parseObject(statusStr, UserLoginStatus.class);

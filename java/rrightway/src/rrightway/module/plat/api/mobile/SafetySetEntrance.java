@@ -51,7 +51,7 @@ public class SafetySetEntrance {
 			// 更新密码
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
-					"update t_user set paypwd=?,paypwd_md5=? where id=? and isnull(paypwd) and isnull(paypwd_md5) and length(paypwd)=0 and length(paypwd_md5)=0");
+					"update t_user set paypwd=?,paypwd_md5=? where id=? and (isnull(paypwd) or length(paypwd)=0  or isnull(paypwd_md5) or length(paypwd_md5)=0)");
 			pst.setObject(1, paypwd);
 			pst.setObject(2, DigestUtils.md5Hex(paypwd));
 			pst.setObject(3, loginStatus.getUserId());
@@ -93,15 +93,15 @@ public class SafetySetEntrance {
 			ResultSet rs = pst.executeQuery();
 			int paypwdExist = 0;
 			if (rs.next()) {
-				paypwdExist = StringUtils.isEmpty(rs.getString("paypwd"))
-						|| StringUtils.isEmpty(rs.getString("paypwd_md5")) ? 0 : 1;
+				paypwdExist = (StringUtils.isEmpty(rs.getString("paypwd"))
+						|| StringUtils.isEmpty(rs.getString("paypwd_md5"))) ? 0 : 1;
 			}
 			pst.close();
 
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("paypwdExist", paypwdExist);
-			HttpRespondWithData.todo(request, response, 0, null, null);
+			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
@@ -129,22 +129,22 @@ public class SafetySetEntrance {
 
 			// 更新密码
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("select insert(phone, 4, 4, '****') c from t_user where id=?");
+			pst = connection.prepareStatement("select insert(phone, 4, 4, '****') phone from t_user where id=?");
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			int phoneExist = 0;
-			String phone = null;
+			String existingPhone = null;
 			if (rs.next()) {
-				phone = rs.getString("phone");
-				phoneExist = StringUtils.isEmpty(rs.getString("phone")) ? 0 : 1;
+				existingPhone = rs.getString("phone");
+				phoneExist = StringUtils.isEmpty(existingPhone) ? 0 : 1;
 			}
 			pst.close();
 
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("phoneExist", phoneExist);
-			data.put("phone", phone);
-			HttpRespondWithData.todo(request, response, 0, null, null);
+			data.put("existingPhone", existingPhone);
+			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
@@ -189,7 +189,7 @@ public class SafetySetEntrance {
 			// 更新密码
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection
-					.prepareStatement("update t_user set phone=? where id=? and isnull(phone) and length(phone)=0");
+					.prepareStatement("update t_user set phone=? where id=? and (isnull(phone) or length(phone)=0)");
 			pst.setObject(1, phone);
 			pst.setObject(2, loginStatus.getUserId());
 			int n = pst.executeUpdate();
@@ -355,8 +355,6 @@ public class SafetySetEntrance {
 		}
 	}
 
-	
-	
 	@RequestMapping(value = "/setbankinfo")
 	public void setbankinfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -473,7 +471,7 @@ public class SafetySetEntrance {
 	}
 
 	@RequestMapping(value = "/alterpaypwdbysrc")
-	public void alterPayPwdBySms(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void alterPayPwdBySrc(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {

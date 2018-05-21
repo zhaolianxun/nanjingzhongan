@@ -42,21 +42,25 @@ public class MyEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.right_wallet,t.money,(select count(id) from t_order where buyer_id=t.id and status in (0,3,4)) buyed_count,(select count(id) from t_order where buyer_id=t.id and status in (1)) checked_count,(select count(id) from t_order where buyer_id=t.id and status in (2)) returned_count from t_user t where t.id=?")
+					"select t.right_wallet,t.money,(select sum(money) from t_widthdraw where user_id=t.id) withdrawing_money,(select count(id) from t_order where buyer_id=t.id and status in (0)) buyed_count,(select count(id) from t_order where buyer_id=t.id and status in (1)) checked_count,(select count(id) from t_order where buyer_id=t.id and status in (2)) returned_count,(select count(id) from t_order where buyer_id=t.id and buyer_protect_rights_status != 0) protected_count from t_user t where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			int buyedCount;
 			int checkedCount;
 			int returnedCount;
+			int protectedCount;
 			BigDecimal money;
 			BigDecimal rightWallet;
+			BigDecimal withdrawingMoney;
 			if (rs.next()) {
 				buyedCount = rs.getInt("buyed_count");
 				checkedCount = rs.getInt("checked_count");
 				returnedCount = rs.getInt("returned_count");
+				protectedCount = rs.getInt("protected_count");
 				money = rs.getBigDecimal("money");
 				rightWallet = rs.getBigDecimal("right_wallet");
+				withdrawingMoney = rs.getBigDecimal("withdrawing_money");
 			} else
 				throw new InteractRuntimeException("用户不存在");
 			pst.close();
@@ -68,6 +72,7 @@ public class MyEntrance {
 			data.put("returnedCount", returnedCount);
 			data.put("money", money);
 			data.put("rightWallet", rightWallet);
+			data.put("withdrawingMoney", withdrawingMoney);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
