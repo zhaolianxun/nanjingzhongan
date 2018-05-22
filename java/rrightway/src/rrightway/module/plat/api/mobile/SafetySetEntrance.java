@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import okhttp3.Request;
@@ -615,6 +616,98 @@ public class SafetySetEntrance {
 
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/buyertaobaoaccounts")
+	public void buyertaobaoaccounts(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.id,t.taobao_user_nick from t_taobaoaccount t where t.user_id=? and t.type=1").toString());
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("taobaoAccountId", rs.getInt("id"));
+				item.put("taobaoUserNick", rs.getString("taobao_user_nick"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			JSONObject taobaoAccounts = new JSONObject();
+			taobaoAccounts.put("items", items);
+			data.put("taobaoAccounts", taobaoAccounts);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/sellertaobaoaccounts")
+	public void sellertaobaoaccounts(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.id,t.taobao_user_nick from t_taobaoaccount t where t.user_id=? and t.type=2").toString());
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("taobaoAccountId", rs.getInt("id"));
+				item.put("taobaoUserNick", rs.getString("taobao_user_nick"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			JSONObject taobaoAccounts = new JSONObject();
+			taobaoAccounts.put("items", items);
+			data.put("taobaoAccounts", taobaoAccounts);
+			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));

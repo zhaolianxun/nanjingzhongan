@@ -59,6 +59,7 @@ public class CowryManageEntrance {
 
 			pst = connection
 					.prepareStatement("select id,taobao_user_nick from t_taobaoaccount where user_id=? and type=2");
+			pst.setObject(1, loginStatus.getUserId());
 			rs = pst.executeQuery();
 			JSONArray sellerTaobaoUserNicks = new JSONArray();
 			while (rs.next()) {
@@ -282,7 +283,8 @@ public class CowryManageEntrance {
 									: couponIf == 1 ? " and (!ISNULL(coupon_url) and LENGTH(trim(coupon_url))>1) "
 											: " and (ISNULL(coupon_url) or LENGTH(trim(coupon_url))=0) ")
 							.append(publishTimeStart == null ? "" : " and publish_time >= ? ")
-							.append(publishTimeEnd == null ? "" : " and publish_time <= ? ").append(" limit ?,? ").toString());
+							.append(publishTimeEnd == null ? "" : " and publish_time <= ? ").append(" limit ?,? ")
+							.toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -377,7 +379,8 @@ public class CowryManageEntrance {
 									: couponIf == 1 ? " and (!ISNULL(coupon_url) and LENGTH(trim(coupon_url))>1) "
 											: " and (ISNULL(coupon_url) or LENGTH(trim(coupon_url))=0) ")
 							.append(publishTimeStart == null ? "" : " and publish_time >= ? ")
-							.append(publishTimeEnd == null ? "" : " and publish_time <= ? ").append(" limit ?,? ").toString());
+							.append(publishTimeEnd == null ? "" : " and publish_time <= ? ").append(" limit ?,? ")
+							.toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}

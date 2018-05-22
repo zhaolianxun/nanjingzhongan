@@ -58,7 +58,7 @@ public class MessageCenterEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.title,right(t.content, 100) content,t.type,t.read_if,t.send_time from t_message t where 1=1 ")
+					"select t.id,t.title,right(t.content, 100) content,t.type,t.read_if,t.send_time from t_message t where del=0 ")
 							.append(type == null ? "" : " and t.type =? ")
 							.append(" order by t.read_if asc,t.send_time desc limit ?,?").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
@@ -159,7 +159,7 @@ public class MessageCenterEntrance {
 			if (messageIdsParam == null)
 				throw new InteractRuntimeException("message_ids 不能空");
 			String[] messageIds = messageIdsParam.split(",");
-
+			
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
@@ -171,10 +171,44 @@ public class MessageCenterEntrance {
 			}
 			s = s.substring(1);
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("delete from t_message where id in (" + s + ")");
+			pst = connection.prepareStatement("update t_message set del=1 where id in (" + s + ")");
 			for (int i = 0; i < messageIds.length; i++) {
 				pst.setString(i + 1, messageIds[i]);
 			}
+			pst.executeUpdate();
+
+			pst.close();
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/deleteall")
+	public void deleteAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("update t_message set del=1 where user_id=?");
+			pst.setString(1, loginStatus.getUserId());
 			pst.executeUpdate();
 
 			pst.close();

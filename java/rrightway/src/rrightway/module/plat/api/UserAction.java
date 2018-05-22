@@ -1,7 +1,5 @@
 package rrightway.module.plat.api;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -230,7 +228,7 @@ public class UserAction {
 
 			// 更新密码
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("update t_user set password=?,password_md5=? where phone=?");
+			pst = connection.prepareStatement("update t_user set pwd=?,pwd_md5=? where phone=?");
 			pst.setObject(1, newpwd);
 			pst.setObject(2, DigestUtils.md5Hex(newpwd));
 			pst.setObject(3, phone);
