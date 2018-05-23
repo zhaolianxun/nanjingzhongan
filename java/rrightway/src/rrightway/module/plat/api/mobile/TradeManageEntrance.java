@@ -149,10 +149,9 @@ public class TradeManageEntrance {
 			Long orderTimeStart = orderTimeStartParam == null ? null : Long.parseLong(orderTimeStartParam);
 			String orderTimeEndParam = StringUtils.trimToNull(request.getParameter("order_time_end"));
 			Long orderTimeEnd = orderTimeEndParam == null ? null : Long.parseLong(orderTimeEndParam);
-			String buyerProtectRightsStatusParam = StringUtils
-					.trimToNull(request.getParameter("buyer_protect_rights_status"));
-			Integer buyerProtectRightsStatus = buyerProtectRightsStatusParam == null ? null
-					: Integer.parseInt(buyerProtectRightsStatusParam);
+			//trade_status ： 空-全部 1-维权中 2-未提交评价图 3-已提交评价图
+			String tradeStatusParam = StringUtils.trimToNull(request.getParameter("trade_status"));
+			Integer tradeStatus = tradeStatusParam == null ? null : Integer.parseInt(tradeStatusParam);
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
 			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
 			if (pageNo <= 0)
@@ -168,8 +167,6 @@ public class TradeManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			List sqlParams = new ArrayList();
-			if (buyerProtectRightsStatus != null)
-				sqlParams.add(buyerProtectRightsStatus);
 			if (buyerNickname != null)
 				sqlParams.add(new StringBuilder("%").append(buyerNickname).append("%").toString());
 			if (sellerNickname != null)
@@ -187,10 +184,10 @@ public class TradeManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.review_pic,t.buyer_protect_rights_status,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where t.status=1 ")
-							.append(reviewPicCommitIf != null && reviewPicCommitIf == 0 ? ""
-									: " and (ifnull(t.review_pic) or length(trim(t.review_pic))=0) ")
-							.append(buyerProtectRightsStatus == null ? "" : " and t.buyer_protect_rights_status=? ")
+					"select t.review_pic_audit,t.review_pics,t.buyer_protect_rights_status,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where t.status=1 ")
+					.append(tradeStatus == 1 ? " and t.buyer_protect_rights_status=1 ":"")
+					.append(tradeStatus == 2 ? " and t.review_pic_audit=3 ":"")
+					.append(tradeStatus == 3 ? " and t.review_pic_audit in (0,1,2) ":"")
 							.append(buyerNickname == null ? "" : " and bt.nickname like ? ")
 							.append(sellerNickname == null ? "" : " and st.nickname like ? ")
 							.append(title == null ? "" : " and t.title like ? ")
@@ -215,8 +212,8 @@ public class TradeManageEntrance {
 				item.put("buyerNickname", rs.getObject("buyer_nickname"));
 				item.put("sellerNickname", rs.getObject("seller_nickname"));
 				item.put("buyerProtectRightsStatus", rs.getObject("buyer_protect_rights_status"));
-				String reviewPic = rs.getString("review_pic");
-				item.put("review_pic_commit_if", reviewPic == null || reviewPic.isEmpty() ? 0 : 1);
+				item.put("reviewPicAudit", rs.getObject("review_pic_audit"));
+				item.put("reviewPics", rs.getObject("review_pics"));
 				items.add(item);
 			}
 			pst.close();
@@ -251,6 +248,7 @@ public class TradeManageEntrance {
 			String title = StringUtils.trimToNull(request.getParameter("title"));
 			String giftName = StringUtils.trimToNull(request.getParameter("gift_name"));
 			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			String taobaoOrderid = StringUtils.trimToNull(request.getParameter("taobao_orderid"));
 			String orderTimeStartParam = StringUtils.trimToNull(request.getParameter("order_time_start"));
 			Long orderTimeStart = orderTimeStartParam == null ? null : Long.parseLong(orderTimeStartParam);
 			String orderTimeEndParam = StringUtils.trimToNull(request.getParameter("order_time_end"));
@@ -280,6 +278,8 @@ public class TradeManageEntrance {
 				sqlParams.add(new StringBuilder("%").append(giftName).append("%").toString());
 			if (orderId != null)
 				sqlParams.add(new StringBuilder("%").append(orderId).append("%").toString());
+			if (taobaoOrderid != null)
+				sqlParams.add(new StringBuilder("%").append(taobaoOrderid).append("%").toString());
 			if (orderTimeStart != null)
 				sqlParams.add(orderTimeStart);
 			if (orderTimeEnd != null)
@@ -287,12 +287,13 @@ public class TradeManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where t.status=2 ")
+					"select t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where t.status=2 ")
 							.append(buyerNickname == null ? "" : " and bt.nickname like ? ")
 							.append(sellerNickname == null ? "" : " and st.nickname like ? ")
 							.append(title == null ? "" : " and t.title like ? ")
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(orderId == null ? "" : " and t.id like ? ")
+							.append(taobaoOrderid == null ? "" : " and t.taobao_orderid like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
 							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ")
 							.toString());
@@ -308,7 +309,6 @@ public class TradeManageEntrance {
 				item.put("payPrice", rs.getObject("pay_price"));
 				item.put("returnMoney", rs.getObject("return_money"));
 				item.put("activityTitle", rs.getObject("activity_title"));
-				item.put("status", rs.getObject("status"));
 				item.put("buyerNickname", rs.getObject("buyer_nickname"));
 				item.put("sellerNickname", rs.getObject("seller_nickname"));
 				items.add(item);

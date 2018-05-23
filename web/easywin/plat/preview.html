@@ -204,7 +204,12 @@
         }
     });
 
-
+    if(appData.auditTemplateVersion != appData.commitTemplateVersion){
+        //提交了新版本代码
+        if(confirm("发现新版未审核，请先返回并‘预览’在做决定。是否提交审核")){
+            submitAudit();
+        }
+    }
 
     $('#nickname').html(appData.nickName);
     $.ajax({
@@ -225,15 +230,12 @@
             }
         }
     });
+
     if(!appData.commitTemplateVersion) {
         //未提交
         $('#submitCodeAndAudit').show();
-    }else if(appData.auditStatus != 1 && appData.commitTemplateVersion && appData.currentTemplateVersion && appData.currentTemplateVersion != appData.commitTemplateVersion){
-        //提交了新版本代码
-       if(confirm("发现新版，是否提交审核")){
-           submitAudit();
-       }
     }
+
 
     if(!appData.commitTemplateVersion) {
         //未提交

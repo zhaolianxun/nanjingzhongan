@@ -811,7 +811,7 @@ public class IambuyerEntrance {
 			JSONObject data = new JSONObject();
 			data.putAll(item);
 			// 返回结果
-			HttpRespondWithData.todo(request, response, 0, null, null);
+			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));

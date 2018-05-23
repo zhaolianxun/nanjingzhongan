@@ -48,6 +48,15 @@ public class OrderAction {
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 
+			//更新销量和购买人数
+			pst = connection.prepareStatement(
+					"update t_mall_good t left join t_mall_order_detail od on od.good_id=t.id set t.saled_count=t.saled_count+od.count,t.buyer_count=t.buyer_count+1 where od.order_id=?");
+			pst.setObject(1, orderId);
+			n = pst.executeUpdate();
+			if (n == 0)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
 			connection.commit();
 		} catch (Exception e) {
 			// 处理异常

@@ -62,11 +62,12 @@ public class HomeSearchEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 
-			pst = connection.prepareStatement(
-					new StringBuilder("select * from (select t.id,t.add_time,t.cover,t.name,(select min(price) from t_mall_good_sku where good_id=t.id) price,(select min(original_price) from t_mall_good_sku where good_id=t.id) original_price,t.saled_count from t_mall_good t where t.mall_id=?")
-				.append(key == null ? "" : " and t.name like ?").append(") tt").append(sort == 1 ? " order by tt.saled_count desc"
-						: (sort == 2 ? " order by tt.price desc"
-								: (sort == 3 ? " order by tt.price asc" : " order by tt.add_time desc")))
+			pst = connection.prepareStatement(new StringBuilder(
+					"select * from (select t.id,t.add_time,t.cover,t.name,(select min(price) from t_mall_good_sku where good_id=t.id) price,(select min(original_price) from t_mall_good_sku where good_id=t.id) original_price,t.saled_count from t_mall_good t where t.onsale=1 and t.mall_id=?")
+							.append(key == null ? "" : " and t.name like ?").append(") tt")
+							.append(sort == 1 ? " order by tt.saled_count desc"
+									: (sort == 2 ? " order by tt.price desc"
+											: (sort == 3 ? " order by tt.price asc" : " order by tt.add_time desc")))
 							.append(" limit ?,?").toString());
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -101,7 +102,5 @@ public class HomeSearchEntrance {
 				connection.close();
 		}
 	}
-	
-		   
-		
+
 }

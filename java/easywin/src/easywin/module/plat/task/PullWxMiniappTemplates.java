@@ -94,6 +94,9 @@ public class PullWxMiniappTemplates {
 					seedId = rs.getString("seed_id");
 				}
 				pst.close();
+				
+				if(seedId == null)
+					continue;
 				if (templateIdOld == null) {
 					// 插入新的模板
 					pst = connection.prepareStatement(

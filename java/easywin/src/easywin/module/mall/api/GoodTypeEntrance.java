@@ -42,7 +42,7 @@ public class GoodTypeEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢主轮播图
 			pst = connection.prepareStatement(
-					"select id typeId,name from t_mall_good_type where mall_id=? and level=1 order by name asc");
+					"select id typeId,name from t_mall_good_type where mall_id=? and level=1 order by id asc");
 			pst.setObject(1, mallId);
 			ResultSet rs = pst.executeQuery();
 			JSONArray type1s = new JSONArray();
@@ -88,7 +88,7 @@ public class GoodTypeEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢主轮播图
 			pst = connection.prepareStatement(
-					"select id,name,cover from t_mall_good_type where mall_id=? and level=2 and upid=? order by name asc");
+					"select id,name,cover from t_mall_good_type where mall_id=? and level=2 and upid=? order by id asc");
 			pst.setObject(1, mallId);
 			pst.setObject(2, type1Id);
 			ResultSet rs = pst.executeQuery();
@@ -161,7 +161,7 @@ public class GoodTypeEntrance {
 			sqlParams.add(pageSize);
 
 			pst = connection.prepareStatement(
-					"select * from (select t.id,t.add_time,t.cover,t.name,(select min(price) from t_mall_good_sku where good_id=t.id) price,(select min(original_price) from t_mall_good_sku where good_id=t.id) original_price,t.saled_count from t_mall_good t where t.mall_id=?"
+					"select * from (select t.id,t.add_time,t.cover,t.name,(select min(price) from t_mall_good_sku where good_id=t.id) price,(select min(original_price) from t_mall_good_sku where good_id=t.id) original_price,t.saled_count from t_mall_good t where t.onsale=1 and t.mall_id=?"
 							+ (type1Id == null ? "" : " and t.type1=? ") + (type2Id == null ? "" : " and t.type2=? ")
 							+ (type3Id == null ? "" : " and t.type3=? ") + " ) tt"
 							+ (sort == 1 ? " order by tt.saled_count desc"

@@ -61,12 +61,12 @@ public class GoodManageEntrance {
 			List sqlParams = new ArrayList();
 			sqlParams.add(mallId);
 			if (name != null)
-				sqlParams.add(name);
+				sqlParams.add(new StringBuilder("%").append(name).append("%").toString());
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
 					"select (select sum(inventory) from t_mall_good_sku where good_id=t.id) inventory,t.id,t.name,(select min(price) min_price from t_mall_good_sku where good_id=t.id) price,t.onsale,t.cover,t.saled_count,t.buyer_count from t_mall_good t where  t.mall_id=?"
-							+ (name == null ? "" : " and t.name=?") + " order by t.add_time desc limit ?,?");
+							+ (name == null ? "" : " and t.name like ?") + " order by t.add_time desc limit ?,?");
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
