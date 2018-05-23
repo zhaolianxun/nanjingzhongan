@@ -76,6 +76,8 @@ public class SearchEntrance {
 			BigDecimal payPriceMin = payPriceMinParam == null ? null : new BigDecimal(payPriceMinParam);
 			String payPriceMaxParam = StringUtils.trimToNull(request.getParameter("pay_price_max"));
 			BigDecimal payPriceMax = payPriceMaxParam == null ? null : new BigDecimal(payPriceMaxParam);
+			String buyWayParam = StringUtils.trimToNull(request.getParameter("buy_way"));
+			Integer buyWay = buyWayParam == null ? null : Integer.parseInt(buyWayParam);
 			// 1综合 2销量 3最新 4付款金额升序 5付款金额降序 6奖金升序 7奖金降序
 			String sortbyParam = StringUtils.trimToNull(request.getParameter("sortby"));
 			int sortby = sortbyParam == null ? 1 : Integer.parseInt(sortbyParam);
@@ -94,6 +96,8 @@ public class SearchEntrance {
 				keyw = new StringBuilder("%").append(keyw).append("%").toString();
 				sqlParams.add(keyw);
 			}
+			if (buyWay != null)
+				sqlParams.add(buyWay);
 			if (type1Id != null)
 				sqlParams.add(type1Id);
 			if (type2Id != null)
@@ -110,11 +114,12 @@ public class SearchEntrance {
 			sqlParams.add(pageSize);
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select id,gift_cover,gift_name,pay_price,return_money,buyer_num from t_activity where buy_way=2 ")
+					"select id,gift_cover,gift_name,pay_price,return_money,buyer_num from t_activity where 1=1 ")
 							.append(couponIf == null ? ""
 									: couponIf == 0 ? " and (isnull(coupon_url) or length(trim(coupon_url))=0) "
 											: "and (!isnull(coupon_url) and length(trim(coupon_url))>0) ")
 							.append(keyw == null ? "" : " and gift_name like ? ")
+							.append(buyWay == null ? "" : " and buy_way=? ")
 							.append(type1Id == null ? "" : " and gift_type1_id=? ")
 							.append(type2Id == null ? "" : " and gift_type2_id=? ")
 							.append(wayToShop == null ? "" : " and way_to_shop=? ")

@@ -63,8 +63,7 @@ public class HomeEntrance {
 			}
 			pst.close();
 
-			pst = connection.prepareStatement(
-					"select id,gift_cover,gift_name,pay_price from t_activity where buy_way=2 limit 0,10");
+			pst = connection.prepareStatement("select id,gift_cover,gift_name,pay_price from t_activity  limit 0,10");
 			rs = pst.executeQuery();
 			JSONArray featuredActivities = new JSONArray();
 			while (rs.next()) {
@@ -83,7 +82,7 @@ public class HomeEntrance {
 			data.put("notices", notices);
 			data.put("featuredActivities", featuredActivities);
 			data.put("mayLoves", featuredActivities);
-			data.put("searchkey_preset", null);
+			data.put("searchkey_preset", "衣服");
 
 			HttpRespondWithData.todo(request, response,
 					JSON.toJSONString(BaseResVo.getSuccess(data, (String) request.getAttribute("requestId")),

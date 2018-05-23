@@ -167,6 +167,9 @@ public class CowryManageEntrance {
 			String giftCover = StringUtils.trimToNull(request.getParameter("gift_cover"));
 			if (giftCover == null)
 				throw new InteractRuntimeException("gift_cover 不能空");
+			String giftPics = StringUtils.trimToNull(request.getParameter("gift_pics"));
+			if (giftPics == null)
+				throw new InteractRuntimeException("gift_pics 不能空");
 			String giftDetail = StringUtils.trimToNull(request.getParameter("gift_detail"));
 			if (giftDetail == null)
 				throw new InteractRuntimeException("gift_detail 不能空");
@@ -181,7 +184,7 @@ public class CowryManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
-					"INSERT INTO `t_activity` (`user_id`, `taobaoaccount_id`, `title`, `publish_time`, `way_to_shop`, `qrcode_to_order`, `search_keys`, `cowry_url`, `cowry__cover`,`buy_way`, `coupon_url`,`pay_price`, `return_money`, `buyer_mincredit`, `keep_days`, `gift_name`, `gift_type1_id`, `gift_type1_name`, `gift_type2_id`, `gift_type2_name`, `gift_url`, `gift_cover`, `gift_detail`, `gift_express_co`,`stock`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
+					"INSERT INTO `t_activity` (`user_id`, `taobaoaccount_id`, `title`, `publish_time`, `way_to_shop`, `qrcode_to_order`, `search_keys`, `cowry_url`, `cowry__cover`,`buy_way`, `coupon_url`,`pay_price`, `return_money`, `buyer_mincredit`, `keep_days`, `gift_name`, `gift_type1_id`, `gift_type1_name`, `gift_type2_id`, `gift_type2_name`, `gift_url`, `gift_cover`, `gift_detail`, `gift_express_co`,`stock`,`gift_pics`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
 					Statement.RETURN_GENERATED_KEYS);
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, taobaoaccountId);
@@ -208,6 +211,8 @@ public class CowryManageEntrance {
 			pst.setObject(23, giftDetail);
 			pst.setObject(24, giftExpressCo);
 			pst.setObject(25, stock);
+			pst.setObject(26, giftPics);
+
 			int n = pst.executeUpdate();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -276,14 +281,14 @@ public class CowryManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select id,gift_name,pay_price,return_money,title,await_participant_num,buyer_num,(start_time+keep_days*24*60*60*1000-rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')) remain_time from t_activity where status=1")
-							.append(title == null ? "" : " and title like ? ")
-							.append(giftName == null ? "" : " and gift_name like ? ")
+					"select t.stock,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.buyer_num,(t.start_time+t.keep_days*24*60*60*1000-rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')) remain_time from t_activity t where t.status=1")
+							.append(title == null ? "" : " and t.title like ? ")
+							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(couponIf == null ? ""
-									: couponIf == 1 ? " and (!ISNULL(coupon_url) and LENGTH(trim(coupon_url))>1) "
-											: " and (ISNULL(coupon_url) or LENGTH(trim(coupon_url))=0) ")
-							.append(publishTimeStart == null ? "" : " and publish_time >= ? ")
-							.append(publishTimeEnd == null ? "" : " and publish_time <= ? ").append(" limit ?,? ")
+									: couponIf == 1 ? " and (!ISNULL(t.coupon_url) and LENGTH(trim(t.coupon_url))>1) "
+											: " and (ISNULL(t.coupon_url) or LENGTH(trim(t.coupon_url))=0) ")
+							.append(publishTimeStart == null ? "" : " and t.publish_time >= ? ")
+							.append(publishTimeEnd == null ? "" : " and t.publish_time <= ? ").append(" limit ?,? ")
 							.toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -297,9 +302,12 @@ public class CowryManageEntrance {
 				item.put("payPrice", rs.getObject("pay_price"));
 				item.put("returnMoney", rs.getObject("return_money"));
 				item.put("title", rs.getObject("title"));
-				item.put("awaitParticipantNum", rs.getObject("await_participant_num"));
 				item.put("buyerNum", rs.getObject("buyer_num"));
 				item.put("remainTime", rs.getObject("remain_time"));
+				item.put("buyWay", rs.getObject("buy_way"));
+				item.put("wayToShop", rs.getObject("way_to_shop"));
+				item.put("couponIf", rs.getObject("coupon_if"));
+				item.put("stock", rs.getObject("stock"));
 				items.add(item);
 			}
 			pst.close();
@@ -329,6 +337,107 @@ public class CowryManageEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
+			// status : 空-全部 1-待审核 2-审核失败
+			String statusParam = StringUtils.trimToNull(request.getParameter("status"));
+			Integer status = statusParam == null ? null : Integer.parseInt(statusParam);
+			String title = StringUtils.trimToNull(request.getParameter("title"));
+			String giftName = StringUtils.trimToNull(request.getParameter("gift_name"));
+			String buyWayParam = StringUtils.trimToNull(request.getParameter("buy_way"));
+			Integer buyWay = buyWayParam == null ? null : Integer.parseInt(buyWayParam);
+			String couponIfParam = StringUtils.trimToNull(request.getParameter("coupon_if"));
+			Integer couponIf = couponIfParam == null ? null : Integer.parseInt(couponIfParam);
+			String publishTimeStartParam = StringUtils.trimToNull(request.getParameter("publish_time_start"));
+			Long publishTimeStart = publishTimeStartParam == null ? null : Long.parseLong(publishTimeStartParam);
+			String publishTimeEndParam = StringUtils.trimToNull(request.getParameter("publish_time_end"));
+			Long publishTimeEnd = publishTimeEndParam == null ? null : Long.parseLong(publishTimeEndParam);
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			List sqlParams = new ArrayList();
+			if (title != null)
+				sqlParams.add(new StringBuilder("%").append(title).append("%").toString());
+			if (giftName != null)
+				sqlParams.add(new StringBuilder("%").append(giftName).append("%").toString());
+			if (buyWay != null)
+				sqlParams.add(buyWay);
+			if (publishTimeStart != null)
+				sqlParams.add(publishTimeStart);
+			if (publishTimeEnd != null)
+				sqlParams.add(publishTimeEnd);
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.stock,t.publish_time,t.status,t.audit_fail_reason from t_activity t where 1=1 ")
+							.append(status == null ? "" : " and t.status in (0,2) ")
+							.append(status == 1 ? "" : " and t.status=0 ").append(status == 2 ? "" : " and t.status=2 ")
+							.append(title == null ? "" : " and t.title like ? ")
+							.append(giftName == null ? "" : " and t.gift_name like ? ")
+							.append(couponIf == null ? ""
+									: couponIf == 1 ? " and (!ISNULL(t.coupon_url) and LENGTH(trim(t.coupon_url))>1) "
+											: " and (ISNULL(t.coupon_url) or LENGTH(trim(t.coupon_url))=0) ")
+							.append(publishTimeStart == null ? "" : " and t.publish_time >= ? ")
+							.append(publishTimeEnd == null ? "" : " and t.publish_time <= ? ").append(" limit ?,? ")
+							.toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("activityId", rs.getObject("id"));
+				item.put("giftName", rs.getObject("gift_name"));
+				item.put("payPrice", rs.getObject("pay_price"));
+				item.put("returnMoney", rs.getObject("return_money"));
+				item.put("title", rs.getObject("title"));
+				item.put("stock", rs.getObject("stock"));
+				item.put("publishTime", rs.getObject("publish_time"));
+				item.put("status", rs.getObject("status"));
+				item.put("auditFailReason", rs.getObject("audit_fail_reason"));
+				item.put("buyWay", rs.getObject("buy_way"));
+				item.put("wayToShop", rs.getObject("way_to_shop"));
+				item.put("couponIf", rs.getObject("coupon_if"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			JSONObject activies = new JSONObject();
+			activies.put("items", items);
+			data.put("activies", activies);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/storingcowries")
+	public void storingCowries(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			// status : 空-全部 1-仓库中 2-重新审核失败
 			String statusParam = StringUtils.trimToNull(request.getParameter("status"));
 			Integer status = statusParam == null ? null : Integer.parseInt(statusParam);
 			String title = StringUtils.trimToNull(request.getParameter("title"));
@@ -358,6 +467,7 @@ public class CowryManageEntrance {
 			List sqlParams = new ArrayList();
 			if (status != null)
 				sqlParams.add(status);
+
 			if (title != null)
 				sqlParams.add(new StringBuilder("%").append(title).append("%").toString());
 			if (giftName != null)
@@ -371,15 +481,16 @@ public class CowryManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select id,gift_name,pay_price,return_money,title,stock,publish_time,status,audit_fail_reason from t_activity where 1=1 ")
-							.append(status == null ? "" : " and status=? ")
-							.append(title == null ? "" : " and title like ? ")
-							.append(giftName == null ? "" : " and gift_name like ? ")
+					"select t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.stock,t.publish_time,t.status,t.audit_fail_reason from t_activity t where 1=1 ")
+							.append(status == null ? " and t.status in (2,3) " : "")
+							.append(status == 1 ? " and t.status=3 " : "").append(status == 2 ? " and t.status=2 " : "")
+							.append(title == null ? "" : " and t.title like ? ")
+							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(couponIf == null ? ""
-									: couponIf == 1 ? " and (!ISNULL(coupon_url) and LENGTH(trim(coupon_url))>1) "
-											: " and (ISNULL(coupon_url) or LENGTH(trim(coupon_url))=0) ")
-							.append(publishTimeStart == null ? "" : " and publish_time >= ? ")
-							.append(publishTimeEnd == null ? "" : " and publish_time <= ? ").append(" limit ?,? ")
+									: couponIf == 1 ? " and (!ISNULL(t.coupon_url) and LENGTH(trim(t.coupon_url))>1) "
+											: " and (ISNULL(t.coupon_url) or LENGTH(trim(t.coupon_url))=0) ")
+							.append(publishTimeStart == null ? "" : " and t.publish_time >= ? ")
+							.append(publishTimeEnd == null ? "" : " and t.publish_time <= ? ").append(" limit ?,? ")
 							.toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -390,6 +501,7 @@ public class CowryManageEntrance {
 				JSONObject item = new JSONObject();
 				item.put("activityId", rs.getObject("id"));
 				item.put("giftName", rs.getObject("gift_name"));
+				item.put("title", rs.getObject("title"));
 				item.put("payPrice", rs.getObject("pay_price"));
 				item.put("returnMoney", rs.getObject("return_money"));
 				item.put("title", rs.getObject("title"));
@@ -397,6 +509,9 @@ public class CowryManageEntrance {
 				item.put("publishTime", rs.getObject("publish_time"));
 				item.put("status", rs.getObject("status"));
 				item.put("auditFailReason", rs.getObject("audit_fail_reason"));
+				item.put("buyWay", rs.getObject("buy_way"));
+				item.put("wayToShop", rs.getObject("way_to_shop"));
+				item.put("couponIf", rs.getObject("coupon_if"));
 				items.add(item);
 			}
 			pst.close();

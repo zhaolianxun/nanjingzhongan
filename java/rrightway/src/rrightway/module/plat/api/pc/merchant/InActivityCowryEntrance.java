@@ -68,7 +68,7 @@ public class InActivityCowryEntrance {
 				sqlParams.add(publishTimeEnd);
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select id,gift_name,pay_price,return_money,title,await_participant_num,buyer_num,(start_time+keep_days*24*60*60*1000-rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')) remain_time from t_activity where in_activity=1")
+					"select id,gift_name,pay_price,return_money,title,buyer_num,(start_time+keep_days*24*60*60*1000-rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')) remain_time from t_activity where in_activity=1")
 							.append(title == null ? "" : " and title like ? ")
 							.append(giftName == null ? "" : " and gift_name like ? ")
 							.append(couponIf == null ? ""
@@ -85,7 +85,6 @@ public class InActivityCowryEntrance {
 				item.put("payPrice", rs.getObject("pay_price"));
 				item.put("returnMoney", rs.getObject("return_money"));
 				item.put("title", rs.getObject("title"));
-				item.put("awaitParticipantNum", rs.getObject("await_participant_num"));
 				item.put("buyerNum", rs.getObject("buyer_num"));
 				item.put("remainTime", rs.getObject("remain_time"));
 				items.add(item);

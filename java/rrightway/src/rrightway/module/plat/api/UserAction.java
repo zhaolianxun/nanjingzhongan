@@ -59,8 +59,8 @@ public class UserAction {
 
 			// 业务处理
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection
-					.prepareStatement("select id,pwd_md5,phone,username from t_user where phone=? or username=?");
+			pst = connection.prepareStatement(
+					"select admin_if,id,pwd_md5,phone,username from t_user where phone=? or username=?");
 			pst.setObject(1, account);
 			pst.setObject(2, account);
 			ResultSet rs = pst.executeQuery();
@@ -72,6 +72,7 @@ public class UserAction {
 				loginStatus.setPhone(rs.getString("phone"));
 				loginStatus.setUserId(rs.getString("id"));
 				loginStatus.setUsername(rs.getString("username"));
+				loginStatus.setAdminIf(rs.getInt("admin_if"));
 			} else
 				throw new InteractRuntimeException("账号不存在");
 
@@ -129,12 +130,13 @@ public class UserAction {
 			String userId = loginStatus.getUserId();
 
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("select phone,username from t_user where id=?");
+			pst = connection.prepareStatement("select phone,username,admin_if from t_user where id=?");
 			pst.setObject(1, userId);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				loginStatus.setPhone(rs.getString("phone"));
 				loginStatus.setUsername(rs.getString("username"));
+				loginStatus.setAdminIf(rs.getInt("admin_if"));
 			} else
 				throw new InteractRuntimeException(20);
 

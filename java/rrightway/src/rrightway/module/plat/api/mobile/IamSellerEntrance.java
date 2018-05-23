@@ -25,11 +25,11 @@ import rrightway.module.plat.entity.UserLoginStatus;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
-@Controller("plat.api.mobile.IambuyerEntrance")
-@RequestMapping(value = "/p/m/iambuyerent")
-public class IambuyerEntrance {
+@Controller("plat.api.mobile.IamSellerEntrance")
+@RequestMapping(value = "/p/m/iamsellerent")
+public class IamSellerEntrance {
 
-	public static Logger logger = Logger.getLogger(IambuyerEntrance.class);
+	public static Logger logger = Logger.getLogger(IamSellerEntrance.class);
 
 	@RequestMapping(value = "/applyedorders/remindcheck")
 	public void applyedordersRemindcheck(HttpServletRequest request, HttpServletResponse response) throws Exception {
