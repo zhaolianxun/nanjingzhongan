@@ -36,18 +36,19 @@ public class TradeManageEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
+			// 空-全部 0待核对 3买家取消 4卖家取消 5系统取消 6涉嫌返利
+			String tradeStatusParam = StringUtils.trimToNull(request.getParameter("trade_status"));
+			Integer tradeStatus = tradeStatusParam == null ? null : Integer.parseInt(tradeStatusParam);
 			String buyerNickname = StringUtils.trimToNull(request.getParameter("buyer_nickname"));
 			String sellerNickname = StringUtils.trimToNull(request.getParameter("seller_nickname"));
 			String title = StringUtils.trimToNull(request.getParameter("title"));
 			String giftName = StringUtils.trimToNull(request.getParameter("gift_name"));
 			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			String taobaoOrderid = StringUtils.trimToNull(request.getParameter("taobao_orderid"));
 			String orderTimeStartParam = StringUtils.trimToNull(request.getParameter("order_time_start"));
 			Long orderTimeStart = orderTimeStartParam == null ? null : Long.parseLong(orderTimeStartParam);
 			String orderTimeEndParam = StringUtils.trimToNull(request.getParameter("order_time_end"));
 			Long orderTimeEnd = orderTimeEndParam == null ? null : Long.parseLong(orderTimeEndParam);
-			String buyerRemindCheckIfParam = StringUtils.trimToNull(request.getParameter("buyer_remind_check_if"));
-			Integer buyerRemindCheckIf = buyerRemindCheckIfParam == null ? null
-					: Integer.parseInt(buyerRemindCheckIfParam);
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
 			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
 			if (pageNo <= 0)
@@ -63,8 +64,10 @@ public class TradeManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			List sqlParams = new ArrayList();
-			if (buyerRemindCheckIf != null)
-				sqlParams.add(buyerRemindCheckIf);
+			if (tradeStatus != null)
+				sqlParams.add(tradeStatus);
+			if (taobaoOrderid != null)
+				sqlParams.add(new StringBuilder("%").append(taobaoOrderid).append("%").toString());
 			if (buyerNickname != null)
 				sqlParams.add(new StringBuilder("%").append(buyerNickname).append("%").toString());
 			if (sellerNickname != null)
@@ -82,15 +85,17 @@ public class TradeManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.buyer_remind_check_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where t.status=0 ")
-							.append(buyerRemindCheckIf == null ? "" : " and t.buyer_remind_check_if=? ")
+					"select t.buyer_remind_check_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 ")
+							.append(tradeStatus == null ? " t.status in (0,3,4,5,6) " : " t.status = ?")
+							.append(taobaoOrderid == null ? "" : " and t.taobao_orderid like ? ")
 							.append(buyerNickname == null ? "" : " and bt.nickname like ? ")
 							.append(sellerNickname == null ? "" : " and st.nickname like ? ")
 							.append(title == null ? "" : " and t.title like ? ")
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(orderId == null ? "" : " and t.id like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
-							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ").toString());
+							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ")
+							.toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -106,7 +111,6 @@ public class TradeManageEntrance {
 				item.put("status", rs.getObject("status"));
 				item.put("buyerNickname", rs.getObject("buyer_nickname"));
 				item.put("sellerNickname", rs.getObject("seller_nickname"));
-				item.put("buyerRemindCheckIf", rs.getObject("buyer_remind_check_if"));
 				items.add(item);
 			}
 			pst.close();
@@ -145,9 +149,6 @@ public class TradeManageEntrance {
 			Long orderTimeStart = orderTimeStartParam == null ? null : Long.parseLong(orderTimeStartParam);
 			String orderTimeEndParam = StringUtils.trimToNull(request.getParameter("order_time_end"));
 			Long orderTimeEnd = orderTimeEndParam == null ? null : Long.parseLong(orderTimeEndParam);
-			String reviewPicCommitIfParam = StringUtils.trimToNull(request.getParameter("review_pic_commit_if"));
-			Integer reviewPicCommitIf = reviewPicCommitIfParam == null ? null
-					: Integer.parseInt(reviewPicCommitIfParam);
 			String buyerProtectRightsStatusParam = StringUtils
 					.trimToNull(request.getParameter("buyer_protect_rights_status"));
 			Integer buyerProtectRightsStatus = buyerProtectRightsStatusParam == null ? null
@@ -196,7 +197,8 @@ public class TradeManageEntrance {
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(orderId == null ? "" : " and t.id like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
-							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ").toString());
+							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ")
+							.toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -214,7 +216,7 @@ public class TradeManageEntrance {
 				item.put("sellerNickname", rs.getObject("seller_nickname"));
 				item.put("buyerProtectRightsStatus", rs.getObject("buyer_protect_rights_status"));
 				String reviewPic = rs.getString("review_pic");
-				item.put("review_pic_commit_if",reviewPic == null || reviewPic.isEmpty() ?0:1);
+				item.put("review_pic_commit_if", reviewPic == null || reviewPic.isEmpty() ? 0 : 1);
 				items.add(item);
 			}
 			pst.close();
@@ -292,7 +294,8 @@ public class TradeManageEntrance {
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(orderId == null ? "" : " and t.id like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
-							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ").toString());
+							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ")
+							.toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -330,9 +333,7 @@ public class TradeManageEntrance {
 				connection.close();
 		}
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/protectingrightsorders")
 	public void protectingRightsOrders(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -385,14 +386,16 @@ public class TradeManageEntrance {
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
 					"select t.buyer_protect_rights_status,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 ")
-					.append(buyerProtectRightsStatus == null ? "" : " and t.buyer_protect_rights_status like ? ")
-					.append(buyerNickname == null ? "" : " and bt.nickname like ? ")
+							.append(buyerProtectRightsStatus == null ? ""
+									: " and t.buyer_protect_rights_status like ? ")
+							.append(buyerNickname == null ? "" : " and bt.nickname like ? ")
 							.append(sellerNickname == null ? "" : " and st.nickname like ? ")
 							.append(title == null ? "" : " and t.title like ? ")
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(orderId == null ? "" : " and t.id like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
-							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ").toString());
+							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ")
+							.toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
