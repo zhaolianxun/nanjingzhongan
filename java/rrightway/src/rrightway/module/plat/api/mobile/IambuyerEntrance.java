@@ -781,13 +781,15 @@ public class IambuyerEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit_min,t.taobao_orderid from t_order t where t.id=?")
+					"select t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit_min,t.taobao_orderid from t_order t where t.id=?")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
 			if (rs.next()) {
 				item.put("orderId", rs.getObject("id"));
+				item.put("wayToShop", rs.getObject("way_to_shop"));
+				item.put("activityId", rs.getObject("activity_id"));
 				item.put("reviewPicAudit", rs.getObject("review_pic_audit"));
 				item.put("reviewPicCommitTime", rs.getObject("review_pic_commit_time"));
 				item.put("orderTime", rs.getObject("order_time"));

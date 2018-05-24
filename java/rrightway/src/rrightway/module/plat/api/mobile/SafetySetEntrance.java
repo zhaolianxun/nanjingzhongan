@@ -384,6 +384,7 @@ public class SafetySetEntrance {
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
 			pst = connection.prepareStatement("select paypwd_md5 from t_user where id=?");
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
@@ -405,8 +406,62 @@ public class SafetySetEntrance {
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
 
+			pst = connection.prepareStatement("update t_user set realname=? where id=?");
+			pst.setObject(1, belonger);
+			pst.setObject(2, loginStatus.getUserId());
+			n = pst.executeUpdate();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/getbankinfo")
+	public void getbankinfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement(
+					"select status,belonger,phone,cardno,bankname from t_user_bankcard t where t.user_id=?");
+			pst.setObject(1, loginStatus.getUserId());
+			JSONObject item = new JSONObject();
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				item.put("belonger", rs.getInt("belonger"));
+				item.put("phone", rs.getString("phone"));
+				item.put("cardno", rs.getString("cardno"));
+				item.put("bankname", rs.getString("bankname"));
+				item.put("status", rs.getString("status"));
+			} else
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			JSONObject data = new JSONObject();
+			data.putAll(item);
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
@@ -644,7 +699,8 @@ public class SafetySetEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.taobao_user_nick from t_taobaoaccount t where t.user_id=? and t.type=1").toString());
+					"select ifnull(u.realname,0,1) bankinfo_fill_if,t.alipay_account,u.realname,t.id,t.taobao_user_nick,t.status,t.idcard_front,t.idcard_back,t.idcard_no,t.audit_fail_reason from t_taobaoaccount t inner join t_user u on t.user_id=u.id where t.user_id=? and t.type=1")
+							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
@@ -652,6 +708,13 @@ public class SafetySetEntrance {
 				JSONObject item = new JSONObject();
 				item.put("taobaoAccountId", rs.getInt("id"));
 				item.put("taobaoUserNick", rs.getString("taobao_user_nick"));
+				item.put("status", rs.getInt("status"));
+				item.put("idcardFront", rs.getString("idcard_front"));
+				item.put("idcardBack", rs.getString("idcard_back"));
+				item.put("idcardNo", rs.getString("idcard_no"));
+				item.put("alipayAccount", rs.getString("alipay_account"));
+				item.put("realname", rs.getString("realname"));
+				item.put("bankinfoFillIf", rs.getInt("bankinfo_fill_if"));
 				items.add(item);
 			}
 			pst.close();
@@ -708,6 +771,68 @@ public class SafetySetEntrance {
 			taobaoAccounts.put("items", items);
 			data.put("taobaoAccounts", taobaoAccounts);
 			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/completetaobaoinfo")
+	public void completetaobaoinfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idcardFront = StringUtils.trimToNull(request.getParameter("idcard_front"));
+			if (idcardFront == null)
+				throw new InteractRuntimeException("idcard_front 不可空");
+			String idcardBack = StringUtils.trimToNull(request.getParameter("idcard_back"));
+			if (idcardBack == null)
+				throw new InteractRuntimeException("idcard_back 不可空");
+			String idcardNo = StringUtils.trimToNull(request.getParameter("idcard_no"));
+			if (idcardNo == null)
+				throw new InteractRuntimeException("idcard_no 不可空");
+			String alipayAccount = StringUtils.trimToNull(request.getParameter("alipay_account"));
+			if (alipayAccount == null)
+				throw new InteractRuntimeException("alipay_account 不可空");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement(
+					new StringBuilder("select count(id) from t_user_bankcard where user_id=?").toString());
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				if (rs.getInt(1) == 0)
+					throw new InteractRuntimeException("请补全银行卡信息");
+			}
+			pst.close();
+
+			pst = connection.prepareStatement(
+					"update t_taobaoaccount set idcard_front=?,idcard_back=?,idcard_no=?,alipay_account=?,status=1 where id=?");
+			pst.setObject(1, idcardFront);
+			pst.setObject(2, idcardBack);
+			pst.setObject(3, idcardNo);
+			pst.setObject(4, alipayAccount);
+			pst.setObject(5, loginStatus.getUserId());
+			pst.close();
+			int n = pst.executeUpdate();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));

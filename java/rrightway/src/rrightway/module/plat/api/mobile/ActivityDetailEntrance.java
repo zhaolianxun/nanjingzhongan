@@ -90,10 +90,10 @@ public class ActivityDetailEntrance {
 					}
 				}
 				item.put("wayToShop", wayToShop);
-				item.put("qrcodeToOrder", rs.getString("qrcodeToOrder"));
-				item.put("searchKeys", rs.getString("searchKeys"));
-				item.put("cowryCover", rs.getString("cowryCover"));
-				item.put("cowryUrl", rs.getString("cowryUrl"));
+				item.put("qrcodeToOrder", qrcodeToOrder);
+				item.put("searchKeys",searchKeys);
+				item.put("cowryCover", cowryCover);
+				item.put("cowryUrl", cowryUrl);
 			}
 			pst.close();
 
@@ -129,7 +129,7 @@ public class ActivityDetailEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.taobao_user_nick from t_taobaoaccount t where t.user_id=? and t.type=1").toString());
+					"select t.id,t.taobao_user_nick,idcard_front,idcard_back,idcard_no, from t_taobaoaccount t where t.user_id=? and t.type=1").toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
