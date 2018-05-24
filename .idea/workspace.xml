@@ -2,70 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/111a.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/20180524183400.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/img/222a.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/blankbg.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/close2_ico.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/fail_ico.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/filter_ico.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_arrow_right (1).png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_arrow_right.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_del.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_menu_open (1).png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_menu_open.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_money_tag1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_money_tag2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_money_tag3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_money_tag7.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_money_tag8.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_selected.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_show_type1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/ico_user.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/sp_nav14.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/top_ico.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/wallet_in.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/arrow_down.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/arrow_left2.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/images/arrow_right.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/bill.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/bill_detail.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/com.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/ent.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/css/golbal.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/jquery-1.9.1.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/easywin/plat/mallappshow.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/css/moblie.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/css/new.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/new.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet_help.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/topup.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/topup_help.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/topuprecord.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdraw.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdraw_banks.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdrawrecord.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/yh.scroll.active.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/UserAction.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/UserAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/WxOpenP3Authorization.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/plat/api/WxOpenP3Authorization.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/ActivityDetailEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/ActivityDetailEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/BuyEntrance.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/module/mall/api/BuyEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/IambuyerEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/IambuyerEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/MainInitiator.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/MainInitiator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/constant/OutApis.java" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/constant/OutApis.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SafetySetEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SafetySetEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/TradeManageEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/TradeManageEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/agent/agentinfo.html" afterPath="$PROJECT_DIR$/web/easywin/plat/agent/agentinfo.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/appstore.html" afterPath="$PROJECT_DIR$/web/easywin/plat/appstore.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/index.html" afterPath="$PROJECT_DIR$/web/easywin/plat/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig.properties" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_develop/mainConfig.properties" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_develop/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_product/mainConfig.properties" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_product/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_test/mainConfig.properties" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_test/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/myapp.html" afterPath="$PROJECT_DIR$/web/easywin/plat/myapp.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/preview.html" afterPath="$PROJECT_DIR$/web/easywin/plat/preview.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/MoneyManageEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/MoneyManageEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet.html" />
     </list>
     <ignored path="nanjingzhongan.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -108,11 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rightwallet.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="rightwallet.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.8965516">
-              <caret line="36" column="38" selection-start-line="36" selection-start-column="38" selection-end-line="36" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.105882354">
+              <caret line="44" column="94" selection-start-line="44" selection-start-column="94" selection-end-line="44" selection-end-column="94" />
               <folding />
             </state>
           </provider>
@@ -184,11 +122,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ent.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ent.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/ent.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.82957745">
-              <caret line="64" column="52" selection-start-line="64" selection-start-column="52" selection-end-line="64" selection-end-column="52" />
+            <state vertical-scroll-proportion="-6.785714">
+              <caret line="70" column="1" selection-start-line="70" selection-start-column="1" selection-end-line="89" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -551,7 +489,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="7" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1242,18 +1180,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet.html">
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/ent.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.8965516">
-          <caret line="36" column="38" selection-start-line="36" selection-start-column="38" selection-end-line="36" selection-end-column="38" />
+        <state vertical-scroll-proportion="-6.785714">
+          <caret line="70" column="1" selection-start-line="70" selection-start-column="1" selection-end-line="89" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/ent.html">
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.82957745">
-          <caret line="64" column="52" selection-start-line="64" selection-start-column="52" selection-end-line="64" selection-end-column="52" />
+        <state vertical-scroll-proportion="0.105882354">
+          <caret line="44" column="94" selection-start-line="44" selection-start-column="94" selection-end-line="44" selection-end-column="94" />
           <folding />
         </state>
       </provider>

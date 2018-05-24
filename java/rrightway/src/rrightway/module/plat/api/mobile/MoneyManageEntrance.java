@@ -599,28 +599,19 @@ public class MoneyManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.right_wallet,t.money,(select ifnull(sum(money),0) from t_widthdraw where user_id=t.id and status=0) withdrawing_money,t.withdrawable_money from t_user t where t.id=?")
+					"select t.right_wallet from t_user t where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
-			BigDecimal money;
 			BigDecimal rightWallet;
-			BigDecimal withdrawingMoney;
-			BigDecimal withdrawableMoney;
 			if (rs.next()) {
-				withdrawableMoney = rs.getBigDecimal("withdrawable_money");
-				money = rs.getBigDecimal("money");
 				rightWallet = rs.getBigDecimal("right_wallet");
-				withdrawingMoney = rs.getBigDecimal("withdrawing_money");
 			} else
 				throw new InteractRuntimeException("用户不存在");
 			pst.close();
 
 			// 返回结果
 			JSONObject data = new JSONObject();
-			data.put("withdrawableMoney", withdrawableMoney);
-			data.put("money", money);
-			data.put("withdrawingMoney", withdrawingMoney);
 			data.put("rightWallet", rightWallet);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
