@@ -91,7 +91,7 @@ public class ActivityDetailEntrance {
 				}
 				item.put("wayToShop", wayToShop);
 				item.put("qrcodeToOrder", qrcodeToOrder);
-				item.put("searchKeys",searchKeys);
+				item.put("searchKeys", searchKeys);
 				item.put("cowryCover", cowryCover);
 				item.put("cowryUrl", cowryUrl);
 			}
@@ -129,7 +129,8 @@ public class ActivityDetailEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.taobao_user_nick,idcard_front,idcard_back,idcard_no, from t_taobaoaccount t where t.user_id=? and t.type=1").toString());
+					"select t.id,t.taobao_user_nick,t.audit_fail_reason,t.status from t_taobaoaccount t where t.user_id=? and t.type=1")
+							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
@@ -137,6 +138,8 @@ public class ActivityDetailEntrance {
 				JSONObject item = new JSONObject();
 				item.put("taobaoAccountId", rs.getInt("id"));
 				item.put("taobaoUserNick", rs.getString("taobao_user_nick"));
+				item.put("status", rs.getInt("status"));
+				item.put("auditFailReason", rs.getString("audit_fail_reason"));
 				items.add(item);
 			}
 			pst.close();
@@ -181,17 +184,38 @@ public class ActivityDetailEntrance {
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
-
 			pst = connection.prepareStatement(new StringBuilder(
-					"select way_to_shop,(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id and status not in (3,4)) apply_if,t.start_time,t.keep_days,t.gift_express_co,t.buyer_mincredit_min,t.gift_cover,(select taobao_user_nick from t_taobaoaccount where id=? and type=1 and user_id=?) buyer_taobao_usernick,tbs.taobao_user_nick,t.taobaoaccount_id,t.user_id,t.gift_name,t.title,t.pay_price,t.return_money,t.buy_way,if((isnull(t.coupon_url)||length(trim(t.coupon_url))=0),0,1) coupon_if from t_activity t inner join t_taobaoaccount tbs on t.taobaoaccount_id=tbs.id where t.id=?")
+					"select taobao_user_nick,status,audit_fail_reason from t_taobaoaccount where id=? and type=1 and user_id=?")
+							.toString());
+			pst.setObject(1, buyerTaobaoaccountId);
+			pst.setObject(2, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			String buyerTaobaoUserNick = null;
+			if (rs.next()) {
+				buyerTaobaoUserNick = rs.getString("taobao_user_nick");
+				int status = rs.getInt("status");
+				String auditFailReason = rs.getString("audit_fail_reason");
+				if (status == 0)
+					throw new InteractRuntimeException("淘宝账号资料未补全");
+				if (status == 1)
+					throw new InteractRuntimeException("淘宝账号资审核中");
+				if (status == 3)
+					throw new InteractRuntimeException("淘宝账号资审审核失败。" + auditFailReason);
+			} else
+				throw new InteractRuntimeException("买家淘宝不存在");
+
+			pst.close();
+			pst = connection.prepareStatement(new StringBuilder(
+					"select way_to_shop,(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id and status not in (3,4)) apply_if,t.start_time,t.keep_days,t.gift_express_co,t.buyer_mincredit_min,t.gift_cover,tbs.taobao_user_nick,t.taobaoaccount_id,t.user_id,t.gift_name,t.title,t.pay_price,t.return_money,t.buy_way,if((isnull(t.coupon_url)||length(trim(t.coupon_url))=0),0,1) coupon_if from t_activity t inner join t_taobaoaccount tbs on t.taobaoaccount_id=tbs.id where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
-			pst.setObject(2, buyerTaobaoaccountId);
-			pst.setObject(3, loginStatus.getUserId());
-			pst.setObject(4, activityId);
-			ResultSet rs = pst.executeQuery();
+			pst.setObject(2, activityId);
+			rs = pst.executeQuery();
 			String orderId = null;
 			if (rs.next()) {
+				String sellerUserId = rs.getString("user_id");
+				if (sellerUserId.equals(loginStatus.getUserId()))
+					throw new InteractRuntimeException("您不可以购买自己的商品");
 				long startTime = rs.getLong("start_time");
 				int keepDays = rs.getInt("keep_days");
 				if (new Date().getTime() > (startTime + keepDays * 24 * 60 * 60 * 1000l))
@@ -205,18 +229,13 @@ public class ActivityDetailEntrance {
 				int couponIf = rs.getInt("coupon_if");
 				int buyWay = rs.getInt("buy_way");
 				int wayToShop = rs.getInt("way_to_shop");
-				String sellerUserId = rs.getString("user_id");
 				String giftName = rs.getString("gift_name");
 				String title = rs.getString("title");
 				String giftCover = rs.getString("gift_cover");
 				String sellerTaobaoUserNick = rs.getString("taobao_user_nick");
-				String buyerTaobaoUsernick = rs.getString("buyer_taobao_usernick");
 				BigDecimal payPrice = rs.getBigDecimal("pay_price");
 				BigDecimal returnMoney = rs.getBigDecimal("return_money");
 				pst.close();
-
-				if (StringUtils.isEmpty(buyerTaobaoUsernick))
-					throw new InteractRuntimeException("买家淘宝号错误");
 
 				orderId = RandomStringUtils.randomNumeric(12);
 				pst = connection.prepareStatement(new StringBuilder(
@@ -234,7 +253,7 @@ public class ActivityDetailEntrance {
 				pst.setObject(10, returnMoney);
 				pst.setObject(11, new Date().getTime());
 				pst.setObject(12, sellerTaobaoUserNick);
-				pst.setObject(13, buyerTaobaoUsernick);
+				pst.setObject(13, buyerTaobaoUserNick);
 				pst.setObject(14, buyWay);
 				pst.setObject(15, couponIf);
 				pst.setObject(16, giftCover);

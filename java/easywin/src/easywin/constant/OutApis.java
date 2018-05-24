@@ -2,6 +2,7 @@ package easywin.constant;
 
 public class OutApis {
 	public static String sms_verification_verify;
+	public static String sms_send;
 
 	// public static void main(String[] args) throws Exception {
 	// UrlBuilder urlBuilder = new

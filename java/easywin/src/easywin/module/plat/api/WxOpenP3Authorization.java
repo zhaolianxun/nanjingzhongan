@@ -2,6 +2,7 @@ package easywin.module.plat.api;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
@@ -34,12 +35,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 
+import easywin.constant.OutApis;
 import easywin.constant.SysConstant;
 import easywin.entity.InteractRuntimeException;
 import easywin.module.plat.business.GetLoginStatus;
 import easywin.module.plat.entity.UserLoginStatus;
 import easywin.util.EasywinDataSource;
 import easywin.util.HttpRespondWithData;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -95,6 +99,41 @@ public class WxOpenP3Authorization {
 				if (n != 1)
 					throw new InteractRuntimeException("操作失败");
 				connection.commit();
+
+				try {
+					pst = connection.prepareStatement(
+							"select distinct u.phone,a.nick_name,ag.agent_domain from t_user u left join t_app a on u.id=a.user_id left join t_user ag on a.from_agent_id=ag.id where a.wx_appid=?");
+					pst.setObject(1, authorizerAppid);
+					ResultSet rs = pst.executeQuery();
+					if (rs.next()) {
+						String phone = rs.getString("phone");
+						String nickName = rs.getString("nick_name");
+						String agentDomain = rs.getString("agent_domain");
+						pst.close();
+
+						String url = new StringBuilder(OutApis.sms_send).append("?").append("phone=").append(phone)
+								.append("&client=").append("easywin").append("&content=")
+								.append(new StringBuilder("您已取消小程序'").append(nickName)
+										.append("'的授权，这将影响您小程序的运营，您可以登录网站查看!").append("http://").append(agentDomain)
+										.append("/easywin/plat/iindex.html"))
+								.toString();
+						Request okHttpRequest = new Request.Builder().url(url).build();
+						Call call = SysConstant.okHttpClient.newCall(okHttpRequest);
+						call.enqueue(new Callback() {
+							@Override
+							public void onFailure(Call call, IOException e) {
+								logger.info("短信发送失败");
+							}
+
+							@Override
+							public void onResponse(Call call, Response response) throws IOException {
+								logger.debug(response.body().string());
+							}
+						});
+					}
+				} catch (Exception e) {
+					logger.info(ExceptionUtils.getStackTrace(e));
+				}
 			} else {
 				logger.debug("未实现的业务");
 			}
@@ -525,6 +564,41 @@ public class WxOpenP3Authorization {
 					pst.close();
 					if (n != 1)
 						throw new InteractRuntimeException("操作失败");
+
+					// 短信通知
+					try {
+						pst = connection.prepareStatement(
+								"select distinct u.phone,a.nick_name,ag.agent_domain from t_user u left join t_app a on u.id=a.user_id left join t_user ag on a.from_agent_id=ag.id where a.wx_appid=?");
+						pst.setObject(1, appId);
+						ResultSet rs = pst.executeQuery();
+						if (rs.next()) {
+							String phone = rs.getString("phone");
+							String nickName = rs.getString("nick_name");
+							String agentDomain = rs.getString("agent_domain");
+							pst.close();
+
+							String url = new StringBuilder(OutApis.sms_send).append("?").append("phone=").append(phone)
+									.append("&client=").append("easywin").append("&content=")
+									.append(new StringBuilder("您的小程序'").append(nickName).append("'审核通过，您可以登录网站发布上线了!")
+											.append("http://").append(agentDomain).append("/easywin/plat/iindex.html"))
+									.toString();
+							Request okHttpRequest = new Request.Builder().url(url).build();
+							Call call = SysConstant.okHttpClient.newCall(okHttpRequest);
+							call.enqueue(new Callback() {
+								@Override
+								public void onFailure(Call call, IOException e) {
+									logger.info("短信发送失败");
+								}
+
+								@Override
+								public void onResponse(Call call, Response response) throws IOException {
+									logger.debug(response.body().string());
+								}
+							});
+						}
+					} catch (Exception e) {
+						logger.info(ExceptionUtils.getStackTrace(e));
+					}
 				} else if ("weapp_audit_fail".equals(event)) {
 					String toUserName = root.elementTextTrim("ToUserName");
 					String createTime = root.elementTextTrim("CreateTime");
@@ -539,6 +613,40 @@ public class WxOpenP3Authorization {
 					if (n != 1)
 						throw new InteractRuntimeException("操作失败");
 
+					// 短信通知
+					try {
+						pst = connection.prepareStatement(
+								"select distinct u.phone,a.nick_name,ag.agent_domain from t_user u left join t_app a on u.id=a.user_id left join t_user ag on a.from_agent_id=ag.id where a.wx_appid=?");
+						ResultSet rs = pst.executeQuery();
+						pst.setObject(1, appId);
+						if (rs.next()) {
+							String phone = rs.getString("phone");
+							String nickName = rs.getString("nick_name");
+							String agentDomain = rs.getString("agent_domain");
+							pst.close();
+
+							String url = new StringBuilder(OutApis.sms_send).append("?").append("phone=").append(phone)
+									.append("&client=").append("easywin").append("&content=")
+									.append(new StringBuilder("您的小程序'").append(nickName).append("'审核失败，您可以登录网站查看!")
+											.append("http://").append(agentDomain).append("/easywin/plat/iindex.html"))
+									.toString();
+							Request okHttpRequest = new Request.Builder().url(url).build();
+							Call call = SysConstant.okHttpClient.newCall(okHttpRequest);
+							call.enqueue(new Callback() {
+								@Override
+								public void onFailure(Call call, IOException e) {
+									logger.info("短信发送失败");
+								}
+
+								@Override
+								public void onResponse(Call call, Response response) throws IOException {
+									logger.debug(response.body().string());
+								}
+							});
+						}
+					} catch (Exception e) {
+						logger.info(ExceptionUtils.getStackTrace(e));
+					}
 				}
 			}
 

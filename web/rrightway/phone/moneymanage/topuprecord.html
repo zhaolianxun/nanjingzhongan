@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport" /><meta name="apple-mobile-web-app-capable" content="yes" /><meta name="apple-mobile-web-app-status-bar-style" content="black" /><meta content="telephone=no" name="format-detection" />
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes" /><meta name="browsermode" content="application" />
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait" /><meta name="x5-fullscreen" content="true" /><meta name="x5-page-mode" content="app" /><title>
+        充值记录-左左试用平台触屏版
+    </title><link rel="stylesheet" type="text/css" href="css/new.css" />
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
+
+    <meta name="description" content="左左街-专业的试用网" /><meta name="keywords" content="左左,左左街,试用,推广" /></head>
+
+<body>
+<div class="viewport">
+    <!-- 顶部 开始 -->
+    <div class="header">
+        <a href="javascript:;" class="type" onclick="history.back();">
+            <img src="images/arrow_left2.svg" class="h40"></a>
+        <a href="javascript:;" class="tosearch filter">
+            <img src="images/ico_show_type1.png" class="h40" /></a>
+        <div class="htxt">充值记录</div>
+    </div>
+    <!-- 顶部 结束 -->
+
+    <!-- 列表页 开始-->
+    <div  class="clearfix itemExample" id="spro_list20" style="display:none">
+        <div class="plr20 bgfff mb20 ">
+            <div class="pt30 pb30 f28 relative bb1 line40">
+                <p>
+                    <i class="c999">流水号：</i><span name="topupId"></span><br />
+                    <i class="c999">充值时间：</i><span name="topupTime"></span><br />
+                    <i class="c999" style="display:none" name="failReason1">失败原因：</i><span name="failReason" style="display:none" ></span>
+                </p>
+                <i class="absolute r0 t30 c2f97f0"><span name="status"></span></i>
+            </div>
+            <div class="f24 line36 c999 pt30 pb30">支付宝交易号：<span name="alipayTradeno"></span>，充值金额：<span name="money"></span>元</div>
+        </div>
+    </div>
+    <!-- 列表页 结束-->
+
+    <!-- 没有数据提示-->
+    <div class="no_data hidden">
+        <div class="pb40 mt100">
+            <div class="success">
+                <i>
+                    <img src="images/fail_ico.png" /></i>
+                <p class="c999">没有相关的充值记录哦~</p>
+
+                <!-- 筛选没有显示-->
+                <a href="javascript:;" class="h66 bd1 dl brd100 c2f97f0 plr60 mt30 nofilter f28" style="display: none;">全部记录</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--筛选 弹窗-->
+<div class="pop_from_right sp2 animate" id="filterright">
+    <div class="maskbg animate"></div>
+    <div class="h90 relative clearfix bgf8f8f8">
+        <a href="javascript:;" class="goback plr20 relative z9">
+            <img src="images/close2_ico.png" class="w30" /></a>
+        <div class="center absolute l0 t0 pw100 f30">筛选</div>
+    </div>
+    <div class="scroll sp2 bgfff">
+        <div class="listborder interview_list bgf8f8f8 sp3 bb1 f28">
+            <dl class="item">
+                <dt class="head">
+                <div class="cls">
+                    <div class="h90">时间 <em class="datetime fr c999">最近一周</em></div>
+                            <span class="arrow">
+                                <img src="images/arrow_down.svg" class="w30"></span>
+                </div>
+                </dt>
+                <dd class="foot f28 hidden">
+                    <div class="bt1 sp2 clearfix c_ftab list666" data="datetime">
+                        <input type="hidden" id="datetime" value="1" />
+                        <div class="item active"><a href="javascript:;" data="1"><em>最近一周</em></a></div>
+                        <div class="item"><a href="javascript:;" data="2"><em>最近一个月</em></a></div>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="item">
+                <dt class="head">
+                <div class="cls">
+                    <div class="h90">状态 <em class="protype fr c999">全部</em></div>
+                            <span class="arrow">
+                                <img src="images/arrow_down.svg" class="w30"></span>
+                </div>
+                </dt>
+                <dd class="foot f28 hidden">
+                    <div class="bt1 sp2 clearfix c_ftab list666" data="protype">
+                        <input type="hidden" id="protype" value="1" />
+                        <div class="item active"><a href="javascript:;" data="1"><em>全部</em></a></div>
+                        <div class="item"><a href="javascript:;" data="2"><em>未处理</em></a></div>
+                        <div class="item"><a href="javascript:;" data="3"><em>已处理</em></a></div>
+                        <div class="item"><a href="javascript:;" data="4"><em>金额不对</em></a></div>
+                        <div class="item"><a href="javascript:;" data="5"><em>异常</em></a></div>
+                    </div>
+                </dd>
+            </dl>
+            <div class="form_area place28 bgfff">
+                <div class="item">
+                    <b>支付宝交易号</b><p class="pr20 ml210">
+                    <input type="text" class="textr" placeholder="请输入支付宝交易号" id="pay_order" />
+                </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute l0 b0 h90 list_tab sp2 bgfff pw100 f30 center"><a href="javascript:;" class="bgf2f2f2 c999 item nofilter">清空条件</a><a href="javascript:;" class="bg2f97f0 cfff item" onclick="reloaddata()">确认</a></div>
+</div>
+
+<script type="text/javascript" src="js/yh.scroll.active.js" charset="utf-8"></script>
+
+<script>
+
+    function formatDateTime(inputTime) {
+        var date = new Date(inputTime);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        second = second < 10 ? ('0' + second) : second;
+        return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+    };
+
+    var token = localStorage.getItem('token');
+    var topups = {};
+    var pageNo = 1;
+    var pageSize=30;
+    var noMoreItems = false;
+    onload();
+
+    function onload(){
+        loadBills();
+    }
+
+
+    function loadBills(){
+        $.ajax({
+            type: 'POST',
+            data: {page_no: pageNo,page_size: pageSize},
+            async: false,
+            url: '/rrightway/p/m/moneymanageent/topuprecord/ent?token='+token,
+            success: function(res){
+                if(res.code == 0){
+                    if(res.data.topups.items.length==0)
+                        noMoreItems=true;
+                    $(res.data.topups.items).each(function(index,ele){
+                        topups[ele.topupId]=ele;
+                        var newItem = $('.itemExample').clone(true);
+                        newItem.removeClass('itemExample')
+                        newItem.removeClass('clearfix')
+                        newItem.attr('id','topup'+ele.topupId)
+                        newItem.find('[name=money]').text(ele.money);
+                        newItem.find('[name=topupTime]').text(formatDateTime(ele.topupTime));
+                        newItem.find('[name=alipayTradeno]').text(ele.alipayTradeno);
+
+                        if(ele.status == 1){
+                            newItem.find('[name=status]').text('等待处理');
+                        }else if(ele.status == 2){
+                            newItem.find('[name=status]').text('已处理');
+                        }else if(ele.status == 3){
+                            newItem.find('[name=status]').text('校验失败');
+                            newItem.find('[name=failReason]').text(ele.failReason);
+                            newItem.find('[name=failReason1]').css('display','');
+                            newItem.find('[name=failReason]').css('display','');
+                        }
+                        newItem.css('display','');
+                        $('.no_data').before(newItem);
+                    })
+
+                }else{
+                    alert(res.codeMsg)
+                }
+            }
+        });
+    }
+
+
+
+    function godetail() {
+        $('.recoder').unbind();
+        $('.recoder').click(function () {
+            ys.savehis(); //如果返回需要记录页面位置和加载历史页数，切记调用此行
+        });
+    }
+
+    var cooketab = "spro_list20";
+    var objcontainer = "#spro_list20";
+    var isRdata = false; //是否为筛选标识
+    function reloaddata() {
+        if ($("#filterright").hasClass("active")) {
+            $(".pop_from_right .goback").click();
+        }
+        //时间(datetime),状态(protype),支付宝交易号
+        var datetime = $("#datetime").val(), protype = $("#protype").val(), pay_order = $("#pay_order").val();
+        $(objcontainer).html("");
+        ys.reload({
+            params: {
+                datetime: datetime,
+                protype: protype,
+                pay_order: pay_order
+            },
+            onbeforeReload: function () {
+                $(objcontainer).removeClass('hidden');
+                $('.no_data').addClass('hidden');
+            }
+        });
+    }
+
+//    $(function () {
+//        //时间(datetime),状态(protype),支付宝交易号
+//        var datetime = $("#datetime").val(), protype = $("#protype").val(), pay_order = $("#pay_order").val();
+//        $(".order_fixed p[data=" + protype + "]").addClass("active").siblings().removeClass("active");
+//        $("#protype").val(protype);
+//
+//        ys({
+//            container: objcontainer,//控件名称，遵循jquery格式
+//            url: '/rrightway/p/m/moneymanageent/topuprecord/ent?token='+token,    //后台数据地址
+//            params: {page_no: pageNo,page_size: pageSize},
+//            count: pageSize,
+//            cookieName: cooketab,
+//            onloadItem: function (row) {
+//                //根据后台返回的数据，渲染成要在页面显示的方式
+//                var txt = "";
+//                var stypes = "非法类型";
+//                switch (row.nstatus + "") {
+//                    case "1": stypes = "未处理"; break;
+//                    case "2": stypes = "异常"; break;
+//                    case "3": stypes = "金额不对"; break;
+//                    case "8": stypes = "管理员已处理"; break;
+//                    case "9": stypes = "已处理"; break;
+//                }
+//                txt = '<div class="plr20 bgfff mb20">'
+//                        + '  <div class="pt30 pb30 f28 relative bb1 line40">'
+//                        + '    <p><i class="c999">流水号：</i>' + row.sdeal_serial_number + '<br /><i class="c999">充值时间：</i>' + row.dcreate_time + '</p>'
+//                        + '    <i class="absolute r0 t30 c2f97f0">' + stypes + '</i>'
+//                        + '  </div>'
+//                        + '  <div class="f24 line36 c999 pt30 pb30">支付宝交易号：' + row.sdeal_trade_number + '</div>'//，充值金额：8000.00元
+//                        + '</div>';
+//                return txt;
+//            },
+//            onloadSuccess: function () {
+//                godetail();
+//                $(objcontainer).removeClass('hidden');
+//                $('.no_data').addClass('hidden');
+//            },
+//            onNodata: function () {
+//                $(objcontainer).addClass('hidden');
+//                $('.no_data').removeClass('hidden');
+//                if (isRdata) {
+//                    $('.no_data  .nofilter').show();
+//                }
+//            },
+//            onloadError: function (msg) {
+//                //error(msg);
+//            }
+//        });
+//
+//        if (ys.getReqParams().protype != "") {
+//            var tsvalue = ys.getReqParams().protype;
+//            $("#protype").val(tsvalue);
+//            $(".protype").html($("#protype").parent().find("a[data=" + tsvalue + "]").eq(0).parent().text());
+//            $("#protype").parent().find("a[data=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+//        }
+//
+//        if (ys.getReqParams().datetime != "") {
+//            var tsvalue = ys.getReqParams().datetime;
+//            $("#datetime").val(tsvalue);
+//            $(".datetime").html($("#datetime").parent().find("a[data=" + tsvalue + "]").eq(0).parent().text());
+//            $("#datetime").parent().find("a[data=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+//        }
+//
+//        if (ys.getReqParams().pay_order != "") {
+//            var tsvalue = ys.getReqParams().pay_order;
+//            $("#pay_order").val(tsvalue);
+//        }
+//
+//
+//        //筛选
+//        $(".filter").click(function () {
+//            $(".order_fixed").removeClass("active");
+//            $(".order_fixed").hide();
+//            $(".order_fixed .bg,.order_fixed .slist").removeClass("animate");
+//            $("#filterright").addClass("active");
+//            isRdata = true;
+//            noscroll();
+//        })
+//
+//        //清除筛选
+//        $(".nofilter").click(function () {
+//            $(".datem").val('');
+//            $("#saller_nc").val('');
+//            $("#buyer_nc").val('')
+//            $("#order_id").val('')
+//            $("#pro_name").val('');
+//            $("#pro_title").val('');
+//            isRdata = false;
+//            $(".interview_list .foot").each(function () {
+//                $(this).find(".item").eq(0).click();
+//            })
+//        })
+//
+//
+//        $(".pop_from_right .goback,.pop_from_right .maskbg").click(function () {
+//            autoscroll();
+//            $(this).parents(".pop_from_right").addClass("close");
+//            var obj = $(this);
+//            setTimeout(function () {
+//                $(obj).parents(".pop_from_right").removeClass("close").removeClass("active");
+//            }, 300)
+//        })
+//
+//        $(".interview_list .item .cls").click(function () {
+//            if ($(this).parents(".item").hasClass("close")) {
+//                $(this).parents(".item").removeClass("close");
+//                $(this).parents(".item").find(".arrow").removeClass("rotate180");
+//                $(this).parents(".item").find(".foot").slideUp();
+//            }
+//            else {
+//                $(this).parents(".item").addClass("close");
+//                $(this).parents(".item").find(".arrow").addClass("rotate180");
+//                $(this).parents(".item").find(".foot").slideDown();
+//                $(this).parents(".item").siblings().removeClass("close").find(".foot").slideUp();
+//                $(this).parents(".item").siblings().find(".arrow").removeClass("rotate180");
+//            }
+//        })
+//
+//
+//        //筛选点击
+//        $("#filterright .scroll .c_ftab .item").click(function () {
+//            if (!$(this).hasClass("active"))
+//                $("#" + $(this).parent().attr("data")).val($(this).find("a").eq(0).attr("data"));
+//            $(this).addClass("active").siblings().removeClass("active");
+//            $("em." + $(this).parent().attr("data")).html($(this).find("a").eq(0).text());
+//            //reloaddata();
+//        })
+//    })
+</script>
+</body>
+</html>

@@ -286,7 +286,7 @@ public class UserAction {
 					pst.close();
 
 					pst = connection.prepareStatement("delete from t_mall_track where user_id=? and good_id=?");
-					pst.setObject(1, mallId);
+					pst.setObject(1, loginStatus.getUserId());
 					pst.setObject(2, goodId);
 					pst.executeUpdate();
 					pst.close();

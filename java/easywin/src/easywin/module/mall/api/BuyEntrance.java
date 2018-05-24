@@ -97,13 +97,16 @@ public class BuyEntrance {
 				String valueNames = goods.getJSONObject(i).getString("valueNames");
 
 				pst = connection.prepareStatement(
-						"select t.onsale,u.price,t.name,t.cover from t_mall_good_sku u inner join t_mall_good t on t.id=u.good_id where u.good_id=? and u.id=?");
+						"select u.inventory,t.onsale,u.price,t.name,t.cover from t_mall_good_sku u inner join t_mall_good t on t.id=u.good_id where u.good_id=? and u.id=?");
 				pst.setObject(1, id);
 				pst.setObject(2, skuId);
 				rs = pst.executeQuery();
 				if (rs.next()) {
 					if (rs.getInt("onsale") == 0)
 						throw new InteractRuntimeException("商品已经下架");
+					int inventory = rs.getInt("inventory");
+					if (cnt > inventory)
+						throw new InteractRuntimeException("库存不足");
 					JSONObject gotGood = new JSONObject();
 					gotGood.put("id", id);
 					gotGood.put("count", cnt);
@@ -291,14 +294,18 @@ public class BuyEntrance {
 				int price = 0;
 				String name = null;
 				String cover = null;
+				int inventory = 0;
 				pst = connection.prepareStatement(
-						"select t.onsale,u.price,t.name,t.cover from t_mall_good_sku u inner join t_mall_good t on t.id=u.good_id where u.good_id=? and u.id=?");
+						"select t.onsale,u.price,t.name,t.cover,u.inventory from t_mall_good_sku u inner join t_mall_good t on t.id=u.good_id where u.good_id=? and u.id=?");
 				pst.setObject(1, goodId);
 				pst.setObject(2, skuId);
 				rs = pst.executeQuery();
 				if (rs.next()) {
 					if (rs.getInt("onsale") == 0)
 						throw new InteractRuntimeException("商品已经下架");
+					inventory = rs.getInt("inventory");
+					if (cnt > inventory)
+						throw new InteractRuntimeException("库存不足");
 					price = rs.getInt("price");
 					name = rs.getString("name");
 					cover = rs.getString("cover");
@@ -306,6 +313,17 @@ public class BuyEntrance {
 					throw new InteractRuntimeException("商品不存在");
 				}
 				pst.close();
+
+				pst = connection.prepareStatement(
+						"update t_mall_good_sku set inventory=inventory-? where (inventory-?)>=0 and id=?");
+				pst.setObject(1, cnt);
+				pst.setObject(2, cnt);
+				pst.setObject(3, skuId);
+				int nn = pst.executeUpdate();
+				pst.close();
+				if (nn != 1)
+					throw new InteractRuntimeException("操作失败");
+				
 
 				totalPrice = totalPrice + price * cnt;
 				totalCount = totalCount + cnt;

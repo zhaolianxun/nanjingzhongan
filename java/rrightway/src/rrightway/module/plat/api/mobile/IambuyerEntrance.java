@@ -781,7 +781,7 @@ public class IambuyerEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit_min,t.taobao_orderid from t_order t where t.id=?")
+					"select t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit_min,t.taobao_orderid from t_order t where t.id=?")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
@@ -806,6 +806,8 @@ public class IambuyerEntrance {
 				item.put("buyerMincreditMin", rs.getObject("buyer_mincredit_min"));
 				item.put("taobaoOrderid", rs.getObject("taobao_orderid"));
 				item.put("status", rs.getObject("status"));
+				item.put("sellerCancelReason", rs.getObject("seller_cancel_reason"));
+				item.put("buyerCancelReason", rs.getObject("buyer_cancel_reason"));
 			} else
 				throw new InteractRuntimeException("订单不存在");
 

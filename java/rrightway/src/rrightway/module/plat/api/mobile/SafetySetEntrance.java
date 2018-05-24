@@ -396,7 +396,7 @@ public class SafetySetEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(
-					"insert into t_user_bankcard (user_id,bankname,cardno,phone,belonger) values(?,?,?,?,?)");
+					"insert into t_user_bankcard (user_id,bankname,cardno,phone,belonger,status) values(?,?,?,?,?,1)");
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, bankname);
 			pst.setObject(3, cardno);
@@ -413,6 +413,81 @@ public class SafetySetEntrance {
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
 			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/updatebankinfo")
+	public void updatebankinfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String belonger = StringUtils.trimToNull(request.getParameter("belonger"));
+			if (belonger == null)
+				throw new InteractRuntimeException("belonger 不可空");
+			String bankname = StringUtils.trimToNull(request.getParameter("bankname"));
+			if (bankname == null)
+				throw new InteractRuntimeException("bankname 不可空");
+			String cardno = StringUtils.trimToNull(request.getParameter("cardno"));
+			if (cardno == null)
+				throw new InteractRuntimeException("cardno 不可空");
+			String phone = StringUtils.trimToNull(request.getParameter("phone"));
+			if (phone == null)
+				throw new InteractRuntimeException("phone 不可空");
+			String paypwd = StringUtils.trimToNull(request.getParameter("paypwd"));
+			if (paypwd == null)
+				throw new InteractRuntimeException("paypwd 不可空");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement("select paypwd_md5 from t_user where id=?");
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				if (DigestUtils.md5Hex(paypwd).equals(rs.getString("paypwd_md5")))
+					throw new InteractRuntimeException("支付密码错误");
+			} else
+				throw new InteractRuntimeException(20);
+			pst.close();
+
+			pst = connection.prepareStatement(
+					"update set t_user_bankcard bankname=?,cardno=?,phone=?,belonger=?,status=1 where user_id=?");
+			pst.setObject(1, bankname);
+			pst.setObject(2, cardno);
+			pst.setObject(3, phone);
+			pst.setObject(4, belonger);
+			pst.setObject(5, loginStatus.getUserId());
+			int n = pst.executeUpdate();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			pst = connection.prepareStatement("update t_user set realname=? where id=?");
+			pst.setObject(1, belonger);
+			pst.setObject(2, loginStatus.getUserId());
+			n = pst.executeUpdate();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+			connection.commit();
+
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
@@ -715,6 +790,7 @@ public class SafetySetEntrance {
 				item.put("alipayAccount", rs.getString("alipay_account"));
 				item.put("realname", rs.getString("realname"));
 				item.put("bankinfoFillIf", rs.getInt("bankinfo_fill_if"));
+				item.put("auditFailReason", rs.getString("audit_fail_reason"));
 				items.add(item);
 			}
 			pst.close();
