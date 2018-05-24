@@ -48,7 +48,7 @@ public class ActivityDetailEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select way_to_shop,qrcode_to_order,search_keys,cowry_cover,cowry_url,gift_pics,(select if(count(id)>0,1,0) from t_order where user_id=? and activity_id=t.id and status not in (3,4)) apply_if,t.buyer_num,t.gift_cover,t.gift_name,t.pay_price,t.return_money,(t.publish_time+t.keep_days*24*60*60*1000) end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit_min,t.gift_express_co"
+					"select way_to_shop,qrcode_to_order,search_keys,cowry_cover,cowry_url,gift_pics,(select if(count(id)>0,1,0) from t_order where user_id=? and activity_id=t.id and status not in (3,4,5)) apply_if,t.buyer_num,t.gift_cover,t.gift_name,t.pay_price,t.return_money,(t.publish_time+t.keep_days*24*60*60*1000) end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit_min,t.gift_express_co"
 							+ (loginStatus == null ? ",null gift_detail" : ",t.gift_detail")
 							+ " from t_activity t where t.id=?").toString());
 			pst.setObject(1, loginStatus.getUserId());
@@ -206,7 +206,7 @@ public class ActivityDetailEntrance {
 
 			pst.close();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select way_to_shop,(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id and status not in (3,4)) apply_if,t.start_time,t.keep_days,t.gift_express_co,t.buyer_mincredit_min,t.gift_cover,tbs.taobao_user_nick,t.taobaoaccount_id,t.user_id,t.gift_name,t.title,t.pay_price,t.return_money,t.buy_way,if((isnull(t.coupon_url)||length(trim(t.coupon_url))=0),0,1) coupon_if from t_activity t inner join t_taobaoaccount tbs on t.taobaoaccount_id=tbs.id where t.id=?")
+					"select way_to_shop,(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id and status not in (3,4,5)) apply_if,t.start_time,t.keep_days,t.gift_express_co,t.buyer_mincredit_min,t.gift_cover,tbs.taobao_user_nick,t.taobaoaccount_id,t.user_id,t.gift_name,t.title,t.pay_price,t.return_money,t.buy_way,if((isnull(t.coupon_url)||length(trim(t.coupon_url))=0),0,1) coupon_if from t_activity t inner join t_taobaoaccount tbs on t.taobaoaccount_id=tbs.id where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, activityId);
