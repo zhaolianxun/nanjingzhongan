@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -119,12 +120,12 @@ public class MoneyManageEntrance {
 			jedis.close();
 			connection = RrightwayDataSource.dataSource.getConnection();
 
-			pst = connection.prepareStatement(
-					new StringBuilder("insert into t_topup (user_id,status,topup_time,alipay_tradeno) values(?,1,?,?)")
-							.toString());
-			pst.setObject(1, loginStatus.getUserId());
-			pst.setObject(2, new Date().getTime());
-			pst.setObject(3, alipayTradeno);
+			pst = connection.prepareStatement(new StringBuilder(
+					"insert into t_topup (id,user_id,status,topup_time,alipay_tradeno) values(?,?,1,?,?)").toString());
+			pst.setObject(1, new Date().getTime() + RandomStringUtils.randomNumeric(2));
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, new Date().getTime());
+			pst.setObject(4, alipayTradeno);
 			int cnt = pst.executeUpdate();
 			pst.close();
 			if (cnt != 1)
@@ -308,23 +309,21 @@ public class MoneyManageEntrance {
 				throw new InteractRuntimeException("用户不存在");
 			pst.close();
 
+			String withdrawId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
 			pst = connection.prepareStatement(new StringBuilder(
-					"insert into t_widthdraw (user_id,money,status,apply_time,`to`,to1_bankname,to1_phone,to1_belonger,to1_bankcardno) values(?,?,0,?,1,?,?,?,?)")
-							.toString(),
-					Statement.RETURN_GENERATED_KEYS);
-			pst.setObject(1, loginStatus.getUserId());
-			pst.setObject(2, money);
-			pst.setObject(3, new Date().getTime());
-			pst.setObject(4, bankname);
-			pst.setObject(5, bankphone);
-			pst.setObject(6, bankbelonger);
-			pst.setObject(7, bankcardno);
+					"insert into t_widthdraw (id,user_id,money,status,apply_time,`to`,to1_bankname,to1_phone,to1_belonger,to1_bankcardno) values(?,?,?,0,?,1,?,?,?,?)")
+							.toString());
+			pst.setObject(1, withdrawId);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, money);
+			pst.setObject(4, new Date().getTime());
+			pst.setObject(5, bankname);
+			pst.setObject(6, bankphone);
+			pst.setObject(7, bankbelonger);
+			pst.setObject(8, bankcardno);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
-			rs = pst.getGeneratedKeys();
-			rs.next();
-			int withdrawId = rs.getInt(1);
 			pst.close();
 
 			pst = connection.prepareStatement(new StringBuilder(
@@ -341,12 +340,14 @@ public class MoneyManageEntrance {
 				throw new InteractRuntimeException("操作失败");
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"insert into t_bill (user_id,money,note,happen_time,link,type) values(?,?,?,?,?,1)").toString());
-			pst.setObject(1, loginStatus.getUserId());
-			pst.setObject(2, money.negate());
-			pst.setObject(3, "申请提现");
-			pst.setObject(4, new Date().getTime());
-			pst.setObject(5, withdrawId);
+					"insert into t_bill (id,user_id,money,note,happen_time,link,type) values(?,?,?,?,?,?,1)")
+							.toString());
+			pst.setObject(1, new Date().getTime() + RandomStringUtils.randomNumeric(2));
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, money.negate());
+			pst.setObject(4, "申请提现");
+			pst.setObject(5, new Date().getTime());
+			pst.setObject(6, withdrawId);
 			cnt = pst.executeUpdate();
 			pst.close();
 			if (cnt != 1)
@@ -598,9 +599,8 @@ public class MoneyManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 
-			pst = connection.prepareStatement(new StringBuilder(
-					"select t.right_wallet from t_user t where t.id=?")
-							.toString());
+			pst = connection
+					.prepareStatement(new StringBuilder("select t.right_wallet from t_user t where t.id=?").toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			BigDecimal rightWallet;
