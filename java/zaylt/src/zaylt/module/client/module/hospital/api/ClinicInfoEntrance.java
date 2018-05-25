@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -106,9 +107,13 @@ public class ClinicInfoEntrance {
 			String phone = StringUtils.trimToNull(request.getParameter("phone"));
 			if (phone == null)
 				throw new InteractRuntimeException("phone 不能为空");
+//			if (Pattern.compile("^\\d+$").matcher(phone).find())
+//				throw new InteractRuntimeException("手机号格式有误");
 			String pwd = StringUtils.trimToNull(request.getParameter("pwd"));
 			if (pwd == null)
 				throw new InteractRuntimeException("pwd 不能为空");
+//			if (Pattern.compile("\\s").matcher(pwd).find())
+//				throw new InteractRuntimeException("密码格式错误");
 			String clinicName = StringUtils.trimToNull(request.getParameter("clinic_name"));
 			if (clinicName == null)
 				throw new InteractRuntimeException("clinic_name 不能为空");
@@ -118,6 +123,8 @@ public class ClinicInfoEntrance {
 			String contactTel = StringUtils.trimToNull(request.getParameter("contact_tel"));
 			if (contactTel == null)
 				throw new InteractRuntimeException("contact_tel 不能为空");
+//			if (Pattern.compile("^\\d+$").matcher(contactTel).find())
+//				throw new InteractRuntimeException("联系电话格式有误");
 			String address = StringUtils.trimToNull(request.getParameter("address"));
 			if (address == null)
 				throw new InteractRuntimeException("address 不能为空");

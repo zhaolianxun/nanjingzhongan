@@ -99,7 +99,7 @@
                 if(res.code == 0){
                     pageDage = res.data;
                     $('#withdrawableMoney').text(res.data.withdrawableMoney.toFixed(2));
-                    $('#unwithdrawWoney').text(res.data.unwithdrawWoney.toFixed(2));
+                    $('#unwithdrawWoney').text(res.data.unwithdrawMoney.toFixed(2));
                 }else{
                     alert(res.codeMsg)
                 }
@@ -195,7 +195,7 @@
             $.ajax({
                 type: 'POST',
                 async: false,
-                url: '/rrightway/p/m/moneymanageent/withdraw/applytobank?token='+token+'&paypwd='+$("#txtzfcode").val()+'&money='+$("#txtmoney").val()+'&bank_id='+$("#hfid").val(),
+                url: '/rrightway/p/m/moneymanageent/withdraw/applytobank?token='+token+'&paypwd='+$("#txtzfcode").val()+'&amount='+$("#txtmoney").val()+'&bank_id='+$("#hfid").val(),
                 success: function(res){
                     if(res.code == 0){
                         location.reload();

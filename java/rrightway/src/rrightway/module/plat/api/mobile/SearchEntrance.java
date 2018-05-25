@@ -69,9 +69,9 @@ public class SearchEntrance {
 			Integer couponIf = couponIfParam == null ? null : Integer.parseInt(couponIfParam);
 			String wayToShopParam = StringUtils.trimToNull(request.getParameter("way_to_shop"));
 			Integer wayToShop = wayToShopParam == null ? null : Integer.parseInt(wayToShopParam);
-			String buyerMincreditMinParam = StringUtils.trimToNull(request.getParameter("buyer_mincredit_min"));
-			Integer buyerMincreditMin = buyerMincreditMinParam == null ? null
-					: Integer.parseInt(buyerMincreditMinParam);
+			String buyerMincreditParam = StringUtils.trimToNull(request.getParameter("buyer_mincredit"));
+			Integer buyerMincredit = buyerMincreditParam == null ? null
+					: Integer.parseInt(buyerMincreditParam);
 			String payPriceMinParam = StringUtils.trimToNull(request.getParameter("pay_price_min"));
 			BigDecimal payPriceMin = payPriceMinParam == null ? null : new BigDecimal(payPriceMinParam);
 			String payPriceMaxParam = StringUtils.trimToNull(request.getParameter("pay_price_max"));
@@ -104,8 +104,8 @@ public class SearchEntrance {
 				sqlParams.add(type2Id);
 			if (wayToShop != null)
 				sqlParams.add(wayToShop);
-			if (buyerMincreditMin != null)
-				sqlParams.add(buyerMincreditMin);
+			if (buyerMincredit != null)
+				sqlParams.add(buyerMincredit);
 			if (payPriceMin != null)
 				sqlParams.add(payPriceMin);
 			if (payPriceMax != null)
@@ -123,7 +123,7 @@ public class SearchEntrance {
 							.append(type1Id == null ? "" : " and gift_type1_id=? ")
 							.append(type2Id == null ? "" : " and gift_type2_id=? ")
 							.append(wayToShop == null ? "" : " and way_to_shop=? ")
-							.append(buyerMincreditMin == null ? "" : " and buyer_mincredit >= ? ")
+							.append(buyerMincredit == null ? "" : " and buyer_mincredit >= ? ")
 							.append(payPriceMin == null ? "" : " and pay_price >= ? ")
 							.append(payPriceMax == null ? "" : " and pay_price <= ? ")
 							.append(sortby == 1 || sortby == 2 ? " order by buyer_num desc "

@@ -3,6 +3,9 @@ package rrightway.module.plat.api.mobile;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -268,6 +271,206 @@ public class SafetySetEntrance {
 		}
 	}
 
+	@RequestMapping(value = "/addreceiveraddress")
+	public void addReceiverAddress(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String address = StringUtils.trimToNull(request.getParameter("full_address"));
+			if (address == null)
+				throw new InteractRuntimeException("full_address 不可空");
+			String tel = StringUtils.trimToNull(request.getParameter("tel"));
+			if (tel == null)
+				throw new InteractRuntimeException("tel 不可空");
+			String name = StringUtils.trimToNull(request.getParameter("name"));
+			if (name == null)
+				throw new InteractRuntimeException("name 不可空");
+			String defIfParam = StringUtils.trimToNull(request.getParameter("def_if"));
+			int defIf = defIfParam == null ? 0 : 1;
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement(
+					"insert into t_receiver_address (user_id,realname,tel,full_address,def_if,add_time) values(?,?,?,?,?,?)");
+			pst.setObject(1, loginStatus.getUserId());
+			pst.setObject(2, name);
+			pst.setObject(3, tel);
+			pst.setObject(4, address);
+			pst.setObject(5, defIf);
+			pst.setObject(5, new Date().getTime());
+			int n = pst.executeUpdate();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/alterreceiveraddress")
+	public void alterReceiverAddress(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String addressIdParam = StringUtils.trimToNull(request.getParameter("address_id"));
+			if (addressIdParam == null)
+				throw new InteractRuntimeException("address_id 不可空");
+			int addressId = Integer.parseInt(addressIdParam);
+			String address = StringUtils.trimToNull(request.getParameter("full_address"));
+			String tel = StringUtils.trimToNull(request.getParameter("tel"));
+			String name = StringUtils.trimToNull(request.getParameter("name"));
+			String defIfParam = StringUtils.trimToNull(request.getParameter("def_if"));
+			Integer defIf = defIfParam == null ? null : Integer.parseInt(defIfParam);
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			List<Object> sqlParams = new ArrayList<Object>();
+			if (address != null)
+				sqlParams.add(address);
+			if (tel != null)
+				sqlParams.add(tel);
+			if (name != null)
+				sqlParams.add(name);
+			if (defIf != null)
+				sqlParams.add(defIf);
+			sqlParams.add(addressId);
+			pst = connection.prepareStatement(new StringBuilder("update t_receiver_address set id=id")
+					.append(address == null ? "" : ",full_address=?").append(tel == null ? "" : ",tel=?")
+					.append(name == null ? "" : ",realname=?").append(defIf == null ? "" : ",def_if=?")
+					.append(" where id=?").toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			int n = pst.executeUpdate();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/getreceiveraddresslist")
+	public void getreceiveraddresslist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.id,t.realname,t.postcode,t.tel,t.full_address,t.def_if,t.add_time from t_receiver_address t where t.user_id=? order by t.def_if desc,t.add_time desc")
+							.toString());
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("addressId", rs.getInt("id"));
+				item.put("realname", rs.getString("realname"));
+				item.put("postcode", rs.getString("postcode"));
+				item.put("tel", rs.getString("tel"));
+				item.put("fullAddress", rs.getString("full_address"));
+				item.put("defIf", rs.getInt("def_if"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/delreceiveraddress")
+	public void delReceiverAddress(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String addressIdParam = StringUtils.trimToNull(request.getParameter("address_id"));
+			if (addressIdParam == null)
+				throw new InteractRuntimeException("address_id 不可空");
+			int addressId = Integer.parseInt(addressIdParam);
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection
+					.prepareStatement(new StringBuilder("delete from t_receiver_address where id=?").toString());
+			pst.setObject(1, addressId);
+			int n = pst.executeUpdate();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
 	@RequestMapping(value = "/setreceiverinfo")
 	public void setreceiverinfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -336,9 +539,9 @@ public class SafetySetEntrance {
 			ResultSet rs = pst.executeQuery();
 			JSONObject data = new JSONObject();
 			if (rs.next()) {
-				data.put("receiverAddress", "receiver_address");
-				data.put("receiverName", "receiver_name");
-				data.put("receiverTel", "receiver_tel");
+				data.put("receiverAddress", rs.getString("receiver_address"));
+				data.put("receiverName", rs.getString("receiver_name"));
+				data.put("receiverTel", rs.getString("receiver_tel"));
 			}
 			pst.close();
 			// 返回结果
@@ -524,11 +727,11 @@ public class SafetySetEntrance {
 			JSONObject item = new JSONObject();
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
-				item.put("belonger", rs.getInt("belonger"));
+				item.put("belonger", rs.getString("belonger"));
 				item.put("phone", rs.getString("phone"));
 				item.put("cardno", rs.getString("cardno"));
 				item.put("bankname", rs.getString("bankname"));
-				item.put("status", rs.getString("status"));
+				item.put("status", rs.getInt("status"));
 			} else
 				throw new InteractRuntimeException("操作失败");
 			pst.close();

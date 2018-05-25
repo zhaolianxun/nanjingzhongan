@@ -41,7 +41,6 @@
 	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/jna-platform-4.1.0.jar"/>
 	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/jpush-client-3.2.9.jar"/>
 	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/json.jar"/>
-	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/jsoup-1.7.2.jar"/>
 	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/mchange-commons-java-0.2.11.jar"/>
 	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/mssms.jar"/>
 	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/mybatis-3.4.1.jar" sourcepath="C:/temp/mybatis-3-mybatis-3.4.1.zip"/>
@@ -84,5 +83,6 @@
 	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/aes-jre1.6.1.jar"/>
 	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/wxpay-sdk.jar"/>
 	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/taobao-sdk-java-auto_1515033363091-20180428.jar"/>
+	<classpathentry kind="lib" path="C:/temp/apache-tomcat-8.0.43/shared/lib/jsoup-1.11.3.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

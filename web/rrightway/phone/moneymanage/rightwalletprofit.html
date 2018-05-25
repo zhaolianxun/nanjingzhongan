@@ -1,0 +1,200 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>左钱包-左左试用平台触屏版</title>
+    <meta name="keywords" content="左左,左左街,试用,推广" />
+    <meta name="description" content="左左街-专业的试用网" />
+
+    <link rel="stylesheet" type="text/css" href="css/new.css">
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
+
+</head>
+
+
+
+
+<body>
+<div class="viewport">
+    <!-- 顶部 开始 -->
+    <div class="header">
+        <a href="javascript:;" class="type" onClick="history.back();"><img src="images/arrow_left2.svg" class="h40"></a>
+        <div class="htxt">我的收益</div>
+    </div>
+    <!-- 顶部 结束 -->
+
+
+    <!-- 资金管理 开始-->
+    <div class="bg2f97f0 center cfff pb40">
+        <div class="clearfix list_tab sp2 f24 c999 after xp2 pt60 pb60 f28 line28">
+            <p class="item"><a class="cfff" href="javascript:;"><b class="bl f48 line48 mb20" id="historyWalletProfit">0.16</b>累计收益(元)</a></p>
+            <p class="item"><a class="cfff" href="javascript:;"><b class="bl f48 line48 mb20" id="walletProfit">0.16</b>可转收益(元)</a></p>
+        </div>
+        <div class="mlr20"><a href="javascript:;" class="h80 center bgfff brd100 c2f97f0 f28 bl exchange">收益转出</a></div>
+    </div>
+    <div class="listborder bgfff f28" id="wallet_list">
+        <div id="itemExample" class="item h90 plr20 " style="display: none;"><span name="happenTime"></span><i class="c53a000 fr f32" name="amount"></i></div>
+    </div>
+
+    <!-- 没有数据提示-->
+    <div class="no_data hidden">
+        <div class="pb40">
+            <div class="success">
+                <i><img src="images/fail_ico.png" /></i>
+                <p class="c999">没有相关的收益明细哦~</p>
+            </div>
+        </div>
+    </div>
+    <!-- 资金管理 结束-->
+
+</div>
+
+<script type="text/javascript" src="js/yh.scroll.store.js" charset="utf-8"></script>
+<script>
+
+    var token = localStorage.getItem('token');
+    onload();
+var walletProfit;
+    function onload(){
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: '/rrightway/p/m/moneymanageent/walletprofit/ent?token='+token,
+            success: function(res){
+                if(res.code == 0){
+                    walletProfit=res.data.walletProfit.toFixed(2);
+                    $('#walletProfit').text(walletProfit);
+                    $('#historyWalletProfit').text(res.data.historyWalletProfit.toFixed(2));
+                    if(res.data.items.length==0)
+                        noMoreItems=true;
+                    $(res.data.items).each(function(index,ele){
+                        var newItem = $('#itemExample').clone(true);
+                        newItem.attr('id','item'+index)
+                        newItem.find('[name=amount]').text(ele.amount);
+                        newItem.find('[name=happenTime]').text(formatDateTime(ele.happenTime));
+
+                        newItem.css('display','');
+                        $('#wallet_list').append(newItem);
+                    })
+                }else{
+                    alert(res.codeMsg)
+                }
+            }
+        });
+    }
+
+    var cooketab = "wallet_list";
+    var objcontainer = "#wallet_list";
+
+    //重载事件
+    var tj_type = '1';
+    var more = "";//筛选
+    function reloaddata() {
+        if ($("#filterright").hasClass("active")) {
+            $(".pop_from_right .goback").click();
+        }
+        price_area = $(".minprice").val() + "-" + $(".maxprice").val();
+        ys.reload({
+            params: {
+                tj_type: tj_type
+            },
+            onbeforeReload: function () {
+                $(objcontainer).removeClass('hidden');
+                $('.no_data').addClass('hidden');
+            }
+        });
+    }
+    //确认转出
+    function exok(obj) {
+        //成功
+        //error("收益转出成功");
+
+        ////失败
+        //setTimeout(function () {
+        //    accesstx("收益转出失败，每天只能转出一次哦！")
+        //}, 500)
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/rrightway/p/m/moneymanageent/walletprofit/out",
+            data: "amount=" + walletProfit+'&token='+token,
+            success: function (res) {
+
+                if (res.code == 0) {
+                        //成功
+                        error("收益转出成功");
+                        location.reload();
+                    }
+                    else {
+                        error(res.codeMsg);
+                    }
+                }
+
+        });
+        return true;
+    }
+
+    $(function () {
+        //收益转出
+        $(".exchange").click(function () {
+            //确认是否转出
+            corfirm("确定要把收益转出吗？<br />收益转出后，您可到账户余额查看！", exok, $(this));
+        })
+
+//        ys({
+//            container: objcontainer,//控件名称，遵循jquery格式
+//            url: '/user/ashx/getinterestlog.ashx',    //后台数据地址
+//            params: {   //参数
+//                tj_type: tj_type
+//            },
+//            count: 10,
+//            cookieName: cooketab,
+//            onloadItem: function (row) {
+//                //根据后台返回的数据，渲染成要在页面显示的方式
+//                var txt = "";
+//
+//                txt = '<div class="item h90 plr20 clearfix">' + row.dcreate_date + '<i class="c53a000 fr f32">' + (row.is_in == "Y"?"+":"-")  + row.ninterest_amount + '</i></div>';
+//                return txt;
+//            },
+//            onloadSuccess: function () {
+//                $(objcontainer).removeClass('hidden');
+//                $('.no_data').addClass('hidden');
+//            },
+//            onNodata: function () {
+//                $(objcontainer).addClass('hidden');
+//                $('.no_data').removeClass('hidden');
+//            },
+//            onloadError: function (msg) {
+//                //error(msg);
+//            }
+//        });
+
+//        console.log(ys.getReqParams().protype);
+//        if (ys.getReqParams().protype != "") {
+//            var tsvalue = ys.getReqParams().protype;
+//            $("#protype").val(tsvalue);
+//            $(".protype").html(tsvalue);
+//            $("#protype").parent().find("a[data=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+//        }
+    })
+</script>
+</body>
+
+
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html>
+<head id="Head1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        收货地址-右右街触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+</head>
+<body>
+<div>
+
+
+    <div class="viewport pt50">
+
+        <!-- 顶部 开始 -->
+        <header class="clearfix">
+            <div class="goback fl"><a href="javascript:;" onclick="history.back();"> </a></div>
+            <div class="conttxt2">收货地址</div>
+        </header>
+        <!-- 顶部 结束 -->
+
+
+        <!-- 收货地址 开始-->
+
+
+        <div id="question">
+            <div class="login_txt mt10">
+                <p class="sel clearfix"><label class="lrow3">收货地址</label>
+                    <select name="ddlusf" class="ddlusf" id="ddlusf">
+                        <option class="selectAll" selected="selected" value="0">请选择</option>
+
+
+                    </select>
+                <p class="sel clearfix"><label></label>
+                    <select name="ddlus" class="ddlus" id="ddlus">
+                        <option selected="selected" value="0">请选择</option>
+
+                    </select>
+                </p>
+                <p class="sel clearfix"><label></label>
+                    <select name="ddluq" class="ddluq" id="ddluq">
+                        <option value="0">请选择</option>
+
+                    </select></p>
+
+                <p class="sel clearfix"><label>收货地址</label>
+                    <input name="txt_saddress" type="text" id="txt_saddress" placeholder="请输入收货地址"/></p>
+
+                <!--<p class="sel clearfix"><label>邮编</label>-->
+                <!--<input name="txt_smailid" type="text" maxlength="6" id="txt_smailid" placeholder="请输入邮编"/></p>-->
+
+                <p class="sel clearfix"><label>收货姓名</label>
+                    <input name="txt_sperson" type="text" maxlength="10" id="txt_sperson" placeholder="请输入收货姓名"/></p>
+
+                <p class="sel clearfix"><label>收货电话</label>
+                    <input name="txt_stelphone" type="text" maxlength="11" id="txt_stelphone" placeholder="请输入收货电话"/>
+                </p>
+            </div>
+
+            <div class="login_check mlr10 mt15">
+                <button id="lbtnsubmit" class="login_sbt submit">确认提交</button>
+            </div>
+        </div>
+        <!-- 收货地址 结束-->
+
+    </div>
+</div>
+<script>
+    var token = localStorage.getItem('token');
+    var distinct_id, province_id, city_id;
+    $().ready(function () {
+        $('#ddlusf').append('');
+        $.ajax({
+            url: '/rrightway/adminarea/provinces',
+            type: 'post',
+            success: function (res) {
+                if (res.code == 0) {
+                    for (var i = 0; i < res.data.items.length; i++) {
+                        $('#ddlusf').append(' <option class="provinceId" value="' + res.data.items[i].id + '">' + res.data.items[i].name + '</option>')
+                    }
+                }
+            }
+        })
+    });
+    $('#ddlusf').change(function () {
+        province_id = $(this).attr('value');
+        $('#ddlus').append('');
+        $.ajax({
+            url: '/rrightway/adminarea/cities',
+            type: 'post',
+            data: 'province_id=' + province_id,
+            success: function (res) {
+                if (res.code == 0) {
+                    for (var i = 0; i < res.data.items.length; i++) {
+                        $('#ddlus').append(' <option class="cityId" value="' + res.data.items[i].id + '">' + res.data.items[i].name + '</option>')
+                    }
+                }
+            }
+        })
+    });
+    $('#ddlus').change(function () {
+        city_id = $(this).attr('value');
+        $('#ddluq').append('');
+        $.ajax({
+            url: '/rrightway/adminarea/distincts',
+            type: 'post',
+            data: 'city_id=' + city_id,
+            success: function (res) {
+                if (res.code == 0) {
+                    for (var i = 0; i < res.data.items.length; i++) {
+                        $('#ddluq').append(' <option class="distinctId" value="' + res.data.items[i].id + '">' + res.data.items[i].name + '</option>')
+                    }
+                }
+            }
+        })
+    });
+    $('#ddluq').change(function () {
+        distinct_id = $(this).attr('value');
+    })
+
+
+    $('.login_sbt').click(function () {
+        $(this).attr('disabled', true);
+        var provinces = $('.ddlusf option:selected').text();
+        var cities = $('.ddlus option:selected').text();
+        var distincts = $('.ddluq option:selected').text();
+        var txt_saddress = $('#txt_saddress').val();
+        var txt_sperson = $('#txt_sperson').val();
+        var txt_stelphone = $('#txt_stelphone').val();
+        if (!provinces || !cities || !distincts || !txt_saddress || !txt_sperson || !txt_stelphone) {
+            error('请填写完整表格信息！');
+            $('.login_sbt').attr('disabled', false);
+        } else {
+            $.ajax({
+                url: '/rrightway/p/m/safetysetent/setreceiverinfo',
+                type: 'post',
+                data: "address=" + provinces + "-" + cities + "-" + distincts + "-" + txt_saddress + "&tel=" + txt_stelphone + "&name=" + txt_sperson + "&token=" + token,
+                success: function (res) {
+                    if (res.code == 0) {
+                        history.back();
+                        $('.login_sbt').attr('disabled', false);
+                    } else if(res.code==20){
+                        localStorage.setItem('href',location.href)
+                        location.href='login.html'
+                    }else {
+                        error(res.codeMsg)
+                    }
+                }
+
+            })
+        }
+
+    })
+</script>
+</body>
+</html>

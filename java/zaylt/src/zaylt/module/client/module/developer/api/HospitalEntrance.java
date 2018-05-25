@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -107,9 +108,13 @@ public class HospitalEntrance {
 			String phone = StringUtils.trimToNull(request.getParameter("phone"));
 			if (phone == null)
 				throw new InteractRuntimeException("phone 不能为空");
+			if (Pattern.compile("^\\d+$").matcher(phone).find())
+				throw new InteractRuntimeException("手机号格式有误");
 			String pwd = StringUtils.trimToNull(request.getParameter("pwd"));
 			if (pwd == null)
 				throw new InteractRuntimeException("pwd 不能为空");
+			if (Pattern.compile("\\s").matcher(pwd).find())
+				throw new InteractRuntimeException("密码格式错误");
 			String name = StringUtils.trimToNull(request.getParameter("name"));
 			if (name == null)
 				throw new InteractRuntimeException("name 不能为空");

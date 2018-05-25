@@ -38,7 +38,7 @@ public class MoneyManageEntrance {
 	public static Logger logger = Logger.getLogger(MoneyManageEntrance.class);
 
 	@RequestMapping(value = "/ent")
-	public void needCheckOrders(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void ent(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -52,7 +52,7 @@ public class MoneyManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.right_wallet,t.money,(select ifnull(sum(money),0) from t_widthdraw where user_id=t.id and status=0) withdrawing_money,t.withdrawable_money from t_user t where t.id=?")
+					"select t.right_wallet,t.money,(select ifnull(sum(amount),0) from t_widthdraw where user_id=t.id and status=0) withdrawing_money,t.withdrawable_money from t_user t where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
@@ -164,15 +164,15 @@ public class MoneyManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(
-					new StringBuilder("select t.money,t.withdrawable_money from t_user t where t.id=?").toString());
+					new StringBuilder("select t.unwithdraw_money,t.withdrawable_money from t_user t where t.id=?")
+							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			BigDecimal withdrawableMoney;
-			BigDecimal unwithdrawWoney;
+			BigDecimal unwithdrawMoney;
 			if (rs.next()) {
 				withdrawableMoney = rs.getBigDecimal("withdrawable_money");
-				BigDecimal money = rs.getBigDecimal("money");
-				unwithdrawWoney = money.subtract(withdrawableMoney);
+				unwithdrawMoney = rs.getBigDecimal("unwithdraw_money");
 			} else
 				throw new InteractRuntimeException("用户不存在");
 			pst.close();
@@ -180,7 +180,7 @@ public class MoneyManageEntrance {
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("withdrawableMoney", withdrawableMoney);
-			data.put("unwithdrawWoney", unwithdrawWoney);
+			data.put("unwithdrawMoney", unwithdrawMoney);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -250,11 +250,11 @@ public class MoneyManageEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-			String moneyParam = StringUtils.trimToNull(request.getParameter("money"));
-			if (moneyParam == null)
-				throw new InteractRuntimeException("money 不可空");
-			BigDecimal money = new BigDecimal(moneyParam);
-			if (money.compareTo(new BigDecimal(50)) == -1)
+			String amountParam = StringUtils.trimToNull(request.getParameter("amount"));
+			if (amountParam == null)
+				throw new InteractRuntimeException("amount 不可空");
+			BigDecimal amount = new BigDecimal(amountParam);
+			if (amount.compareTo(new BigDecimal(50)) == -1)
 				throw new InteractRuntimeException("最低50才能提现");
 			String bankIdParam = StringUtils.trimToNull(request.getParameter("bank_id"));
 			if (bankIdParam == null)
@@ -300,7 +300,7 @@ public class MoneyManageEntrance {
 			BigDecimal withdrawableMoney;
 			if (rs.next()) {
 				withdrawableMoney = rs.getBigDecimal("withdrawable_money");
-				if (withdrawableMoney.compareTo(money) == -1)
+				if (withdrawableMoney.compareTo(amount) == -1)
 					throw new InteractRuntimeException("可提现金额不足");
 				String paypwdMd5 = rs.getString("paypwd_md5");
 				if (!paypwdMd5.equals(DigestUtils.md5Hex(paypwd)))
@@ -311,11 +311,11 @@ public class MoneyManageEntrance {
 
 			String withdrawId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
 			pst = connection.prepareStatement(new StringBuilder(
-					"insert into t_widthdraw (id,user_id,money,status,apply_time,`to`,to1_bankname,to1_phone,to1_belonger,to1_bankcardno) values(?,?,?,0,?,1,?,?,?,?)")
+					"insert into t_widthdraw (id,user_id,amount,status,apply_time,`to`,to1_bankname,to1_phone,to1_belonger,to1_bankcardno) values(?,?,?,0,?,1,?,?,?,?)")
 							.toString());
 			pst.setObject(1, withdrawId);
 			pst.setObject(2, loginStatus.getUserId());
-			pst.setObject(3, money);
+			pst.setObject(3, amount);
 			pst.setObject(4, new Date().getTime());
 			pst.setObject(5, bankname);
 			pst.setObject(6, bankphone);
@@ -329,22 +329,22 @@ public class MoneyManageEntrance {
 			pst = connection.prepareStatement(new StringBuilder(
 					"update t_user set money=money-?,withdrawable_money=withdrawable_money-? where id=? and (money-?)>=0 and (withdrawable_money-?)>=0")
 							.toString());
-			pst.setObject(1, money);
-			pst.setObject(2, money);
+			pst.setObject(1, amount);
+			pst.setObject(2, amount);
 			pst.setObject(3, loginStatus.getUserId());
-			pst.setObject(4, money);
-			pst.setObject(5, money);
+			pst.setObject(4, amount);
+			pst.setObject(5, amount);
 			cnt = pst.executeUpdate();
 			pst.close();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"insert into t_bill (id,user_id,money,note,happen_time,link,type) values(?,?,?,?,?,?,1)")
+					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,1)")
 							.toString());
 			pst.setObject(1, new Date().getTime() + RandomStringUtils.randomNumeric(2));
 			pst.setObject(2, loginStatus.getUserId());
-			pst.setObject(3, money.negate());
+			pst.setObject(3, amount.negate());
 			pst.setObject(4, "申请提现");
 			pst.setObject(5, new Date().getTime());
 			pst.setObject(6, withdrawId);
@@ -394,16 +394,16 @@ public class MoneyManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select (select ifnull(sum(money),0) from t_bill where user_id=? and money>0) in_money, (select ifnull(sum(money),0) from t_bill where user_id=? and money<0) out_money")
+					"select (select ifnull(sum(amount),0) from t_bill where user_id=? and amount>0) in_amount, (select ifnull(sum(amount),0) from t_bill where user_id=? and amount<0) out_amount")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
-			BigDecimal inMoney;
-			BigDecimal outMoney;
+			BigDecimal inAmount;
+			BigDecimal outAmount;
 			if (rs.next()) {
-				inMoney = rs.getBigDecimal("in_money");
-				outMoney = rs.getBigDecimal("out_money");
+				inAmount = rs.getBigDecimal("in_amount");
+				outAmount = rs.getBigDecimal("out_amount");
 			} else
 				throw new InteractRuntimeException("用户不存在");
 			pst.close();
@@ -413,7 +413,7 @@ public class MoneyManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.money,t.note,t.happen_time,t.id,t.type,t.link from t_bill t where t.user_id=?")
+					"select t.amount,t.note,t.happen_time,t.id,t.type,t.link from t_bill t where t.user_id=?")
 							.append(" order by t.happen_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -422,7 +422,7 @@ public class MoneyManageEntrance {
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
-				item.put("money", rs.getObject("money"));
+				item.put("amount", rs.getObject("amount"));
 				item.put("note", rs.getObject("note"));
 				item.put("happenTime", rs.getObject("happen_time"));
 				item.put("billId", rs.getObject("id"));
@@ -434,8 +434,8 @@ public class MoneyManageEntrance {
 
 			// 返回结果
 			JSONObject data = new JSONObject();
-			data.put("inMoney", inMoney);
-			data.put("outMoney", outMoney);
+			data.put("inAmount", inAmount);
+			data.put("outAmount", outAmount);
 			JSONObject bills = new JSONObject();
 			bills.put("items", items);
 			data.put("bills", bills);
@@ -480,7 +480,7 @@ public class MoneyManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.alipay_tradeno,t.id,t.money,t.status,t.topup_time,t.fail_reason from t_topup t where t.user_id=?")
+					"select t.alipay_tradeno,t.id,t.amount,t.status,t.topup_time,t.fail_reason from t_topup t where t.user_id=?")
 							.append(" order by t.topup_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -490,7 +490,7 @@ public class MoneyManageEntrance {
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("topupId", rs.getObject("id"));
-				item.put("money", rs.getObject("money"));
+				item.put("amount", rs.getObject("amount"));
 				item.put("status", rs.getObject("status"));
 				item.put("topupTime", rs.getObject("topup_time"));
 				item.put("alipayTradeno", rs.getObject("alipay_tradeno"));
@@ -545,7 +545,7 @@ public class MoneyManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.money,t.status,t.apply_time,t.process_time,t.fail_reason,t.to,t.to1_bankcardno from t_widthdraw t where t.user_id=?")
+					"select t.id,t.amount,t.status,t.apply_time,t.process_time,t.fail_reason,t.to,t.to1_bankcardno from t_widthdraw t where t.user_id=?")
 							.append(" order by t.apply_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -555,7 +555,7 @@ public class MoneyManageEntrance {
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("withdrawId", rs.getObject("id"));
-				item.put("money", rs.getObject("money"));
+				item.put("amount", rs.getObject("amount"));
 				item.put("status", rs.getObject("status"));
 				item.put("applyTime", rs.getObject("apply_time"));
 				item.put("processTime", rs.getObject("process_time"));
@@ -617,6 +617,352 @@ public class MoneyManageEntrance {
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/walletout/ent")
+	public void walletoutEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(
+					new StringBuilder("select right_wallet_outable from t_user where id=? for update").toString());
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			BigDecimal rightWalletOutable = null;
+			if (rs.next()) {
+				rightWalletOutable = rs.getBigDecimal("right_wallet_outable");
+			} else
+				throw new InteractRuntimeException("用户不存在");
+
+			pst.close();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.id,t.amount from t_wallet_bill t where t.amount>0 and t.added_to_outable=0 and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-t.happen_time)>15*24*60*60*1000 and t.user_id=?")
+							.toString());
+			pst.setObject(1, loginStatus.getUserId());
+			rs = pst.executeQuery();
+			BigDecimal totalAmount = BigDecimal.ZERO;
+			List<Integer> billIds = new ArrayList<Integer>();
+			while (rs.next()) {
+				int walletBillId = rs.getInt("id");
+				billIds.add(walletBillId);
+				BigDecimal amount = rs.getBigDecimal("amount");
+				totalAmount = totalAmount.add(amount);
+			}
+			pst.close();
+
+			rightWalletOutable = rightWalletOutable.add(totalAmount);
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_user set right_wallet_outable=? where id=?").toString());
+			pst.setObject(1, rightWalletOutable);
+			pst.setObject(2, loginStatus.getUserId());
+			int cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_wallet_bill set added_to_outable=1 where id=?").toString());
+			for (int i = 0; i < billIds.size(); i++) {
+				pst.setObject(1, billIds.get(i));
+				pst.addBatch();
+			}
+			if (billIds.size() > 0) {
+				cnt = pst.executeUpdate();
+				if (cnt != billIds.size())
+					throw new InteractRuntimeException("操作失败");
+			}
+			pst.close();
+
+			connection.commit();
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("rightWalletOutable", rightWalletOutable);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/walletout/out")
+	public void walletoutOut(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String amountParam = StringUtils.trimToNull(request.getParameter("amount"));
+			if (amountParam == null)
+				throw new InteractRuntimeException("amount 不可空");
+			BigDecimal amount = new BigDecimal(amountParam);
+			if (amount.intValue() <= 0)
+				throw new InteractRuntimeException("金额有误");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(
+					new StringBuilder("select right_wallet_outable from t_user where id=? for update").toString());
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			BigDecimal rightWalletOutable = null;
+			if (rs.next()) {
+				rightWalletOutable = rs.getBigDecimal("right_wallet_outable");
+			} else
+				throw new InteractRuntimeException("用户不存在");
+			pst.close();
+
+			if (rightWalletOutable.compareTo(amount) == -1)
+				throw new InteractRuntimeException("输入的金额超出范围");
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"update t_user set withdrawable_money=withdrawable_money+?,money=money+?,right_wallet=right_wallet-?,right_wallet_outable=right_wallet_outable-? where id=? and right_wallet_outable-? >=0 and right_wallet-? >= 0")
+							.toString());
+			pst.setObject(1, amount);
+			pst.setObject(2, amount);
+			pst.setObject(3, amount);
+			pst.setObject(4, amount);
+			pst.setObject(5, loginStatus.getUserId());
+			pst.setObject(6, amount);
+			pst.setObject(7, amount);
+			int cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			String walletBillId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+			pst = connection.prepareStatement(new StringBuilder(
+					"insert into t_wallet_bill (id,user_id,amount,note,happen_time) values(?,?,?,?,?)").toString());
+			pst.setObject(1, walletBillId);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, amount.negate());
+			pst.setObject(4, "转出到余额");
+			pst.setObject(5, new Date().getTime());
+			cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			String billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+			pst = connection.prepareStatement(new StringBuilder(
+					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,2)")
+							.toString());
+			pst.setObject(1, billId);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, amount);
+			pst.setObject(4, "钱包转入");
+			pst.setObject(5, new Date().getTime());
+			pst.setObject(6, walletBillId);
+			cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/walletprofit/ent")
+	public void walletprofitEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.wallet_profit,(select ifnull(sum(amount),0) from t_wallet_profit where user_id=t.id and amount>0) history_wallet_profit from t_user t where id=?")
+							.toString());
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			BigDecimal walletProfit = null;
+			BigDecimal historyWalletProfit = null;
+			if (rs.next()) {
+				walletProfit = rs.getBigDecimal("wallet_profit");
+				historyWalletProfit = rs.getBigDecimal("history_wallet_profit");
+
+			} else
+				throw new InteractRuntimeException("用户不存在");
+
+			pst.close();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.happen_time,t.amount from t_wallet_profit t where t.user_id=? order by t.happen_time desc")
+							.toString());
+			pst.setObject(1, loginStatus.getUserId());
+			rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("happenTime", rs.getObject("happen_time"));
+				item.put("amount", rs.getObject("amount"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			data.put("walletProfit", walletProfit);
+			data.put("historyWalletProfit", historyWalletProfit);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/walletprofit/out")
+	public void walletprofitOut(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String amountParam = StringUtils.trimToNull(request.getParameter("amount"));
+			if (amountParam == null)
+				throw new InteractRuntimeException("amount 不可空");
+			BigDecimal amount = new BigDecimal(amountParam);
+			if (amount.intValue() <= 0)
+				throw new InteractRuntimeException("金额有误");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(
+					new StringBuilder("select wallet_profit from t_user where id=? for update").toString());
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			BigDecimal walletProfit = null;
+			if (rs.next()) {
+				walletProfit = rs.getBigDecimal("wallet_profit");
+			} else
+				throw new InteractRuntimeException("用户不存在");
+			pst.close();
+
+			if (walletProfit.compareTo(amount) == -1)
+				throw new InteractRuntimeException("输入的金额超出范围");
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"update t_user set withdrawable_money=withdrawable_money+?,money=money+?,wallet_profit=wallet_profit-? where id=? and wallet_profit-? >=0 ")
+							.toString());
+			pst.setObject(1, amount);
+			pst.setObject(2, amount);
+			pst.setObject(3, amount);
+			pst.setObject(4, loginStatus.getUserId());
+			pst.setObject(5, amount);
+			int cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			pst = connection.prepareStatement(
+					new StringBuilder("insert into t_wallet_profit (user_id,amount,happen_time) values(?,?,?)")
+							.toString(),
+					Statement.RETURN_GENERATED_KEYS);
+			pst.setObject(1, loginStatus.getUserId());
+			pst.setObject(2, amount.negate());
+			pst.setObject(3, new Date().getTime());
+			cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			rs = pst.getGeneratedKeys();
+			rs.next();
+			int profitId = rs.getInt(1);
+			pst.close();
+
+			String billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+			pst = connection.prepareStatement(new StringBuilder(
+					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,3)")
+							.toString());
+			pst.setObject(1, billId);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, amount);
+			pst.setObject(4, "收益转入");
+			pst.setObject(5, new Date().getTime());
+			pst.setObject(6, profitId);
+			cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源

@@ -270,7 +270,7 @@ public class TradeManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit_min,t.taobao_orderid from t_order t where t.id=?")
+					"select t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t where t.id=?")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
@@ -292,7 +292,7 @@ public class TradeManageEntrance {
 				item.put("buyerTaobaoaccountName", rs.getObject("buyer_taobaoaccount_name"));
 				item.put("sellerTaobaoaccountName", rs.getObject("seller_taobaoaccount_name"));
 				item.put("giftExpressCo", rs.getObject("gift_express_co"));
-				item.put("buyerMincreditMin", rs.getObject("buyer_mincredit_min"));
+				item.put("buyerMincredit", rs.getObject("buyer_mincredit"));
 				item.put("taobaoOrderid", rs.getObject("taobao_orderid"));
 				item.put("status", rs.getObject("status"));
 				item.put("sellerCancelReason", rs.getObject("seller_cancel_reason"));

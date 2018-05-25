@@ -162,7 +162,8 @@
                         newItem.removeClass('itemExample')
                         newItem.removeClass('clearfix')
                         newItem.attr('id','topup'+ele.topupId)
-                        newItem.find('[name=money]').text(ele.money);
+                        newItem.find('[name=topupId]').text(ele.topupId);
+                        newItem.find('[name=money]').text(ele.amount);
                         newItem.find('[name=topupTime]').text(formatDateTime(ele.topupTime));
                         newItem.find('[name=alipayTradeno]').text(ele.alipayTradeno);
 

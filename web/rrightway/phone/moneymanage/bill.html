@@ -181,8 +181,8 @@ function loadBills(){
         url: '/rrightway/p/m/moneymanageent/bill/ent?token='+token,
         success: function(res){
             if(res.code == 0){
-                $('#inMoney').text(res.data.inMoney.toFixed(2));
-                $('#outMoney').text(res.data.outMoney.toFixed(2));
+                $('#inMoney').text(res.data.inAmount.toFixed(2));
+                $('#outMoney').text(res.data.outAmount.toFixed(2));
 
                 if(res.data.bills.items.length==0)
                     noMoreItems=true;
@@ -194,12 +194,12 @@ function loadBills(){
                     newItem.find('[name=happenTime]').text(formatDateTime(ele.happenTime));
                     newItem.find('[name=billId]').text(ele.billId);
                     newItem.find('[name=note]').text(ele.note);
-                    if(ele.money >0){
-                        newItem.find('[name=inMoney]').text('+'+ele.money);
+                    if(ele.amount >0){
+                        newItem.find('[name=inMoney]').text('+'+ele.amount);
                         newItem.find('[name=outMoney]').text('-'+0);
                     }else{
                         newItem.find('[name=inMoney]').text('+'+0);
-                        newItem.find('[name=outMoney]').text(ele.money);
+                        newItem.find('[name=outMoney]').text(ele.amount);
                     }
                     newItem.css('display','');
                     $('#dataBottom').before(newItem);

@@ -46,9 +46,9 @@ public class AdminEntrance {
 			Integer couponIf = couponIfParam == null ? null : Integer.parseInt(couponIfParam);
 			String wayToShopParam = StringUtils.trimToNull(request.getParameter("way_to_shop"));
 			Integer wayToShop = wayToShopParam == null ? null : Integer.parseInt(wayToShopParam);
-			String buyerMincreditMinParam = StringUtils.trimToNull(request.getParameter("buyer_mincredit_min"));
-			Integer buyerMincreditMin = buyerMincreditMinParam == null ? null
-					: Integer.parseInt(buyerMincreditMinParam);
+			String buyerMincreditParam = StringUtils.trimToNull(request.getParameter("buyer_mincredit"));
+			Integer buyerMincredit = buyerMincreditParam == null ? null
+					: Integer.parseInt(buyerMincreditParam);
 			String payPriceMinParam = StringUtils.trimToNull(request.getParameter("pay_price_min"));
 			BigDecimal payPriceMin = payPriceMinParam == null ? null : new BigDecimal(payPriceMinParam);
 			String payPriceMaxParam = StringUtils.trimToNull(request.getParameter("pay_price_max"));
@@ -89,8 +89,8 @@ public class AdminEntrance {
 				sqlParams.add(type2Id);
 			if (wayToShop != null)
 				sqlParams.add(wayToShop);
-			if (buyerMincreditMin != null)
-				sqlParams.add(buyerMincreditMin);
+			if (buyerMincredit != null)
+				sqlParams.add(buyerMincredit);
 			if (payPriceMin != null)
 				sqlParams.add(payPriceMin);
 			if (payPriceMax != null)
@@ -110,7 +110,7 @@ public class AdminEntrance {
 							.append(type1Id == null ? "" : " and gift_type1_id=? ")
 							.append(type2Id == null ? "" : " and gift_type2_id=? ")
 							.append(wayToShop == null ? "" : " and way_to_shop=? ")
-							.append(buyerMincreditMin == null ? "" : " and buyer_mincredit >= ? ")
+							.append(buyerMincredit == null ? "" : " and buyer_mincredit >= ? ")
 							.append(payPriceMin == null ? "" : " and pay_price >= ? ")
 							.append(payPriceMax == null ? "" : " and pay_price <= ? ")
 							.append(status == null ? "" : " and status = ? ")
@@ -179,7 +179,7 @@ public class AdminEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select  tb.taobao_user_nick,u.phone,u.username,t.gift_pics,t.title,t.publish_time,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_url,t.cowry_cover,t.buy_way,t.coupon_url,t.pay_price,t.return_money,t.buyer_mincredit_min,t.keep_days,t.stock,t.start_time,t.gift_name,t.gift_type1_name,t.gift_type2_name,t.gift_url,t.gift_cover,t.gift_detail,t.gift_express_co,t.status,t.audit_fail_reason,t.buyer_num from t_activity t inner join t_user u on t.user_id=u.id inner join t_taobaoaccount tb on tb.id=t.taobaoaccount_id where t.id=?")
+					"select  tb.taobao_user_nick,u.phone,u.username,t.gift_pics,t.title,t.publish_time,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_url,t.cowry_cover,t.buy_way,t.coupon_url,t.pay_price,t.return_money,t.buyer_mincredit,t.keep_days,t.stock,t.start_time,t.gift_name,t.gift_type1_name,t.gift_type2_name,t.gift_url,t.gift_cover,t.gift_detail,t.gift_express_co,t.status,t.audit_fail_reason,t.buyer_num from t_activity t inner join t_user u on t.user_id=u.id inner join t_taobaoaccount tb on tb.id=t.taobaoaccount_id where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, activityId);
@@ -201,7 +201,7 @@ public class AdminEntrance {
 				item.put("couponUrl", rs.getObject("coupon_url"));
 				item.put("payPrice", rs.getObject("pay_price"));
 				item.put("returnMoney", rs.getObject("return_money"));
-				item.put("buyerMincreditMin", rs.getObject("buyer_mincredit_min"));
+				item.put("buyerMincredit", rs.getObject("buyer_mincredit"));
 				item.put("keepDays", rs.getObject("keep_days"));
 				item.put("stock", rs.getObject("stock"));
 				item.put("startTime", rs.getObject("start_time"));

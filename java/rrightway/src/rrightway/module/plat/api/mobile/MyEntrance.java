@@ -42,7 +42,7 @@ public class MyEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.username,t.right_wallet,t.money,(select sum(money) from t_widthdraw where user_id=t.id) withdrawing_money,(select count(id) from t_order where buyer_id=t.id and status in (0)) buyed_count,(select count(id) from t_order where buyer_id=t.id and status in (1)) checked_count,(select count(id) from t_order where buyer_id=t.id and status in (2)) returned_count,(select count(id) from t_order where buyer_id=t.id and buyer_protect_rights_status != 0) protected_count from t_user t where t.id=?")
+					"select t.username,t.right_wallet,t.money,(select ifnull(sum(amount),0) from t_widthdraw where user_id=t.id and status=0) withdrawing_money,(select count(id) from t_order where buyer_id=t.id and status in (0)) buyed_count,(select count(id) from t_order where buyer_id=t.id and status in (1)) checked_count,(select count(id) from t_order where buyer_id=t.id and status in (2)) returned_count,(select count(id) from t_order where buyer_id=t.id and buyer_protect_rights_status != 0) protected_count from t_user t where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
@@ -106,18 +106,22 @@ public class MyEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.username,t.money,(select count(id) from t_order where buyer_id=t.id and status in (0)) uncheck_count,(select count(id) from t_order where buyer_id=t.id and status in (1)) buyed_count from t_user t where t.id=?")
+					"select t.frozen_money,t.username,t.money,t.unwithdraw_money,(select count(id) from t_order where buyer_id=t.id and status in (0)) uncheck_count,(select count(id) from t_order where buyer_id=t.id and status in (1)) buyed_count from t_user t where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			int buyedCount;
 			int checkedCount;
 			BigDecimal money;
+			BigDecimal unwithdrawMoney;
+			BigDecimal frozenMoney;
 			String username;
 			if (rs.next()) {
 				buyedCount = rs.getInt("buyed_count");
 				checkedCount = rs.getInt("uncheck_count");
 				money = rs.getBigDecimal("money");
+				unwithdrawMoney = rs.getBigDecimal("unwithdraw_money");
+				frozenMoney = rs.getBigDecimal("frozen_money");
 				username = rs.getString("username");
 			} else
 				throw new InteractRuntimeException("用户不存在");
@@ -128,7 +132,9 @@ public class MyEntrance {
 			data.put("buyedCount", buyedCount);
 			data.put("checkedCount", checkedCount);
 			data.put("money", money);
+			data.put("unwithdrawMoney", unwithdrawMoney);
 			data.put("username", username);
+			data.put("frozenMoney", frozenMoney);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
