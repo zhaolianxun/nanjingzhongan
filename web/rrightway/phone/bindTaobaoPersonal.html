@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport" /><meta name="apple-mobile-web-app-capable" content="yes" /><meta name="apple-mobile-web-app-status-bar-style" content="black" /><meta content="telephone=no" name="format-detection" />
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes" /><meta name="browsermode" content="application" />
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait" /><meta name="x5-fullscreen" content="true" /><meta name="x5-page-mode" content="app" /><title>
+        绑定淘宝-左左试用平台触屏版
+    </title><link rel="stylesheet" type="text/css" href="css/golbal.css" /><link rel="stylesheet" type="text/css" href="css/moblie.css" />
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+    <script src="js/default.js" charset="utf-8" type="text/javascript"></script>
+    <meta name="description" content="左左街-专业的试用网" /><meta name="keywords" content="左左,左左街,试用,推广" /></head>
+
+<body>
+<div class="viewport pt50">
+    <!-- 顶部 开始 -->
+    <header class="clearfix">
+        <div class="goback fl">
+            <a href="accountSecurity.html" > </a></div>
+        <div class="conttxt2">绑定淘宝</div>
+    </header>
+    <!-- 顶部 结束 -->
+
+
+    <!-- 绑定淘宝 开始-->
+    <div class="p10 cf60 line25">1.补全银行资料后才可补全资料，淘宝号实名名字必须和银行卡绑定名字一样，补全完成后可参加活动。<br />
+        2.授权绑定买家淘宝账号，只能绑定2个账号，每个淘宝号每天可以做3单。<br />
+        3.绑定成功后五分钟内将获取对应淘宝号的信誉才可以进行申请试用宝贝（淘宝号注册时间低于3个月无法获取信誉）<br />
+        4.绑定的淘宝号购物出现被删除评价高于2次（商家方才可以看到），网站有权禁止对应淘宝号申请试用。<br />
+        5.请务必关注微信公众号‘左左街’，并在里面点击进入网站登录账号，可随时接收审核进度。
+    </div>
+    <div class="taobao_list clearfix">
+
+        <p id="itemExample" class="taobao_item" style="display: none;"><b class="bl bd1 brd5 bgfff"><i class="buyer2"></i><span name="taobaoUserNick">绝对不网购</span><a href="javascript:;" class="delete bg2f97f0" data="57293">取消绑定</a><!--<a href="javascript:;" data="57293" class="look bgf60">查看信誉</a>--><a href="javascript:;" data="57293" class="check bgbbb" style="display:none;">查看资料</a><a href="javascript:;" data="57293" class="auditfail bgbbb" style="display:none;">重新提交</a><a href="javascript:;" data="57293" class="tjia bgbbb" style="display:none;">补全资料</a></b></p>
+
+
+
+
+
+        <p id="bindTaobao" style="display: none" class="taobao_add "><a href="javascript:;" class="bl bd1 brd5 c2f97f0 bgfff"><i></i>绑定买家淘宝账号</a></p>
+    </div>
+    <!-- 绑定淘宝 结束-->
+</div>
+<script>
+    var token = localStorage.getItem('token');
+    var items = {};
+    var pageNo = 1;
+    var pageSize=30;
+    var noMoreItems = false;
+    onload();
+
+    function onload(){
+        loadItems();
+    }
+
+
+    function loadItems(){
+        $.ajax({
+            type: 'POST',
+            data: {page_no: pageNo,page_size: pageSize},
+            async: false,
+            url: '/rrightway/p/m/safetysetent/buyertaobaoaccounts?token='+token,
+            success: function(res){
+                if(res.code == 0){
+                    $(res.data.items).each(function(index,ele){
+                        items[ele.taobaoAccountId]=ele;
+                        var newItem = $('#itemExample').clone(true);
+                        newItem.attr('id','item'+ele.taobaoAccountId)
+                        newItem.find('[name=taobaoUserNick]').text(ele.taobaoUserNick);
+                        newItem.find('.delete').attr('data',ele.taobaoAccountId);
+                       // newItem.find('.look').attr('data',ele.taobaoAccountId);
+
+                        if(ele.status==1 ||ele.status==0) {
+                            newItem.find('.tjia').attr('data',ele.taobaoAccountId);
+                            newItem.find('.tjia').css('display','');
+                        }else if(ele.status==3){
+                            newItem.find('.auditfail').attr('data',ele.taobaoAccountId);
+                            newItem.find('.auditfail').css('display','');
+                        }else{
+                            newItem.find('.check').attr('data',ele.taobaoAccountId);
+                            newItem.find('.check').css('display','');
+                        }
+                        newItem.css('display','');
+                        $('#bindTaobao').before(newItem);
+
+
+                    })
+                    if(res.data.items.length<2)
+                        $('#bindTaobao').css('display','');
+                }else{
+                    alert(res.codeMsg)
+                }
+            }
+        });
+    }
+
+
+
+
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent, app = navigator.appVersion;
+            return {
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,//火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
+                weixin: u.indexOf('MicroMessenger') > -1, //是否微信 （2015-01-22新增）
+                qq: u.match(/\sQQ/i) == " qq" //是否QQ
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+
+
+    function delok() {
+        error("取消绑定成功！");
+        freshpage(document.location.href);
+    }
+    function delno() {
+        error("此买家账号正在参与交易中，无法取消绑定！");
+    }
+
+
+//    //更新信誉
+//    function update(obj) {
+//        var id = obj;// $(obj).attr("data");
+//        // $("#horn").text("三钻");
+//        $.ajax({
+//            type: "POST",
+//            url: "/user/ashx/uptaobaoxy.ashx",
+//            data: "rad=" + Math.random() + "&id=" + id,
+//            success: function (res) {
+//
+//                if (res != "" && res != "[]") {
+//
+//                    var comments = $.parseJSON(res);
+//
+//
+//
+//                    if (comments.success == "Y") {
+//
+//                        error("操作成功，等待系统更新！");
+//                    }
+//
+//                    else {
+//                        error(comments.msg);
+//                    }
+//
+//                }
+//            }
+//        });
+//    }
+
+    $(function () {
+
+
+        $("#bindTaobao").click(function () {
+
+            if (browser.versions.weixin) {
+                error("请用手机浏览器打开 m.zuozuojie.com 登陆会员进行绑定");
+            }
+            else {
+                localStorage.setItem('href', location.href);
+                location.href = "tb_js_oauth.html?accountType=1";
+            }
+        });
+
+
+        $(".delete").click(function () {
+            var id = $(this).attr("data");
+            if(items[id].paypwdSetted != 1){
+                corfirm('您还未设置支付密码,现在设置',function(){location.href="set_pwd.html";return true;},{})
+            }else
+                layboxs("buyertaobaolist_cancel.html?id=" + id + "&r=" + Math.random());
+        });
+
+
+//        //查看信誉
+//        $(".taobao_item a.look").click(function () {
+//            var id = $(this).attr("data");
+//            $.ajax({
+//                type: "POST",
+//                url: "/user/ashx/gettaobaomore.ashx",
+//                data: "rad=" + Math.random() + "&id=" + id,
+//                success: function (res) {
+//
+//                    if (res != "" && res != "[]") {
+//
+//                        var comments = $.parseJSON(res);
+//
+//
+//
+//                        if (comments.success == "Y") {
+//
+//                            corfirm3("<span class='c999'>淘宝账号：<i class='c333'>" + comments.content[0].staobao_name + "</i></span><br /><span class='c999'>当前信誉：<i class='cf60' id='horn'>" + comments.content[0].sprestige + "</i></span>", '更新信誉', update,id);
+//
+//                        }
+//
+//                        else {
+//                            error(comments.msg);
+//                        }
+//
+//                    }
+//                }
+//            });
+//        });
+
+        //查看资料
+        $(".taobao_item a.check").click(function () {
+
+            var id = $(this).attr("data");
+
+
+           corfirm4("<span class='c999'>淘宝账号：<i class='c333'>" + items[id].taobaoUserNick + "</i></span><span class='c999'>真实姓名：<i class='c333'>" + items[id].realname + "</i></span><span class='c999'>支付宝账号：<i class='c333'>" + items[id].alipayAccount + "</i></span><span class='c999'>身份证号码：<i class='c333'>" + items[id].idcardNo + "</i></span>", nuls, $(this));
+
+
+            });
+        });
+
+        //补全资料
+        $(".taobao_item a.tjia").click(function () {
+
+            var id = $(this).attr("data");
+
+            if (items[id].bankinfoFillIf==0) {
+                corfirm2("您还未设置收款账户，无法补全资料！", "<a href='set_bank_list.html' class='cf60'>马上设置收款账户</a>", nuls, $(this));
+                return;
+            }
+            if (items[id].status==1) {
+                rxw.alert("您提交的资料正在审核中，请耐心等待24小时，若有疑问请咨询客服。", '确认', nuls, $(this));
+                return;
+            }
+            location.href = "completetaobaoinfo.html?alipayAccount="+items[id].taobaoUserNick+"&realname="+items[id].realname+"&taobaoAccountId="+items[id].taobaoAccountId;
+        });
+
+
+        //重新提交
+        $(".taobao_item a.auditfail").click(function () {
+
+            var id = $(this).attr("data");
+
+            if (items[id].bankinfoFillIf==0) {
+                corfirm2("您还未设置收款账户，无法补全资料！", "<a href='set_bank_list.html' class='cf60'>马上设置收款账户</a>", nuls, $(this));
+                return;
+            }
+
+            location.href = "completetaobaoinfo.html?alipayAccount="+items[id].alipayAccount+"&realname="+items[id].realname+"&taobaoAccountId="+items[id].taobaoAccountId;
+//            $.ajax({
+//                type: "POST",
+//                url: "/user/ashx/checkbindbank.ashx",
+//                data: "rad=" + Math.random(),
+//                success: function (res) {
+//
+//                    if (res != "" && res != "[]") {
+//
+//                        var comments = $.parseJSON(res);
+//
+//
+//
+//                        if (comments.success == "Y") {
+//
+//
+//                            $.ajax({
+//                                type: "POST",
+//                                url: "/user/ashx/checktaobaomore.ashx",
+//                                data: "rad=" + Math.random() + "&id=" + id,
+//                                success: function (res) {
+//
+//                                    if (res != "" && res != "[]") {
+//
+//                                        var comments = $.parseJSON(res);
+//
+//
+//
+//                                        if (comments.success == "Y") {
+//
+//                                            location.href = "alipay_add.aspx?id=" + id;
+//                                        }
+//
+//
+//                                        else if (comments.success == "H") {
+//                                            //已审核
+//                                            corfirm3("当前淘宝号已补全资料。", '确认', nuls, $(this));
+//                                            //layboxs("/user/dialog/save_taobao_user_add.aspx?type=2", "notitle");
+//                                        }
+//                                        else if (comments.success == "A") {
+//                                            //审核中
+//                                            corfirm3("您提交的资料正在审核中，请耐心等待24小时，若有疑问请咨询客服。", '确认', nuls, $(this));
+//
+//                                            // layboxs("/user/dialog/save_taobao_user_add.aspx?type=1", "notitle");
+//                                        }
+//                                        else {
+//                                            error(comments.msg);
+//                                        }
+//
+//                                    }
+//                                }
+//                            });
+//
+//
+//
+//
+//                        }
+//
+//
+//                        else if (comments.success == "W") {
+//                            corfirm2("您还未设置收款账户，无法补全资料！", "<a href='/user/money/choose_list.aspx' class='cf60'>马上设置收款账户</a>", nuls, $(this));
+//
+//
+//                            // layboxs("/user/dialog/save_taobao_user_add.aspx?type=3", "notitle");
+//                        }
+//                        else {
+//                            error(comments.msg);
+//                        }
+//
+//                    }
+//                }
+//            });
+
+
+    });
+
+
+    //function canok(obj) {
+    //    var id = $(obj).attr("data");
+
+    //    //取消成功
+    //    error("取消绑定成功！");
+
+    //    //取消失败
+    //    //error("此买家账号正在参与交易中，无法取消绑定！");
+
+    //    $(obj).parent().parent().remove();
+    //    $(".confirm").remove();
+    //}
+    //$(function () {
+    //    $(".taobao_item a").click(function () {
+    //        corfirm("您确定要取消绑定买家账号吗？", canok, $(this))
+    //    });
+
+    //});
+</script>
+</body>
+</html>

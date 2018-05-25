@@ -761,7 +761,7 @@ public class SafetySetEntrance {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/alterpwdbysrc")
-	public void alterPwdBySms(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void alterpwdbysrc(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -869,6 +869,8 @@ public class SafetySetEntrance {
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 
+			if (!loginStatus.getPhone().equals(phone))
+				throw new InteractRuntimeException("手机号错误");
 			// 短信校验
 			String url = new StringBuilder(OutApis.sms_verification_verify).append("?").append("phone=").append(phone)
 					.append("&verification_code=").append(smsvcode).toString();
@@ -926,6 +928,9 @@ public class SafetySetEntrance {
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 
+			if (!loginStatus.getPhone().equals(phone))
+				throw new InteractRuntimeException("手机号错误");
+
 			// 短信校验
 			String url = new StringBuilder(OutApis.sms_verification_verify).append("?").append("phone=").append(phone)
 					.append("&verification_code=").append(smsvcode).toString();
@@ -977,7 +982,7 @@ public class SafetySetEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select ifnull(u.realname,0,1) bankinfo_fill_if,t.alipay_account,u.realname,t.id,t.taobao_user_nick,t.status,t.idcard_front,t.idcard_back,t.idcard_no,t.audit_fail_reason from t_taobaoaccount t inner join t_user u on t.user_id=u.id where t.user_id=? and t.type=1")
+					"select if((isnull(u.realname) || length(u.realname)=0),0,1) bankinfo_fill_if,t.alipay_account,u.realname,t.id,t.taobao_user_nick,t.status,t.idcard_front,t.idcard_back,t.idcard_no,t.audit_fail_reason,if((isnull(u.paypwd_md5)||length(u.paypwd_md5)=0),0,1) paypwd_setted from t_taobaoaccount t inner join t_user u on t.user_id=u.id where t.user_id=? and t.type=1")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
@@ -994,15 +999,14 @@ public class SafetySetEntrance {
 				item.put("realname", rs.getString("realname"));
 				item.put("bankinfoFillIf", rs.getInt("bankinfo_fill_if"));
 				item.put("auditFailReason", rs.getString("audit_fail_reason"));
+				item.put("paypwdSetted", rs.getString("paypwd_setted"));
 				items.add(item);
 			}
 			pst.close();
 
 			// 返回结果
 			JSONObject data = new JSONObject();
-			JSONObject taobaoAccounts = new JSONObject();
-			taobaoAccounts.put("items", items);
-			data.put("taobaoAccounts", taobaoAccounts);
+			data.put("items", items);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -1046,9 +1050,7 @@ public class SafetySetEntrance {
 
 			// 返回结果
 			JSONObject data = new JSONObject();
-			JSONObject taobaoAccounts = new JSONObject();
-			taobaoAccounts.put("items", items);
-			data.put("taobaoAccounts", taobaoAccounts);
+			data.put("items", items);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -1069,6 +1071,10 @@ public class SafetySetEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
+			String taobaoaccountIdParam = StringUtils.trimToNull(request.getParameter("taobaoaccount_id"));
+			if (taobaoaccountIdParam == null)
+				throw new InteractRuntimeException("taobaoaccount_id 不可空");
+			int taobaoaccountId = Integer.parseInt(taobaoaccountIdParam);
 			String idcardFront = StringUtils.trimToNull(request.getParameter("idcard_front"));
 			if (idcardFront == null)
 				throw new InteractRuntimeException("idcard_front 不可空");
@@ -1088,13 +1094,25 @@ public class SafetySetEntrance {
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement(
-					new StringBuilder("select count(id) from t_user_bankcard where user_id=?").toString());
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement("update t_taobaoaccount set alipay_account=null where id=?");
+			pst.setObject(1, taobaoaccountId);
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"select (select count(id) from t_user_bankcard where user_id=?) bank_if,(select count(id) from t_taobaoaccount where alipay_account=?) alipay_if")
+							.toString());
 			pst.setObject(1, loginStatus.getUserId());
+			pst.setObject(2, alipayAccount);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
-				if (rs.getInt(1) == 0)
+				if (rs.getInt("bank_if") == 0)
 					throw new InteractRuntimeException("请补全银行卡信息");
+				if (rs.getInt("alipay_if") == 1)
+					throw new InteractRuntimeException("支付宝已存在");
 			}
 			pst.close();
 
@@ -1104,12 +1122,76 @@ public class SafetySetEntrance {
 			pst.setObject(2, idcardBack);
 			pst.setObject(3, idcardNo);
 			pst.setObject(4, alipayAccount);
-			pst.setObject(5, loginStatus.getUserId());
+			pst.setObject(5, taobaoaccountId);
+			n = pst.executeUpdate();
 			pst.close();
-			int n = pst.executeUpdate();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
 
+	@RequestMapping(value = "/unbindtaobaoaccount")
+	public void unbindtaobaoaccount(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String taobaoaccountIdParam = StringUtils.trimToNull(request.getParameter("taobaoaccount_id"));
+			if (taobaoaccountIdParam == null)
+				throw new InteractRuntimeException("taobaoaccount_id 不可空");
+			int taobaoaccountId = Integer.parseInt(taobaoaccountIdParam);
+			String paypwd = StringUtils.trimToNull(request.getParameter("paypwd"));
+			if (paypwd == null)
+				throw new InteractRuntimeException("paypwd 不可空");
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection
+					.prepareStatement("select count(id) from t_order where finished_if=0 and buyer_taobaoaccount_id=?");
+			pst.setObject(1, taobaoaccountId);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				if (rs.getInt(1) > 0)
+					throw new InteractRuntimeException("此买家账号正在参与交易中，无法取消绑定！");
+			}
+			pst.close();
+
+			pst = connection.prepareStatement("select paypwd_md5 from t_user where id=?");
+			pst.setObject(1, loginStatus.getUserId());
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				String paypwdMd5 = rs.getString("paypwd_md5");
+				if (paypwdMd5 == null || paypwdMd5.isEmpty())
+					throw new InteractRuntimeException("未设置支付密码");
+				if (!rs.getString("paypwd_md5").equals(DigestUtils.md5Hex(paypwd)))
+					throw new InteractRuntimeException("支付密码错误");
+			}
+			pst.close();
+
+			pst = connection.prepareStatement("delete from t_taobaoaccount where id=?");
+			pst.setObject(1, taobaoaccountId);
+			int cnt = pst.executeUpdate();
+			pst.close();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {

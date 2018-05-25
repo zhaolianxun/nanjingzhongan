@@ -60,6 +60,8 @@ function accessconfirm(str, fun, obj) {
     })
 }
 
+
+
 function formatDateTime(inputTime) {
     var date = new Date(inputTime);
     var y = date.getFullYear();

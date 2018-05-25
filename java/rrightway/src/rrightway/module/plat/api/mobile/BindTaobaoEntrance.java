@@ -93,18 +93,19 @@ public class BindTaobaoEntrance {
 
 			// 业务处理
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("select id,user_id,type from t_taobaoaccount where taobao_user_id=?");
+			pst = connection.prepareStatement(
+					"select id,user_id,insert(phone,3,5) phone from t_taobaoaccount where taobao_user_id=? and type=?");
 			pst.setObject(1, taobaoOpenUid);
+			pst.setObject(2, accountType);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				String existUserId = rs.getString("user_id");
-				int existType = rs.getInt("type");
+				String existPhone = rs.getString("phone");
 				int existId = rs.getInt("id");
 				pst.close();
 				if (!existUserId.equals(userId))
-					throw new InteractRuntimeException("该淘宝账号已授权给其他用户");
-				if (existType != accountType)
-					throw new InteractRuntimeException("该淘宝账号已使用");
+					throw new InteractRuntimeException("该淘宝账号已授权给其他用户:" + existPhone);
+
 				pst = connection.prepareStatement(
 						"update t_taobaoaccount set taobao_user_nick=?,access_token=?,expire_time=?,refresh_token=? where id=?");
 				pst.setObject(1, taobaoUserNick);
