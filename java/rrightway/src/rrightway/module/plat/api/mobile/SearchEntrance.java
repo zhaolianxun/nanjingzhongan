@@ -70,14 +70,17 @@ public class SearchEntrance {
 			String wayToShopParam = StringUtils.trimToNull(request.getParameter("way_to_shop"));
 			Integer wayToShop = wayToShopParam == null ? null : Integer.parseInt(wayToShopParam);
 			String buyerMincreditParam = StringUtils.trimToNull(request.getParameter("buyer_mincredit"));
-			Integer buyerMincredit = buyerMincreditParam == null ? null
-					: Integer.parseInt(buyerMincreditParam);
+			Integer buyerMincredit = buyerMincreditParam == null ? null : Integer.parseInt(buyerMincreditParam);
 			String payPriceMinParam = StringUtils.trimToNull(request.getParameter("pay_price_min"));
 			BigDecimal payPriceMin = payPriceMinParam == null ? null : new BigDecimal(payPriceMinParam);
 			String payPriceMaxParam = StringUtils.trimToNull(request.getParameter("pay_price_max"));
 			BigDecimal payPriceMax = payPriceMaxParam == null ? null : new BigDecimal(payPriceMaxParam);
 			String buyWayParam = StringUtils.trimToNull(request.getParameter("buy_way"));
 			Integer buyWay = buyWayParam == null ? null : Integer.parseInt(buyWayParam);
+			String huabeiPayParam = StringUtils.trimToNull(request.getParameter("huabei_pay"));
+			Integer huabeiPay = huabeiPayParam == null ? null : Integer.parseInt(huabeiPayParam);
+			String creditcardPayParam = StringUtils.trimToNull(request.getParameter("creditcard_pay"));
+			Integer creditcardPay = creditcardPayParam == null ? null : Integer.parseInt(creditcardPayParam);
 			// 1综合 2销量 3最新 4付款金额升序 5付款金额降序 6奖金升序 7奖金降序
 			String sortbyParam = StringUtils.trimToNull(request.getParameter("sortby"));
 			int sortby = sortbyParam == null ? 1 : Integer.parseInt(sortbyParam);
@@ -96,6 +99,10 @@ public class SearchEntrance {
 				keyw = new StringBuilder("%").append(keyw).append("%").toString();
 				sqlParams.add(keyw);
 			}
+			if (huabeiPay != null)
+				sqlParams.add(huabeiPay);
+			if (creditcardPay != null)
+				sqlParams.add(creditcardPay);
 			if (buyWay != null)
 				sqlParams.add(buyWay);
 			if (type1Id != null)
@@ -119,6 +126,8 @@ public class SearchEntrance {
 									: couponIf == 0 ? " and (isnull(coupon_url) or length(trim(coupon_url))=0) "
 											: "and (!isnull(coupon_url) and length(trim(coupon_url))>0) ")
 							.append(keyw == null ? "" : " and gift_name like ? ")
+							.append(huabeiPay == null ? "" : " and huabei_pay=1 ")
+							.append(creditcardPay == null ? "" : " and creditcard_pay=1 ")
 							.append(buyWay == null ? "" : " and buy_way=? ")
 							.append(type1Id == null ? "" : " and gift_type1_id=? ")
 							.append(type2Id == null ? "" : " and gift_type2_id=? ")

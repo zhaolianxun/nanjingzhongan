@@ -37,6 +37,46 @@ public class SafetySetEntrance {
 
 	public static Logger logger = Logger.getLogger(SafetySetEntrance.class);
 
+	@RequestMapping(value = "/ent")
+	public void safetysetentEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			// 更新密码
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement(
+					"select if((isnull(t.paypwd_md5)||length(t.paypwd_md5)=0),0,1) paypwd_setted,if((isnull(t.phone)||length(t.phone)=0),0,1) phone_bound,(select if(count(id)>0,1,0) from t_user_bankcard where id=t.id) bankcard_bound from t_user t where t.id= ? ");
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			JSONObject data = new JSONObject();
+			if (rs.next()) {
+				data.put("paypwdSetted", rs.getInt("paypwd_setted"));
+				data.put("phoneBound", rs.getInt("phone_bound"));
+				data.put("bankcardBound", rs.getInt("bankcard_bound"));
+			}
+			pst.close();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
 	@RequestMapping(value = "/setpaypwd")
 	public void setpaypwd(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -661,7 +701,6 @@ public class SafetySetEntrance {
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
-			connection.setAutoCommit(false);
 			pst = connection.prepareStatement("select paypwd_md5 from t_user where id=?");
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
@@ -682,14 +721,6 @@ public class SafetySetEntrance {
 			int n = pst.executeUpdate();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
-
-			pst = connection.prepareStatement("update t_user set realname=? where id=?");
-			pst.setObject(1, belonger);
-			pst.setObject(2, loginStatus.getUserId());
-			n = pst.executeUpdate();
-			if (n != 1)
-				throw new InteractRuntimeException("操作失败");
-			connection.commit();
 
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
@@ -726,15 +757,26 @@ public class SafetySetEntrance {
 			pst.setObject(1, loginStatus.getUserId());
 			JSONObject item = new JSONObject();
 			ResultSet rs = pst.executeQuery();
+			String belonger = null;
+			String phone = null;
+			String cardno = null;
+			String bankname = null;
+			Integer status = null;
 			if (rs.next()) {
-				item.put("belonger", rs.getString("belonger"));
-				item.put("phone", rs.getString("phone"));
-				item.put("cardno", rs.getString("cardno"));
-				item.put("bankname", rs.getString("bankname"));
-				item.put("status", rs.getInt("status"));
-			} else
-				throw new InteractRuntimeException("操作失败");
+				belonger = rs.getString("belonger");
+				phone = rs.getString("phone");
+				cardno = rs.getString("cardno");
+				bankname = rs.getString("bankname");
+				status = rs.getInt("status");
+
+			}
 			pst.close();
+
+			item.put("belonger", belonger);
+			item.put("phone", phone);
+			item.put("cardno", cardno);
+			item.put("bankname", bankname);
+			item.put("status", status);
 
 			JSONObject data = new JSONObject();
 			data.putAll(item);
