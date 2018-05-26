@@ -90,6 +90,8 @@ public class UserAction {
 			data.put("userId", loginStatus.getUserId());
 			data.put("phone", loginStatus.getPhone());
 			data.put("username", loginStatus.getUsername());
+			data.put("adminIf", loginStatus.getAdminIf());
+
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -151,6 +153,7 @@ public class UserAction {
 			data.put("userId", userId);
 			data.put("phone", loginStatus.getPhone());
 			data.put("username", loginStatus.getUsername());
+			data.put("adminIf", loginStatus.getAdminIf());
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常

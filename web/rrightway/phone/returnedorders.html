@@ -153,7 +153,7 @@
                         items[row.id]=row;
                         var txt = "";
                         var sbuy_way = row.buyWay == 1 ? '<i class="ptype pc"></i>' : '<i class="ptype tel"></i>';
-                        var is_coupon = row.couponIf == '否' ? '' : '<i class="ptype juan"></i>';
+                        var is_coupon = row.couponIf ==0 ? '' : '<i class="ptype juan"></i>';
                         var is_pay_hb = row.huabeiPay == 1 ? '<i class="ptype hbei"></i>' : '';
                         var is_pay_card = row.creditcardPay == 1 ? '<i class="ptype xyka"></i>' : '';
                         var sevel_up_stataus = row.reviewPicAudit == 0 ? '<a href="buyed_pic.aspx?id=' + row.id + '"  class="mt5 bf60  sbt74_28 bl brd3 mauto mb5 recoder">查看截图</a>' : '';
@@ -397,8 +397,8 @@
                 gift_name:$('#pro_name').val(),
                 order_id:$('#order_id').val(),
                 taobao_orderid:$('#staobaoordernum').val(),
-                order_time_start:new Date(s_time.replace('.','-')).getTime(),
-                order_time_end:new Date(e_time.replace('.','-')).getTime(),
+                order_time_start: s_time ==''?'':new Date(s_time.replace('.','-')).getTime(),
+                order_time_end: s_time ==''?'':new Date(e_time.replace('.','-')).getTime(),
             }
             reloaddata();
         });

@@ -42,7 +42,7 @@ public class MyEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.username,t.right_wallet,t.money,(select ifnull(sum(amount),0) from t_widthdraw where user_id=t.id and status=0) withdrawing_money,(select count(id) from t_order where buyer_id=t.id and status in (0)) buyed_count,(select count(id) from t_order where buyer_id=t.id and status in (1)) checked_count,(select count(id) from t_order where buyer_id=t.id and status in (2)) returned_count,(select count(id) from t_order where buyer_id=t.id and buyer_protect_rights_status != 0) protected_count from t_user t where t.id=?")
+					"select t.username,t.right_wallet,t.money,(select ifnull(sum(amount),0) from t_widthdraw where user_id=t.id and status=0) withdrawing_money,(select count(id) from t_order where buyer_id=t.id and status in (0,3,4,5)) buyed_count,(select count(id) from t_order where buyer_id=t.id and status in (1,7,10,9,8,11)) checked_count,(select count(id) from t_order where buyer_id=t.id and status in (2)) returned_count,(select count(id) from t_order where buyer_id=t.id and status in (7,8,9,10,11,12)) protected_count from t_user t where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();

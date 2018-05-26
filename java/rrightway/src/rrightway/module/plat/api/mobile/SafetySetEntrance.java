@@ -632,7 +632,10 @@ public class SafetySetEntrance {
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
-				if (DigestUtils.md5Hex(paypwd).equals(rs.getString("paypwd_md5")))
+				String paypwdMd5 = rs.getString("paypwd_md5");
+				if (paypwdMd5 == null || paypwdMd5.isEmpty())
+					throw new InteractRuntimeException("请先设置支付密码");
+				if (!DigestUtils.md5Hex(paypwd).equals(paypwdMd5))
 					throw new InteractRuntimeException("支付密码错误");
 			} else
 				throw new InteractRuntimeException(20);
@@ -705,14 +708,17 @@ public class SafetySetEntrance {
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
-				if (DigestUtils.md5Hex(paypwd).equals(rs.getString("paypwd_md5")))
+				String paypwdMd5 = rs.getString("paypwd_md5");
+				if (paypwdMd5 == null || paypwdMd5.isEmpty())
+					throw new InteractRuntimeException("请先设置支付密码");
+				if (!DigestUtils.md5Hex(paypwd).equals(paypwdMd5))
 					throw new InteractRuntimeException("支付密码错误");
 			} else
 				throw new InteractRuntimeException(20);
 			pst.close();
 
 			pst = connection.prepareStatement(
-					"update set t_user_bankcard bankname=?,cardno=?,phone=?,belonger=?,status=1 where user_id=?");
+					"update t_user_bankcard set  bankname=?,cardno=?,phone=?,belonger=?,status=1 where user_id=?");
 			pst.setObject(1, bankname);
 			pst.setObject(2, cardno);
 			pst.setObject(3, phone);
@@ -727,8 +733,6 @@ public class SafetySetEntrance {
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
-			if (connection != null)
-				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
