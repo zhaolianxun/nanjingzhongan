@@ -28,7 +28,7 @@ rxw.formatDateTime=function (inputTime) {
 };
 
 
-rxw.alert=function (txt){
+rxw.alert=function (txt,fun,funParam){
 
 
         $("body").append('<div class="confirm"><div class="alert"><div>' + txt + '</div><p><a href="javascript:;" class="submit" style="width:100%"><i></i>确认</a></p></div><div class="con_bg opa50"></div></div>');
@@ -36,6 +36,8 @@ rxw.alert=function (txt){
         $(".confirm").show();
 
         $(".submit").click(function () {
+            if(fun)
+                fun(funParam);
                 $(".confirm").remove();
         });
 

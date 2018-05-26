@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/golbal.css" /><link rel="stylesheet" type="text/css" href="css/moblie.css" />
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
     <script src="js/com.js" type="text/javascript"></script>
+    <script src="js/default.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -28,7 +29,8 @@
                 localStorage.setItem('href',location.href);
                 location.href='login.html'
             }else{
-                error(res.codeMsg)
+                rxw.alert(res.codeMsg,function(){location.href = href})
+
             }
         }
     });

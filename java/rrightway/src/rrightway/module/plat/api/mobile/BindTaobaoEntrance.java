@@ -94,7 +94,7 @@ public class BindTaobaoEntrance {
 			// 业务处理
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
-					"select id,user_id,insert(phone,3,5) phone from t_taobaoaccount where taobao_user_id=? and type=?");
+					"select tb.id,tb.user_id,insert(u.phone,3,5,'*****') phone from t_taobaoaccount tb left join t_user u on tb.user_id=u.id where tb.taobao_user_id=? and tb.type=?");
 			pst.setObject(1, taobaoOpenUid);
 			pst.setObject(2, accountType);
 			ResultSet rs = pst.executeQuery();

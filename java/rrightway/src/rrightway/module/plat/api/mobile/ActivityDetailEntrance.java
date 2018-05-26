@@ -32,7 +32,7 @@ public class ActivityDetailEntrance {
 	public static Logger logger = Logger.getLogger(ActivityDetailEntrance.class);
 
 	@RequestMapping(value = "/detail")
-	public void home(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void detail(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -44,18 +44,21 @@ public class ActivityDetailEntrance {
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
-
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select way_to_shop,qrcode_to_order,search_keys,cowry_cover,cowry_url,gift_pics,(select if(count(id)>0,1,0) from t_order where user_id=? and activity_id=t.id and status not in (3,4,5)) apply_if,t.buyer_num,t.gift_cover,t.gift_name,t.pay_price,t.return_money,(t.publish_time+t.keep_days*24*60*60*1000) end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit,t.gift_express_co"
-							+ (loginStatus == null ? ",null gift_detail" : ",t.gift_detail")
-							+ " from t_activity t where t.id=?").toString());
+					"select tb.taobao_user_nick,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_cover,t.cowry_url,t.gift_pics,(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id and status not in (3,4,5)) apply_if,t.buyer_num,t.gift_cover,t.gift_name,t.pay_price,t.return_money,(t.publish_time+t.keep_days*24*60*60*1000) end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit,t.gift_express_co"
+							+ (loginStatus == null ? ",null t.gift_detail" : ",t.gift_detail")
+							+ " from t_activity t left join t_taobaoaccount tb on t.taobaoaccount_id=tb.id where t.id=?")
+									.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, activityId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
-			while (rs.next()) {
+			if (rs.next()) {
+				item.put("taobaoUserNick", rs.getString("taobao_user_nick"));
 				item.put("giftCover", rs.getString("gift_cover"));
 				item.put("giftName", rs.getString("gift_name"));
 				item.put("payPrice", rs.getBigDecimal("pay_price"));
@@ -71,12 +74,13 @@ public class ActivityDetailEntrance {
 				int applyIf = rs.getInt("apply_if");
 				item.put("applyIf", applyIf);
 				item.put("giftPics", rs.getString("gift_pics"));
-				Integer wayToShop = rs.getInt("way_to_shop");
+				Integer wayToShop = null;
 				String qrcodeToOrder = null;
 				String searchKeys = null;
 				String cowryCover = null;
 				String cowryUrl = null;
 				if (applyIf == 1) {
+					wayToShop = rs.getInt("way_to_shop");
 					if (wayToShop == 1) {
 						searchKeys = rs.getString("search_keys");
 						cowryCover = rs.getString("cowry_cover");
@@ -94,7 +98,9 @@ public class ActivityDetailEntrance {
 				item.put("searchKeys", searchKeys);
 				item.put("cowryCover", cowryCover);
 				item.put("cowryUrl", cowryUrl);
-			}
+			} else
+				throw new InteractRuntimeException("活动不存在");
+
 			pst.close();
 
 			// 返回结果

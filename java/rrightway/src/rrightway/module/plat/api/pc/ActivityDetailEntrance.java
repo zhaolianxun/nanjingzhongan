@@ -43,7 +43,7 @@ public class ActivityDetailEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.gift_cover,t.gift_name,t.pay_price,t.return_money,t.publish_time+t.keep_days*24*60*60*1000 end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit_min,t.gift_express_co,t.gift_detail from t_activity t where t.id=?")
+					"select t.gift_cover,t.gift_name,t.pay_price,t.return_money,t.publish_time+t.keep_days*24*60*60*1000 end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit,t.gift_express_co,t.gift_detail from t_activity t where t.id=?")
 							.toString());
 			pst.setObject(1, activityId);
 			ResultSet rs = pst.executeQuery();
@@ -58,7 +58,7 @@ public class ActivityDetailEntrance {
 				item.put("stock", rs.getInt("stock"));
 				item.put("buyWay", rs.getInt("buy_way"));
 				item.put("couponIf", rs.getInt("coupon_if"));
-				item.put("buyerMincreditMin", rs.getInt("buyer_mincredit_min"));
+				item.put("buyerMincreditMin", rs.getInt("buyer_mincredit"));
 				item.put("giftExpressCo", rs.getString("gift_express_co"));
 				item.put("giftDetail", rs.getString("gift_detail"));
 			}
@@ -151,7 +151,7 @@ public class ActivityDetailEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.gift_cover,t.gift_name,t.pay_price,t.return_money,t.publish_time+t.keep_days*24*60*60*1000 end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit_min,t.gift_express_co,t.gift_detail from t_activity t where t.id=?")
+					"select t.gift_cover,t.gift_name,t.pay_price,t.return_money,t.publish_time+t.keep_days*24*60*60*1000 end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit,t.gift_express_co,t.gift_detail from t_activity t where t.id=?")
 							.toString());
 			pst.setObject(1, activityId);
 			ResultSet rs = pst.executeQuery();
@@ -166,7 +166,7 @@ public class ActivityDetailEntrance {
 				item.put("stock", rs.getInt("stock"));
 				item.put("buyWay", rs.getInt("buy_way"));
 				item.put("couponIf", rs.getInt("coupon_if"));
-				item.put("buyerMincreditMin", rs.getInt("buyer_mincredit_min"));
+				item.put("buyerMincreditMin", rs.getInt("buyer_mincredit"));
 				item.put("giftExpressCo", rs.getString("gift_express_co"));
 				item.put("giftDetail", rs.getString("gift_detail"));
 			}

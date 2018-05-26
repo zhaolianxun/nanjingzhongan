@@ -12,9 +12,10 @@
     <meta name="keywords" content="已买下的订单" />
     <meta name="description" content="Y" />
 
-    <link rel="stylesheet" type="text/css" href="../css/new.css" />
-    <script type="text/javascript" src="../js/jquery-1.9.1.min.js?32222"></script>
-    <script type="text/javascript" src="../js/new.js?2351"></script>
+    <link rel="stylesheet" type="text/css" href="css/new.css" />
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
+    <script type="text/javascript" src="js/default.js"></script>
 </head>
 
 
@@ -23,22 +24,23 @@
 <div class="viewport">
     <!-- 顶部 开始 -->
     <div class="header">
-        <a href="index.aspx" class="type">
-            <img src="../image/arrow_left2.svg" class="h40"></a>
+        <a href="b_transaction_management.html" class="type">
+            <img src="image/arrow_left2.svg" class="h40"></a>
         <a href="javascript:;" class="tosearch filter">
-            <img src="../image/ico_show_type1.png" class="h40" /></a>
+            <img src="image/ico_show_type1.png" class="h40" /></a>
         <div class="htxt">已买下的订单</div>
     </div>
     <!-- 顶部 结束 -->
 
     <div class="h90"></div>
-    <div class="com_tab sp3 fixed"><a href="javascript:;" data="全部" class="crently" data-val="20">全部</a><a href="javascript:;" data="维权中" data-val="22">维权中</a><a href="javascript:;" data="未提交评价图" data-val="24">未提交评价图</a></div>
+    <div class="com_tab sp3 fixed"><a href="javascript:;" data="全部" class="crently" data-val="" >全部</a><a href="javascript:;" data="维权中"   data-val="1">维权中</a><a href="javascript:;"  data="未提交评价图" data-val="2">未提交评价图</a></div>
 
     <!-- 列表页 开始-->
     <div class="spro_list clearfix mt20" id="spro_list5">
 
 
     </div>
+
     <!-- 列表页 结束-->
 
     <!-- 没有数据提示-->
@@ -46,7 +48,7 @@
         <div class="pb40 mt100">
             <div class="success">
                 <i>
-                    <img src="../image/fail_ico.png" /></i>
+                    <img src="image/fail_ico.png" /></i>
                 <p class="c999">没有相关的订单哦~</p>
 
                 <!-- 筛选没有显示-->
@@ -62,7 +64,7 @@
     <div class="maskbg animate"></div>
     <div class="h90 relative clearfix bgf8f8f8">
         <a href="javascript:;" class="goback plr20 relative z9">
-            <img src="../image/close2_ico.png" class="w30" /></a>
+            <img src="image/close2_ico.png" class="w30" /></a>
         <div class="center absolute l0 t0 pw100 f30">筛选</div>
     </div>
     <div class="scroll sp2 bgfff">
@@ -72,17 +74,17 @@
                 <div class="cls">
                     <div class="h90">交易状态 <em class="protype fr c999">全部</em></div>
                                 <span class="arrow">
-                                    <img src="../image/arrow_down.svg" class="w30"></span>
+                                    <img src="image/arrow_down.svg" class="w30"></span>
                 </div>
                 </dt>
                 <dd class="foot f28 hidden">
                     <div class="bt1 sp2 clearfix c_ftab list666" data="protype">
                         <input type="hidden" id="protype" value="全部" />
-                        <div class="item active"><a href="javascript:;" data="全部" data-val="20"><em>全部</em></a></div>
-                        <div class="item"><a href="javascript:;" data="维权中" data-val="22"><em>维权中</em></a></div>
-                        <div class="item"><a href="javascript:;" data="未提交评价图" data-val="24"><em>未提交评价图</em></a></div>
+                        <div name="tradeStatus" class="item active"><a href="javascript:;" data="全部" data-val=""><em>全部</em></a></div>
+                        <div  name="tradeStatus" class="item"><a href="javascript:;" data="维权中" data-val="1"><em>维权中</em></a></div>
+                        <div  name="tradeStatus" class="item"><a href="javascript:;" data="未提交评价图" data-val="2"><em>未提交评价图</em></a></div>
 
-                        <div class="item"><a href="javascript:;" data="已提交评价图" data-val="25"><em>已提交评价图</em></a></div>
+                        <div name="tradeStatus" class="item"><a href="javascript:;" data="已提交评价图" data-val="3"><em>已提交评价图</em></a></div>
                     </div>
                 </dd>
             </dl>
@@ -132,22 +134,22 @@
 <div class="pop_from_right bgfff animate" id="appright">
     <div class="head">
         <a href="javascript:;" class="goback plr20">
-            <img src="../image/ico_close_write.png" class="w30" /></a>
+            <img src="image/ico_close_write.png" class="w30" /></a>
         <p>申请维权</p>
     </div>
     <div class="scroll sp2 bgeee">
         <ul class="checklist f28">
-            <li class="item" data="试客在淘宝申请退款，已经同意退款" data-val="1">
-                <p>试客在淘宝申请退款，已经同意退款<i class="c sp2"><img src="../image/ico_selected.png" class="h30"></i></p>
+            <li class="item" data="试客在淘宝申请退款，已经同意退款" data-val="试客在淘宝申请退款，已经同意退款">
+                <p>试客在淘宝申请退款，已经同意退款<i class="c sp2"><img src="image/ico_selected.png" class="h30"></i></p>
             </li>
-            <li class="item" data="误点击为确定已拍下的试客" data-val="2">
-                <p>误点击为确定已拍下的试客<i class="c sp2"><img src="../image/ico_selected.png" class="h30"></i></p>
+            <li class="item" data="误点击为确定已拍下的试客" data-val="误点击为确定已拍下的试客">
+                <p>误点击为确定已拍下的试客<i class="c sp2"><img src="image/ico_selected.png" class="h30"></i></p>
             </li>
-            <li class="item" data="试客已提交评价图但未收货" data-val="3">
-                <p>试客已提交评价图但未收货<i class="c sp2"><img src="../image/ico_selected.png" class="h30"></i></p>
+            <li class="item" data="试客已提交评价图但未收货" data-val="试客已提交评价图但未收货">
+                <p>试客已提交评价图但未收货<i class="c sp2"><img src="image/ico_selected.png" class="h30"></i></p>
             </li>
-            <li class="item" data="评价存在负面影响" data-val="4">
-                <p>评价存在负面影响<i class="c sp2"><img src="../image/ico_selected.png" class="h30"></i></p>
+            <li class="item" data="评价存在负面影响" data-val="评价存在负面影响">
+                <p>评价存在负面影响<i class="c sp2"><img src="image/ico_selected.png" class="h30"></i></p>
             </li>
         </ul>
     </div>
@@ -155,42 +157,58 @@
 </div>
 
 
-<script type="text/javascript" src="../js/yh.scroll.active.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/yh.scroll.active.js" charset="utf-8"></script>
 
 <!--时间-->
-<link href="../mobiscroll/mobiscroll.custom-3.0.0.min.css" rel="stylesheet" type="text/css" />
-<script src="../mobiscroll/mobiscroll.custom-3.0.0.min.js?31" type="text/javascript"></script>
+<link href="mobiscroll/mobiscroll.custom-3.0.0.min.css" rel="stylesheet" type="text/css" />
+<script src="mobiscroll/mobiscroll.custom-3.0.0.min.js?31" type="text/javascript"></script>
 <style>
     .mbsc-android-holo .mbsc-sc-whl-w.mbsc-dt-whl-y {
         margin-left: 0.25rem;
     }
 </style>
 
-<script type="text/javascript" src="../js/lazyload.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/lazyload.js" charset="utf-8"></script>
 
 <script>
     var token = localStorage.getItem('token');
     var items = {};
-    var pageNo = 1;
-    var pageSize=30;
     var noMoreItems = false;
+    var param={}
     onload();
 
     function onload(){
+        param.page_no=1
+        param.page_size=30
         loadItems();
+
+        if($('#spro_list5').html()){
+            godetail();
+            $('#spro_list5').removeClass('hidden');
+            $('.no_data').addClass('hidden');
+            Echo.init({ offset: 5, throttle: 100 });
+        }else {
+            $('#spro_list5').addClass('hidden');
+            $('.no_data').removeClass('hidden');
+        }
     }
 
-
+//{page_no: pageNo,page_size: pageSize}
     function loadItems(){
+        if(!param.page_no)
+            param.page_no=1
+        if(!param.page_size)
+            param.page_size=30
         $.ajax({
             type: 'POST',
-            data: {page_no: pageNo,page_size: pageSize},
+            data: param,
             async: false,
             url: '/rrightway/p/m/trademanageent/buyedorders?token='+token,
             success: function(res){
                 if(res.code == 0){
                     if(res.data.items.length==0)
                         noMoreItems=true;
+
                     $(res.data.items).each(function(index,ele){
                         items[ele.id]=ele;
 
@@ -201,69 +219,75 @@
                         var is_pay_card = ele.creditcardPay == '1' ? '<i class="ptype xyka"></i>' : '';
                         var statusStr = "";
                         var btnStr = "";
-                        var betailBtn = 'activist_detail.aspx?id=' + row.pkid;
+                        var betailBtn = 'activist_detail.aspx?id=' + ele.id;
 
-                        switch (row.nstatus) {
-                            case 2002:
-                                betailBtn = 'buyed_detail.aspx?id= ' + row.pkid + '';
+                        switch (ele.status) {
+                            case 1:
+                                betailBtn = 'buyed_detail.aspx?id= ' + ele.id + '';
                                 statusStr = '<b class="textr">待返现<i class="bl c999"></i></b>';
 
                                 btnStr += '<a href="javascript:;" class="app btn3 recoder">申请维权</a><a href="javascript:;" class="check btn4 recoder">确认返现</a>';
 
-                                if (row.sevel_up_stataus == "F") {
+                                if (ele.reviewPicAudit == 2) {
                                     statusStr = '<b class="textr">待返现<i class="bl c999">(图片不符)</i></b>';
                                 }
-
-                                if (row.sevel_up_stataus == "Y" || row.sevel_up_stataus == "F") {
+                                if (ele.reviewPicAudit == 0 ||ele.reviewPicAudit == 2) {
                                     //(图片不符)
-                                    btnStr += '<a href="buyed_pic.aspx?id=' + row.pkid + '" class="recoder">查看图片</a>';
-                                } else if (row.sevel_up_stataus == "N") {
+                                    btnStr += '<a href="buyedorder_pic.html?id=' + ele.id + '" class="recoder">查看图片</a>';
+                                } else if (ele.reviewPicAudit == 3) {
                                     //btnStr = '<a href="javascript:;" class="recoder disabled">未提交图片</a>';
                                     statusStr = '<b class="textr">待返现<i class="bl c999">(试客未提交评价图)</i></b>';
                                 }
 
                                 break;
-                            case 2004:
+                            case 7:
                                 statusStr = '<b class="textr">维权中<i class="bl c999">(等待试客确认)</i></b>';
                                 btnStr = '<a href="javascript:;" class="cancle recoder">取消维权</a>';
                                 break;
-                            case 2005:
-                                if (row.is_right_saller == "Y") {
+                            case 9:
                                     statusStr = '<b class="textr">维权中<i class="bl c999">(已申请客服介入)</i></b> ';
-                                }
-                                else if (row.is_right_buyer == "Y") {
-                                    if (Number(row.rightdtCount) > 0) {
+                                btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                            case 11:
                                         statusStr = '<b class="textr">维权中<i class="bl c999">(已提交凭证)</i></b>';
-                                    }
-                                    else {
+                                btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                break;
+                            case 8:
                                         statusStr = '<b class="textr">维权中<i class="bl c999">(试客已申请客服介入)</i></b>';
-                                        btnStr = '<a href="activist_addpz.aspx?id=' + row.pkid + '&burl=buyed" class="btn4 recoder">提交凭证</a>';
-                                    }
-                                }
-                                else {
+                                        btnStr = '<a href="activist_addpz.aspx?id=' + ele.id + '&burl=buyed" class="btn4 recoder">提交凭证</a>';
+                                btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                break;
+                            case 10:
                                     statusStr = '<b class="textr">维权中<i class="bl c999">(试客已拒绝)</i></b>';
-                                    btnStr = '<a href="activist_addkf.aspx?id=' + row.pkid + '&burl=buyed" class="btn3 recoder">申请客服介入</a>';
-                                }
+                                    btnStr = '<a href="activist_addkf.aspx?id=' + ele.id + '&burl=buyed" class="btn3 recoder">申请客服介入</a>';
                                 btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
                                 break;
                         }
 
 
                         txt = '<div class="item">'
-                                + '  <div class="tit"><p>活动标题：' + row.sact_title + '<br />订单编号：' + row.sorder_num + '<br />下单时间：' +formatDatebox( row.dcreate_time) + statusStr + '</p></div>'
-                                + '  <a href="' + betailBtn + '" class="recoder pro_min bt1"><img src="' + row.sproduct_pics + '" class="img" onerror="this.src=\'/images/nopic.png\'" />'
+                                + '  <div class="tit"><p>活动标题：' + ele.activityTitle + '<br />订单编号：' + ele.id + '<br />下单时间：' +rxw.formatDateTime( ele.orderTime) + statusStr + '</p></div>'
+                                + '  <a href="' + betailBtn + '" class="recoder pro_min bt1"><img src="' + ele.giftCover + '" class="img" onerror="this.src=\'image/nopic.png\'" />'
                                 + '    <div class="relative">'
-                                + '      <p class="row1">' + row.sproduct_name + '</p>'
-                                + '      <p class="row1 c999 mt10">付款金额：<i class="cf60">¥' + getFloatStr(row.npay_amount) + '</i>  返现金额：<i class="cf60">¥' + getFloatStr(row.nreturn_amount) + '</i></p>'
-                                + '       <p class="type absolute l0 b0">' + sbuy_way + is_coupon + Get_ssearch_way_Icon(row.ssearch_way, "p") + is_pay_hb + is_pay_card + '</p>'
+                                + '      <p class="row1">' + ele.giftName + '</p>'
+                                + '      <p class="row1 c999 mt10">付款金额：<i class="cf60">¥' + getFloatStr(ele.payPrice) + '</i>  返现金额：<i class="cf60">¥' + getFloatStr(ele.returnMoney) + '</i></p>'
+                                + '       <p class="type absolute l0 b0">' + sbuy_way + is_coupon + Get_ssearch_way_Icon(ele.wayToShop, "p") + is_pay_hb + is_pay_card + '</p>'
                                 + '    </div>'
                                 + '  </a>'
-                                + '  <div class="foot" isfk="' + row.sext5 + '" data="' + row.pkid + '">' + btnStr + '</div>'
+                                + '  <div class="foot" isfk="Y" data="' + ele.id + '">' + btnStr + '</div>'
                                 + '</div>';
 
-                        return txt;
+                        $('#spro_list5').append(txt);
                     })
 
+                    if($('#spro_list5').children().size()==0){
+                        $('.no_data').show();
+                        if (isRdata) {
+                            $('.no_data  .nofilter').show();
+                        }
+                    }else{
+                        $('#spro_list5').removeClass('hidden');
+                        $('.no_data').hide();
+                    }
                 }else{
                     alert(res.codeMsg)
                 }
@@ -296,28 +320,36 @@
         else {
             $(".com_tab  a[data=全部]").addClass("crently").siblings().removeClass("crently");
         }
-        $(objcontainer).html("");
-        ys.reload({
-            params: {
-                protype: protype,
-                saller_nc: saller_nc,
-                buyer_nc: buyer_nc,
-                pro_title: pro_title,
-                pro_name: pro_name,
-                order_id: order_id,
-                pubtime: pubtime,
-                pubstime: pubstime,
-                pubetime: pubetime,
-                staobaoordernum: staobaoordernum,
-            },
-            onbeforeReload: function () {
-                $(objcontainer).removeClass('hidden');
-                $('.no_data').addClass('hidden');
-                if (isRdata) {
-                    $('.no_data  .nofilter').show();
-                }
-            }
-        });
+
+
+        $('#spro_list5').empty();
+        loadItems();
+       // $("#filterright").removeClass("active");
+
+
+
+//        $(objcontainer).html("");
+//        ys.reload({
+//            params: {
+//                protype: protype,
+//                saller_nc: saller_nc,
+//                buyer_nc: buyer_nc,
+//                pro_title: pro_title,
+//                pro_name: pro_name,
+//                order_id: order_id,
+//                pubtime: pubtime,
+//                pubstime: pubstime,
+//                pubetime: pubetime,
+//                staobaoordernum: staobaoordernum,
+//            },
+//            onbeforeReload: function () {
+//                $(objcontainer).removeClass('hidden');
+//                $('.no_data').addClass('hidden');
+//                if (isRdata) {
+//                    $('.no_data  .nofilter').show();
+//                }
+//            }
+//        });
     }
 
     $(function () {
@@ -351,158 +383,6 @@
         $(".order_fixed p[data=" + protype + "]").addClass("active").siblings().removeClass("active");
         $("#protype").val(protype);
 
-        ys({
-            container: objcontainer,//控件名称，遵循jquery格式
-            url: '/saller/ashx/trade_buyed.ashx',    //后台数据地址
-            params: {   //参数
-                protype: protype,
-                saller_nc: saller_nc,
-                buyer_nc: buyer_nc,
-                pro_title: pro_title,
-                pro_name: pro_name,
-                order_id: order_id,
-                pubtime: pubtime,
-                pubstime: pubstime,
-                pubetime: pubetime,
-                staobaoordernum: staobaoordernum,
-            },
-            count: 10,
-            cookieName: cooketab,
-            onloadItem: function (row) {
-                //根据后台返回的数据，渲染成要在页面显示的方式
-                var txt = "";
-                var sbuy_way = row.sbuy_way == '电脑单' ? '<i class="ptype pc"></i>' : '<i class="ptype tel"></i>';
-                var is_coupon = row.is_coupon == '否' ? '' : '<i class="ptype juan"></i>';
-                var is_pay_hb = row.is_pay_hb == 'Y' ? '<i class="ptype hbei"></i>' : '';
-                var is_pay_card = row.is_pay_card == 'Y' ? '<i class="ptype xyka"></i>' : '';
-                var statusStr = "";
-                var btnStr = "";
-                var betailBtn = 'activist_detail.aspx?id=' + row.pkid;
-
-                switch (row.nstatus) {
-                    case 2002:
-                        betailBtn = 'buyed_detail.aspx?id= ' + row.pkid + '';
-                        statusStr = '<b class="textr">待返现<i class="bl c999"></i></b>';
-
-                        btnStr += '<a href="javascript:;" class="app btn3 recoder">申请维权</a><a href="javascript:;" class="check btn4 recoder">确认返现</a>';
-
-                        if (row.sevel_up_stataus == "F") {
-                            statusStr = '<b class="textr">待返现<i class="bl c999">(图片不符)</i></b>';
-                        }
-
-                        if (row.sevel_up_stataus == "Y" || row.sevel_up_stataus == "F") {
-                            //(图片不符)
-                            btnStr += '<a href="buyed_pic.aspx?id=' + row.pkid + '" class="recoder">查看图片</a>';
-                        } else if (row.sevel_up_stataus == "N") {
-                            //btnStr = '<a href="javascript:;" class="recoder disabled">未提交图片</a>';
-                            statusStr = '<b class="textr">待返现<i class="bl c999">(试客未提交评价图)</i></b>';
-                        }
-
-                        break;
-                    case 2004:
-                        statusStr = '<b class="textr">维权中<i class="bl c999">(等待试客确认)</i></b>';
-                        btnStr = '<a href="javascript:;" class="cancle recoder">取消维权</a>';
-                        break;
-                    case 2005:
-                        if (row.is_right_saller == "Y") {
-                            statusStr = '<b class="textr">维权中<i class="bl c999">(已申请客服介入)</i></b> ';
-                        }
-                        else if (row.is_right_buyer == "Y") {
-                            if (Number(row.rightdtCount) > 0) {
-                                statusStr = '<b class="textr">维权中<i class="bl c999">(已提交凭证)</i></b>';
-                            }
-                            else {
-                                statusStr = '<b class="textr">维权中<i class="bl c999">(试客已申请客服介入)</i></b>';
-                                btnStr = '<a href="activist_addpz.aspx?id=' + row.pkid + '&burl=buyed" class="btn4 recoder">提交凭证</a>';
-                            }
-                        }
-                        else {
-                            statusStr = '<b class="textr">维权中<i class="bl c999">(试客已拒绝)</i></b>';
-                            btnStr = '<a href="activist_addkf.aspx?id=' + row.pkid + '&burl=buyed" class="btn3 recoder">申请客服介入</a>';
-                        }
-                        btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
-                        break;
-                }
-
-
-                txt = '<div class="item">'
-                        + '  <div class="tit"><p>活动标题：' + row.sact_title + '<br />订单编号：' + row.sorder_num + '<br />下单时间：' +formatDatebox( row.dcreate_time) + statusStr + '</p></div>'
-                        + '  <a href="' + betailBtn + '" class="recoder pro_min bt1"><img src="' + row.sproduct_pics + '" class="img" onerror="this.src=\'/images/nopic.png\'" />'
-                        + '    <div class="relative">'
-                        + '      <p class="row1">' + row.sproduct_name + '</p>'
-                        + '      <p class="row1 c999 mt10">付款金额：<i class="cf60">¥' + getFloatStr(row.npay_amount) + '</i>  返现金额：<i class="cf60">¥' + getFloatStr(row.nreturn_amount) + '</i></p>'
-                        + '       <p class="type absolute l0 b0">' + sbuy_way + is_coupon + Get_ssearch_way_Icon(row.ssearch_way, "p") + is_pay_hb + is_pay_card + '</p>'
-                        + '    </div>'
-                        + '  </a>'
-                        + '  <div class="foot" isfk="' + row.sext5 + '" data="' + row.pkid + '">' + btnStr + '</div>'
-                        + '</div>';
-
-                return txt;
-            },
-            onloadSuccess: function () {
-                godetail();
-                $(objcontainer).removeClass('hidden');
-                $('.no_data').addClass('hidden');
-                Echo.init({ offset: 5, throttle: 100 });
-            },
-            onNodata: function () {
-                $(objcontainer).addClass('hidden');
-                $('.no_data').removeClass('hidden');
-            },
-            onloadError: function (msg) {
-                //error(msg);
-            }
-        });
-        if (ys.getReqParams().protype != "") {
-            var tsvalue = ys.getReqParams().protype;
-            if ($(".com_tab  a[data-val=" + tsvalue + "]").length > 0) {
-                $(".com_tab  a[data-val=" + tsvalue + "]").addClass("crently").siblings().removeClass("crently");
-            }
-            else {
-                $(".order_fixed p[data-val=" + tsvalue + "]").addClass("active").siblings().removeClass("active");
-                $(".com_tab  a[data-val=全部]").addClass("crently").siblings().removeClass("crently");
-            }
-
-            $("#protype").val(tsvalue);
-            $(".protype").html($(".c_ftab  a[data-val=" + tsvalue + "]").text());
-            $("#protype").parent().find("a[data-val=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
-        }
-
-        if (ys.getReqParams().saller_nc != "") {
-            var tsvalue = ys.getReqParams().saller_nc;
-            $("#saller_nc").val(tsvalue);
-        }
-
-        if (ys.getReqParams().buyer_nc != "") {
-            var tsvalue = ys.getReqParams().buyer_nc;
-            $("#buyer_nc").val(tsvalue);
-        }
-
-        if (ys.getReqParams().pro_title != "") {
-            var tsvalue = ys.getReqParams().pro_title;
-            $("#pro_title").val(tsvalue);
-        }
-
-        if (ys.getReqParams().pro_name != "") {
-            var tsvalue = ys.getReqParams().pro_name;
-            $("#pro_name").val(tsvalue);
-        }
-
-        if (ys.getReqParams().order_id != "") {
-            var tsvalue = ys.getReqParams().order_id;
-            $("#order_id").val(tsvalue);;
-        }
-
-        if (ys.getReqParams().staobaoordernum != "") {
-            var tsvalue = ys.getReqParams().staobaoordernum;
-            $("#staobaoordernum").val(tsvalue);;
-        }
-
-        if (ys.getReqParams().pubtime != "-") {
-            var tsvalue = ys.getReqParams().pubtime.split("-");
-            $(".mindate").val(tsvalue[0]);
-            $(".maxdate").val(tsvalue[1]);
-        }
 
 
         //tab切换
@@ -513,6 +393,7 @@
                 $("#protype").val(tsvalue);
                 $(".protype").html(tsvalues);
                 $("#protype").parent().find("a[data=" + tsvalues + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+                param={trade_status:tsvalue}
                 reloaddata();
             }
             $(this).addClass("crently").siblings().removeClass("crently");
@@ -539,9 +420,12 @@
             $("#pro_title").val('');
             isRdata = true;
             $(".no_data .nofilter").hide();
+
             $(".interview_list .foot").each(function () {
                 $(this).find(".item").eq(0).click();
             })
+
+            param={};
             reloaddata();
         })
 
@@ -556,7 +440,17 @@
                 }
             }
             isRdata = true;
-            reloaddata();
+            param={trade_status:$('[name=tradeStatus].active a').attr('data-val'),
+                buyer_nickname:$('#saller_nc').val(),
+                seller_nickname:$('#buyer_nc').val(),
+                title:$('#pro_title').val(),
+                gift_name:$('#pro_name').val(),
+                order_id:$('#order_id').val(),
+                taobao_orderid:$('#staobaoordernum').val(),
+                order_time_start:new Date(s_time.replace('.','-')).getTime(),
+                order_time_end:new Date(e_time.replace('.','-')).getTime(),
+            }
+           reloaddata();
         });
 
         $(".pop_from_right .goback,.pop_from_right .maskbg").click(function () {
@@ -638,12 +532,11 @@
                 var reason = $("#appright .checklist .item.crently").attr("data-val");
                 $.ajax({
                     type: "POST",
-                    url: "/flow/AS200203.ashx",
-                    data: "rad=" + Math.random() + "&id=" + id + "&reason=" + escape(reason),
+                    url: "/rrightway/p/m/trademanageent/buyedorders/rightprotect",
+                    data: "token=" +token + "&order_id=" + id + "&reason=" + reason,
                     success: function (res) {
-                        if (res != "" && res != "[]") {
-                            var comments = $.parseJSON(res);
-                            if (comments.success == "Y") {
+
+                            if (res.code==0) {
                                 accesstx("申请维权成功！");
                                 $("#access_pop  .cancle").click(function () {
                                     //$(pobj).find("b").html("维权中<i class='bl c999'>(等待试客确认)</i>");
@@ -653,9 +546,9 @@
                                 });
                             }
                             else {
-                                error(comments.msg);
+                                error(res.codeMsg);
                             }
-                        }
+
                     }
                 });
             }
@@ -663,14 +556,14 @@
 
     })
 
-
+//1关键词搜索 2链接/淘宝口令下单 3扫码下单 4直通车搜索
     function Get_ssearch_way_Icon(ssearch_way, type) {
         var res = "非法类型";
         switch (ssearch_way) {
-            case "关键词搜索": res = '<i class="ptype sou"></i>'; break;
-            case "链接直拍": res = '<i class="ptype chi"></i>'; break;
-            case "二维码下单": res = '<i class="ptype chi"></i>'; break;
-            case "直通车搜索": res = '<i class="ptype sou"></i>'; break;
+            case 1: res = '<i class="ptype sou"></i>'; break;
+            case 2: res = '<i class="ptype chi"></i>'; break;
+            case 3: res = '<i class="ptype chi"></i>'; break;
+            case 4: res = '<i class="ptype sou"></i>'; break;
         }
         return res;
     }
@@ -680,20 +573,18 @@
         var id = $(obj).parent().attr("data");
         $.ajax({
             type: "POST",
-            url: "/flow/AS200202.ashx",
-            data: "rad=" + Math.random() + "&id=" + id,
+            url: "/rrightway/p/m/trademanageent/buyedorders/returnmoney",
+            data: "token=" + token + "&order_id=" + id,
             success: function (res) {
-                if (res != "" && res != "[]") {
-                    var comments = $.parseJSON(res);
-                    if (comments.success == "Y") {
+                if (res.code==0) {
                         error("确认返现订单成功！");
                         //$(obj).parents(".item").remove();
                         freshpage(window.location.href);
                     } else {
-                        error(comments.msg);
+                    error(res.codeMsg);
                     }
                 }
-            }
+
         });
         return true;
     }
@@ -704,22 +595,20 @@
         var pobj = $(obj).parents(".item");
         $.ajax({
             type: "POST",
-            url: "/flow/AS200404.ashx",
-            data: "rad=" + Math.random() + "&id=" + id,
+            url: "/rrightway/p/m/trademanageent/buyedorders/unrightprotect",
+            data: "token=" +token + "&order_id=" + id,
             success: function (res) {
-                if (res != "" && res != "[]") {
-                    var comments = $.parseJSON(res);
-                    if (comments.success == "Y") {
-                        //确认成功
-                        error("取消维权订单成功！");
-                        //$(pobj).find("b").html("待返现<i class='bl c999'>(试客未提交评价图)</i>");
-                        //$(pobj).find(".foot").html('<a href="javascript:;" class="app btn3">申请维权</a><a href="javascript:;" class="check btn4">确认返现</a>');
-                        freshpage(window.location.href);
-                    }
-                    else {
-                        error(comments.msg);
-                    }
+                if (res.code == 0) {
+                    //确认成功
+                    error("取消维权订单成功！");
+                    //$(pobj).find("b").html("待返现<i class='bl c999'>(试客未提交评价图)</i>");
+                    //$(pobj).find(".foot").html('<a href="javascript:;" class="app btn3">申请维权</a><a href="javascript:;" class="check btn4">确认返现</a>');
+                    freshpage(window.location.href);
                 }
+                else
+                    {
+                        error(res.codeMsg);
+                    }
             }
         });
         return true;

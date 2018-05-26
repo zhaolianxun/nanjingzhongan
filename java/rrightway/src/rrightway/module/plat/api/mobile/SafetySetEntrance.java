@@ -1084,7 +1084,7 @@ public class SafetySetEntrance {
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
-				item.put("taobaoAccountId", rs.getInt("id"));
+				item.put("id", rs.getInt("id"));
 				item.put("taobaoUserNick", rs.getString("taobao_user_nick"));
 				items.add(item);
 			}
@@ -1206,8 +1206,8 @@ public class SafetySetEntrance {
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection
-					.prepareStatement("select count(id) from t_order where finished_if=0 and buyer_taobaoaccount_id=?");
+			pst = connection.prepareStatement(
+					"select count(id) from t_order where status in (0,1,3,4,5) and buyer_taobaoaccount_id=?");
 			pst.setObject(1, taobaoaccountId);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {

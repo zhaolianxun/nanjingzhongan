@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,13 +27,13 @@ import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
 @Controller("plat.api.mobile.AdminEntrance")
-@RequestMapping(value = "/p/m/adminent")
+@RequestMapping(value = "/p/m/admin")
 public class AdminEntrance {
 
 	public static Logger logger = Logger.getLogger(AdminEntrance.class);
 
-	@RequestMapping(value = "/activity/list")
-	public void activities(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/activity/ent")
+	public void activityEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -47,8 +48,7 @@ public class AdminEntrance {
 			String wayToShopParam = StringUtils.trimToNull(request.getParameter("way_to_shop"));
 			Integer wayToShop = wayToShopParam == null ? null : Integer.parseInt(wayToShopParam);
 			String buyerMincreditParam = StringUtils.trimToNull(request.getParameter("buyer_mincredit"));
-			Integer buyerMincredit = buyerMincreditParam == null ? null
-					: Integer.parseInt(buyerMincreditParam);
+			Integer buyerMincredit = buyerMincreditParam == null ? null : Integer.parseInt(buyerMincreditParam);
 			String payPriceMinParam = StringUtils.trimToNull(request.getParameter("pay_price_min"));
 			BigDecimal payPriceMin = payPriceMinParam == null ? null : new BigDecimal(payPriceMinParam);
 			String payPriceMaxParam = StringUtils.trimToNull(request.getParameter("pay_price_max"));
@@ -80,6 +80,7 @@ public class AdminEntrance {
 			if (keyw != null) {
 				keyw = new StringBuilder("%").append(keyw).append("%").toString();
 				sqlParams.add(keyw);
+				sqlParams.add(keyw);
 			}
 			if (buyWay != null)
 				sqlParams.add(buyWay);
@@ -101,11 +102,11 @@ public class AdminEntrance {
 			sqlParams.add(pageSize);
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select status,id,gift_cover,gift_name,pay_price,return_money from t_activity where 1=1 ")
+					"select title,publish_time,status,id,gift_cover,gift_name,pay_price,return_money from t_activity where 1=1 ")
 							.append(couponIf == null ? ""
 									: couponIf == 0 ? " and (isnull(coupon_url) or length(trim(coupon_url))=0) "
 											: "and (!isnull(coupon_url) and length(trim(coupon_url))>0) ")
-							.append(keyw == null ? "" : " and gift_name like ? ")
+							.append(keyw == null ? "" : " and (gift_name like ? or title like ?) ")
 							.append(buyWay == null ? "" : " and buy_way=? ")
 							.append(type1Id == null ? "" : " and gift_type1_id=? ")
 							.append(type2Id == null ? "" : " and gift_type2_id=? ")
@@ -136,15 +137,15 @@ public class AdminEntrance {
 				item.put("payPrice", rs.getBigDecimal("pay_price"));
 				item.put("returnMoney", rs.getBigDecimal("return_money"));
 				item.put("status", rs.getObject("status"));
+				item.put("title", rs.getObject("title"));
+				item.put("publishTime", rs.getObject("publish_time"));
 				items.add(item);
 			}
 			pst.close();
 
 			// 返回结果
 			JSONObject data = new JSONObject();
-			JSONObject activities = new JSONObject();
-			activities.put("items", items);
-			data.put("activities", activities);
+			data.put("items", items);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -160,7 +161,7 @@ public class AdminEntrance {
 	}
 
 	@RequestMapping(value = "/activity/detail")
-	public void detail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void activityDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -179,10 +180,9 @@ public class AdminEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select  tb.taobao_user_nick,u.phone,u.username,t.gift_pics,t.title,t.publish_time,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_url,t.cowry_cover,t.buy_way,t.coupon_url,t.pay_price,t.return_money,t.buyer_mincredit,t.keep_days,t.stock,t.start_time,t.gift_name,t.gift_type1_name,t.gift_type2_name,t.gift_url,t.gift_cover,t.gift_detail,t.gift_express_co,t.status,t.audit_fail_reason,t.buyer_num from t_activity t inner join t_user u on t.user_id=u.id inner join t_taobaoaccount tb on tb.id=t.taobaoaccount_id where t.id=?")
+					"select  t.huabei_pay,t.creditcard_pay,tb.taobao_user_nick,u.phone,u.username,t.gift_pics,t.title,t.publish_time,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_url,t.cowry_cover,t.buy_way,t.coupon_url,t.pay_price,t.return_money,t.buyer_mincredit,t.keep_days,t.stock,t.start_time,t.gift_name,t.gift_type1_name,t.gift_type2_name,t.gift_url,t.gift_cover,t.gift_detail,t.gift_express_co,t.status,t.audit_fail_reason,t.buyer_num from t_activity t inner join t_user u on t.user_id=u.id inner join t_taobaoaccount tb on tb.id=t.taobaoaccount_id where t.id=?")
 							.toString());
-			pst.setObject(1, loginStatus.getUserId());
-			pst.setObject(2, activityId);
+			pst.setObject(1, activityId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
 			while (rs.next()) {
@@ -216,6 +216,8 @@ public class AdminEntrance {
 				item.put("auditFailReason", rs.getObject("audit_fail_reason"));
 				item.put("buyerNum", rs.getObject("buyer_num"));
 				item.put("giftPics", rs.getObject("gift_pics"));
+				item.put("huabeiPay", rs.getObject("huabei_pay"));
+				item.put("creditcardPay", rs.getObject("creditcard_pay"));
 			}
 			pst.close();
 
@@ -236,7 +238,7 @@ public class AdminEntrance {
 		}
 	}
 
-	@RequestMapping(value = "/auditsuccess")
+	@RequestMapping(value = "/activity/auditsuccess")
 	public void auditsuccess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
@@ -256,9 +258,10 @@ public class AdminEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 
-			pst = connection
-					.prepareStatement(new StringBuilder("update t_activity set status=1 where id=?").toString());
-			pst.setObject(1, activityId);
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_activity set status=1,start_time=? where id=?").toString());
+			pst.setObject(1, new Date().getTime());
+			pst.setObject(2, activityId);
 			int cnt = pst.executeUpdate();
 			pst.close();
 			if (cnt != 1)
@@ -279,7 +282,7 @@ public class AdminEntrance {
 		}
 	}
 
-	@RequestMapping(value = "/auditfail")
+	@RequestMapping(value = "/activity/auditfail")
 	public void auditfail(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
