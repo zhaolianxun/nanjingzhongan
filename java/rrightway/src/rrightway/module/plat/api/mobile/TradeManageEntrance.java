@@ -380,7 +380,7 @@ public class TradeManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.order_time,t.review_pic_audit,t.review_pics,t.buyer_protect_rights_status,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where t.status=1 ")
+					"select act.huabei_pay,act.creditcard_pay,t.coupon_if,t.buy_way,t.order_time,t.review_pic_audit,t.review_pics,t.buyer_protect_rights_status,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status,bt.nickname buyer_nickname,st.nickname seller_nickname from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id left join t_activity act on t.activity_id=act.id where t.status=1 ")
 							.append(tradeStatus == 1 ? " and t.buyer_protect_rights_status=1 " : "")
 							.append(tradeStatus == 2 ? " and t.review_pic_audit=3 " : "")
 							.append(tradeStatus == 3 ? " and t.review_pic_audit in (0,1,2) " : "")
@@ -400,7 +400,11 @@ public class TradeManageEntrance {
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
-				item.put("orderId", rs.getObject("id"));
+				item.put("id", rs.getObject("id"));
+				item.put("huabeiPay", rs.getObject("huabei_pay"));
+				item.put("creditcardPay", rs.getObject("creditcard_pay"));
+				item.put("buyWay", rs.getObject("buy_way"));
+				item.put("couponIf", rs.getObject("coupon_if"));
 				item.put("orderTime", rs.getObject("order_time"));
 				item.put("giftName", rs.getObject("gift_name"));
 				item.put("payPrice", rs.getObject("pay_price"));
@@ -409,7 +413,7 @@ public class TradeManageEntrance {
 				item.put("status", rs.getObject("status"));
 				item.put("buyerNickname", rs.getObject("buyer_nickname"));
 				item.put("sellerNickname", rs.getObject("seller_nickname"));
-				item.put("buyerProtectRightsStatus", rs.getObject("buyer_protect_rights_status"));
+				item.put("protectRightsStatus", rs.getObject("buyer_protect_rights_status"));
 				item.put("reviewPicAudit", rs.getObject("review_pic_audit"));
 				item.put("reviewPics", rs.getObject("review_pics"));
 				items.add(item);
@@ -418,9 +422,7 @@ public class TradeManageEntrance {
 
 			// 返回结果
 			JSONObject data = new JSONObject();
-			JSONObject orders = new JSONObject();
-			orders.put("items", items);
-			data.put("orders", orders);
+			data.put("items", items);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
