@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,17 +46,25 @@ public class ActivityDetailEntrance {
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
-			if (loginStatus == null)
-				throw new InteractRuntimeException(20);
+
 			connection = RrightwayDataSource.dataSource.getConnection();
 
+			List sqlParams = new ArrayList();
+			if (loginStatus != null) {
+				sqlParams.add(loginStatus.getUserId());
+			}
+			sqlParams.add(activityId);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select tb.taobao_user_nick,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_cover,t.cowry_url,t.gift_pics,(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id and status not in (3,4,5)) apply_if,t.buyer_num,t.gift_cover,t.gift_name,t.pay_price,t.return_money,(t.publish_time+t.keep_days*24*60*60*1000) end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit,t.gift_express_co"
-							+ (loginStatus == null ? ",null t.gift_detail" : ",t.gift_detail")
+					"select tb.taobao_user_nick,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_cover,t.cowry_url,t.gift_pics"
+							+ (loginStatus == null ? ",0"
+									: ",(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id and status not in (3,4,5))")
+							+ " apply_if,t.buyer_num,t.gift_cover,t.gift_name,t.pay_price,t.return_money,(t.publish_time+t.keep_days*24*60*60*1000) end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit,t.gift_express_co"
+							+ (loginStatus == null ? ",null gift_detail" : ",t.gift_detail")
 							+ " from t_activity t left join t_taobaoaccount tb on t.taobaoaccount_id=tb.id where t.id=?")
 									.toString());
-			pst.setObject(1, loginStatus.getUserId());
-			pst.setObject(2, activityId);
+			for(int i =0;i<sqlParams.size();i++){
+				pst.setObject(i+1, sqlParams.get(i));
+			}
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
 			if (rs.next()) {

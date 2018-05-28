@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        找回密码-左左试用平台触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+    <meta name="description" content="左左街-专业的试用网"/>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+</head>
+
+<body>
+<div id="ctl01">
+
+    <div class="viewport">
+
+        <!-- 顶部 开始 -->
+        <header class="clearfix">
+            <div class="goback fl">
+                <a href="javascript:;" onClick="history.back();"> </a>
+            </div>
+            <div class="gosearch fr"><a href="javascript:;">&nbsp;</a></div>
+            <div class="conttxt2">
+                找回密码
+            </div>
+        </header>
+        <!-- 顶部 结束 -->
+
+        <!-- 分隔 开始-->
+        <div class="h51"></div>
+        <!-- 分隔 结束-->
+
+        <!-- 找回密码 开始 -->
+
+        <!--手机号码-->
+        <div id="tel">
+            <div class="login_txt">
+                <p class="mt10 h50 f14"></p>
+
+                <p class="clearfix l_tcode"><label>验证码</label><span class="v_code"><a class="count_val hidden"
+                                                                                      href="javascript:;"><i sdata="60">60</i>s后重新获取</a><a
+                        class="check_val" onClick="getcode()" href="javascript:;">获取验证码</a></span><b
+                        style="margin-left:0;margin-right:140px;">
+                    <input name="txtCode" type="text" id="txtCode" class="tt50" placeholder="请输入验证码"/></b></p>
+
+                <p class="clearfix"><label>新密码</label> <input name="LoginPwd" type="password" id="LoginPwd" class="tt50"
+                                                              placeholder="请输入新密码"/></p>
+
+                <p class="clearfix"><label>确认新密码</label><input name="LoginPwdCnf" type="password" id="LoginPwdCnf"
+                                                               class="tt80" placeholder="请再次输入新密码"/></p>
+            </div>
+            <div class="login_check mlr10 mt15">
+                <button id="submitf" class="login_sbt" >下一步</button>
+            </div>
+        </div>
+
+        <!-- 找回密码 结束-->
+
+    </div>
+</div>
+
+<script>
+  var phone=  localStorage.getItem('phone');
+  var token=  localStorage.getItem('token');
+  $('.login_txt p:first-child').html('手机号码 '+phone.slice(0,3)+'****'+phone.slice(7,11));
+    $(function () {
+//        $(".login_sbt").click(function () {
+//            //超过3次错误提示
+//            error("多次操作错误，为了账户安全，请明天再尝试！");
+//        });
+
+
+        $(".check_val").click(function () {
+
+            $.ajax({
+                url: "/sms/verification/send?client=easywin",
+                type: "Get",
+                data: "phone=" + phone + '&token=' + token,
+                success: function (res) {
+                    if (res.code == 0) {
+                        error("发送成功");
+                        getcode()
+                    }
+                    else {
+                        error(res.codeMsg);
+                    }
+                }
+            })
+
+        });
+
+        $("#submitf").click(function () {
+            if ($("#txtCode").val() == "") {
+                error("请输入验证码");
+                return false;
+            }else if (!$("#LoginPwd").val().match(/^(?!\d+$).{6,16}$/gi)) {
+                error("密码必须为6-16位不是纯数字的组合！");
+                return false;
+            } else if ($("#LoginPwd").val() != $("#LoginPwdCnf").val()) {
+                error("两次输入新密码不一致！");
+                return false;
+            }
+            else{
+                $.ajax({
+                    url: "/rrightway/p/useraction/alterpwdbysmsvcode?token=" + token,
+                    data: 'phone=' + phone + "&newpwd=" + $("#LoginPwdCnf").val() + "&smsvcode=" + $("#txtCode").val(),
+                    type: "post",
+                    success: function (res) {
+                        if (res.code == 0) {
+                            location.href = "login.html"
+                        } else if(res.code==20){
+                            localStorage.setItem('href',location.href);
+                            location.href='login.html'
+                        }else{
+                            error(res.codeMsg)
+                        }
+                    }
+                })
+            }
+        })
+    });
+
+
+</script>
+</body>
+</html>
+

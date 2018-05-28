@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        左左街，免费试用，轻松拿佣金
+    </title>
+    <meta name="keywords" content="左左街"/>
+    <meta name="description" content="Y"/>
+
+    <link rel="stylesheet" type="text/css" href="css/new.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
+    <style>
+        .hello{
+            width: 7rem;
+            display: inline-block;
+            height: 1.7rem;
+            line-height: 1.7rem;
+            border: 0;
+            top: 50%;
+
+            position: absolute;
+            margin-top: -0.85rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+        .admin{
+            width: 5rem;
+            display: inline-block;
+            color: #FFFFFF;
+            height: 1.7rem;
+            line-height: 1.7rem;
+            background: #2f97f0;
+            border-radius: 0.85rem;
+            border: 0;
+            top: 50%;
+            left: 7.5rem;
+            position: absolute;
+            margin-top: -0.85rem;
+        }
+    </style>
+</head>
+
+
+<body>
+<div class="viewport">
+    <!-- 顶部 开始 -->
+    <div class="header">
+        <a href="javascript:;" class="type" onclick="history.back();">
+            <img src="image/arrow_left2.png" class="h40"></a>
+        <a href="msg.html?stype=0" class="user">
+            <img src="image/ico_message2.png" class="h40"/><i id="newmsgFlag" style="display: none"><img src="image/blankbg.png"/></i></a>
+
+        <div class="htxt">我是商家</div>
+    </div>
+    <!-- 顶部 结束 -->
+
+
+    <!-- 我的左左街 开始-->
+
+    <!-- 提示信息 开始-->
+
+    <div class="scroll_new f14 overhide">
+        <i class="absolute l0 t0 plr20">
+            <img src="image/ation_ico.png" class="w36"/></i><b class="absolute r0 t0 plr20"
+                                                               onclick="$(this).parent().remove();"><img
+            src="image/close4_ico.png" class="w24 "/></b>
+
+        <div class="scroll" id="scroll">
+            <div class="scrolltxt">
+                <div>推广好友发布活动/购买商品，可获得永久现金奖励，详情请到我的推广查询！&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提示信息 结束-->
+
+    <div class="bgfff pt40">
+        <div class="plr20 relative" style="height: 1rem">
+            <p class="f30 hello" ></p>
+            <button class="admin" ><a href="admin.html" style="color: #fff;font-size: 0.6rem;">我是管理员</a></button>
+
+            <div class="mt20">
+
+
+            </div>
+            <a href="myIndexGuest.html" class="tosaller">我是试客<img src="image/arrow_right.png" class="h24 ml20"/></a>
+        </div>
+        <div class="list_tab sp3 after bt1 clearfix c999 pt40 pb40 mt40 f24 line24 center">
+            <p class="item relative"><i class="f30 line30 bl c333 mb15 money">0.00</i>账户余额(元)</p>
+
+            <p class="item relative"><i class="f30 line30 bl c333 mb15 unwithdrawMoney">0.00</i>不可提金额(元)</p>
+
+            <p class="item relative"><i class="f30 line30 bl c333 mb15 frozenMoney">0.00</i>冻结金额(元)</p>
+        </div>
+    </div>
+
+    <div class="mt20 overhide">
+        <div class="list_tab sp3 after clearfix bgfff center f24 line24 mt_1">
+            <a href="checkorders.html" class="item pt40 pb40 c999 bt1 relative uncheckCount">核对拍下的订单
+                <em class="f30 line30 mt20 c333 bl">0</em></a>
+            <a href="buyedorder.html" class="item pt40 pb40 c999 bt1 relative buyedCount">已买下的订单
+                <em class="f30 line30 mt20 c333 bl">0</em></a>
+            <a href="rightprotectorders.html" class="item pt40 pb40 c999 bt1 relative rightprotectedCount">维权的订单<em
+                    class="f30 line30 mt20 c333 bl">0</em></a>
+            <a href="" class="item pt40 pb40 c999 bt1 relative complainCount">投诉管理<em
+                    class="f30 line30 mt20 c333 bl">0</em></a>
+            <a href="babyVerify.html" class="item pt40 pb40 c999 bt1 relative auditcowryCount">审核中的宝贝<em
+                    class="f30 line30 mt20 c333 bl">0</em></a>
+            <a href="babyActive.html" class="item pt40 pb40 c999 bt1 relative inactcowryCount">活动中的宝贝<em
+                    class="f30 line30 mt20 c333 bl">0</em></a>
+        </div>
+    </div>
+
+    <div class="mt20 list_tab sp4 bgfff f26 clearfix pt20 pb20 center">
+        <a href="babyManagement.html" class="item bl pt20 pb20">
+            <img src="image/sall_nav1.png" class="w54 mt_3 mlr20"/><em class="bl mt20">宝贝管理</em></a>
+        <a href="b_transaction_management.html" class="item bl pt20 pb20">
+            <img src="image/sall_nav2.png" class="w54 mt_3 mlr20"/><em class="bl mt20">交易管理</em></a>
+        <a href="" class="item bl pt20 pb20">
+            <img src="image/jiang_ico.png" class="w54 mt_3 mlr20"/><em class="bl mt20">追评有奖</em></a>
+        <a href="" class="item bl pt20 pb20">
+            <img src="image/sall_nav3.png" class="w54 mt_3 mlr20"/><em class="bl mt20">辅助业务</em></a>
+        <a href="" class="item bl pt20 pb20">
+            <img src="image/sall_nav4.png" class="w54 mt_3 mlr20"/><em class="bl mt20">我的券包</em></a>
+        <a href="moneymanage/ent.html" class="item bl pt20 pb20">
+            <img src="image/user_nav1.png" class="w54 mt_3 mlr20"/><em class="bl mt20">资金管理</em></a>
+        <a href="popularizeMyRecoder.html" class="item bl pt20 pb20">
+            <img src="image/user_nav4.png" class="w54 mt_3 mlr20"/><em class="bl mt20">我的推广</em></a>
+        <a href="securitySettings.html" class="item bl pt20 pb20">
+            <img src="image/user_nav5.png" class="w54 mt_3 mlr20"/><em class="bl mt20">安全设置</em></a>
+    </div>
+
+    <!-- 我的左左街 结束-->
+
+    <div class="plr20 mt40"><a href="javascript:;" class="e_submit">退出登录</a></div>
+
+    <!-- 底部 开始-->
+    <div class="footer">
+        <a href="phoneIndex.html"><img src="image/foot_nav1.png" data="foot_nav1_crent">首页</a>
+        <a href="classification.html"><img src="image/foot_nav2.png" data="foot_nav2_crent">分类</a>
+        <a href="popularize.html"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>
+        <a href="mqqwpa://im/chat?chat_type=wpa&uin=413038044&version=1&src_type=web&web_src=oicqzone.com"><img
+                src="image/foot_nav4.png" data="foot_nav4_crent">客服</a>
+        <a href="myIndexMerchant.html" ><img src="image/foot_nav5_crent.png" data="foot_nav5_crent">我的</a>
+    </div>
+    <!-- 底部 结束-->
+</div>
+<script src="js/txtscrollleft.js"></script>
+<script>
+    var token = localStorage.getItem('token');
+
+    if (!token) {
+        token = '';
+    }
+    $(function () {
+        $(".e_submit").click(function () {
+            corfirm("您确定要退出登录吗？", exit, $(this))
+        })
+    });
+
+    //确认退出
+    function exit(obj) {
+        $.ajax({
+            url: '/rrightway/p/useraction/logout',
+            data: 'token=' + token,
+            type: "post",
+            success: function (res) {
+                if (res.code == 0) {
+                    window.location.href = "login.html";
+                    return true;
+                } else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
+                }
+            }
+        })
+    }
+
+
+    $.ajax({
+        url: '/rrightway/p/m/myent/iamseller',
+        type: 'post',
+        data: 'token=' + token,
+        success: function (res) {
+            if (res.code == 0) {
+                if(res.data.newmsgCount>0)
+                $('#newmsgFlag').css('display','')
+                $('.uncheckCount em').html(res.data.uncheckCount);
+                $('.buyedCount em').html(res.data.buyedCount);
+                $('.rightprotectedCount em').html(res.data.rightprotectedCount);
+                $('.complainCount em').html(res.data.complainCount);
+                $('.auditcowryCount em').html(res.data.auditcowryCount);
+                $('.inactcowryCount em').html(res.data.inactcowryCount);
+
+                $('.money').html(res.data.money);
+                $('.unwithdrawMoney').html(res.data.unwithdrawMoney);
+                $('.frozenMoney').html(res.data.frozenMoney);
+                $('.hello').html('Hi, ' + res.data.username)
+            } else if (res.code == 20) {
+                localStorage.setItem('href', location.href);
+                location.href = 'login.html'
+            } else {
+                error(res.codeMsg)
+            }
+        }
+    })
+    $.ajax({
+        url: '/rrightway/p/useraction/loginrefresh',
+        type: 'post',
+        data: 'token=' + token,
+        success: function (res) {
+            if (res.code == 0) {
+                if(res.data.adminIf!=1){
+                    $('.admin').css('display','none')
+                }
+            } else if (res.code == 20) {
+                localStorage.setItem('href', location.href);
+                location.href = 'login.html'
+            } else {
+                error(res.codeMsg)
+            }
+        }
+    })
+</script>
+</body>
+
+
+</html>

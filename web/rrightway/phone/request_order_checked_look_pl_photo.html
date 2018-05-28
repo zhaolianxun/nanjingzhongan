@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        查看截图-左左试用平台触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+    <meta name="description" content="左左街-专业的试用网"/>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+</head>
+<body class="bgfff">
+<div class="viewport pt50">
+    <!-- 顶部 开始 -->
+    <header class="clearfix">
+        <div class="goback fl"><a href="javascript:;" onClick="history.back();"> </a></div>
+        <div class="conttxt2">查看截图</div>
+    </header>
+    <!-- 顶部 结束 -->
+    <div class="msg_show mb0 f14 cf60  ">您提交的收货评价截图商家正在审核中，请耐心等待商家处理，感谢您的支持！</div>
+    <!--  图片不符-->
+    <div class="msg_show mb0 f14 cf60  hidden">商家核实评价存在问题，已点击图片不符，请买家重新提交！</div>
+
+    <div class="plr10 mt10 f14 "><a class="bg2f97f0 sbt_120_40 txtc cfff dl dels " data="1107359">删除评价图</a></div>
+    <div class="plr10 mt10 f14 hidden"><a class="bg2f97f0 sbt_120_40 txtc cfff dl "
+                                          href="upload_pl_photo.aspx?id=1107359">重新提交评价图</a></div>
+
+
+    <div class="plr10 mt10 imgpics"></div>
+
+
+</div>
+<div class="confirm">
+    <div class="alert anidown">
+        <div class="content">
+            <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                <tr>
+                    <td>确定要下架宝贝吗？</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="clearfix link"><a href="javascript:;" class="cancle">取消<i></i></a><a href="javascript:;"
+                                                                                       class="submit">确认</a></p></div>
+    <div class="con_bg opa50"></div>
+</div>
+<script type="text/javascript">
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var order_id = getRequest().order_id;
+    var img = getRequest().img;
+    var imgs = img.split(',')
+    for (var i = 0; i < imgs.length; i++) {
+        $('.imgpics').append('<img src="' + imgs[i] + '" style="width:100%;"/>')
+    }
+
+
+    var token = localStorage.getItem('token');
+
+
+    $(function () {
+        //删除
+        $(".dels").click(function () {
+                $(".confirm").show()
+
+        });
+    });
+$('.cancle').click(function(){
+    $(".confirm").hide()
+})
+    $('.submit').click(function(){
+        $.ajax({
+            url: '/rrightway/p/m/iambuyerent/checkedorders/delreviewpic?token=' + token,
+            type: 'post',
+            data: 'order_id=' + order_id,
+            success: function (res) {
+                if (res.code == 0) {
+                    error('删除成功')
+                    history.back();
+                } else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
+                }
+            }
+        });
+        $(".confirm").hide()
+    })
+</script>
+</body>
+</html>

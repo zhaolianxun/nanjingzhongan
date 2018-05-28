@@ -1,0 +1,309 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        维权的订单-左左试用平台触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+
+    <meta name="description" content="左左街-专业的试用网"/>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+</head>
+
+<body>
+<div id="ctl01">
+
+    <div class="viewport pt50">
+        <!-- 顶部 开始 -->
+        <header class="clearfix">
+            <div class="goback fl">
+                <a href="javascript:;" class="type" onClick="history.back();"> </a></div>
+            <div class="gosearch fr"><a href="javascript:;" id="qsearch"></a></div>
+            <div class="conttxt2">维权的订单</div>
+        </header>
+        <!-- 顶部 结束 -->
+
+
+        <!-- 维权的订单 开始-->
+        <div class="u_tab sp4"><a href="activist.aspx?type=40" class="crently">全部<i></i></a>
+            <a href="activist.aspx?type=41">维权中<i></i></a>
+            <a href="activist.aspx?type=42">维权成功<i></i></a>
+            <a href="activist.aspx?type=43">维权失败</a></div>
+
+        <!-- 没有提示 开始-->
+        <div id="noneall" class="fail">
+            <i></i>
+
+            <p>还没有维权的订单哦！</p>
+        </div>
+        <!-- 没有提示 结束-->
+
+        <!-- 查询不到 开始-->
+
+        <!-- 查询不到 结束-->
+
+
+        <!-- 维权的订单 结束-->
+
+        <!-- 筛选内容 开始 -->
+        <div class="blank"></div>
+        <div class="content-box" id="box01">
+            <div class="filterHd">
+                <div class="flbtn">取消</div>
+                <div class="tit">查询</div>
+                <div class="frbtn" onclick="search()">确定</div>
+            </div>
+            <div class="big_item">
+                <div class="item return" rel="box02" id="buy_way">交易状态 <i class="arrow_right fr">全部</i></div>
+            </div>
+            <div class="big_item">
+                <div class="item return mt10">买家昵称<span class="fr pro_txt">
+                <input name="txtbuyname" type="text" id="txtbuyname"/>
+                </span></div>
+                <div class="item return">卖家昵称<span class="fr pro_txt">
+                  <input name="txtsalename" type="text" id="txtsalename"/></span></div>
+                <div class="item return">商品名称<span class="fr pro_txt">
+                <input name="txtproductname" type="text" id="txtproductname"/></span></div>
+                <div class="item return">订单编号<span class="fr pro_txt">
+                <input name="txtordernum" type="text" id="txtordernum"/>
+               </span></div>
+                <div class="item return">淘宝订单<span class="fr pro_txt"><input name="txtstaobaoordernum" type="text"
+                                                                             id="txtstaobaoordernum"/></span></div>
+            </div>
+            <div class="big_item">
+                <div class="item return mt10" id="search_time">下单时间<span class="fr time_txt">
+                <input name="txtstime" type="text" id="txtstime" class="first_time"/>
+                <i>-</i>
+                 <input name="txtetime" type="text" id="txtetime" class="last_time"/>
+               </span></div>
+            </div>
+            <div class="mt15"><a href="#" class="clearvalue" data="您确定要清空历史记录吗？"><i class="ico_del"></i>清除选项</a></div>
+        </div>
+        <div class="content-box bgfff" id="box02">
+            <div class="filterHd">
+                <div class="rebtn">返回</div>
+                <div class="tit">交易状态</div>
+            </div>
+            <div class="item arrow_select crently" rel="buy_way" data="40">全部<i class="fr"></i></div>
+            <div class="item arrow_select " rel="buy_way" data="41">维权中<i class="fr"></i></div>
+            <div class="item arrow_select " rel="buy_way" data="42">维权成功<i class="fr"></i></div>
+            <div class="item arrow_select " rel="buy_way" data="43">维权失败<i class="fr"></i></div>
+        </div>
+        <!-- 筛选内容 结束 -->
+
+        <!--弹出时间-->
+        <div id="datePlugin"></div>
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="css/date.css">
+<script type="text/javascript" src="js/jquery_date.js"></script>
+<script type="text/javascript" src="js/date.js"></script>
+<script type="text/javascript" src="js/iscroll_date.js"></script>
+
+<script>
+    $(function () {
+
+        buy_way = '40';
+        $("#buy_way").find("i").eq(0).html($("#box02 .crently").text());
+
+        //清除选项
+        $(".clearvalue").click(function () {
+            $(".item input").val("");
+            $("#buy_way").find("i").eq(0).html("全部");
+        });
+
+        //选择时间
+        $("#txtstime,#txtetime").click(function () {
+            $("#datePlugin").show();
+        });
+        $("#txtetime").date();
+        $("#txtstime").date();
+
+        //确定查询
+        $(".frbtn").click(function () {
+            // window.location.reload();
+        });
+
+        //选择
+        $(".arrow_select").click(function () {
+            if (!$(this).hasClass("crently")) {
+                $(this).parent().find(".arrow_select").removeClass("crently");
+                $(this).addClass("crently");
+                $("#" + $(this).attr("rel")).find("i").eq(0).html($(this).text());
+                if ($(this).attr("rel") == "buy_way")
+                    buy_way = $(this).attr("data");
+
+
+                if ($(this).attr("rel") == "get_code")
+                    get_code = $(this).attr("data");
+                $(this).parent().find(".rebtn").click();
+            }
+        });
+
+
+        //删除提示
+        $(".bit_bottom p .delete").click(function () {
+            corfirm2("您确定要删除订单吗？", "删除后不可恢复，请谨慎操作", delok, $(this));
+        });
+
+        //确认维权提示
+        $(".bit_bottom p .sure").click(function () {
+
+
+            corfirm("您确定要确认维权订单吗？", sureok, $(this));
+        });
+
+        //拒绝维权提示
+        $(".bit_bottom p .refuse").click(function () {
+            corfirm("您确定要拒绝维权订单吗？", refuseok, $(this));
+        });
+
+        //查看备注
+        $(".bz").click(function () {
+            var id = $(this).parent().find("p").eq(0).attr("dataid");
+            layboxs("/user/dialog/order_bzinfo.aspx?id=" + id);
+        });
+    });
+
+    //删除订单
+    function delok(obj) {
+        var id = $(obj).parent().attr("dataid");
+        $.ajax({
+            type: "POST",
+            url: "/flow/DeleteBuyerActivist.ashx",
+            data: "rad=" + Math.random() + "&id=" + id,
+            success: function (res) {
+
+                if (res != "" && res != "[]") {
+
+                    var comments = $.parseJSON(res);
+
+
+                    if (comments.success == "Y") {
+
+
+                        error("删除订单成功！");
+                        freshpage("activist.aspx");
+                        return true;
+
+                    }
+                    else {
+                        error(comments.msg);
+                    }
+                }
+            }
+        });
+
+
+        //alert(id);
+
+        ////删除dom
+        //$(obj).parent().parent().parent().remove();
+    }
+
+    //确认维权
+    function sureok(obj) {
+        var id = $(obj).parent().attr("dataid");
+
+        $.ajax({
+            type: "POST",
+            url: "/flow/AS200401.ashx",
+            data: "rad=" + Math.random() + "&id=" + id,
+            success: function (res) {
+
+                if (res != "" && res != "[]") {
+
+                    var comments = $.parseJSON(res);
+
+
+                    if (comments.success == "Y") {
+
+                        //确认成功
+                        error("确认维权订单成功！");
+                        freshpage(window.location.href);
+                        return true;
+
+                    }
+                    else {
+                        error(comments.msg);
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    //拒绝维权
+    function refuseok(obj) {
+        var id = $(obj).parent().attr("dataid");
+        $.ajax({
+            type: "POST",
+            url: "/flow/AS200402.ashx",
+            data: "rad=" + Math.random() + "&id=" + id,
+            success: function (res) {
+
+                if (res != "" && res != "[]") {
+
+                    var comments = $.parseJSON(res);
+
+
+                    if (comments.success == "Y") {
+
+                        //确认成功
+                        error("拒绝维权订单成功！");
+                        freshpage(window.location.href);
+                        return true;
+                    }
+                    else {
+                        error(comments.msg);
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    function search() {
+
+        if (checktime($("#txtstime").val(), $("#txtetime").val())) {
+
+            location.href = "activist.aspx?type=" + escape(buy_way) + "&salename=" + escape(encodeURI($("#txtsalename").val())) + "&buyname=" + escape(encodeURI($("#txtbuyname").val())) + "&productname=" + escape($("#txtproductname").val()) + "&stime=" + escape($("#txtstime").val()) + "&etime=" + escape($("#txtetime").val()) + "&ordernum=" + escape($("#txtordernum").val())
+            + "&staobaoordernum=" + escape($("#txtstaobaoordernum").val());
+            ;
+        }
+    }
+
+    //(function () {
+
+    //    window.history.pushState({ page: 1 }, 'test', 'activist.aspx');
+
+
+    //    window.onpopstate = function (e) {
+
+
+    //        location.href = "../index.aspx";
+
+    //    };
+    //})();
+
+
+</script>
+</body>
+</html>

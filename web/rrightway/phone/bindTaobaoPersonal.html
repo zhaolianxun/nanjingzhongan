@@ -19,7 +19,7 @@
     <!-- 顶部 开始 -->
     <header class="clearfix">
         <div class="goback fl">
-            <a href="accountSecurity.html" > </a></div>
+            <a href="javascript:;" class="type" onclick="history.back();"> </a></div>
         <div class="conttxt2">绑定淘宝</div>
     </header>
     <!-- 顶部 结束 -->
@@ -234,11 +234,12 @@
             var id = $(this).attr("data");
 
             if (items[id].bankinfoFillIf==0) {
-                corfirm2("您还未设置收款账户，无法补全资料！", "<a href='set_bank_list.html' class='cf60'>马上设置收款账户</a>", nuls, $(this));
+                corfirm2("您还未设置收款账户，无法补全资料！", "<a href='set_bank_list.html' class='cf60'>马上设置收款账户</a>", function(){  location.href ='set_bank_list.html'}, $(this));
+
                 return;
             }
             if (items[id].status==1) {
-                rxw.alert("您提交的资料正在审核中，请耐心等待24小时，若有疑问请咨询客服。", '确认', nuls, $(this));
+                rxw.alert("您提交的资料正在审核中，请耐心等待24小时，若有疑问请咨询客服。",  function(){}, $(this));
                 return;
             }
             location.href = "completetaobaoinfo.html?alipayAccount="+items[id].taobaoUserNick+"&realname="+items[id].realname+"&taobaoAccountId="+items[id].taobaoAccountId;

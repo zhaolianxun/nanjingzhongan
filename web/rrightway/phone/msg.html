@@ -1,0 +1,217 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        消息中心-左左试用平台触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+    <script src="js/public.js"></script>
+    <meta name="description" content="左左街-专业的试用网"/>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+    <style>
+        .bgfff p{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+    </style>
+</head>
+
+<body>
+<div class="viewport pt50">
+    <!-- 顶部 开始 -->
+    <header class="clearfix">
+        <div class="goback fl"><a href="myIndexGuest.html"> </a></div>
+        <div class="gosearch fr"><a href="javascript:;" id="deleall"></a></div>
+        <div class="conttxt2">消息中心</div>
+    </header>
+    <!-- 顶部 结束 -->
+
+
+    <!-- 消息中心 开始-->
+    <div class="money_tab m10 clearfix txtc"><a href="msg.html?stype=0">系统消息</a><a
+            href="msg.html?stype=1">买家消息</a><a  href="msg.html?stype=2">卖家消息</a><a href="msg.html?stype=3">警告消息</a></div>
+
+    <!-- 没有提示 开始-->
+    <div class="fail hidden">
+        <i></i>
+
+        <p>还没有相关消息哦！</p>
+    </div>
+    <!-- 没有提示 结束-->
+
+    <!-- 有数据-->
+    <div class="msg_list">
+        <!--<div class="msg_item">-->
+            <!--<div class="txtc f14 mb10 mt15 c999">2018-05-15 09:35</div>-->
+            <!--<div class="bd1 bgfff plr10 pt10 mlr10 brd5">-->
+                <!--<h3>您的宝贝保温杯已审核不通过，详情请咨询客服 <span style="color:red">[未读]</span></h3>-->
+
+                <!--<p class="c666 line20 mt5 f14">您的宝贝保温杯已审核不通过，详情请咨询客服</p>-->
+
+                <!--<div class="bt1 clearfix relative mt10"><a href="msg_detail.html?id=825190&stype=1" class="bl h40"><i-->
+                        <!--class="arrow_right r0">查看详情</i></a></div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <script>
+            $("#pagerSelectChang").change(function () {
+                var m = $(this).find("option:selected").html();
+                var total = $(this).attr("value-total");
+                var l = m + "/" + total;
+                $("#pagerShow em").html(l);
+                window.location.href = $(this).val();
+            });
+        </script>
+    </div>
+    <div class="selectpage mt15 mb15"></div>
+    <!-- 消息中心 结束-->
+</div>
+<script>
+    var token = localStorage.getItem('token');
+    if (!token) {
+        token = '';
+    }
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var stype = getRequest().stype;
+
+    if (stype == 0) {
+        $('.money_tab').children('a:nth-child(1)').addClass('crently');
+//        $('.money_tab').children('a:nth-child(1)').sibling().removeClass('crently')
+    } else if (stype == 1) {
+        $('.money_tab').children('a:nth-child(2)').addClass('crently');
+//        $('.money_tab').children('a:nth-child(2)').sibling().removeClass('crently')
+    } else if (stype == 2) {
+        $('.money_tab').children('a:nth-child(3)').addClass('crently');
+//        $('.money_tab').children('a:nth-child(3)').sibling().removeClass('crently')
+    } else if (stype == 3) {
+        $('.money_tab').children('a:nth-child(4)').addClass('crently');
+//        $('.money_tab').children('a:nth-child(4)').sibling().removeClass('crently')
+    }
+
+
+    function newMsg(pageNo) {
+        var pageSize = 15;
+        $.ajax({
+            url: '/rrightway/p/m/msgcenterent/messages',
+            type: "post",
+            data: "type=" + stype + '&page_no=' + pageNo + "&page_size=" + pageSize + "&token=" + token,
+            success: function (res) {
+                if (res.code == 0) {
+
+                    for(var i=0;i<res.data.messages.items.length;i++){
+                        if(res.data.messages.items[i].readIf==0){
+                            var read='<span style="color:red">[未读]</span>';
+                        }else{
+                            var read='';
+                        }
+
+
+                        $('.msg_list').append('  <div class="msg_item">' +
+                        '<div class="txtc f14 mb10 mt15 c999">'+_formatDatesNoS(res.data.messages.items[i].sendTime)+'</div>' +
+                        '<div class="bd1 bgfff plr10 pt10 mlr10 brd5">' +
+                        '<h3>'+res.data.messages.items[i].title+read+' </h3>' +
+                        '<p class="c666 line20 mt5 f14">'+res.data.messages.items[i].content+'</p>' +
+                        '<div class="bt1 clearfix relative mt10"><a  onclick="readNews('+res.data.messages.items[i].messageId+')"   href="msg_detail.html?id='+res.data.messages.items[i].messageId+'&stype=1" class="bl h40">' +
+                        '<i class="arrow_right r0">查看详情</i></a></div>' +
+                        '</div>' +
+                        '</div>')
+                    }
+
+                }else if(res.code==20){
+                    location.href="login.html"
+                }else{
+                    error(res.codeMsg)
+                }
+            }
+        })
+    }
+    newMsg(1);
+
+    function readNews(id){
+        $.ajax({
+            url: '/rrightway/p/m/msgcenterent/signread',
+            data:'token=' + token+"&message_ids="+id,
+            type: 'post',
+            success: function (res) {
+                if (res.code == 0) {
+                    return true;
+                } else if(res.code==20){
+                    localStorage.setItem('href',location.href);
+                    location.href='login.html'
+                }else{
+                    error(res.codeMsg)
+                }
+            }
+        });
+    }
+
+    function clearalleok(obj) {
+        $.ajax({
+            url: '/rrightway/p/m/msgcenterent/deleteall',
+            data:'token=' + token,
+            type: 'post',
+            success: function (res) {
+                if (res.code == 0) {
+                    error("清空消息成功！");
+                    location.reload();
+                    return true;
+                } else if(res.code==20){
+                    localStorage.setItem('href',location.href);
+                    location.href='login.html'
+                }else{
+                    error(res.codeMsg)
+                }
+            }
+        });
+    }
+    $(function () {
+        $("#deleall").click(function () {
+            corfirm("您确定要清空消息吗？", clearalleok, $(this));
+        });
+    });
+
+
+    //(function () {
+
+    //    window.history.pushState({ page: 1 }, 'test', '');
+
+
+    //    window.onpopstate = function (e) {
+
+    //        location.href = "../index.html";
+
+    //    };
+    //})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        修改登录密码-左左试用平台触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+    <meta name="description" content="左左街-专业的试用网"/>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+</head>
+
+<body>
+<div id="ctl01">
+
+    <div class="viewport pt50">
+        <!-- 顶部 开始 -->
+        <header class="clearfix">
+            <div class="goback fl">
+                <a href="javascript:;" onclick="history.back();"> </a></div>
+            <div class="conttxt2">修改登录密码</div>
+        </header>
+        <!-- 顶部 结束 -->
+
+
+        <!-- 修改登录密码 开始-->
+        <div class="login">
+            <div class="login_txt mt10">
+                <!--<p class="regist_title c999">已绑定手机号码 150****2798</p>-->
+                <p><input name="txtphone" type="text" id="txtphone" class="tt70"
+                          placeholder="请输入手机号码"/><label>手机号码</label></p>
+
+                <p class="clearfix l_tcode"><label>验证码</label><span class="v_code"><a class="count_val hidden"
+                                                                                      href="javascript:;"><i sdata="60">60</i>s后重新获取</a><a
+                        class="check_val" href="javascript:;">获取验证码</a></span><b
+                        style="margin-left:0;margin-right:140px;">
+                    <input name="txtCode" type="text" id="txtCode" class="tt50" placeholder="请输入短信验证码"/></b></p>
+
+                <p><input name="pwd" type="text" id="pwdNew" class="tt50" placeholder="请输入新密码"/><label>新密码</label></p>
+
+                <p><input name="pwdSure" type="text" id="pwdNewSure" class="tt80"
+                          placeholder="请再次输入新密码"/><label>确认新密码</label></p>
+            </div>
+            <div class="login_check mt15 mlr10">
+                <button id="btnNext" class="login_sbt" href="javascript:__doPostBack(&#39;btnNext&#39;,&#39;&#39;)">
+                    下一步
+                </button>
+            </div>
+        </div>
+        <!-- 修改登录密码 结束-->
+    </div>
+</div>
+</body>
+<script>
+    var token = localStorage.getItem('token');
+    //(function () {
+
+    //    window.history.pushState({ page: 1 }, 'test', '');
+
+
+    //    window.onpopstate = function (e) {
+
+    //        location.href = "choose.aspx";
+
+    //    };
+    //})();
+
+    $(".check_val").click(function () {
+        if (!$("#txtphone").val().match(/^[1][3,4,5,6,7,8,9][0-9]{9}$/)) {
+            error("手机号码格式不正确！");
+        }
+        else {
+            $.ajax({
+                url: "/sms/verification/send?client=easywin",
+                type: "Get",
+                data: "phone=" + $("#txtphone").val() + '&token=' + token,
+                success: function (res) {
+                    if (res.code == 0) {
+                        error("发送成功");
+                        getcode()
+                    }
+                    else {
+                        error(res.codeMsg);
+                    }
+                }
+            })
+        }
+
+    })
+
+    $("#btnNext").click(function () {
+        if (!$("#txtphone").val().match(/^[1][3,4,5,6,7,8,9][0-9]{9}$/)) {
+            error("手机号码格式不正确！");
+            return false;
+        } else if (!$("#pwdNew").val().match(/^(?!\d+$).{6,16}$/gi)) {
+            error("密码必须为6-16位不是纯数字的组合！");
+            return false;
+        } else if ($("#pwdNew").val() != $("#pwdNewSure").val()) {
+            error("两次输入新密码不一致！");
+            return false;
+        }
+        else if ($("#txtCode").val() == "") {
+            error("请输入发送给您的验证码！");
+            return false;
+        }
+        else {
+            $.ajax({
+                url: "/rrightway/p/m/safetysetent/alterpwdbysmsvcode?token=" + token,
+                data: 'phone=' + $("#txtphone").val() + "&newpwd=" + $("#pwdNewSure").val() + "&smsvcode=" + $("#txtCode").val(),
+                type: "post",
+                success: function (res) {
+                    if (res.code == 0) {
+                        location.href = "accountSecurity.html"
+                    } else if(res.code==20){
+                        localStorage.setItem('href',location.href);
+                        location.href='login.html'
+                    }else{
+                        error(res.codeMsg)
+                    }
+                }
+            })
+        }
+    })
+
+
+</script>
+</html>

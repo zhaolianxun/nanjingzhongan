@@ -115,6 +115,7 @@ public class IambuyerEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			List sqlParams = new ArrayList();
+			sqlParams.add(loginStatus.getUserId());
 			if (buyerNickname != null)
 				sqlParams.add(new StringBuilder("%").append(buyerNickname).append("%").toString());
 			if (sellerNickname != null)
@@ -133,7 +134,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.way_to_shop,t.coupon_if,t.buy_way,t.taobao_orderid,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 ")
+					"select t.way_to_shop,t.coupon_if,t.buy_way,t.taobao_orderid,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.buyer_id=? ")
 							.append(tradeStatus == 1 ? " and t.status in (0,3,4) " : "")
 							.append(tradeStatus == 2 ? " and t.status=0 " : "")
 							.append(tradeStatus == 3
@@ -363,6 +364,7 @@ public class IambuyerEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			List sqlParams = new ArrayList();
+			sqlParams.add(loginStatus.getUserId());
 			if (buyerNickname != null)
 				sqlParams.add(new StringBuilder("%").append(buyerNickname).append("%").toString());
 			if (sellerNickname != null)
@@ -381,9 +383,10 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.review_pic_audit,t.review_pics,t.buyer_protect_rights_status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where del=0 ")
+					"select t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.review_pic_audit,t.review_pics,t.rightprotect_status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where del=0 and t.buyer_id=?")
 							.append(tradeStatus == 1 ? " and t.status=1 " : "")
-							.append(tradeStatus == 2 ? " and t.status=1 and t.buyer_protect_rights_status=1 " : "")
+							.append(tradeStatus == 2 ? " and t.status=1 and t.rightprotect_status in (7,8,9,10,11) "
+									: "")
 							.append(buyerNickname == null ? "" : " and t.buyer_taobaoaccount_name like ? ")
 							.append(sellerNickname == null ? "" : " and t.seller_taobaoaccount_name like ? ")
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
@@ -405,7 +408,7 @@ public class IambuyerEntrance {
 				item.put("returnMoney", rs.getObject("return_money"));
 				item.put("giftName", rs.getObject("gift_name"));
 				item.put("giftCover", rs.getObject("gift_cover"));
-				item.put("buyerProtectRightsStatus", rs.getObject("buyer_protect_rights_status"));
+				item.put("rightprotectStatus", rs.getObject("rightprotect_status"));
 				item.put("reviewPics", rs.getObject("review_pics"));
 				item.put("reviewPicAudit", rs.getObject("review_pic_audit"));
 				item.put("complain", rs.getObject("complain"));
@@ -699,6 +702,7 @@ public class IambuyerEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			List sqlParams = new ArrayList();
+			sqlParams.add(loginStatus.getUserId());
 			if (buyerNickname != null)
 				sqlParams.add(new StringBuilder("%").append(buyerNickname).append("%").toString());
 			if (sellerNickname != null)
@@ -717,7 +721,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.way_to_shop,t.coupon_if,t.buy_way,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.status=2")
+					"select t.way_to_shop,t.coupon_if,t.buy_way,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.status=2 and t.buyer_id=?")
 							.append(buyerNickname == null ? "" : " and t.buyer_taobaoaccount_name like ? ")
 							.append(sellerNickname == null ? "" : " and t.seller_taobaoaccount_name like ? ")
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
@@ -863,6 +867,7 @@ public class IambuyerEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			List sqlParams = new ArrayList();
+			sqlParams.add(loginStatus.getUserId());
 			if (complainStatus != null)
 				sqlParams.add(complainStatus);
 			if (buyerNickname != null)
@@ -883,7 +888,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.complain=1")
+					"select t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.complain=1 and t.buyer_id=?")
 							.append(complainStatus == null ? " and t.complain in (1,2,3,4,5,6) " : " and t.complain=? ")
 							.append(buyerNickname == null ? "" : " and t.buyer_taobaoaccount_name like ? ")
 							.append(sellerNickname == null ? "" : " and t.seller_taobaoaccount_name like ? ")

@@ -38,7 +38,7 @@ rxw.alert=function (txt,fun,funParam){
         $(".submit").click(function () {
             if(fun)
                 fun(funParam);
-                $(".confirm").remove();
+            $(".confirm").remove();
         });
 
 

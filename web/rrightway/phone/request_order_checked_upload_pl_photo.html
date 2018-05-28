@@ -1,0 +1,241 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        提交收货评价图-左左试用平台触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+    <script src="js/jquery-form.js"></script>
+    <script src="js/addTmpImg.js"></script>
+    <meta name="description" content="左左街-专业的试用网"/>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+</head>
+<body>
+<div id="aspnetForm">
+
+    <div class="viewport pt50" id="Jlazy_img">
+        <!-- 顶部 开始 -->
+        <header class="clearfix">
+            <div class="goback fl"><a href="javascript:;" onClick="history.back();"> </a></div>
+            <div class="conttxt2">提交收货评价图</div>
+        </header>
+        <!-- 顶部 结束 -->
+
+
+        <!-- 申请客服介入 开始-->
+        <div class="bgfff p10 mt10 clearfix" id="slider">
+
+            <form action="" id="uploadfilehfpic2Up">
+                <div class="uploadadd"><p><img src="image/blankbg.gif"><a
+                        href="javascript:;"><i></i><span>上传图片</span><input type="file" id="uploadfile" name="uploadfile"
+                                                                           class="opa0"></a></p></div>
+                <div class="f14 c999 fr uploadtxt">上传评价图</div>
+            </form>
+        </div>
+        <input type="hidden" name="hfpic1" id="hfpic1"/>
+
+        <div class=" c999 plr10 line25 mt10">
+            请根据样本图提交您确定收货评价的图片，提交成功后商家审核无误可进行返现或48小时系统自动返现，若图片被商家判定有误那系统将恢复原先自动返现的时间，若出现多次恶意提交不符合图片系统将冻结资金无法提现。
+        </div>
+
+        <div class="mlr10 mt10">
+            <button class="login_rst b2 bl bg2f97f0 cfff brd5 txtc">查看样本图</button>
+        </div>
+        <div class="mlr10 mt10">
+            <a id="btnSubmit" class="submit bl h50 bg2f97f0 cfff brd5 txtc">提交截图</a>
+        </div>
+        <!-- 申请客服介入 结束-->
+
+    </div>
+
+    <!-- 放大浏览图开始 -->
+    <script type="text/javascript" src="js/swipe.extend.1.1-min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/slide.css">
+    <div class="m-dt" id="Jslider">
+        <div class="swipe-wrap" id="Jslider-wrap">
+            <div class="swipe-con"></div>
+        </div>
+        <div class="slideTp"><i id="JslideBack"></i><a href="" class="swipe-cmtCount" id="JslideCmtCount"
+                                                       target="_blank" title="点击下载"></a><span class="swipe-num"
+                                                                                              id="JslideNum"></span>
+        </div>
+    </div>
+    <script src="js/slide.js"></script>
+</div>
+<div id="maskDIV" style="display: none;">
+
+    <div id="mask_bg" style="opacity: 0.5;"></div>
+    <div id="ajax_content" style="width: 86%; height: 160px; margin: -160px 0px 0px -43%;">
+        <div id="mask_op_div" style="display: block;"><a id="maskoparet"><i></i></a></div>
+        <!--输入淘宝订单号-->
+        <div id="check" class=" p15 taobaoid" style="display:none;background: #FFFFFF">
+            <div class="txtp bd1 brd5 mt15"><input type="text" class="f16" id="txttborder" placeholder="请输入淘宝订单号"></div>
+            <p class=" mt10 txtc"><a href="http://m.zuozuojie.com//help/detail.aspx?id=2077" target="_blank"
+                                     class="cf60">如何获取淘宝订单号</a></p>
+
+            <div class="mt15"><a href="javascript:;" class="bg2f97f0 cfff submit bl brd20 h40 txtc makeSureTb">确定</a>
+            </div>
+        </div>
+        <!--修改输入淘宝订单号-->
+
+        <div style="height:400px;overflow:auto;"><img src="image/upld_ex.jpg" style="width:100%;"></div>
+    </div>
+</div>
+
+
+<script>
+
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var order_id = getRequest().order_id;
+    var token = localStorage.getItem('token');
+
+    //$(function () {
+    //    //上传图片
+    //    $(".uploadadd a").click(function () {
+    //        if ($(".uploadimg .dels").length < 1) {
+    //            $(this).parent().parent().before('<div class="uploadimg"><p><img src="/ex/pro_640.png"><a href="javascript:;" class="dels">删除</a></p></div>');
+    //            if ($(".uploadimg .dels").length == 1) {
+    //                $(this).parent().parent().hide();
+    //            }
+    //            else {
+    //                $(this).parent().parent().show();
+    //            }
+    //            imgdelect();
+    //        }
+
+    //    });
+
+
+    //});
+
+
+</script>
+<script>
+
+
+    function delimg(obj, picid, str) {
+
+        $("#" + picid).val($("#" + picid).val().replace(str, ""));
+
+        //$(".uploadimg .dels").parent().parent().remove();
+        //if ($(".uploadimg").length == 3) {
+        //    $(".uploadadd").hide();
+        //}
+        //else {
+        //    $(".uploadadd").show();
+        //}
+    }
+
+
+    $(function () {
+
+
+
+        //查看样本图
+        $(".login_rst").click(function () {
+            $('#maskDIV').css('display', 'block');
+        });
+
+        $('#maskoparet').click(function () {
+            $("#maskDIV").css('display', 'none');
+        })
+        //确认申请成功
+        $("#btnSubmit").click(function () {
+            var _this = $('#slider .uploadimg');
+//            error($('#slider .uploadimg').length);
+            if ($('#slider .uploadimg').length == 0) {
+                error("必须最少上传1个收货评价图");
+                return false;
+            } else {
+                var pic = '';
+                for (var i = 0; i < $('#slider .uploadimg').length; i++) {
+                    pics = $('#slider').children().eq(i + 1).children().find('img').attr('src');
+                    pic = pics + "," + pic;
+                }
+                pic = pic.substring(0, pic.length - 1);
+                console.log(pic);
+                $.ajax({
+                    url: '/rrightway/p/m/iambuyerent/checkedorders/submitreviewpic',
+                    type: 'post',
+                    data: 'token=' + token + "&order_id=" + order_id + "&review_pics=" + pic,
+                    success: function (res) {
+                        if (res.code == 0) {
+                            error('提交截图，等待商家审核！')
+                            window.history.back()
+                        } else if (res.code == 20) {
+                            localStorage.setItem('href', location.href);
+                            location.href = 'login.html'
+                        } else {
+                            error(res.codeMsg)
+                        }
+                    }
+                })
+            }
+
+
+        });
+
+        function checkPic(num, objNunber) {
+
+            if (objNunber == 1) {
+                if ($("#slider  .uploadimg").length >= num) {
+                    $("#slider>#uploadfilehfpic2Up>.uploadadd").hide();
+                }
+                else {
+                    $("#slider>#uploadfilehfpic2Up>.uploadadd").show();
+                }
+            }
+        }
+
+        //图片上传
+
+        $("#uploadfile").change(function () {
+            console.log($(this).attr("name"));
+//            upload($(this).attr("name"), 3, 1024, 2);
+            var uploadfilehfpic2Up = $.uploadImgUrl('uploadfilehfpic2Up', '/oss/file/upload?path=rrightway/');
+            $('#slider ').append('<div class="uploadimg"><p>' +
+            '<img src="' + uploadfilehfpic2Up + '" alt="' + uploadfilehfpic2Up + '" rel="1">' +
+            '<a id="' + order_id + '" class="dels">删除</a></p>' +
+            '</div>');
+            checkPic(3, 1)
+        });
+
+
+        $('#slider').on('click', '.uploadimg p .dels', function () {
+            $(this).parent().parent().remove()
+            checkPic(3, 1)
+        })
+    });
+
+
+    //图片上传方法
+    //obj1传上传控件的name属性，obj2传图片控件id，obj3传显示上传控件的id，obj4传显示图片的id，obj5传隐藏域的id,num是图片数量
+
+
+</script>
+</body>
+</html>

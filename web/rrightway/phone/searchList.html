@@ -1,0 +1,550 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>左左街 做试用活动免费领取奖品</title>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+    <meta name="description" content="左左街-专业的试用网"/>
+
+    <link rel="stylesheet" type="text/css" href="css/new.css">
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/new.js"></script>
+
+</head>
+
+
+<body>
+<div class="viewport">
+    <!-- 顶部 开始 -->
+    <div class="header">
+        <a href="javascript:;" class="type" onClick="history.back();"><img src="image/arrow_left2.png" class="h40"
+                                                                           style="margin-top: 0.725rem"></a>
+        <a href="javascript:;" class="tosearch filter"><img src="image/ico_show_type1.png" class="h40"
+                                                            style="margin-top: 0.725rem"/></a>
+
+        <div class="stxt">
+            <div><img src="image/ico_search_gray_sbt.png" class="w24"><input type="text" id="keyword" value=""
+                                                                             placeholder="搜索您想要的试用品"/></div>
+        </div>
+    </div>
+    <!-- 顶部 结束 -->
+
+    <div class="h90"></div>
+    <div class="com_tab sp4 fixed">
+        <a href="javascript:;" data="1" class="actIndex crently">综合</a>
+        <a href="javascript:;" data="2" class="actIndex">销量</a>
+        <a href="javascript:;" data="3" class="actIndex">最新</a>
+        <a href="javascript:;" data="4" class="dis">更多<span><i
+                class="arrow_bottom"></i></span></a></div>
+
+    <!--弹出更多排序-->
+    <div class="order_fixed mt_1 f28">
+        <div class="slist">
+            <p data="5"><a href="javascript:;">付款金额从高到底</a></p>
+
+            <p data="4"><a href="javascript:;">付款金额从低到高</a></p>
+
+            <p data="7"><a href="javascript:;">奖金金额从高到低</a></p>
+
+            <p data="6"><a href="javascript:;">奖金金额从低到高</a></p>
+        </div>
+        <div class="bg"></div>
+    </div>
+
+
+    <!-- 列表页 开始-->
+    <div class="pro_list clearfix mt8" id="product_list">
+        <!-- <a href="/detail/index.html" class="recoder">
+            <p>
+              <img src="/ex/pro.jpg" data-img="/ex/pro.jpg" class="lazy">
+              <label>
+                  <b>美国进口乐事多蔓越莓干100g 烘焙</b>
+                  <span>¥10.90</span>
+                  <em>12人已买</em>
+              </label>
+            </p>
+        </a> -->
+    </div>
+    <!-- 列表页 结束-->
+
+    <!-- 没有数据提示-->
+    <div class="no_data hidden">
+        <div class="pb40 mt100">
+            <div class="success">
+                <i><img src="image/fail_ico.png"/></i>
+
+                <p class="c999">没有找到相关的商品哦~</p>
+
+                <!-- 筛选没有显示-->
+                <a href="javascript:;" class="h66 bd1 dl brd100 c2f97f0 plr60 mt30 nofilter"
+                   style="display:none;">全部商品</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 开始-->
+
+    <!-- 底部 开始-->
+    <div class="footer">
+        <a href="phoneIndex.html"><img src="image/foot_nav1.png" data="foot_nav1_crent">首页</a>
+        <a href="classification.html"><img src="image/foot_nav2.png" data="foot_nav2_crent">分类</a>
+        <a href="/invite/index.aspx"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>
+        <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxNjg0OV80NzUyNDdfODAwMDE2ODQ5XzJf" target="_blank"><img
+                src="image/foot_nav4.png" data="foot_nav4_crent">客服</a>
+        <a href="myIndexGuest.html"><img src="image/foot_nav5.png" data="foot_nav5_crent">我的</a>
+    </div>
+    <!-- 底部 结束-->
+    <!-- 底部 结束-->
+</div>
+
+<!--筛选-->
+<!--筛选 弹窗-->
+<div class="pop_from_right sp2 animate" id="filterright">
+    <div class="maskbg animate"></div>
+    <div class="h90 relative clearfix bgf8f8f8">
+        <a href="javascript:;" class="goback plr20 relative z9"><img src="image/close2_ico.png" class="w30"/></a>
+
+        <div class="center absolute l0 t0 pw100 f32">筛选</div>
+    </div>
+    <div class="scroll sp2 bgfff">
+        <div class="listborder interview_list bgf8f8f8 sp3 bb1 f28">
+            <dl class="item">
+                <dt class="head">
+                <div class="cls">
+                    <div class="h90">商品分类 <em class="protype fr c999">全部</em></div>
+                    <span class="arrow"><img src="image/arrow_down.svg" class="w30"></span>
+                </div>
+                </dt>
+                <dd class="foot hidden">
+                    <div class="bt1 sp2 clearfix c_ftab list666 type1List" data="protype ">
+                        <input type="hidden" id="protype"/>
+
+                        <div class="item"><a href="javascript:;" data=""><em>全部</em></a></div>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="item">
+                <dt class="head">
+                <div class="cls">
+                    <div class="h90">是否领券 <em class="usejuan fr c999">不限制</em></div>
+                    <span class="arrow"><img src="image/arrow_down.svg" class="w30"></span>
+                </div>
+                </dt>
+                <dd class="foot hidden">
+                    <div class="bt1 sp2 clearfix c_ftab list666 usejuanList" data="usejuan">
+                        <input type="hidden" id="usejuan"/>
+
+                        <div class="item active"><a href="javascript:;" data=""><em>不限制</em></a></div>
+                        <div class="item"><a href="javascript:;" data="1"><em>是</em></a></div>
+                        <div class="item"><a href="javascript:;" data="2"><em>否</em></a></div>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="item">
+                <dt class="head">
+                <div class="cls">
+                    <div class="h90">购买类型 <em class="buytype fr c999">不限制</em></div>
+                    <span class="arrow"><img src="image/arrow_down.svg" class="w30"></span>
+                </div>
+                </dt>
+                <dd class="foot hidden">
+                    <div class="bt1 sp3 clearfix c_ftab list666 buytypeList" data="buytype">
+                        <input type="hidden" id="buytype"/>
+
+                        <div class="item active"><a href="javascript:;" data=""><em>不限制</em></a></div>
+                        <div class="item"><a href="javascript:;" data="1"><em>关键词搜索</em></a></div>
+                        <div class="item"><a href="javascript:;" data="2"><em>链接直拍</em></a></div>
+                        <div class="item"><a href="javascript:;" data="3"><em>二维码搜索</em></a></div>
+                        <div class="item"><a href="javascript:;" data="4"><em>直通车搜索</em></a></div>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="item">
+                <dt class="head">
+                <div class="cls">
+                    <div class="h90">信誉要求 <em class="level fr c999">不限制</em></div>
+                    <span class="arrow"><img src="image/arrow_down.svg" class="w30"></span>
+                </div>
+                </dt>
+                <dd class="foot hidden">
+                    <div class="bt1 sp2 clearfix c_ftab list666 levelList" data="level">
+                        <input type="hidden" id="level"/>
+
+                        <div class="item active"><a href="javascript:;" data=""><em>不限制</em></a></div>
+                        <div class="item"><a href="javascript:;" data="6"><em>钻石以上</em></a></div>
+                        <div class="item"><a href="javascript:;" data="5"><em>五星以上</em></a></div>
+                        <div class="item"><a href="javascript:;" data="4"><em>四星以上</em></a></div>
+                        <div class="item"><a href="javascript:;" data="3"><em>三星以上</em></a></div>
+                        <div class="item"><a href="javascript:;" data="2"><em>二星以上</em></a></div>
+                        <div class="item"><a href="javascript:;" data="1"><em>一星以上</em></a></div>
+                    </div>
+                </dd>
+            </dl>
+            <div class="form_area sp2 place28 pl20 bgfff">
+                <div class="item"><b>付款金额</b>
+
+                    <p class="textr pr20"><input type="text" placeholder="1" class="wauto center minprice"/><em
+                            class="plr20 f28 c333">-</em><input type="text" placeholder="800"
+                                                                class="wauto center maxprice"/></p></div>
+            </div>
+            <div class="pay_type bgfff">
+                <div class="h90 pl20">特殊要求</div>
+                <div class="sp2 clearfix tab_more">
+                    <input type="hidden" id="payhb" value="">
+                    <input type="hidden" id="paycard" value="">
+
+                    <div class="item" id="ishb"><a href="javascript:;" data="ishb">支持花呗</a></div>
+                    <div class="item" id="iscard"><a href="javascript:;" data="iscard">支持信用卡</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute l0 b0 h90 list_tab sp2 bgfff pw100 f30 center"><a href="javascript:;"
+                                                                           class="bgf2f2f2 c999 item nofilter">清空条件</a><a
+            href="javascript:;" class="bg2f97f0 cfff item" onclick="reloads()">确认</a></div>
+</div>
+
+
+<script type="text/javascript" src="js/yh.scroll.store.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="js/lazyload.js" charset="utf-8"></script>
+<script>
+    var token = localStorage.getItem('token');
+    if (!token) {
+        token = ''
+    } else {
+//        alert(token)
+    }
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var key = getRequest().key;
+    var sortby = getRequest().sortby;
+    $('#keyword').val(key);
+    var keyw = key;
+    if (sortby == 1) {
+        $('.com_tab a:nth-child(1)').addClass('crently');
+        $('.com_tab a:nth-child(1)').siblings().removeClass('crently');
+    } else if (sortby == 2) {
+        $('.com_tab a:nth-child(2)').addClass('crently');
+        $('.com_tab a:nth-child(2)').siblings().removeClass('crently');
+    } else if (sortby == 3) {
+        $('.com_tab a:nth-child(3)').addClass('crently');
+        $('.com_tab a:nth-child(3)').siblings().removeClass('crently');
+    } else if (sortby == 4 || sortby == 5 || sortby == 6 || sortby == 7) {
+        $('.com_tab a:nth-child(4)').addClass('crently');
+        $('.com_tab a:nth-child(4)').siblings().removeClass('crently');
+    }
+    function godetail() {
+        $('.recoder').unbind();
+        $('.recoder').click(function () {
+            ys.savehis(); //如果返回需要记录页面位置和加载历史页数，切记调用此行
+        });
+    }
+
+    var pay_price_min = $('.minprice').val();
+    var pay_price_max = $('.maxprice').val();
+    var keyw, sortby, type1_id, coupon_if, way_to_shop, buyer_mincredit, sortby
+    if(!type1_id||type1_id==undefined){
+        type1_id=''
+    }
+    if(!coupon_if||coupon_if==undefined){
+        coupon_if=''
+    }
+    if(!way_to_shop||way_to_shop==undefined){
+        way_to_shop=''
+    }
+    if(!buyer_mincredit||buyer_mincredit==undefined){
+        buyer_mincredit=''
+    }
+    if(!pay_price_min||pay_price_min==undefined){
+        pay_price_min=''
+    }
+    if(!pay_price_max||pay_price_max==undefined){
+        pay_price_max=''
+    }
+    if(!keyw||keyw==undefined){
+        keyw=''
+    }
+    if(!sortby||sortby==undefined){
+        sortby=''
+    }
+
+
+
+
+    var pageNo = 1, pageSize = 20;
+    function reload(keyw, sortby, pageNo, type1_id, coupon_if, way_to_shop, buyer_mincredit, pay_price_min, pay_price_max, sortby) {
+        $.ajax({
+            url: '/rrightway/p/m/searche/search',
+            data: 'keyw=' + keyw + "&sortby=" + sortby + "&type1_id=" + type1_id
+            + "&coupon_if=" + coupon_if + "&way_to_shop=" + way_to_shop + "&buyer_mincredit=" + buyer_mincredit
+            + "&pay_price_min=" + pay_price_min + "&pay_price_min=" + pay_price_min + "&pay_price_max=" + pay_price_max
+            + '&page_no=' + pageNo + "&page_size=" + pageSize + '&token=' + token,
+            type: 'post',
+            success: function (res) {
+                if (res.code == 0) {
+                    for (var i = 0; i < res.data.activities.items.length; i++) {
+                        $("#product_list").append('<a href="detail.html?id=' + res.data.activities.items[i].id + '" class="recoder">' +
+                        '<p>' +
+                        '<img src="' + res.data.activities.items[i].giftCover + '" data-img="' + res.data.activities.items[i].giftCover + '" class="lazy">' +
+                        '<label>' +
+                        '<b>' + res.data.activities.items[i].giftName + '</b>' +
+                        '<span>¥' + res.data.activities.items[i].payPrice / 100 + '</span>' +
+                        '<em>' + res.data.activities.items[i].buyerNum + '人已买</em>' +
+                        '</label>' +
+                        '</p>' +
+                        '</a> ')
+                    }
+                } else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
+                }
+            }
+        })
+    }
+
+    reload(keyw, sortby, pageNo, type1_id, coupon_if, way_to_shop, buyer_mincredit, pay_price_min, pay_price_max, sortby)
+
+
+    //选择商品分类
+    $('.interview_list').on('click', '.type1List .item', function () {
+        var id = $(this).children().attr('data');
+        var name = $(this).children().children().html();
+        $(this).addClass('active');
+        $(this).siblings().removeClass('active');
+        $('.protype').html(name);
+        $('#protype').val(id);
+        type1_id = id
+        console.log(id, name);
+    });
+    //是否领券
+    $('.usejuanList .item').click(function () {
+        var id = $(this).children().attr('data');
+        var name = $(this).children().children().html();
+        $(this).addClass('active');
+        $(this).siblings().removeClass('active');
+        $('.usejuan').html(name);
+        $('#usejuan').val(id);
+        coupon_if = id
+        console.log(id, name);
+    })
+    //购买类型
+    $('.buytypeList .item').click(function () {
+        var id = $(this).children().attr('data');
+        var name = $(this).children().children().html();
+        $(this).addClass('active');
+        $(this).siblings().removeClass('active');
+        $('.buytype').html(name);
+        $('#buytype').val(id);
+        way_to_shop = id;
+        console.log(id, name);
+    })
+    //购买资格
+    $('.levelList .item').click(function () {
+        var id = $(this).children().attr('data');
+        var name = $(this).children().children().html();
+        $(this).addClass('active');
+        $(this).siblings().removeClass('active');
+        $('.level').html(name);
+        $('#level').val(id);
+        buyer_mincredit = id
+        console.log(id, name);
+    })
+    //花呗信用卡
+    $('#ishb').click(function () {
+        if ($(this).attr('class').length != 4) {
+            $(this).removeClass('active');
+            huabei_pay = ''
+        } else {
+            $(this).addClass('active');
+            huabei_pay = 1
+        }
+    })
+    $('#iscard').click(function () {
+        if ($(this).attr('class').length != 4) {
+            $(this).removeClass('active');
+            creditcard_pay = ''
+        } else {
+            $(this).addClass('active');
+            creditcard_pay = 1
+        }
+    });
+
+
+    //tab切换
+    $(".com_tab a").click(function () {
+        if ($(this).hasClass("dis")) {//更多
+            noscroll();
+            if (!$(this).hasClass("crently")) {
+                $(this).addClass("crently").siblings().removeClass("crently");
+            }
+
+            if ($(".order_fixed").is(":visible")) {
+                $(".order_fixed .bg").click();
+            }
+            else {
+                $(".order_fixed").show();
+                setTimeout(function () {
+                    $(".order_fixed").addClass("active");
+                    $(".order_fixed .bg,.order_fixed .slist").addClass("animate");
+                }, 100);
+            }
+        }
+        else {//其它切换
+            if ($(".order_fixed").is(":visible")) {
+                $(".order_fixed .bg").click();
+            }
+            $(".order_fixed .slist p.active").removeClass("active");
+            if (!$(this).hasClass("crently")) {
+                tj_type = $(this).attr("data");
+                $(this).addClass("crently").siblings().removeClass("crently");
+                //console.log(tj_type);
+            }
+        }
+    })
+    //tab选择筛选
+    $('.com_tab .actIndex').click(function () {
+        keyw = $('#keyword').val();
+        sortby = $(this).attr('data');
+        $("#product_list").html('')
+        reload(keyw, sortby, pageNo, type1_id, coupon_if, way_to_shop, buyer_mincredit, pay_price_min, pay_price_max, sortby)
+    })
+    $('.slist  p').click(function () {
+        keyw = $('#keyword').val();
+        sortby = $(this).attr('data');
+        $("#product_list").html('')
+        reload(keyw, sortby, pageNo, type1_id, coupon_if, way_to_shop, buyer_mincredit, pay_price_min, pay_price_max, sortby)
+    })
+    //关闭更多排序
+    $(".order_fixed .bg").click(function () {
+        autoscroll();
+        $(".order_fixed").removeClass("active");
+        setTimeout(function () {
+            $(".order_fixed").hide();
+            $(".order_fixed .bg,.order_fixed .slist").removeClass("animate");
+        }, 400)
+    });
+
+    //选择更多排序
+    $(".order_fixed .slist p").click(function () {
+        if (!$(this).hasClass("active")) {
+            $(this).addClass("active").siblings().removeClass("active");
+            var txt = $(this).attr("data");
+            tj_type = txt;
+            $(".order_fixed .bg").click();
+        }
+    });
+
+
+    //筛选
+    $(".filter").click(function () {
+        $.ajax({
+            url: '/rrightway/goodtype/goodtype1s',
+            type: 'get',
+            success: function (res) {
+                for (var i = 0; i < res.data.type1s.length; i++) {
+                    $(".type1List").append(' <div class="item"><a href="javascript:;" data="' + res.data.type1s[i].id + '"><em>' + res.data.type1s[i].name + '</em></a></div>')
+                }
+            }
+        })
+        $(".order_fixed").removeClass("active");
+        $(".order_fixed").hide();
+        $(".order_fixed .bg,.order_fixed .slist").removeClass("animate");
+        $("#filterright").addClass("active");
+        noscroll();
+    })
+
+    //清除筛选
+    $(".nofilter").click(function () {
+        type1_id = '';
+        coupon_if = '';
+        way_to_shop = '';
+        buyer_mincredit = '';
+        pay_price_min = '';
+        pay_price_max = '';
+        huabei_pay = '';
+        creditcard_pay = '';
+        $(".minprice").val('');
+        $(".maxprice").val('');
+        $(".interview_list .foot").each(function () {
+            $(this).find(".item").eq(0).click();
+        })
+        $('#iscard').removeClass('active');
+        $('#ishb').removeClass('active');
+    });
+    //确认筛选
+    function reloads() {
+        $("#product_list").html('')
+        keyw = $('#keyword').val();
+        pay_price_min = $('.minprice').val();
+        pay_price_max = $('.maxprice').val();
+        reload(keyw, sortby, pageNo, type1_id, coupon_if, way_to_shop, buyer_mincredit, pay_price_min, pay_price_max, sortby)
+        $(".nofilter").click();
+        $("#filterright").removeClass("active");
+
+    }
+    $(".pop_from_right .goback,.pop_from_right .maskbg").click(function () {
+        autoscroll();
+        $(this).parents(".pop_from_right").addClass("close");
+        var obj = $(this);
+        setTimeout(function () {
+            $(obj).parents(".pop_from_right").removeClass("close").removeClass("active");
+        }, 300)
+    });
+    //
+    $(".interview_list .item .cls").click(function () {
+        if ($(this).parents(".item").hasClass("close")) {
+            $(this).parents(".item").removeClass("close");
+            $(this).parents(".item").find(".arrow").removeClass("rotate180");
+            $(this).parents(".item").find(".foot").slideUp();
+        }
+        else {
+            $(this).parents(".item").addClass("close");
+            $(this).parents(".item").find(".arrow").addClass("rotate180");
+            $(this).parents(".item").find(".foot").slideDown();
+            $(this).parents(".item").siblings().removeClass("close").find(".foot").slideUp();
+            $(this).parents(".item").siblings().find(".arrow").removeClass("rotate180");
+        }
+    });
+    //
+    //
+    //筛选点击
+    $("#filterright .scroll .c_ftab .item").click(function () {
+        if (!$(this).hasClass("active"))
+            $("#" + $(this).parent().attr("data")).val($(this).find("a").eq(0).attr("data"));
+        $(this).addClass("active").siblings().removeClass("active");
+        $("em." + $(this).parent().attr("data")).html($(this).find("a").eq(0).text());
+        //reload();
+    })
+//输入搜索
+    $('#keyword').click(function(){
+        location.href='search.html'
+    })
+
+</script>
+</body>
+
+
+</html>

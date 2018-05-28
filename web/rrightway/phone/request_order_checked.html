@@ -1,0 +1,494 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        已核对的订单-左左试用平台触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+    <script src="js/public.js"></script>
+    <script>
+
+        function search() {
+            if (checktime($("#txtstime").val(), $("#txtetime").val())) {
+
+                location.href = "checked.aspx?type=" + escape(buy_way) + "&salename=" + escape(encodeURI($("#txtsalename").val())) + "&buyname=" + escape(encodeURI($("#txtbuyname").val())) + "&productname=" + escape($("#txtproductname").val()) + "&stime=" + escape($("#txtstime").val()) + "&etime=" + escape($("#txtetime").val()) + "&ordernum=" + escape($("#txtordernum").val())
+                + "&staobaoordernum=" + escape($("#txtstaobaoordernum").val());
+                ;
+            }
+        }
+
+    </script>
+    <meta name="description" content="左左街-专业的试用网"/>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+</head>
+
+<body>
+<div id="ctl01">
+
+    <div class="viewport pt50">
+        <!-- 顶部 开始 -->
+        <header class="clearfix">
+            <div class="goback fl">
+                <a href="myIndexGuest.html"> </a></div>
+            <div class="gosearch fr"><a href="javascript:;" id="qsearch"></a></div>
+            <div class="conttxt2">已核对的订单</div>
+        </header>
+        <!-- 顶部 结束 -->
+
+
+        <!-- 已购买的订单 开始-->
+        <div class="u_tab sp2"><a href="request_order_checked.html?trade_status=1" class="">全部<i></i></a><a
+                href="request_order_checked.html?trade_status=2">维权中</a></div>
+
+        <!-- 没有提示 开始-->
+
+        <!-- 没有提示 结束-->
+
+        <!-- 查询不到 开始-->
+
+        <!-- 查询不到 结束-->
+
+        <div id="data">
+
+            <!--<div class="selectpage mt15 mb15"></div>-->
+            <script>
+                $("#pagerSelectChang").change(function () {
+                    var m = $(this).find("option:selected").html();
+                    var total = $(this).attr("value-total");
+                    var l = m + "/" + total;
+                    $("#pagerShow em").html(l);
+                    window.location.href = $(this).val();
+                });
+            </script>
+        </div>
+        <!-- 已购买的订单 结束-->
+
+        <!-- 筛选内容 开始 -->
+        <div class="blank"></div>
+        <div class="content-box" id="box01">
+            <div class="filterHd">
+                <div class="flbtn">取消</div>
+                <div class="tit">查询</div>
+                <div class="frbtn">确定</div>
+            </div>
+            <div class="big_item">
+                <div class="item return" rel="box02" id="buy_way">交易状态 <i class="arrow_right fr">全部</i></div>
+            </div>
+            <div class="big_item">
+                <div class="item return mt10">买家昵称<span class="fr pro_txt">
+               <input name="txtbuyname" type="text" id="txtbuyname"/></span></div>
+                <div class="item return">卖家昵称<span class="fr pro_txt">
+               <input name="txtsalename" type="text" id="txtsalename"/></span></div>
+                <div class="item return">商品名称<span class="fr pro_txt">
+                <input name="txtproductname" type="text" id="txtproductname"/></span></div>
+                <div class="item return">订单编号<span class="fr pro_txt">
+                <input name="txtordernum" type="text" id="txtordernum"/></span></div>
+                <div class="item return">淘宝订单<span class="fr pro_txt"><input name="txtstaobaoordernum" type="text"
+                                                                             id="txtstaobaoordernum"/></span></div>
+            </div>
+            <div class="big_item">
+                <div class="item return mt10" id="search_time">下单时间<span class="fr time_txt">
+               <input name="txtstime" type="text" id="txtstime"/><i>-</i>
+                <input name="txtetime" type="text" id="txtetime"/></span></div>
+            </div>
+            <div class="mt15"><a href="javascript:;" class="clearvalue" data="您确定要清空历史记录吗？"><i class="ico_del"></i>清除选项</a>
+            </div>
+        </div>
+        <div class="content-box bgfff" id="box02">
+            <div class="filterHd">
+                <div class="rebtn">返回</div>
+                <div class="tit">交易状态</div>
+            </div>
+            <div class="item arrow_select crently" rel="buy_way" data="1">全部<i class="fr"></i></div>
+            <div class="item arrow_select " rel="buy_way" data="2">维权中<i class="fr"></i></div>
+
+        </div>
+        <!-- 筛选内容 结束 -->
+
+        <!--弹出时间-->
+        <div id="datePlugin"></div>
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="css/date.css">
+<script type="text/javascript" src="js/jquery_date.js"></script>
+<script type="text/javascript" src="js/date.js"></script>
+<script type="text/javascript" src="js/iscroll_date.js"></script>
+<script>
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var trade_status = getRequest().trade_status;
+
+    var token = localStorage.getItem('token');
+    var buyer_nickname, seller_nickname, gift_name, order_id, taobao_orderid, order_time_start, order_time_end, trade_status, pageNo;
+    if (!buyer_nickname) {
+        buyer_nickname = ''
+    }
+    if (!seller_nickname) {
+        seller_nickname = ''
+    }
+    if (!gift_name) {
+        gift_name = ''
+    }
+    if (!order_id) {
+        order_id = ''
+    }
+    if (!taobao_orderid) {
+        taobao_orderid = ''
+    }
+    if (!order_time_start) {
+        order_time_start = ''
+    }
+    if (!order_time_end) {
+        order_time_end = ''
+    }
+    if (!trade_status) {
+        trade_status = ''
+    }
+
+
+</script>
+<script>
+
+    function reloadItem(buyer_nickname, seller_nickname, gift_name, order_id, taobao_orderid, order_time_start, order_time_end, trade_status, pageNo) {
+        $.ajax({
+            url: '/rrightway/p/m/iambuyerent/checkedorders?token=' + token,
+            type: 'post',
+            data: 'buyer_nickname=' + buyer_nickname + "&seller_nickname=" + seller_nickname + "&gift_name=" + gift_name
+            + "&order_id=" + order_id + "&taobao_orderid=" + taobao_orderid + "&order_time_start=" + order_time_start + "&order_time_end=" + order_time_end
+            + "&trade_status=" + trade_status + "&page_no=" + pageNo + "&page_size=" + 15,
+            success: function (res) {
+                if (res.code == 0) {
+
+                    for (var i = 0; i < res.data.orders.items.length; i++) {
+                        var status = res.data.orders.items[i].status;
+                        var wayToShop = res.data.orders.items[i].wayToShop;
+                        var buyWay = res.data.orders.items[i].buyWay;
+                        var complain = res.data.orders.items[i].complain;
+                        var couponIf = res.data.orders.items[i].couponIf;
+                        if (complain == 0 && !res.data.orders.items[i].reviewPics) {
+                            var statusStackLoad =
+                                    '<a href="request_order_checked_upload_pl_photo.html?order_id=' + res.data.orders.items[i].orderId + '" class="bg2f97f0 dl brd5 cfff sbt_100_30 ">提交收货评价图</a> ' +
+                                    '<a href="request_order_checked_add.html?order_id=' + res.data.orders.items[i].orderId + '" class="bgccc dl brd5 sbt_98_28 bd1 delete deleteOrder">投诉商家</a>'
+                        } else if (complain == 0 && res.data.orders.items[i].reviewPics) {
+                            var statusStackLoad =
+                                    '<a  href="request_order_checked_look_pl_photo.html?order_id=' +res.data.orders.items[i].orderId + '&img='+escape(res.data.orders.items[i].reviewPics)+'" class="bg2f97f0 dl brd5 cfff sbt_100_30 ">查看截图</a> ' +
+                                    '<a href="request_order_checked_add.html?order_id=' + res.data.orders.items[i].orderId + '" class="bgccc dl brd5 sbt_98_28 bd1 delete deleteOrder">投诉商家</a>'
+                        }
+                        else if (complain != 0 && !res.data.orders.items[i].reviewPics) {
+                            var statusStackLoad =
+                                    '<a href="request_order_checked_upload_pl_photo.html?order_id=' + res.data.orders.items[i].orderId + '" class="bg2f97f0 dl brd5 cfff sbt_100_30 ">提交收货评价图</a>'
+                        } else {
+                            var statusStackLoad = '<a href="request_order_checked_look_pl_photo.html?order_id=' + res.data.orders.items[i].orderId  + '&img='+escape(res.data.orders.items[i].reviewPics)+'" class="bg2f97f0 dl brd5 cfff sbt_100_30 ">查看截图</a>'
+
+                        }
+                        if (buyWay == 1) {
+                            var buyWayStack = 'pc'
+                        } else if (buyWay == 2) {
+                            var buyWayStack = 'tel'
+                        }
+                        if (wayToShop == 1 || wayToShop == 2 || wayToShop == 3) {
+                            var wayToShopStack = 'sou'
+                        } else if (wayToShop == 4) {
+                            var wayToShopStack = 'zhi'
+                        }
+                        if (couponIf == 1) {
+                            var coupouIfStack = '<i class="ptype juan"></i>'
+                        } else {
+                            var coupouIfStack = ''
+                        }
+
+
+                        $('#data').append('<div class="buyed_item">' +
+                        '<div class="bit_head clearfix"><p><b class="c2f97f0">待返现</b></p>' +
+                        '<span>订单编号：' + res.data.orders.items[i].orderId + '<br>下单时间：' + _formatDatesNoS(res.data.orders.items[i].orderTime / 1000) + '</span></div>' +
+                        '<div class="bit_content bt1 f14">' +
+                        '<a href="request_order_checked_detail.html?id=' + res.data.orders.items[i].orderId + '">' +
+                        '<img src="' + res.data.orders.items[i].giftCover + '"onerror="this.src=' + "'" + 'image/nopic.png' + "'" + '">' +
+                        '<p class="tit ellips">' + res.data.orders.items[i].giftName + '</p>' +
+                        '<p class="clearfix c999">付款金额：<i class="c333">¥' + res.data.orders.items[i].payPrice + '</i>  返现金额：<i class="cf60">¥' + res.data.orders.items[i].returnMoney + '</i></p>' +
+                        '<p class="type">' +
+                        '<i class="ptype ' + buyWayStack + '"></i>' + coupouIfStack + '<i class="ptype ' + wayToShopStack + '"></i>' +
+                        '</p>' +
+                        '</a>' +
+                        '</div>' +
+                        ' <div class="bit_bottom bt1 clearfix">' +
+                        '<p class="fr txtc" dataid="' + res.data.orders.items[i].taobaoOrderid + '">' + statusStackLoad + '</p></div>' +
+                        '</div>')
+                    }
+
+                } else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
+                }
+            }
+        });
+    }
+    if (trade_status == 1) {
+        $('.u_tab a:first-child').addClass('crently');
+        reloadItem('', '', '', '', '', '', '', 1, 1);
+    } else if (trade_status == 2) {
+        $('.u_tab a:nth-child(2)').addClass('crently');
+        reloadItem('', '', '', '', '', '', '', 2, 1);
+    }
+</script>
+<!--确定查询订单-->
+<script>
+
+</script>
+<script>
+    $(function () {
+        var buy_way = '1';
+        $("#buy_way").find("i").eq(0).html($("#box02 .crently").text());
+
+        //清除选项
+        $(".clearvalue").click(function () {
+            $(".item input").val("");
+            $("#buy_way").find("i").eq(0).html("全部");
+        });
+
+        //选择时间
+        $("#txtetime,#txtstime").click(function () {
+            $("#datePlugin").show();
+        });
+        $("#txtetime").date();
+        $("#txtstime").date();
+
+        //确定查询
+        $(".frbtn").click(function () {
+            // window.location.reload();
+        });
+
+        //选择
+        $(".arrow_select").click(function () {
+            if (!$(this).hasClass("crently")) {
+                $(this).parent().find(".arrow_select").removeClass("crently");
+                $(this).addClass("crently");
+                $("#" + $(this).attr("rel")).find("i").eq(0).html($(this).text());
+                if ($(this).attr("rel") == "buy_way")
+                    buy_way = $(this).attr("data");
+//                if ($(this).attr("rel") == "get_code")
+//                    get_code = $(this).attr("data");
+                $(this).parent().find(".rebtn").click();
+            }
+            console.log(buy_way)
+        });
+
+//确定查询
+        $(".frbtn").click(function () {
+
+            if (!$("#txtbuyname").val()) {
+                buyer_nickname = '';
+            } else {
+                buyer_nickname = $("#txtbuyname").val();
+            }
+            if (!$("#txtsalename").val()) {
+                seller_nickname = '';
+            } else {
+                seller_nickname = $("#txtsalename").val();
+            }
+            if (!$("#txtproductname").val()) {
+                gift_name = '';
+            } else {
+                gift_name = $("#txtproductname").val();
+            }
+            if (!$("#txtordernum").val()) {
+                order_id = '';
+            } else {
+                order_id = $("#txtordernum").val();
+            }
+            if (!$("#txtstaobaoordernum").val()) {
+                taobao_orderid = '';
+            } else {
+                taobao_orderid = $("#txtstaobaoordernum").val();
+            }
+
+
+
+
+            if (!$("#txtstime").val()) {
+                order_time_start = '';
+            } else {
+                order_time_start = new Date($("#txtstime").val()).getTime();
+            }
+            if (!$("#txtetime").val()) {
+                order_time_end = '';
+            } else {
+                order_time_end = new Date($("#txtetime").val()).getTime();
+            }
+            if (buy_way == 1) {
+                $('.u_tab a:nth-child(1)').addClass('crently');
+                $('.u_tab a:nth-child(2)').removeClass('crently');
+            } else if (buy_way == 2) {
+                $('.u_tab a:nth-child(1)').removeClass('crently');
+                $('.u_tab a:nth-child(2)').addClass('crently');
+            }
+            $("#data").html('');
+            reloadItem(buyer_nickname, seller_nickname, gift_name, order_id, taobao_orderid, order_time_start, order_time_end, buy_way, 1);
+//            $('.clearvalue').click();
+//            $(".item input").val("");
+//            $("#buy_way").find("i").eq(0).html("全部");
+            $(".blank").hide();
+            $("#box01").removeClass("add");
+        });
+        //确认维权提示
+        $(".bit_bottom p .sure").click(function () {
+            corfirm("您确定要确认维权订单吗？", sureok, $(this));
+        });
+
+        //拒绝维权提示
+        $(".bit_bottom p .refuse").click(function () {
+            var id = $(this).parent().attr("dataid");
+            corfirm("您确定要拒绝维权订单吗？", refuseok, $(this));
+        });
+
+        //提醒提示
+        $(".bit_bottom p .ations").click(function () {
+            var id = $(this).parent().attr("dataid");
+
+
+            $.ajax({
+                type: "POST",
+                url: "/flow/AS200201.ashx",
+                data: "rad=" + Math.random() + "&id=" + id,
+                success: function (res) {
+
+                    if (res != "" && res != "[]") {
+
+                        var comments = $.parseJSON(res);
+
+
+                        if (comments.success == "Y") {
+                            error("提醒卖家返现成功！");
+
+                        }
+                        else if (comments.success == "R") {
+
+                            error("已经提醒卖家返现，每个订单只能提醒一次！");
+                        }
+                        else if (comments.success == "T") {
+
+                            error("卖家核对成功48小时后才能提醒卖家返现，请耐心等待！");
+                        }
+                        else {
+                            alert(comments.msg);
+                        }
+                    }
+                }
+            });
+
+
+        });
+
+        //查看备注
+        $(".bz").click(function () {
+            var id = $(this).parent().find("p").eq(0).attr("dataid");
+            layboxs("/user/dialog/order_bzinfo.aspx?id=" + id);
+        });
+    });
+
+    //确认维权
+    function sureok(obj) {
+        var id = $(obj).parent().attr("dataid");
+        //alert(id);
+
+        $.ajax({
+            type: "POST",
+            url: "/flow/AS200401.ashx",
+            data: "rad=" + Math.random() + "&id=" + id,
+            success: function (res) {
+
+                if (res != "" && res != "[]") {
+
+                    var comments = $.parseJSON(res);
+
+
+                    if (comments.success == "Y") {
+
+                        //确认成功
+                        error("确认维权订单成功！");
+                        location.reload();
+                        return true;
+
+                    }
+                    else {
+                        error(comments.msg);
+                    }
+                }
+            }
+        });
+    }
+
+    //拒绝维权
+    function refuseok(obj) {
+        var id = $(obj).parent().attr("dataid");
+
+
+        $.ajax({
+            type: "POST",
+            url: "/flow/AS200402.ashx",
+            data: "rad=" + Math.random() + "&id=" + id,
+            success: function (res) {
+
+                if (res != "" && res != "[]") {
+
+                    var comments = $.parseJSON(res);
+
+
+                    if (comments.success == "Y") {
+
+                        //确认成功
+                        error("拒绝维权订单成功！");
+                        location.reload();
+                        return true;
+                    }
+                    else {
+                        error(comments.msg);
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    //(function () {
+
+    //    window.history.pushState({ page: 1 }, 'test', '');
+
+
+    //    window.onpopstate = function (e) {
+
+    //        location.href = "../index.aspx";
+
+    //    };
+    //})();
+</script>
+</body>
+</html>

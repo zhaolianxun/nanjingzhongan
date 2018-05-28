@@ -24,7 +24,7 @@
 <div class="viewport">
     <!-- 顶部 开始 -->
     <div class="header">
-        <a href="b_transaction_management.html" class="type"  >
+        <a href="javascript:;" class="type" onClick="history.back();">
             <img src="image/arrow_left2.svg" class="h40"></a>
         <a href="javascript:;" class="tosearch filter">
             <img src="image/ico_show_type1.png" class="h40" /></a>
@@ -179,9 +179,8 @@
                         //        <a href="javascript:;" class="cancle">取消维权</a>
                         //<a href="activist_addpz.html" class="btn4 recoder">提交凭证</a><a href="javascript:;" class="cancle">取消维权</a><a href="javascript:;" class="del">删除订单</a>
                         //<a href="activist_addkf.html" class="btn4 recoder">申请客服介入</a><a href="javascript:;" class="cancle">取消维权</a>
-                        switch (row.status) {
+                        switch (row.rightprotectStatus) {
                             case 9:
-
                                     btnstr = '';
                                     str = '<b class="textr">维权中<i class="bl c999">(已申请客服介入)</i></b>';
                                 btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
@@ -209,17 +208,17 @@
                                 btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
                                 str = '<b class="textr">' + "维权成功"  + '<i class="bl c999"></i></b>';
                                 break;
-                            case 2003:
+                            case 13:
                                 btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
-                                str = '<b class="textr">' + (row.is_saller_success == "N" ? "维权失败" : "已返现") + '<i class="bl c999"></i></b>';
+                                str = '<b class="textr">' + (row.status ==2 ? "已返现" : "维权失败") + '<i class="bl c999"></i></b>';
                                 break;
                             case 12:
                                 btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
                                 str = '<b class="textr">' + "维权成功" + '<i class="bl c999"></i></b>';
                                 break;
-                            case 2097:
+                            case 13:
                                 btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
-                                str = '<b class="textr">' + (row.is_saller_success == "N" ? "维权失败" : "已返现") + '<i class="bl c999"></i></b>';
+                                str = '<b class="textr">' + (row.status ==2 ? "已返现" : "维权失败") + '<i class="bl c999"></i></b>';
                                 break;
                         }
 
@@ -230,7 +229,7 @@
 
                         txt = '<div class="item">'
                                 + '  <div class="tit"><p>活动标题：' + row.activityTitle + '<br />订单编号：' + row.id + '<br />下单时间：' +rxw.formatDateTime( row.orderTime) + str + '</p></div>'
-                                + '  <a href="activist_detail.aspx?id=' + row.id + '" class="recoder pro_min bt1"><img src="' + row.giftCover + '" class="img" onerror="this.src=\'image/nopic.png\'" />'
+                                + '  <a href="trademanage_orderdetail.html?id=' + row.id + '" class="recoder pro_min bt1"><img src="' + row.giftCover + '" class="img" onerror="this.src=\'image/nopic.png\'" />'
                                 + '    <div class="relative">'
                                 + '      <p class="row1">' + row.giftName + '</p>'
                                 + '      <p class="row1 c999 mt10">付款金额：<i class="cf60">¥' + getFloatStr(row.payPrice) + '</i>  返现金额：<i class="cf60">¥' + getFloatStr(row.returnMoney) + '</i></p>'

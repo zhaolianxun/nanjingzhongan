@@ -107,13 +107,13 @@ public class ClinicInfoEntrance {
 			String phone = StringUtils.trimToNull(request.getParameter("phone"));
 			if (phone == null)
 				throw new InteractRuntimeException("phone 不能为空");
-//			if (Pattern.compile("^\\d+$").matcher(phone).find())
-//				throw new InteractRuntimeException("手机号格式有误");
+			// if (Pattern.compile("^\\d+$").matcher(phone).find())
+			// throw new InteractRuntimeException("手机号格式有误");
 			String pwd = StringUtils.trimToNull(request.getParameter("pwd"));
 			if (pwd == null)
 				throw new InteractRuntimeException("pwd 不能为空");
-//			if (Pattern.compile("\\s").matcher(pwd).find())
-//				throw new InteractRuntimeException("密码格式错误");
+			// if (Pattern.compile("\\s").matcher(pwd).find())
+			// throw new InteractRuntimeException("密码格式错误");
 			String clinicName = StringUtils.trimToNull(request.getParameter("clinic_name"));
 			if (clinicName == null)
 				throw new InteractRuntimeException("clinic_name 不能为空");
@@ -123,8 +123,8 @@ public class ClinicInfoEntrance {
 			String contactTel = StringUtils.trimToNull(request.getParameter("contact_tel"));
 			if (contactTel == null)
 				throw new InteractRuntimeException("contact_tel 不能为空");
-//			if (Pattern.compile("^\\d+$").matcher(contactTel).find())
-//				throw new InteractRuntimeException("联系电话格式有误");
+			// if (Pattern.compile("^\\d+$").matcher(contactTel).find())
+			// throw new InteractRuntimeException("联系电话格式有误");
 			String address = StringUtils.trimToNull(request.getParameter("address"));
 			if (address == null)
 				throw new InteractRuntimeException("address 不能为空");
@@ -150,7 +150,7 @@ public class ClinicInfoEntrance {
 			// 查詢订单列表
 			String userId = RandomStringUtils.randomNumeric(12);
 			pst = connection.prepareStatement(
-					"insert into t_clinic (hospital_id,user_id,name,headman_name,contact_tel,address,remark) values(?,?,?,?,?,?,?)",
+					"insert into t_clinic (hospital_id,user_id,name,headman_name,contact_tel,address,remark,add_time) values(?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			pst.setObject(1, loginStatus.getHospitalId());
 			pst.setObject(2, userId);
@@ -159,6 +159,7 @@ public class ClinicInfoEntrance {
 			pst.setObject(5, contactTel);
 			pst.setObject(6, address);
 			pst.setObject(7, remark);
+			pst.setObject(8, new Date().getTime());
 			int n = pst.executeUpdate();
 			int clinicId = 0;
 			if (n != 1) {

@@ -24,7 +24,7 @@
 <div class="viewport">
     <!-- 顶部 开始 -->
     <div class="header">
-        <a href="b_transaction_management.html" class="type">
+        <a href="javascript:;" class="type" onClick="history.back();">
             <img src="image/arrow_left2.svg" class="h40"></a>
         <a href="javascript:;" class="tosearch filter">
             <img src="image/ico_show_type1.png" class="h40" /></a>
@@ -219,47 +219,58 @@
                         var is_pay_card = ele.creditcardPay == 1 ? '<i class="ptype xyka"></i>' : '';
                         var statusStr = "";
                         var btnStr = "";
-                        var betailBtn = 'activist_detail.aspx?id=' + ele.id;
+                        var betailBtn = 'trademanage_orderdetail.html?id=' + ele.id;
 
                         switch (ele.status) {
                             case 1:
-                                betailBtn = 'buyed_detail.aspx?id= ' + ele.id + '';
-                                statusStr = '<b class="textr">待返现<i class="bl c999"></i></b>';
+                                if (ele.rightprotectStatus == 0){
+                                    betailBtn = 'buyed_detail.aspx?id= ' + ele.id + '';
+                                    statusStr = '<b class="textr">待返现<i class="bl c999"></i></b>';
 
-                                btnStr += '<a href="javascript:;" class="app btn3 recoder">申请维权</a><a href="javascript:;" class="check btn4 recoder">确认返现</a>';
+                                    btnStr += '<a href="javascript:;" class="app btn3 recoder">申请维权</a><a href="javascript:;" class="check btn4 recoder">确认返现</a>';
 
-                                if (ele.reviewPicAudit == 2) {
-                                    statusStr = '<b class="textr">待返现<i class="bl c999">(图片不符)</i></b>';
-                                }
-                                if (ele.reviewPicAudit == 0 ||ele.reviewPicAudit == 2) {
-                                    //(图片不符)
-                                    btnStr += '<a href="buyedorder_pic.html?id=' + ele.id + '" class="recoder">查看图片</a>';
-                                } else if (ele.reviewPicAudit == 3) {
-                                    //btnStr = '<a href="javascript:;" class="recoder disabled">未提交图片</a>';
-                                    statusStr = '<b class="textr">待返现<i class="bl c999">(试客未提交评价图)</i></b>';
-                                }
-
-                                break;
-                            case 7:
-                                statusStr = '<b class="textr">维权中<i class="bl c999">(等待试客确认)</i></b>';
-                                btnStr = '<a href="javascript:;" class="cancle recoder">取消维权</a>';
-                                break;
-                            case 9:
+                                    if (ele.reviewPicAudit == 2) {
+                                        statusStr = '<b class="textr">待返现<i class="bl c999">(图片不符)</i></b>';
+                                    }
+                                    if (ele.reviewPicAudit == 0 || ele.reviewPicAudit == 2) {
+                                        //(图片不符)
+                                        btnStr += '<a href="buyedorder_pic.html?id=' + ele.id + '" class="recoder">查看图片</a>';
+                                    } else if (ele.reviewPicAudit == 3) {
+                                        //btnStr = '<a href="javascript:;" class="recoder disabled">未提交图片</a>';
+                                        statusStr = '<b class="textr">待返现<i class="bl c999">(试客未提交评价图)</i></b>';
+                                    }
+                               }else if (ele.rightprotectStatus == 7){
+                                    statusStr = '<b class="textr">维权中<i class="bl c999">(等待试客确认)</i></b>';
+                                    btnStr = '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                }else if (ele.rightprotectStatus ==  9){
                                     statusStr = '<b class="textr">维权中<i class="bl c999">(已申请客服介入)</i></b> ';
-                                btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
-                            case 11:
-                                        statusStr = '<b class="textr">维权中<i class="bl c999">(已提交凭证)</i></b>';
-                                btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
-                                break;
-                            case 8:
-                                        statusStr = '<b class="textr">维权中<i class="bl c999">(试客已申请客服介入)</i></b>';
-                                        btnStr = '<a href="activist_addpz.aspx?id=' + ele.id + '&burl=buyed" class="btn4 recoder">提交凭证</a>';
-                                btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
-                                break;
-                            case 10:
+                                    btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                }else if (ele.rightprotectStatus ==  11){
+                                    statusStr = '<b class="textr">维权中<i class="bl c999">(已提交凭证)</i></b>';
+                                    btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                }else if (ele.rightprotectStatus ==  8){
+                                    statusStr = '<b class="textr">维权中<i class="bl c999">(试客已申请客服介入)</i></b>';
+                                    btnStr = '<a href="activist_addpz.aspx?id=' + ele.id + '&burl=buyed" class="btn4 recoder">提交凭证</a>';
+                                    btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                }else if (ele.rightprotectStatus ==  10){
                                     statusStr = '<b class="textr">维权中<i class="bl c999">(试客已拒绝)</i></b>';
                                     btnStr = '<a href="activist_addkf.aspx?id=' + ele.id + '&burl=buyed" class="btn3 recoder">申请客服介入</a>';
-                                btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                    btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                }
+                                break;
+                            case 7:
+
+                                break;
+                            case  9:
+
+                            case 11:
+
+                                break;
+                            case 8:
+
+                                break;
+                            case 10:
+
                                 break;
                         }
 

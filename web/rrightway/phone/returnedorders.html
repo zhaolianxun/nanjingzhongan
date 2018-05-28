@@ -24,7 +24,7 @@
 <div class="viewport">
     <!-- 顶部 开始 -->
     <div class="header">
-        <a href="b_transaction_management.html" class="type" >
+        <a href="javascript:;" class="type" onClick="history.back();">
             <img src="image/arrow_left2.svg" class="h40"></a>
         <a href="javascript:;" class="tosearch filter">
             <img src="image/ico_show_type1.png" class="h40" /></a>
@@ -160,7 +160,7 @@
 
                         txt = '<div class="item">'
                                 + '  <div class="tit"><p>活动标题：' + row.activityTitle + '<br />订单编号：' + row.id + '<br />下单时间：' +rxw.formatDateTime( row.orderTime )+ '</p></div>'
-                                + '  <a href="reback_detail.aspx?id=' + row.id + '" class="recoder pro_min bt1"><img src="' + row.giftCover + '" class="img" onerror="this.src=\'image/nopic.png\'" />'
+                                + '  <a href="trademanage_orderdetail.html?id=' + row.id + '" class="recoder pro_min bt1"><img src="' + row.giftCover + '" class="img" onerror="this.src=\'image/nopic.png\'" />'
                                 + '    <div class="relative">'
                                 + '      <p class="row1">' + row.giftName + '</p>'
                                 + '      <p class="row1 c999 mt10">付款金额：<i class="cf60">¥' + getFloatStr(row.payPrice) + '</i>  返现金额：<i class="cf60">¥' + getFloatStr(row.returnMoney) + '</i></p>'

@@ -1,0 +1,449 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        订单详情-左左试用平台触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/public.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+    <meta name="description" content="左左街-专业的试用网"/>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+</head>
+
+<body>
+<div class="viewport pt50">
+    <!-- 顶部 开始 -->
+    <header class="clearfix">
+        <div class="goback fl"><a href="javascript:;" onclick="history.back();"> </a></div>
+        <div class="conttxt2">订单详情</div>
+    </header>
+    <!-- 顶部 结束 -->
+
+
+    <!-- 订单详情 开始-->
+    <div class="buyed_item bgf2f2f2">
+
+
+        <div class="bit_head clearfix bgfff top_line"><p><b class="c2f97f0">等待核对</b></p><span>订单编号：152698168723727<br/>下单时间：2018-05-22 17:34</span>
+        </div>
+
+
+        <div class="bit_head clearfix mt10 bgfff">订单信息</div>
+        <div class="bit_content bt1 f14 bgfff">
+            <a href="/detail.aspx?id=135165&rad=b89bf8d7e420479c927533a6c7b3e943">
+                <img src="http://upl.zuozuojie.com//upload/20180516/s201805160901436058.jpg"
+                     onerror="this.src='image/nopic.png'">
+
+                <p class="tit ellips">手机支架随机一个</p>
+
+                <p class="clearfix c999">付款金额：<i class="c333  payPrice">&yen;38.00</i> 返现金额：<i
+                        class="cf60 returnMoney">&yen;42.00</i></p>
+
+                <p class="type buyWay"><i class="ptype ptypeCouponIf "></i><i class="ptypeBuyWay ptype "></i><i
+                        class="ptypeWayToShop ptype chi"></i></p>
+            </a>
+        </div>
+        <div class="bit_bottom bgfff pt0">
+            <div class="clearfix bt1 pt10 f14 c999 line25">
+                <p>订单编号：<span class="c333 orderId">152698168723727</span></p>
+
+                <p>下单时间：<span class="c333 orderTime">2018-05-22 17:34</span></p>
+
+                <p>买家呢称：<span class="c333 buyerTaobaoaccountName"><em class="buyer"></em>dimshadow</span></p>
+
+                <p>卖家呢称：<span class="c333 sellerTaobaoaccountNam"><em class="seller"></em>s*********8</span></p>
+
+                <p>信誉要求：<span class="c333 buyerMincreditMin">三心以上</span></p>
+
+                <p>发货快递：<span class="c333 giftExpressCo">(其他)韵达</span></p>
+
+                <p>淘宝订单：<span class="c333 taobaoOrderid">111111111111111111</span></p>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 购买悬浮 开始-->
+    <!-- 备注信息：bz0：未备注，依此递加至6-->
+    <div class="tool_bottom clearfix">
+        <!--<a href="beizhu.aspx?id=1107359" class="ico_bz bz0 fl"><i></i></a>-->
+        <!-- 状态： 等待审核 -->
+        <p class="fr p5 " dataid="1107359"><a class=" dl brd5  sbt_100_30 mr10 bd1 cancle">取消订单</a>
+            <a class="dl brd5 cfff sbt_100_30  checktbk">查看淘单</a></p>
+    </div>
+    <!-- 购买悬浮 结束-->
+
+    <!-- 订单详情 结束-->
+
+</div>
+
+<!--输入订单-->
+<div id="maskDIV" style="display: none;">
+
+    <div id="mask_bg" style="opacity: 0.5;"></div>
+    <div id="ajax_content" style="width: 86%; height: 160px; margin: -80px 0px 0px -43%;">
+        <div id="mask_op_div" style="display: block;"><a id="maskoparet" href="javascript:;"><i></i></a></div>
+        <!--输入淘宝订单号-->
+        <div id="check" class=" p15 taobaoid" style="display:none;background: #FFFFFF">
+            <div class="txtp bd1 brd5 mt15"><input type="text" class="f16" id="txttborder" placeholder="请输入淘宝订单号"></div>
+            <p class=" mt10 txtc"><a href="http://m.zuozuojie.com//help/detail.aspx?id=2077" target="_blank"
+                                     class="cf60">如何获取淘宝订单号</a></p>
+
+            <div class="mt15"><a href="javascript:;" class="bg2f97f0 cfff submit bl brd20 h40 txtc makeSureTb">确定</a>
+            </div>
+        </div>
+        <!--修改输入淘宝订单号-->
+        <div id="update" class=" p15" style="display:none;background: #FFFFFF">
+            <div class="txtc txtcOrder">您已经提交了淘宝订单号：111111111111111111如输入有误，请点击修改</div>
+
+            <div class="mt15"><a href="javascript:;" class="bg2f97f0 cfff update bl brd20 h40 txtc modify">修改</a></div>
+        </div>
+        <!--输入店铺掌柜名-->
+        <div class="p15 zhanggui" style="display:none;background: #FFFFFF">
+            <div class="txtc">请输入‘商家掌柜名’已确保操作的店铺是网站商家发布的活动！</div>
+            <p class=" mt10 txtc"><a href="http://m.zuozuojie.com/help/detail.aspx?id=2076" target="_blank"
+                                     class="cf60">【点击查看获取商家掌柜名的方法】</a></p>
+
+            <div class="txtp bd1 brd5 mt15"><input type="text" class="f16" id="txttbname" placeholder="请输入商家掌柜名"></div>
+            <div class="mt15"><a href="javascript:;" class="bg2f97f0 cfff submit bl brd20 h40 txtc makeSureZg">确定</a>
+            </div>
+        </div>
+
+        <!--取消订单-->
+        <dl class="order_cancle_select_list" style="display:none;background: #FFFFFF">
+            <dd><label class="crently">还没付款，不想做了<i><input type="radio" name="cancleorder" value="1" checked="checked"
+                                                          class="opa0 "></i></label></dd>
+            <dd><label>券已经完了，无法拍下<i><input type="radio" name="cancleorder" value="2" class="opa0"></i></label></dd>
+            <dd><label>宝贝库存不足，无法拍下<i><input type="radio" name="cancleorder" value="3" class="opa0"></i></label></dd>
+            <dd><label>宝贝描述与实际不符合<i><input type="radio" name="cancleorder" value="4" class="opa0"></i></label></dd>
+            <dd><label>已经付款了，但是我不想做了<i><input type="radio" name="cancleorder" value="5" class="opa0"></i></label></dd>
+
+
+            <dt><a href="javascript:;" class="bg2f97f0 cfff submit makeSureSc">确定</a></dt>
+        </dl>
+
+    </div>
+</div>
+<div class="confirm2" style="display: none;">
+    <div class="alert">
+        <div><b>您确定要删除/取消订单吗？</b><span>删除后不可恢复，请谨慎操作</span></div>
+        <p><a href="javascript:;" class="cancles">取消</a><a href="javascript:;" class="submit"><i></i>确认</a></p></div>
+    <div class="con_bg opa50"></div>
+</div>
+
+<script>
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var id = getRequest().id;
+
+    var token = localStorage.getItem('token');
+
+    $.ajax({
+        url: '/rrightway/p/m/iambuyerent/orderdetail?token=' + token,
+        type: 'post',
+        data: 'order_id=' + id,
+        success: function (res) {
+            if (res.code == 0) {
+                var buyWay = res.data.buyWay;
+                var couponIf = res.data.couponIf;
+                var wayToShop = res.data.wayToShop;
+                if (buyWay == 1) {
+                    $('.ptypeBuyWay').addClass('pc');
+                    $('.ptypeBuyWay').removeClass('tel');
+                } else {
+                    $('.ptypeBuyWay').addClass('tel');
+                    $('.ptypeBuyWay').removeClass('pc');
+                }
+                if (couponIf == 1) {
+                    $('.ptypeCouponIf').addClass('juan');
+                } else {
+                    $('.ptypeCouponIf').remove();
+                }
+                if (wayToShop == 1 || wayToShop == 2 || wayToShop == 3) {
+                    $('.ptypeWayToShop').addClass('sou');
+                    $('.ptypeWayToShop').removeClass('chi');
+                } else {
+                    $('.ptypeWayToShop').addClass('chi');
+                    $('.ptypeWayToShop').removeClass('sou');
+                }
+                var status = res.data.status;
+                if (status == 0) {
+                    $('.top_line p b').html('等待核对')
+                } else if (status == 3) {
+                    $('.top_line p b').html('买家取消')
+                } else {
+                    $('.top_line p b').html('卖家取消')
+                }
+                if (!res.data.taobaoOrderid) {
+                    $('.checktbk').html('完成操作').addClass('bgf60').addClass('ations')
+                } else {
+                    $('.checktbk').html('查看淘单').addClass('bg75cc42').addClass('ations_over')
+                }
+                $('.submit').attr('order_id', res.data.orderId);
+                $('.tool_bottom p').attr('dataid', res.data.orderId);
+                $('.top_line span').html('订单编号：' + res.data.orderId + "<br />下单时间：" + _formatDatesNoS(res.data.orderTime / 1000));
+                $('.bit_content a img').attr('src', res.data.giftCover);
+                $('.bit_content a').attr('href', 'detail.html?id=' + res.data.activityId);
+                $('.ellips ').html(res.data.giftName);
+                $('.payPrice ').html('&yen;' + res.data.payPrice);
+                $('.returnMoney ').html('&yen;' + res.data.returnMoney);
+                $('.orderId ').html(res.data.orderId);
+                $('.orderTime ').html(_formatDatesNoS(res.data.orderTime / 1000));
+                $('.buyerTaobaoaccountName ').html('<em class="buyer"></em>' + res.data.buyerTaobaoaccountName);
+                $('.sellerTaobaoaccountName ').html('<em class="seller"></em>' + res.data.sellerTaobaoaccountName);
+                $('.giftExpressCo ').html(res.data.giftExpressCo);
+                $('.taobaoOrderid ').html(res.data.taobaoOrderid);
+                if (res.data.buyerMincreditMin == 0) {
+                    $('.buyerMincreditMin ').html('无要求')
+                } else if (res.data.buyerMincreditMin == 1) {
+                    $('.buyerMincreditMin ').html('一星以上')
+                } else if (res.data.buyerMincreditMin == 2) {
+                    $('.buyerMincreditMin ').html('二星以上')
+                } else if (res.data.buyerMincreditMin == 3) {
+                    $('.buyerMincreditMin ').html('三星以上')
+                } else if (res.data.buyerMincreditMin == 4) {
+                    $('.buyerMincreditMin ').html('四星以上')
+                } else if (res.data.buyerMincreditMin == 5) {
+                    $('.buyerMincreditMin ').html('五星以上')
+                } else if (res.data.buyerMincreditMin == 6) {
+                    $('.buyerMincreditMin ').html('钻石以上')
+                }
+
+                $('.orderId ').html(res.data.orderId)
+            } else if (res.code == 20) {
+                localStorage.setItem('href', location.href);
+                location.href = 'login.html'
+            } else {
+                error(res.codeMsg)
+            }
+        }
+    });
+
+    //完成操作
+    $('#maskoparet').click(function () {
+        $('.taobaoid').css('display', 'none');
+        $("#maskDIV").css('display', 'none');
+        $('#update').css('display', 'none');
+        $("#txttborder").val('');
+        $('.zhanggui').css('display', 'none');
+        $("#txttbname").val('');
+        $('.order_cancle_select_list').css('display', 'none')
+    })
+    function addTbOrder(order_id) {
+        var _this = $(this);
+        $('.makeSureTb').click(function () {
+            $.ajax({
+                url: '/rrightway/p/m/iambuyerent/applyedorders/complete',
+                data: 'order_id=' + order_id + "&taobao_orderid=" + $("#txttborder").val() + "&token=" + token,
+                type: 'post',
+                success: function (res) {
+                    if (res.code == 0) {
+                        _this.attr('tbId', $("#txttborder").val());
+                        _this.html('查看淘单').addClass('bg75cc42').removeClass('bgf60').addClass('ations_over').removeClass('ations');
+
+                        $('.taobaoid').css('display', 'none');
+                        $("#maskDIV").css('display', 'none');
+                        $("#txttborder").val('')
+                    } else if (res.code == 20) {
+                        location.href = "login.html"
+                    } else {
+                        error(res.codeMsg)
+                    }
+                }
+            })
+        });
+
+    }
+
+    function makeSureZgzh(order_id) {
+        $.ajax({
+            url: '/rrightway/p/m/iambuyerent/applyedorders/checkseller',
+            data: 'order_id=' + order_id + "&seller_taobaoname=" + $("#txttbname").val() + "&token=" + token,
+            type: 'post',
+            success: function (res) {
+                if (res.code == 0) {
+                    if (res.data.checkSuccess == 0) {
+                        error('您输入的掌柜名非商家活动的掌柜名')
+                    } else {
+                        error("核对成功")
+                    }
+
+                    $('.taobaoid').css('display', 'none');
+                    $("#maskDIV").css('display', 'none');
+                    $("#txttbname").val('')
+                } else if (res.code == 20) {
+                    location.href = "login.html"
+                } else {
+                    error(res.codeMsg)
+                }
+            }
+        })
+    }
+    $(function () {
+
+        //删除提示
+        $(".tool_bottom p .delete").click(function () {
+            corfirm2("您确定要删除订单吗？", "删除后不可恢复，请谨慎操作", delok, $(this));
+        });
+
+        //取消提示   完成操作
+        $(".tool_bottom p .cancle").click(function () {
+
+            $('.confirm2').css('display', 'block');
+
+
+//            addTbOrder(id)
+        });
+        $('.cancles').click(function () {
+            $('.confirm2').css('display', 'none')
+        });
+        $('.submit').click(function () {
+
+            var order_id = $(this).attr('order_id');
+            error(order_id)
+            $.ajax({
+                url: '/rrightway/p/m/iambuyerent/applyedorders/cancel',
+                data: 'order_id=' + order_id + "&token=" + token,
+                type: 'post',
+                success: function (res) {
+                    if (res.code == 0) {
+                        _that.parent().parent().parent().remove();
+                        $('.confirm2').css('display', 'none');
+                    } else if (res.code == 20) {
+                        location.href = "login.html"
+                    } else {
+                        error(res.codeMsg)
+                    }
+                }
+            })
+        });
+
+
+        //提醒提示  查看淘单
+        $('.viewport').on('click', '.tool_bottom p .ations', function () {
+            var id = $(this).parent().attr("dataid");
+            $('.taobaoid').css('display', 'block');
+            $("#maskDIV").css('display', 'block');
+            makeSureZgzh(id)
+        });
+        $('.viewport').on('click', '.tool_bottom p .ations_over', function () {
+            var id = $(this).parent().attr("dataid");
+            $('#update').css('display', 'block');
+            $("#maskDIV").css('display', 'block');
+            $('.modify').click(function () {
+                $('#update').css('display', 'none');
+                $('.taobaoid').css('display', 'block');
+            })
+            addTbOrder(id)
+        })
+        function addTbOrder(order_id) {
+            var _this = $(this);
+            $('.makeSureTb').click(function () {
+                $.ajax({
+                    url: '/rrightway/p/m/iambuyerent/applyedorders/complete',
+                    data: 'order_id=' + order_id + "&taobao_orderid=" + $("#txttborder").val() + "&token=" + token,
+                    type: 'post',
+                    success: function (res) {
+                        if (res.code == 0) {
+                            _this.attr('tbId', $("#txttborder").val());
+                            _this.html('查看淘单').addClass('bg75cc42').removeClass('bgf60').addClass('ations_over').removeClass('ations');
+
+                            $('.taobaoid').css('display', 'none');
+                            $("#maskDIV").css('display', 'none');
+                            $("#txttborder").val('')
+                        } else if (res.code == 20) {
+                            location.href = "login.html"
+                        } else {
+                            error(res.codeMsg)
+                        }
+                    }
+                })
+            });
+        }
+
+        //查看备注
+        $(".bz").click(function () {
+            var id = $(this).parent().find("p").eq(0).attr("dataid");
+            layboxs("/user/dialog/order_bzinfo.aspx?id=" + id);
+        });
+    });
+
+    //提交淘宝订单成功
+    function checktbksuc() {
+        error("提交淘宝订单号成功！");
+        closemask();
+        $(".checktbk").html("查看淘单");
+        $(".checktbk").removeClass("bgf60");
+        $(".checktbk").addClass("bg75cc42");
+
+    }
+
+
+    //取消成功
+    function canclesuc() {
+        error("取消订单成功！");
+        freshpage(window.location.href);
+    }
+
+    //删除订单
+    function delok(obj) {
+        var id = $(obj).parent().attr("dataid");
+        //alert(id);
+
+        $.ajax({
+            type: "POST",
+            url: "/flow/DeleteBuyerBuyed.ashx",
+            data: "rad=" + Math.random() + "&id=" + id,
+            success: function (res) {
+
+                if (res != "" && res != "[]") {
+
+                    var comments = $.parseJSON(res);
+
+
+                    if (comments.success == "Y") {
+
+
+                        error("删除订单成功！");
+                        freshpage("buyed.aspx");
+                        return true;
+
+                    }
+                    else {
+                        error(comments.msg);
+                    }
+                }
+            }
+        });
+
+
+    }
+
+</script>
+</body>
+</html>

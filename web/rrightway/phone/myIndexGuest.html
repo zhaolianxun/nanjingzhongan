@@ -1,0 +1,264 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>我的右右街-右右试用平台触屏版</title>
+    <meta name="keywords" content="右右,右右街,试用,推广"/>
+    <meta name="description" content="右右街-专业的试用网"/>
+
+    <link rel="stylesheet" type="text/css" href="css/new.css">
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
+    <style>
+        .hello{
+            width: 7rem;
+            display: inline-block;
+            height: 1.7rem;
+            line-height: 1.7rem;
+            border: 0;
+            top: 50%;
+
+            position: absolute;
+            margin-top: -0.85rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+        .admin{
+            width: 5rem;
+            display: inline-block;
+            color: #FFFFFF;
+            height: 1.7rem;
+            line-height: 1.7rem;
+            background: #2f97f0;
+            border-radius: 0.85rem;
+            border: 0;
+            top: 50%;
+            left: 7.5rem;
+            position: absolute;
+            margin-top: -0.85rem;
+        }
+    </style>
+</head>
+
+
+<div method="post" action="./index.html" id="form1">
+
+    <body>
+    <div class="viewport">
+        <!-- 顶部 开始 -->
+        <div class="header">
+            <a href="javascript:;" class="type" onClick="history.back();"><img src="image/arrow_left2.png" class="h40"></a>
+            <a href="msg.html?stype=0" class="user"><img src="image/ico_message2.png" class="h40"/><i id="newmsgFlag" style="display: none"><img src="image/blankbg.png"/></i></a>
+            </a>
+
+            <div class="htxt">我的</div>
+        </div>
+        <!-- 顶部 结束 -->
+
+
+        <!-- 我的右右街 开始-->
+
+        <!-- 提示信息 开始-->
+
+        <div class="scroll_new f14 overhide"><i class="absolute l0 t0 plr20"><img src="image/ation_ico.png"
+                                                                                  class="w36"/></i><b
+                class="absolute r0 t0 plr20" onClick="$(this).parent().remove();"><img src="image/close4_ico.png"
+                                                                                       class="w24 "/></b>
+
+            <div class="scroll" id="scroll">
+                <div class="scrolltxt">
+                    <div>做推广员可获得永久现金奖励—查看我的推广</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 提示信息 结束-->
+
+        <div class="bgfff pt40">
+            <div class="plr20 relative" style="height: 1rem">
+                <p class="f30 hello" ></p>
+                <button class="admin" ><a href="admin.html"  style="color: #fff;font-size: 0.6rem;">我是管理员</a></button>
+                <div class="mt20">
+
+
+                </div>
+                <a href="myIndexMerchant.html" class="tosaller">我是商家<img src="image/arrow_right.png" class="h24 ml20"/></a>
+            </div>
+            <div class="list_tab sp3 after bt1 clearfix c999 pt40 pb40 mt40 f24 line24 center">
+                <a href="moneymanage/ent.html" class="item relative c999"><i
+                        class="f30 line30 bl c333 mb15 money">0.00</i>账户余额(元)</a>
+                <a href="moneymanage/withdrawrecord.html" class="item relative c999 "><i
+                        class="f30 line30 bl c333 mb15 withdrawingMoney">0.00</i>提现中金额(元)</a>
+                <a href="moneymanage/rightwallet.html
+" class="item relative c999"><i
+                        class="f30 line30 bl c333 mb15 rightWallet">0.00</i>右钱包金额(元)</a>
+            </div>
+        </div>
+
+        <div class="comm_title mt20 bb1 center"><img src="image/order_ico.png" class="w36 mt_3"><span class="f28 ml20">我的订单</span>
+        </div>
+        <div class="list_tab sp5 after clearfix bgfff center f24 line24">
+            <a href="requested_order_buyed.html?trade_status=1" class="item relative pt40 pb40 c999"><em
+                    class="f28 line28 mb10 c333 bl applyedCount">0</em>已申请</a>
+            <a href="request_order_checked.html?trade_status=1" class="item relative pt40 pb40 c999"><em
+                    class="f28 line28 mb10 c333 bl checkedCount">0</em>已核对</a>
+            <a href="request_order_rebacked.html" class="item relative pt40 pb40 c999"><em
+                    class="f28 line28 mb10 c333 bl returnedCount">0</em>已返现</a>
+            <a href="request_order_activist.html?trade_status=1" class="item relative pt40 pb40 c999"><em
+                    class="f28 line28 mb10 c333 bl protectedCount">0</em>维权</a>
+            <a href="request_order_supply.html?trade_status=" class="item relative pt40 pb40 c999"><em
+                    class="f28 line28 mb10 c333 bl complainCount">0</em>投诉</a>
+        </div>
+
+        <div class="comm_title mt20 bb1 center"><img src="image/jiang_ico.png" class="w36 mt_3"><span class="f28 ml20">追评有奖</span>
+        </div>
+        <div class="list_tab sp2 after clearfix bgfff center f24 line24">
+            <a href="searchList.html?key=&sortby=3" class="item relative pt40 pb40 c999"><em
+                    class="f28 line28 mb10 c333 bl">0</em>可参加的活动</a>
+            <a href="" class="item relative pt40 pb40 c999"><em
+                    class="f28 line28 mb10 c333 bl">0</em>活动订单管理</a>
+        </div>
+
+        <div class="mt20 listborder bgfff f28">
+            <a href="moneymanage/ent.html" class="h90 item bl relative"><img src="image/user_nav1.png"
+                                                                             class="w36 mt_3 mlr20"/>资金管理<em
+                    class="absolute t0 r20"><img src="image/arrow_right.png" class="h30"/></em></a>
+            <a href="" class="h90 item bl relative"><img src="image/sall_nav4.png"
+                                                                   class="w36 mt_3 mlr20">我的券包<em
+                    class="absolute t0 r20"><img src="image/arrow_right.png" class="h30"></em></a>
+
+            <a href="popularizeMyRecoder.html" class="h90 item bl relative"><img src="image/user_nav4.png"
+                                                                   class="w36 mt_3 mlr20"/>我的推广<em
+                    class="absolute t0 r20"><img src="image/arrow_right.png" class="h30"/></em></a>
+            <a href="securitySettings.html" class="h90 item bl relative"><img src="image/user_nav5.png"
+                                                                              class="w36 mt_3 mlr20"/>安全设置<em
+                    class="absolute t0 r20"><img src="image/arrow_right.png" class="h30"/></em></a>
+        </div>
+        <div class="plr20 mt40"><a href="javascript:;" class="e_submit">退出登录</a></div>
+        <!-- 我的右右街 结束-->
+
+        <!-- 底部 开始-->
+
+        <!-- 底部 开始-->
+        <div class="footer">
+            <a href="phoneIndex.html"><img src="image/foot_nav1.png" data="foot_nav1_crent">首页</a>
+            <a href="classification.html"><img src="image/foot_nav2.png" data="foot_nav2_crent">分类</a>
+            <a href="popularize.html"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>
+            <a href="mqqwpa://im/chat?chat_type=wpa&uin=413038044&version=1&src_type=web&web_src=oicqzone.com"><img
+                    src="image/foot_nav4.png" data="foot_nav4_crent">客服</a>
+            <a href="myIndexGuest.html" ><img src="image/foot_nav5_crent.png" data="foot_nav5_crent">我的</a>
+        </div>
+        <!-- 底部 结束-->
+        <!-- 底部 结束-->
+    </div>
+    <script src="js/txtscrollleft.js"></script>
+    <script type="text/javascript">
+        var token = localStorage.getItem('token');
+        if (!token) {
+            token = '';
+        }
+        $(function () {
+
+            //点击非返回  清除缓存如右上角菜单，底部通用菜单非
+            $(document.body).on("click", "a", function () {
+                clearallcokie();
+            })
+
+            $(".tosaller").click(function () {
+                //accesstx("商家请用电脑打开网站进行操作哦！<br />www.zuozuojie.com");
+
+                // corfirm3("商家请用电脑打开网站进行操作哦！<br />www.zuozuojie.com", "取消", "打开网站", "http://www.zuozuojie.com?touch=1");
+
+            });
+
+
+            $(".e_submit").click(function () {
+                corfirm("您确定要退出登录吗？", exit, $(this))
+            })
+        });
+
+        //确认退出
+        function exit(obj) {
+            $.ajax({
+                url: '/rrightway/p/useraction/logout',
+                data: 'token=' + token,
+                type: "post",
+                success: function (res) {
+                    if (res.code == 0) {
+                        window.location.href = "login.html";
+                        return true;
+                    } else if (res.code == 20) {
+                        localStorage.setItem('href', location.href);
+                        location.href = 'login.html'
+                    } else {
+                        error(res.codeMsg)
+                    }
+                }
+            })
+        }
+
+
+        $.ajax({
+            url: '/rrightway/p/m/myent/iambuyer',
+            type: 'post',
+            data: 'token=' + token,
+            success: function (res) {
+                if (res.code == 0) {
+                    if(res.data.newmsgCount>0)
+                        $('#newmsgFlag').css('display','')
+                    $('.applyedCount').html(res.data.applyedCount);
+                    $('.protectedCount').html(res.data.protectedCount);
+                    $('.checkedCount').html(res.data.checkedCount);
+                    $('.money').html(res.data.money);
+                    $('.returnedCount').html(res.data.returnedCount);
+                    $('.rightWallet').html(res.data.rightWallet);
+                    $('.hello').html('Hi, ' + res.data.username)
+                    $('.withdrawingMoney').html(res.data.withdrawingMoney)
+                    $('.complainCount').html(res.data.complainCount)
+                } else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
+                }
+            }
+        })
+
+
+        $.ajax({
+            url: '/rrightway/p/useraction/loginrefresh',
+            type: 'post',
+            data: 'token=' + token,
+            success: function (res) {
+                if (res.code == 0) {
+                   if(res.data.adminIf!=1){
+                       $('.admin').css('display','none')
+                   }
+                } else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
+                }
+            }
+        })
+    </script>
+    </body>
+
+</div>
+
+
+</html>

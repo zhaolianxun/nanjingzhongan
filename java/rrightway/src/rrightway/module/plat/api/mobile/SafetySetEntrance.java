@@ -642,7 +642,7 @@ public class SafetySetEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(
-					"insert into t_user_bankcard (user_id,bankname,cardno,phone,belonger,status) values(?,?,?,?,?,1)");
+					"insert into t_user_bankcard (user_id,bankname,cardno,phone,belonger,status) values(?,?,?,?,?,2)");
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, bankname);
 			pst.setObject(3, cardno);
@@ -718,7 +718,7 @@ public class SafetySetEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(
-					"update t_user_bankcard set  bankname=?,cardno=?,phone=?,belonger=?,status=1 where user_id=?");
+					"update t_user_bankcard set  bankname=?,cardno=?,phone=?,belonger=?,status=2 where user_id=?");
 			pst.setObject(1, bankname);
 			pst.setObject(2, cardno);
 			pst.setObject(3, phone);

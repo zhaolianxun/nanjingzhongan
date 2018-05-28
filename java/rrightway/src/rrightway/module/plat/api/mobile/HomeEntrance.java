@@ -41,11 +41,26 @@ public class HomeEntrance {
 			// 获取请求参数
 
 			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+
 			connection = RrightwayDataSource.dataSource.getConnection();
+			ResultSet rs = null;
+
+			int newmsgCount = 0;
+			if (loginStatus != null) {
+				pst = connection
+						.prepareStatement("select count(*) newmsg_count from t_message where user_id=? and read_if=0");
+				pst.setObject(1, loginStatus.getUserId());
+				rs = pst.executeQuery();
+				if (rs.next()) {
+					newmsgCount = rs.getInt("newmsg_count");
+				}
+				pst.close();
+			}
 
 			pst = connection
 					.prepareStatement("select cover,type,link from t_mainrotation order by sort_no asc,id desc");
-			ResultSet rs = pst.executeQuery();
+			rs = pst.executeQuery();
 			JSONArray mainrotations = new JSONArray();
 			while (rs.next()) {
 				JSONObject mainrotation = new JSONObject();
@@ -68,7 +83,8 @@ public class HomeEntrance {
 			}
 			pst.close();
 
-			pst = connection.prepareStatement("select id,gift_cover,gift_name,pay_price from t_activity  limit 0,10");
+			pst = connection.prepareStatement(
+					"select t.id,t.gift_cover,t.gift_name,t.pay_price from t_activity t where t.status=1 order by rand() limit 0,8");
 			rs = pst.executeQuery();
 			JSONArray featuredActivities = new JSONArray();
 			while (rs.next()) {
@@ -83,6 +99,7 @@ public class HomeEntrance {
 
 			// 返回结果
 			JSONObject data = new JSONObject();
+			data.put("newmsgCount", newmsgCount);
 			data.put("mainrotations", mainrotations);
 			data.put("notices", notices);
 			data.put("featuredActivities", featuredActivities);

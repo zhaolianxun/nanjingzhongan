@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        修改手机号码-左左试用平台触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="/css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/moblie.css"/>
+    <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+    <script src="/js/com.js" type="text/javascript"></script>
+    <meta name="description" content="左左街-专业的试用网"/>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+</head>
+
+<body>
+<form method="post" action="./tel_change.aspx" id="ctl01">
+    <div class="aspNetHidden">
+        <input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value=""/>
+        <input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value=""/>
+        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE"
+               value="GaHnONxCNEwLNXbFXFHZlsozHDzC2YCqjzVr8Pmq7fWvWrOlGXhtQxBwzQLdmtNndsoAVZBWQGqY4EqLdIs5vX4YwIW/qR20SX3AwUezcyQ="/>
+    </div>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        var theForm = document.forms['ctl01'];
+        if (!theForm) {
+            theForm = document.ctl01;
+        }
+        function __doPostBack(eventTarget, eventArgument) {
+            if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+                theForm.__EVENTTARGET.value = eventTarget;
+                theForm.__EVENTARGUMENT.value = eventArgument;
+                theForm.submit();
+            }
+        }
+        //]]>
+    </script>
+
+
+    <div class="aspNetHidden">
+
+        <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="5BD9CF22"/>
+        <input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION"
+               value="r5il9ADs/ui4jRtVXN3EGrfH2xrfm+7zFUh1f4C7eklmyL5w5tX/81/qpAKkVU3DrU6Q1Jyg9poSW/2O9YJ8KOy/qSBOYsnVW+pPsI/JAvUAz8TfMwX3t5tCw7W7Hi1md5m4+5ZZ6KFQvlrRqRoadDRPFxPKne94oDr9HSSiPvw="/>
+    </div>
+    <div class="viewport pt50">
+        <!-- 顶部 开始 -->
+        <header class="clearfix">
+            <div class="goback fl">
+                <a href="/user/save/list.aspx"> </a></div>
+            <div class="conttxt2">修改手机号码</div>
+        </header>
+        <!-- 顶部 结束 -->
+
+
+        <!-- 修改手机号码 开始-->
+        <div class="login">
+            <div class="login_txt mt10">
+                <p class="regist_title c999">已绑定手机号码 150****2798</p>
+
+                <p>
+                    <b style="margin-left:0;"><input name="txtphone" type="text" id="txtphone" class="tt80"
+                                                     placeholder="请输入手机号码"/></b>
+                    <label>原手机号码</label></p>
+
+                <p class="clearfix l_tcode"><label>验证码</label><span class="v_code"><a class="count_val hidden"
+                                                                                      href="javascript:;"><i sdata="60">60</i>s后重新获取</a><a
+                        class="check_val" href="javascript:;">获取验证码</a></span><b
+                        style="margin-left:0;margin-right:140px;">
+                    <input name="txtCode" type="text" id="txtCode" class="tt50" placeholder="请输入短信验证码"/>
+                </b></p>
+            </div>
+
+            <div class="login_check mt15 mlr10">
+                <a id="btnNext" class="login_sbt" href="javascript:__doPostBack(&#39;btnNext&#39;,&#39;&#39;)">下一步</a>
+            </div>
+        </div>
+        <!-- 修改手机号码 结束-->
+    </div>
+</form>
+</body>
+<script>
+    //(function () {
+
+    //    window.history.pushState({ page: 1 }, 'test', '');
+
+
+    //    window.onpopstate = function (e) {
+
+    //        location.href = "../list.aspx";
+
+    //    };
+    //})();
+
+    $(".check_val").click(function () {
+        if (!$("#txtphone").val().match(/^[1][1,2,3,4,5,6,7,8,9][0-9]{9}$/)) {
+            error("手机号码格式不正确！");
+        }
+        else {
+            $.ajax({
+                url: "/ashx/checkPhone.ashx?loginID=" + $("#txtphone").val(),
+                type: "get",
+                success: function (res) {
+
+                    if (res == 0) {
+                        $.ajax({
+                            url: "/ashx/sendsms.ashx",
+                            type: "get",
+                            data: "telphone=" + $("#txtphone").val() + "&type=4",
+                            success: function (res) {
+                                if (res == 1) {
+                                    error("发送成功");
+                                    getcode()
+                                }
+                                else if (res == 2) {
+                                    error("您今天获取验证码超过10次，请明天再来");
+                                }
+                                else if (res == 3) {
+                                    error("手机号码有误,请重新输入");
+                                }
+                                else if (res == 4) {
+                                    error("发送失败");
+                                }
+
+                            }
+                        })
+                    }
+                    else {
+                        error("该手机号码与您绑定的手机号码不一致");
+                    }
+                }
+            })
+
+        }
+
+    })
+    $("#btnNext").click(function () {
+        if (!$("#txtphone").val().match(/^[1][1,2,3,4,5,6,7,8,9][0-9]{9}$/)) {
+            error("手机号码格式不正确！");
+            return false;
+        }
+        if ($("#txtCode").val() == "") {
+            error("请输入发送给您的验证码！");
+            return false;
+        }
+    })
+
+
+</script>
+</html>

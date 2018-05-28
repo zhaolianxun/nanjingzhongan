@@ -122,7 +122,7 @@ public class PatientInfoEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"insert into t_patient (id,clinic_id,hospital_id,realname,tel,sickness,remark) values(?,?,?,?,?,?,?)");
+					"insert into t_patient (id,clinic_id,hospital_id,realname,tel,sickness,remark,add_time) values(?,?,?,?,?,?,?,?)");
 			String id = RandomStringUtils.randomNumeric(12);
 			pst.setObject(1, id);
 			pst.setObject(2, loginStatus.getClinicId());
@@ -131,6 +131,7 @@ public class PatientInfoEntrance {
 			pst.setObject(5, tel);
 			pst.setObject(6, sickness);
 			pst.setObject(7, remark);
+			pst.setObject(8, new Date().getTime());
 			int n = pst.executeUpdate();
 			pst.close();
 			if (n != 1)

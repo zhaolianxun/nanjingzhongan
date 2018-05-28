@@ -1,0 +1,795 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        左左街，免费试用，轻松拿佣金
+    </title>
+    <meta name="keywords" content="仓库中的宝贝"/>
+    <meta name="description" content="Y"/>
+
+    <link rel="stylesheet" type="text/css" href="css/new.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
+    <script src="js/public.js"></script>
+</head>
+
+
+<body>
+<div class="viewport">
+    <!-- 顶部 开始 -->
+    <div class="header">
+        <a href="javascript:;" class="type" onClick="history.back();">
+            <img src="image/arrow_left2.svg" class="h40"></a>
+        <a href="javascript:;" class="tosearch filter">
+            <img src="image/ico_show_type1.png" class="h40"/></a>
+
+        <div class="htxt">仓库中的宝贝</div>
+    </div>
+    <!-- 顶部 结束 -->
+
+
+    <div class="h90"></div>
+
+    <div class="clearfix">
+        <a href="http://m.zuozuojie.com/help/detail.aspx?id=2067">
+            <img src="http://upl.zuozuojie.com//upload/20180427/2018042711540853.jpg"/>
+        </a>
+    </div>
+
+
+    <div class="bgfefcec cf60 line36 f24 p20 ">注意：连续30天未上架的宝贝系统将自动删除。</div>
+
+    <div class="com_tab sp2 fixed"><a href="javascript:;" data="全部" data-val="" class="crently">全部</a><a
+            href="javascript:;" data-val="1" data="仓库中">仓库中</a></div>
+
+    <!-- 列表页 开始-->
+    <div class="spro_list clearfix mt20" id="spro_list3">
+
+
+    </div>
+    <!-- 列表页 结束-->
+
+    <!-- 没有数据提示-->
+    <div class="no_data hidden">
+        <div class="pb40 mt100">
+            <div class="success">
+                <i>
+                    <img src="image/fail_ico.png"/></i>
+
+                <p class="c999">没有相关的宝贝哦~</p>
+
+                <!-- 筛选没有显示-->
+                <a href="javascript:;" class="h66 bd1 dl brd100 c2f97f0 plr60 mt30 nofilter f28" style="display: none;">全部宝贝</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--筛选 弹窗-->
+<div class="pop_from_right sp2 animate" id="filterright">
+    <div class="maskbg animate"></div>
+    <div class="h90 relative clearfix bgf8f8f8">
+        <a href="javascript:;" class="goback plr20 relative z9">
+            <img src="image/close2_ico.png" class="w30"/></a>
+
+        <div class="center absolute l0 t0 pw100 f30">筛选</div>
+    </div>
+    <div class="scroll sp2 bgfff">
+        <div class="listborder interview_list bgf8f8f8 sp3 bb1 f28">
+            <dl class="item">
+                <dt class="head">
+                <div class="cls">
+                    <div class="h90">审核状态 <em class="protype fr c999">全部</em></div>
+                                <span class="arrow">
+                                    <img src="image/arrow_down.svg" class="w30"></span>
+                </div>
+                </dt>
+                <dd class="foot f28 hidden">
+                    <div class="bt1 sp2 clearfix c_ftab list666 protypeList" data="protype">
+                        <input type="hidden" id="protype" value="全部"/>
+
+                        <div class="item active"><a href="javascript:;" data="" data-val="全部"><em>全部</em></a></div>
+                        <div class="item"><a href="javascript:;" data="1" data-val="仓库中"><em>仓库中</em></a></div>
+                        <div class="item"><a href="javascript:;" data="2" data-val="重新审核失败"><em>重新审核失败</em></a></div>
+                        <!--&lt;!&ndash;<div class="item" style="display: none"><a href="javascript:;" data="定时上架中" data-val="D"><em>定时上架中</em></a>&ndash;&gt;</div>-->
+        </div>
+        </dd>
+        </dl>
+        <dl class="item">
+            <dt class="head">
+            <div class="cls">
+                <div class="h90">购买方式 <em class="buyway fr c999">全部</em></div>
+                                <span class="arrow">
+                                    <img src="image/arrow_down.svg" class="w30"></span>
+            </div>
+            </dt>
+            <dd class="foot f28 hidden">
+                <div class="bt1 sp2 clearfix c_ftab list666 buywayList" data="buyway">
+                    <input type="hidden" id="buyway" value=""/>
+
+                    <div class="item active"><a href="javascript:;" data="" data-val=""><em>全部</em></a></div>
+                    <div class="item"><a href="javascript:;" data="2" data-val="手机单"><em>手机单</em></a></div>
+                    <div class="item"><a href="javascript:;" data="1" data-val="电脑单"><em>电脑单</em></a></div>
+                </div>
+            </dd>
+        </dl>
+        <dl class="item">
+            <dt class="head">
+            <div class="cls">
+                <div class="h90">是否领券 <em class="userjuan fr c999">全部</em></div>
+                                <span class="arrow">
+                                    <img src="image/arrow_down.svg" class="w30"></span>
+            </div>
+            </dt>
+            <dd class="foot f28 hidden">
+                <div class="bt1 sp3 clearfix c_ftab list666 userjuanList" data="userjuan">
+                    <input type="hidden" id="userjuan" value=""/>
+
+                    <div class="item active"><a href="javascript:;" data="" data-val=""><em>全部</em></a></div>
+                    <div class="item"><a href="javascript:;" data="1" data-val="是"><em>是</em></a></div>
+                    <div class="item"><a href="javascript:;" data="2" data-val="否"><em>否</em></a></div>
+                </div>
+            </dd>
+        </dl>
+        <div class="form_area place28 bgfff">
+            <div class="item">
+                <b>活动标题</b>
+
+                <p class="pr20">
+                    <input type="text" class="textr" placeholder="请输入活动标题" id="pro_title"/>
+                </p>
+            </div>
+            <div class="item">
+                <b>商品名称</b>
+
+                <p class="pr20">
+                    <input type="text" class="textr" placeholder="请输入商品名称" id="pro_name"/>
+                </p>
+            </div>
+            <div class="item">
+                <b>发布时间</b>
+
+                <p class="textr pr20">
+                    <input type="text" placeholder="开始时间" class="w150 center mindate datem" readonly><em
+                        class="plr10 f28 c333">-</em><input type="text" placeholder="结束时间"
+                                                            class="w150 center maxdate datem" readonly>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="absolute l0 b0 h90 list_tab sp2 bgfff pw100 f30 center"><a href="javascript:;"
+                                                                       class="bgf2f2f2 c999 item nofilter">清空条件</a><a
+        href="javascript:;" class="bg2f97f0 cfff item" id="btn_Reload">确认</a></div>
+</div>
+
+<!--上架 弹窗-->
+<div class="pop_from_right bgfff animate" id="pubright">
+    <div class="head">
+        <a href="javascript:;" class="goback plr20">
+            <img src="image/ico_close_write.png" class="w30"/></a>
+
+        <p>上架</p>
+    </div>
+
+    <div class="scroll sp2 bgeee">
+        <div class="f26 bgfefcec p20 cf60 line40">上架产品后被举报核实无误将进行处罚。点击查看<a href="/help/detail.aspx?id=2075"
+                                                                           class="c2f97f0">【注意事项】</a>！
+        </div>
+        <ul class="form_area place28 f28 bgfff">
+            <li><b>参与人数</b>
+
+                <p class="">
+                    <input type="number" placeholder="填写参与试客人数，范围1到100人" id="count" min="1" max="100"
+                           onkeyup="checkcount(this)">
+                </p>
+            </li>
+            <li class="nl hidden" id="countts">
+                <p class=" pt20 pb20 line36 cf60">您设置参与人数较多，随时可能存在同一时间在商城拍下的情况。</p>
+            </li>
+            <li style="display: none"><b>付款金额</b>
+
+                <p class="pr190">
+                    <input type="number" placeholder="不得高于800元" id="txtspay_amount" value="" disabled="disabled">
+                </p>
+                <span class="r20">元 </span></li>
+            <li><b>返现金额</b>
+
+                <p class="mr40">
+                    <input type="number" placeholder="只能增加奖金，不能减少" id="txtsreturn_amount">
+                </p>
+                <span class="r20">元</span></li>
+            <li><b>活动天数</b>
+
+                <p class="">
+                    <input type="number" placeholder="只能输入1至7"   id="active_time"
+                           value="">
+                </p>
+            </li>
+        </ul>
+        <div class="plr20 pt30 pb30 relative bgfff mt20 hidden" id="has_juan">
+            <p class="f28 line28">您的券包共有0张2小时置顶券</p>
+
+            <p class="f24 c999 line24 mt20">一天一个左左街账号只能使用1张</p>
+            <em class="absolute r0 t50 p20 mt_38">
+                <input type="checkbox" class="radio" id="usecoupon"><label class="mt0"></label></em>
+        </div>
+
+        <!--没有券包显示-->
+        <div class="plr20 pt30 pb30 relative bgfff mt20" id="no_juan">
+            <p class="f28 line28">您的券包共有0张2小时置顶券</p>
+
+            <p class="f24 c999 line24 mt20">还没有置顶券，<i class="cf60">点击立即购买</i></p>
+            <em class="absolute r0 t50 p20 mt_38">
+                <input type="checkbox" class="radio disable"><label class="mt0"></label></em>
+            <a href="javascript:;" class="absolute l0 t0 pw100 ph100 bl z9 gobuy"></a>
+        </div>
+    </div>
+    <div class="com_footer sp2 dis"><a href="javascript:;" class="bg2f97f0 bl cfff center f30 submit">确认提交</a></div>
+</div>
+
+<!-- 活动时间 弹窗 -->
+<div class="win_lay choose f28" id="active_time_pop">
+    <div class="winbg"></div>
+    <div class="table">
+        <a href="javascript:;" class="close closesbt hidden">
+            <img src="image/close3_ico.png"></a>
+
+        <div class="tr">
+            <div class="td auto">
+                <div class="listborder" data="active_time">
+                    <p class="h90 plr20 relative item c2f97f0">
+                        <input type="radio" class="radio" name="active_time" value="1天" data-val="1"
+                               checked="checked"><label class="mr20"></label>1天
+                    </p>
+
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="2天" data-val="2"><label
+                            class="mr20"></label>2天
+                    </p>
+
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="3天" data-val="3"><label
+                            class="mr20"></label>3天
+                    </p>
+
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="4天" data-val="4"><label
+                            class="mr20"></label>4天
+                    </p>
+
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="5天" data-val="5"><label
+                            class="mr20"></label>5天
+                    </p>
+
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="6天" data-val="6"><label
+                            class="mr20"></label>6天
+                    </p>
+
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="7天" data-val="7"><label
+                            class="mr20"></label>7天
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="js/yh.scroll.active.js" charset="utf-8"></script>
+
+<!--时间-->
+<link href="css/mobiscroll.custom-3.0.0.min.css" rel="stylesheet" type="text/css"/>
+<script src="js/mobiscroll.custom-3.0.0.min.js?31" type="text/javascript"></script>
+<style>
+    .mbsc-android-holo .mbsc-sc-whl-w.mbsc-dt-whl-y {
+        margin-left: 0.25rem;
+    }
+</style>
+
+<script type="text/javascript" src="js/lazyload.js" charset="utf-8"></script>
+
+<script>
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var status=  getRequest().status;
+
+    var token = localStorage.getItem('token');
+    var title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, pageNo=1;
+    if (!title) {
+        title = ''
+    }
+    if (!gift_name) {
+        gift_name = ''
+    }
+    if (!buy_way) {
+        buy_way = ''
+    }
+    if (!coupon_if) {
+        coupon_if = ''
+    }
+    if (!publish_time_start) {
+        publish_time_start = ''
+    }
+    if (!publish_time_end) {
+        publish_time_end = ''
+    }
+    if (!status) {
+        status = ''
+    }
+
+
+
+</script>
+<script>
+
+
+    function reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo) {
+        $.ajax({
+            url: '/rrightway/p/m/cowrymanageent/storingcowries?token=' + token,
+            type: 'post',
+            data: 'title=' + title + "&gift_name=" + gift_name + "&buy_way=" + buy_way
+            + "&coupon_if=" + coupon_if + "&publish_time_start=" + publish_time_start + "&publish_time_end=" + publish_time_end + "&status=" + status
+            + "&page_no=" + pageNo + "&page_size=" + 30,
+            success: function (res) {
+                if (res.code == 0) {
+
+                    for (var i = 0; i < res.data.activies.items.length; i++) {
+                        var status = res.data.activies.items[i].status;
+                        var wayToShop = res.data.activies.items[i].wayToShop;
+                        var buyWay = res.data.activies.items[i].buyWay;
+//                        var complain = res.data.activies.items[i].complain;
+                        var couponIf = res.data.activies.items[i].couponIf;
+
+
+                        var statusSh,buyWayP,itemBottom;
+                        if(buyWay==1){
+                            buyWayP=' <i class="ptype pc"></i>'
+                        }else{
+                            buyWayP=' <i class="ptype tel"></i>'
+                        }
+                        if(status==0){
+                            statusSh='待审核';
+                            itemBottom='<a href="javascript:;" class="del recoder">删除</a>'
+                        }else if(status==2){
+                            statusSh='审核失败'
+                            itemBottom='<a href="javascript:;" class="btn3 repub recoder">重新发布</a>' +
+                            '<a href="javascript:;" class="btn2 look" data-val="'+res.data.activies.items[i].auditFailReason+'">查看原因</a>' +
+                            '<a href="javascript:;" class="del recoder">删除</a>'
+
+                        }
+//                                     wayToShop activityId auditFailReason buyWay couponIf
+                        $('#spro_list3').append('<div class="item">  <div class="tit"><p>活动标题：'+res.data.activies.items[i].title+'<br>发布时间：'+_formatDatesNoS(res.data.activies.items[i].publishTime)+'<b>仓库中</b></p>' +
+                        '</div>  <a href="baby_verify_detail.html?id='+res.data.activies.items[i].activityId+'" class="recoder pro_min bt1">' +
+                        '<img src="'+res.data.activies.items[i].giftCover+'" class="img">    ' +
+                        '<div class="relative">      <p class="row1">'+res.data.activies.items[i].giftName+'</p>      ' +
+                        '<p class="row1 c999 mt10">付款金额：<i class="cf60">¥'+res.data.activies.items[i].payPrice+'</i>' +
+                        '  返现金额：<i class="cf60">¥'+res.data.activies.items[i].returnMoney+'</i></p>    ' +
+                        '  <p class="type absolute l0 b0">'+buyWayP+'</p> ' +
+                        '   </div>  </a>  <div class="foot" data="'+res.data.activies.items[i].activityId+'" data-val="">' +
+//                        '<a href="javascript:;" class="btn3 repub recoder">重发</a>' +
+//                        '<a href="setpub.aspx?id=111838" class="  btn5 recoder " style="display:none">定时上架</a>' +
+                        '<a href="javascript:;" class="pub btn4 recoder" data="'+res.data.activies.items[i].activityId+'" data-fkmomey="200.00" ' +
+                        'onclick="openright(this)" data-fxmomey="205.00">上架</a>' +
+//                        '<a href="premium.aspx?id=111838" class="btn6">设置</a><a href="javascript:;" class="del recoder">删除</a>' +
+                        '</div></div>')
+                    }
+
+                } else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
+                }
+            }
+        });
+    }
+    if (status == 1) {
+        $('.com_tab a:nth-child(2)').addClass('crently');
+        reloadItem('', '', '', '', '', '', 1, 1);
+    } else {
+        $('.com_tab a:first-child').addClass('crently');
+        reloadItem('', '', '', '', '', '','', 1);
+    }
+</script>
+
+
+<script>
+
+
+
+    var cooketab = "spro_list1";
+    var objcontainer = "#spro_list1";
+    var isRdata = false; //是否为筛选标识
+    function reloaddata() {
+        if ($("#filterright").hasClass("active")) {
+            $(".pop_from_right .goback").click();
+        }
+        //审核状态(protype),购买方式(buyway),是否领券(userjuan),活动标题(pro_title),商品名称(pro_name),发布时间(pubtime)
+        var protype = $("#protype").val() == "全部" ? "" : $("#protype").val(), buyway = $("#buyway").val(), userjuan = $("#userjuan").val(), pro_title = $("#pro_title").val(), pro_name = $("#pro_name").val(), pubtime = $(".mindate").val() + "-" + $(".maxdate").val(), pubstime = $(".mindate").val(), pubetime = $(".maxdate").val();
+
+        if ($(".com_tab  a[data-val=" + protype + "]").length > 0) {
+            $(".com_tab  a[data-val=" + protype + "]").addClass("crently").siblings().removeClass("crently");
+        }
+        else {
+            $(".com_tab  a[data=全部]").addClass("crently").siblings().removeClass("crently");
+        }
+        $(objcontainer).html("");
+        ys.reload({
+            params: {
+                protype: protype,
+                buyway: buyway,
+                userjuan: userjuan,
+                pro_title: pro_title,
+                pro_name: pro_name,
+                pubtime: pubtime,
+                pubstime: pubstime,
+                pubetime: pubetime,
+            },
+            onbeforeReload: function () {
+                $(objcontainer).removeClass('hidden');
+                $('.no_data').addClass('hidden');
+                if (isRdata) {
+                    $('.no_data  .nofilter').show();
+                }
+            }
+        });
+    }
+
+    $(function () {
+        var now = new Date();
+        // Mobiscroll Date & Time initialization
+        $('.datem').mobiscroll().date({
+            theme: 'android-holo', // Specify theme like: theme: 'ios' or omit setting to use default
+            lang: 'zh', // Specify language like: lang: 'pl' or omit setting to use default
+            display: 'center', // Specify display mode like: display: 'bottom' or omit setting to use default
+            mode: 'scroller', // More info about mode: https://docs.mobiscroll.com/3-0-0_beta5/datetime#!opt-mode
+            min: new Date(2017, now.getMonth(), now.getDate()), // More info about min: https://docs.mobiscroll.com/3-0-0_beta5/datetime#!opt-min
+            max: new Date(now.getFullYear() + 10, 11, 31),
+            dateFormat: 'yy.mm.dd',//https://docs.mobiscroll.com/3-0-0_beta5/jquery/datetime#localization-dateFormat
+            dateWheels: 'YY m d',
+        });
+        $('.datem').click(function () {
+            $('.datem').mobiscroll('show');
+        })
+
+        //审核状态(protype),购买方式(buyway),是否领券(userjuan),活动标题(pro_title),商品名称(pro_name),发布时间(pubtime)
+        var protype = $("#protype").val() == "全部" ? "" : $("#protype").val(), buyway = $("#buyway").val(), userjuan = $("#userjuan").val(), pro_title = $("#pro_title").val(), pro_name = $("#pro_name").val(), pubtime = $(".mindate").val() + "-" + $(".maxdate").val(), pubstime = $(".mindate").val(), pubetime = $(".maxdate").val();
+
+        if (geturl("type") != null) {
+            //综合
+            protype = $(".com_tab a[data=" + geturl("type") + "]").addClass("crently").siblings().removeClass("crently");
+            protype = geturl("type");
+        }
+        else {
+            //protype = "全部";
+        }
+        $(".order_fixed p[data=" + protype + "]").addClass("active").siblings().removeClass("active");
+        $("#protype").val(protype);
+
+        ys({
+            container: objcontainer,//控件名称，遵循jquery格式
+            url: '/saller/ashx/product_verify.ashx',    //后台数据地址
+            params: {   //参数
+                protype: protype,
+                buyway: buyway,
+                userjuan: userjuan,
+                pro_title: pro_title,
+                pro_name: pro_name,
+                pubtime: pubtime,
+                pubstime: pubstime,
+                pubetime: pubetime,
+            },
+            count: 10,
+            cookieName: cooketab,
+            onloadItem: function (row) {
+                //根据后台返回的数据，渲染成要在页面显示的方式
+                var txt = "";
+                var spay_amounts = getFloatStr(row.spay_amount);
+                var sreturn_amounts = getFloatStr(row.sreturn_amount);
+                var sbuy_way = row.sbuy_way == '电脑单' ? '<i class="ptype pc"></i>' : '<i class="ptype tel"></i>';
+                var is_coupon = row.is_coupon == '否' ? ' ' : '<i class="ptype juan"></i>'
+                var foot = "";
+                switch (row.Strstatus) {
+                    case "待审核":
+                        foot = '<a href="javascript:;" class="cancle recoder">取消发布</a>';
+                        break;
+                    case "审核失败":
+                        foot = '<a href="javascript:;" class="btn3 repub recoder">重新发布</a><a href="javascript:;" class="btn2 look" data-val="' + row.reason + '">查看原因</a><a href="javascript:;" class="del recoder">删除</a>';
+                        break;
+                    case "已取消":
+                        foot = '<a href="javascript:;" class="btn3 repub recoder">重新发布</a><a href="javascript:;" class="del recoder">删除</a> ';
+                        break;
+                    case "审核成功":
+                        break;
+                    default:
+                        break;
+                }
+                txt = '<div class="item">'
+                + '  <div class="tit"><p>活动标题：' + row.sact_title + '<br />参与人数：' + row.nstorage_number + '<br />发布时间：' + formatDatebox(row.dcreate_time) + '<b>' + row.Strstatus + '</b></p></div>'
+                + '  <a href="verify_detail.aspx?id=' + row.pkid + '" class="recoder pro_min bt1"><img src="' + row.sproduct_pics + '" class="img" />'
+                + '    <div class="relative">'
+                + '      <p class="row1">' + row.sproduct_name + '</p>'
+                + '      <p class="row1 c999 mt10">付款金额：<i class="cf60">¥' + spay_amounts + '</i>  返现金额：<i class="cf60">¥' + sreturn_amounts + '</i></p>'
+                + '      <p class="type absolute l0 b0">' + sbuy_way + is_coupon + '</i></p>'
+                + '    </div>'
+                + '  </a>'
+                + '  <div class="foot" data="' + row.pkid + '">' + foot + '</div>'
+                + '</div>';
+                return txt;
+            },
+            onloadSuccess: function () {
+                godetail();
+                $(objcontainer).removeClass('hidden');
+                $('.no_data').addClass('hidden');
+                Echo.init({offset: 5, throttle: 100});
+            },
+            onNodata: function () {
+                $(objcontainer).addClass('hidden');
+                $('.no_data').removeClass('hidden');
+            },
+            onloadError: function (msg) {
+                //error(msg);
+            }
+        });
+
+
+    //s审核状态
+    $('.protypeList .item').click(function () {
+        var id = $(this).children().attr('data');
+        var name = $(this).children().children().html();
+        console.log(name)
+        $(this).addClass('active');
+        $(this).siblings().removeClass('active');
+        $('.protype').html(name);
+        $('#protype').val(id);
+        status = id
+        console.log(id, name);
+    })
+    //g购买方式
+    $('.buywayList .item').click(function () {
+        var id = $(this).children().attr('data');
+        var name = $(this).children().children().html();
+        console.log(name)
+        $(this).addClass('active');
+        $(this).siblings().removeClass('active');
+        $('.buyway').html(name);
+        $('#buyway').val(id);
+        buy_way = id
+        console.log(id, name);
+    })
+    //是否领券
+    $('.userjuanList .item').click(function () {
+        var id = $(this).children().attr('data');
+        var name = $(this).children().children().html();
+        console.log(name)
+        $(this).addClass('active');
+        $(this).siblings().removeClass('active');
+        $('.userjuan').html(name);
+        $('#userjuan').val(id);
+        coupon_if = id
+        console.log(id, name);
+    })
+    //tab切换
+    $(".com_tab a").click(function () {
+        if (!$(this).hasClass("crently")) {
+            $('#spro_list3').html('')
+            var tsvalue = $(this).attr("data");
+            var tsvalues = $(this).attr("data-val");
+            $("#protype").val(tsvalues);
+            $(".protype").html(tsvalue);
+            $("#protype").parent().find("a[data=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+            reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo)        }
+        $(this).addClass("crently").siblings().removeClass("crently");
+    })
+
+
+    //筛选
+    $(".filter").click(function () {
+        $(".order_fixed").removeClass("active");
+        $(".order_fixed").hide();
+        $(".order_fixed .bg,.order_fixed .slist").removeClass("animate");
+        $("#filterright").addClass("active")
+        noscroll();
+    })
+
+    //清除筛选
+    $(".nofilter").click(function () {
+        $(".datem").val('');
+        $("#pro_name").val('');
+        $("#pro_title").val('');
+        isRdata = false;
+        $(".no_data .nofilter").hide();
+        $(".interview_list .foot").each(function () {
+            $(this).find(".item").eq(0).click();
+        })
+        reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo)    })
+
+//    $("#btn_Reload").click(function () {
+//
+//        var s_time = $(".mindate").val();
+//        var e_time = $(".maxdate").val();
+//        if (s_time != "" && e_time != "") {
+//            if (s_time > e_time) {
+//                error("请选择正确时间！");
+//                return false;
+//            }
+//        }
+//        isRdata = true;
+//        reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo)    });
+
+
+    $(".pop_from_right .goback,.pop_from_right .maskbg").click(function () {
+        autoscroll();
+        $(this).parents(".pop_from_right").addClass("close");
+        var obj = $(this);
+        setTimeout(function () {
+            $(obj).parents(".pop_from_right").removeClass("close").removeClass("active");
+        }, 300)
+    })
+
+    $(".interview_list .item .cls").click(function () {
+        if ($(this).parents(".item").hasClass("close")) {
+            $(this).parents(".item").removeClass("close");
+            $(this).parents(".item").find(".arrow").removeClass("rotate180");
+            $(this).parents(".item").find(".foot").slideUp();
+        }
+        else {
+            $(this).parents(".item").addClass("close");
+            $(this).parents(".item").find(".arrow").addClass("rotate180");
+            $(this).parents(".item").find(".foot").slideDown();
+            $(this).parents(".item").siblings().removeClass("close").find(".foot").slideUp();
+            $(this).parents(".item").siblings().find(".arrow").removeClass("rotate180");
+        }
+    })
+
+
+    //筛选点击
+    $("#filterright .scroll .c_ftab .item").click(function () {
+        if (!$(this).hasClass("active"))
+            $("#" + $(this).parent().attr("data")).val($(this).find("a").eq(0).attr("data"));
+        $(this).addClass("active").siblings().removeClass("active");
+        $("em." + $(this).parent().attr("data")).html($(this).find("a").eq(0).text());
+        //reload();
+    })
+
+
+    $("#btn_Reload").click(function () {
+
+        if (status == 1) {
+            console.log(1)
+            $('.com_tab  a:nth-child(1)').removeClass('crently');
+            $('.com_tab  a:nth-child(2)').addClass('crently');
+        } else {
+            console.log(3)
+            $('.com_tab  a:nth-child(1)').addClass('crently');
+            $('.com_tab  a:nth-child(2)').removeClass('crently');
+        }
+        console.log(1)
+        $("#spro_list1").html('')
+        title = $('#pro_title').val();
+        gift_name = $('#pro_name').val();
+        publish_time_start = $('.mindate').val();
+        publish_time_end = $('.maxdate').val();
+        console.log(publish_time_start,publish_time_end)
+        publish_time_start=  new Date(publish_time_start.replace('.','-')).getTime();
+        publish_time_end=  new Date(publish_time_end.replace('.','-')).getTime();
+        console.log(publish_time_start)
+        if(!$('.mindate').val()&&$('.maxdate').val()){
+            error('请选择开始和截止时间')
+        }else if($('.mindate').val()&&!$('.maxdate').val()){
+            error('请选择开始和截止时间')
+        }else{
+            if(!$('.mindate').val()&&!$('.maxdate').val()){
+                publish_time_start=''
+                publish_time_end=''
+            }
+
+            reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo)
+        }
+//            reload(keyw, sortby, pageNo, type1_id, coupon_if, way_to_shop, buyer_mincredit, pay_price_min, pay_price_max, sortby)
+        $(".nofilter").click();
+        $("#filterright").removeClass("active");
+    });
+
+
+
+
+    })
+
+    //上架
+    var idobj,_this
+    function openright(obj) {
+        idobj = $(obj).attr("data");
+        $("#no_juan").hide();
+        $('#pubright').css('right',0);
+        _this=$(obj).parent().parent()
+    }
+    $('.goback').click(function(){
+        $('#pubright').css('right','-100%');
+    })
+    $('.submit').click(function(){
+        console.log(idobj)
+
+//        $("#" + id + "right .submit").attr("data", $(obj).parent().attr("data"));
+//        $("#txtspay_amount").val($(obj).attr("data-fkmomey"));
+//        $("#txtsreturn_amount").val($(obj).attr("data-fxmomey"));
+        if(!$('#active_time').val()||!$('#txtsreturn_amount').val()||!$('#count').val()){
+            error('请填写完整输入框')
+        }else {
+            $.ajax({
+                url: '/rrightway/p/m/cowrymanageent/storingcowries/online',
+                data: 'activity_id=' + idobj + "&stock=" + $('#count').val() + "&return_money=" + $('#txtsreturn_amount').val() + "&days=" + $('#active_time').val() + '&token=' + token,
+                type: 'post',
+                success: function (res) {
+                    if (res.code == 0) {
+                        error('修改成功');
+                        $('#pubright').css('right','-100% !important');
+                        _this.remove()
+
+                    } else if (res.code == 20) {
+                        localStorage.setItem('href', location.href);
+                        location.href = 'login.html'
+                    } else {
+                        error(res.codeMsg)
+                    }
+                }
+            })
+        }
+    })
+
+
+
+    //确认删除
+    function delok(obj) {
+        var id = $(obj).parent().attr("data");
+        $.ajax({
+            type: "POST",
+            url: "/flow/DeleteProduct.ashx",
+            data: "rad=" + Math.random() + "&id=" + id,
+            success: function (res) {
+                if (res != "" && res != "[]") {
+                    var comments = $.parseJSON(res);
+                    if (comments.success == "Y") {
+                        error("删除宝贝成功！");
+                        var pobj = $(obj).parents(".item");
+                        $(pobj).remove();
+                    }
+                    else {
+                        error(comments.msg);
+                    }
+                }
+            }
+        });
+        return true;
+    }
+</script>
+</body>
+
+
+</html>

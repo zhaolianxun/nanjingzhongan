@@ -42,34 +42,41 @@ public class MyEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.username,t.right_wallet,t.money,(select ifnull(sum(amount),0) from t_widthdraw where user_id=t.id and status=0) withdrawing_money,(select count(id) from t_order where buyer_id=t.id and status in (0,3,4,5)) buyed_count,(select count(id) from t_order where buyer_id=t.id and status in (1,7,10,9,8,11)) checked_count,(select count(id) from t_order where buyer_id=t.id and status in (2)) returned_count,(select count(id) from t_order where buyer_id=t.id and status in (7,8,9,10,11,12)) protected_count from t_user t where t.id=?")
+					"select (select count(*) from t_message where user_id=t.id  and read_if=0) newmsg_count,t.username,t.right_wallet,t.money,(select ifnull(sum(amount),0) from t_widthdraw where user_id=t.id and status=0) withdrawing_money,(select count(id) from t_order where buyer_id=t.id and status in (0,3,4,5)) applyed_count,(select count(id) from t_order where buyer_id=t.id and status in (1,3,4,5) and rightprotect_status in (0,7,8,9,10,11)) checked_count,(select count(id) from t_order where buyer_id=t.id and status in (2)) returned_count,(select count(id) from t_order where buyer_id=t.id and rightprotect_status in (7,8,9,10,11,12,13)) protected_count,(select count(id) from t_order where buyer_id=t.id and complain!=0) complain_count from t_user t where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
-			int buyedCount;
+			int applyedCount;
 			int checkedCount;
+			int newmsgCount;
 			int returnedCount;
 			int protectedCount;
+			int complainCount;
 			BigDecimal money;
 			BigDecimal rightWallet;
 			BigDecimal withdrawingMoney;
 			String username;
 			if (rs.next()) {
-				buyedCount = rs.getInt("buyed_count");
+				applyedCount = rs.getInt("applyed_count");
+				newmsgCount = rs.getInt("newmsg_count");
 				checkedCount = rs.getInt("checked_count");
+				complainCount = rs.getInt("complain_count");
 				returnedCount = rs.getInt("returned_count");
 				protectedCount = rs.getInt("protected_count");
 				money = rs.getBigDecimal("money");
 				rightWallet = rs.getBigDecimal("right_wallet");
 				withdrawingMoney = rs.getBigDecimal("withdrawing_money");
 				username = rs.getString("username");
+
 			} else
 				throw new InteractRuntimeException("用户不存在");
 			pst.close();
 
 			// 返回结果
 			JSONObject data = new JSONObject();
-			data.put("buyedCount", buyedCount);
+			data.put("newmsgCount", newmsgCount);
+			data.put("complainCount", complainCount);
+			data.put("applyedCount", applyedCount);
 			data.put("checkedCount", checkedCount);
 			data.put("returnedCount", returnedCount);
 			data.put("protectedCount", protectedCount);
@@ -106,31 +113,47 @@ public class MyEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.frozen_money,t.username,t.money,t.unwithdraw_money,(select count(id) from t_order where buyer_id=t.id and status in (0)) uncheck_count,(select count(id) from t_order where buyer_id=t.id and status in (1)) buyed_count from t_user t where t.id=?")
+					"select (select count(*) from t_message where user_id=t.id  and read_if=0) newmsg_count,t.frozen_money,t.username,t.money,t.unwithdraw_money,(select count(id) from t_order where seller_id=t.id and status in (0)) uncheck_count,(select count(id) from t_order where seller_id=t.id and status in (1,3,4,5) and rightprotect_status in (0,7,8,9,10,11)) buyed_count,(select count(id) from t_order where seller_id=t.id and rightprotect_status !=0) rightprotected_count,(select count(id) from t_order where seller_id=t.id and complain !=0) complain_count,(select count(id) from t_activity where user_id=t.id and status=0) auditcowry_count,(select count(id) from t_activity where user_id=t.id and status=1) inactcowry_count from t_user t where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			int buyedCount;
-			int checkedCount;
+			int newmsgCount;
+			int uncheckCount;
+			int rightprotectedCount;
+			int complainCount;
+			int auditcowryCount;
+			int inactcowryCount;
 			BigDecimal money;
 			BigDecimal unwithdrawMoney;
 			BigDecimal frozenMoney;
 			String username;
 			if (rs.next()) {
 				buyedCount = rs.getInt("buyed_count");
-				checkedCount = rs.getInt("uncheck_count");
+				newmsgCount = rs.getInt("newmsg_count");
+				uncheckCount = rs.getInt("uncheck_count");
 				money = rs.getBigDecimal("money");
 				unwithdrawMoney = rs.getBigDecimal("unwithdraw_money");
 				frozenMoney = rs.getBigDecimal("frozen_money");
 				username = rs.getString("username");
+				rightprotectedCount = rs.getInt("rightprotected_count");
+				complainCount = rs.getInt("complain_count");
+				auditcowryCount = rs.getInt("auditcowry_count");
+				inactcowryCount = rs.getInt("inactcowry_count");
+
 			} else
 				throw new InteractRuntimeException("用户不存在");
 			pst.close();
 
 			// 返回结果
 			JSONObject data = new JSONObject();
+			data.put("newmsgCount", newmsgCount);
+			data.put("rightprotectedCount", rightprotectedCount);
+			data.put("complainCount", complainCount);
+			data.put("auditcowryCount", auditcowryCount);
+			data.put("inactcowryCount", inactcowryCount);
 			data.put("buyedCount", buyedCount);
-			data.put("checkedCount", checkedCount);
+			data.put("uncheckCount", uncheckCount);
 			data.put("money", money);
 			data.put("unwithdrawMoney", unwithdrawMoney);
 			data.put("username", username);

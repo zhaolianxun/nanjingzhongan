@@ -145,13 +145,14 @@ public class HospitalEntrance {
 			// 查詢订单列表
 			String userId = RandomStringUtils.randomNumeric(12);
 			pst = connection.prepareStatement(
-					"insert into t_hospital (user_id,name,headman_name,tel,cover) values(?,?,?,?,?)",
+					"insert into t_hospital (user_id,name,headman_name,tel,cover,add_time) values(?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			pst.setObject(1, userId);
 			pst.setObject(2, name);
 			pst.setObject(3, headmanName);
 			pst.setObject(4, tel);
 			pst.setObject(5, cover);
+			pst.setObject(6, new Date().getTime());
 			int n = pst.executeUpdate();
 			int hospitalId = 0;
 			if (n != 1) {

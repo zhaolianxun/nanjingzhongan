@@ -60,7 +60,7 @@ public class ClinicEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select (select count(id) from t_patient where clinic_id=t.id) patient_count,t.id,t.name,t.headman_name,t.contact_tel,t.address,t.remark from t_clinic t  order by t.name asc limit ?,?");
+					"select (select count(id) from t_patient where clinic_id=t.id) patient_count,t.id,t.name,t.headman_name,t.contact_tel,t.address,t.remark from t_clinic t  order by t.add_time desc limit ?,?");
 			pst.setObject(1, pageSize * (pageNo - 1));
 			pst.setObject(2, pageSize);
 			ResultSet rs = pst.executeQuery();
@@ -151,7 +151,7 @@ public class ClinicEntrance {
 			// 查詢订单列表
 			String userId = RandomStringUtils.randomNumeric(12);
 			pst = connection.prepareStatement(
-					"insert into t_clinic (hospital_id,user_id,name,headman_name,contact_tel,address,remark) values(?,?,?,?,?,?,?)",
+					"insert into t_clinic (hospital_id,user_id,name,headman_name,contact_tel,address,remark,add_time) values(?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			pst.setObject(1, hospitalId);
 			pst.setObject(2, userId);
@@ -160,6 +160,7 @@ public class ClinicEntrance {
 			pst.setObject(5, contactTel);
 			pst.setObject(6, address);
 			pst.setObject(7, remark);
+			pst.setObject(8, new Date().getTime());
 			int n = pst.executeUpdate();
 			int clinicId = 0;
 			if (n != 1) {
@@ -232,7 +233,8 @@ public class ClinicEntrance {
 
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
-			pst = connection.prepareStatement("select t.id,t.name from t_hospital t order by t.name asc limit ?,?");
+			pst = connection
+					.prepareStatement("select t.id,t.name from t_hospital t order by t.add_time desc limit ?,?");
 			pst.setObject(1, pageSize * (pageNo - 1));
 			pst.setObject(2, pageSize);
 			ResultSet rs = pst.executeQuery();
@@ -354,7 +356,7 @@ public class ClinicEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.sickness,t.id,t.realname,t.tel,u.name clinic_name from t_patient t left join t_clinic u on t.clinic_id=u.id where t.clinic_id=?  order by t.realname asc limit ?,?");
+					"select t.sickness,t.id,t.realname,t.tel,u.name clinic_name from t_patient t left join t_clinic u on t.clinic_id=u.id where t.clinic_id=?  order by t.add_time desc limit ?,?");
 			pst.setObject(1, clinicId);
 			pst.setObject(2, pageSize * (pageNo - 1));
 			pst.setObject(3, pageSize);

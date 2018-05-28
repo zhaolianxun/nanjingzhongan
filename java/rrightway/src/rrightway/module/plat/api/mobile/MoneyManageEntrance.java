@@ -118,6 +118,8 @@ public class MoneyManageEntrance {
 			else
 				jedis.del(vcode);
 			jedis.close();
+			jedis = null;
+
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
@@ -133,7 +135,6 @@ public class MoneyManageEntrance {
 
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
-
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));

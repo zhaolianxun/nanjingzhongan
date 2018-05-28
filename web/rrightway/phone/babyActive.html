@@ -1,0 +1,787 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        左左街，免费试用，轻松拿佣金
+    </title>
+    <meta name="keywords" content="活动中的宝贝"/>
+    <meta name="description" content="Y"/>
+
+    <link rel="stylesheet" type="text/css" href="css/new.css"/>
+    <!--<link rel="stylesheet" href="css/golbal.css"/>-->
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
+    <script src="js/public.js"></script>
+</head>
+
+
+<body>
+<div class="viewport">
+    <!-- 顶部 开始 -->
+    <div class="header">
+        <a href="javascript:;" class="type" onclick="history.back();">
+            <img src="image/arrow_left2.png" class="h40"></a>
+        <a href="javascript:;" class="tosearch filter">
+            <img src="image/ico_show_type1.png" class="h40"/></a>
+
+        <div class="htxt">活动中的宝贝</div>
+    </div>
+    <!-- 顶部 结束 -->
+
+    <!-- 列表页 开始-->
+    <div class="spro_list clearfix" id="spro_list2">
+
+
+
+    </div>
+    <!-- 列表页 结束-->
+
+    <!-- 没有数据提示-->
+    <div class="no_data hidden">
+        <div class="pb40 mt100">
+            <div class="success">
+                <i>
+                    <img src="image/fail_ico.png"/></i>
+
+                <p class="c999">没有相关的宝贝哦~</p>
+
+                <!-- 筛选没有显示-->
+                <a href="javascript:;" class="h66 bd1 dl brd100 c2f97f0 plr60 mt30 nofilter f28" style="display: none;">全部宝贝</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--筛选 弹窗-->
+<div class="pop_from_right sp2 animate" id="filterright">
+    <div class="maskbg animate"></div>
+    <div class="h90 relative clearfix bgf8f8f8">
+        <a href="javascript:;" class="goback plr20 relative z9">
+            <img src="image/close2_ico.png" class="w30"/></a>
+
+        <div class="center absolute l0 t0 pw100 f30">筛选</div>
+    </div>
+    <div class="scroll sp2 bgfff">
+        <div class="listborder interview_list bgf8f8f8 sp3 bb1 f28">
+            <dl class="item">
+                <dt class="head">
+                <div class="cls">
+                    <div class="h90">购买方式 <em class="buyway fr c999">全部</em></div>
+                                <span class="arrow">
+                                    <img src="image/arrow_down.svg" class="w30"></span>
+                </div>
+                </dt>
+                <dd class="foot f28 hidden">
+                    <div class="bt1 sp2 clearfix c_ftab list666 buywayList" data="buyway">
+                        <input type="hidden" id="buyway" value=""/>
+
+                        <div class="item active"><a href="javascript:;" data="" data-val="全部"><em>全部</em></a></div>
+                        <div class="item"><a href="javascript:;" data="2" data-val="手机单"><em>手机单</em></a></div>
+                        <div class="item"><a href="javascript:;" data="1" data-val="电脑单"><em>电脑单</em></a></div>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="item">
+                <dt class="head">
+                <div class="cls">
+                    <div class="h90">是否领券 <em class="userjuan fr c999">全部</em></div>
+                                <span class="arrow">
+                                    <img src="image/arrow_down.svg" class="w30"></span>
+                </div>
+                </dt>
+                <dd class="foot f28 hidden">
+                    <div class="bt1 sp3 clearfix c_ftab list666 userjuanList" data="userjuan">
+                        <input type="hidden" id="userjuan" value=""/>
+
+                        <div class="item active"><a href="javascript:;" data="" data-val=""><em>全部</em></a></div>
+                        <div class="item"><a href="javascript:;" data="0" data-val="是"><em>是</em></a></div>
+                        <div class="item"><a href="javascript:;" data="1" data-val="否"><em>否</em></a></div>
+                    </div>
+                </dd>
+            </dl>
+            <div class="form_area place28 bgfff">
+                <div class="item">
+                    <b>活动标题</b>
+
+                    <p class="pr20">
+                        <input type="text" class="textr" placeholder="请输入活动标题" id="pro_title"/>
+                    </p>
+                </div>
+                <div class="item">
+                    <b>商品名称</b>
+
+                    <p class="pr20">
+                        <input type="text" class="textr" placeholder="请输入商品名称" id="pro_name"/>
+                    </p>
+                </div>
+                <div class="item">
+                    <b>发布时间</b>
+
+                    <p class="textr pr20">
+                        <input type="text" placeholder="开始时间" class="w150 center mindate datem" readonly><em
+                            class="plr10 f28 c333">-</em>
+                        <input type="text" placeholder="结束时间"
+                                                                class="w150 center maxdate datem" readonly>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute l0 b0 h90 list_tab sp2 bgfff pw100 f30 center"><a href="javascript:;"
+                                                                           class="bgf2f2f2 c999 item nofilter">清空条件</a><a
+            href="javascript:;" class="bg2f97f0 cfff item" id="btn_Reload">确认</a></div>
+</div>
+
+<!--修改参与人数 弹窗-->
+<div class="pop_from_right bgfff animate" id="countright">
+    <div class="head">
+        <a href="javascript:;" class="goback plr20">
+            <img src="image/ico_close_write.png" class="w30"/></a>
+
+        <p>修改参与人数</p>
+    </div>
+    <div class="scroll sp2 bgeee">
+        <div class="form_area place28 f28 bgfff">
+            <div class="item">
+                <b>参与人数</b>
+
+                <p class="pr20">
+                    <input type="number" placeholder="只能输入1~100" id="people_count" class="clearinput">
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="com_footer sp2 dis"><a href="javascript:;" class="bg2f97f0 bl cfff center f30 submit">确认提交</a></div>
+</div>
+
+<!--修改剩余时间 弹窗-->
+<div class="pop_from_right bgfff animate" id="dateright">
+    <div class="head">
+        <a href="javascript:;" class="goback plr20">
+            <img src="image/ico_close_write.png" class="w30"/></a>
+
+        <p>修改活动时间</p>
+    </div>
+    <div class="scroll sp2 bgeee">
+        <div class="form_area place28 f28 bgfff">
+            <div class="item">
+                <b>活动时间</b>
+
+                <p class="pr20">
+                    <input type="text" placeholder="只能选择1至7天" readonly class="arrow pop_wind" id="active_time">
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="com_footer sp2 dis"><a href="javascript:;" class="bg2f97f0 bl cfff center f30 submit">确认提交</a></div>
+</div>
+
+<!-- 活动时间 弹窗 -->
+<div class="win_lay choose f28" id="active_time_pop">
+    <div class="winbg"></div>
+    <div class="table">
+        <a href="javascript:;" class="close closesbt hidden">
+            <img src="image/close3_ico.png"></a>
+
+        <div class="tr">
+            <div class="td auto">
+                <div class="listborder" data="active_time">
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="1天"><label class="mr20"></label>1天
+                    </p>
+
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="2天"><label class="mr20"></label>2天
+                    </p>
+
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="3天"><label class="mr20"></label>3天
+                    </p>
+
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="4天"><label class="mr20"></label>4天
+                    </p>
+
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="5天"><label class="mr20"></label>5天
+                    </p>
+
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="6天"><label class="mr20"></label>6天
+                    </p>
+
+                    <p class="h90 plr20 relative item">
+                        <input type="radio" class="radio" name="active_time" value="7天"><label class="mr20"></label>7天
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="js/yh.scroll.active.js" charset="utf-8"></script>
+<script src="js/clipboard.min.js"></script>
+
+
+<!--时间-->
+<link href="css/mobiscroll.custom-3.0.0.min.css" rel="stylesheet" type="text/css"/>
+<script src="js/mobiscroll.custom-3.0.0.min.js?31" type="text/javascript"></script>
+<style>
+    .mbsc-android-holo .mbsc-sc-whl-w.mbsc-dt-whl-y {
+        margin-left: 0.25rem;
+    }
+</style>
+
+<script type="text/javascript" src="js/lazyload.js" charset="utf-8"></script>
+
+
+
+<script>
+
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    //    var trade_status = getRequest().trade_status;
+
+    var token = localStorage.getItem('token');
+
+    var buy_way = $("#buyway").val(), coupon_if = $("#userjuan").val(),
+            title = $("#pro_title").val(), gift_name = $("#pro_name").val(),
+            publish_time_start = $(".mindate").val(), publish_time_end=$(".maxdate").val(),pageNo=1;
+
+    if (!buy_way) {
+        buy_way = ''
+    }
+    if (!coupon_if) {
+        coupon_if = ''
+    }
+    if (!gift_name) {
+        gift_name = ''
+    }
+    if (!title) {
+        title = ''
+    }
+    if (!gift_name) {
+        gift_name = ''
+    }
+    if (!publish_time_start) {
+        publish_time_start = ''
+    }
+    if (!publish_time_end) {
+        publish_time_end = ''
+    }
+
+
+</script>
+<script>
+
+    function reloadItem(buy_way, coupon_if, title, gift_name, publish_time_start, publish_time_end, pageNo) {
+        $.ajax({
+            url: '/rrightway/p/m/cowrymanageent/inactcowries?token=' + token,
+            type: 'post',
+            data: 'buy_way=' + buy_way + "&coupon_if=" + coupon_if + "&title=" + title
+            + "&gift_name=" + gift_name + "&publish_time_start=" + publish_time_start + "&publish_time_end=" + publish_time_end +
+            "&page_no=" + pageNo + "&page_size=" + 15,
+            success: function (res) {
+                if (res.code == 0) {
+
+                    for (var i = 0; i < res.data.activies.items.length; i++) {
+                        var status = res.data.activies.items[i].status;
+                        var wayToShop = res.data.activies.items[i].wayToShop;
+                        var buyWay = res.data.activies.items[i].buyWay;
+                        var couponIf = res.data.activies.items[i].couponIf;
+                        var remainTime
+                        if (buyWay == 1) {
+                            var buyWayStack = 'pc'
+                        } else if (buyWay == 2) {
+                            var buyWayStack = 'tel'
+                        }
+                        if (wayToShop == 1 || wayToShop == 2 || wayToShop == 3) {
+                            var wayToShopStack = 'sou'
+                        } else if (wayToShop == 4) {
+                            var wayToShopStack = 'zhi'
+                        }
+                        if (couponIf == 1) {
+                            var coupouIfStack = '<i class="ptype juan"></i>'
+                        } else {
+                            var coupouIfStack = ''
+                        }
+                        var downLoad
+//                        var retime=new Date().getTime();
+//                        console.log(parseInt(retime),parseInt(res.data.activies.items[i].remainTime),parseInt(retime)-parseInt(res.data.activies.items[i].remainTime))
+                        if(parseInt(res.data.activies.items[i].remainTime)>0){
+//                            console.log((new Date().getTime()+res.data.activies.items[i].remainTime)/1000)
+                            remainTime=_formatDatesNoS((new Date().getTime()+res.data.activies.items[i].remainTime)/1000)
+                            console.log(remainTime);
+                            remainTime=remainTime
+                            downLoad='<a href="#" class="down btn5 recoder" style="display:none">定时上架</a>' +
+                            '<a href="javascript:;" class="down btn4 recoder" id="'+res.data.activies.items[i].activityId+'" onclick="down(this)">下架</a>' +
+                            '<a href="javascript:;" class="copy recoder" data-clipboard-text="http://passion.njshangka.com/rrightway/phone/detail.html?id='+res.data.activies.items[i].activityId+'">复制链接</a>'
+                        }else {
+                            remainTime='已经下架'
+                            downLoad='<a href="#" class="down btn5 recoder" style="display:none">定时上架</a>' +
+//                            '<a href="javascript:;" class="down btn4 recoder"  id="'+res.dta.activies.items[i].activityId+'"  onclick="down(this)">下架</a>' +
+                            '<a href="javascript:;" class="copy recoder" data-clipboard-text="http://passion.njshangka.com/rrightway/phone/detail.html?id='+res.data.activies.items[i].activityId+'">复制链接</a>'
+                        }
+                        $('#spro_list2').append('<div class="item">  <div class="tit">' +
+                        '<p>活动标题：' + res.data.activies.items[i].title + '<br>已购买数	：'+res.data.activies.items[i].buyerNum+
+                        '<br>发布时间：' + _formatDatesNoS(res.data.activies.items[i].publishTime / 1000) + '</p></div> ' +
+                        ' <a href="baby_verify_detail.html?id='+res.data.activies.items[i].activityId+'" class="recoder pro_min bt1">' +
+                        '<img class="img" src="' + res.data.activies.items[i].giftCover + '"onerror="this.src=' + "'" + 'image/nopic.png' + "'" + '">  ' +
+                        '  <div class="relative">      <p class="row1">' + res.data.activies.items[i].giftName + '</p>     ' +
+                        ' <p class="row1 c999 mt10">付款金额：<i class="cf60">¥' + res.data.activies.items[i].payPrice + '</i>  返现金额：' +
+                        '<i class="cf60">¥' + res.data.activies.items[i].returnMoney + '</i></p>   ' +
+                        '   <p class="type absolute l0 b0"><i class="ptype '+buyWayStack+'"></i><i class="ptype '+wayToShopStack+'"></i>'+coupouIfStack+'</p>    </div>  </a>  ' +
+                        '<div class="list_tab sp2 pt30 pb10 clearfix after bt1 center" data="'+res.data.activies.items[i].activityId+'">  ' +
+                        '  <a href="javascript:;" class="count item relative f24 c999 line24" data="count" id="'+res.data.activies.items[i].activityId+'" ' +
+                        'onclick="openright(this)">剩余参与人数' +
+                        '<p class="f28 c333 line28 mt15">'+res.data.activies.items[i].stock+'</p>' +
+                        '<img src="image/edit2_ico.png" class="h40 dl mt15"></a>    ' +
+                        '<a href="javascript:;" class="date item relative f24 c999 line24" data="date" id="'+res.data.activies.items[i].activityId+'" ' +
+                        'onclick="openright(this)">截止时间' +
+                        '<p class="f28 c333 line28 mt15">'+remainTime+'</p><img src="image/edit2_ico.png" class="h40 dl mt15"></a> ' +
+                        ' </div>  <div class="foot" data="111838">'+downLoad+'</div></div>')
+                    }
+
+                } else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
+                }
+            }
+        });
+    }
+    reloadItem(buy_way, coupon_if, title, gift_name, publish_time_start, publish_time_end, pageNo)
+
+</script>
+
+<script>
+    function getDiffDate(m) {
+        m -= (D = parseInt(m / 86400000)) * 86400000;
+        m -= (H = parseInt(m / 3600000)) * 3600000;
+        S = parseInt((m -= (M = parseInt(m / 60000)) * 60000) / 1000);
+        if (M < 10 & M > 0) { M = '0' + M; }
+        if (H < 10 & H > 0) { H = '0' + H; }
+        if (S < 10) { S = '0' + S; }
+        if (D != 0) { D += ''; } else { D = "" }
+        if (m > 0) return D + "天" + H + '时' + M + '分' + S + "秒";
+        else { return "已经下架！"; }
+    }
+    function godetail() {
+        $('.recoder').unbind();
+        $('.recoder').click(function () {
+            ys.savehis(); //如果返回需要记录页面位置和加载历史页数，切记调用此行
+        });
+    }
+
+    var cooketab = "spro_list2";
+    var objcontainer = "#spro_list2";
+    var isRdata = false;  //是否为筛选标识
+
+    function reloaddata() {
+        if ($("#filterright").hasClass("active")) {
+            $(".pop_from_right .goback").click();
+        }
+        //购买方式(buyway),是否领券(userjuan),活动标题(pro_title),商品名称(pro_name),发布时间(pubtime)
+        var buyway = $("#buyway").val(), userjuan = $("#userjuan").val(), pro_title = $("#pro_title").val(), pro_name = $("#pro_name").val(), pubtime = $(".mindate").val() + "-" + $(".maxdate").val(), pubstime = $(".mindate").val();
+        pubetime = $(".maxdate").val();
+        $(objcontainer).html("");
+        ys.reload({
+            params: {
+                buyway: buyway,
+                userjuan: userjuan,
+                pro_title: pro_title,
+                pro_name: pro_name,
+                pubtime: pubtime,
+                pubstime: pubstime,
+                pubetime: pubetime,
+            },
+            onbeforeReload: function () {
+                $(objcontainer).removeClass('hidden');
+                $('.no_data').addClass('hidden');
+            }
+        });
+    }
+
+
+    $(function () {
+        var now = new Date();
+        // Mobiscroll Date & Time initialization
+        $('.datem').mobiscroll().date({
+            theme: 'android-holo', // Specify theme like: theme: 'ios' or omit setting to use default
+            lang: 'zh', // Specify language like: lang: 'pl' or omit setting to use default
+            display: 'center', // Specify display mode like: display: 'bottom' or omit setting to use default
+            mode: 'scroller', // More info about mode: https://docs.mobiscroll.com/3-0-0_beta5/datetime#!opt-mode
+            min: new Date(2017, now.getMonth(), now.getDate()), // More info about min: https://docs.mobiscroll.com/3-0-0_beta5/datetime#!opt-min
+            max: new Date(now.getFullYear() + 10, 11, 31),
+            dateFormat: 'yy.mm.dd',//https://docs.mobiscroll.com/3-0-0_beta5/jquery/datetime#localization-dateFormat
+            dateWheels: 'YY m d',
+        });
+        $('.datem').click(function () {
+            $('.datem').mobiscroll('show');
+        })
+
+        //复制链接
+        var clipboard2 = new Clipboard('.foot .copy');
+        clipboard2.on('success', function (e) {
+            error("复制链接成功");
+        });
+
+        //购买方式(buyway),是否领券(userjuan),活动标题(pro_title),商品名称(pro_name),发布时间(pubtime)
+        var buyway = $("#buyway").val(), userjuan = $("#userjuan").val(), pro_title = $("#pro_title").val(), pro_name = $("#pro_name").val(), pubtime = $(".mindate").val() + "-" + $(".maxdate").val(), pubstime = $(".mindate").val();
+        pubetime = $(".maxdate").val();
+
+        ys({
+            container: objcontainer,//控件名称，遵循jquery格式
+            url: '/saller/ashx/product_active.ashx',    //后台数据地址
+            params: {   //参数
+                buyway: buyway,
+                userjuan: userjuan,
+                pro_title: pro_title,
+                pro_name: pro_name,
+                pubtime: pubtime,
+                pubstime: pubstime,
+                pubetime: pubetime,
+            },
+            count: 10,
+            cookieName: cooketab,
+            onloadItem: function (row) {
+                //根据后台返回的数据，渲染成要在页面显示的方式
+                var txt = "";
+                var sbuy_way = row.sbuy_way == '电脑单' ? '<i class="ptype pc"></i>' : '<i class="ptype tel"></i>';
+                var is_coupon = row.is_coupon == '否' ? ' ' : '<i class="ptype juan"></i>';
+                var outTime = new Date(row.dend_time);
+                var dend_type = "";
+                if (row.dend_type != "") {
+                    dend_type = " <b>置顶</b>";
+                }
+                txt = '<div class="item">'
+                + '  <div class="tit"><p>活动标题：' + row.sact_title + '<br />已购买数	：' + row.nsale_number + '<br />发布时间：' + formatDatebox(row.dcreate_time) + dend_type + '</p></div>'
+                + '  <a href="verify_detail.aspx?id=' + row.pkid + '" class="recoder pro_min bt1"><img src="' + row.sproduct_pics + '" class="img" />'
+                + '    <div class="relative">'
+                + '      <p class="row1">' + row.sproduct_name + '</p>'
+                + '      <p class="row1 c999 mt10">付款金额：<i class="cf60">¥' + getFloatStr(row.spay_amount) + '</i>  返现金额：<i class="cf60">¥' + getFloatStr(row.sreturn_amount) + '</i></p>'
+                + '      <p class="type absolute l0 b0">' + sbuy_way + is_coupon + '</p>'
+                + '    </div>'
+                + '  </a>'
+                + '  <div class="list_tab sp2 pt30 pb10 clearfix after bt1 center" data="' + row.pkid + '">'
+                + '    <a href="javascript:;" class="count item relative f24 c999 line24" data="count" onClick="openright(this)">剩余参与人数<p class="f28 c333 line28 mt15">' + row.nstorage_number + '</p><img src="image/edit2_ico.png" class="h40 dl mt15" /></a>'
+                + '    <a href="javascript:;" class="date item relative f24 c999 line24" data="date" onClick="openright(this)">剩余时间<p class="f28 c333 line28 mt15">' + row.dend_times + '</p><img src="image/edit2_ico.png" class="h40 dl mt15" /></a>'
+                + '  </div>'
+                + '  <div class="foot" data="' + row.pkid + '"><a href="#" class="down btn5 recoder" style="display:none">定时上架</a><a href="javascript:;" class="down btn4 recoder" onclick="down(this)">下架</a><a href="javascript:;" class="copy recoder" data-clipboard-text="m.zuozuojie.com/detail.aspx?id=' + row.pkid + '">复制链接</a></div>'
+                + '</div>';
+                return txt;
+            },
+            onloadSuccess: function () {
+                godetail();
+                $(objcontainer).removeClass('hidden');
+                $('.no_data').addClass('hidden');
+                Echo.init({offset: 5, throttle: 100});
+            },
+            onNodata: function () {
+                $(objcontainer).addClass('hidden');
+                $('.no_data').removeClass('hidden');
+                if (isRdata) {
+                    $('.no_data  .nofilter').show();
+                }
+            },
+            onloadError: function (msg) {
+                //error(msg);
+            }
+        });
+
+//        if (ys.getReqParams().buyway != "") {
+//            var tsvalue = ys.getReqParams().buyway;
+//            $("#buyway").val(tsvalue);
+//            $(".buyway").html(tsvalue);
+//            $("#buyway").parent().find("a[data=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+//        }
+//
+//        if (ys.getReqParams().userjuan != "") {
+//            var tsvalue = ys.getReqParams().userjuan;
+//            $("#userjuan").val(tsvalue);
+//            $(".userjuan").html(tsvalue);
+//            $("#userjuan").parent().find("a[data=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+//        }
+//
+//        if (ys.getReqParams().pro_title != "") {
+//            var tsvalue = ys.getReqParams().pro_title;
+//            $("#pro_title").val(tsvalue);
+//            $(".pro_title").html(tsvalue);
+//            $("#pro_title").parent().find("a[data=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+//        }
+//
+//        if (ys.getReqParams().pro_name != "") {
+//            var tsvalue = ys.getReqParams().pro_name;
+//            $("#pro_name").val(tsvalue);
+//            $(".pro_name").html(tsvalue);
+//            $("#pro_name").parent().find("a[data=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+//        }
+//
+//        if (ys.getReqParams().pubtime != "-") {
+//            var tsvalue = ys.getReqParams().pubtime.split("-");
+//            $(".mindate").val(tsvalue[0]);
+//            $(".maxdate").val(tsvalue[1]);
+//        }
+
+        //g购买方式
+        $('.buywayList .item').click(function () {
+            var id = $(this).children().attr('data');
+            var name = $(this).children().children().html();
+            console.log(name)
+            $(this).addClass('active');
+            $(this).siblings().removeClass('active');
+            $('.buyway').html(name);
+            $('#buyway').val(id);
+            buy_way = id
+            console.log(id, name);
+        })
+        //是否领券
+        $('.userjuanList .item').click(function () {
+            var id = $(this).children().attr('data');
+            var name = $(this).children().children().html();
+            console.log(name)
+            $(this).addClass('active');
+            $(this).siblings().removeClass('active');
+            $('.userjuan').html(name);
+            $('#userjuan').val(id);
+            coupon_if = id
+            console.log(id, name);
+        })
+        //筛选
+        $(".filter").click(function () {
+            $(".order_fixed").removeClass("active");
+            $(".order_fixed").hide();
+            $(".order_fixed .bg,.order_fixed .slist").removeClass("animate");
+            $("#filterright").addClass("active")
+            noscroll();
+        })
+
+        //清除筛选
+        $(".nofilter").click(function () {
+            $(".datem").val('');
+            $("#pro_name").val('');
+            $("#pro_title").val('');
+            $(".interview_list .foot").each(function () {
+                $(this).find(".item").eq(0).click();
+            })
+            isRdata = false;
+            $(".no_data .nofilter").hide();
+//            reloaddata();
+        })
+
+        $("#btn_Reload").click(function () {
+
+            $("#spro_list1").html('')
+            title = $('#pro_title').val();
+            gift_name = $('#pro_name').val();
+            publish_time_start = $('.mindate').val();
+            publish_time_end = $('.maxdate').val();
+            console.log(publish_time_start,gift_name,title,publish_time_end)
+            publish_time_start=  new Date(publish_time_start.replace('.','-')).getTime();
+            publish_time_end=  new Date(publish_time_end.replace('.','-')).getTime();
+            if($('.mindate').val()==''&&$('.maxdate').val()!=''){
+                error('请选择开始和截止时间')
+            }else if($('.mindate').val()!=''&&!$('.maxdate').val()==''){
+                error('请选择开始和截止时间')
+            }else{
+                if(!$('.mindate').val()&&!$('.maxdate').val()){
+                    publish_time_start=''
+                    publish_time_end=''
+                }
+                reloadItem(buy_way, coupon_if, title, gift_name, publish_time_start, publish_time_end, pageNo)
+            }
+            console.log(publish_time_start,publish_time_end)
+//            reload(keyw, sortby, pageNo, type1_id, coupon_if, way_to_shop, buyer_mincredit, pay_price_min, pay_price_max, sortby)
+            $(".nofilter").click();
+            $("#filterright").removeClass("active");
+        });
+
+
+        $(".pop_from_right .goback,.pop_from_right .maskbg").click(function () {
+            autoscroll();
+            $(this).parents(".pop_from_right").addClass("close");
+            var obj = $(this);
+            setTimeout(function () {
+                $(obj).parents(".pop_from_right").removeClass("close").removeClass("active");
+            }, 300)
+        })
+
+        $(".interview_list .item .cls").click(function () {
+            if ($(this).parents(".item").hasClass("close")) {
+                $(this).parents(".item").removeClass("close");
+                $(this).parents(".item").find(".arrow").removeClass("rotate180");
+                $(this).parents(".item").find(".foot").slideUp();
+            }
+            else {
+                $(this).parents(".item").addClass("close");
+                $(this).parents(".item").find(".arrow").addClass("rotate180");
+                $(this).parents(".item").find(".foot").slideDown();
+                $(this).parents(".item").siblings().removeClass("close").find(".foot").slideUp();
+                $(this).parents(".item").siblings().find(".arrow").removeClass("rotate180");
+            }
+        })
+
+        $("#filterright .scroll .c_ftab .item").click(function () {
+            if (!$(this).hasClass("active"))
+                $("#" + $(this).parent().attr("data")).val($(this).find("a").eq(0).attr("data"));
+            $(this).addClass("active").siblings().removeClass("active");
+            $("em." + $(this).parent().attr("data")).html($(this).find("a").eq(0).text());
+            //reload();
+        })
+        //修改人数
+        $("#countright .submit").click(function () {
+            var id = $(this).attr("data");
+            if (parseInt($("#people_count").val()) > 0 && parseInt($("#people_count").val()) <= 100) {
+                corfirm("您是否确定修改参与人数为" + $("#people_count").val() + "人?", countok, id);
+            }
+            else {
+                error("只能输入1~100");
+            }
+        })
+
+        $("#dateright .submit").click(function () {
+            var id = $(this).attr("data");
+
+            if ($("#active_time").val() != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/rrightway/p/m/cowrymanageent/inactcowries/alterdays",
+                    data: "activity_id=" + id + "&token="+token + "&days=" + $("#active_time").val().replace("天", ""),
+                    success: function (res) {
+                        if (res.code==0) {
+                            error("修改成功");
+                            $("#dateright .goback").click();
+//                        var pobj = $(obj).parents(".item");
+                        }
+                        else if (res.code == 20) {
+                            localStorage.setItem('href', location.href);
+                            location.href = 'login.html'
+                        } else {
+                            error(res.codeMsg)
+                        }
+                    }
+                });
+
+            }
+            else {
+                error("请选择活动时间");
+            }
+        })
+
+        $(".pop_wind").click(function () {
+            var id = $(this).attr("id");
+            $("#" + id + "_pop").show();
+            noscroll();
+        })
+        //选择卖家昵称,选择购买方式,选择信誉要求
+        $(".win_lay .item").click(function () {
+            if (!$(this).hasClass("c2f97f0")) {
+                var id = $(this).parent().attr("data");
+                $(this).addClass("c2f97f0").siblings().removeClass("c2f97f0");
+                $("#" + id).val($(this).find("input").eq(0).val());
+                $(this).parents(".win_lay").eq(0).find(".closesbt").eq(0).click()
+            }
+        })
+    })
+
+    //确认修改人数
+    function countok(id) {
+        $.ajax({
+            type: "POST",
+            url: "/rrightway/p/m/cowrymanageent/inactcowries/alterstock",
+            data: "activity_id=" + id + "&token="+token+"&count="+$("#people_count").val(),
+//            data: "rad=" + Math.random() + "&id=" + id + "&count=" + $("#people_count").val(),
+            success: function (res) {
+                if (res.code==0) {
+                    error("修改成功");
+                    $("#dateright .goback").click();
+//                        var pobj = $(obj).parents(".item");
+                    location.reload();
+                }
+                else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
+                }
+            }
+        });
+        return true;
+
+    }
+
+    //修改
+    function openright(obj) {
+        var id = $(obj).attr("data");
+        $("#" + id + "right").addClass("active");
+        $("#" + id + "right .submit").attr("data", $(obj).parent().attr("data"));
+        noscroll();
+    }
+
+    //下架
+    function down(obj) {
+        corfirm("确定要下架宝贝吗？", delok, obj);
+    }
+
+    //确认下架
+    function delok(obj) {
+        var id = $(obj).attr("id");
+//            var _That=$(obj)
+        $.ajax({
+            type: "POST",
+            url: "/rrightway/p/m/cowrymanageent/inactcowries/offline",
+            data: "activity_id=" + id + "&token="+token,
+            success: function (res) {
+                if (res.code==0) {
+                    error("下架宝贝成功");
+//                        var pobj = $(obj).parents(".item");
+                    $(obj).remove();
+                }
+                else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
+                }
+
+            }
+        });
+
+        //无法下架
+        //setTimeout(function () { accesstx("此宝贝正在定时上下架中，若要立刻下架请先取消定时上架，只有取消了才可以下架哦！"); }, 500);
+
+        //下架成功
+        // error("下架宝贝成功");
+        // var pobj=$(obj).parents(".item");
+        // $(pobj).remove();
+        return true;
+    }
+</script>
+</body>
+
+
+</html>

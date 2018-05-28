@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        修改支付密码-左左试用平台触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+    <meta name="description" content="左左街-专业的试用网"/>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+</head>
+
+<body>
+<div id="ctl01">
+
+    <div class="viewport pt50">
+        <!-- 顶部 开始 -->
+        <header class="clearfix">
+            <div class="goback fl">
+                <a href="javascript:;" onclick="history.back();"> </a></div>
+            <div class="conttxt2">修改支付密码</div>
+        </header>
+        <!-- 顶部 结束 -->
+
+
+        <!-- 修改支付密码 开始-->
+        <div class="login">
+            <div class="login_txt mt10">
+                <p>
+                    <input name="txtOld" type="password" id="txtOld" class="tt70" placeholder="请输入原支付密码"/>
+                    <label>支付密码</label></p>
+            </div>
+            <div class="login_check mt15 mlr10">
+                <a id="btnNext" class="login_sbt" href="javascript:__doPostBack(&#39;btnNext&#39;,&#39;&#39;)">下一步</a>
+            </div>
+        </div>
+        <!-- 修改支付密码 结束-->
+    </div>
+</div>
+</body>
+<script>
+    //(function () {
+
+    //    window.history.pushState({ page: 1 }, 'test', '');
+
+
+    //    window.onpopstate = function (e) {
+
+    //        location.href = "pwd_change.aspx";
+
+    //    };
+    //})();
+
+    $("#btnNext").click(function () {
+        if ($("#txtOld").val() == "") {
+            error("请输入您的支付密码");
+            return false;
+        }
+
+    })
+
+
+</script>
+</html>

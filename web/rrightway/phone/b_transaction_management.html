@@ -32,20 +32,53 @@
 
 
             <div class="list_tab clearfix sp2 product_index center f28">
-                <div class="item"><a href="checkorders.html"><span>
-                    <img src="image/sp_nav5.png" class="h54" /><i  >1</i></span><em>核对拍下的订单</em></a></div>
-                <div class="item"><a href="buyedorder.html"><span>
-                    <img src="image/sp_nav6.png" class="h54" /><i  style='display:none'>0</i></span><em>已买下的订单</em></a></div>
-                <div class="item"><a href="returnedorders.html"><span>
-                    <img src="image/sp_nav7.png" class="h54" /><i  style='display:none'>0</i></span><em>已返现的订单</em></a></div>
-                <div class="item"><a href="rightprotectorders.html"><span>
-                    <img src="image/sp_nav8.png" class="h54" /><i  style='display:none'>0</i></span><em>维权的订单</em></a></div>
-                <div class="item"><a href="/saller/tousu/index.aspx"><span>
-                    <img src="image/sp_nav9.png" class="h54" /><i  style='display:none'>0</i></span><em>投诉管理</em></a></div>
+                <div id="needCheck" class="item"><a href="checkorders.html"><span>
+                    <img src="image/sp_nav5.png" class="h54" /><i name="count" style='display:none'>0</i></span><em>核对拍下的订单</em></a></div>
+                <div  id="buyed" class="item"><a href="buyedorder.html"><span>
+                    <img src="image/sp_nav6.png" class="h54" /><i  name="count"   style='display:none'>0</i></span><em>已买下的订单</em></a></div>
+                <div  id="returned" class="item"><a href="returnedorders.html"><span>
+                    <img src="image/sp_nav7.png" class="h54" /><i  name="count"   style='display:none'>0</i></span><em>已返现的订单</em></a></div>
+                <div  id="rightprotected" class="item"><a href="rightprotectorders.html"><span>
+                    <img src="image/sp_nav8.png" class="h54" /><i  name="count"   style='display:none'>0</i></span><em>维权的订单</em></a></div>
+                <div  id="complain" class="item"><a href="/saller/tousu/index.aspx"><span>
+                    <img src="image/sp_nav9.png" class="h54" /><i  name="count"   style='display:none'>0</i></span><em>投诉管理</em></a></div>
             </div>
 
         </div>
     </body>
+<script>
 
+    var token = localStorage.getItem('token');
+
+    $.ajax({
+        type: "POST",
+        url: "/rrightway/p/m/trademanageent/ent",
+        data: "token=" + token,
+        success: function (res) {
+
+                if (res.code==0) {
+                    if(res.data.needCheckCount>0){
+                    $('#needCheck [name=count]').text(res.data.needCheckCount).css('display','')
+                            }
+                    if(res.data.buyedCount>0){
+                    $('#buyed [name=count]').text(res.data.buyedCount).css('display','')
+                    }
+                        if(res.data.returnedCount>0){
+                    $('#returned [name=count]').text(res.data.returnedCount).css('display','')
+                        }
+                            if(res.data.rightprotectedCount>0){
+                    $('#rightprotected [name=count]').text(res.data.rightprotectedCount).css('display','')
+                            }
+                                if(res.data.complainCount>0){
+                    $('#complain [name=count]').text(res.data.complainCount).css('display','')
+                                }
+                }
+                else {
+                    error(res.codeMsg);
+                }
+
+        }
+    });
+</script>
 
 </html>

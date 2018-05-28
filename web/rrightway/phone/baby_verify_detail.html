@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport" /><meta name="apple-mobile-web-app-capable" content="yes" /><meta name="apple-mobile-web-app-status-bar-style" content="black" /><meta content="telephone=no" name="format-detection" />
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes" /><meta name="browsermode" content="application" />
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait" /><meta name="x5-fullscreen" content="true" /><meta name="x5-page-mode" content="app" /><title>
+        左左街，免费试用，轻松拿佣金
+    </title>
+    <meta name="keywords" content="审核中的宝贝" />
+    <meta name="description" content="Y" />
+
+    <link rel="stylesheet" type="text/css" href="css/new.css" />
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
+</head>
+
+
+<body>
+<div class="viewport">
+    <!-- 顶部 开始 -->
+    <div class="header clearfix">
+        <a href="javascript:;" class="type" onclick="history.back();">
+            <img src="image/arrow_left2.svg" class="h40"></a>
+        <div class="htxt">宝贝详情</div>
+    </div>
+    <!-- 顶部 结束 -->
+    <div class="pro_min sp2">
+        <img src="http://upl.zuozuojie.com//upload/20180525/s201805251046057536.jpg" class="img" />
+        <div class="relative">
+            <p class="row1 f30 giftName">121</p>
+            <p class="c999 absolute l0 b0 f26 line40">
+                付款金额：<i class="cf60 payPrice">¥1.00</i><br />
+                返现金额：<i class="cf60 returnMoney">¥12.00</i>
+            </p>
+        </div>
+    </div>
+
+    <div class="listborder bgfff mt20 f28">
+        <div class="item h90 plr20 clearfix"><b class="c999 fl">活动标题</b><i class="fr title">qwe</i></div>
+        <div class="item h90 plr20 clearfix"><b class="c999 fl">活动时间</b><i class="fr keepDays">1天</i></div>
+        <div class="item h90 plr20 clearfix"><b class="c999 fl">参与试客数量</b><i class="fr buyerNum">1</i></div>
+        <div class="item h90 plr20 clearfix"><b class="c999 fl">购买方式</b><i class="fr buyWay">电脑单</i></div>
+        <div class="item h90 plr20 clearfix"><b class="c999 fl">信誉要求</b><i class="fr buyerMincredit">三心以上</i></div>
+        <div class="item h90 plr20 clearfix"><b class="c999 fl">进店方式</b><i class="fr wayToShop">关键词搜索</i></div>
+        <div class="item h90 plr20 clearfix"><b class="c999 fl">发货快递</b><i class="fr giftExpressCo">申通快递</i></div>
+        <div class="item h90 plr20 clearfix " style="border-bottom: none"><b class="c999 fl copycouponUrl" >复制优惠券</b>
+            <i id="couponUrl" class="fr couponUrl" style="width: 7rem;height: 40px;line-height: 40px;overflow: hidden"></i></div>
+        <div class="item plr20 clearfix  hidden"><b class="c999 fl h90">领券链接</b><i class="break ml210 bl line40 pt20 pb20 textr"></i></div>
+
+    </div>
+
+    <div class="comm_title mt20 bb1 center">
+        <img src="image/cz_ico.png" class="w36 mt_3"><span class="f28 ml20">操作要求</span>
+    </div>
+    <!-- 关键词搜索 显示-->
+    <dl class="searchMore keyword pt40 pb40 sec_deal sp2 pl20 bgfff ">
+        <dd>
+            <div class="detail pr20">
+                <p class="f28">关键词搜索</p>
+                <div class="f24 c333 line36 mt20">
+                    <p class="taobaoUserNick"><b class="c999">商家旺旺：</b><img src="image/saller_ico.png" class="w30 mr10 vmid mt_3" />集彩壁画</p>
+                </div>
+            </div>
+            <div class="detail keywordimg">
+                <p class="f28">宝贝示例图</p>
+                <div class="clearfix list_tab sp2 my-gallery">
+                    <figure class="item mt20">
+                        <a class="bl mr20" >
+                            <img class="lazy" src="image/blankbg.gif"  /></a>
+                    </figure>
+
+                </div>
+            </div>
+        </dd>
+    </dl>
+
+    <!--链接、淘口令显示-->
+    <div class="searchMore linkhref bgfff plr20 pt40 pb40 hidden">
+        <p class="center f28 c999 mb20">链接/淘宝口令下单链接</p>
+        <div class="plr30 pt30 pb30 break bgf8f8f8 c666 f26 line40 "> </div>
+    </div>
+
+    <!--扫码 显示-->
+    <div class="searchMore twoD bgfff plr20 pt40 pb40 hidden ">
+        <div class="center c666 line40 f28 mb20">扫码下单二维码</div>
+        <p class="center">
+            <img src="http://upl.zuozuojie.com/" class="w400" />
+        </p>
+    </div>
+
+    <!-- 直通车搜索 显示-->
+    <dl class="searchMore carto pt40 pb40 sec_deal sp2 pl20 bgfff hidden ">
+        <dd>
+            <div class="detail pr20">
+                <p class="f28">关键词搜索</p>
+                <div class="f24 c333 line36 mt20">
+                    <p class="taobaoUserNick"><b class="c999">商家旺旺：</b><img src="image/saller_ico.png" class="w30 mr10 vmid mt_3" />集彩壁画</p>
+                </div>
+
+                <!--<div class="f24 c666 line36 mt20 "   >-->
+                <!--<p><b class="c999">关键词一：</b>123</p>-->
+                <!--<p><b class="c999">大概页数：</b>第1页</p>-->
+                <!--<p><b class="c999">其他说明：</b>1</p>-->
+                <!--</div>-->
+
+                <!--<div class="f24 c666 line36 mt20 "   >-->
+                <!--<p><b class="c999">关键词二：</b>321</p>-->
+                <!--<p><b class="c999">大概页数：</b>第22页</p>-->
+                <!--<p><b class="c999">其他说明：</b>2</p>-->
+                <!--</div>-->
+
+                <!--<div class="f24 c666 line36 mt20 hidden">-->
+                <!--<p><b class="c999">关键词三：</b></p>-->
+                <!--<p><b class="c999">大概页数：</b>第页</p>-->
+                <!--<p><b class="c999">其他说明：</b></p>-->
+                <!--</div>-->
+
+            </div>
+            <div class="detail">
+                <p class="f28">宝贝示例图</p>
+                <div class="clearfix list_tab sp2 my-gallery">
+                    <figure class="item mt20">
+                        <a class="bl mr20" >
+                            <img class="lazytwo" src="image/blankbg.gif"  /></a>
+                    </figure>
+
+                </div>
+            </div>
+        </dd>
+    </dl>
+
+    <div class="comm_title mt20 bb1 center">
+        <img src="image/xq_ico.png" class="w36 mt_3"><span class="f28 ml20">图文详情</span>
+    </div>
+
+    <div class="bgfff plr20 pt40 pb40 product_detail f26 line40 c666">
+        <p></p>
+        <p ></p>
+    </div>
+
+</div>
+
+<script src="js/lazyload.js"></script>
+<!-- 图片放大预览 -->
+<link href="css/photoswipe.css?v=4.1.1-1.0.4" rel="stylesheet" />
+<link href="css/default-skin.css?v=4.1.1-1.0.4" rel="stylesheet" />
+<script src="js/photoswipe.min.js?v=4.1.1-1.0.4"></script>
+<script src="js/photoswipe-ui-default.min.js?v=4.1.1-1.0.4"></script>
+<script src="js/imglist.js"></script>
+<!--图片框架 开始-->
+<div id="gallery" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <div class="pswp__counter"></div>
+                <span class="pswp_title">宝贝示例图</span>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="pswp__loading-indicator"><div class="pswp__loading-indicator__line"></div></div> -->
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip">
+                    <!-- <a href="#" class="pswp__share--facebook"></a>
+  <a href="#" class="pswp__share--twitter"></a>
+  <a href="#" class="pswp__share--pinterest"></a>
+  <a href="#" download class="pswp__share--download"></a> -->
+                </div>
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--图片框架 结束-->
+<script>
+    var token = localStorage.getItem('token');
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var acitivy_id = getRequest().id;
+    function encodeNum(i){
+        if(i==0){
+            return '一'
+        }else if(i==1){
+            return '二'
+        }else if(i==2){
+            return '三'
+        }
+    }
+    $.ajax({
+        url:'/rrightway/p/m/cowrymanageent/cowrydetail',
+        data:'acitivy_id='+acitivy_id+"&token="+token,
+        type:'post',
+        success:function(res){
+            if (res.code == 0) {
+                var wayToShop=res.data.wayToShop;
+                if(res.data.buyWay=='1'){
+                    $('.buyWay').html('电脑单')
+                }else{
+                    $('.buyWay').html('手机单')
+                }
+
+                if(res.data.wayToShop==1){
+                    $('.wayToShop').html('关键词搜索');
+                    $('.searchMore:nth-child(1)').show();
+                    $('.searchMore:nth-child(2)').hide();
+                    $('.searchMore:nth-child(3)').hide();
+                    $('.searchMore:nth-child(4)').hide();
+                    var searchKeys=res.data.searchKeys;
+                    searchKeys= JSON.parse(searchKeys);
+//                    console.log( JSON.parse(searchKeys))
+//                    searchKeys=searchKeys.split(',')
+                    console.log(searchKeys.length)
+                    $('.taobaoUserNick').html('<b class="c999">商家旺旺：</b><img src="image/saller_ico.png" class="w30 mr10 vmid mt_3" />'+res.data.taobaoUserNick)
+                    for(var r=0;r<searchKeys.length;r++){
+                        console.log(r,encodeNum(r))
+                        $('.keyword').children().children().eq(0).append(' <div class="f24 c666 line36 mt20 "   >'+
+                        '<p><b class="c999">关键词'+encodeNum(r)+'：</b>'+searchKeys[r].key+'</p>'+
+                        '<p><b class="c999">大概页数：</b>第'+searchKeys[r].page+'页</p>'+
+                        '<p><b class="c999">其他说明：</b>'+searchKeys[r].note+'</p>'+
+                        '</div>')
+                    }
+                    $('.lazy').attr('src',res.data.cowryCover)
+                }else if(res.data.wayToShop==2){
+                    $('.wayToShop').html('链接/淘宝口令下单');
+                    $('.searchMore:nth-child(1)').hide();
+                    $('.searchMore:nth-child(2)').show();
+                    $('.searchMore:nth-child(3)').hide();
+                    $('.searchMore:nth-child(4)').hide();
+                    $('.searchMore:nth-child(2)').children().eq(1).html(res.data.cowryUrl)
+                }else if(res.data.wayToShop==3){
+                    $('.wayToShop').html('扫码下单');
+                    $('.searchMore:nth-child(1)').hide();
+                    $('.searchMore:nth-child(2)').hide();
+                    $('.searchMore:nth-child(3)').show();
+                    $('.searchMore:nth-child(4)').hide();
+                    $('.searchMore:nth-child(3)').children().eq(1).children().attr('src',res.data.qrcodeToOrder)
+                }else if(res.data.wayToShop==4){
+                    $('.wayToShop').html('直通车搜索');
+                    $('.searchMore:nth-child(1)').hide();
+                    $('.searchMore:nth-child(2)').hide();
+                    $('.searchMore:nth-child(3)').hide();
+                    $('.searchMore:nth-child(4)').show();
+                    var searchKeys=res.data.searchKeys;
+                    searchKeys= JSON.parse(searchKeys);
+//                    console.log( JSON.parse(searchKeys))
+//                    searchKeys=searchKeys.split(',')
+                    console.log(searchKeys)
+                    $('.taobaoUserNick').html('<b class="c999">商家旺旺：</b><img src="image/saller_ico.png" class="w30 mr10 vmid mt_3" />'+res.data.taobaoUserNick)
+                    for(var r=0;r<searchKeys.length;r++){
+
+                        $('.carto').children().children().append(' <div class="f24 c666 line36 mt20 "   >'+
+                        '<p><b class="c999">关键词'+encodeNum(r)+'：</b>'+searchKeys[r].key+'</p>'+
+                        '<p><b class="c999">大概页数：</b>第'+searchKeys[r].page+'页</p>'+
+                        '<p><b class="c999">其他说明：</b>'+searchKeys[r].note+'</p>'+
+                        '</div>')
+                    }
+                    $('.lazytwo').attr('src',res.data.cowryCover)
+                }
+                if(res.data.buyerMincredit==1){
+                    $('.buyerMincredit').html('一星以上')
+                }else if(res.data.buyerMincredit==2){
+                    $('.buyerMincredit').html('二星以上')
+                }else if(res.data.buyerMincredit==3){
+                    $('.buyerMincredit').html('三星以上')
+                }else if(res.data.buyerMincredit==4){
+                    $('.buyerMincredit').html('四星以上')
+                }else if(res.data.buyerMincredit==5){
+                    $('.buyerMincredit').html('五星以上')
+                }else if(res.data.buyerMincredit==6){
+                    $('.buyerMincredit').html('钻石以上')
+                }else if(res.data.buyerMincredit==''||!res.data.buyerMincredit){
+                    $('.buyerMincredit').html('无要求')
+                }
+                $('.couponUrl').html(res.data.couponUrl);
+                $('.pro_min img').attr('src',res.data.giftCover);
+                $('.giftName').html(res.data.giftName);
+                $('.giftExpressCo').html(res.data.giftExpressCo);
+                $(".keepDays").html(res.data.keepDays+'天');
+                $('.title').html(res.data.title);
+                $('.buyerNum').html(res.data.buyerNum);
+                $('.payPrice').html("￥"+res.data.payPrice);
+                $('.returnMoney').html("￥"+res.data.returnMoney);
+                var giftPics=res.data.giftPics;
+                giftPics=giftPics.split(',');
+                console.log(giftPics)
+                $('.product_detail p:nth-child(1)').html(res.data.giftDetail);
+                for(var i=0;i<giftPics.length;i++){
+                    console.log(giftPics[i])
+                    $('.product_detail p:nth-child(2)').append('<img src="'+giftPics[i]+'">')
+                }
+
+            } else if (res.code == 20) {
+                localStorage.setItem('href', location.href);
+                location.href = 'login.html'
+            } else {
+                error(res.codeMsg)
+            }
+        }
+
+    })
+    ////    复制优惠券链接
+    //    $('.copycouponUrl').click(function(){
+    ////        var url =$('#couponUrl')
+    ////        var url=document.getElementById("couponUrl")
+    ////         url.select();
+    //        var Url2=document.getElementById("couponUrl");
+    //         Url2.select(); // 选择对象
+    //            document.execCommand("Copy"); // 执行浏览器复制命令
+    //            alert("已复制好，可贴粘。");
+    ////        window.clipboardData.setData("Text",url);
+    ////        alert("复制链接成功！");
+    //    })
+    $(function(){
+        $(".copycouponUrl").click(function(){
+            var Url=$("#couponUrl").html();
+            copyToClipboard(Url);
+        });
+    });
+    function copyToClipboard(maintext){
+        if (window.clipboardData){
+            window.clipboardData.setData("Text", maintext);
+        }else if (window.netscape){
+            try{
+                netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+            }catch(e){
+                alert("该浏览器不支持一键复制！n请手工复制文本框链接地址～");
+            }
+            var clip = Components.classes['@mozilla.org/widget/clipboard;1'].createInstance(Components.interfaces.nsIClipboard);
+            if (!clip) return;
+            var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable);
+            if (!trans) return;
+            trans.addDataFlavor('text/unicode');
+            var str = new Object();
+            var len = new Object();
+            var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
+            var copytext=maintext;
+            str.data=copytext;
+            trans.setTransferData("text/unicode",str,copytext.length*2);
+            var clipid=Components.interfaces.nsIClipboard;
+            if (!clip) return false;
+            clip.setData(trans,null,clipid.kGlobalClipboard);
+        }
+        alert("以下内容已经复制到剪贴板nn" + maintext);
+    }
+</script>
+</body>
+
+
+</html>

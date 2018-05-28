@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        推广记录-左左试用平台触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+    <meta name="description" content="左左街-专业的试用网"/>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+</head>
+
+<body>
+<form method="post" action="./recoder.html" id="ctl01">
+    <div class="aspNetHidden">
+        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE"
+               value="pBScoICgXgBi9UiymAPKHa7MJukIgGuFfxiBx+jYNmd7hTe3eb+gQO72s2Zwqectwbhh8pAW5V3kI+VMM7SKXp8LgMmLQuv+g/ssS2SwQvc3xeI2okeDN+oURdL2kxQmoz0/ZbyIFX4lZUoTn8pboezAsB4apFTWHpub/3pkMcA="/>
+    </div>
+
+    <div class="aspNetHidden">
+
+        <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="4C3D9064"/>
+        <input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION"
+               value="30aR60VHXzhgxVNniz1AB3KBYfkFiNlLyQuU/3bgopsxEbWaJ9E080YEIqXbgF3THVbdMFUHxPuU8a83P4xF9rzYO5v6n9P2xZIVRHWazeygqirafcvLSth6CFNpMaoltagekRX492DsvVO9sgMzH+y5z+MouCuOYEiaBGDiuAo="/>
+    </div>
+    <div class="viewport pt50">
+        <!-- 顶部 开始 -->
+        <header class="clearfix">
+            <div class="goback fl"><a href="phoneIndex.html"> </a></div>
+            <div class="gosearch fr"><a href="javascript:;" id="qsearch"></a></div>
+            <div class="conttxt2">推广记录</div>
+        </header>
+        <!-- 顶部 结束 -->
+
+
+        <!-- 推广记录 开始-->
+
+        <!-- 没有提示 开始-->
+        <div id="noneall" class="fail">
+            <i></i>
+
+            <p>还没有相关推广记录哦！</p>
+            <a href="popularizeMyRecoder.html">马上去推广</a>
+        </div>
+        <!-- 没有提示 结束-->
+
+        <!-- 查询不到 开始-->
+
+        <!-- 查询不到 结束-->
+
+        <!-- 有记录 -->
+
+        <!-- 推广记录 结束-->
+
+        <!-- 筛选内容 开始 -->
+        <div class="blank"></div>
+        <div class="content-box" id="box01">
+            <div class="filterHd">
+                <div class="flbtn">取消</div>
+                <div class="tit">查询</div>
+                <div class="frbtn" onclick="search()">确定</div>
+            </div>
+            <div class="big_item">
+                <div class="item return" id="list_time">用户名称 <span class="pro_txt fr">
+                 <input name="txtusername" type="text" id="txtusername"/>
+               </span></div>
+                <div class="item return" id="search_time">注册时间<span class="fr time_txt"><input name="txtstime"
+                                                                                               type="text"
+                                                                                               id="txtstime"/><i>-</i><input
+                        name="txtetime" type="text" id="txtetime"/> </span></div>
+            </div>
+            <div class="mt15"><a href="javascript:;" class="clearvalue" data="您确定要清空历史记录吗？"><i class="ico_del"></i>清除选项</a>
+            </div>
+        </div>
+        <!-- 筛选内容 结束 -->
+
+        <!--弹出时间-->
+        <div id="datePlugin"></div>
+    </div>
+</form>
+<link rel="stylesheet" type="text/css" href="css/date.css">
+<script type="text/javascript" src="js/jquery_date.js"></script>
+<script type="text/javascript" src="js/date.js"></script>
+<script type="text/javascript" src="js/iscroll_date.js"></script>
+
+<script>
+
+
+    function search() {
+        location.href = "recoder.html?username=" + escape($("#txtusername").val()) + "&stime=" + escape($("#txtstime").val()) + "&etime=" + escape($("#txtetime").val());
+    }
+
+
+    $(function () {
+
+        //清除选项
+        $(".clearvalue").click(function () {
+            $(".item input").val("");
+        });
+
+        //选择时间
+        $("#txtetime,#txtstime").click(function () {
+            $("#datePlugin").show();
+        });
+        $("#txtetime").date();
+        $("#txtstime").date();
+
+        ////确定查询
+        //$(".frbtn").click(function () {
+        //    window.location.reload();
+        //});
+
+        //选择
+        $(".arrow_select").click(function () {
+            if (!$(this).hasClass("crently")) {
+                $(this).parent().find(".arrow_select").removeClass("crently");
+                $(this).addClass("crently");
+                $("#" + $(this).attr("rel")).find("i").eq(0).html($(this).text());
+                if ($(this).attr("rel") == "buy_way")
+                    buy_way = $(this).attr("data");
+                if ($(this).attr("rel") == "get_code")
+                    get_code = $(this).attr("data");
+                $(this).parent().find(".rebtn").click();
+            }
+        });
+    });
+
+    //(function () {
+
+    //    window.history.pushState({ page: 1 }, 'test', '');
+
+
+    //    window.onpopstate = function (e) {
+
+    //        location.href = "index.html";
+
+    //    };
+    //})();
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        登录密码-左左试用平台触屏版
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
+    <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
+    <meta name="description" content="左左街-专业的试用网"/>
+    <meta name="keywords" content="左左,左左街,试用,推广"/>
+</head>
+
+<body>
+<div class="viewport pt50">
+    <!-- 顶部 开始 -->
+    <header class="clearfix">
+        <div class="goback fl">
+            <a href="javascript:;" onclick="history.back();"> </a></div>
+        <div class="conttxt2">登录密码</div>
+    </header>
+    <!-- 顶部 结束 -->
+
+
+    <!-- 登录密码 开始-->
+    <div>
+        <div class="usermenu_list bgfff">
+            <p class="u_title mt10"><a href="javascript:;">我记得原登录密码<em class="arrow_right rotate90 w8"></em></a></p>
+        </div>
+        <div class="bgf8f8f8 bt1 p10 f14 line20 hidden slidemenu">
+            <a href="set_log_pwd_change2.html" class="fr bg75cc42 brd5 plr10 pt5 pb5 mt5 cfff">修改</a>
+            <b>通过验证登录密码</b>
+            <span class="f12 c999 bl">如果你还记得登录密码，请选择此方式</span>
+        </div>
+    </div>
+
+    <div>
+        <div class="usermenu_list bgfff">
+            <p class="u_title mt10"><a href="javascript:;">我忘记登录密码了<em class="arrow_right rotate90 w8"></em></a></p>
+        </div>
+        <div class="bgf8f8f8 bt1 p10 f14 line20 hidden slidemenu">
+            <a href="set_log_tel_change.html" class="fr bg75cc42 brd5 plr10 pt5 pb5 mt5 cfff tel">修改</a>
+            <b>通过验证短信</b>
+            <span class="f12 c999 bl">如果你的手机还在正常使用，请选择此方式</span>
+        </div>
+        <div class="bgf8f8f8 bt1 p10 f14 line20 hidden slidemenu">
+            <a href="javascript:;" class="fr bg75cc42 brd5 plr10 pt5 pb5 mt5 cfff question">修改</a>
+            <b>通过回答安全保护问题</b>
+            <span class="f12 c999 bl">如果你记得预留的安全保护问题，请选择此方式</span>
+        </div>
+    </div>
+    <!-- 登录密码 结束-->
+</div>
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script src="js/com.js" type="text/javascript"></script>
+<script>
+    var moblie = "1";//有绑定手机显示1否则0
+    var question = "1";//有设置密保问题1否则0
+
+
+    function goquset() {
+        location.href = "/user/save/question/set.aspx";
+    }
+
+    function gotel() {
+        location.href = "/user/save/tel/set.aspx";
+    }
+
+    $(function () {
+        $(".tel").click(function () {
+            if (moblie == 0) {
+                //没有绑定手机
+                corfirm2("还未绑定手机号，无法使用此功能！", "<a href='/user/save/tel/set.aspx' class='cf60'>马上去绑定</a>", gotel, $(this));
+            }
+            else {
+                window.location.href = "tel_change.aspx";
+            }
+        });
+
+        $(".question").click(function () {
+            if (question == 0) {
+                //没有设置密保问题提示
+                corfirm2("还未设置密保问题，无法使用此功能！", "<a href='/user/save/question/set.aspx' class='cf60'>马上去设置</a>", goquset, $(this));
+            }
+            else {
+                window.location.href = "question_change.aspx";
+            }
+        });
+
+
+        $(".usermenu_list a").click(function () {
+            if ($(this).find("em").eq(0).hasClass("rotate90")) {
+                $(this).find("em").addClass("rotate270").removeClass("rotate90");
+                $(this).parent().parent().parent().find(".slidemenu").fadeIn(200);
+            }
+            else {
+                $(this).find("em").addClass("rotate90").removeClass("rotate270");
+                $(this).parent().parent().parent().find(".slidemenu").fadeOut(100);
+            }
+        });
+    });
+
+    //(function () {
+
+    //    window.history.pushState({ page: 1 }, 'test', '');
+
+
+    //    window.onpopstate = function (e) {
+
+    //        location.href = "../list.aspx";
+
+    //    };
+    //})();
+</script>
+</body>
+</html>

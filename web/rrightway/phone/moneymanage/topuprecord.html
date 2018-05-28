@@ -163,15 +163,18 @@
                         newItem.removeClass('clearfix')
                         newItem.attr('id','topup'+ele.topupId)
                         newItem.find('[name=topupId]').text(ele.topupId);
-                        newItem.find('[name=money]').text(ele.amount);
+
                         newItem.find('[name=topupTime]').text(formatDateTime(ele.topupTime));
                         newItem.find('[name=alipayTradeno]').text(ele.alipayTradeno);
 
                         if(ele.status == 1){
+                                newItem.find('[name=money]').text('(核实中)');
                             newItem.find('[name=status]').text('等待处理');
-                        }else if(ele.status == 2){
+                        }else if(ele.status == 2) {
                             newItem.find('[name=status]').text('已处理');
-                        }else if(ele.status == 3){
+                            newItem.find('[name=money]').text(ele.amount);
+                        }
+                      else if(ele.status == 3){
                             newItem.find('[name=status]').text('校验失败');
                             newItem.find('[name=failReason]').text(ele.failReason);
                             newItem.find('[name=failReason1]').css('display','');
