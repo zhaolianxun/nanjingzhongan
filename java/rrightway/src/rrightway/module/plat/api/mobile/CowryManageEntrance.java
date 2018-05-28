@@ -939,25 +939,26 @@ public class CowryManageEntrance {
 			connection.setAutoCommit(false);
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.title,u.money,t.creditcard_pay from t_activity t left join t_user u where t.id=?  for update")
+					"select t.title,u.unwithdraw_money,t.creditcard_pay from t_activity t left join t_user u where t.id=?  for update")
 							.toString());
 			pst.setObject(1, activityId);
 			ResultSet rs = pst.executeQuery();
-			BigDecimal money = null;
+			BigDecimal unwithdrawMoney = null;
 			int creditcardPay = 0;
 			String title = null;
 			if (rs.next()) {
-				money = rs.getBigDecimal("money");
+				unwithdrawMoney = rs.getBigDecimal("unwithdraw_money");
 				creditcardPay = rs.getInt("creditcard_pay");
 				title = rs.getString("title");
 			} else
 				throw new InteractRuntimeException("活动不存在");
 			pst.close();
 			if (creditcardPay == 0) {
-				if (money.intValue() < 1)
+				if (unwithdrawMoney.intValue() < 1)
 					throw new InteractRuntimeException("余额不足");
-				pst = connection.prepareStatement(
-						new StringBuilder("update t_user set money=money-1 where id=? and (money-1)>0").toString());
+				pst = connection.prepareStatement(new StringBuilder(
+						"update t_user set unwithdraw_money=unwithdraw_money-1 where id=? and (unwithdraw_money-1)>0")
+								.toString());
 				pst.setObject(1, loginStatus.getUserId());
 				int cnt = pst.executeUpdate();
 				if (cnt != 1)
@@ -1065,25 +1066,26 @@ public class CowryManageEntrance {
 			connection.setAutoCommit(false);
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.title,u.money,t.huabei_pay from t_activity t left join t_user u where t.id=? for update")
+					"select t.title,u.unwithdraw_money,t.huabei_pay from t_activity t left join t_user u where t.id=? for update")
 							.toString());
 			pst.setObject(1, activityId);
 			ResultSet rs = pst.executeQuery();
-			BigDecimal money = null;
+			BigDecimal unwithdrawMoney = null;
 			int huabeiPay = 0;
 			String title = null;
 			if (rs.next()) {
-				money = rs.getBigDecimal("money");
+				unwithdrawMoney = rs.getBigDecimal("unwithdraw_money");
 				huabeiPay = rs.getInt("huabei_pay");
 				title = rs.getString("title");
 			} else
 				throw new InteractRuntimeException("活动不存在");
 			pst.close();
 			if (huabeiPay == 0) {
-				if (money.intValue() < 1)
+				if (unwithdrawMoney.intValue() < 1)
 					throw new InteractRuntimeException("余额不足");
-				pst = connection.prepareStatement(
-						new StringBuilder("update t_user set money=money-1 where id=? and (money-1)>0").toString());
+				pst = connection.prepareStatement(new StringBuilder(
+						"update t_user set unwithdraw_money=unwithdraw_money-1 where id=? and (unwithdraw_money-1)>0")
+								.toString());
 				pst.setObject(1, loginStatus.getUserId());
 				int cnt = pst.executeUpdate();
 				if (cnt != 1)

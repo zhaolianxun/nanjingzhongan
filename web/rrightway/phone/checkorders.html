@@ -182,7 +182,7 @@
     var items = {};
     var noMoreItems = false;
     var param={}
-    var userMoney ;
+    var forCheckMoney ;
     onload();
 
     function onload(){
@@ -203,7 +203,7 @@
             url: '/rrightway/p/m/trademanageent/needcheckorders?token='+token,
             success: function(res){
                 if(res.code == 0){
-                    userMoney = res.data.userMoney;
+                    forCheckMoney = res.data.forCheckMoney;
                     if(res.data.items.length==0)
                         noMoreItems=true;
 
@@ -659,7 +659,7 @@
             }
             else if ($(this).hasClass("check")) {
                 var id = $(this).parent().attr("data");
-                if(items[id].returnMoney > userMoney){
+                if(items[id].returnMoney > forCheckMoney){
                     corfirm3("您的账户余额不足，无法完成支付！", "取消", "立即充值", "moneymanage/topup.html");
                 }else{
                             accessconfirm("确定核实试客已到商城下单付款了吗？确认拍下的订单将从您的账户扣除费用<i class='cf60'>" + (items[id].returnMoney+2) + "</i>元(返现金额" + items[id].returnMoney + "元，系统费用" + 2 + "元)。<p class='f14 c2f97f0 line24'>试客提交评价图核实主动返现奖励<i class='cf60'>0.50</i>元</p>", checkok, id);

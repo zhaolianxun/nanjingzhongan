@@ -42,7 +42,7 @@ public class GoodTypeQuery {
 			// 业务处理
 			connection = RrightwayDataSource.dataSource.getConnection();
 			// 查詢主轮播图
-			pst = connection.prepareStatement("select id,name,cover from t_good_type where  level=1 order by name asc");
+			pst = connection.prepareStatement("select id,name,cover from t_good_type where  level=1 order by sort_no asc");
 			ResultSet rs = pst.executeQuery();
 			JSONArray type1s = new JSONArray();
 			while (rs.next()) {
@@ -92,7 +92,7 @@ public class GoodTypeQuery {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			// 查詢主轮播图
 			pst = connection.prepareStatement(
-					"select id,name,cover from t_good_type where level=2 and upid=? order by name asc");
+					"select id,name,cover from t_good_type where level=2 and upid=? order by sort_no asc");
 			pst.setObject(1, type1Id);
 			ResultSet rs = pst.executeQuery();
 			JSONArray type2s = new JSONArray();

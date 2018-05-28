@@ -33,6 +33,10 @@ import rrightway.util.RrightwayDataSource;
 public class TradeManageEntrance {
 
 	public static Logger logger = Logger.getLogger(TradeManageEntrance.class);
+	// 2*60 * 60 * 1000l
+	public static long unrightprotectAndReviewExpiredReturnTime = 2 * 60 * 1000l;
+	// 15 * 60 * 60 * 1000l
+	public static long unrightprotectAndUnreviewExpiredReturnTime = 4 * 60 * 1000l;
 
 	@RequestMapping(value = "/ent")
 	public void ent(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -116,13 +120,13 @@ public class TradeManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 
-			pst = connection
-					.prepareStatement(new StringBuilder("select t.money from t_user t  where id=? ").toString());
+			pst = connection.prepareStatement(
+					new StringBuilder("select t.unwithdraw_money from t_user t  where id=? ").toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
-			BigDecimal userMoney = null;
+			BigDecimal forCheckMoney = null;
 			if (rs.next()) {
-				userMoney = rs.getBigDecimal("money");
+				forCheckMoney = rs.getBigDecimal("unwithdraw_money");
 			} else
 				throw new InteractRuntimeException("用户不存在");
 
@@ -158,8 +162,8 @@ public class TradeManageEntrance {
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(orderId == null ? "" : " and t.id like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
-							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ")
-							.toString());
+							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ")
+							.append(" order by t.order_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -189,7 +193,7 @@ public class TradeManageEntrance {
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("items", items);
-			data.put("userMoney", userMoney);
+			data.put("forCheckMoney", forCheckMoney);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -283,20 +287,21 @@ public class TradeManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.status,t.taobao_orderid,u.money,t.return_money from t_order t left join t_user u on t.seller_id=u.id where t.id=? for update")
+					"select t.status,t.taobao_orderid,t.return_money,u.unwithdraw_money from t_order t left join t_user u on t.seller_id=u.id where t.id=? for update")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
-			BigDecimal money = null;
+			BigDecimal unwithdrawMoney = null;
 			BigDecimal returnMoney = null;
+			BigDecimal serviceCharge = new BigDecimal(2);
 			if (rs.next()) {
 				int status = rs.getInt("status");
 				if (status != 0)
 					throw new InteractRuntimeException("订单非待核对状态");
 				String taobaoOrderid = rs.getString("taobao_orderid");
-				money = rs.getBigDecimal("money");
+				unwithdrawMoney = rs.getBigDecimal("unwithdraw_money");
 				returnMoney = rs.getBigDecimal("return_money");
-				if (money.compareTo(returnMoney) == -1)
+				if (unwithdrawMoney.compareTo(returnMoney.add(serviceCharge)) == -1)
 					throw new InteractRuntimeException("余额不足，请充值");
 				if (taobaoOrderid == null || taobaoOrderid.isEmpty())
 					throw new InteractRuntimeException("买家还未填写淘宝单号");
@@ -306,12 +311,11 @@ public class TradeManageEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"update t_user set unwithdraw_money=unwithdraw_money-?,money=money-?,frozen_money=frozen_money+? where id=? ")
+					"update t_user set unwithdraw_money=unwithdraw_money-?,frozen_money=frozen_money+? where id=? ")
 							.toString());
-			pst.setObject(1, returnMoney);
+			pst.setObject(1, returnMoney.add(serviceCharge));
 			pst.setObject(2, returnMoney);
-			pst.setObject(3, returnMoney);
-			pst.setObject(4, loginStatus.getUserId());
+			pst.setObject(3, loginStatus.getUserId());
 
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
@@ -326,6 +330,20 @@ public class TradeManageEntrance {
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 
+			String billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+			pst = connection.prepareStatement(new StringBuilder(
+					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
+							.toString());
+			pst.setObject(1, billId);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, serviceCharge.negate());
+			pst.setObject(4, "核对手续费,订单尾号" + orderId.substring(orderId.length() - 5));
+			pst.setObject(5, new Date().getTime());
+			pst.setObject(6, orderId);
+			cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
@@ -473,9 +491,10 @@ public class TradeManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.order_time,t.review_pic_audit,t.review_pic_commit_time from t_order t where t.id=? for update")
+					"select t.order_time,t.review_pic_audit,t.review_pic_commit_time from t_order t where t.id=? and t.seller_id=? for update")
 							.toString());
-			pst.setObject(1, loginStatus.getUserId());
+			pst.setObject(1, orderId);
+			pst.setObject(2, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			Long orderTime = null;
 			Long reviewPicCommitTime = null;
@@ -488,9 +507,10 @@ public class TradeManageEntrance {
 				throw new InteractRuntimeException("订单不存在");
 			pst.close();
 			int returnMoneyIf = 0;
-			if (reviewPicAudit == 0 && (new Date().getTime() - reviewPicCommitTime) > 2 * 60 * 60 * 1000l) {
+			if (reviewPicAudit == 0
+					&& (new Date().getTime() - reviewPicCommitTime) >= unrightprotectAndReviewExpiredReturnTime) {
 				returnMoneyIf = 1;
-			} else if ((new Date().getTime() - orderTime) > 15 * 60 * 60 * 1000l) {
+			} else if ((new Date().getTime() - orderTime) >= unrightprotectAndUnreviewExpiredReturnTime) {
 				returnMoneyIf = 1;
 			}
 			if (returnMoneyIf == 0) {
@@ -532,7 +552,7 @@ public class TradeManageEntrance {
 
 				// 修改订单状态
 				pst = connection.prepareStatement(new StringBuilder(
-						"update t_order set status=2,rightprotect_status=0 where id=? and status=1 and and rightprotect_status in (7,8,9,10,11)")
+						"update t_order set status=2,rightprotect_status=0 where id=? and status=1 and rightprotect_status in (7,8,9,10,11)")
 								.toString());
 				pst.setObject(1, orderId);
 				int cnt = pst.executeUpdate();
@@ -542,13 +562,10 @@ public class TradeManageEntrance {
 
 				// 卖家扣除返现
 				pst = connection.prepareStatement(new StringBuilder(
-						"update t_user set frozen_money=frozen_money-?,money=money-? where id=? and frozen_money-? >=0 and money-?>=0")
-								.toString());
+						"update t_user set frozen_money=frozen_money-? where id=? and frozen_money-? >=0").toString());
 				pst.setObject(1, returnMoney);
-				pst.setObject(2, returnMoney);
-				pst.setObject(3, loginStatus.getUserId());
-				pst.setObject(4, returnMoney);
-				pst.setObject(5, returnMoney);
+				pst.setObject(2, loginStatus.getUserId());
+				pst.setObject(3, returnMoney);
 				cnt = pst.executeUpdate();
 				if (cnt != 1)
 					throw new InteractRuntimeException("操作失败");
@@ -570,15 +587,14 @@ public class TradeManageEntrance {
 				pst.close();
 
 				// 卖家主动核对奖励
-				pst = connection.prepareStatement(new StringBuilder(
-						"update t_user set money=money+0.5,withdrawable_money=withdrawable_money+0.5 where id=? ")
+				pst = connection.prepareStatement(
+						new StringBuilder("update t_user set unwithdraw_money=unwithdraw_money+0.5 where id=? ")
 								.toString());
 				pst.setObject(1, loginStatus.getUserId());
 				cnt = pst.executeUpdate();
 				if (cnt != 1)
 					throw new InteractRuntimeException("操作失败");
 				pst.close();
-				connection.commit();
 
 				billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
 				pst = connection.prepareStatement(new StringBuilder(
@@ -596,11 +612,13 @@ public class TradeManageEntrance {
 				pst.close();
 
 				// 买家收到返现
+				BigDecimal addMoney = returnMoney.multiply(new BigDecimal(0.2)).setScale(2, RoundingMode.DOWN);
+				BigDecimal toWalletMoney = returnMoney.subtract(addMoney);
 				pst = connection.prepareStatement(new StringBuilder(
-						"update t_user set money=money+?,withdrawable_money=withdrawable_money+? where id=? ")
+						"update t_user set right_wallet_unoutable=right_wallet_unoutable+?,withdrawable_money=withdrawable_money+? where id=? ")
 								.toString());
-				pst.setObject(1, returnMoney);
-				pst.setObject(2, returnMoney);
+				pst.setObject(1, toWalletMoney);
+				pst.setObject(2, addMoney);
 				pst.setObject(3, buyerId);
 				cnt = pst.executeUpdate();
 				if (cnt != 1)
@@ -614,9 +632,25 @@ public class TradeManageEntrance {
 				pst.setObject(1, billId);
 				pst.setObject(2, buyerId);
 				pst.setObject(3, returnMoney);
-				pst.setObject(4, "收到返现");
+				pst.setObject(4, "收到返现，其中转入右钱包" + toWalletMoney);
 				pst.setObject(5, new Date().getTime());
 				pst.setObject(6, orderId);
+				cnt = pst.executeUpdate();
+				if (cnt != 1)
+					throw new InteractRuntimeException("操作失败");
+
+				String walletBillId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+				pst = connection.prepareStatement(new StringBuilder(
+						"insert into t_wallet_bill (id,user_id,amount,note,happen_time,added_to_outable,order_id) values(?,?,?,?,?,?,?)")
+								.toString());
+				pst.setObject(1, walletBillId);
+				pst.setObject(2, buyerId);
+				pst.setObject(3, toWalletMoney);
+				pst.setObject(4, "从返现转入");
+				pst.setObject(5, new Date().getTime());
+				pst.setObject(6, 0);
+				pst.setObject(7, orderId);
+
 				cnt = pst.executeUpdate();
 				if (cnt != 1)
 					throw new InteractRuntimeException("操作失败");
@@ -729,14 +763,12 @@ public class TradeManageEntrance {
 			pst.close();
 
 			// 卖家扣除返现
-			pst = connection.prepareStatement(new StringBuilder(
-					"update t_user set frozen_money=frozen_money-?,money=money-? where id=? and frozen_money-? >=0 and money-?>=0")
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_user set frozen_money=frozen_money-? where id=? and frozen_money-? >=0")
 							.toString());
 			pst.setObject(1, returnMoney);
-			pst.setObject(2, returnMoney);
-			pst.setObject(3, loginStatus.getUserId());
-			pst.setObject(4, returnMoney);
-			pst.setObject(5, returnMoney);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, returnMoney);
 			cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -758,15 +790,14 @@ public class TradeManageEntrance {
 			pst.close();
 
 			// 卖家主动核对奖励
-			pst = connection.prepareStatement(new StringBuilder(
-					"update t_user set money=money+0.5,withdrawable_money=withdrawable_money+0.5 where id=? ")
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_user set unwithdraw_money=unwithdraw_money+0.5 where id=? ")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
-			connection.commit();
 
 			billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
 			pst = connection.prepareStatement(new StringBuilder(
@@ -784,11 +815,12 @@ public class TradeManageEntrance {
 			pst.close();
 
 			// 买家收到返现
-			BigDecimal addMoney = returnMoney.multiply(new BigDecimal(0.2)).setScale(2, RoundingMode.DOWN);
-			BigDecimal toWalletMoney = returnMoney.subtract(addMoney);
+			BigDecimal toWalletMoney = returnMoney.multiply(new BigDecimal(0.2)).setScale(2, RoundingMode.DOWN);
+			BigDecimal addMoney = returnMoney.subtract(toWalletMoney);
 			pst = connection.prepareStatement(new StringBuilder(
-					"update t_user set money=money+?,withdrawable_money=withdrawable_money+? where id=? ").toString());
-			pst.setObject(1, addMoney);
+					"update t_user set right_wallet_unoutable=right_wallet_unoutable+?,withdrawable_money=withdrawable_money+? where id=? ")
+							.toString());
+			pst.setObject(1, toWalletMoney);
 			pst.setObject(2, addMoney);
 			pst.setObject(3, buyerId);
 			cnt = pst.executeUpdate();
@@ -802,38 +834,30 @@ public class TradeManageEntrance {
 							.toString());
 			pst.setObject(1, billId);
 			pst.setObject(2, buyerId);
-			pst.setObject(3, returnMoney);
-			pst.setObject(4, "收到返现，转入右钱包" + toWalletMoney);
+			pst.setObject(3, addMoney);
+			pst.setObject(4, "收到返现" + returnMoney + "元，其中转入右钱包" + toWalletMoney);
 			pst.setObject(5, new Date().getTime());
 			pst.setObject(6, orderId);
 			cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
 
-			pst = connection.prepareStatement(
-					new StringBuilder("insert into t_wallet_profit (user_id,amount,happen_time) values(?,?,?)")
-							.toString());
-			pst.setObject(1, buyerId);
-			pst.setObject(2, toWalletMoney);
-			pst.setObject(3, new Date().getTime());
-			cnt = pst.executeUpdate();
-			if (cnt != 1)
-				throw new InteractRuntimeException("操作失败");
-
-			billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+			String walletBillId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
 			pst = connection.prepareStatement(new StringBuilder(
-					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
+					"insert into t_wallet_bill (id,user_id,amount,note,happen_time,added_to_outable,order_id) values(?,?,?,?,?,?,?)")
 							.toString());
-			pst.setObject(1, billId);
+			pst.setObject(1, walletBillId);
 			pst.setObject(2, buyerId);
 			pst.setObject(3, toWalletMoney);
-			pst.setObject(4, "返现转入");
+			pst.setObject(4, "从返现转入");
 			pst.setObject(5, new Date().getTime());
-			pst.setObject(6, orderId);
+			pst.setObject(6, 0);
+			pst.setObject(7, orderId);
+
 			cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
-			pst.close();
+
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
@@ -922,8 +946,8 @@ public class TradeManageEntrance {
 							.append(orderId == null ? "" : " and t.id like ? ")
 							.append(taobaoOrderid == null ? "" : " and t.taobao_orderid like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
-							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ")
-							.toString());
+							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ")
+							.append(" order by t.order_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -1028,8 +1052,8 @@ public class TradeManageEntrance {
 							.append(orderId == null ? "" : " and t.id like ? ")
 							.append(taobaoOrderid == null ? "" : " and t.taobao_orderid like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
-							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ")
-							.toString());
+							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ")
+							.append(" order by t.order_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -1125,9 +1149,10 @@ public class TradeManageEntrance {
 				sqlParams.add(orderTimeEnd);
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
-			pst = connection.prepareStatement(new StringBuilder(
+
+			String sql = new StringBuilder(
 					"select t.rightprotect_status,t.order_time,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buy_way,t.coupon_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 and t.seller_id=?")
-							.append(tradeStatus == null ? " and t.rightprotect_status != 0"
+							.append(tradeStatus == null ? " and t.rightprotect_status != 0 "
 									: (tradeStatus == 1 ? " and t.rightprotect_status in (7,8,9,10,11)"
 											: (tradeStatus == 2 ? " and t.rightprotect_status=12"
 													: (tradeStatus == 3 ? " and t.rightprotect_status=13" : ""))))
@@ -1138,8 +1163,11 @@ public class TradeManageEntrance {
 							.append(orderId == null ? "" : " and t.id like ? ")
 							.append(taobaoOrderid == null ? "" : " and t.taobao_orderid like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
-							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ").append(" limit ?,? ")
-							.toString());
+							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ")
+							.append(" order by t.order_time desc limit ?,? ").toString();
+			logger.debug(sql);
+			logger.debug(sqlParams);
+			pst = connection.prepareStatement(sql);
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}

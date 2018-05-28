@@ -36,6 +36,8 @@ import rrightway.util.RrightwayDataSource;
 public class MoneyManageEntrance {
 
 	public static Logger logger = Logger.getLogger(MoneyManageEntrance.class);
+	// 钱包中的金额从不可转入余额到可转入的时间间隔 15*24*60*60*1000
+	public static long walletOutableTime = 2 * 60 * 1000l;
 
 	@RequestMapping(value = "/ent")
 	public void ent(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -52,7 +54,7 @@ public class MoneyManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.right_wallet,t.money,(select ifnull(sum(amount),0) from t_widthdraw where user_id=t.id and status=0) withdrawing_money,t.withdrawable_money from t_user t where t.id=?")
+					"select (t.right_wallet_unoutable+t.right_wallet_outable) right_wallet,(t.withdrawable_money+t.unwithdraw_money+t.frozen_money) money,(select ifnull(sum(amount),0) from t_widthdraw where user_id=t.id and status=0) withdrawing_money,t.withdrawable_money from t_user t where t.id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
@@ -328,13 +330,11 @@ public class MoneyManageEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"update t_user set money=money-?,withdrawable_money=withdrawable_money-? where id=? and (money-?)>=0 and (withdrawable_money-?)>=0")
+					"update t_user set withdrawable_money=withdrawable_money-? where id=? and (withdrawable_money-?)>=0")
 							.toString());
 			pst.setObject(1, amount);
-			pst.setObject(2, amount);
-			pst.setObject(3, loginStatus.getUserId());
-			pst.setObject(4, amount);
-			pst.setObject(5, amount);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, amount);
 			cnt = pst.executeUpdate();
 			pst.close();
 			if (cnt != 1)
@@ -600,8 +600,9 @@ public class MoneyManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 
-			pst = connection
-					.prepareStatement(new StringBuilder("select t.right_wallet from t_user t where t.id=?").toString());
+			pst = connection.prepareStatement(new StringBuilder(
+					"select (t.right_wallet_unoutable+t.right_wallet_outable) right_wallet from t_user t where t.id=?")
+							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			BigDecimal rightWallet;
@@ -642,56 +643,64 @@ public class MoneyManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection.prepareStatement(
-					new StringBuilder("select right_wallet_outable from t_user where id=? for update").toString());
+			pst = connection.prepareStatement(new StringBuilder(
+					"select right_wallet_unoutable,right_wallet_outable from t_user where id=? for update").toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			BigDecimal rightWalletOutable = null;
+			BigDecimal rightWalletUnoutable = null;
 			if (rs.next()) {
 				rightWalletOutable = rs.getBigDecimal("right_wallet_outable");
+				rightWalletUnoutable = rs.getBigDecimal("right_wallet_unoutable");
 			} else
 				throw new InteractRuntimeException("用户不存在");
 
 			pst.close();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.amount from t_wallet_bill t where t.amount>0 and t.added_to_outable=0 and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-t.happen_time)>15*24*60*60*1000 and t.user_id=?")
-							.toString());
+					"select t.id,t.amount from t_wallet_bill t where t.amount>0 and t.added_to_outable=0 and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-t.happen_time)>"
+							+ walletOutableTime + " and t.user_id=?").toString());
 			pst.setObject(1, loginStatus.getUserId());
 			rs = pst.executeQuery();
 			BigDecimal totalAmount = BigDecimal.ZERO;
-			List<Integer> billIds = new ArrayList<Integer>();
+			List<String> billIds = new ArrayList<String>();
 			while (rs.next()) {
-				int walletBillId = rs.getInt("id");
+				String walletBillId = rs.getString("id");
 				billIds.add(walletBillId);
 				BigDecimal amount = rs.getBigDecimal("amount");
 				totalAmount = totalAmount.add(amount);
 			}
 			pst.close();
 
-			rightWalletOutable = rightWalletOutable.add(totalAmount);
-			pst = connection.prepareStatement(
-					new StringBuilder("update t_user set right_wallet_outable=? where id=?").toString());
-			pst.setObject(1, rightWalletOutable);
-			pst.setObject(2, loginStatus.getUserId());
-			int cnt = pst.executeUpdate();
-			if (cnt != 1)
-				throw new InteractRuntimeException("操作失败");
-			pst.close();
-
-			pst = connection.prepareStatement(
-					new StringBuilder("update t_wallet_bill set added_to_outable=1 where id=?").toString());
-			for (int i = 0; i < billIds.size(); i++) {
-				pst.setObject(1, billIds.get(i));
-				pst.addBatch();
-			}
 			if (billIds.size() > 0) {
-				cnt = pst.executeUpdate();
-				if (cnt != billIds.size())
+				rightWalletOutable = rightWalletOutable.add(totalAmount);
+				rightWalletUnoutable = rightWalletUnoutable.subtract(totalAmount);
+				if (rightWalletUnoutable.intValue() < 0)
 					throw new InteractRuntimeException("操作失败");
-			}
-			pst.close();
 
+				pst = connection.prepareStatement(new StringBuilder(
+						"update t_user set right_wallet_unoutable=?,right_wallet_outable=? where id=?").toString());
+				pst.setObject(1, rightWalletUnoutable);
+				pst.setObject(2, rightWalletOutable);
+				pst.setObject(3, loginStatus.getUserId());
+				int cnt = pst.executeUpdate();
+				if (cnt != 1)
+					throw new InteractRuntimeException("操作失败");
+				pst.close();
+
+				pst = connection.prepareStatement(
+						new StringBuilder("update t_wallet_bill set added_to_outable=1 where id=?").toString());
+				for (int i = 0; i < billIds.size(); i++) {
+					pst.setObject(1, billIds.get(i));
+					pst.addBatch();
+				}
+				if (billIds.size() > 0) {
+					int[] n = pst.executeBatch();
+					if (n.length != billIds.size())
+						throw new InteractRuntimeException("操作失败");
+				}
+				pst.close();
+			}
 			connection.commit();
 			// 返回结果
 			JSONObject data = new JSONObject();
@@ -747,15 +756,12 @@ public class MoneyManageEntrance {
 				throw new InteractRuntimeException("输入的金额超出范围");
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"update t_user set withdrawable_money=withdrawable_money+?,money=money+?,right_wallet=right_wallet-?,right_wallet_outable=right_wallet_outable-? where id=? and right_wallet_outable-? >=0 and right_wallet-? >= 0")
+					"update t_user set withdrawable_money=withdrawable_money+?,right_wallet_outable=right_wallet_outable-? where id=? and right_wallet_outable-? >=0 ")
 							.toString());
 			pst.setObject(1, amount);
 			pst.setObject(2, amount);
-			pst.setObject(3, amount);
+			pst.setObject(3, loginStatus.getUserId());
 			pst.setObject(4, amount);
-			pst.setObject(5, loginStatus.getUserId());
-			pst.setObject(6, amount);
-			pst.setObject(7, amount);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -913,13 +919,12 @@ public class MoneyManageEntrance {
 				throw new InteractRuntimeException("输入的金额超出范围");
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"update t_user set withdrawable_money=withdrawable_money+?,money=money+?,wallet_profit=wallet_profit-? where id=? and wallet_profit-? >=0 ")
+					"update t_user set withdrawable_money=withdrawable_money+?,wallet_profit=wallet_profit-? where id=? and wallet_profit-? >=0 ")
 							.toString());
 			pst.setObject(1, amount);
 			pst.setObject(2, amount);
-			pst.setObject(3, amount);
-			pst.setObject(4, loginStatus.getUserId());
-			pst.setObject(5, amount);
+			pst.setObject(3, loginStatus.getUserId());
+			pst.setObject(4, amount);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -947,7 +952,7 @@ public class MoneyManageEntrance {
 			pst.setObject(1, billId);
 			pst.setObject(2, loginStatus.getUserId());
 			pst.setObject(3, amount);
-			pst.setObject(4, "收益转入");
+			pst.setObject(4, "钱包收益转入");
 			pst.setObject(5, new Date().getTime());
 			pst.setObject(6, profitId);
 			cnt = pst.executeUpdate();

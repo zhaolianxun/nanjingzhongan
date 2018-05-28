@@ -2,99 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/accountSecurity.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/admin.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/adminDetail.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/b_transaction_management_check.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/babyActive.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/babyAdd.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/babyEdit.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/babyManagement.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/babyStorage.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/babyVerify.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/baby_verify_detail.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/bind_third_party.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/classification.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/detail.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/findpwd.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/findpwd2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/findpwd3.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/findpwd_question.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/findpwd_tel.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/findpwd_tel_pwd.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/helpIndex.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/helpIndex1.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/login.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/msg.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/msg_detail.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/myIndexGuest.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/myIndexMerchant.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/new.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/phoneIndex.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/popularize.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/popularizeMyRecoder.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/popularizeRecoder.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/popularizeRule.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/popularizeSelect.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/popularizeShow.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/registe.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/request_order_activist.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/request_order_checked.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/request_order_checked_add.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/request_order_checked_detail.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/request_order_checked_look_pl_photo.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/request_order_checked_upload_pl_photo.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/request_order_rebacked.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/request_order_supply.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/requested_order_buyed.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/requested_order_buyed_detail.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/search.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/searchList.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/securitySettings.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_bank_add2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_bank_list.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_bank_remove.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_log_pwd_change2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_log_pwd_choose.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_log_tel_change.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_protect_pwd.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_protect_pwd_sure.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_pwd.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_pwd_change.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_pwd_change2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_pwd_change_one.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_pwd_choose.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_pwd_ok.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_tel.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_tel_change.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/set_tel_change2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/trademanage_orderdetail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/ActivityDetailEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/ActivityDetailEntrance.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/MoneyManageEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/MoneyManageEntrance.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/TradeManageEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/TradeManageEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/developer/api/ClinicEntrance.java" afterPath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/developer/api/ClinicEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/hospital/api/ClinicInfoEntrance.java" afterPath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/hospital/api/ClinicInfoEntrance.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/CowryManageEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/CowryManageEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/HomeEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/HomeEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/developer/api/HospitalEntrance.java" afterPath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/developer/api/HospitalEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/IambuyerEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/IambuyerEntrance.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/MyEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/MyEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/clinic/api/PatientInfoEntrance.java" afterPath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/clinic/api/PatientInfoEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SafetySetEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SafetySetEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SearchEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SearchEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/b_transaction_management.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/b_transaction_management.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/bindTaobaoPersonal.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/bindTaobaoPersonal.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/buyedorder.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/buyedorder.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/checkorders.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/checkorders.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/js/default.js" afterPath="$PROJECT_DIR$/web/rrightway/phone/js/default.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/zaylt/src/zaylt/config/mainConfig.properties" afterPath="$PROJECT_DIR$/java/zaylt/src/zaylt/config/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/zaylt/src/zaylt/config/mainConfig_product/mainConfig.properties" afterPath="$PROJECT_DIR$/java/zaylt/src/zaylt/config/mainConfig_product/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/zaylt/src/zaylt/config/mainConfig_test/mainConfig.properties" afterPath="$PROJECT_DIR$/java/zaylt/src/zaylt/config/mainConfig_test/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/returnedorders.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/returnedorders.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/topup.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/topup.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/topuprecord.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/topuprecord.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletout.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletout.html" />
     </list>
     <ignored path="nanjingzhongan.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -115,16 +29,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="myIndexMerchant.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/myIndexMerchant.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.25">
-              <caret line="213" column="31" selection-start-line="213" selection-start-column="31" selection-end-line="213" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="trademanage_orderdetail.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/rrightway/phone/trademanage_orderdetail.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -135,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rightprotectorders.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="rightprotectorders.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.25">
-              <caret line="231" column="74" selection-start-line="231" selection-start-column="46" selection-end-line="231" selection-end-column="74" />
+            <state vertical-scroll-proportion="0.47205883">
+              <caret line="240" column="0" selection-start-line="240" selection-start-column="0" selection-end-line="240" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -195,11 +99,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="checkorders.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="checkorders.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.16056338">
-              <caret line="264" column="74" selection-start-line="264" selection-start-column="74" selection-end-line="264" selection-end-column="74" />
+            <state vertical-scroll-proportion="-8.464286">
+              <caret line="660" column="55" selection-start-line="660" selection-start-column="55" selection-end-line="660" selection-end-column="55" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rightwalletout.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletout.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.071428">
+              <caret line="114" column="29" selection-start-line="114" selection-start-column="29" selection-end-line="114" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -241,7 +155,6 @@
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/ent.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/cowrycover.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdrawrecord.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletout.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet_profit.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletprofit.html" />
@@ -280,9 +193,10 @@
         <option value="$PROJECT_DIR$/web/rrightway/phone/myIndexMerchant.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/returnedorders.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/trademanage_orderdetail.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/buyedorder.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/checkorders.html" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletout.html" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html" />
       </list>
     </option>
   </component>
@@ -416,6 +330,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="moneymanage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrightway" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -436,11 +376,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\moneymanage" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\mobiscroll" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\css" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\js" />
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\moneymanage\js" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone" />
@@ -690,13 +630,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6785714">
-          <caret line="66" column="25" selection-start-line="66" selection-start-column="25" selection-end-line="66" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/ent.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="19.678572">
@@ -906,14 +839,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.25">
-          <caret line="231" column="74" selection-start-line="231" selection-start-column="46" selection-end-line="231" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-15.607142">
@@ -924,8 +849,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16056338">
-          <caret line="264" column="74" selection-start-line="264" selection-start-column="74" selection-end-line="264" selection-end-column="74" />
+        <state vertical-scroll-proportion="-8.464286">
+          <caret line="660" column="55" selection-start-line="660" selection-start-column="55" selection-end-line="660" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.071428">
+          <caret line="114" column="29" selection-start-line="114" selection-start-column="29" selection-end-line="114" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.47205883">
+          <caret line="240" column="0" selection-start-line="240" selection-start-column="0" selection-end-line="240" selection-end-column="0" />
           <folding />
         </state>
       </provider>

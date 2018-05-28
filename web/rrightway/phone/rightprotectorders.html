@@ -164,7 +164,7 @@
             type: 'POST',
             data: param,
             async: false,
-            url: '/rrightway/p/m/trademanageent/returnedorders?token='+token,
+            url: '/rrightway/p/m/trademanageent/rightprotectsorders?token='+token,
             success: function(res){
                 if(res.code == 0){
                     if(res.data.items.length==0)
@@ -238,7 +238,7 @@
                                 + '  </a>'
                                 + '  <div class="foot" data="' + row.id + '">' + btnstr + '</div>'
                                 + '</div>';
-                        return txt;
+
                         $('#spro_list4').append(txt);
                     })
 
