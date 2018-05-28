@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import redis.clients.jedis.Jedis;
 import rrightway.constant.SysConstant;
+import rrightway.constant.SysParam;
 import rrightway.entity.InteractRuntimeException;
 import rrightway.module.plat.business.GetLoginStatus;
 import rrightway.module.plat.entity.UserLoginStatus;
@@ -36,8 +37,6 @@ import rrightway.util.RrightwayDataSource;
 public class MoneyManageEntrance {
 
 	public static Logger logger = Logger.getLogger(MoneyManageEntrance.class);
-	// 钱包中的金额从不可转入余额到可转入的时间间隔 15*24*60*60*1000
-	public static long walletOutableTime = 2 * 60 * 1000l;
 
 	@RequestMapping(value = "/ent")
 	public void ent(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -659,7 +658,7 @@ public class MoneyManageEntrance {
 
 			pst = connection.prepareStatement(new StringBuilder(
 					"select t.id,t.amount from t_wallet_bill t where t.amount>0 and t.added_to_outable=0 and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-t.happen_time)>"
-							+ walletOutableTime + " and t.user_id=?").toString());
+							+ SysParam.walletOutableTime + " and t.user_id=?").toString());
 			pst.setObject(1, loginStatus.getUserId());
 			rs = pst.executeQuery();
 			BigDecimal totalAmount = BigDecimal.ZERO;

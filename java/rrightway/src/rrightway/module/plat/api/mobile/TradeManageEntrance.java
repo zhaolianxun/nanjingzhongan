@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import rrightway.constant.SysParam;
 import rrightway.entity.InteractRuntimeException;
 import rrightway.module.plat.business.GetLoginStatus;
 import rrightway.module.plat.entity.UserLoginStatus;
@@ -33,10 +34,6 @@ import rrightway.util.RrightwayDataSource;
 public class TradeManageEntrance {
 
 	public static Logger logger = Logger.getLogger(TradeManageEntrance.class);
-	// 2*60 * 60 * 1000l
-	public static long unrightprotectAndReviewExpiredReturnTime = 2 * 60 * 1000l;
-	// 15 * 60 * 60 * 1000l
-	public static long unrightprotectAndUnreviewExpiredReturnTime = 4 * 60 * 1000l;
 
 	@RequestMapping(value = "/ent")
 	public void ent(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -508,9 +505,9 @@ public class TradeManageEntrance {
 			pst.close();
 			int returnMoneyIf = 0;
 			if (reviewPicAudit == 0
-					&& (new Date().getTime() - reviewPicCommitTime) >= unrightprotectAndReviewExpiredReturnTime) {
+					&& (new Date().getTime() - reviewPicCommitTime) >= SysParam.reviewedExpiredReturnTime) {
 				returnMoneyIf = 1;
-			} else if ((new Date().getTime() - orderTime) >= unrightprotectAndUnreviewExpiredReturnTime) {
+			} else if ((new Date().getTime() - orderTime) >= SysParam.unreviewedExpiredReturnTime) {
 				returnMoneyIf = 1;
 			}
 			if (returnMoneyIf == 0) {
