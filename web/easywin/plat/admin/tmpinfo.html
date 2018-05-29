@@ -60,10 +60,12 @@
         });
     }
 function alterName(){
-    var value= prompt('输入模板名');
-    if(!value)
-        return;
-    alter('name',value);
+   rxw.inputpad('输入模板名',$('#name').text(),function(val){
+       if(!val)
+           return;
+       alter('name',val);
+   });
+
 }
     function alterSummary(){
         var value= prompt('输入概要');
