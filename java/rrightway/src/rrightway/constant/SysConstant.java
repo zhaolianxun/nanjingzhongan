@@ -22,9 +22,10 @@ public class SysConstant {
 
 	public static OkHttpClient okHttpClient = new OkHttpClient();
 
+	public static String project_name;
 	public static String project_domain;
 	public static String project_rooturl;
-
+	public static String project_ossroot;
 	// 错误码
 	public static String errorCodeCnMapperPath = "rrightway/config/errorCode_CN.properties";
 	public static String errorCodeEnMapperPath = "rrightway/config/errorCode_EN.properties";
@@ -53,7 +54,6 @@ public class SysConstant {
 	public static String wechat_open_thirdparty_MsgVerificationToken;
 	public static String wechat_open_thirdparty_MsgEncryptAndDecryptKey;
 
-	
 	public static String ali_open_oauth_url;
 	public static String ali_open_gettoken_url;
 	public static String ali_open_app_rrightway_appkey;

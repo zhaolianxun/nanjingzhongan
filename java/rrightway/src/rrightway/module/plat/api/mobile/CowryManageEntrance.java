@@ -148,16 +148,28 @@ public class CowryManageEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
+			List<String> detailPics = new ArrayList<String>();
 			String cover = null;
 			try {
 				Document mydoc = Jsoup.parse(new URL(crowyUrl), 30000);
-				cover = mydoc.getElementById("J_ImgBooth").attr("src");
+				List<String> pics = mydoc.getElementById("J_UlThumb").getElementsByTag("img").eachAttr("data-src");
+				if (!pics.isEmpty()) {
+					cover = pics.get(0).replaceAll("50x50", "400x400");
+					pics.remove(0);
+					if (pics.size() > 1) {
+						for (int i = 0; i < pics.size(); i++) {
+							detailPics.add(pics.get(i).replaceAll("50x50", "400x400"));
+						}
+					}
+				}
+
 			} catch (Exception e) {
 
 			}
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("cover", cover);
+			data.put("detailPics", detailPics);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -842,6 +854,55 @@ public class CowryManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
 					new StringBuilder("update t_activity set status=4 where id=? and status=0").toString());
+			pst.setObject(1, activityId);
+			int cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/auditingcowries/del")
+	public void auditingCowriesDel(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String activityIdParam = StringUtils.trimToNull(request.getParameter("activity_id"));
+			Integer activityId = activityIdParam == null ? null : Integer.parseInt(activityIdParam);
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement(new StringBuilder("select status from t_activity where id=?").toString());
+			pst.setObject(1, activityId);
+			ResultSet rs = pst.executeQuery();
+			int status = 0;
+			if (rs.next()) {
+				status = rs.getInt("status");
+			} else
+				throw new InteractRuntimeException("活动不存在");
+
+			if (status == 1)
+				throw new InteractRuntimeException("活动正在审核中");
+
+			pst = connection.prepareStatement(new StringBuilder("update t_activity set del=1 where id=?").toString());
 			pst.setObject(1, activityId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)

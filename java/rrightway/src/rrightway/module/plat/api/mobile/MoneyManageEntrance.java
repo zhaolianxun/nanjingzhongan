@@ -212,7 +212,7 @@ public class MoneyManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select id,INSERT(cardno,1,12,'************') cardno,belonger,status from t_user_bankcard where user_id=?")
+					"select c,id,INSERT(cardno,1,12,'************') cardno,belonger,status from t_user_bankcard where user_id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
@@ -222,6 +222,7 @@ public class MoneyManageEntrance {
 				item.put("bankId", rs.getInt("id"));
 				item.put("cardno", rs.getString("cardno"));
 				item.put("belonger", rs.getString("belonger"));
+				item.put("failReason", rs.getString("fail_reason"));
 				item.put("status", rs.getInt("status"));
 				items.add(item);
 			}

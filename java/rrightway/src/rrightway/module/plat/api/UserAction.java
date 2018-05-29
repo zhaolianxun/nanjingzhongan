@@ -350,9 +350,13 @@ public class UserAction {
 			String username = StringUtils.trimToNull(request.getParameter("username"));
 			if (username == null)
 				throw new InteractRuntimeException("username 不可空");
+			if (username.length() < 6 || username.length() > 20)
+				throw new InteractRuntimeException("用户名长度需在6-20位之间");
 			String pwd = StringUtils.trimToNull(request.getParameter("pwd"));
 			if (pwd == null)
 				throw new InteractRuntimeException("pwd 不可空");
+			if (pwd.length() < 6 || pwd.length() > 16)
+				throw new InteractRuntimeException("密码长度需在6-16位之间");
 			String qq = StringUtils.trimToNull(request.getParameter("qq"));
 			if (qq == null)
 				throw new InteractRuntimeException("qq 不可空");

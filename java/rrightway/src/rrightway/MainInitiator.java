@@ -108,19 +108,20 @@ public class MainInitiator implements ServletContextListener {
 				.trimToNull(properties.getProperty("wechat.open.thirdparty.MsgVerificationToken"));
 		SysConstant.wechat_open_thirdparty_MsgEncryptAndDecryptKey = StringUtils
 				.trimToNull(properties.getProperty("wechat.open.thirdparty.MsgEncryptAndDecryptKey"));
-		
-		
+
 		SysConstant.ali_open_app_rrightway_appkey = StringUtils
 				.trimToNull(properties.getProperty("ali.open.app.rrightway.appkey"));
 		SysConstant.ali_open_app_rrightway_appsecret = StringUtils
 				.trimToNull(properties.getProperty("ali.open.app.rrightway.appsecret"));
-		SysConstant.ali_open_oauth_url = StringUtils
-				.trimToNull(properties.getProperty("ali.open.oauth.url"));
-		SysConstant.ali_open_gettoken_url = StringUtils
-				.trimToNull(properties.getProperty("ali.open.gettoken.url"));
-		
+		SysConstant.ali_open_oauth_url = StringUtils.trimToNull(properties.getProperty("ali.open.oauth.url"));
+		SysConstant.ali_open_gettoken_url = StringUtils.trimToNull(properties.getProperty("ali.open.gettoken.url"));
+
 		SysConstant.project_domain = StringUtils.trimToNull(properties.getProperty("project.domain"));
 		SysConstant.project_rooturl = StringUtils.trimToNull(properties.getProperty("project.rooturl"));
+		SysConstant.project_ossroot = StringUtils.trimToNull(properties.getProperty("project.ossroot"));
+		SysConstant.project_name = StringUtils.trimToNull(properties.getProperty("project.name"));
+
+		
 		// 外部接口初始化
 		OutApis.sms_verification_verify = StringUtils
 				.trimToNull(properties.getProperty("outapi.sms.verification.verify"));

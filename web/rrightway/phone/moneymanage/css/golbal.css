@@ -51,7 +51,7 @@ select {
     -moz-appearance: none; /* Firefox */
     -webkit-appearance: none; /* Safari 和 Chrome */
     font-size: 14px;
-    background: url(../image/arrow_select_down.png) no-repeat right center;
+    background: url(images/arrow_select_down.png) no-repeat right center;
     background-size: 18px auto;
 }
 
@@ -271,7 +271,7 @@ a.c999, .c999 {
 }
 
 img.lazy {
-    background: url(../image/loading.gif) no-repeat center center;
+    background: url(images/loading.gif) no-repeat center center;
 }
 
 .fw {
@@ -780,7 +780,7 @@ img.lazy {
 
 /**产品类型**/
 .ptype {
-    background: url(../image/pro_type_bg.png?23) no-repeat 0 0;
+    background: url(images/pro_type_bg.png?23) no-repeat 0 0;
     background-size: 20px auto;
     width: 20px;
     height: 20px;
@@ -811,7 +811,7 @@ img.lazy {
 .buyer, .seller {
     width: 18px;
     height: 18px;
-    background: url(../image/ico_user.png) no-repeat 0 0;
+    background: url(images/ico_user.png) no-repeat 0 0;
     background-size: auto 18px;
     display: inline-block;
     margin-top: -3px;
@@ -830,7 +830,7 @@ img.lazy {
 .buyer2, .seller2, .user2 {
     width: 30px;
     height: 30px;
-    background: url(../image/ico_user.png) no-repeat 0 0;
+    background: url(images/ico_user.png) no-repeat 0 0;
     background-size: auto 30px;
     display: inline-block;
     vertical-align: middle;
@@ -863,7 +863,7 @@ a.clearvalue {
 }
 
 .ico_del {
-    background: url(../image/ico_del.png) no-repeat 0 0;
+    background: url(images/ico_del.png) no-repeat 0 0;
     width: 16px;
     height: 20px;
     background-size: 16px auto;
@@ -913,7 +913,7 @@ header.topy {
 }
 
 header .shop_car a, #nav_more {
-    background: url(../image/top_50bg.png) no-repeat 0 0;
+    background: url(images/top_50bg.png) no-repeat 0 0;
     background-size: auto 30px;
 }
 
@@ -928,7 +928,7 @@ header .logo a {
     display: block;
     width: 30px;
     height: 100%;
-    background: url(../image/logo.png) no-repeat 0 center;
+    background: url(images/logo.png) no-repeat 0 center;
     background-size: 30px auto;
 }
 
@@ -1008,7 +1008,7 @@ header .search_sbt {
 
 header .search_sbt input {
     background: #fff;
-    background: url(../image/ico_search_sbt.png) no-repeat center center;
+    background: url(images/ico_search_sbt.png) no-repeat center center;
     background-size: 14px auto;
 }
 
@@ -1083,7 +1083,7 @@ header .gosearch a {
     content: " ";
     width: 20px;
     height: 50px;
-    background: url(../image/ico_help.png) no-repeat right center;
+    background: url(images/ico_help.png) no-repeat right center;
     background-size: 20px auto;
     position: absolute;
     right: 10px;
@@ -1100,7 +1100,7 @@ header .gosearch a {
     content: " ";
     width: 23px;
     height: 50px;
-    background: url(../image/ico_message.png) no-repeat right center;
+    background: url(images/ico_message.png) no-repeat right center;
     background-size: 23px auto;
     position: absolute;
     right: 10px;
@@ -1117,7 +1117,7 @@ header .gosearch a {
     content: " ";
     width: 20px;
     height: 50px;
-    background: url(../image/filter_ico.png) no-repeat right center;
+    background: url(images/filter_ico.png) no-repeat right center;
     background-size: 20px auto;
     position: absolute;
     right: 10px;
@@ -1134,7 +1134,7 @@ header .gosearch a {
     content: " ";
     width: 20px;
     height: 50px;
-    background: url(../image/ico_del_white.png) no-repeat right center;
+    background: url(images/ico_del_white.png) no-repeat right center;
     background-size: 20px auto;
     position: absolute;
     right: 10px;
@@ -1150,7 +1150,7 @@ header .gosearch a {
 #address_add {
     width: 30px;
     display: block;
-    background: url(../image/ico_add.png) no-repeat center center;
+    background: url(images/ico_add.png) no-repeat center center;
     background-size: auto 30px;
 }
 
@@ -1160,7 +1160,7 @@ header .list_order {
 }
 
 header .list_order a {
-    background: url(../image/ico_show_type1.png?523) no-repeat 15px center;
+    background: url(images/ico_show_type1.png?523) no-repeat 15px center;
     background-size: 24px 24px;
     width: 20px;
     height: 50px;
@@ -1169,7 +1169,7 @@ header .list_order a {
 }
 
 header .list_order a.crently {
-    background: url(../image/ico_show_type2.png?253523) no-repeat center center;
+    background: url(images/ico_show_type2.png?253523) no-repeat center center;
     background-size: 24px 24px;
     width: 24px;
     height: 50px;
@@ -1186,7 +1186,7 @@ header .user_search {
 }
 
 header .user_search a {
-    background: url(../image/ico_search.png) no-repeat left center;
+    background: url(images/ico_search.png) no-repeat left center;
     width: 37px;
     height: 50px;
     display: block;
@@ -1198,7 +1198,7 @@ header .user_adtie {
 }
 
 header .user_adtie a {
-    background: url(../image/ico_edit2.png) no-repeat left center;
+    background: url(images/ico_edit2.png) no-repeat left center;
     width: 37px;
     height: 50px;
     display: block;
@@ -1210,7 +1210,7 @@ header .user_add {
 }
 
 header .user_add a {
-    background: url(../image/ico_edit2.png) no-repeat left center;
+    background: url(images/ico_edit2.png) no-repeat left center;
     width: 40px;
     height: 50px;
     display: block;
@@ -1218,7 +1218,7 @@ header .user_add a {
 }
 
 header .rquest a {
-    background: url(../image/ico_rquest.png) no-repeat left center;
+    background: url(images/ico_rquest.png) no-repeat left center;
     width: 37px;
     height: 50px;
     display: block;
@@ -1247,7 +1247,7 @@ header .rquest a {
     position: absolute;
     left: 12px;
     top: 14px;
-    background: url(../image/ico_menu_open.png) no-repeat 0 0;
+    background: url(images/ico_menu_open.png) no-repeat 0 0;
     background-size: 25px auto
 }
 
@@ -1427,42 +1427,42 @@ header .rquest a {
 }
 
 .post-func-open li .i-top span:before {
-    background: url(../image/tool_s2.png) no-repeat 0 0;
+    background: url(images/tool_s2.png) no-repeat 0 0;
     background-size: auto 25px;
     left: 10px;
     width: 25px;
 }
 
 .post-func-open li .i-tail span:before {
-    background: url(../image/tool_s4.png) no-repeat 0 0;
+    background: url(images/tool_s4.png) no-repeat 0 0;
     background-size: auto 25px;
     left: 27px;
     width: 24px;
 }
 
 .post-func-open li .i-next span:before {
-    background: url(../image/tool_s1.png) no-repeat 0 0;
+    background: url(images/tool_s1.png) no-repeat 0 0;
     background-size: auto 25px;
     left: 10px;
     width: 27px;
 }
 
 .post-func-open li .i-last span:before {
-    background: url(../image/tool_s6.png) no-repeat 0 0;
+    background: url(images/tool_s6.png) no-repeat 0 0;
     background-size: auto 25px;
     left: 10px;
     width: 26px;
 }
 
 .post-func-open li .i-fav span:before {
-    background: url(../image/tool_s5.png) no-repeat 0 0;
+    background: url(images/tool_s5.png) no-repeat 0 0;
     background-size: auto 25px;
     left: 10px;
     width: 26px;
 }
 
 .post-func-open li .i-see span:before {
-    background: url(../image/tool_s3.png) no-repeat 0 0;
+    background: url(images/tool_s3.png) no-repeat 0 0;
     background-size: auto 25px;
     left: 10px;
     width: 27px;
@@ -1481,7 +1481,7 @@ header .rquest a {
     left: 29px;
     width: 20px;
     height: 20px;
-    background: url(../image/ico_close_write.png) 0 0;
+    background: url(images/ico_close_write.png) 0 0;
     background-size: 20px auto
 }
 
@@ -1648,7 +1648,7 @@ header .rquest a {
 #backtop i {
     width: 20px;
     height: 20px;
-    background: url(../image/ico_top.png) no-repeat center center;
+    background: url(images/ico_top.png) no-repeat center center;
     background-size: auto 20px;
     display: block;
 }
@@ -1664,7 +1664,7 @@ header .rquest a {
     height: 110px;
     margin: 0 auto;
     display: block;
-    background: url(../image/ico_cart_empty.png) no-repeat 0 bottom;
+    background: url(images/ico_cart_empty.png) no-repeat 0 bottom;
     background-size: 110px auto;
     width: 110px;
     height: 110px;
@@ -2197,7 +2197,7 @@ header .rquest a {
 }
 
 .client_logo {
-    background: url(../image/client_logo.png) no-repeat center 0;
+    background: url(images/client_logo.png) no-repeat center 0;
     width: 140px;
     height: 192px;
     background-size: 140px auto;
@@ -2221,7 +2221,7 @@ header .rquest a {
     position: absolute;
     right: 10px;
     top: 0;
-    background: url(../image/guide.png) no-repeat 0 0;
+    background: url(images/guide.png) no-repeat 0 0;
     background-size: 140px auto;
 }
 
@@ -2250,7 +2250,7 @@ header .rquest a {
 .client a i {
     width: 20px;
     height: 22px;
-    background: url(../image/ico_client_type.png) no-repeat 0 0;
+    background: url(images/ico_client_type.png) no-repeat 0 0;
     background-size: 20px auto;
     display: inline-block;
     vertical-align: middle;
@@ -2310,7 +2310,7 @@ header .rquest a {
 .title .more i {
     width: 20px;
     height: 20px;
-    background: url(../image/ico_more.png?2) no-repeat 0 0;
+    background: url(images/ico_more.png?2) no-repeat 0 0;
     background-size: 20px 20px;
     display: inline-block;
     position: absolute;
@@ -2525,35 +2525,35 @@ footer p a.crently {
 .nav_more_content a.n_home i {
     width: 30px;
     height: 50px;
-    background: url(../image/ico_nav_more_home.png) no-repeat center center;
+    background: url(images/ico_nav_more_home.png) no-repeat center center;
     background-size: 25px auto;
 }
 
 .nav_more_content a.n_cart i {
     width: 30px;
     height: 50px;
-    background: url(../image/ico_nav_more_cart.png) no-repeat center center;
+    background: url(images/ico_nav_more_cart.png) no-repeat center center;
     background-size: 25px auto;
 }
 
 .nav_more_content a.n_type i {
     width: 30px;
     height: 50px;
-    background: url(../image/ico_nav_more_type.png) no-repeat center center;
+    background: url(images/ico_nav_more_type.png) no-repeat center center;
     background-size: 25px auto;
 }
 
 .nav_more_content a.n_search i {
     width: 30px;
     height: 50px;
-    background: url(../image/ico_nav_more_search.png) no-repeat center center;
+    background: url(images/ico_nav_more_search.png) no-repeat center center;
     background-size: 25px auto;
 }
 
 .nav_more_content a.n_acount i {
     width: 30px;
     height: 50px;
-    background: url(../image/ico_nav_more_acount.png) no-repeat center center;
+    background: url(images/ico_nav_more_acount.png) no-repeat center center;
     background-size: 25px auto;
 }
 
@@ -2640,7 +2640,7 @@ footer p a.crently {
 }
 
 .pop3 .pop3_select a.crently b {
-    background: url(../image/ico_selected.png?2153) no-repeat 0 0;
+    background: url(images/ico_selected.png?2153) no-repeat 0 0;
     background-size: 24px 16px;
     position: absolute;
     right: 0;
@@ -2763,7 +2763,7 @@ footer p a.crently {
 }
 
 .item2.crently i {
-    background: url(../image/ico_selected.png) no-repeat 0 0;
+    background: url(images/ico_selected.png) no-repeat 0 0;
     background-size: 25px auto;
     width: 25px;
     height: 17px;
@@ -2926,7 +2926,7 @@ footer p a.crently {
     top: -10px;
     right: -10px;
     position: absolute;
-    background: #fff url(../image/ico_close.png) no-repeat center center;
+    background: #fff url(images/ico_close.png) no-repeat center center;
     background-size: 10px auto;
     z-index: 1;
     cursor: pointer;
@@ -2957,7 +2957,7 @@ footer p a.crently {
 }
 
 #ajax_loading {
-    background: #fff url(../image/loading.gif) no-repeat center center;
+    background: #fff url(images/loading.gif) no-repeat center center;
     width: 32px;
     height: 32px;
     text-align: center;
@@ -2984,7 +2984,7 @@ footer p a.crently {
 }
 
 .arrow_select.crently i {
-    background: url(../image/ico_selected.png) no-repeat 0 0;
+    background: url(images/ico_selected.png) no-repeat 0 0;
     background-size: 25px auto;
     width: 25px;
     height: 17px;
@@ -2997,7 +2997,7 @@ footer p a.crently {
 
 .arrow_right {
     padding-right: 15px;
-    background: url(../image/ico_arrow_right.png) no-repeat right center;
+    background: url(images/ico_arrow_right.png) no-repeat right center;
     background-size: auto 14px;
     color: #999;
     height: 14px;
@@ -3020,7 +3020,7 @@ footer p a.crently {
 
 .arrow_right2 {
     padding-right: 15px;
-    background: url(../image/ico_arrow_right_white.png) no-repeat right center;
+    background: url(images/ico_arrow_right_white.png) no-repeat right center;
     background-size: auto 20px;
     color: #999;
     height: 20px;
@@ -3033,7 +3033,7 @@ footer p a.crently {
 
 .arrow_right3 {
     padding-right: 15px;
-    background: url(../image/ico_arrow_right_yellow.png) no-repeat right center;
+    background: url(images/ico_arrow_right_yellow.png) no-repeat right center;
     background-size: auto 14px;
     color: #999;
     height: 14px;
@@ -3046,7 +3046,7 @@ footer p a.crently {
 
 .arrow_right4 {
     padding-right: 15px;
-    background: url(../image/ico_arrow_right.png) no-repeat right center;
+    background: url(images/ico_arrow_right.png) no-repeat right center;
     background-size: auto 14px;
     color: #999;
     height: 20px;
@@ -3095,7 +3095,7 @@ footer p a.crently {
 }
 
 .fail i {
-    background: url(../image/ico_fail.png) no-repeat 0 0;
+    background: url(images/ico_fail.png) no-repeat 0 0;
     width: 100px;
     height: 114px;
     background-size: 100px auto;
@@ -3104,7 +3104,7 @@ footer p a.crently {
 }
 
 .fail i.i2 {
-    background: url(../image/ico_fail2.png) no-repeat 0 0;
+    background: url(images/ico_fail2.png) no-repeat 0 0;
     background-size: 100px auto;
 }
 
@@ -3154,7 +3154,7 @@ footer p a.crently {
 }
 
 .access i {
-    background: url(../image/ico_access.png) no-repeat 0 0;
+    background: url(images/ico_access.png) no-repeat 0 0;
     width: 100px;
     height: 114px;
     background-size: 100px auto;
@@ -3177,7 +3177,7 @@ footer p a.crently {
     height: 126px;
     margin: 0 auto;
     display: block;
-    background: url(../image/ico_access.png) no-repeat 0 0;
+    background: url(images/ico_access.png) no-repeat 0 0;
     background-size: 110px auto;
 }
 
@@ -3396,7 +3396,7 @@ a.login_rst.b2{height:43px;line-height:43px;width:100%;display:block;color:#2f97
     left: 4px;
     top: 50%;
     margin-top: -3px;
-    background: url(../image/ico_selected_white.png) no-repeat center center;
+    background: url(images/ico_selected_white.png) no-repeat center center;
     background-size: 10px auto;
 }
 

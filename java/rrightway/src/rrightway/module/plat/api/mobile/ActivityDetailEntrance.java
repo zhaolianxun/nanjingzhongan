@@ -62,8 +62,8 @@ public class ActivityDetailEntrance {
 							+ (loginStatus == null ? ",null gift_detail" : ",t.gift_detail")
 							+ " from t_activity t left join t_taobaoaccount tb on t.taobaoaccount_id=tb.id where t.id=?")
 									.toString());
-			for(int i =0;i<sqlParams.size();i++){
-				pst.setObject(i+1, sqlParams.get(i));
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
 			}
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
@@ -200,6 +200,7 @@ public class ActivityDetailEntrance {
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(new StringBuilder(
 					"select taobao_user_nick,status,audit_fail_reason from t_taobaoaccount where id=? and type=1 and user_id=?")
 							.toString());
@@ -222,12 +223,13 @@ public class ActivityDetailEntrance {
 
 			pst.close();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select way_to_shop,(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id and status not in (3,4,5)) apply_if,t.start_time,t.keep_days,t.gift_express_co,t.buyer_mincredit,t.gift_cover,tbs.taobao_user_nick,t.taobaoaccount_id,t.user_id,t.gift_name,t.title,t.pay_price,t.return_money,t.buy_way,if((isnull(t.coupon_url)||length(trim(t.coupon_url))=0),0,1) coupon_if from t_activity t inner join t_taobaoaccount tbs on t.taobaoaccount_id=tbs.id where t.id=?")
+					"select gift_type1_name,gift_type2_name,stock,way_to_shop,(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id and status not in (3,4,5)) apply_if,t.start_time,t.keep_days,t.gift_express_co,t.buyer_mincredit,t.gift_cover,tbs.taobao_user_nick,t.taobaoaccount_id,t.user_id,t.gift_name,t.title,t.pay_price,t.return_money,t.buy_way,if((isnull(t.coupon_url)||length(trim(t.coupon_url))=0),0,1) coupon_if from t_activity t inner join t_taobaoaccount tbs on t.taobaoaccount_id=tbs.id where t.id=? for update")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, activityId);
 			rs = pst.executeQuery();
 			String orderId = null;
+			int stock = 0;
 			if (rs.next()) {
 				String sellerUserId = rs.getString("user_id");
 				if (sellerUserId.equals(loginStatus.getUserId()))
@@ -241,6 +243,10 @@ public class ActivityDetailEntrance {
 					throw new InteractRuntimeException("您已申请过");
 				int sellerTaobaoAccountId = rs.getInt("taobaoaccount_id");
 				int buyerMincredit = rs.getInt("buyer_mincredit");
+				stock = rs.getInt("stock");
+				if (stock <= 0)
+					throw new InteractRuntimeException("库存不足");
+
 				String giftExpressCo = rs.getString("gift_express_co");
 				int couponIf = rs.getInt("coupon_if");
 				int buyWay = rs.getInt("buy_way");
@@ -249,13 +255,15 @@ public class ActivityDetailEntrance {
 				String title = rs.getString("title");
 				String giftCover = rs.getString("gift_cover");
 				String sellerTaobaoUserNick = rs.getString("taobao_user_nick");
+				String giftType1Name = rs.getString("gift_type1_name");
+				String giftType2Name = rs.getString("gift_type2_name");
 				BigDecimal payPrice = rs.getBigDecimal("pay_price");
 				BigDecimal returnMoney = rs.getBigDecimal("return_money");
 				pst.close();
 
 				orderId = RandomStringUtils.randomNumeric(12);
 				pst = connection.prepareStatement(new StringBuilder(
-						"insert into t_order (id,seller_id,seller_taobaoaccount_id,buyer_id,buyer_taobaoaccount_id,activity_id,gift_name,activity_title,pay_price,return_money,order_time,seller_taobaoaccount_name,buyer_taobaoaccount_name,buy_way,coupon_if,gift_cover,gift_express_co,buyer_mincredit,way_to_shop) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")
+						"insert into t_order (id,seller_id,seller_taobaoaccount_id,buyer_id,buyer_taobaoaccount_id,activity_id,gift_name,activity_title,pay_price,return_money,order_time,seller_taobaoaccount_name,buyer_taobaoaccount_name,buy_way,coupon_if,gift_cover,gift_express_co,buyer_mincredit,way_to_shop,gift_type1_name,gift_type2_name) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")
 								.toString());
 				pst.setObject(1, orderId);
 				pst.setObject(2, sellerUserId);
@@ -276,15 +284,23 @@ public class ActivityDetailEntrance {
 				pst.setObject(17, giftExpressCo);
 				pst.setObject(18, buyerMincredit);
 				pst.setObject(19, wayToShop);
+				pst.setObject(20, giftType1Name);
+				pst.setObject(21, giftType2Name);
 
-				int n = pst.executeUpdate();
-				pst.close();
-				if (n != 1)
+				if (pst.executeUpdate() != 1)
 					throw new InteractRuntimeException("操作失败");
+				pst.close();
 			} else
 				throw new InteractRuntimeException("活动不存在");
 			pst.close();
 
+			pst = connection.prepareStatement(new StringBuilder(
+					"update t_activity set stock=stock-1,buyer_num=buyer_num+1 where id=? and stock-1>=0").toString());
+			pst.setObject(1, activityId);
+			if (pst.executeUpdate() != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+			connection.commit();
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("orderId", orderId);
@@ -292,6 +308,8 @@ public class ActivityDetailEntrance {
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源

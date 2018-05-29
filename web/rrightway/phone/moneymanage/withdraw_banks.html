@@ -30,17 +30,17 @@
         <dt class="mt10"><a href="javascript:;" class="bg2f97f0 cfff submit">确定</a></dt>
     </div>
 
-    <div class="p15 ">
+    <div class="p15 hidden">
         <div class="txtc">马上去绑定支付宝？</div>
 
         <div class="mt15"><a href="javascript:;" class="bg2f97f0 cfff  bl brd20 h40 txtc goalipay">确定</a></div>
     </div>
 
 
-    <div class="p15 hidden">
+    <div name="toBindBankPad" class="p15 hidden">
         <div class="txtc">请先去绑定银行卡？</div>
 
-        <div class="mt15"><a href="javascript:;" class="bg2f97f0 cfff  bl brd20 h40 txtc gobank">确定</a></div>
+        <div class="mt15"><a href="javascript:;"  class="bg2f97f0 cfff  bl brd20 h40 txtc gobank">确定</a></div>
     </div>
 </dl>
 
@@ -62,11 +62,16 @@
             url: '/rrightway/p/m/moneymanageent/withdraw/banks?token='+token,
             success: function(res){
                 if(res.code == 0){
+                    if(res.data.banks.items.length ==0){
+                        $('.order_cancle_select_list').removeClass('hidden')
+                        $('.order_cancle_select_list [name=toBindBankPad]').removeClass('hidden')
+                    }else{
                     $.each(res.data.banks.items,function(index,ele){
                         banks[ele.bankId]=ele;
                         $('#banks').append('<dd><label data="'+ele.bankId+'"> '+ele.cardno+'<span class="c999">('+ele.belonger+')</span><i><input type="radio" name="bankradio" class="opa0" value="'+ele.bankId+'"/></i></label></dd>');
                     })
                     $('#banks').append(' <dt class="mt10"><a href="javascript:;" class="bg2f97f0 cfff submit">确定</a></dt>')
+                    }
                 }else{
                     alert(res.codeMsg)
                 }
@@ -119,12 +124,12 @@
 
         $(".gobank").click(function () {
 
-            parent.freshpage("/user/money/bank_list.aspx");
+            parent.freshpage("../set_bank_list.html");
         });
 
         $(".goalipay").click(function () {
 
-            parent.freshpage("/user/money/alipay_list.aspx");;
+            parent.freshpage("../set_bank_list.html");;
         });
     });
 </script>
