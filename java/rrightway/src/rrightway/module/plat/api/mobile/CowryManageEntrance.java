@@ -875,8 +875,8 @@ public class CowryManageEntrance {
 		}
 	}
 
-	@RequestMapping(value = "/auditingcowries/del")
-	public void auditingCowriesDel(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/del")
+	public void del(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {

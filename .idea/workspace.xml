@@ -2,31 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/ActivityDetailEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/ActivityDetailEntrance.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/demo/5-121204193R0-50.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/demo/demo.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/demo/demo1.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/demo/demo2.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/demo/demo3.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/demo/demo4.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/demo/demo5.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/CowryManageEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/CowryManageEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/MoneyManageEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/MoneyManageEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/MainInitiator.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/MainInitiator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/constant/SysConstant.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/constant/SysConstant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/UserAction.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/UserAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/js/com.js" afterPath="$PROJECT_DIR$/web/rrightway/phone/js/com.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/com.js" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/com.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/js/default.js" afterPath="$PROJECT_DIR$/web/rrightway/phone/js/default.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/ent.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/ent.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/css/golbal.css" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/css/golbal.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig.properties" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_develop/mainConfig.properties" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_develop/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_product/mainConfig.properties" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_product/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_test/mainConfig.properties" afterPath="$PROJECT_DIR$/java/easywin/src/easywin/config/mainConfig_test/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/build/classes/rrightway/config/mainConfig.properties" afterPath="$PROJECT_DIR$/java/rrightway/build/classes/rrightway/config/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/build/classes/rrightway/config/mainConfig_develop/mainConfig.properties" afterPath="$PROJECT_DIR$/java/rrightway/build/classes/rrightway/config/mainConfig_develop/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/build/classes/rrightway/config/mainConfig_product/mainConfig.properties" afterPath="$PROJECT_DIR$/java/rrightway/build/classes/rrightway/config/mainConfig_product/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/build/classes/rrightway/config/mainConfig_test/mainConfig.properties" afterPath="$PROJECT_DIR$/java/rrightway/build/classes/rrightway/config/mainConfig_test/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig.properties" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig_develop/mainConfig.properties" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig_develop/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig_product/mainConfig.properties" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig_product/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig_test/mainConfig.properties" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/config/mainConfig_test/mainConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdraw.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdraw.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdraw_banks.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdraw_banks.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/IambuyerEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/IambuyerEntrance.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="nanjingzhongan.iws" />
@@ -48,60 +32,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="withdraw.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdraw.html">
+      <file leaf-file-name="demo.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/demo/demo.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.9310346">
-              <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+            <state vertical-scroll-proportion="-57.67857">
+              <caret line="85" column="5" selection-start-line="85" selection-start-column="5" selection-end-line="85" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="withdraw_banks.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdraw_banks.html">
+      <file leaf-file-name="demo4.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web/demo/demo4.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.120689">
-              <caret line="131" column="51" selection-start-line="131" selection-start-column="51" selection-end-line="131" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="withdrawrecord.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdrawrecord.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.6034484">
-              <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.73239434">
+              <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
               <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#4;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#5;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#1;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1527599031071" expanded="true" signature="1166:1423" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="new.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/new.js">
+      <file leaf-file-name="demo5.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/demo/demo5.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.133333">
-              <caret line="77" column="42" selection-start-line="77" selection-start-column="42" selection-end-line="77" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="com.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/com.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.866667">
-              <caret line="108" column="788" selection-start-line="108" selection-start-column="788" selection-end-line="108" selection-end-column="802" />
+            <state vertical-scroll-proportion="-4.75">
+              <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
               <folding>
-                <marker date="1527566650454" expanded="true" signature="2755:2782" placeholder="..." />
-                <marker date="1527566650454" expanded="true" signature="2865:2892" placeholder="..." />
-                <marker date="1527566650454" expanded="true" signature="2975:3002" placeholder="..." />
-                <marker date="1527566650454" expanded="true" signature="3082:3109" placeholder="..." />
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -110,57 +74,71 @@
       <file leaf-file-name="com.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/com.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.9666667">
-              <caret line="208" column="369" selection-start-line="208" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
+            <state vertical-scroll-proportion="-2.878049">
+              <caret line="1048" column="0" selection-start-line="1048" selection-start-column="0" selection-end-line="1070" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="new.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/new.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-14.833333">
+              <caret line="568" column="23" selection-start-line="568" selection-start-column="23" selection-end-line="568" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="default.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/default.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.4">
+              <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="demo3.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/demo/demo3.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-17.892857">
+              <caret line="56" column="3" selection-start-line="56" selection-start-column="3" selection-end-line="56" selection-end-column="51" />
               <folding>
-                <marker date="1527566629408" expanded="true" signature="2957:2984" placeholder="..." />
-                <marker date="1527566629408" expanded="true" signature="3073:3100" placeholder="..." />
-                <marker date="1527566629408" expanded="true" signature="3189:3216" placeholder="..." />
-                <marker date="1527566629408" expanded="true" signature="3302:3329" placeholder="..." />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="new.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/css/new.css">
+      <file leaf-file-name="iindex.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/iindex.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.566667">
-              <caret line="1224" column="60" selection-start-line="1224" selection-start-column="60" selection-end-line="1224" selection-end-column="60" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="golbal.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/css/golbal.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.8644068">
-              <caret line="1461" column="1" selection-start-line="1461" selection-start-column="1" selection-end-line="1461" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ent.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/ent.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9366197">
-              <caret line="80" column="34" selection-start-line="80" selection-start-column="34" selection-end-line="80" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="preview.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat/preview.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.51724136">
+            <state vertical-scroll-proportion="-0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <marker date="1527153291197" expanded="true" signature="6500:6511" placeholder="..." />
-                <marker date="1527153291197" expanded="true" signature="8165:8176" placeholder="..." />
-              </folding>
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="iinside.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/iinside.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ilist.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/ilist.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -182,12 +160,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/topup_list.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/yh.scroll.active.js" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/topup_help.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet_help.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/cowrycover.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet_profit.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletprofit.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/bill.html" />
@@ -233,6 +205,12 @@
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdraw.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/css/golbal.css" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/ent.html" />
+        <option value="$PROJECT_DIR$/web/demo/demo1.html" />
+        <option value="$PROJECT_DIR$/web/demo/demo.html" />
+        <option value="$PROJECT_DIR$/web/demo/demo3.html" />
+        <option value="$PROJECT_DIR$/web/demo/demo2.html" />
+        <option value="$PROJECT_DIR$/web/demo/demo5.html" />
+        <option value="$PROJECT_DIR$/web/demo/demo4.html" />
       </list>
     </option>
   </component>
@@ -366,37 +344,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="moneymanage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rrightway" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="phone" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="moneymanage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
+              <option name="myItemId" value="mobiscroll" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -484,11 +432,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="easywin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plat" />
+              <option name="myItemId" value="demo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -508,11 +452,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\demo" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\js" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\moneymanage" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\mobiscroll" />
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\css" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone" />
@@ -583,10 +527,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.185" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1825" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -626,107 +570,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/upload.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5921409">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/new.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.866667">
-          <caret line="259" column="49" selection-start-line="259" selection-start-column="44" selection-end-line="259" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletprofit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-55.892857">
-          <caret line="135" column="58" selection-start-line="135" selection-start-column="58" selection-end-line="135" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet_help.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.0">
-          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwallet.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-20.25">
-          <caret line="76" column="5" selection-start-line="60" selection-start-column="3" selection-end-line="76" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/bill_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.285715">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/bill.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.035715">
-          <caret line="196" column="33" selection-start-line="196" selection-start-column="27" selection-end-line="196" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/yh.scroll.active.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.82384825">
-          <caret line="87" column="71" selection-start-line="87" selection-start-column="71" selection-end-line="87" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/mobiscroll/mobiscroll.custom-3.0.0.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="3454" selection-start-line="0" selection-start-column="3454" selection-end-line="0" selection-end-column="3454" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/mobiscroll/mobiscroll.custom-3.0.0.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="3381" selection-start-line="0" selection-start-column="3381" selection-end-line="0" selection-end-column="3381" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/upload.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="18" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/accountSecurity.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/babyManagement.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.857142">
-          <caret line="65" column="44" selection-start-line="65" selection-start-column="40" selection-end-line="65" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#i#0;n#span#0;n#a#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#i#0;n#span#0;n#a#0;n#div#2;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#i#0;n#span#0;n#a#0;n#div#3;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/babyActive.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.8448277">
@@ -939,16 +782,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/default.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="114" column="38" selection-start-line="114" selection-start-column="38" selection-end-line="114" selection-end-column="38" />
-          <folding>
-            <marker date="1527562453698" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/topup.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="45.892857">
@@ -978,8 +811,8 @@
         <state vertical-scroll-proportion="0.51724136">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1527153291197" expanded="true" signature="6500:6511" placeholder="..." />
-            <marker date="1527153291197" expanded="true" signature="8165:8176" placeholder="..." />
+            <marker date="1527153291197" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527153291197" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -997,9 +830,9 @@
         <state vertical-scroll-proportion="-3.6034484">
           <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#4;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#5;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#p#4;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#p#5;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1009,32 +842,11 @@
         <state vertical-scroll-proportion="-7.866667">
           <caret line="108" column="788" selection-start-line="108" selection-start-column="788" selection-end-line="108" selection-end-column="802" />
           <folding>
-            <marker date="1527566650454" expanded="true" signature="2755:2782" placeholder="..." />
-            <marker date="1527566650454" expanded="true" signature="2865:2892" placeholder="..." />
-            <marker date="1527566650454" expanded="true" signature="2975:3002" placeholder="..." />
-            <marker date="1527566650454" expanded="true" signature="3082:3109" placeholder="..." />
+            <marker date="1527566650454" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527566650454" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527566650454" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527566650454" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/com.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.9666667">
-          <caret line="208" column="369" selection-start-line="208" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
-          <folding>
-            <marker date="1527566629408" expanded="true" signature="2957:2984" placeholder="..." />
-            <marker date="1527566629408" expanded="true" signature="3073:3100" placeholder="..." />
-            <marker date="1527566629408" expanded="true" signature="3189:3216" placeholder="..." />
-            <marker date="1527566629408" expanded="true" signature="3302:3329" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/css/new.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.566667">
-          <caret line="1224" column="60" selection-start-line="1224" selection-start-column="60" selection-end-line="1224" selection-end-column="60" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1048,9 +860,153 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/ent.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9366197">
-          <caret line="80" column="34" selection-start-line="80" selection-start-column="34" selection-end-line="80" selection-end-column="34" />
+        <state vertical-scroll-proportion="-12.892858">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/address.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.0357144">
+          <caret line="3" column="261" selection-start-line="3" selection-start-column="86" selection-end-line="3" selection-end-column="261" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/default.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/demo/demo1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.344828">
+          <caret line="71" column="31" selection-start-line="71" selection-start-column="31" selection-end-line="71" selection-end-column="31" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/demo/demo2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="13.75862">
+          <caret line="51" column="21" selection-start-line="51" selection-start-column="21" selection-end-line="51" selection-end-column="21" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/default.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="46" column="1" selection-start-line="46" selection-start-column="1" selection-end-line="46" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/com.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.878049">
+          <caret line="1048" column="0" selection-start-line="1048" selection-start-column="0" selection-end-line="1070" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/demo/demo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-57.67857">
+          <caret line="85" column="5" selection-start-line="85" selection-start-column="5" selection-end-line="85" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/demo/demo3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.892857">
+          <caret line="56" column="3" selection-start-line="56" selection-start-column="3" selection-end-line="56" selection-end-column="51" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/iindex.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/iinside.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/ilist.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/default.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.4">
+          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/css/new.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7358757">
+          <caret line="171" column="73" selection-start-line="171" selection-start-column="73" selection-end-line="171" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/new.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.833333">
+          <caret line="568" column="23" selection-start-line="568" selection-start-column="23" selection-end-line="568" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/demo/demo5.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.75">
+          <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/demo/demo4.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.73239434">
+          <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1527599031071" expanded="true" signature="1166:1423" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
