@@ -32,7 +32,7 @@
     <!-- 顶部 结束 -->
 
     <div class="spro_list">
-        
+
         <div class="item">
             <div class="tit">
                 <p>
@@ -51,23 +51,23 @@
     </div>
 
     <div class="pro_min bgfff">
-        <a href="/detail.aspx?id=155031">
-            <img src="http://upl.zuozuojie.com//upload/20180529/s201805290356203948.jpg" class="img" onerror="this.src='image/nopic.png'" />
+        <a id="cowryUrl" href="">
+            <img id="giftCover" src="" class="img" onerror="this.src='image/nopic.png'" />
             <div class="relative">
-                <p class="row1">钥匙扣随机一个</p>
-                <p class="row1 c999 mt10">付款金额：<i class="cf60">¥39.00</i>  返现金额：<i class="cf60">¥45.00</i></p>
+                <p class="row1" id="giftName">钥匙扣随机一个</p>
+                <p class="row1 c999 mt10">付款金额：<i class="cf60">¥<span id="payPrice"></span></i>  返现金额：<i class="cf60">¥<span id="returnMoney"></span></i></p>
                 <p class="type absolute l0 b0"> <i class='ptype tel'></i><i class='ptype chi'></i></p>
             </div>
         </a>
     </div>
 
     <div class="listborder bgfff mt20 f28">
-        <div class="item h90 plr20 clearfix"><b class="c999 fl">买家昵称</b><i class="fr"><em class="buyer"></em>zuieshd521</i></div>
-        <div class="item h90 plr20 clearfix"><b class="c999 fl">卖家昵称</b><i class="fr"><em class="seller"></em>集彩壁画</i></div>
-        <div class="item h90 plr20 clearfix"><b class="c999 fl">信誉要求</b><i class="fr">三心以上</i></div>
-        <div class="item h90 plr20 clearfix"><b class="c999 fl">发货快递</b><i class="fr">申通快递</i></div>
-        <div class="item plr20 clearfix hidden"><b class="c999 fl h90">领券链接</b><i class="break ml210 bl line40 pt20 pb20 textr"></i></div>
-        <div class="item h90 plr20 clearfix"><b class="c999 fl">淘宝订单</b><i class="fr">167835545981915405</i></div>
+        <div class="item h90 plr20 clearfix"><b class="c999 fl">买家昵称</b><i class="fr"><em class="buyer"></em><span id="buyerTaobaoaccountName"></span></i></div>
+        <div class="item h90 plr20 clearfix"><b class="c999 fl">卖家昵称</b><i class="fr"><em class="seller"></em><span id="sellerTaobaoaccountName"></span></i></div>
+        <div class="item h90 plr20 clearfix"><b class="c999 fl">信誉要求</b><i class="fr"><span id="buyerMincredit"></span></i></div>
+        <div class="item h90 plr20 clearfix"><b class="c999 fl">发货快递</b><i class="fr"><span id="giftExpressCo"></span></i></div>
+        <div class="item plr20 clearfix hidden"><b class="c999 fl h90">领券链接</b><i class="break ml210 bl line40 pt20 pb20 textr">点击复制</i></div>
+        <div class="item h90 plr20 clearfix"><b class="c999 fl">淘宝订单</b><i class="fr"><span id="taobaoOrderid"></span></i></div>
     </div>
 
     <div class="comm_title mt20 bb1 center hidden">
@@ -102,9 +102,9 @@
 
 <div class="com_footer">
     <!--待返现(试客未提交评价图) 显示-->
-    <p class="textr pr20 " isfk="Y" data="1238858"><a href="javascript:;" class="btn3 app mr20">申请维权</a><a href="javascript:;" class=" btn4 check">确认返现</a></p>
+    <p id="unreviewBtns" class="textr pr20 " isfk="Y" data="1238858"><a href="javascript:;" class="btn3 app mr20">申请维权</a><a href="javascript:;" class=" btn4 check">确认返现</a></p>
     <!--待返现(试客已提交评价图) 待返现(图片不符) 显示-->
-    <p class="textr pr20  hidden" isfk="Y"  data="1238858"><a href="javascript:;" class="  btn3  app">申请维权</a><a href="javascript:;" class=" btn4 mr20 check">确认返现</a><a href="buyed_pic.aspx?id=1238858" class="btn1">查看图片</a></p>
+    <p  id="reviewedBtns" class="textr pr20  hidden" isfk="Y"  data="1238858"><a href="javascript:;" class="  btn3  app">申请维权</a><a href="javascript:;" class=" btn4 mr20 check">确认返现</a><a href="buyed_pic.aspx?id=1238858" class="btn1">查看图片</a></p>
 </div>
 
 
@@ -137,10 +137,10 @@
 <script src="js/lazyload.js"></script>
 
 <!-- 图片放大预览 -->
-<link href="/photoswipe/photoswipe.css?v=4.1.1-1.0.4" rel="stylesheet" />
-<link href="/photoswipe/default-skin/default-skin.css?v=4.1.1-1.0.4" rel="stylesheet" />
-<script src="/photoswipe/photoswipe.min.js?v=4.1.1-1.0.4"></script>
-<script src="/photoswipe/photoswipe-ui-default.min.js?v=4.1.1-1.0.4"></script>
+<link href="photoswipephotoswipe.css?v=4.1.1-1.0.4" rel="stylesheet" />
+<link href="photoswipe/default-skin/default-skin.css?v=4.1.1-1.0.4" rel="stylesheet" />
+<script src="photoswipephotoswipe.min.js?v=4.1.1-1.0.4"></script>
+<script src="photoswipephotoswipe-ui-default.min.js?v=4.1.1-1.0.4"></script>
 <script src="js/imglist.js"></script>
 <!--图片框架 开始-->
 <div id="gallery" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
@@ -189,6 +189,98 @@
 <!--图片框架 结束-->
 
 <script>
+
+    var token = localStorage.getItem('token');
+    var queryObject = rxw.parseQueryStr(location.search.substr(1))
+    var item ;
+    onload();
+
+    function onload(){
+
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: '/rrightway/p/m/trademanageent/orderdetail?token='+token+'&order_id='+queryObject.id,
+            success: function(res){
+                if(res.code == 0){
+                    item = res.data;
+                    if(res.data.reviewPicAudit == 3){
+                        $('#unreviewBtns').removeClass('hidden')
+                        $('#unreviewBtns').attr('data',queryObject.id);
+                    }else {
+                        $('#reviewedBtns').removeClass('hidden')
+                        $('#reviewedBtns').attr('data',queryObject.id);
+                    }
+                    $('#cowryUrl').attr('href','detail.html?id='+res.data.activityId)
+                    $('#taobaoOrderid').text(rxw.trimToEmpty(res.data.taobaoOrderid));
+                    $('#orderTime').text(rxw.formatDateTime(res.data.orderTime));
+                    $('#activityTitle').text(res.data.activityTitle);
+                    $('#payPrice').text(res.data.payPrice.toFixed(2));
+                    $('#returnMoney').text(res.data.returnMoney.toFixed(2));
+                    $('#orderId').text(res.data.orderId);
+                    $('#giftExpressCo').text(res.data.giftExpressCo);
+                    $('#giftName').text(res.data.giftName);
+                    $('#giftCover').attr('src',res.data.giftCover);
+                    $('#buyerTaobaoaccountName').text(res.data.buyerTaobaoaccountName);
+                    $('#sellerTaobaoaccountName').text(res.data.sellerTaobaoaccountName);
+                    if(res.data.status ==0 ) {
+                        $('#statusNotes').text('等待核对');
+                        if( res.data.buyerRemindCheckIf == 1)
+                            $('#notes').text('(试客已提醒核对)');
+                    }else if (res.data.status == 3) {
+                        $('#statusNotes').text('订单关闭');
+                        $('#notes').text('(试客取消)');
+
+                        if(!rxw.isEmptyStr(res.data.buyerCancelReason)) {
+                            $('#reasons').text('试客取消订单原因：'+res.data.buyerCancelReason)
+                            $('#reasonsPad').removeClass('hidden')
+                        }
+                    }else if (res.data.status == 4) {
+                        $('#statusNotes').text('订单关闭');
+                        $('#notes').text('(商家取消)');
+                        if(!rxw.isEmptyStr(res.data.sellerCancelReason)) {
+                            $('#reasons').text('商家取消订单原因：'+res.data.sellerCancelReason)
+                            $('#reasonsPad').removeClass('hidden')
+                        }
+                    }else if (res.data.status == 5) {
+                        $('#statusNotes').text('订单关闭');
+                        $('#notes').text('系统关闭');
+
+                    }
+                    if(res.data.couponIf == 1){
+                        $('#couponIfPad').attr('data-text',res.data.couponUrl)
+                        $('#couponIfPad').click(function(){
+                            var clipboard = new Clipboard('#couponIfPad',{
+                                text: function(trigger) {
+                                    error("复制成功")
+                                    return trigger.getAttribute('data-text');
+                                }
+                            });
+                        })
+                        $('#couponIfPad').removeClass('hidden')
+
+                    }
+                    if(res.data.buyerMincredit ==0){
+                        $('#buyerMincredit').text('无要求');
+                    }else if(res.data.buyerMincredit ==1){
+                        $('#buyerMincredit').text('一星以上');
+                    }else if(res.data.buyerMincredit ==2){
+                        $('#buyerMincredit').text('二星以上');
+                    }else if(res.data.buyerMincredit ==3){
+                        $('#buyerMincredit').text('三星以上');
+                    }else if(res.data.buyerMincredit ==4){
+                        $('#buyerMincredit').text('四星以上');
+                    }else if(res.data.buyerMincredit ==5){
+                        $('#buyerMincredit').text('五星以上');
+                    }else if(res.data.buyerMincredit ==6){
+                        $('#buyerMincredit').text('钻石以上');
+                    }
+                }else{
+                    alert(res.codeMsg)
+                }
+            }
+        });
+    }
 
     function getDiffDate(m) {
         m -= (D = parseInt(m / 86400000)) * 86400000;

@@ -1084,7 +1084,8 @@ public class IambuyerEntrance {
 			}
 			pst.close();
 
-			pst = connection.prepareStatement(new StringBuilder("update t_order set status=12 where id=?").toString());
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_order set rightprotect_status=12 where id=?").toString());
 			pst.setObject(1, orderId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)

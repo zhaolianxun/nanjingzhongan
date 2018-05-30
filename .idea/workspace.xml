@@ -2,20 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/TradeManageEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/TradeManageEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/developer/api/ClinicEntrance.java" afterPath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/developer/api/ClinicEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/HomeEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/HomeEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/developer/api/HospitalEntrance.java" afterPath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/developer/api/HospitalEntrance.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/IambuyerEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/IambuyerEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SearchEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SearchEntrance.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/checkorders.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/checkorders.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/libs/default.js" afterPath="$PROJECT_DIR$/web/easywin/plat/libs/default.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/js/default.js" afterPath="$PROJECT_DIR$/web/rrightway/phone/js/default.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/demo/demo4.html" afterPath="$PROJECT_DIR$/web/demo/demo4.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/demo/rxw.js" afterPath="$PROJECT_DIR$/web/demo/rxw.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/buyedorder.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/buyedorder.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html" />
     </list>
     <ignored path="nanjingzhongan.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -99,11 +90,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="buyedorder.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="buyedorder.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.75">
-              <caret line="222" column="0" selection-start-line="222" selection-start-column="0" selection-end-line="222" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.571831">
+              <caret line="216" column="80" selection-start-line="216" selection-start-column="80" selection-end-line="216" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -112,8 +103,8 @@
       <file leaf-file-name="checkorders.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.8793104">
-              <caret line="780" column="3" selection-start-line="780" selection-start-column="3" selection-end-line="805" selection-end-column="0" />
+            <state vertical-scroll-proportion="-4.5172415">
+              <caret line="785" column="16" selection-start-line="785" selection-start-column="16" selection-end-line="785" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -132,8 +123,8 @@
       <file leaf-file-name="checkorders_detail.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.107143">
-              <caret line="33" column="14" selection-start-line="33" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+            <state vertical-scroll-proportion="-12.214286">
+              <caret line="39" column="92" selection-start-line="39" selection-start-column="81" selection-end-line="39" selection-end-column="92" />
               <folding>
                 <element signature="n#style#0;n#a#0;n#p#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#0;n#p#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -142,11 +133,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="buyedorder_detail.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="buyedorder_detail.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24647887">
-              <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+            <state vertical-scroll-proportion="-6.390805">
+              <caret line="258" column="26" selection-start-line="258" selection-start-column="26" selection-end-line="258" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -238,7 +229,6 @@
         <option value="$PROJECT_DIR$/web/rrightway/phone/myIndexMerchant.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/returnedorders.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/trademanage_orderdetail.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/buyedorder.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletout.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdraw_banks.html" />
@@ -262,6 +252,7 @@
         <option value="$PROJECT_DIR$/web/rrightway/phone/returnedorders_detail.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/buyedorder.html" />
       </list>
     </option>
   </component>
@@ -1051,14 +1042,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.75">
-          <caret line="222" column="0" selection-start-line="222" selection-start-column="0" selection-end-line="222" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/default.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-16.633333">
@@ -1079,16 +1062,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.8793104">
-          <caret line="780" column="3" selection-start-line="780" selection-start-column="3" selection-end-line="805" selection-end-column="0" />
+        <state vertical-scroll-proportion="-4.5172415">
+          <caret line="785" column="16" selection-start-line="785" selection-start-column="16" selection-end-line="785" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.107143">
-          <caret line="33" column="14" selection-start-line="33" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+        <state vertical-scroll-proportion="-12.214286">
+          <caret line="39" column="92" selection-start-line="39" selection-start-column="81" selection-end-line="39" selection-end-column="92" />
           <folding>
             <element signature="n#style#0;n#a#0;n#p#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#p#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1098,8 +1081,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24647887">
-          <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+        <state vertical-scroll-proportion="-6.390805">
+          <caret line="258" column="26" selection-start-line="258" selection-start-column="26" selection-end-line="258" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.571831">
+          <caret line="216" column="80" selection-start-line="216" selection-start-column="80" selection-end-line="216" selection-end-column="80" />
           <folding />
         </state>
       </provider>
