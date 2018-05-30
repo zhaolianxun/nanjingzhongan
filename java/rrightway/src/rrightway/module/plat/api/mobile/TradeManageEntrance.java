@@ -1004,7 +1004,7 @@ public class TradeManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.rightprotect_status,t.way_to_shop,t.gift_cover,act.huabei_pay,act.creditcard_pay,t.coupon_if,t.buy_way,t.order_time,t.review_pic_audit,t.review_pics,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id left join t_activity act on t.activity_id=act.id where 1=1 and t.seller_id=?")
+					"select t.buyer_remind_check_if,t.rightprotect_status,t.way_to_shop,t.gift_cover,act.huabei_pay,act.creditcard_pay,t.coupon_if,t.buy_way,t.order_time,t.review_pic_audit,t.review_pics,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id left join t_activity act on t.activity_id=act.id where 1=1 and t.seller_id=?")
 							.append(tradeStatus == null ? " and t.status=1 and t.rightprotect_status in (0,7,10)  "
 									: (tradeStatus == 1 ? " and t.status=1 and t.rightprotect_status in (7,10)  "
 											: (tradeStatus == 2
@@ -1044,7 +1044,7 @@ public class TradeManageEntrance {
 				item.put("reviewPics", rs.getObject("review_pics"));
 				item.put("wayToShop", rs.getObject("way_to_shop"));
 				item.put("rightprotectStatus", rs.getObject("rightprotect_status"));
-
+				item.put("buyerRemindCheckIf", rs.getObject("buyer_remind_check_if"));
 				items.add(item);
 			}
 			pst.close();
