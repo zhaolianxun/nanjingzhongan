@@ -262,7 +262,7 @@
 
                         txt = '<div class="item">'
                                 + '  <div class="tit"><p>活动标题：' + row.activityTitle + '<br />订单编号：' + row.id + '<br />下单时间：' + rxw.formatDateTime(row.orderTime) + statusStr + ' </p></div>'
-                                + '  <a href="trademanage_orderdetail.html?id=' + row.id + '" class="recoder pro_min bt1"><img src="' + row.giftCover + '" class="img" onerror="this.src=\'image/nopic.png\'" />'
+                                + '  <a href="checkorders_detail.html?id=' + row.id+'&forCheckMoney='+forCheckMoney + '" class="recoder pro_min bt1"><img src="' + row.giftCover + '" class="img" onerror="this.src=\'image/nopic.png\'" />'
                                 + '    <div class="relative">'
                                 + '      <p class="row1">' + row.giftName + '</p>'
                                 + '      <p class="row1 c999 mt10">付款金额：<i class="cf60">¥' + getFloatStr(row.payPrice) + '</i>  返现金额：<i class="cf60">¥' + getFloatStr(row.returnMoney) + '</i></p>'
@@ -663,7 +663,6 @@
                     corfirm3("您的账户余额不足，无法完成支付！", "取消", "立即充值", "moneymanage/topup.html");
                 }else{
                             accessconfirm("确定核实试客已到商城下单付款了吗？确认拍下的订单将从您的账户扣除费用<i class='cf60'>" + (items[id].returnMoney+2) + "</i>元(返现金额" + items[id].returnMoney + "元，系统费用" + 2 + "元)。<p class='f14 c2f97f0 line24'>试客提交评价图核实主动返现奖励<i class='cf60'>0.50</i>元</p>", checkok, id);
-
                 }
 
 
@@ -783,14 +782,13 @@
     function delok(obj) {
         var id = $(obj).parent().attr("data");
         var pobj = $(obj).parents(".item");
+
         $.ajax({
             type: "POST",
-            url: "/flow/DeleteSallerCheck.ashx",
-            data: "rad=" + Math.random() + "&id=" + id,
+            url: "/rrightway/p/m/trademanageent/needcheckorders/del",
+            data: { token: token, order_id: id },
             success: function (res) {
-                if (res != "" && res != "[]") {
-                    var comments = $.parseJSON(res);
-                    if (comments.success == "Y") {
+                if(res.code==0) {
                         //确认成功
                         //parent.delok();
                         error("删除订单成功！");
@@ -798,9 +796,9 @@
                         freshpage(window.location.href);
                     }
                     else {
-                        error(comments.msg);
+                    error(res.codeMsg);
                     }
-                }
+
             }
         });
         return true;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-cn" >
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -11,13 +11,84 @@
 
     </style>
 </head>
-<body style="">
+<body style="height:100%;overflow:hidden;">
 
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
+<div onclick="a()">123123123123123123</div>
 <div onclick="a()">123123123123123123</div>
 
 
 <script>
-    rxw.inputpad({content:"qqwe",default:"12",confirm:function(value){alert(value)}})
+   rxw.imgPreview('微信图片_20180504112644.jpg')
     function error(str) {
         if ($("#errorpad").length <= 0) {
             $("body").append('<div  id="errorpad" style="width:200px;padding:0 40px;position:absolute;position:fixed;top:30%;left:50%;transform:translateX(-50%);margin-top:-1.25rem;z-index:999999999;font-size:0.8rem;color:#fff;background:rgba(0,0,0,0.8);line-height:2.25rem;border-radius:0.25rem;text-align:center;">' + str + '</div>');
@@ -30,6 +101,8 @@
             $("#errorpad").fadeOut("slow");
         }, 2000);
     }
+
+
 function a(){
     error('确定跳转吗')
 }
@@ -75,6 +148,7 @@ function a(){
 
     function imgPreview(url){
         $("body").append('<div onclick="$(this).remove();$(\'body\').css(\'overflow\',\'auto\')" style="z-index:999999;position: absolute;left: 0;top:0;background-color: rgba(0,0,0,0.1);width:100%;min-height:100%;"> <img style="display:block;margin:auto;position:relative;visibility: hidden" src="'+url+'"> <img style="display:block;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%)" src="'+url+'"> </div>')
+
     }
 
 </script>

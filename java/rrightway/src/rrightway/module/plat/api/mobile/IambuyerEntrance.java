@@ -474,11 +474,12 @@ public class IambuyerEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"update t_order set review_pic_audit=0,review_pics=?,review_pic_commit_time=? where id=?")
+					"update t_order set auto_return_time=?,review_pic_audit=0,review_pics=?,review_pic_commit_time=? where id=?")
 							.toString());
-			pst.setObject(1, reviewPics);
-			pst.setObject(2, new Date().getTime());
-			pst.setObject(3, orderId);
+			pst.setObject(1, new Date().getTime() + 15 * 24 * 60 * 60 * 1000l);
+			pst.setObject(2, reviewPics);
+			pst.setObject(3, new Date().getTime());
+			pst.setObject(4, orderId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -993,7 +994,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize);
 
 			String sql = new StringBuilder(
-					"select t.rightprotect_status,t.order_time,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buy_way,t.coupon_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 and t.buyer_id=?")
+					"select t.rightprotect_reason,t.rightprotect_status,t.order_time,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buy_way,t.coupon_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 and t.buyer_id=?")
 							.append(tradeStatus == null ? " and t.rightprotect_status != 0 "
 									: (tradeStatus == 1 ? " and t.rightprotect_status in (7,8,9,10,11)"
 											: (tradeStatus == 2 ? " and t.rightprotect_status=12"
@@ -1031,6 +1032,7 @@ public class IambuyerEntrance {
 				item.put("huabeiPay", rs.getObject("huabei_pay"));
 				item.put("creditcardPay", rs.getObject("creditcard_pay"));
 				item.put("rightprotectStatus", rs.getObject("rightprotect_status"));
+				item.put("rightprotectReason", rs.getObject("rightprotect_reason"));
 				items.add(item);
 			}
 			pst.close();
@@ -1042,6 +1044,112 @@ public class IambuyerEntrance {
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/rightprotectsorders/confirm")
+	public void rightprotectsordersConfirm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			if (orderId == null)
+				throw new InteractRuntimeException("order_id 不能空");
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(
+					new StringBuilder("select t.rightprotect_status from t_order t  where t.id=? for update")
+							.toString());
+			pst.setObject(1, orderId);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				int rightprotectStatus = rs.getInt("rightprotect_status");
+				if (rightprotectStatus == 0)
+					throw new InteractRuntimeException("订单未维权");
+				if (rightprotectStatus != 7)
+					throw new InteractRuntimeException("状态错误不可确认");
+			}
+			pst.close();
+
+			pst = connection.prepareStatement(new StringBuilder("update t_order set status=12 where id=?").toString());
+			pst.setObject(1, orderId);
+			int cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/rightprotectsorders/refuse")
+	public void rightprotectsordersRefuse(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			if (orderId == null)
+				throw new InteractRuntimeException("order_id 不能空");
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(
+					new StringBuilder("select t.rightprotect_status from t_order t  where t.id=? for update")
+							.toString());
+			pst.setObject(1, orderId);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				int rightprotectStatus = rs.getInt("rightprotect_status");
+				if (rightprotectStatus == 0)
+					throw new InteractRuntimeException("订单未维权");
+				if (rightprotectStatus != 7)
+					throw new InteractRuntimeException("状态错误不可确认");
+			}
+			pst.close();
+
+			pst = connection.prepareStatement(new StringBuilder("update t_order set status=10 where id=?").toString());
+			pst.setObject(1, orderId);
+			int cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源

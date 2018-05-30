@@ -108,7 +108,7 @@ public class HospitalEntrance {
 			String phone = StringUtils.trimToNull(request.getParameter("phone"));
 			if (phone == null)
 				throw new InteractRuntimeException("phone 不能为空");
-			if (Pattern.compile("^\\d+$").matcher(phone).find())
+			if (!Pattern.compile("^\\d+$").matcher(phone).find())
 				throw new InteractRuntimeException("手机号格式有误");
 			String pwd = StringUtils.trimToNull(request.getParameter("pwd"));
 			if (pwd == null)

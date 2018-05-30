@@ -27,7 +27,14 @@ rxw.formatDateTime=function (inputTime) {
     return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
 };
 
-
+rxw.trimToEmpty = function(str){
+    if(str == undefined || str==null)
+        return '';
+}
+rxw.isEmptyStr = function(str){
+    if(str == undefined || str==null|| str=='')
+        return true;
+}
 rxw.alert=function (txt,fun,funParam){
 
 

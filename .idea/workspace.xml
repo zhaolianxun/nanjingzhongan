@@ -2,13 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/demo/微信图片_20180129113026.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/demo/微信图片_20180504112644.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/demo/微信图片_20180522224732.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/demo/rxw.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/TradeManageEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/TradeManageEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/developer/api/ClinicEntrance.java" afterPath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/developer/api/ClinicEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/HomeEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/HomeEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/developer/api/HospitalEntrance.java" afterPath="$PROJECT_DIR$/java/zaylt/src/zaylt/module/client/module/developer/api/HospitalEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/IambuyerEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/IambuyerEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SearchEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SearchEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/checkorders.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/checkorders.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/libs/default.js" afterPath="$PROJECT_DIR$/web/easywin/plat/libs/default.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/js/default.js" afterPath="$PROJECT_DIR$/web/rrightway/phone/js/default.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/demo/demo4.html" afterPath="$PROJECT_DIR$/web/demo/demo4.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/easywin/plat/admin/tmpinfo.html" afterPath="$PROJECT_DIR$/web/easywin/plat/admin/tmpinfo.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/demo/rxw.js" afterPath="$PROJECT_DIR$/web/demo/rxw.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="nanjingzhongan.iws" />
@@ -33,61 +39,115 @@
       <file leaf-file-name="demo4.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/demo/demo4.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.857142">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state vertical-scroll-proportion="75.07143">
+              <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
               <folding>
-                <marker date="1527619023008" expanded="true" signature="700:957" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1370:1535" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1408:1535" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1428:1535" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1551:1595" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1622:1660" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1622:1694" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1725:1747" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1725:1759" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1725:1770" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1725:1795" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1725:1802" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1846:1881" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1846:1899" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1846:1911" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="1846:1944" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="2504:2669" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="2685:2729" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="2757:2802" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="2896:2968" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="2999:3076" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="3120:3218" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="3802:3911" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="3817:3911" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="3926:3988" placeholder="..." />
-                <marker date="1527619023008" expanded="true" signature="4017:4097" placeholder="..." />
+                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1527642879421" expanded="true" signature="3812:4069" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4484:4649" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4522:4649" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4542:4649" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4665:4709" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4736:4774" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4736:4808" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4839:4861" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4839:4873" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4839:4884" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4839:4909" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4839:4916" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4960:4995" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4960:5013" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4960:5025" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="4960:5058" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="5618:5783" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="5799:5843" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="5871:5916" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="6010:6082" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="6113:6190" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="6234:6332" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="6916:7025" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="6931:7025" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="7040:7102" placeholder="..." />
+                <marker date="1527642879421" expanded="true" signature="7131:7211" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rxw.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="rxw.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/demo/rxw.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5921409">
-              <caret line="23" column="30" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="56" column="392" selection-start-line="56" selection-start-column="282" selection-end-line="56" selection-end-column="394" />
               <folding>
-                <marker date="1527619261742" expanded="true" signature="139:396" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="730:895" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="911:955" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="992:1064" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="1095:1172" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="1216:1314" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="1831:1996" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="2012:2056" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="2094:2139" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="2243:2315" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="2346:2423" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="2467:2565" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="3107:3216" placeholder="..." />
-                <marker date="1527619261742" expanded="true" signature="3231:3293" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="138:395" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="729:894" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="910:954" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="991:1063" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="1094:1171" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="1215:1313" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="1830:1995" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="2011:2055" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="2093:2138" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="2242:2314" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="2345:2422" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="2466:2564" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="3106:3212" placeholder="..." />
+                <marker date="1527643250457" expanded="true" signature="3227:3271" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="buyedorder.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.75">
+              <caret line="222" column="0" selection-start-line="222" selection-start-column="0" selection-end-line="222" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="checkorders.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.8793104">
+              <caret line="780" column="3" selection-start-line="780" selection-start-column="3" selection-end-line="805" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="trademanage_orderdetail.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/trademanage_orderdetail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.862069">
+              <caret line="213" column="32" selection-start-line="213" selection-start-column="24" selection-end-line="213" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="checkorders_detail.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.107143">
+              <caret line="33" column="14" selection-start-line="33" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#a#0;n#p#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#p#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="buyedorder_detail.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.24647887">
+              <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -96,14 +156,14 @@
         <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/default.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="175" column="2" selection-start-line="175" selection-start-column="2" selection-end-line="191" selection-end-column="0" />
+              <caret line="185" column="29" selection-start-line="185" selection-start-column="29" selection-end-line="185" selection-end-column="29" />
               <folding>
-                <marker date="1527618345727" expanded="true" signature="5081:5246" placeholder="..." />
-                <marker date="1527618345727" expanded="true" signature="5262:5306" placeholder="..." />
-                <marker date="1527618345727" expanded="true" signature="5334:5379" placeholder="..." />
-                <marker date="1527618345727" expanded="true" signature="5473:5545" placeholder="..." />
-                <marker date="1527618345727" expanded="true" signature="5576:5653" placeholder="..." />
-                <marker date="1527618345727" expanded="true" signature="5697:5795" placeholder="..." />
+                <marker date="1527619344815" expanded="true" signature="5081:5246" placeholder="..." />
+                <marker date="1527619344815" expanded="true" signature="5262:5306" placeholder="..." />
+                <marker date="1527619344815" expanded="true" signature="5334:5379" placeholder="..." />
+                <marker date="1527619344815" expanded="true" signature="5473:5545" placeholder="..." />
+                <marker date="1527619344815" expanded="true" signature="5576:5653" placeholder="..." />
+                <marker date="1527619344815" expanded="true" signature="5697:5795" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -122,64 +182,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="com.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/com.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="852" column="167" selection-start-line="852" selection-start-column="161" selection-end-line="852" selection-end-column="167" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="new.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/css/new.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.6585364">
-              <caret line="578" column="10" selection-start-line="578" selection-start-column="4" selection-end-line="578" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="demo5.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/demo/demo5.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.75">
-              <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="new.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/new.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.833333">
-              <caret line="568" column="23" selection-start-line="568" selection-start-column="23" selection-end-line="568" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="default.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/default.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.4">
-              <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ilist.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat/ilist.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="-16.633333">
+              <caret line="33" column="14" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="14" />
+              <folding>
+                <marker date="1527647799162" expanded="true" signature="1186:1196" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -190,8 +200,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="Html5" />
         <option value="JavaScript File" />
+        <option value="Html5" />
       </list>
     </option>
   </component>
@@ -201,9 +211,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/web/rrightway/phone/address.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/address_add.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/upload.js" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/complatetaobaoinfo_ok.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/new.js" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/completetaobaoinfo_ok.html" />
@@ -232,10 +239,8 @@
         <option value="$PROJECT_DIR$/web/rrightway/phone/returnedorders.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/trademanage_orderdetail.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/buyedorder.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/checkorders.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletout.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/js/default.js" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdraw_banks.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/js/com.js" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/com.js" />
@@ -252,6 +257,11 @@
         <option value="$PROJECT_DIR$/web/easywin/plat/libs/default.js" />
         <option value="$PROJECT_DIR$/web/demo/demo4.html" />
         <option value="$PROJECT_DIR$/web/demo/rxw.js" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/js/default.js" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/checkorders.html" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/returnedorders_detail.html" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html" />
       </list>
     </option>
   </component>
@@ -355,6 +365,54 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="rrightway" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrightway" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nanjingzhongan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="easywin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -421,32 +479,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="easywin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="demo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -467,10 +499,10 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\demo" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\js" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\moneymanage" />
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\mobiscroll" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -585,22 +617,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/tb_js_oauth_notify.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.071429">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/bindTaobaoPersonal.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.8965516">
-          <caret line="241" column="62" selection-start-line="241" selection-start-column="62" selection-end-line="241" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/requested_order_buyed.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.8965516">
@@ -645,30 +661,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-14.928572">
           <caret line="124" column="6" selection-start-line="109" selection-start-column="3" selection-end-line="124" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/trademanage_orderdetail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.8965516">
-          <caret line="18" column="43" selection-start-line="18" selection-start-column="43" selection-end-line="18" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61549294">
-          <caret line="221" column="69" selection-start-line="221" selection-start-column="41" selection-end-line="221" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33380282">
-          <caret line="660" column="55" selection-start-line="660" selection-start-column="55" selection-end-line="660" selection-end-column="55" />
           <folding />
         </state>
       </provider>
@@ -940,14 +932,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/default.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.4">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/new.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-14.833333">
@@ -996,73 +980,127 @@
     <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/default.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="175" column="2" selection-start-line="175" selection-start-column="2" selection-end-line="191" selection-end-column="0" />
+          <caret line="185" column="29" selection-start-line="185" selection-start-column="29" selection-end-line="185" selection-end-column="29" />
           <folding>
-            <marker date="1527618345727" expanded="true" signature="5081:5246" placeholder="..." />
-            <marker date="1527618345727" expanded="true" signature="5262:5306" placeholder="..." />
-            <marker date="1527618345727" expanded="true" signature="5334:5379" placeholder="..." />
-            <marker date="1527618345727" expanded="true" signature="5473:5545" placeholder="..." />
-            <marker date="1527618345727" expanded="true" signature="5576:5653" placeholder="..." />
-            <marker date="1527618345727" expanded="true" signature="5697:5795" placeholder="..." />
+            <marker date="1527619344815" expanded="true" signature="5081:5246" placeholder="..." />
+            <marker date="1527619344815" expanded="true" signature="5262:5306" placeholder="..." />
+            <marker date="1527619344815" expanded="true" signature="5334:5379" placeholder="..." />
+            <marker date="1527619344815" expanded="true" signature="5473:5545" placeholder="..." />
+            <marker date="1527619344815" expanded="true" signature="5576:5653" placeholder="..." />
+            <marker date="1527619344815" expanded="true" signature="5697:5795" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/demo/demo4.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.857142">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        <state vertical-scroll-proportion="75.07143">
+          <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
           <folding>
-            <marker date="1527619023008" expanded="true" signature="700:957" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1370:1535" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1408:1535" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1428:1535" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1551:1595" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1622:1660" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1622:1694" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1725:1747" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1725:1759" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1725:1770" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1725:1795" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1725:1802" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1846:1881" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1846:1899" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1846:1911" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="1846:1944" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="2504:2669" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="2685:2729" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="2757:2802" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="2896:2968" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="2999:3076" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="3120:3218" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="3802:3911" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="3817:3911" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="3926:3988" placeholder="..." />
-            <marker date="1527619023008" expanded="true" signature="4017:4097" placeholder="..." />
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1527642879421" expanded="true" signature="3812:4069" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4484:4649" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4522:4649" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4542:4649" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4665:4709" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4736:4774" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4736:4808" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4839:4861" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4839:4873" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4839:4884" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4839:4909" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4839:4916" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4960:4995" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4960:5013" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4960:5025" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="4960:5058" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="5618:5783" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="5799:5843" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="5871:5916" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="6010:6082" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="6113:6190" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="6234:6332" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="6916:7025" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="6931:7025" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="7040:7102" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="7131:7211" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/demo/rxw.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5921409">
-          <caret line="23" column="30" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="392" selection-start-line="56" selection-start-column="282" selection-end-line="56" selection-end-column="394" />
           <folding>
-            <marker date="1527619261742" expanded="true" signature="139:396" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="730:895" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="911:955" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="992:1064" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="1095:1172" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="1216:1314" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="1831:1996" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="2012:2056" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="2094:2139" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="2243:2315" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="2346:2423" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="2467:2565" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="3107:3216" placeholder="..." />
-            <marker date="1527619261742" expanded="true" signature="3231:3293" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="138:395" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="729:894" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="910:954" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="991:1063" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="1094:1171" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="1215:1313" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="1830:1995" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="2011:2055" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="2093:2138" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="2242:2314" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="2345:2422" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="2466:2564" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="3106:3212" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="3227:3271" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.75">
+          <caret line="222" column="0" selection-start-line="222" selection-start-column="0" selection-end-line="222" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/default.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.633333">
+          <caret line="33" column="14" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="14" />
+          <folding>
+            <marker date="1527647799162" expanded="true" signature="1186:1196" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/trademanage_orderdetail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.862069">
+          <caret line="213" column="32" selection-start-line="213" selection-start-column="24" selection-end-line="213" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.8793104">
+          <caret line="780" column="3" selection-start-line="780" selection-start-column="3" selection-end-line="805" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.107143">
+          <caret line="33" column="14" selection-start-line="33" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#a#0;n#p#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#p#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24647887">
+          <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>

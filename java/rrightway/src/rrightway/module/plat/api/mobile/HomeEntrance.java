@@ -84,7 +84,7 @@ public class HomeEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(
-					"select t.id,t.gift_cover,t.gift_name,t.pay_price from t_activity t where t.status=1 order by rand() limit 0,8");
+					"select t.id,t.gift_cover,t.gift_name,t.pay_price from t_activity t where  (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-(t.keep_days*24*60*60*1000+t.start_time))<=0 and t.status=1 and t.del=0 order by rand() limit 0,8");
 			rs = pst.executeQuery();
 			JSONArray featuredActivities = new JSONArray();
 			while (rs.next()) {

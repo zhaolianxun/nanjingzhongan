@@ -121,7 +121,7 @@ public class SearchEntrance {
 			sqlParams.add(pageSize);
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select id,gift_cover,gift_name,pay_price,return_money,buyer_num from t_activity where 1=1 and status=1 and del=0 ")
+					"select id,gift_cover,gift_name,pay_price,return_money,buyer_num from t_activity where (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-(keep_days*24*60*60*1000+start_time))<=0 and and status=1 and del=0 ")
 							.append(couponIf == null ? ""
 									: couponIf == 0 ? " and (isnull(coupon_url) or length(trim(coupon_url))=0) "
 											: "and (!isnull(coupon_url) and length(trim(coupon_url))>0) ")
