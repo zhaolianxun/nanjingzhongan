@@ -180,25 +180,32 @@
                         //<a href="activist_addpz.html" class="btn4 recoder">提交凭证</a><a href="javascript:;" class="cancle">取消维权</a><a href="javascript:;" class="del">删除订单</a>
                         //<a href="activist_addkf.html" class="btn4 recoder">申请客服介入</a><a href="javascript:;" class="cancle">取消维权</a>
                         switch (row.rightprotectStatus) {
-                            case 9:
-                                    btnstr = '';
-                                    str = '<b class="textr">维权中<i class="bl c999">(已申请客服介入)</i></b>';
-                                btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
-                                break;
-                            case 11:
-                                        str = '<b class="textr">维权中<i class="bl c999">(已提交凭证)</i></b>';
-                                btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
-                                break;
-                            case 8:
-                                        btnstr = '<a href="activist_addpz.aspx?id=' + row.id + '&burl=activist" class="btn4 recoder">提交凭证</a>';
-                                        str = '<b class="textr">维权中<i class="bl c999">(试客已申请客服介入)</i></b>';
-                                btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
-                                break;
                             case 10:
+                                if(row.rightprotectSellerAddkf == 0 && row.rightprotectBuyerAddkf ==0){
                                     btnstr = '<a href="rightprotectorders_sellerapplystepin.html?id=' + row.id + '" class="btn4 recoder">申请客服介入</a>';
                                     str = '<b class="textr">维权中<i class="bl c999">(试客已拒绝)</i></b>';
 
-                                btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                    btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                }
+                                if(row.rightprotectSellerAddkf ==1){
+                                    btnstr = '';
+                                    str = '<b class="textr">维权中<i class="bl c999">(已申请客服介入)</i></b>';
+                                    btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                }
+                                if(row.rightprotectBuyerAddkf ==1){
+                                    btnstr = '';
+                                    btnstr = '<a href="activist_addpz.aspx?id=' + row.id + '&burl=activist" class="btn4 recoder">提交凭证</a>';
+                                    str = '<b class="textr">维权中<i class="bl c999">(试客已申请客服介入)</i></b>';
+                                    btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+
+                                }
+                                if(row.rightprotectSellerProof ==1){
+                                    btnstr=''
+                                    str = '<b class="textr">维权中<i class="bl c999">(已提交凭证)</i></b>';
+                                    btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                }
+                                // btnstr = '<a href="activist_addkf.aspx?id=' + row.pkid + '&burl=activist" class="btn4 recoder">申请客服介入</a>';
+                                // btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
                                 break;
                             case 7:
                                 str = '<b class="textr">维权中<i class="bl c999">(等待试客确认)</i></b>';
@@ -221,6 +228,49 @@
                                 str = '<b class="textr">' + (row.status ==2 ? "已返现" : "维权失败") + '<i class="bl c999"></i></b>';
                                 break;
                         }
+
+//                        switch (row.rightprotectStatus) {
+//                            case 9:
+//                                    btnstr = '';
+//                                    str = '<b class="textr">维权中<i class="bl c999">(已申请客服介入)</i></b>';
+//                                btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+//                                break;
+//                            case 11:
+//                                        str = '<b class="textr">维权中<i class="bl c999">(已提交凭证)</i></b>';
+//                                btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+//                                break;
+//                            case 8:
+//                                        btnstr = '<a href="activist_addpz.aspx?id=' + row.id + '&burl=activist" class="btn4 recoder">提交凭证</a>';
+//                                        str = '<b class="textr">维权中<i class="bl c999">(试客已申请客服介入)</i></b>';
+//                                btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+//                                break;
+//                            case 10:
+//                                    btnstr = '<a href="rightprotectorders_sellerapplystepin.html?id=' + row.id + '" class="btn4 recoder">申请客服介入</a>';
+//                                    str = '<b class="textr">维权中<i class="bl c999">(试客已拒绝)</i></b>';
+//
+//                                btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+//                                break;
+//                            case 7:
+//                                str = '<b class="textr">维权中<i class="bl c999">(等待试客确认)</i></b>';
+//                                btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+//                                break;
+//                            case 12:
+//                                btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
+//                                str = '<b class="textr">' + "维权成功"  + '<i class="bl c999"></i></b>';
+//                                break;
+//                            case 13:
+//                                btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
+//                                str = '<b class="textr">' + (row.status ==2 ? "已返现" : "维权失败") + '<i class="bl c999"></i></b>';
+//                                break;
+//                            case 12:
+//                                btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
+//                                str = '<b class="textr">' + "维权成功" + '<i class="bl c999"></i></b>';
+//                                break;
+//                            case 13:
+//                                btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
+//                                str = '<b class="textr">' + (row.status ==2 ? "已返现" : "维权失败") + '<i class="bl c999"></i></b>';
+//                                break;
+//                        }
 
                         var sbuy_way = row.buyWay == 1 ? '<i class="ptype pc"></i>' : '<i class="ptype tel"></i>';
                         var is_coupon = row.couponIf == 0 ? '' : '<i class="ptype juan"></i>';

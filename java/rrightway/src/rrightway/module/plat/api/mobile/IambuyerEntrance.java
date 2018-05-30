@@ -202,7 +202,7 @@ public class IambuyerEntrance {
 			String taobaoOrderid = StringUtils.trimToNull(request.getParameter("taobao_orderid"));
 			if (taobaoOrderid == null)
 				throw new InteractRuntimeException("taobao_orderid 不能空");
-			if (taobaoOrderid.length() != 18 && !StringUtils.isNumeric(taobaoOrderid))
+			if (taobaoOrderid.length() != 18 || !StringUtils.isNumeric(taobaoOrderid))
 				throw new InteractRuntimeException("请填写18位纯数字淘宝订单号");
 
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -999,7 +999,7 @@ public class IambuyerEntrance {
 			String sql = new StringBuilder(
 					"select t.rightprotect_reason,t.rightprotect_status,t.order_time,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buy_way,t.coupon_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 and t.buyer_id=?")
 							.append(tradeStatus == null ? " and t.rightprotect_status != 0 "
-									: (tradeStatus == 1 ? " and t.rightprotect_status in (7,8,9,10,11)"
+									: (tradeStatus == 1 ? " and t.rightprotect_status in (7,10)"
 											: (tradeStatus == 2 ? " and t.rightprotect_status=12"
 													: (tradeStatus == 3 ? " and t.rightprotect_status=13" : ""))))
 							.append(buyerNickname == null ? "" : " and bt.taobao_user_nick like ? ")

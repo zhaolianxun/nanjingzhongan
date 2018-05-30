@@ -435,13 +435,26 @@ public class TradeManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.review_pics,t.rightprotect_status,t.auto_return_time,t.activity_title,t.buyer_remind_check_if,a.coupon_url,t.gift_express_co,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t  left join t_activity a on t.activity_id=a.id where t.id=?")
+					"select t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_seller_proof_desc,t.rightprotect_buyer_proof_desc,t.rightprotect_seller_proof_pics,t.rightprotect_buyer_proof_pics,t.rightprotect_buyer_addkf_describe,t.rightprotect_buyer_addkf_pics,t.rightprotect_seller_addkf_pics,t.rightprotect_seller_addkf_describe,t.rightprotect_reason,t.review_pics,t.rightprotect_status,t.auto_return_time,t.activity_title,t.buyer_remind_check_if,a.coupon_url,t.gift_express_co,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t  left join t_activity a on t.activity_id=a.id where t.id=?")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
 			if (rs.next()) {
+				item.put("rightprotectSellerProof", rs.getObject("rightprotect_seller_proof"));
+				item.put("rightprotectBuyerProof", rs.getObject("rightprotect_buyer_proof"));
+				item.put("rightprotectSellerAddkf", rs.getObject("rightprotect_seller_addkf"));
+				item.put("rightprotectBuyerAddkf", rs.getObject("rightprotect_buyer_addkf"));
+				item.put("rightprotectSellerProofDesc", rs.getObject("rightprotect_seller_proof_desc"));
+				item.put("rightprotectBuyerProofDesc", rs.getObject("rightprotect_buyer_proof_desc"));
+				item.put("rightprotectSellerProofPics", rs.getObject("rightprotect_seller_proof_pics"));
+				item.put("rightprotectBuyerProofPics", rs.getObject("rightprotect_buyer_proof_pics"));
+				item.put("rightprotectBuyerAddkfPics", rs.getObject("rightprotect_buyer_addkf_pics"));
+				item.put("rightprotectBuyerAddkfDescribe", rs.getObject("rightprotect_buyer_addkf_describe"));
+				item.put("rightprotectSellerAddkfPics", rs.getObject("rightprotect_seller_addkf_pics"));
+				item.put("rightprotectSellerAddkfDescribe", rs.getObject("rightprotect_seller_addkf_describe"));
 				item.put("orderId", rs.getObject("id"));
+				item.put("rightprotectReason", rs.getObject("rightprotect_reason"));
 				item.put("rightprotectStatus", rs.getObject("rightprotect_status"));
 				item.put("activityTitle", rs.getObject("activity_title"));
 				item.put("buyerRemindCheckIf", rs.getObject("buyer_remind_check_if"));
@@ -992,9 +1005,8 @@ public class TradeManageEntrance {
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
 					"select t.rightprotect_status,t.way_to_shop,t.gift_cover,act.huabei_pay,act.creditcard_pay,t.coupon_if,t.buy_way,t.order_time,t.review_pic_audit,t.review_pics,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id left join t_activity act on t.activity_id=act.id where 1=1 and t.seller_id=?")
-							.append(tradeStatus == null
-									? " and t.status=1 and t.rightprotect_status in (0,7,10,9,8,11)  "
-									: (tradeStatus == 1 ? " and t.status=1 and t.rightprotect_status in (7,10,9,8,11)  "
+							.append(tradeStatus == null ? " and t.status=1 and t.rightprotect_status in (0,7,10)  "
+									: (tradeStatus == 1 ? " and t.status=1 and t.rightprotect_status in (7,10)  "
 											: (tradeStatus == 2
 													? " and t.status=1 and t.review_pic_audit=3 and t.rightprotect_status=0"
 													: (tradeStatus == 3
@@ -1212,9 +1224,9 @@ public class TradeManageEntrance {
 			sqlParams.add(pageSize);
 
 			String sql = new StringBuilder(
-					"select t.rightprotect_status,t.order_time,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buy_way,t.coupon_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 and t.seller_id=?")
+					"select t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_status,t.order_time,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buy_way,t.coupon_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 and t.seller_id=?")
 							.append(tradeStatus == null ? " and t.rightprotect_status != 0 "
-									: (tradeStatus == 1 ? " and t.rightprotect_status in (7,8,9,10,11)"
+									: (tradeStatus == 1 ? " and t.rightprotect_status in (7,10)"
 											: (tradeStatus == 2 ? " and t.rightprotect_status=12"
 													: (tradeStatus == 3 ? " and t.rightprotect_status=13" : ""))))
 							.append(buyerNickname == null ? "" : " and bt.taobao_user_nick like ? ")
@@ -1236,6 +1248,10 @@ public class TradeManageEntrance {
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
+				item.put("rightprotectSellerProof", rs.getObject("rightprotect_seller_proof"));
+				item.put("rightprotectBuyerProof", rs.getObject("rightprotect_buyer_proof"));
+				item.put("rightprotectSellerAddkf", rs.getObject("rightprotect_seller_addkf"));
+				item.put("rightprotectBuyerAddkf", rs.getObject("rightprotect_buyer_addkf"));
 				item.put("giftCover", rs.getObject("gift_cover"));
 				item.put("orderTime", rs.getObject("order_time"));
 				item.put("buyWay", rs.getObject("buy_way"));
@@ -1292,6 +1308,17 @@ public class TradeManageEntrance {
 			if (pics.length > 3)
 				throw new InteractRuntimeException("最多三张图片");
 
+			// 处理图片参数
+			picsParam = "";
+			for (int i = 0; i < pics.length; i++) {
+				if (StringUtils.isNotEmpty(pics[i])) {
+					if (i == 0)
+						picsParam = pics[i];
+					else
+						picsParam = picsParam + "," + pics[i];
+				}
+			}
+
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
@@ -1299,9 +1326,73 @@ public class TradeManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"update t_order set rightprotect_seller_addkf_pics=?,rightprotect_seller_addkf_describe=?,rightprotect_status=9 where id=? and seller_id=? and rightprotect_status=10")
+					"update t_order set rightprotect_seller_addkf_pics=?,rightprotect_seller_addkf_describe=?,rightprotect_seller_addkf=1 where id=? and seller_id=? and rightprotect_status=10")
 							.toString());
-			pst.setObject(1, pics);
+			pst.setObject(1, picsParam);
+			pst.setObject(2, describe);
+			pst.setObject(3, orderId);
+			pst.setObject(4, loginStatus.getUserId());
+			int cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/rightprotectsorders/addproof")
+	public void needcheckordersAddproof(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			if (orderId == null)
+				throw new InteractRuntimeException("order_id 不能空");
+			String describe = StringUtils.trimToNull(request.getParameter("describe"));
+			if (describe == null)
+				throw new InteractRuntimeException("describe 不能空");
+			String picsParam = StringUtils.trimToNull(request.getParameter("pics"));
+			if (picsParam == null)
+				throw new InteractRuntimeException("请上传图片");
+			String[] pics = picsParam.split(",");
+			if (pics.length == 0)
+				throw new InteractRuntimeException("请上传图片");
+			if (pics.length > 3)
+				throw new InteractRuntimeException("最多三张图片");
+
+			// 处理图片参数
+			picsParam = "";
+			for (int i = 0; i < pics.length; i++) {
+				if (StringUtils.isNotEmpty(pics[i])) {
+					if (i == 0)
+						picsParam = pics[i];
+					else
+						picsParam = picsParam + "," + pics[i];
+				}
+			}
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"update t_order set rightprotect_seller_proof_pics=?,rightprotect_seller_proof_desc=?,rightprotect_seller_proof=1 where id=? and seller_id=? and rightprotect_status=10 and rightprotect_buyer_addkf=1")
+							.toString());
+			pst.setObject(1, picsParam);
 			pst.setObject(2, describe);
 			pst.setObject(3, orderId);
 			pst.setObject(4, loginStatus.getUserId());

@@ -12,9 +12,9 @@
     <meta name="keywords" content="申请客服介入" />
     <meta name="description" content="Y" />
 
-    <link rel="stylesheet" type="text/css" href="/css/new.css" />
-    <script type="text/javascript" src="/js/jquery-1.9.1.min.js?32222"></script>
-    <script type="text/javascript" src="/js/new.js?2351"></script>
+    <link rel="stylesheet" type="text/css" href="css/new.css" />
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
 </head>
 
 
@@ -34,7 +34,7 @@
         <!-- 顶部 开始 -->
         <div class="header clearfix">
             <a href="javascript:;" class="type" onclick="history.back();">
-                <img src="/images/arrow_left2.svg" class="h40"></a>
+                <img src="image/arrow_left2.svg" class="h40"></a>
             <div class="htxt">申请客服介入</div>
         </div>
         <!-- 顶部 结束 -->
@@ -52,7 +52,7 @@
                 <div class="share-upload pt30 pb30 clearfix">
                     <p class="uploadadd" style="display: block;">
                         <a href="javascript:;" max="3">
-                            <img src="/images/ico_photo.png" class="w36"><input type="file" class="opa0" id="uploadfile" name="uploadfile"></a>
+                            <img src="image/ico_photo.png" class="w36"><input type="file" class="opa0" id="uploadfile" name="uploadfile"></a>
                     </p>
                     <input id="hfpic1" type="hidden" />
                 </div>
@@ -61,7 +61,9 @@
         <a href="javascript:;" class="e_submit mlr20 mt40" id="submit_add">确认提交</a>
     </div>
 
-    <script src="/js/jquery-form.js"></script>
+    <script src="js/jquery-form.js"></script>
+    <script src="js/upload.js"></script>
+    <script src="js/default.js"></script>
 
     <script>
         //function del(obj) {
@@ -74,7 +76,8 @@
         //}
 
 
-
+        var token = localStorage.getItem('token');
+        var queryObject = rxw.parseQueryStr(location.search.substr(1))
         function del(obj) {
             var delIndex = $(obj).parents(".uploadimg").index();
             var objparent = $(obj).parents(".share-upload");
@@ -115,38 +118,45 @@
             //图片上传方法
             //obj1传上传控件的name属性，obj2传图片控件id，obj3传显示上传控件的id，obj4传显示图片的id，obj5传隐藏域的id,num是图片数量
             function upload(obj1, num, maxlength) {
-
-                $("#aspnetForm").ajaxSubmit({
-                    url: '/ashx/upload.ashx?index=' + obj1 + '&maxlength=' + maxlength + '&ram=' + Math.random(),
-                    //  dataType: 'json',
-                    beforeSubmit: function () {
-
-                        // $("#divimg1").append(wait);
-                        // $("#divtowcode img").removeClass("hidden");
-                    },
-                    success: function (data) {
-                        if (data != "false") {
-                            if (data.toString().indexOf("upload") > -1) {
-                                if ($.browser.msie) {
-                                    data = data.replace("<pre>", "").replace("</pre>", "").replace("<PRE>", "").replace("</PRE>", "");
-                                }
-                                var str = "<p class='uploadimg' >"
-                                        + '<img src="http://upl.zuozuojie.com/' + data + '" />'
-                                        + ' <a href="javascript:;" onclick="del(this)"><img src="/images/ico_close_write.png"></a>'
-                                        + '</p>'
-                                $(str).insertBefore(".uploadadd");
-                                checkPic();
-                                $("#hfpic1").val($("#hfpic1").val() + data + '|');
-                            }
-                            else {
-                                error(data);
-                            }
-                        }
-                        else {
-                            error("上传失败");
-                        }
-                    }
-                });
+                var url = uploadImg(obj1)
+                var str = "<p class='uploadimg' >"
+                        + '<img src="' + url + '" />'
+                        + ' <a href="javascript:;" onclick="del(this)"><img src="image/ico_close_write.png"></a>'
+                        + '</p>'
+                $(str).insertBefore(".uploadadd");
+                checkPic();
+                $("#hfpic1").val($("#hfpic1").val() + url + '|');
+//                $("#aspnetForm").ajaxSubmit({
+//                    url: '/ashx/upload.ashx?index=' + obj1 + '&maxlength=' + maxlength + '&ram=' + Math.random(),
+//                    //  dataType: 'json',
+//                    beforeSubmit: function () {
+//
+//                        // $("#divimg1").append(wait);
+//                        // $("#divtowcode img").removeClass("hidden");
+//                    },
+//                    success: function (data) {
+//                        if (data != "false") {
+//                            if (data.toString().indexOf("upload") > -1) {
+//                                if ($.browser.msie) {
+//                                    data = data.replace("<pre>", "").replace("</pre>", "").replace("<PRE>", "").replace("</PRE>", "");
+//                                }
+//                                var str = "<p class='uploadimg' >"
+//                                        + '<img src="http://upl.zuozuojie.com/' + data + '" />'
+//                                        + ' <a href="javascript:;" onclick="del(this)"><img src="image/ico_close_write.png"></a>'
+//                                        + '</p>'
+//                                $(str).insertBefore(".uploadadd");
+//                                checkPic();
+//                                $("#hfpic1").val($("#hfpic1").val() + data + '|');
+//                            }
+//                            else {
+//                                error(data);
+//                            }
+//                        }
+//                        else {
+//                            error("上传失败");
+//                        }
+//                    }
+//                });
             }
 
 
@@ -161,7 +171,7 @@
             //$(".uploadadd a").click(function () {
             //    //console.log($(this).parents(".share-upload").find(".uploadimg").length);
             //    if ($(this).parents(".share-upload").find(".uploadimg").length < $(this).attr("max")) {
-            //        $(this).parents(".share-upload").find(".uploadadd").before('<p class="uploadimg"><img src="/ex/pro.jpg"><a href="javascript:;" onclick="del(this)"><img src="/images/ico_close_write.png" /></a></p>');
+            //        $(this).parents(".share-upload").find(".uploadadd").before('<p class="uploadimg"><img src="/ex/pro.jpg"><a href="javascript:;" onclick="del(this)"><img src="image/ico_close_write.png" /></a></p>');
             //        if ($(this).parents(".share-upload").find(".uploadimg").length == $(this).attr("max")) {
             //            $(this).parent().hide();
             //        }
@@ -183,27 +193,16 @@
                     error("请上传图片！");
                     return;
                 }
-                $.post("/saller/ashx/trade_activist_addkf.ashx", { "id": "1251553", "txtContent": $("#txtContent").val(), "hfpic": $("#hfpic1").val() }, function (data) {
-                    var obj = JSON.parse(data);
-                    if (obj.success == "Y") {
-                        accesstx(obj.msg);
-
-                        var burl = geturl("burl");
-                        var urls = "activist.aspx";
-                        if (burl == "buyed") {
-                            urls = "buyed.aspx";
-                        }
-                        $("#access_pop .cancle").click(function () {
-                            window.location.href = urls;
-                            return;
+                $.post("/rrightway/p/m/trademanageent/rightprotectsorders/addkf", { token:token,order_id:queryObject.id, "describe": $("#txtContent").val(), "pics": $("#hfpic1").val().replace('|',',') }, function (data) {
+                    if (data.code == 0) {
+                        accesstx('申请客服介入成功，请等待客服处理！');
+                        $("#access_pop  .cancle").click(function () {
+                            history.back();
                         });
 
-                    } else if (obj.success == "url") {
-                        window.location.href = "activist.aspx";
-                        return;
                     }
                     else {
-                        error(obj.msg);
+                        error(data.codeMsg);
                     }
                 });
             })

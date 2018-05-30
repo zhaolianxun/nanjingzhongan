@@ -29,6 +29,7 @@ public class GatherTask {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 
+			// 下架过期的活动
 			pst = connection.prepareStatement(
 					"update t_activity set status=3 where status=1 and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-(keep_days*24*60*60*1000+start_time))>0");
 			int cnt = pst.executeUpdate();
@@ -36,6 +37,13 @@ public class GatherTask {
 			pst.close();
 			connection.commit();
 
+//			// 买家超过2小时未处理，自动同意维权
+//			pst = connection.prepareStatement(
+//					"update t_order set status=12 where rightprotect_status=7 and status=1 and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-(order_time))>2*60*60*1000");
+//			cnt = pst.executeUpdate();
+//			logger.debug("下架了" + cnt + "个过期活动");
+//			pst.close();
+			connection.commit();
 		} catch (Exception e) {
 			if (connection != null)
 				try {
