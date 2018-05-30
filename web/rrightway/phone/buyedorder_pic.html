@@ -39,18 +39,18 @@
 
     <div class="imglist">
     </div>
-    <div class="my-gallery p20 bgfff">
+    <div id="picspad" class="my-gallery p20 bgfff">
 
-        <figure class="mt15">
-            <a class="bl mr20" href="http://upl.zuozuojie.com//upload/20180526/201805260503068409.jpg">
-                <img src="http://upl.zuozuojie.com//upload/20180526/201805260503068409.jpg" /></a>
+        <figure id="itemExample" class="mt15" style="display:none">
+            <a class="bl mr20" href="">
+                <img src="" /></a>
         </figure>
 
 
     </div>
 
     <div class="com_footer ">
-        <p class="textr pr20 " data="1140686"><a href="javascript:;" class="btn3 cancle">图片不符</a><a href="javascript:;" class="check btn4">确认返现</a></p>
+        <p class="textr pr20 " data="1140686"><a href="javascript:;" class="btn3 cancle">图片不符</a><!--<a href="javascript:;" class="check btn4">确认返现</a>--></p>
     </div>
 </div>
 
@@ -109,6 +109,17 @@
 <script>
     var token = localStorage.getItem('token');
     var queryObject = rxw.parseQueryStr(location.search.substr(1))
+    var pics = queryObject.reviewPics.split(',')
+    for(index in pics){
+        var newItem = $('#itemExample').clone(true)
+        newItem.attr('id','item'+index)
+        newItem.find('a').attr('href',pics[index]);
+        newItem.find('img').attr('src',pics[index]);
+        newItem.css('display','');
+
+        $('#picspad').append(newItem);
+    }
+
     $(function () {
         $(".com_footer").on("click", "a", function () {
             //console.log($(this).text());

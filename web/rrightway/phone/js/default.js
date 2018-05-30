@@ -30,10 +30,14 @@ rxw.formatDateTime=function (inputTime) {
 rxw.trimToEmpty = function(str){
     if(str == undefined || str==null)
         return '';
+    else
+        return str;
 }
 rxw.isEmptyStr = function(str){
     if(str == undefined || str==null|| str=='')
         return true;
+    else
+        return false;
 }
 rxw.alert=function (txt,fun,funParam){
 

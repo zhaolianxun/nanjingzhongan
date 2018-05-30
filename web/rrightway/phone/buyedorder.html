@@ -219,12 +219,12 @@
                         var is_pay_card = ele.creditcardPay == 1 ? '<i class="ptype xyka"></i>' : '';
                         var statusStr = "";
                         var btnStr = "";
-                        var betailBtn = 'trademanage_orderdetail.html?id=' + ele.id;
+                        var betailBtn = 'buyedorder_detail.html?id=' + ele.id;
 
                         switch (ele.status) {
                             case 1:
                                 if (ele.rightprotectStatus == 0){
-                                    betailBtn = 'buyed_detail.aspx?id= ' + ele.id + '';
+
                                     statusStr = '<b class="textr">待返现<i class="bl c999"></i></b>';
 
                                     btnStr += '<a href="javascript:;" class="app btn3 recoder">申请维权</a><a href="javascript:;" class="check btn4 recoder">确认返现</a>';
@@ -234,7 +234,8 @@
                                     }
                                     if (ele.reviewPicAudit == 0 || ele.reviewPicAudit == 2) {
                                         //(图片不符)
-                                        btnStr += '<a href="buyedorder_pic.html?id=' + ele.id + '" class="recoder">查看图片</a>';
+
+                                        btnStr += '<a href="buyedorder_pic.html?id=' + ele.id+'&reviewPics='+rxw.trimToEmpty(ele.reviewPics) + '" class="recoder">查看图片</a>';
                                     } else if (ele.reviewPicAudit == 3) {
                                         //btnStr = '<a href="javascript:;" class="recoder disabled">未提交图片</a>';
                                         statusStr = '<b class="textr">待返现<i class="bl c999">(试客未提交评价图)</i></b>';

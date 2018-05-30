@@ -2,11 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e237860-5a26-414c-83bd-6c0f623a475b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/TradeManageEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/TradeManageEntrance.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders_detail.html" />
+      <change type="MOVED" beforePath="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone\trademanage_orderdetail.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/returnedorders_detail.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/IambuyerEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/IambuyerEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/TradeManageEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/TradeManageEntrance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SearchEntrance.java" afterPath="$PROJECT_DIR$/java/rrightway/src/rrightway/module/plat/api/mobile/SearchEntrance.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/buyedorder.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/buyedorder.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/buyedorder_pic.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/buyedorder_pic.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/js/default.js" afterPath="$PROJECT_DIR$/web/rrightway/phone/js/default.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/returnedorders.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/returnedorders.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html" afterPath="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="nanjingzhongan.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,94 +34,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="demo4.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/demo/demo4.html">
+      <file leaf-file-name="rightprotectorders_detail.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/rightprotectorders_detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="75.07143">
-              <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1527642879421" expanded="true" signature="3812:4069" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4484:4649" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4522:4649" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4542:4649" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4665:4709" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4736:4774" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4736:4808" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4839:4861" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4839:4873" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4839:4884" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4839:4909" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4839:4916" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4960:4995" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4960:5013" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4960:5025" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="4960:5058" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="5618:5783" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="5799:5843" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="5871:5916" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="6010:6082" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="6113:6190" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="6234:6332" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="6916:7025" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="6931:7025" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="7040:7102" placeholder="..." />
-                <marker date="1527642879421" expanded="true" signature="7131:7211" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="rxw.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/demo/rxw.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="56" column="392" selection-start-line="56" selection-start-column="282" selection-end-line="56" selection-end-column="394" />
-              <folding>
-                <marker date="1527643250457" expanded="true" signature="138:395" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="729:894" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="910:954" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="991:1063" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="1094:1171" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="1215:1313" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="1830:1995" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="2011:2055" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="2093:2138" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="2242:2314" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="2345:2422" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="2466:2564" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="3106:3212" placeholder="..." />
-                <marker date="1527643250457" expanded="true" signature="3227:3271" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="buyedorder.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.571831">
-              <caret line="216" column="80" selection-start-line="216" selection-start-column="80" selection-end-line="216" selection-end-column="80" />
+            <state vertical-scroll-proportion="-7.172414">
+              <caret line="100" column="41" selection-start-line="100" selection-start-column="41" selection-end-line="100" selection-end-column="41" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="checkorders.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders.html">
+      <file leaf-file-name="rightprotectorders.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.5172415">
-              <caret line="785" column="16" selection-start-line="785" selection-start-column="16" selection-end-line="785" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="trademanage_orderdetail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/trademanage_orderdetail.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.862069">
-              <caret line="213" column="32" selection-start-line="213" selection-start-column="24" selection-end-line="213" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.6690141">
+              <caret line="205" column="38" selection-start-line="205" selection-start-column="38" selection-end-line="205" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -123,63 +57,11 @@
       <file leaf-file-name="checkorders_detail.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.214286">
-              <caret line="39" column="92" selection-start-line="39" selection-start-column="81" selection-end-line="39" selection-end-column="92" />
+            <state vertical-scroll-proportion="-14.821428">
+              <caret line="222" column="81" selection-start-line="222" selection-start-column="18" selection-end-line="222" selection-end-column="81" />
               <folding>
                 <element signature="n#style#0;n#a#0;n#p#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#0;n#p#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="buyedorder_detail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.390805">
-              <caret line="258" column="26" selection-start-line="258" selection-start-column="26" selection-end-line="258" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="default.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/default.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="185" column="29" selection-start-line="185" selection-start-column="29" selection-end-line="185" selection-end-column="29" />
-              <folding>
-                <marker date="1527619344815" expanded="true" signature="5081:5246" placeholder="..." />
-                <marker date="1527619344815" expanded="true" signature="5262:5306" placeholder="..." />
-                <marker date="1527619344815" expanded="true" signature="5334:5379" placeholder="..." />
-                <marker date="1527619344815" expanded="true" signature="5473:5545" placeholder="..." />
-                <marker date="1527619344815" expanded="true" signature="5576:5653" placeholder="..." />
-                <marker date="1527619344815" expanded="true" signature="5697:5795" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tmpinfo.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat/admin/tmpinfo.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-21.714285">
-              <caret line="62" column="56" selection-start-line="62" selection-start-column="56" selection-end-line="62" selection-end-column="56" />
-              <folding>
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="default.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/default.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.633333">
-              <caret line="33" column="14" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="14" />
-              <folding>
-                <marker date="1527647799162" expanded="true" signature="1186:1196" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -202,7 +84,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/web/rrightway/phone/complatetaobaoinfo_ok.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/new.js" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/completetaobaoinfo_ok.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/buyertaobaolist_cancel.html" />
@@ -214,7 +95,6 @@
         <option value="$PROJECT_DIR$/web/rrightway/phone/noticeent.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/phoneIndex_noticeDetail.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/trademanage/buyedorder.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/buyedorder_pic.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/bindtaobaoseller.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/tb_js_oauth_notify.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/bindTaobaoMerchant.html" />
@@ -227,10 +107,8 @@
         <option value="$PROJECT_DIR$/web/rrightway/phone/tb_js_oauth.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/bindTaobaoPersonal.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/myIndexMerchant.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/returnedorders.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/trademanage_orderdetail.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletout.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/withdraw_banks.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/js/com.js" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/js/com.js" />
@@ -247,12 +125,16 @@
         <option value="$PROJECT_DIR$/web/easywin/plat/libs/default.js" />
         <option value="$PROJECT_DIR$/web/demo/demo4.html" />
         <option value="$PROJECT_DIR$/web/demo/rxw.js" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/js/default.js" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/checkorders.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/returnedorders_detail.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/buyedorder.html" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/js/default.js" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/buyedorder_pic.html" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/returnedorders.html" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/returnedorders_detail.html" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html" />
+        <option value="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders_detail.html" />
       </list>
     </option>
   </component>
@@ -608,22 +490,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/requested_order_buyed.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.8965516">
-          <caret line="429" column="14" selection-start-line="429" selection-start-column="8" selection-end-line="429" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/myIndexMerchant.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.25">
-          <caret line="213" column="31" selection-start-line="213" selection-start-column="31" selection-end-line="213" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/search.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -632,50 +498,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/bindTaobao.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="11.964286">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/bindTaobaoMerchant.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="24.428572">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder_pic.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.928572">
-          <caret line="124" column="6" selection-start-line="109" selection-start-column="3" selection-end-line="124" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/moneymanage/rightwalletout.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35774648">
           <caret line="114" column="29" selection-start-line="114" selection-start-column="29" selection-end-line="114" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.534483">
-          <caret line="240" column="0" selection-start-line="240" selection-start-column="0" selection-end-line="240" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/returnedorders.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.8965516">
-          <caret line="162" column="74" selection-start-line="162" selection-start-column="46" selection-end-line="162" selection-end-column="74" />
           <folding />
         </state>
       </provider>
@@ -865,7 +691,7 @@
         <state vertical-scroll-proportion="-14.344828">
           <caret line="71" column="31" selection-start-line="71" selection-start-column="31" selection-end-line="71" selection-end-column="31" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -893,9 +719,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-17.892857">
           <caret line="56" column="3" selection-start-line="56" selection-start-column="3" selection-end-line="56" selection-end-column="51" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -935,9 +759,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.75">
           <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -973,12 +795,12 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="185" column="29" selection-start-line="185" selection-start-column="29" selection-end-line="185" selection-end-column="29" />
           <folding>
-            <marker date="1527619344815" expanded="true" signature="5081:5246" placeholder="..." />
-            <marker date="1527619344815" expanded="true" signature="5262:5306" placeholder="..." />
-            <marker date="1527619344815" expanded="true" signature="5334:5379" placeholder="..." />
-            <marker date="1527619344815" expanded="true" signature="5473:5545" placeholder="..." />
-            <marker date="1527619344815" expanded="true" signature="5576:5653" placeholder="..." />
-            <marker date="1527619344815" expanded="true" signature="5697:5795" placeholder="..." />
+            <marker date="1527619344815" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527619344815" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527619344815" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527619344815" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527619344815" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527619344815" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -989,32 +811,32 @@
           <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1527642879421" expanded="true" signature="3812:4069" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4484:4649" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4522:4649" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4542:4649" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4665:4709" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4736:4774" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4736:4808" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4839:4861" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4839:4873" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4839:4884" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4839:4909" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4839:4916" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4960:4995" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4960:5013" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4960:5025" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="4960:5058" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="5618:5783" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="5799:5843" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="5871:5916" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="6010:6082" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="6113:6190" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="6234:6332" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="6916:7025" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="6931:7025" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="7040:7102" placeholder="..." />
-            <marker date="1527642879421" expanded="true" signature="7131:7211" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527642879421" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1024,45 +846,108 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="56" column="392" selection-start-line="56" selection-start-column="282" selection-end-line="56" selection-end-column="394" />
           <folding>
-            <marker date="1527643250457" expanded="true" signature="138:395" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="729:894" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="910:954" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="991:1063" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="1094:1171" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="1215:1313" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="1830:1995" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="2011:2055" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="2093:2138" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="2242:2314" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="2345:2422" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="2466:2564" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="3106:3212" placeholder="..." />
-            <marker date="1527643250457" expanded="true" signature="3227:3271" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1527643250457" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/bindTaobao.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/bindTaobaoMerchant.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyertaobaolist_cancel.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/js/default.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.633333">
-          <caret line="33" column="14" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
           <folding>
-            <marker date="1527647799162" expanded="true" signature="1186:1196" placeholder="..." />
+            <marker date="1527663352352" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/trademanage_orderdetail.html">
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder_pic.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.862069">
-          <caret line="213" column="32" selection-start-line="213" selection-start-column="24" selection-end-line="213" selection-end-column="32" />
+        <state vertical-scroll-proportion="-3.8965516">
+          <caret line="52" column="101" selection-start-line="52" selection-start-column="97" selection-end-line="52" selection-end-column="154" />
+          <folding>
+            <element signature="n#style#0;n#figure#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/returnedorders.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.857142">
+          <caret line="162" column="67" selection-start-line="162" selection-start-column="67" selection-end-line="162" selection-end-column="67" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/returnedorders_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.224138">
+          <caret line="55" column="18" selection-start-line="55" selection-start-column="18" selection-end-line="55" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.8965516">
+          <caret line="454" column="32" selection-start-line="454" selection-start-column="11" selection-end-line="454" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6">
+          <caret line="40" column="70" selection-start-line="40" selection-start-column="70" selection-end-line="40" selection-end-column="134" />
+          <folding>
+            <element signature="n#style#0;n#a#0;n#p#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#1;n#p#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#2;n#p#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#3;n#p#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.5172415">
+        <state vertical-scroll-proportion="-16.964285">
           <caret line="785" column="16" selection-start-line="785" selection-start-column="16" selection-end-line="785" selection-end-column="16" />
           <folding />
         </state>
@@ -1070,8 +955,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/rrightway/phone/checkorders_detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.214286">
-          <caret line="39" column="92" selection-start-line="39" selection-start-column="81" selection-end-line="39" selection-end-column="92" />
+        <state vertical-scroll-proportion="-14.821428">
+          <caret line="222" column="81" selection-start-line="222" selection-start-column="18" selection-end-line="222" selection-end-column="81" />
           <folding>
             <element signature="n#style#0;n#a#0;n#p#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#p#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1079,18 +964,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder_detail.html">
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/rightprotectorders_detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.390805">
-          <caret line="258" column="26" selection-start-line="258" selection-start-column="26" selection-end-line="258" selection-end-column="26" />
+        <state vertical-scroll-proportion="-7.172414">
+          <caret line="100" column="41" selection-start-line="100" selection-start-column="41" selection-end-line="100" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/buyedorder.html">
+    <entry file="file://$PROJECT_DIR$/web/rrightway/phone/rightprotectorders.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.571831">
-          <caret line="216" column="80" selection-start-line="216" selection-start-column="80" selection-end-line="216" selection-end-column="80" />
+        <state vertical-scroll-proportion="0.6690141">
+          <caret line="205" column="38" selection-start-line="205" selection-start-column="38" selection-end-line="205" selection-end-column="38" />
           <folding />
         </state>
       </provider>

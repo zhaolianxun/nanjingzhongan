@@ -38,13 +38,13 @@
                 <p>
                     活动标题：<span id="activityTitle"></span><br />
                     订单编号：<span id="orderId"></span><br />
-                    下单时间：<span id="orderTime"></span><b class="textr">待返现</b>
+                    下单时间：<span id="orderTime"></span><b class="textr"><span id="statusNotes"></span><i class='bl c999' id="notes"></i></b>
                 </p>
             </div>
             <div class="pt30 pb30 line36 mlr20 bt1 f26 hidden"><i class="c999">试客取消订单原因：</i>还没付款，不想做了</div>
 
-            <div class="pt30 pb30 line36 mlr20 bt1 f26 c2f97f0 ">
-                <img src="image/time_ico.png" class="w30 mr20 mt_3 " />还剩<bdo class="lefttime" date="2018-06-14 11:04:09">0天00时00分00秒</bdo>自动确认返现
+            <div id="lefttimePad" class="pt30 pb30 line36 mlr20 bt1 f26 c2f97f0 hidden">
+                <img  src="image/time_ico.png" class="w30 mr20 mt_3 " />还剩<bdo class="lefttime" date="">0天00时00分00秒</bdo>自动确认返现
             </div>
 
         </div>
@@ -54,7 +54,7 @@
         <a id="cowryUrl" href="">
             <img id="giftCover" src="" class="img" onerror="this.src='image/nopic.png'" />
             <div class="relative">
-                <p class="row1" id="giftName">钥匙扣随机一个</p>
+                <p class="row1" id="giftName"></p>
                 <p class="row1 c999 mt10">付款金额：<i class="cf60">¥<span id="payPrice"></span></i>  返现金额：<i class="cf60">¥<span id="returnMoney"></span></i></p>
                 <p class="type absolute l0 b0"> <i class='ptype tel'></i><i class='ptype chi'></i></p>
             </div>
@@ -101,10 +101,13 @@
 </div>
 
 <div class="com_footer">
-    <!--待返现(试客未提交评价图) 显示-->
-    <p id="unreviewBtns" class="textr pr20 " isfk="Y" data="1238858"><a href="javascript:;" class="btn3 app mr20">申请维权</a><a href="javascript:;" class=" btn4 check">确认返现</a></p>
-    <!--待返现(试客已提交评价图) 待返现(图片不符) 显示-->
-    <p  id="reviewedBtns" class="textr pr20  hidden" isfk="Y"  data="1238858"><a href="javascript:;" class="  btn3  app">申请维权</a><a href="javascript:;" class=" btn4 mr20 check">确认返现</a><a href="buyed_pic.aspx?id=1238858" class="btn1">查看图片</a></p>
+
+    <p  id="btnsPad" class="textr pr20  " isfk="Y"  data="">
+        <a id="protectRightBtn" href="javascript:;" class="  btn3 app  " style="display:none">申请维权</a>
+        <a id="returnMoneyBtn" href="javascript:;" class=" btn4 mr20 check "  style="display:none">确认返现</a>
+        <a id="lookpicBtn" href="" class="btn1 "  style="display:none">查看图片</a>
+        <a id="cancelProtectBtn" href="javascript:;" class="btn1 cancle1"   style="display:none">取消维权</a>
+    </p>
 </div>
 
 
@@ -117,16 +120,16 @@
     </div>
     <div class="scroll sp2 bgeee">
         <ul class="checklist f28">
-            <li class="item" data="试客在淘宝申请退款，已经同意退款" data-val="1">
+            <li class="item" data="试客在淘宝申请退款，已经同意退款" data-val="试客在淘宝申请退款，已经同意退款">
                 <p>试客在淘宝申请退款，已经同意退款<i class="c sp2"><img src="image/ico_selected.png" class="h30"></i></p>
             </li>
-            <li class="item" data="误点击为确定已拍下的试客" data-val="2">
+            <li class="item" data="误点击为确定已拍下的试客" data-val="误点击为确定已拍下的试客">
                 <p>误点击为确定已拍下的试客<i class="c sp2"><img src="image/ico_selected.png" class="h30"></i></p>
             </li>
-            <li class="item" data="试客已提交评价图但未收货" data-val="3">
+            <li class="item" data="试客已提交评价图但未收货" data-val="试客已提交评价图但未收货">
                 <p>试客已提交评价图但未收货<i class="c sp2"><img src="image/ico_selected.png" class="h30"></i></p>
             </li>
-            <li class="item" data="评价存在负面影响" data-val="4">
+            <li class="item" data="评价存在负面影响" data-val="评价存在负面影响">
                 <p>评价存在负面影响<i class="c sp2"><img src="image/ico_selected.png" class="h30"></i></p>
             </li>
         </ul>
@@ -134,13 +137,13 @@
     <div class="com_footer sp2"><a href="javascript:;" class="bg2f97f0 bl cfff center f30 submit">确认提交</a></div>
 </div>
 
-<script src="js/lazyload.js"></script>
 
+<script type="text/javascript" src="js/lazyload.js" charset="utf-8"></script>
 <!-- 图片放大预览 -->
-<link href="photoswipephotoswipe.css?v=4.1.1-1.0.4" rel="stylesheet" />
+<link href="photoswipe/photoswipe.css?v=4.1.1-1.0.4" rel="stylesheet" />
 <link href="photoswipe/default-skin/default-skin.css?v=4.1.1-1.0.4" rel="stylesheet" />
-<script src="photoswipephotoswipe.min.js?v=4.1.1-1.0.4"></script>
-<script src="photoswipephotoswipe-ui-default.min.js?v=4.1.1-1.0.4"></script>
+<script src="photoswipe/photoswipe.min.js?v=4.1.1-1.0.4"></script>
+<script src="photoswipe/photoswipe-ui-default.min.js?v=4.1.1-1.0.4"></script>
 <script src="js/imglist.js"></script>
 <!--图片框架 开始-->
 <div id="gallery" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
@@ -204,13 +207,6 @@
             success: function(res){
                 if(res.code == 0){
                     item = res.data;
-                    if(res.data.reviewPicAudit == 3){
-                        $('#unreviewBtns').removeClass('hidden')
-                        $('#unreviewBtns').attr('data',queryObject.id);
-                    }else {
-                        $('#reviewedBtns').removeClass('hidden')
-                        $('#reviewedBtns').attr('data',queryObject.id);
-                    }
                     $('#cowryUrl').attr('href','detail.html?id='+res.data.activityId)
                     $('#taobaoOrderid').text(rxw.trimToEmpty(res.data.taobaoOrderid));
                     $('#orderTime').text(rxw.formatDateTime(res.data.orderTime));
@@ -223,30 +219,53 @@
                     $('#giftCover').attr('src',res.data.giftCover);
                     $('#buyerTaobaoaccountName').text(res.data.buyerTaobaoaccountName);
                     $('#sellerTaobaoaccountName').text(res.data.sellerTaobaoaccountName);
-                    if(res.data.status ==0 ) {
-                        $('#statusNotes').text('等待核对');
-                        if( res.data.buyerRemindCheckIf == 1)
-                            $('#notes').text('(试客已提醒核对)');
-                    }else if (res.data.status == 3) {
-                        $('#statusNotes').text('订单关闭');
-                        $('#notes').text('(试客取消)');
-
-                        if(!rxw.isEmptyStr(res.data.buyerCancelReason)) {
-                            $('#reasons').text('试客取消订单原因：'+res.data.buyerCancelReason)
-                            $('#reasonsPad').removeClass('hidden')
+$('#btnsPad').attr('data',queryObject.id)
+                    if (item.rightprotectStatus == 0){
+                        $('#protectRightBtn').css('display','');
+                        $('#returnMoneyBtn').css('display','');
+                        if (item.reviewPicAudit == 2) {
+                            $('#lookpicBtn').attr('href','buyedorder_pic.html?id='+queryObject.id+'&reviewPics='+rxw.trimToEmpty(item.reviewPics))
+                            $('#statusNotes').text('待返现');
+                            $('#notes').text('(图片不符)');
+                            $('#lookpicBtn').css('display','');
+                        }else if (item.reviewPicAudit ==0) {
+                            $('#lookpicBtn').attr('href','buyedorder_pic.html?id='+queryObject.id+'&reviewPics='+rxw.trimToEmpty(item.reviewPics))
+                            $('#statusNotes').text('待返现');
+                            $('#notes').text('(试客已提交评价图)');
+                            $('#lookpicBtn').css('display','');
+                        }else if (item.reviewPicAudit ==3) {
+                            $('#statusNotes').text('待返现');
+                            $('#notes').text('(试客未提交评价图)');
                         }
-                    }else if (res.data.status == 4) {
-                        $('#statusNotes').text('订单关闭');
-                        $('#notes').text('(商家取消)');
-                        if(!rxw.isEmptyStr(res.data.sellerCancelReason)) {
-                            $('#reasons').text('商家取消订单原因：'+res.data.sellerCancelReason)
-                            $('#reasonsPad').removeClass('hidden')
-                        }
-                    }else if (res.data.status == 5) {
-                        $('#statusNotes').text('订单关闭');
-                        $('#notes').text('系统关闭');
-
+                        $('.lefttime').attr('date',rxw.formatDateTime(item.autoReturnTime)).removeClass('hidden')
+                        $('#lefttimePad').css('display','');
+                    }else if (item.rightprotectStatus == 7){
+                        $('#cancelProtectBtn').css('display','');
+                        $('#statusNotes').text('维权中');
+                        $('#notes').text('(等待试客确认)');
+                    }else if (item.rightprotectStatus ==  9){
+                        $('#cancelProtectBtn').css('display','');
+                        $('#statusNotes').text('维权中');
+                        $('#notes').text('(已申请客服介入)');
+                    }else if (item.rightprotectStatus ==  11){
+                        $('#cancelProtectBtn').css('display','');
+                        $('#statusNotes').text('维权中');
+                        $('#notes').text('(已提交凭证)');
+                    }else if (item.rightprotectStatus ==  8){
+                        $('#cancelProtectBtn').css('display','');
+                        $('#statusNotes').text('维权中');
+                        $('#notes').text('(试客已申请客服介入)');
+                    }else if (item.rightprotectStatus ==  10){
+                        $('#cancelProtectBtn').css('display','');
+                        $('#statusNotes').text('维权中');
+                        $('#notes').text('(试客已拒绝)');
                     }
+
+
+
+
+
+
                     if(res.data.couponIf == 1){
                         $('#couponIfPad').attr('data-text',res.data.couponUrl)
                         $('#couponIfPad').click(function(){
@@ -330,7 +349,7 @@
         $(".com_footer").on("click", "a", function () {
             //console.log($(this).text());
             //取消维权
-            if ($(this).hasClass("cancle")) {
+            if ($(this).hasClass("cancle1")) {
                 var id = $(this).parent().attr("data");
                 accessconfirm("确定要取消维权吗？<br />若该订单已到自动返现时间，则取消维权将自动返现给试客。", canok, $(this))
             }
@@ -342,7 +361,7 @@
                 var zdfxStr = isfk == "Y" ? "<p class='f14 c2f97f0 line24'>主动核对返现将奖励您<i class='cf60'>0.50</i>元</p>" : "";
 
 
-                accessconfirm("确定要确认返现订单吗？<br /><i class='cf60'>请务必到商城检查试客是否确定收货，若无确定收货给试客返现，出现资金问题左左街概不负责。</i>" + zdfxStr, checkok, $(this));
+              accessconfirm("确定要确认返现订单吗？<br /><i class='cf60'>请务必到商城检查试客是否确定收货，若无确定收货给试客返现，出现资金问题左左街概不负责。</i>" + zdfxStr, checkok, $(this));
             }
             //申请维权
             else if ($(this).hasClass("app")) {
@@ -370,12 +389,10 @@
                 var reason = $("#appright .checklist .item.crently").attr("data-val");
                 $.ajax({
                     type: "POST",
-                    url: "/flow/AS200203.ashx",
-                    data: "rad=" + Math.random() + "&id=" + id + "&reason=" + escape(reason),
+                    url: "/rrightway/p/m/trademanageent/buyedorders/rightprotect",
+                    data: "token=" +token + "&order_id=" + id + "&reason=" + reason,
                     success: function (res) {
-                        if (res != "" && res != "[]") {
-                            var comments = $.parseJSON(res);
-                            if (comments.success == "Y") {
+                        if (res.code==0) {
                                 accesstx("申请维权成功！");
                                 $("#access_pop  .cancle").click(function () {
                                     //$(pobj).find("b").html("维权中<i class='bl c999'>(等待试客确认)</i>");
@@ -387,9 +404,9 @@
                                 });
                             }
                             else {
-                                error(comments.msg);
+                                error(res.codeMsg);
                             }
-                        }
+
                     }
                 });
 
@@ -403,22 +420,20 @@
         var id = $(obj).parent().attr("data");
         $.ajax({
             type: "POST",
-            url: "/flow/AS200202.ashx",
-            data: "rad=" + Math.random() + "&id=" + id,
+            url: "/rrightway/p/m/trademanageent/buyedorders/returnmoney",
+            data: "token=" + token + "&order_id=" + id,
             success: function (res) {
-                if (res != "" && res != "[]") {
-                    var comments = $.parseJSON(res);
-                    if (comments.success == "Y") {
+                if (res.code==0) {
                         error("确认返现订单成功");
                         setTimeout(function () {
                             history.back();
                         }, 500)
                     }
                     else {
-                        error(comments.msg);
+                    error(res.codeMsg);
                     }
                 }
-            }
+
         });
         return true;
     }
@@ -429,29 +444,26 @@
         var pobj = $(obj).parents(".item");
         $.ajax({
             type: "POST",
-            url: "/flow/AS200404.ashx",
-            data: "rad=" + Math.random() + "&id=" + id,
+            url: "/rrightway/p/m/trademanageent/buyedorders/unrightprotect",
+            data: "token=" +token + "&order_id=" + id,
             success: function (res) {
-                if (res != "" && res != "[]") {
-                    var comments = $.parseJSON(res);
-                    if (comments.success == "Y") {
-                        //确认成功
-                        error("取消维权订单成功！");
-                        //$(pobj).find("b").html("待返现");
-                        //$(pobj).find(".foot").html('<a href="javascript:;" class="app btn3">申请维权</a><a href="javascript:;" class="check btn4">确认返现</a><a href="javascript:;" class="cancle">取消维权</a>');
-                        setTimeout(function () {
-                            history.back();
-                        }, 500)
-                    }
-                    else {
-                        error(comments.msg);
-                    }
+                if (res.code == 0) {
+                    //确认成功
+                    error("取消维权订单成功！");
+                    //$(pobj).find("b").html("待返现<i class='bl c999'>(试客未提交评价图)</i>");
+                    //$(pobj).find(".foot").html('<a href="javascript:;" class="app btn3">申请维权</a><a href="javascript:;" class="check btn4">确认返现</a>');
+                    setTimeout(function () {
+                        history.back();
+                    }, 500)
+                }
+                else
+                {
+                    error(res.codeMsg);
                 }
             }
         });
         return true;
     }
-
 
     //确认删除
     function delok(obj) {

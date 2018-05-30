@@ -229,7 +229,7 @@
 
                         txt = '<div class="item">'
                                 + '  <div class="tit"><p>活动标题：' + row.activityTitle + '<br />订单编号：' + row.id + '<br />下单时间：' +rxw.formatDateTime( row.orderTime) + str + '</p></div>'
-                                + '  <a href="trademanage_orderdetail.html?id=' + row.id + '" class="recoder pro_min bt1"><img src="' + row.giftCover + '" class="img" onerror="this.src=\'image/nopic.png\'" />'
+                                + '  <a href="rightprotectorders_detail.html?id=' + row.id + '" class="recoder pro_min bt1"><img src="' + row.giftCover + '" class="img" onerror="this.src=\'image/nopic.png\'" />'
                                 + '    <div class="relative">'
                                 + '      <p class="row1">' + row.giftName + '</p>'
                                 + '      <p class="row1 c999 mt10">付款金额：<i class="cf60">¥' + getFloatStr(row.payPrice) + '</i>  返现金额：<i class="cf60">¥' + getFloatStr(row.returnMoney) + '</i></p>'
@@ -498,9 +498,11 @@
                 $("#protype").val(tsvalue);
                 $(".protype").html(tsvalues);
                 $("#protype").parent().find("a[data=" + tsvalues + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+                param={trade_status:tsvalue}
                 reloaddata();
             }
             $(this).addClass("crently").siblings().removeClass("crently");
+
         })
 
 

@@ -48,7 +48,7 @@ public class TradeManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select (select count(id) from t_order where seller_id=? and status=0) needCheckCount,(select count(id) from t_order where seller_id=? and status in (1,3,4,5)) buyedCount,(select count(id) from t_order where seller_id=? and status=2) returnedCount,(select count(id) from t_order where seller_id=? and rightprotect_status !=0) rightprotectedCount,(select count(id) from t_order where seller_id=? and complain !=0) complainCount")
+					"select (select count(id) from t_order where seller_id=? and status=0) needCheckCount,(select count(id) from t_order where seller_id=? and status=1 and rightprotect_status in (0)) buyedCount,(select count(id) from t_order where seller_id=? and status=2) returnedCount,(select count(id) from t_order where seller_id=? and rightprotect_status !=0) rightprotectedCount,(select count(id) from t_order where seller_id=? and complain !=0) complainCount")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, loginStatus.getUserId());
@@ -431,19 +431,21 @@ public class TradeManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.auto_return_time,t.activity_title,t.buyer_remind_check_if,a.coupon_url,t.gift_express_co,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t  left join t_activity a on t.activity_id=a.id where t.id=?")
+					"select t.review_pics,t.rightprotect_status,t.auto_return_time,t.activity_title,t.buyer_remind_check_if,a.coupon_url,t.gift_express_co,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t  left join t_activity a on t.activity_id=a.id where t.id=?")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
 			if (rs.next()) {
 				item.put("orderId", rs.getObject("id"));
+				item.put("rightprotectStatus", rs.getObject("rightprotect_status"));
 				item.put("activityTitle", rs.getObject("activity_title"));
 				item.put("buyerRemindCheckIf", rs.getObject("buyer_remind_check_if"));
 				item.put("giftExpressCo", rs.getObject("gift_express_co"));
 				item.put("wayToShop", rs.getObject("way_to_shop"));
 				item.put("activityId", rs.getObject("activity_id"));
 				item.put("reviewPicAudit", rs.getObject("review_pic_audit"));
+				item.put("reviewPics", rs.getObject("review_pics"));
 				item.put("reviewPicCommitTime", rs.getObject("review_pic_commit_time"));
 				item.put("orderTime", rs.getObject("order_time"));
 				item.put("checkTime", rs.getObject("check_time"));
@@ -474,8 +476,6 @@ public class TradeManageEntrance {
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
-			if (connection != null)
-				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
@@ -991,9 +991,10 @@ public class TradeManageEntrance {
 							.append(tradeStatus == null
 									? " and t.status=1 and t.rightprotect_status in (0,7,10,9,8,11)  "
 									: (tradeStatus == 1 ? " and t.status=1 and t.rightprotect_status in (7,10,9,8,11)  "
-											: (tradeStatus == 2 ? " and t.status=1 and t.review_pic_audit=3 "
+											: (tradeStatus == 2
+													? " and t.status=1 and t.review_pic_audit=3 and t.rightprotect_status=0"
 													: (tradeStatus == 3
-															? " and  t.status=1 and t.review_pic_audit in (0,2) "
+															? " and  t.status=1 and t.review_pic_audit in (0,2) and t.rightprotect_status=0"
 															: ""))))
 							.append(buyerNickname == null ? "" : " and bt.taobao_user_nick like ? ")
 							.append(sellerNickname == null ? "" : " and st.taobao_user_nick like ? ")

@@ -1,5 +1,6 @@
 package rrightway.module.plat.api.mobile;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -1070,26 +1071,62 @@ public class IambuyerEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection.prepareStatement(
-					new StringBuilder("select t.rightprotect_status from t_order t  where t.id=? for update")
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.rightprotect_status,t.return_money,t.seller_id from t_order t  where t.id=? and t.buyer_id=?  for update")
 							.toString());
 			pst.setObject(1, orderId);
+			pst.setObject(2, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
+			BigDecimal returnMoney = null;
+			String sellerId = null;
 			if (rs.next()) {
 				int rightprotectStatus = rs.getInt("rightprotect_status");
 				if (rightprotectStatus == 0)
 					throw new InteractRuntimeException("订单未维权");
 				if (rightprotectStatus != 7)
 					throw new InteractRuntimeException("状态错误不可确认");
-			}
+				returnMoney = rs.getBigDecimal("return_money");
+				sellerId = rs.getString("seller_id");
+			} else
+				throw new InteractRuntimeException("订单不存在");
+
 			pst.close();
 
+			BigDecimal frozenMoney = null;
 			pst = connection.prepareStatement(
-					new StringBuilder("update t_order set rightprotect_status=12 where id=?").toString());
+					new StringBuilder("select t.frozen_money from t_user t where t.id=? for update").toString());
+			pst.setObject(1, loginStatus.getUserId());
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				frozenMoney = rs.getBigDecimal("frozen_money");
+			} else
+				throw new InteractRuntimeException("用户不存在");
+			pst.close();
+
+			if (frozenMoney.compareTo(returnMoney) == -1) {
+				logger.info("维权成功时发现当前冻结金额比返还金额小，系统出现严重BUG");
+			}
+
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_order set rightprotect_status=12,finished=1 where id=?").toString());
 			pst.setObject(1, orderId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"update t_user set frozen_money=frozen_money-?,unwithdraw_money=unwithdraw_money+? where id=? and frozen_money-?>=0")
+							.toString());
+			pst.setObject(1, returnMoney);
+			pst.setObject(2, returnMoney);
+			pst.setObject(3, sellerId);
+			pst.setObject(4, returnMoney);
+			cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
@@ -1138,7 +1175,8 @@ public class IambuyerEntrance {
 			}
 			pst.close();
 
-			pst = connection.prepareStatement(new StringBuilder("update t_order set status=10 where id=?").toString());
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_order set rightprotect_status=10 where id=?").toString());
 			pst.setObject(1, orderId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
