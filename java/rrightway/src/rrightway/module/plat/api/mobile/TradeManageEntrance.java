@@ -338,12 +338,13 @@ public class TradeManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.status,t.taobao_orderid,t.return_money,u.unwithdraw_money from t_order t left join t_user u on t.seller_id=u.id where t.id=? for update")
+					"select t.status,t.taobao_orderid,t.return_money,u.unwithdraw_money,t.order_time from t_order t left join t_user u on t.seller_id=u.id where t.id=? for update")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			BigDecimal unwithdrawMoney = null;
 			BigDecimal returnMoney = null;
+
 			BigDecimal serviceCharge = new BigDecimal(2);
 			if (rs.next()) {
 				int status = rs.getInt("status");
@@ -354,8 +355,11 @@ public class TradeManageEntrance {
 				returnMoney = rs.getBigDecimal("return_money");
 				if (unwithdrawMoney.compareTo(returnMoney.add(serviceCharge)) == -1)
 					throw new InteractRuntimeException("余额不足，请充值");
-				if (taobaoOrderid == null || taobaoOrderid.isEmpty())
-					throw new InteractRuntimeException("买家还未填写淘宝单号");
+
+				long orderTime = rs.getLong("order_time");
+				if ((taobaoOrderid == null || taobaoOrderid.isEmpty())
+						&& (new Date().getTime() - orderTime) < 2 * 60 * 60 * 100l)
+					throw new InteractRuntimeException("试客未填写淘宝单号的请在下单2小时候再操作");
 
 			} else
 				throw new InteractRuntimeException("订单不存在");
@@ -1266,4 +1270,58 @@ public class TradeManageEntrance {
 				connection.close();
 		}
 	}
+
+	@RequestMapping(value = "/rightprotectsorders/addkf")
+	public void needcheckordersAddkf(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			if (orderId == null)
+				throw new InteractRuntimeException("order_id 不能空");
+			String describe = StringUtils.trimToNull(request.getParameter("describe"));
+			if (describe == null)
+				throw new InteractRuntimeException("describe 不能空");
+			String picsParam = StringUtils.trimToNull(request.getParameter("pics"));
+			if (picsParam == null)
+				throw new InteractRuntimeException("请上传图片");
+			String[] pics = picsParam.split(",");
+			if (pics.length == 0)
+				throw new InteractRuntimeException("请上传图片");
+			if (pics.length > 3)
+				throw new InteractRuntimeException("最多三张图片");
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"update t_order set rightprotect_seller_addkf_pics=?,rightprotect_seller_addkf_describe=?,rightprotect_status=9 where id=? and seller_id=? and rightprotect_status=10")
+							.toString());
+			pst.setObject(1, pics);
+			pst.setObject(2, describe);
+			pst.setObject(3, orderId);
+			pst.setObject(4, loginStatus.getUserId());
+			int cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
 }

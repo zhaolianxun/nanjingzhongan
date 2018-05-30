@@ -126,18 +126,15 @@
 </div>
 
 <div class="com_footer">
-    <!--维权中 (等待试客确认) 显示-->
-    <p class="textr pr20 hidden" data="1140686"><a href="javascript:;" class="cancle btn1">取消维权</a></p>
+
 
     <!--维权中(试客已拒绝) 显示-->
-    <p class="textr pr20 hidden " data="1140686"><a href="activist_addkf.aspx?id=1140686&burl=activist" class="btn4 mr20">申请客服介入</a><a href="javascript:;" class="cancle btn1">取消维权</a></p>
-
-    <!--维权中(试客申请客服介入) 显示-->
-    <p class="textr pr20 hidden" data="1140686"><a href="activist_addpz.aspx?id=1140686&burl=activist" class="btn4 mr20">提交凭证</a><a href="javascript:;" class="cancle btn1">取消维权</a></p>
-
-
-    <!--维权成功 (超时自动成功) 显示-->
-    <p class="textr pr20 " data="1140686"><a href="javascript:;" class="del btn1">删除订单</a></p>
+    <p class="textr pr20 hidden " data="1140686">
+        <a id="stepinbtn"  class="btn4 mr20" style="display:none">申请客服介入</a>
+        <a id="cancelbtn" href="javascript:;" class="cancle btn1"  style="display:none">取消维权</a></p>
+        <a id="commitproofbtn" class="btn4 mr20"  style="display:none">提交凭证</a>
+        <p id="delbtn"  class="textr pr20 " data="1140686"  style="display:none"><a href="javascript:;" class="del btn1">删除订单</a>
+        </p>
 
 
 </div>
@@ -213,43 +210,50 @@
                 if(res.code == 0){
                     if(!rxw.isEmptyStr(res.data.rightprotect_reason))
                         $('#reasonsPad').removeClass('hidden').find('i').text(res.data.rightprotect_reason)
+                    $('#stepinbtn').attr('href','rightprotectorders_sellerapplystepin.html?id=' + res.data.id  )
                     switch (res.data.rightprotectStatus) {
                         case 9:
                             $('#statusNotes').text('维权中')
                             $('#notes').text('(已申请客服介入)')
-
+                            $('#cancelbtn').css('display','');
                            // btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
                             break;
                         case 11:
                             $('#statusNotes').text('维权中')
                             $('#notes').text('(已提交凭证)')
-
+                            $('#cancelbtn').css('display','');
                             //btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
                             break;
                         case 8:
                             $('#statusNotes').text('维权中')
                             $('#notes').text('(试客已申请客服介入)')
+                            $('#cancelbtn').css('display','');
+                            $('#commitproofbtn').css('display','');
                            // btnstr = '<a href="activist_addpz.aspx?id=' + row.pkid + '&burl=activist" class="btn4 recoder">提交凭证</a>';
                             //btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
                             break;
                         case 10:
                             $('#statusNotes').text('维权中')
                             $('#notes').text('(试客已拒绝)')
+                            $('#cancelbtn').css('display','');
+                            $('#stepinbtn').css('display','');
                            // btnstr = '<a href="activist_addkf.aspx?id=' + row.pkid + '&burl=activist" class="btn4 recoder">申请客服介入</a>';
-
-                          //  btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                          // btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
                             break;
                         case 7:
                             $('#statusNotes').text('维权中')
                             $('#notes').text('(等待试客确认)')
+                            $('#cancelbtn').css('display','');
                            // btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
                             break;
                         case 12:
                             $('#statusNotes').text('维权成功')
+                            $('#delbtn').css('display','');
                            // btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
                             break;
                         case 13:
                            // btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
+                            $('#delbtn').css('display','');
                             $('#statusNotes').text('维权失败')
                                 if(res.data.status==2){
                                      $('#notes').text('已返现')
@@ -257,10 +261,12 @@
                             break;
                         case 12:
                             $('#statusNotes').text('维权成功')
+                            $('#delbtn').css('display','');
                             //btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
                             break;
                         case 13:
                             //btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
+                            $('#delbtn').css('display','');
                             $('#statusNotes').text('维权失败')
                             if(res.data.status==2){
                                 $('#notes').text('已返现')

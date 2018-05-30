@@ -202,6 +202,8 @@ public class IambuyerEntrance {
 			String taobaoOrderid = StringUtils.trimToNull(request.getParameter("taobao_orderid"));
 			if (taobaoOrderid == null)
 				throw new InteractRuntimeException("taobao_orderid 不能空");
+			if (taobaoOrderid.length() != 18 && !StringUtils.isNumeric(taobaoOrderid))
+				throw new InteractRuntimeException("请填写18位纯数字淘宝订单号");
 
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
