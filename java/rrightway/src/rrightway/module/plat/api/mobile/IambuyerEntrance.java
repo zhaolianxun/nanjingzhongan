@@ -11,6 +11,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -135,8 +136,8 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.way_to_shop,t.coupon_if,t.buy_way,t.taobao_orderid,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.buyer_id=? ")
-							.append(tradeStatus == 1 ? " and t.status in (0,3,4) " : "")
+					"select t.seller_cancel_reason,t.buyer_cancel_reason,t.way_to_shop,t.coupon_if,t.buy_way,t.taobao_orderid,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.buyer_id=? ")
+							.append(tradeStatus == 1 ? " and t.status in (0,3,4,5) " : "")
 							.append(tradeStatus == 2 ? " and t.status=0 " : "")
 							.append(tradeStatus == 3
 									? " and (t.status=0 and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-t.order_time) > 48*60*60*1000) "
@@ -156,6 +157,8 @@ public class IambuyerEntrance {
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
+				item.put("sellerCancelReason", rs.getObject("seller_cancel_reason"));
+				item.put("buyerCancelReason", rs.getObject("buyer_cancel_reason"));
 				item.put("orderId", rs.getObject("id"));
 				item.put("orderTime", rs.getObject("order_time"));
 				item.put("payPrice", rs.getObject("pay_price"));
@@ -290,6 +293,9 @@ public class IambuyerEntrance {
 			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
 			if (orderId == null)
 				throw new InteractRuntimeException("order_id 不能空");
+			String reason = StringUtils.trimToNull(request.getParameter("reason"));
+			if (reason == null)
+				throw new InteractRuntimeException("reason 不能空");
 
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
@@ -312,7 +318,59 @@ public class IambuyerEntrance {
 			}
 			pst.close();
 
-			pst = connection.prepareStatement(new StringBuilder("update t_order set status=3 where id=?").toString());
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_order set status=3,buyer_cancel_reason=? where id=?").toString());
+			pst.setObject(1, reason);
+			pst.setObject(2, orderId);
+			int cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/applyedorders/del")
+	public void applyedOrdersDel(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			if (orderId == null)
+				throw new InteractRuntimeException("order_id 不能空");
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(
+					new StringBuilder("select t.status from t_order t  where t.id=? for update").toString());
+			pst.setObject(1, orderId);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				int status = rs.getInt("status");
+				if (status != 3 && status != 4 && status != 5)
+					throw new InteractRuntimeException("只有已取消的订单才能删除");
+			}
+			pst.close();
+
+			pst = connection.prepareStatement(new StringBuilder("update t_order set del=1 where id=?").toString());
 			pst.setObject(1, orderId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
@@ -1094,20 +1152,16 @@ public class IambuyerEntrance {
 
 			pst.close();
 
-			BigDecimal frozenMoney = null;
+			BigDecimal unwithdrawMoney = null;
 			pst = connection.prepareStatement(
-					new StringBuilder("select t.frozen_money from t_user t where t.id=? for update").toString());
-			pst.setObject(1, loginStatus.getUserId());
+					new StringBuilder("select t.unwithdraw_money from t_user t where t.id=? for update").toString());
+			pst.setObject(1, sellerId);
 			rs = pst.executeQuery();
 			if (rs.next()) {
-				frozenMoney = rs.getBigDecimal("frozen_money");
+				unwithdrawMoney = rs.getBigDecimal("unwithdraw_money");
 			} else
 				throw new InteractRuntimeException("用户不存在");
 			pst.close();
-
-			if (frozenMoney.compareTo(returnMoney) == -1) {
-				logger.info("维权成功时发现当前冻结金额比返还金额小，系统出现严重BUG");
-			}
 
 			pst = connection.prepareStatement(
 					new StringBuilder("update t_order set rightprotect_status=12,finished=1 where id=?").toString());
@@ -1117,18 +1171,44 @@ public class IambuyerEntrance {
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 
-			pst = connection.prepareStatement(new StringBuilder(
-					"update t_user set frozen_money=frozen_money-?,unwithdraw_money=unwithdraw_money+? where id=? and frozen_money-?>=0")
-							.toString());
-			pst.setObject(1, returnMoney);
-			pst.setObject(2, returnMoney);
-			pst.setObject(3, sellerId);
-			pst.setObject(4, returnMoney);
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_user set unwithdraw_money=unwithdraw_money+? where id=? ").toString());
+			pst.setObject(1, returnMoney.add(new BigDecimal(2)));
+			pst.setObject(2, sellerId);
 			cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 
+			String billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
+			pst = connection.prepareStatement(new StringBuilder(
+					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
+							.toString());
+			pst.setObject(1, billId);
+			pst.setObject(2, sellerId);
+			pst.setObject(3, returnMoney);
+			pst.setObject(4, "维权成功，退还返现金额。订单尾号" + orderId.substring(orderId.length() - 5));
+			pst.setObject(5, new Date().getTime());
+			pst.setObject(6, orderId);
+			cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
+			pst = connection.prepareStatement(new StringBuilder(
+					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
+							.toString());
+			pst.setObject(1, billId);
+			pst.setObject(2, sellerId);
+			pst.setObject(3, new BigDecimal(2));
+			pst.setObject(4, "维权成功，退还核对手续费。订单尾号" + orderId.substring(orderId.length() - 5));
+			pst.setObject(5, new Date().getTime());
+			pst.setObject(6, orderId);
+			cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);

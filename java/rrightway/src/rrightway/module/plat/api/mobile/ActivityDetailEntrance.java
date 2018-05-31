@@ -57,7 +57,7 @@ public class ActivityDetailEntrance {
 			pst = connection.prepareStatement(new StringBuilder(
 					"select tb.taobao_user_nick,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_cover,t.cowry_url,t.gift_pics"
 							+ (loginStatus == null ? ",0"
-									: ",(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id and status not in (3,4,5,6))")
+									: ",(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id)")
 							+ " apply_if,t.buyer_num,t.gift_cover,t.gift_name,t.pay_price,t.return_money,(t.publish_time+t.keep_days*24*60*60*1000) end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit,t.gift_express_co"
 							+ (loginStatus == null ? ",null gift_detail" : ",t.gift_detail")
 							+ " from t_activity t left join t_taobaoaccount tb on t.taobaoaccount_id=tb.id where t.id=?")
@@ -223,17 +223,18 @@ public class ActivityDetailEntrance {
 
 			pst.close();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select (select if(count(id)>0,1,0) from t_order where buyer_id=? and seller_id=t.user_id and status not in (3,4,5,6) and ) apply_of_seller_if,gift_type1_name,gift_type2_name,stock,way_to_shop,(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id and status not in (3,4,5,6)) apply_if,t.start_time,t.keep_days,t.gift_express_co,t.buyer_mincredit,t.gift_cover,tbs.taobao_user_nick,t.taobaoaccount_id,t.user_id,t.gift_name,t.title,t.pay_price,t.return_money,t.buy_way,if((isnull(t.coupon_url)||length(trim(t.coupon_url))=0),0,1) coupon_if from t_activity t inner join t_taobaoaccount tbs on t.taobaoaccount_id=tbs.id where t.id=? for update")
+					"select (select if(count(id)>0,1,0) from t_order where buyer_id=? and seller_id=t.user_id) apply_of_seller_if,gift_type1_name,gift_type2_name,stock,way_to_shop,(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id) apply_if,t.start_time,t.keep_days,t.gift_express_co,t.buyer_mincredit,t.gift_cover,tbs.taobao_user_nick,t.taobaoaccount_id,t.user_id,t.gift_name,t.title,t.pay_price,t.return_money,t.buy_way,if((isnull(t.coupon_url)||length(trim(t.coupon_url))=0),0,1) coupon_if from t_activity t inner join t_taobaoaccount tbs on t.taobaoaccount_id=tbs.id where t.id=? for update")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
-			pst.setObject(2, activityId);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, activityId);
 			rs = pst.executeQuery();
 			String orderId = null;
 			int stock = 0;
 			if (rs.next()) {
 				int applyOfSellerIf = rs.getInt("apply_of_seller_if");
-				if (applyOfSellerIf == 1)
-					throw new InteractRuntimeException("30天内不可以重复申请同一商家的活动");
+//				if (applyOfSellerIf == 1)
+//					throw new InteractRuntimeException("30天内不可以重复申请同一商家的活动");
 				String sellerUserId = rs.getString("user_id");
 				if (sellerUserId.equals(loginStatus.getUserId()))
 					throw new InteractRuntimeException("您不可以购买自己的商品");

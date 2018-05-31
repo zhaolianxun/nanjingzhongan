@@ -217,7 +217,7 @@
                                 break;
                             case 13:
                                 btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
-                                str = '<b class="textr">' + (row.status ==2 ? "已返现" : "维权失败") + '<i class="bl c999"></i></b>';
+                                str = '<b class="textr">' + "维权失败" + '<i class="bl c999">'+(row.status ==2 ? "已返现" : "")+'</i></b>';
                                 break;
                             case 12:
                                 btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
@@ -225,7 +225,7 @@
                                 break;
                             case 13:
                                 btnstr = '<a href="javascript:;" class="del recoder">删除订单</a>';
-                                str = '<b class="textr">' + (row.status ==2 ? "已返现" : "维权失败") + '<i class="bl c999"></i></b>';
+                                str = '<b class="textr">' + "维权失败" + '<i class="bl c999">'+(row.status ==2 ? "已返现" : "")+'</i></b>';
                                 break;
                         }
 

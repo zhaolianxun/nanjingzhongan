@@ -357,7 +357,7 @@
                             $('#statusNotes').text('维权中')
                             $('#notes').text('(试客已拒绝)')
                             $('#cancelbtn').css('display','');
-                            $('#stepinbtn').css('display','');
+                            $('#stepinbtn').css('display',''); //卖家申请客服
                                 }
                             if(res.data.rightprotectSellerAddkf ==1){
                                 $('#statusNotes').text('维权中')
@@ -383,7 +383,7 @@
                             $('#statusNotes').text('维权中')
                             $('#notes').text('(等待试客确认)')
                             $('#cancelbtn').css('display','');
-                            $('#lefttimePad').removeClass('hidden').find('.lefttime').attr('date',rxw.formatDateTime(res.data.orderTime+2*60*60*1000))
+                            $('#lefttimePad').removeClass('hidden').find('.lefttime').attr('date',rxw.formatDateTime(res.data.rightprotect_time+2*60*60*1000))
                            // btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
                             break;
                         case 12:

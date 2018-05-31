@@ -290,7 +290,7 @@ public class TradeManageEntrance {
 			if (rs.next()) {
 				int status = rs.getInt("status");
 				if (status != 3 && status != 4 && status != 5)
-					throw new InteractRuntimeException("订单当前状态不可删除");
+					throw new InteractRuntimeException("已取消的订单才可以删除");
 			} else
 				throw new InteractRuntimeException("订单不存在");
 			pst.close();
@@ -365,13 +365,10 @@ public class TradeManageEntrance {
 				throw new InteractRuntimeException("订单不存在");
 			pst.close();
 
-			pst = connection.prepareStatement(new StringBuilder(
-					"update t_user set unwithdraw_money=unwithdraw_money-?,frozen_money=frozen_money+? where id=? ")
-							.toString());
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_user set unwithdraw_money=unwithdraw_money-? where id=? ").toString());
 			pst.setObject(1, returnMoney.add(serviceCharge));
-			pst.setObject(2, returnMoney);
-			pst.setObject(3, loginStatus.getUserId());
-
+			pst.setObject(2, loginStatus.getUserId());
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -387,7 +384,7 @@ public class TradeManageEntrance {
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 
-			String billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+			String billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 			pst = connection.prepareStatement(new StringBuilder(
 					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
 							.toString());
@@ -395,6 +392,21 @@ public class TradeManageEntrance {
 			pst.setObject(2, loginStatus.getUserId());
 			pst.setObject(3, serviceCharge.negate());
 			pst.setObject(4, "核对手续费,订单尾号" + orderId.substring(orderId.length() - 5));
+			pst.setObject(5, new Date().getTime());
+			pst.setObject(6, orderId);
+			cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
+			pst = connection.prepareStatement(new StringBuilder(
+					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
+							.toString());
+			pst.setObject(1, billId);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, returnMoney.negate());
+			pst.setObject(4, "核对订单扣除,订单尾号" + orderId.substring(orderId.length() - 5));
 			pst.setObject(5, new Date().getTime());
 			pst.setObject(6, orderId);
 			cnt = pst.executeUpdate();
@@ -523,10 +535,11 @@ public class TradeManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"update t_order set rightprotect_status=7,rightprotect_reason=? where id=? and status=1 and rightprotect_status=0")
+					"update t_order set rightprotect_time=?,rightprotect_status=7,rightprotect_reason=? where id=? and status=1 and rightprotect_status=0")
 							.toString());
-			pst.setObject(1, reason);
-			pst.setObject(2, orderId);
+			pst.setObject(1, new Date().getTime());
+			pst.setObject(2, reason);
+			pst.setObject(3, orderId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -644,7 +657,7 @@ public class TradeManageEntrance {
 					throw new InteractRuntimeException("操作失败");
 				pst.close();
 
-				String billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+				String billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 				pst = connection.prepareStatement(new StringBuilder(
 						"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
 								.toString());
@@ -669,7 +682,7 @@ public class TradeManageEntrance {
 					throw new InteractRuntimeException("操作失败");
 				pst.close();
 
-				billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+				billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 				pst = connection.prepareStatement(new StringBuilder(
 						"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
 								.toString());
@@ -698,7 +711,7 @@ public class TradeManageEntrance {
 					throw new InteractRuntimeException("操作失败");
 				pst.close();
 
-				billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+				billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 				pst = connection.prepareStatement(new StringBuilder(
 						"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
 								.toString());
@@ -712,7 +725,7 @@ public class TradeManageEntrance {
 				if (cnt != 1)
 					throw new InteractRuntimeException("操作失败");
 
-				String walletBillId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+				String walletBillId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 				pst = connection.prepareStatement(new StringBuilder(
 						"insert into t_wallet_bill (id,user_id,amount,note,happen_time,added_to_outable,order_id) values(?,?,?,?,?,?,?)")
 								.toString());
@@ -836,33 +849,37 @@ public class TradeManageEntrance {
 			pst.close();
 
 			// 卖家扣除返现
-			pst = connection.prepareStatement(
-					new StringBuilder("update t_user set frozen_money=frozen_money-? where id=? and frozen_money-? >=0")
-							.toString());
-			pst.setObject(1, returnMoney);
-			pst.setObject(2, loginStatus.getUserId());
-			pst.setObject(3, returnMoney);
-			cnt = pst.executeUpdate();
-			if (cnt != 1)
-				throw new InteractRuntimeException("操作失败");
-			pst.close();
+			// pst = connection.prepareStatement(
+			// new StringBuilder("update t_user set frozen_money=frozen_money-?
+			// where id=? and frozen_money-? >=0")
+			// .toString());
+			// pst.setObject(1, returnMoney);
+			// pst.setObject(2, loginStatus.getUserId());
+			// pst.setObject(3, returnMoney);
+			// cnt = pst.executeUpdate();
+			// if (cnt != 1)
+			// throw new InteractRuntimeException("操作失败");
+			// pst.close();
 
-			String billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
-			pst = connection.prepareStatement(new StringBuilder(
-					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
-							.toString());
-			pst.setObject(1, billId);
-			pst.setObject(2, loginStatus.getUserId());
-			pst.setObject(3, returnMoney.negate());
-			pst.setObject(4, "扣除返现");
-			pst.setObject(5, new Date().getTime());
-			pst.setObject(6, orderId);
-			cnt = pst.executeUpdate();
-			if (cnt != 1)
-				throw new InteractRuntimeException("操作失败");
-			pst.close();
+			// String billId = new Date().getTime() +
+			// RandomStringUtils.randomNumeric(2);
+			// pst = connection.prepareStatement(new StringBuilder(
+			// "insert into t_bill
+			// (id,user_id,amount,note,happen_time,link,type)
+			// values(?,?,?,?,?,?,4)")
+			// .toString());
+			// pst.setObject(1, billId);
+			// pst.setObject(2, loginStatus.getUserId());
+			// pst.setObject(3, returnMoney.negate());
+			// pst.setObject(4, "扣除返现");
+			// pst.setObject(5, new Date().getTime());
+			// pst.setObject(6, orderId);
+			// cnt = pst.executeUpdate();
+			// if (cnt != 1)
+			// throw new InteractRuntimeException("操作失败");
+			// pst.close();
 
-			// 卖家主动核对奖励
+			// 卖家主动返现奖励
 			pst = connection.prepareStatement(
 					new StringBuilder("update t_user set unwithdraw_money=unwithdraw_money+0.5 where id=? ")
 							.toString());
@@ -872,7 +889,7 @@ public class TradeManageEntrance {
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 
-			billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+			String billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 			pst = connection.prepareStatement(new StringBuilder(
 					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
 							.toString());
@@ -901,7 +918,7 @@ public class TradeManageEntrance {
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 
-			billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+			billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 			pst = connection.prepareStatement(new StringBuilder(
 					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
 							.toString());
@@ -915,7 +932,7 @@ public class TradeManageEntrance {
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
 
-			String walletBillId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+			String walletBillId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 			pst = connection.prepareStatement(new StringBuilder(
 					"insert into t_wallet_bill (id,user_id,amount,note,happen_time,added_to_outable,order_id) values(?,?,?,?,?,?,?)")
 							.toString());

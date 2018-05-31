@@ -1026,7 +1026,7 @@ public class CowryManageEntrance {
 					throw new InteractRuntimeException("操作失败");
 				pst.close();
 
-				String billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+				String billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 				pst = connection.prepareStatement(new StringBuilder(
 						"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
 								.toString());
@@ -1153,7 +1153,7 @@ public class CowryManageEntrance {
 					throw new InteractRuntimeException("操作失败");
 				pst.close();
 
-				String billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+				String billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 				pst = connection.prepareStatement(new StringBuilder(
 						"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
 								.toString());
