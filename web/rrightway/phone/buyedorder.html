@@ -174,13 +174,14 @@
 <script type="text/javascript" src="js/lazyload.js" charset="utf-8"></script>
 
 <script>
+    rxw1.relitivePath=''
     var token = localStorage.getItem('token');
     var items = {};
     var noMoreItems = false;
     var param={}
     onload();
 rxw1.windowTouch({
-    movedown:function(){location.reload()},
+    movedown:function(){onload()},
     moveup:function(){
         if(!noMoreItems){
             param.page_no++;
@@ -191,6 +192,10 @@ rxw1.windowTouch({
     function onload(){
         param.page_no=1
         param.page_size=30
+        param={}
+        noMoreItems = false;
+        items = {};
+        $('#spro_list5').html('')
         loadItems();
 
         if($('#spro_list5').html()){
