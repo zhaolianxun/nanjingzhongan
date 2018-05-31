@@ -107,6 +107,8 @@
         <a id="returnMoneyBtn" href="javascript:;" class=" btn4 mr20 check "  style="display:none">确认返现</a>
         <a id="lookpicBtn" href="" class="btn1 "  style="display:none">查看图片</a>
         <a id="cancelProtectBtn" href="javascript:;" class="btn1 cancle1"   style="display:none">取消维权</a>
+        <a id="stepinbtn"  class="btn4 mr20" style="display:none">申请客服介入</a>
+        <a id="commitproofbtn" class="btn4 mr20"  style="display:none">提交凭证</a>
     </p>
 </div>
 
@@ -199,7 +201,6 @@
     onload();
 
     function onload(){
-
         $.ajax({
             type: 'POST',
             async: false,
@@ -219,7 +220,7 @@
                     $('#giftCover').attr('src',res.data.giftCover);
                     $('#buyerTaobaoaccountName').text(res.data.buyerTaobaoaccountName);
                     $('#sellerTaobaoaccountName').text(res.data.sellerTaobaoaccountName);
-$('#btnsPad').attr('data',queryObject.id)
+                    $('#btnsPad').attr('data',queryObject.id)
                     if (item.rightprotectStatus == 0){
                         $('#protectRightBtn').css('display','');
                         $('#returnMoneyBtn').css('display','');
@@ -237,8 +238,8 @@ $('#btnsPad').attr('data',queryObject.id)
                             $('#statusNotes').text('待返现');
                             $('#notes').text('(试客未提交评价图)');
                         }
-                        $('.lefttime').attr('date',rxw.formatDateTime(item.autoReturnTime)).removeClass('hidden')
-                        $('#lefttimePad').css('display','');
+                        $('.lefttime').attr('date',rxw.formatDateTime(item.autoReturnTime))
+                        $('#lefttimePad').removeClass('hidden');
                     }else if (item.rightprotectStatus == 7){
                         $('#cancelProtectBtn').css('display','');
                         $('#statusNotes').text('维权中');
@@ -256,9 +257,33 @@ $('#btnsPad').attr('data',queryObject.id)
                         $('#statusNotes').text('维权中');
                         $('#notes').text('(试客已申请客服介入)');
                     }else if (item.rightprotectStatus ==  10){
-                        $('#cancelProtectBtn').css('display','');
-                        $('#statusNotes').text('维权中');
-                        $('#notes').text('(试客已拒绝)');
+
+                        $('#stepinbtn').attr('href','rightprotectorders_sellerapplystepin.html?id=' + queryObject.id )
+                        $('#commitproofbtn').attr('href','rightprotectorders_selleraddproof.html?id=' + queryObject.id )
+
+                        if(item.rightprotectSellerAddkf == 0 && item.rightprotectBuyerAddkf ==0){
+                            $('#statusNotes').text('维权中')
+                            $('#notes').text('(试客已拒绝)')
+                            $('#cancelProtectBtn').css('display','');
+                            $('#stepinbtn').css('display','');
+                        }
+                        if(item.rightprotectSellerAddkf ==1){
+                            $('#statusNotes').text('维权中')
+                            $('#notes').text('(已申请客服介入)')
+                            $('#cancelProtectBtn').css('display','');
+                        }
+                        if(item.rightprotectBuyerAddkf ==1){
+                            $('#statusNotes').text('维权中')
+                            $('#notes').text('(试客已申请客服介入)')
+                            $('#cancelProtectBtn').css('display','');
+                            $('#commitproofbtn').css('display','');
+                        }
+                        if(item.rightprotectSellerProof ==1){
+                            $('#statusNotes').text('维权中')
+                            $('#notes').text('(已提交凭证)')
+                            $('#cancelProtectBtn').css('display','');
+                            $('#commitproofbtn').css('display','none');
+                        }
                     }
 
 

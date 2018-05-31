@@ -124,17 +124,17 @@
 
 <div class="com_footer">
     <!--维权中 (等待试客确认) 显示-->
-    <p class="textr pr20 hidden" data="1140686"><a href="javascript:;" class="cancle btn1">取消维权</a></p>
+    <p name="btns" class="textr pr20 hidden" data=""><a href="javascript:;" class="cancle btn1">取消维权</a></p>
 
     <!--维权中(试客已拒绝) 显示-->
-    <p class="textr pr20 hidden " data="1140686"><a href="activist_addkf.aspx?id=1140686&burl=activist" class="btn4 mr20">申请客服介入</a><a href="javascript:;" class="cancle btn1">取消维权</a></p>
+    <p name="btns" class="textr pr20 hidden " data=""><a href="activist_addkf.aspx?id=1140686&burl=activist" class="btn4 mr20">申请客服介入</a><a href="javascript:;" class="cancle btn1">取消维权</a></p>
 
     <!--维权中(试客申请客服介入) 显示-->
-    <p class="textr pr20 hidden" data="1140686"><a href="activist_addpz.aspx?id=1140686&burl=activist" class="btn4 mr20">提交凭证</a><a href="javascript:;" class="cancle btn1">取消维权</a></p>
+    <p name="btns" class="textr pr20 hidden" data=""><a href="activist_addpz.aspx?id=1140686&burl=activist" class="btn4 mr20">提交凭证</a><a href="javascript:;" class="cancle btn1">取消维权</a></p>
 
 
     <!--维权成功 (超时自动成功) 显示-->
-    <p class="textr pr20 " data="1140686"><a href="javascript:;" class="del btn1">删除订单</a></p>
+    <p name="btns" class="textr pr20 " data=""><a href="javascript:;" class="del btn1">删除订单</a></p>
 
 
 </div>
@@ -208,11 +208,14 @@
             url: '/rrightway/p/m/trademanageent/orderdetail?token='+token+'&order_id='+queryObject.id,
             success: function(res){
                 if(res.code == 0){
+                    $('.com_footer [name=btns]').attr('data',queryObject.id);
                     $('#cowryUrl').attr('href','detail.html?id='+res.data.activityId)
                     $('#taobaoOrderid').text(res.data.taobaoOrderid);
                     $('#orderId').text(res.data.orderId);
                     $('#giftExpressCo').text(res.data.giftExpressCo);
                     $('#giftName').text(res.data.giftName);
+                    $('#activityTitle').text(res.data.activityTitle);
+                    $('#orderTime').text(rxw.formatDateTime(res.data.orderTime));
                     $('#giftCover').attr('src',res.data.giftCover);
                     $('#buyerTaobaoaccountName').text(res.data.buyerTaobaoaccountName);
                     $('#sellerTaobaoaccountName').text(res.data.sellerTaobaoaccountName);
@@ -319,20 +322,20 @@
         var id = $(obj).parent().attr("data");
         $.ajax({
             type: "POST",
-            url: "/flow/DeleteSallerActivist.ashx",
-            data: "rad=" + Math.random() + "&id=" + id,
+            url: "/rrightway/p/m/trademanageent/del",
+            data: { token: token, order_id: id },
             success: function (res) {
-                if (res != "" && res != "[]") {
-                    var comments = $.parseJSON(res);
-                    if (comments.success == "Y") {
+
+                    if (res.code==0) {
                         //确认成功
                         error("删除订单成功！");
-                        freshpage("activist.aspx");
+                        setTimeout(function(){history.back()},1000)
+
                     }
                     else {
-                        error(comments.msg);
+                        error(res.codeMsg);
                     }
-                }
+
             }
         });
         return true;

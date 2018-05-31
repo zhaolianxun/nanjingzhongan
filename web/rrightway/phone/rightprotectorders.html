@@ -194,7 +194,7 @@
                                 }
                                 if(row.rightprotectBuyerAddkf ==1){
                                     btnstr = '';
-                                    btnstr = '<a href="activist_addpz.aspx?id=' + row.id + '&burl=activist" class="btn4 recoder">提交凭证</a>';
+                                    btnstr = '<a href="rightprotectorders_selleraddproof.html?id=' + row.id + '" class="btn4 recoder">提交凭证</a>';
                                     str = '<b class="textr">维权中<i class="bl c999">(试客已申请客服介入)</i></b>';
                                     btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
 
@@ -692,8 +692,8 @@
         var pobj = $(obj).parents(".item");
         $.ajax({
             type: "POST",
-            url: "/flow/DeleteSallerActivist.ashx",
-            data: "rad=" + Math.random() + "&id=" + id,
+            url: "/p/m/trademanageent/del",
+            data: "token=" + token + "&order_id=" + id,
             success: function (res) {
                 if (res != "" && res != "[]") {
                     var comments = $.parseJSON(res);

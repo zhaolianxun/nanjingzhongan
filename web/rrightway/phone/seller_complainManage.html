@@ -1,0 +1,501 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport" /><meta name="apple-mobile-web-app-capable" content="yes" /><meta name="apple-mobile-web-app-status-bar-style" content="black" /><meta content="telephone=no" name="format-detection" />
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes" /><meta name="browsermode" content="application" />
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait" /><meta name="x5-fullscreen" content="true" /><meta name="x5-page-mode" content="app" /><title>
+        左左街，免费试用，轻松拿佣金
+    </title>
+    <meta name="keywords" content="投诉管理" />
+    <meta name="description" content="Y" />
+
+    <link rel="stylesheet" type="textcss" href="css/new.css" />
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
+</head>
+
+
+<body>
+<div class="viewport">
+    <!-- 顶部 开始 -->
+    <div class="header">
+        <a href="javascript:;" onclick="history.back()" class="type" >
+            <img src="image/arrow_left2.svg" class="h40"></a>
+        <a href="javascript:;" class="tosearch filter">
+            <img src="image/ico_show_type1.png" class="h40" /></a>
+        <div class="htxt">投诉管理</div>
+    </div>
+    <!-- 顶部 结束 -->
+
+    <div class="h90"></div>
+    <div class="com_tab sp3 fixed"><a href="javascript:;" data="0" class="crently">全部</a><a href="javascript:;" data="1">待处理</a><a href="javascript:;" data="2">待确定</a></div>
+
+    <!-- 列表页 开始-->
+    <div class="spro_list clearfix mt20" id="spro_list7">
+
+    </div>
+    <!-- 列表页 结束-->
+
+    <!-- 没有数据提示-->
+    <div class="no_data hidden">
+        <div class="pb40 mt100">
+            <div class="success">
+                <i>
+                    <img src="image/fail_ico.png" /></i>
+                <p class="c999">没有相关的投诉哦~</p>
+
+                <!-- 筛选没有显示-->
+                <a href="javascript:;" class="h66 bd1 dl brd100 c2f97f0 plr60 mt30 nofilter f28" style="display: none;">全部投诉</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--筛选 弹窗-->
+<div class="pop_from_right sp2 animate" id="filterright">
+    <div class="maskbg animate"></div>
+    <div class="h90 relative clearfix bgf8f8f8">
+        <a href="javascript:;" class="goback plr20 relative z9">
+            <img src="image/close2_ico.png" class="w30" /></a>
+        <div class="center absolute l0 t0 pw100 f30">筛选</div>
+    </div>
+    <div class="scroll sp2 bgfff">
+        <div class="listborder interview_list bgf8f8f8 sp3 bb1 f28">
+            <dl class="item">
+                <dt class="head">
+                <div class="cls">
+                    <div class="h90">投诉状态 <em class="protype fr c999">全部</em></div>
+                                <span class="arrow">
+                                    <img src="image/arrow_down.svg" class="w30"></span>
+                </div>
+                </dt>
+                <dd class="foot f28 hidden">
+                    <div class="bt1 sp2 clearfix c_ftab list666" data="protype">
+                        <input type="hidden" id="protype" value="0" />
+                        <div class="item active"><a href="javascript:;" data="全部" data-val="0"><em>全部</em></a></div>
+                        <div class="item"><a href="javascript:;" data="等待商家处理" data-val="1"><em>等待商家处理</em></a></div>
+                        <div class="item"><a href="javascript:;" data="等待客服确定" data-val="2"><em>等待客服确定</em></a></div>
+                        <div class="item"><a href="javascript:;" data="已完成" data-val="3"><em>已完成</em></a></div>
+                        <div class="item"><a href="javascript:;" data="已取消" data-val="4"><em>已取消</em></a></div>
+                    </div>
+                </dd>
+            </dl>
+            <div class="form_area place28 bgfff">
+                <div class="item">
+                    <b>买家昵称</b><p class="pr20">
+                    <input type="text" class="textr" placeholder="请输入买家昵称" id="saller_nc" />
+                </p>
+                </div>
+                <div class="item">
+                    <b>卖家昵称</b><p class="pr20">
+                    <input type="text" class="textr" placeholder="请输入卖家昵称" id="buyer_nc" />
+                </p>
+                </div>
+                <div class="item">
+                    <b>活动标题</b><p class="pr20">
+                    <input type="text" class="textr" placeholder="请输入活动标题" id="pro_title" />
+                </p>
+                </div>
+                <div class="item">
+                    <b>商品名称</b><p class="pr20">
+                    <input type="text" class="textr" placeholder="请输入商品名称" id="pro_name" />
+                </p>
+                </div>
+                <div class="item">
+                    <b>订单编号</b><p class="pr20">
+                    <input type="text" class="textr" placeholder="请输入订单编号" id="order_id" />
+                </p>
+                </div>
+                <div class="item">
+                    <b>投诉编号</b><p class="pr20">
+                    <input type="text" class="textr" placeholder="请输入投诉编号" id="tousu_id" />
+                </p>
+                </div>
+                <div class="item">
+                    <b>申请时间</b><p class="textr pr20">
+                    <input type="text" placeholder="开始时间" class="w150 center mindate datem" readonly><em class="plr10 f28 c333">-</em><input type="text" placeholder="结束时间" class="w150 center maxdate datem" readonly>
+                </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute l0 b0 h90 list_tab sp2 bgfff pw100 f30 center"><a href="javascript:;" class="bgf2f2f2 c999 item nofilter">清空条件</a><a href="javascript:;" class="bg2f97f0 cfff item"   id="btn_Reload">确认</a></div>
+</div>
+
+<script type="text/javascript" src="js/yh.scroll.active.js" charset="utf-8"></script>
+
+<!--时间-->
+<link href="mobiscroll/mobiscroll.custom-3.0.0.min.css" rel="stylesheet" type="textcss" />
+<script src="mobiscroll/mobiscroll.custom-3.0.0.min.js?31" type="text/javascript"></script>
+<style>
+    .mbsc-android-holo .mbsc-sc-whl-w.mbsc-dt-whl-y {
+        margin-left: 0.25rem;
+    }
+</style>
+<script type="text/javascript" src="js/lazyload.js" charset="utf-8"></script>
+
+<script>
+    function godetail() {
+        $('.recoder').unbind();
+        $('.recoder').click(function () {
+            ys.savehis(); //如果返回需要记录页面位置和加载历史页数，切记调用此行
+        });
+    }
+
+    var cooketab = "spro_list7";
+    var objcontainer = "#spro_list7";
+    var isRdata = false; //是否为筛选标识
+
+    function reloaddata() {
+        if ($("#filterright").hasClass("active")) {
+            $(".pop_from_right .goback").click();
+        }
+        //维权状态(protype),买家昵称(saller_nc),卖家昵称(buyer_nc),活动标题(pro_title),商品名称(pro_name),订单编号(order_id),投诉编号（tousu_id),申请时间(pubtime)
+        var protype = $("#protype").val(), saller_nc = $("#saller_nc").val(), buyer_nc = $("#buyer_nc").val(), pro_title = $("#pro_title").val(), pro_name = $("#pro_name").val(), order_id = $("#order_id").val(), tousu_id = $("#tousu_id").val(); pubtime = $(".mindate").val() + "-" + $(".maxdate").val(); pubstime = $(".mindate").val(); pubetime = $(".maxdate").val();
+
+        if ($(".com_tab  a[data=" + protype + "]").length > 0) {
+            $(".com_tab  a[data=" + protype + "]").addClass("crently").siblings().removeClass("crently");
+        }
+        else {
+            $(".com_tab  a[data=全部]").addClass("crently").siblings().removeClass("crently");
+        }
+        $(objcontainer).html("");
+        ys.reload({
+            params: {
+                protype: protype,
+                saller_nc: saller_nc,
+                buyer_nc: buyer_nc,
+                pro_title: pro_title,
+                pro_name: pro_name,
+                order_id: order_id,
+                tousu_id: tousu_id,
+                pubtime: pubtime,
+                pubstime: pubstime,
+                pubetime: pubetime,
+            },
+            onbeforeReload: function () {
+                $(objcontainer).removeClass('hidden');
+                $('.no_data').addClass('hidden');
+                if (isRdata) {
+                    $('.no_data  .nofilter').show();
+                }
+            }
+        });
+    }
+
+    $(function () {
+        var now = new Date();
+        // Mobiscroll Date & Time initialization
+        $('.datem').mobiscroll().date({
+            theme: 'android-holo', // Specify theme like: theme: 'ios' or omit setting to use default
+            lang: 'zh', // Specify language like: lang: 'pl' or omit setting to use default
+            display: 'center', // Specify display mode like: display: 'bottom' or omit setting to use default
+            mode: 'scroller', // More info about mode: https://docs.mobiscroll.com/3-0-0_beta5/datetime#!opt-mode
+            min: new Date(2017, now.getMonth(), now.getDate()), // More info about min: https://docs.mobiscroll.com/3-0-0_beta5/datetime#!opt-min
+            max: new Date(now.getFullYear() + 10, 11, 31),
+            dateFormat: 'yy.mm.dd',//https://docs.mobiscroll.com/3-0-0_beta5/jquery/datetime#localization-dateFormat
+            dateWheels: 'YY m d',
+        });
+        $('.datem').click(function () {
+            $('.datem').mobiscroll('show');
+        })
+
+        //维权状态(protype),买家昵称(saller_nc),卖家昵称(buyer_nc),活动标题(pro_title),商品名称(pro_name),订单编号(order_id),投诉编号（tousu_id),申请时间(pubtime)
+        var protype = $("#protype").val(), saller_nc = $("#saller_nc").val(), buyer_nc = $("#buyer_nc").val(), pro_title = $("#pro_title").val(), pro_name = $("#pro_name").val(), order_id = $("#order_id").val(), tousu_id = $("#tousu_id").val(); pubtime = $(".mindate").val() + "-" + $(".maxdate").val(); pubstime = $(".mindate").val(); pubetime = $(".maxdate").val();
+
+        if (geturl("type") != null) {
+            //综合
+            protype = $(".com_tab a[data=" + geturl("type") + "]").addClass("crently").siblings().removeClass("crently");
+            protype = geturl("type");
+        }
+        else {
+            protype = "0";
+        }
+        $(".order_fixed p[data=" + protype + "]").addClass("active").siblings().removeClass("active");
+        $("#protype").val(protype);
+
+        ys({
+            container: objcontainer,//控件名称，遵循jquery格式
+            url: '/saller/ashx/toushu_index.ashx',    //后台数据地址
+            params: {   //参数
+                protype: protype,
+                saller_nc: saller_nc,
+                buyer_nc: buyer_nc,
+                pro_title: pro_title,
+                pro_name: pro_name,
+                order_id: order_id,
+                tousu_id: tousu_id,
+                pubtime: pubtime,
+                pubstime: pubstime,
+                pubetime: pubetime,
+            },
+            count: 10,
+            cookieName: cooketab,
+            onloadItem: function (row) {
+                //根据后台返回的数据，渲染成要在页面显示的方式
+                var txt = "";
+                var sbuy_way = row.sbuy_way == '电脑单' ? '<i class="ptype pc"></i>' : '<i class="ptype tel"></i>';
+                var is_coupon = row.is_coupon == '否' ? ' ' : '<i class="ptype juan"></i>'
+
+
+                var nstatus = "", nstatumsg = "";
+                var del = "";
+                if (row.nstatus == 4005 || row.nstatus == 4006
+                        || row.nstatus == 4095 || row.nstatus == 4097) {
+                    del = "<a href='javascript:;' class='del recoder'>删除</a>";
+                } else if (row.nstatus == 4002) {
+                    del = '<a href="javascript:;" class="btn4 check recoder">确认处理</a>';
+                }
+
+                switch (row.nstatus) {
+                    case 4002: nstatus = "等待商家处理"; nstatumsg = "(客服已审核成功)"; break;
+                    case 4004: nstatus = "等待客服确定"; nstatumsg = " (商家已处理)"; break;
+                    case 4005: nstatus = "已完成"; nstatumsg = "(商家已处理)"; break;
+                    case 4006: nstatus = "已取消"; break;
+                    case 4095: nstatus = "已完成"; nstatumsg = (row.is_success == "Y" ? "(商家未处理)" : "(商家已处理)"); break;
+                    case 4097: nstatus = "已取消"; break;
+                }
+                txt = '<div class="item">'
+                        + '  <div class="tit"><p>活动标题：' + row.sact_title + '<br />投诉编号：' + row.scomplain_num + '<br />申请时间：' + formatDatebox(row.dcomplain_time) + '<b class="textr">' + nstatus + '<i class="bl c999">' + nstatumsg + '</i></b></p></div>'
+                        + '  <a href="detail.aspx?cid=' + row.pkid + '&id=' + row.norder_id + '" class="recoder pro_min bt1"><img src="' + row.sproduct_pics + '" class="img" onerror="this.src=\'image/nopic.png\'" />'
+                        + '    <div class="relative">'
+                        + '      <p class="row1">' + row.sproduct_name + '</p>'
+                        + '      <p class="row1 c999 mt10">付款金额：<i class="cf60">¥' + getFloatStr(row.npay_amount) + '</i>  返现金额：<i class="cf60">¥' + getFloatStr(row.nreturn_amount) + '</i></p>'
+                        + '      <p class="type absolute l0 b0">' + sbuy_way + is_coupon + ' </p>'
+                        + '    </div>'
+                        + '  </a>'
+                        + '  <div class="foot" data="' + row.pkid + '"><a href="list.aspx?cid=' + row.pkid + '&id=' + row.norder_id + '" class="btn3 recoder">留言板</a>' + del + '</div>'
+                        + '</div>';
+                return txt;
+            },
+            onloadSuccess: function () {
+                godetail();
+                $(objcontainer).removeClass('hidden');
+                $('.no_data').addClass('hidden');
+                Echo.init({ offset: 5, throttle: 100 });
+            },
+            onNodata: function () {
+                $(objcontainer).addClass('hidden');
+                $('.no_data').removeClass('hidden');
+            },
+            onloadError: function (msg) {
+                //error(msg);
+            }
+        });
+
+        if (ys.getReqParams().protype != "") {
+            var tsvalue = ys.getReqParams().protype;
+            if ($(".com_tab  a[data=" + tsvalue + "]").length > 0) {
+                $(".com_tab  a[data=" + tsvalue + "]").addClass("crently").siblings().removeClass("crently");
+            }
+            else {
+                $(".order_fixed p[data=" + tsvalue + "]").addClass("active").siblings().removeClass("active");
+                $(".com_tab  a[data='']").addClass("crently").siblings().removeClass("crently");
+            }
+
+            $("#protype").val(tsvalue);
+            $(".protype").html($(".c_ftab  a[data-val=" + tsvalue + "]").text());
+            $("#protype").parent().find("a[data-val=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+        }
+
+        if (ys.getReqParams().saller_nc != "") {
+            var tsvalue = ys.getReqParams().saller_nc;
+            $("#saller_nc").val(tsvalue);
+        }
+
+        if (ys.getReqParams().buyer_nc != "") {
+            var tsvalue = ys.getReqParams().buyer_nc;
+            $("#buyer_nc").val(tsvalue);
+        }
+
+        if (ys.getReqParams().pro_title != "") {
+            var tsvalue = ys.getReqParams().pro_title;
+            $("#pro_title").val(tsvalue);
+        }
+
+        if (ys.getReqParams().pro_name != "") {
+            var tsvalue = ys.getReqParams().pro_name;
+            $("#pro_name").val(tsvalue);
+        }
+
+        if (ys.getReqParams().order_id != "") {
+            var tsvalue = ys.getReqParams().order_id;
+            $("#order_id").val(tsvalue);;
+        }
+
+        if (ys.getReqParams().tousu_id != "") {
+            var tsvalue = ys.getReqParams().tousu_id;
+            $("#tousu_id").val(tsvalue);;
+        }
+
+        if (ys.getReqParams().pubtime != "-") {
+            var tsvalue = ys.getReqParams().pubtime.split("-");
+            $(".mindate").val(tsvalue[0]);
+            $(".maxdate").val(tsvalue[1]);
+        }
+
+
+        //tab切换
+        $(".com_tab a").click(function () {
+            if (!$(this).hasClass("crently")) {
+                var tsvalue = $(this).attr("data");
+                $("#protype").val(tsvalue);
+                $(".protype").html($(this).html());
+                $("#protype").parent().find("a[data-val=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+                $(this).addClass("crently").siblings().removeClass("crently");
+                reloaddata();
+
+            }
+        })
+
+
+        //筛选
+        $(".filter").click(function () {
+            $(".order_fixed").removeClass("active");
+            $(".order_fixed").hide();
+            $(".order_fixed .bg,.order_fixed .slist").removeClass("animate");
+            $("#filterright").addClass("active")
+            noscroll();
+        })
+
+        //清除筛选
+        $(".nofilter").click(function () {
+            $(".datem").val('');
+            $("#saller_nc").val('');
+            $("#buyer_nc").val('')
+            $("#order_id").val('')
+            $("#pro_name").val('');
+            $("#pro_title").val('');
+            $(".interview_list .foot").each(function () {
+                $(this).find(".item").eq(0).click();
+            })
+            isRdata = false;
+            $(".no_data .nofilter").hide();
+            reloaddata();
+        })
+
+        $("#btn_Reload").click(function () {
+
+            var s_time = $(".mindate").val();
+            var e_time = $(".maxdate").val();
+            if (s_time != "" && e_time != "") {
+                if (s_time > e_time) {
+                    error("请选择正确时间！");
+                    return false;
+                }
+            }
+            isRdata = true;
+            reloaddata();
+        });
+
+
+        $(".pop_from_right .goback,.pop_from_right .maskbg").click(function () {
+            autoscroll();
+            $(this).parents(".pop_from_right").addClass("close");
+            var obj = $(this);
+            setTimeout(function () {
+                $(obj).parents(".pop_from_right").removeClass("close").removeClass("active");
+            }, 300)
+        })
+
+        $(".interview_list .item .cls").click(function () {
+            if ($(this).parents(".item").hasClass("close")) {
+                $(this).parents(".item").removeClass("close");
+                $(this).parents(".item").find(".arrow").removeClass("rotate180");
+                $(this).parents(".item").find(".foot").slideUp();
+            }
+            else {
+                $(this).parents(".item").addClass("close");
+                $(this).parents(".item").find(".arrow").addClass("rotate180");
+                $(this).parents(".item").find(".foot").slideDown();
+                $(this).parents(".item").siblings().removeClass("close").find(".foot").slideUp();
+                $(this).parents(".item").siblings().find(".arrow").removeClass("rotate180");
+            }
+        })
+
+
+        //筛选点击
+        $("#filterright .scroll .c_ftab .item").click(function () {
+            if (!$(this).hasClass("active"))
+                $("#" + $(this).parent().attr("data")).val($(this).find("a").eq(0).attr("data-val")); console.log($(this).find("a").eq(0).attr("data-val"));
+            $(this).addClass("active").siblings().removeClass("active");
+            $("em." + $(this).parent().attr("data")).html($(this).find("a").eq(0).attr("data"));
+            //reloaddata();
+        })
+
+
+
+        $(".spro_list").on("click", ".foot a", function () {
+            //console.log($(this).text());
+            //确认处理
+            if ($(this).hasClass("check")) {
+                var id = $(this).parent().attr("data");
+                corfirm("确认已处理此投诉了吗？", checkok, $(this));
+            }//删除
+            else if ($(this).hasClass("del")) {
+                var id = $(this).parent().attr("data");
+                corfirm("确定要删除投诉信息吗？<br />删除后不可恢复，请谨慎操作！", delok, $(this));
+            }
+        })
+
+    })
+
+    //确认处理
+    function checkok(obj) {
+        var id = $(obj).parent().attr("data");
+        var pobj = $(obj).parents(".item");
+        $.ajax({
+            type: "POST",
+            url: "/flow/AS400201.ashx",
+            data: "rad=" + Math.random() + "&id=" + id,
+            success: function (res) {
+                if (res != "" && res != "[]") {
+                    var comments = $.parseJSON(res);
+                    if (comments.success == "Y") {
+                        error("确认处理成功");
+                        $(pobj).find(".tit b").eq(0).html('等待客服确定<i class="bl c999">(商家已处理)</i>');
+                        $(pobj).find(".foot .check").remove();
+                        //if (GetQueryString("go")) {
+                        //    //详细页调用传ID跳转到相关详细页
+                        //    parent.makeok(GetQueryString("id"));
+                        //}
+                        //else {
+                        //    //列表页提示成功
+                        //    parent.makeok();
+                        //}
+                    }
+                    else {
+                        //parent.popation("200", "n", comments.msg);
+                        error(comments.msg);
+                    }
+                }
+            }
+        });
+
+        return true;
+    }
+
+
+    //确认删除
+    function delok(obj) {
+        var objs = $(obj).parents(".item");
+        var id = $(obj).parent().attr("data");
+        $.post("/flow/DeleteSallerComplain.ashx", { "r": Math.random(), "type": "del", "id": id }, function (data) {
+            var obj = JSON.parse(data);
+            if (obj.success == "Y") {
+                error(obj.msg);
+                $(objs).remove();
+            } else {
+                error(obj.msg);
+            }
+        });
+        return true;
+    }
+</script>
+</body>
+
+
+</html>

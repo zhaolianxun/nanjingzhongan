@@ -319,7 +319,8 @@ public class IambuyerEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(
-					new StringBuilder("update t_order set status=3,buyer_cancel_reason=? where id=?").toString());
+					new StringBuilder("update t_order set finished=1,status=3,buyer_cancel_reason=? where id=?")
+							.toString());
 			pst.setObject(1, reason);
 			pst.setObject(2, orderId);
 			int cnt = pst.executeUpdate();
@@ -360,17 +361,18 @@ public class IambuyerEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(
-					new StringBuilder("select t.status from t_order t  where t.id=? for update").toString());
+					new StringBuilder("select t.finished from t_order t  where t.id=? for update").toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
-				int status = rs.getInt("status");
-				if (status != 3 && status != 4 && status != 5)
-					throw new InteractRuntimeException("只有已取消的订单才能删除");
+				int finished = rs.getInt("finished");
+				if (finished == 0)
+					throw new InteractRuntimeException("订单还未结束不可删除");
 			}
 			pst.close();
 
-			pst = connection.prepareStatement(new StringBuilder("update t_order set del=1 where id=?").toString());
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_order set del=1 where id=? and finished=1").toString());
 			pst.setObject(1, orderId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
@@ -537,7 +539,7 @@ public class IambuyerEntrance {
 			pst = connection.prepareStatement(new StringBuilder(
 					"update t_order set auto_return_time=?,review_pic_audit=0,review_pics=?,review_pic_commit_time=? where id=?")
 							.toString());
-			pst.setObject(1, new Date().getTime() + 15 * 24 * 60 * 60 * 1000l);
+			pst.setObject(1, new Date().getTime() + 2 * 24 * 60 * 60 * 1000l);
 			pst.setObject(2, reviewPics);
 			pst.setObject(3, new Date().getTime());
 			pst.setObject(4, orderId);
@@ -614,8 +616,8 @@ public class IambuyerEntrance {
 		}
 	}
 
-	@RequestMapping(value = "/checkedorders/complain")
-	public void checkedordersComplain(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/complain")
+	public void complain(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -626,9 +628,28 @@ public class IambuyerEntrance {
 			String explanation = StringUtils.trimToNull(request.getParameter("explanation"));
 			if (explanation == null)
 				throw new InteractRuntimeException("explanation 不能空");
-			String proofPics = StringUtils.trimToNull(request.getParameter("proof_pics"));
-			if (proofPics == null)
-				throw new InteractRuntimeException("proof_pics 不能空");
+			String reason = StringUtils.trimToNull(request.getParameter("reason"));
+			if (reason == null)
+				throw new InteractRuntimeException("reason 不能空");
+			String proofPicsParam = StringUtils.trimToNull(request.getParameter("proof_pics"));
+			if (proofPicsParam == null)
+				throw new InteractRuntimeException("请上传图片");
+			String[] proofPics = proofPicsParam.split(",");
+			if (proofPics.length == 0)
+				throw new InteractRuntimeException("请上传图片");
+			if (proofPics.length > 2)
+				throw new InteractRuntimeException("最多两张图片");
+
+			// 处理图片参数
+			proofPicsParam = "";
+			for (int i = 0; i < proofPics.length; i++) {
+				if (StringUtils.isNotEmpty(proofPics[i])) {
+					if (i == 0)
+						proofPicsParam = proofPics[i];
+					else
+						proofPicsParam = proofPicsParam + "," + proofPics[i];
+				}
+			}
 
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
@@ -637,23 +658,27 @@ public class IambuyerEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(
-					new StringBuilder("select t.complain from t_order t where t.id=? for update").toString());
+					new StringBuilder("select t.complain,t.status from t_order t where t.id=? for update").toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				int complain = rs.getInt("complain");
+				int status = rs.getInt("status");
+				if (status != 1)
+					throw new InteractRuntimeException("核对后的订单才可以投诉");
 				if (complain != 0)
 					throw new InteractRuntimeException("该订单已经投诉过");
 			}
 			pst.close();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"update t_order set complain_time=?,complain_proof_pics=?,complain=1,complain_explanation=? where id=?")
+					"update t_order set complain_time=?,complain_proof_pics=?,complain=1,complain_explanation=?,complain_reason=? where id=?")
 							.toString());
 			pst.setObject(1, new Date().getTime());
-			pst.setObject(2, proofPics);
+			pst.setObject(2, proofPicsParam);
 			pst.setObject(3, explanation);
-			pst.setObject(4, orderId);
+			pst.setObject(4, reason);
+			pst.setObject(5, orderId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -847,7 +872,7 @@ public class IambuyerEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_seller_proof_desc,t.rightprotect_buyer_proof_desc,t.rightprotect_seller_proof_pics,t.rightprotect_buyer_proof_pics,t.rightprotect_buyer_addkf_describe,t.rightprotect_buyer_addkf_pics,t.rightprotect_seller_addkf_pics,t.rightprotect_seller_addkf_describe,t.rightprotect_reason,t.rightprotect_status,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,insert(t.seller_taobaoaccount_name,2,3,'***'),t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t where t.id=?")
+					"select t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_seller_proof_desc,t.rightprotect_buyer_proof_desc,t.rightprotect_seller_proof_pics,t.rightprotect_buyer_proof_pics,t.rightprotect_buyer_addkf_describe,t.rightprotect_buyer_addkf_pics,t.rightprotect_seller_addkf_pics,t.rightprotect_seller_addkf_describe,t.rightprotect_reason,t.rightprotect_status,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,insert(t.seller_taobaoaccount_name,2,3,'***') seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t where t.id=?")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
@@ -899,8 +924,6 @@ public class IambuyerEntrance {
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
-			if (connection != null)
-				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
@@ -1289,6 +1312,134 @@ public class IambuyerEntrance {
 			logger.info(ExceptionUtils.getStackTrace(e));
 			if (connection != null)
 				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/rightprotectsorders/addkf")
+	public void rightprotectsordersAddkf(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			if (orderId == null)
+				throw new InteractRuntimeException("order_id 不能空");
+			String describe = StringUtils.trimToNull(request.getParameter("describe"));
+			if (describe == null)
+				throw new InteractRuntimeException("describe 不能空");
+			String picsParam = StringUtils.trimToNull(request.getParameter("pics"));
+			if (picsParam == null)
+				throw new InteractRuntimeException("请上传图片");
+			String[] pics = picsParam.split(",");
+			if (pics.length == 0)
+				throw new InteractRuntimeException("请上传图片");
+			if (pics.length > 3)
+				throw new InteractRuntimeException("最多三张图片");
+
+			// 处理图片参数
+			picsParam = "";
+			for (int i = 0; i < pics.length; i++) {
+				if (StringUtils.isNotEmpty(pics[i])) {
+					if (i == 0)
+						picsParam = pics[i];
+					else
+						picsParam = picsParam + "," + pics[i];
+				}
+			}
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"update t_order set rightprotect_buyer_addkf_pics=?,rightprotect_buyer_addkf_describe=?,rightprotect_buyer_addkf=1 where id=? and buyer_id=? and rightprotect_status=10")
+							.toString());
+			pst.setObject(1, picsParam);
+			pst.setObject(2, describe);
+			pst.setObject(3, orderId);
+			pst.setObject(4, loginStatus.getUserId());
+			int cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/rightprotectsorders/addproof")
+	public void rightprotectsordersAddproof(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			if (orderId == null)
+				throw new InteractRuntimeException("order_id 不能空");
+			String describe = StringUtils.trimToNull(request.getParameter("describe"));
+			if (describe == null)
+				throw new InteractRuntimeException("describe 不能空");
+			String picsParam = StringUtils.trimToNull(request.getParameter("pics"));
+			if (picsParam == null)
+				throw new InteractRuntimeException("请上传图片");
+			String[] pics = picsParam.split(",");
+			if (pics.length == 0)
+				throw new InteractRuntimeException("请上传图片");
+			if (pics.length > 3)
+				throw new InteractRuntimeException("最多三张图片");
+
+			// 处理图片参数
+			picsParam = "";
+			for (int i = 0; i < pics.length; i++) {
+				if (StringUtils.isNotEmpty(pics[i])) {
+					if (i == 0)
+						picsParam = pics[i];
+					else
+						picsParam = picsParam + "," + pics[i];
+				}
+			}
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"update t_order set rightprotect_buyer_proof_pics=?,rightprotect_buyer_proof_desc=?,rightprotect_buyer_proof=1 where id=? and buyer_id=? and rightprotect_status=10 and rightprotect_seller_addkf=1")
+							.toString());
+			pst.setObject(1, picsParam);
+			pst.setObject(2, describe);
+			pst.setObject(3, orderId);
+			pst.setObject(4, loginStatus.getUserId());
+			int cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源

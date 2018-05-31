@@ -43,6 +43,8 @@
 
     <!-- 列表页 结束-->
 
+    <div  class="loadover hidden"><span>加载完成</span></div>
+
     <!-- 没有数据提示-->
     <div class="no_data hidden">
         <div class="pb40 mt100">
@@ -162,6 +164,7 @@
 <!--时间-->
 <link href="mobiscroll/mobiscroll.custom-3.0.0.min.css" rel="stylesheet" type="text/css" />
 <script src="mobiscroll/mobiscroll.custom-3.0.0.min.js?31" type="text/javascript"></script>
+<script src="rxw/rxw.js" type="text/javascript"></script>
 <style>
     .mbsc-android-holo .mbsc-sc-whl-w.mbsc-dt-whl-y {
         margin-left: 0.25rem;
@@ -176,7 +179,15 @@
     var noMoreItems = false;
     var param={}
     onload();
-
+rxw1.windowTouch({
+    movedown:function(){location.reload()},
+    moveup:function(){
+        if(!noMoreItems){
+            param.page_no++;
+            loadItems()
+        }
+    }
+})
     function onload(){
         param.page_no=1
         param.page_size=30
@@ -206,10 +217,15 @@
             url: '/rrightway/p/m/trademanageent/buyedorders?token='+token,
             success: function(res){
                 if(res.code == 0){
-                    if(res.data.items.length==0)
-                        noMoreItems=true;
+                    if(res.data.items.length==0) {
+                        if(param.page_no != 1)
+                            $('.loadover').removeClass('hidden').find('span').text('没有更多数据了')
+                        noMoreItems = true;
+                    }else
+                        $('.loadover').removeClass('hidden').find('span').text('上拉加载更多')
 
                     $(res.data.items).each(function(index,ele){
+
                         items[ele.id]=ele;
 
                         var txt = "";
@@ -219,22 +235,23 @@
                         var is_pay_card = ele.creditcardPay == 1 ? '<i class="ptype xyka"></i>' : '';
                         var statusStr = "";
                         var btnStr = "";
-                        var betailBtn = 'buyedorder_detail.html?id=' + ele.id;
+                        var betailBtn = 'rightprotectorders_detail.html?id=' + ele.id;
 
                         switch (ele.status) {
                             case 1:
                                 if (ele.rightprotectStatus == 0){
-
+                                    betailBtn='buyedorder_detail.html?id=' + ele.id;
                                     statusStr = '<b class="textr">待返现<i class="bl c999"></i></b>';
 
                                     btnStr += '<a href="javascript:;" class="app btn3 recoder">申请维权</a><a href="javascript:;" class="check btn4 recoder">确认返现</a>';
 
                                     if (ele.reviewPicAudit == 2) {
                                         statusStr = '<b class="textr">待返现<i class="bl c999">(图片不符)</i></b>';
+                                    }else  if (ele.reviewPicAudit == 0) {
+                                        statusStr = '<b class="textr">待返现<i class="bl c999">(试客已提交评价图)</i></b>';
                                     }
                                     if (ele.reviewPicAudit == 0 || ele.reviewPicAudit == 2) {
                                         //(图片不符)
-
                                         btnStr += '<a href="buyedorder_pic.html?id=' + ele.id+'&reviewPics='+rxw.trimToEmpty(ele.reviewPics) + '" class="recoder">查看图片</a>';
                                     } else if (ele.reviewPicAudit == 3) {
                                         //btnStr = '<a href="javascript:;" class="recoder disabled">未提交图片</a>';
@@ -254,9 +271,30 @@
                                     btnStr = '<a href="activist_addpz.aspx?id=' + ele.id + '&burl=buyed" class="btn4 recoder">提交凭证</a>';
                                     btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
                                 }else if (ele.rightprotectStatus ==  10){
-                                    statusStr = '<b class="textr">维权中<i class="bl c999">(试客已拒绝)</i></b>';
-                                    btnStr = '<a href="activist_addkf.aspx?id=' + ele.id + '&burl=buyed" class="btn3 recoder">申请客服介入</a>';
-                                    btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                    if(ele.rightprotectSellerAddkf == 0 && ele.rightprotectBuyerAddkf ==0){
+                                        btnStr = '<a href="rightprotectorders_sellerapplystepin.html?id=' + ele.id + '" class="btn4 recoder">申请客服介入</a>';
+                                        statusStr = '<b class="textr">维权中<i class="bl c999">(试客已拒绝)</i></b>';
+                                        btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                    }
+                                    if(ele.rightprotectSellerAddkf ==1){
+                                        btnStr = '';
+                                        statusStr = '<b class="textr">维权中<i class="bl c999">(已申请客服介入)</i></b>';
+                                        btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                    }
+                                    if(ele.rightprotectBuyerAddkf ==1){
+                                        btnStr = '';
+                                        btnStr = '<a href="rightprotectorders_selleraddproof.html?id=' + ele.id + '" class="btn4 recoder">提交凭证</a>';
+                                        statusStr = '<b class="textr">维权中<i class="bl c999">(试客已申请客服介入)</i></b>';
+                                        btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+
+                                    }
+                                    if(ele.rightprotectSellerProof ==1){
+                                        btnStr=''
+                                        statusStr = '<b class="textr">维权中<i class="bl c999">(已提交凭证)</i></b>';
+                                        btnStr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
+                                    }
+
+
                                 }
                                 break;
                             case 7:

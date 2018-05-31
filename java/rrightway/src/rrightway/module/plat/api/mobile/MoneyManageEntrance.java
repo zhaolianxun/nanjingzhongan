@@ -212,7 +212,7 @@ public class MoneyManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select c,id,INSERT(cardno,1,12,'************') cardno,belonger,status from t_user_bankcard where user_id=?")
+					"select fail_reason,id,INSERT(cardno,1,12,'************') cardno,belonger,status from t_user_bankcard where user_id=?")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();

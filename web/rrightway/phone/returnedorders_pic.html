@@ -1,0 +1,190 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport" /><meta name="apple-mobile-web-app-capable" content="yes" /><meta name="apple-mobile-web-app-status-bar-style" content="black" /><meta content="telephone=no" name="format-detection" />
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes" /><meta name="browsermode" content="application" />
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait" /><meta name="x5-fullscreen" content="true" /><meta name="x5-page-mode" content="app" /><title>
+        商家联盟，免费试用，轻松拿佣金
+    </title>
+    <meta name="keywords" content="查看截图" />
+    <meta name="description" content="Y" />
+
+    <link rel="stylesheet" type="text/css" href="css/new.css" />
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
+    <script type="text/javascript" src="js/default.js"></script>
+</head>
+
+
+
+<body>
+<div class="viewport">
+
+    <!-- 顶部 开始 -->
+    <div class="header clearfix">
+        <a href="javascript:;" class="type" onclick="history.back();">
+            <img src="image/arrow_left2.svg" class="h40"></a>
+        <div class="htxt">查看图片</div>
+    </div>
+    <!-- 顶部 结束 -->
+
+    <!--待确认 显示-->
+    <div class="p20 cf60 bgfefcec ">请仔细核对试客是否收货成功，若收货成功请选择“确认返现”，若未收货或者图片虚假请选择“图片不符”并且联系客服处理！</div>
+
+    <!--图片不符 显示-->
+    <div class="p20 cf60 bgfefcec  hidden">已确定试客提交的收货评价图片不符，请等待试客重新提交收货评价图。</div>
+
+    <div class="imglist">
+    </div>
+    <div id="picspad" class="my-gallery p20 bgfff">
+
+        <figure id="itemExample" class="mt15" style="display:none">
+            <a class="bl mr20" href="">
+                <img src="" /></a>
+        </figure>
+
+
+    </div>
+
+    <!--<div class="com_footer ">-->
+        <!--<p class="textr pr20 " data="1140686"><a href="javascript:;" class="btn3 cancle">图片不符</a>&lt;!&ndash;<a href="javascript:;" class="check btn4">确认返现</a>&ndash;&gt;</p>-->
+    <!--</div>-->
+</div>
+
+<!-- 图片放大预览 -->
+<link href="photoswipe/photoswipe.css?v=4.1.1-1.0.4" rel="stylesheet" />
+<link href="photoswipe/default-skin/default-skin.css?v=4.1.1-1.0.4" rel="stylesheet" />
+<script src="photoswipe/photoswipe.min.js?v=4.1.1-1.0.4"></script>
+<script src="photoswipe/photoswipe-ui-default.min.js?v=4.1.1-1.0.4"></script>
+<script src="js/imglist.js"></script>
+<!--图片框架 开始-->
+<div id="gallery" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <div class="pswp__counter"></div>
+                <span class="pswp_title">宝贝示例图</span>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="pswp__loading-indicator"><div class="pswp__loading-indicator__line"></div></div> -->
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip">
+                    <!-- <a href="#" class="pswp__share--facebook"></a>
+  <a href="#" class="pswp__share--twitter"></a>
+  <a href="#" class="pswp__share--pinterest"></a>
+  <a href="#" download class="pswp__share--download"></a> -->
+                </div>
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--图片框架 结束-->
+
+<script>
+    var token = localStorage.getItem('token');
+    var queryObject = rxw.parseQueryStr(location.search.substr(1))
+    var pics = queryObject.reviewPics.split(',')
+    for(index in pics){
+        var newItem = $('#itemExample').clone(true)
+        newItem.attr('id','item'+index)
+        newItem.find('a').attr('href',pics[index]);
+        newItem.find('img').attr('src',pics[index]);
+        newItem.css('display','');
+
+        $('#picspad').append(newItem);
+    }
+
+    $(function () {
+        $(".com_footer").on("click", "a", function () {
+            //console.log($(this).text());
+            //图片不符
+            if ($(this).hasClass("cancle")) {
+                var id = $(this).parent().attr("data");
+                corfirm("确定试客提交的收货评价图不符吗？", delok, $(this));
+            }
+            else if ($(this).hasClass("check")) {
+                var id = $(this).parent().attr("data");
+                accessconfirm("确定要确认返现订单吗？<br /><i class='cf60'>请务必到商城检查试客是否确定收货，若无确定收货给试客返现，出现资金问题商家联盟概不负责。</i>", checkok, $(this));
+            }
+        })
+    })
+
+    function delok(obj) {
+        $.ajax({
+            type: "POST",
+            url: "/rrightway/p/m/trademanageent/buyedorders/reviewpicfail",
+            data: "token=" + token + "&order_id="+queryObject.id,
+            success: function (res) {
+                if (res.code==0) {
+                        //确认成功
+                        //parent.photofailok();
+                        error("图片不符提交成功！");
+                        setTimeout(function () {
+                            history.back();
+                        }, 500)
+
+                    }
+                    else {
+                        //alert(comments.msg);
+                        //error(comments.msg);
+                        error("图片不符提交失败！");
+                    }
+
+            }
+        });
+        return true;
+    }
+
+    function checkok(obj) {
+        $.ajax({
+            type: "POST",
+            url: "/rrightway/p/m/trademanageent/buyedorders/returnmoney",
+            data: "token=" + token + "&order_id=" + queryObject.id,
+            success: function (res) {
+                if (res.code==0) {
+                        error("确认返现订单成功！");
+                        setTimeout(function () {
+                            history.back();
+                        }, 500)
+                    }
+                    else {
+                        error("确认返现订单失败！");
+                    }
+
+            }
+        });
+        return true;
+    }
+
+
+</script>
+</body>
+
+
+</html>

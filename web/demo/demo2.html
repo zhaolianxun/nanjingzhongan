@@ -59,8 +59,8 @@
 
     var scroll = document.querySelector('.scroll');
     var scroll1 = document.getElementsByClassName('scroll');
-
-    function windowTouch(movedownFun){
+    windowTouch(down,up);
+    function windowTouch(movedownFun,moveupFun){
         window.addEventListener('touchstart', function(event) {
             var touch = event.targetTouches[0];
         var touchData ={};
@@ -96,12 +96,13 @@
         window.addEventListener('touchend', function(event) {
 
             if((window.touchData.touchDis>70))movedownFun();
+            if((window.touchData.touchDis<-30))moveupFun();
             document.body.removeChild(window.touchData.waitImg)
             delete window.touchData;
 
         }, false);
     }
-    function refresh(){
+    function down(){
         //这里是后台数据
         for(var i = 3;i>0;i--)
         {
@@ -111,7 +112,15 @@
         }
     }
 
-
+    function up(){
+        //这里是后台数据
+        for(var i = 3;i>0;i--)
+        {
+            var node = document.createElement("li");
+            node.innerHTML = "I'm new" + i;
+            scroll.appendChild(node,scroll.lastChild);
+        }
+    }
 
 
 
@@ -146,15 +155,15 @@
         return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
     }
 
-    //滚动事件触发
-    window.onscroll = function() {
-        if(getScrollTop() + getClientHeight() >= getScrollHeight()) {
-            var div = document.createElement("div");
-            div.style.height='30px'
-            div.innerText=getScrollTop()+' '+getClientHeight()+' '+getScrollHeight()
-            document.body.appendChild(div)
-        }
-    }
+//    //滚动事件触发
+//    window.onscroll = function() {
+//        if(getScrollTop() + getClientHeight() >= getScrollHeight()) {
+//            var div = document.createElement("div");
+//            div.style.height='30px'
+//            div.innerText=getScrollTop()+' '+getClientHeight()+' '+getScrollHeight()
+//            document.body.appendChild(div)
+//        }
+//    }
     //-----------------结束--------------------
 </script>
 </body>

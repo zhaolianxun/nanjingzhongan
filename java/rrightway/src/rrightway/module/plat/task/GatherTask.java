@@ -1,6 +1,7 @@
 package rrightway.module.plat.task;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import rrightway.constant.SysParam;
 import rrightway.entity.InteractRuntimeException;
 import rrightway.util.RrightwayDataSource;
 
@@ -46,24 +48,13 @@ public class GatherTask {
 			connection.commit();
 			logger.debug("下架了" + cnt + "个过期活动");
 
-			
-			//核对后超过15天未主动返现或试客提交评价图后超过2天未主动返现，自动返现
+			// 核对后超过15天未主动返现或试客提交评价图后超过2天未主动返现，自动返现
 			pst = connection.prepareStatement(
-					"select id from t_order where (rightprotect_status=13 or rightprotect_status=0) and status=1 and ( ((rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-order_time)>2*24*60*60*1000 and review_pic_audit=0 ) or ((rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-order_time)>15*24*60*60*1000 and review_pic_audit=3 ))");
+					"select id from t_order where rightprotect_status in (13,0) and status=1 and ( ((rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-order_time)>? and review_pic_audit=0 ) or ((rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-order_time)>? and review_pic_audit=3 ))");
+			pst.setObject(1, SysParam.reviewedExpiredReturnTime);
+			pst.setObject(2, SysParam.unreviewedExpiredReturnTime);
 			List<String> orderIds = new ArrayList<String>();
 			ResultSet rs = pst.executeQuery();
-			while (rs.next()) {
-				orderIds.add(rs.getString("id"));
-			}
-			pst.close();
-			
-			
-			// 买家超过2天未处理，自动同意维权
-			// 查询需要处理的订单
-			pst = connection.prepareStatement(
-					"select id from t_order where rightprotect_status=7 and status=1 and rightprotect_time  is not null  and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-(rightprotect_time))>2*24*60*60*1000");
-			 orderIds = new ArrayList<String>();
-			 rs = pst.executeQuery();
 			while (rs.next()) {
 				orderIds.add(rs.getString("id"));
 			}
@@ -71,88 +62,219 @@ public class GatherTask {
 
 			for (int i = 0; i < orderIds.size(); i++) {
 				String orderId = orderIds.get(i);
-				// 锁定订单
-				pst = connection.prepareStatement(
-						"select buyer_id,seller_id,return_money,rightprotect_status,status from t_order where id=? for update");
-				pst.setObject(1, orderId);
-				rs = pst.executeQuery();
-				if (rs.next()) {
-					int rightprotectStatus = rs.getInt("rightprotect_status");
-					int status = rs.getInt("status");
-					BigDecimal returnMoney = rs.getBigDecimal("return_money");
-					String sellerId = rs.getString("seller_id");
-					pst.close();
-					// 如果状态有变，跳过本次处理
-					if (rightprotectStatus != 7 || status != 1) {
-						connection.commit();
-						continue;
-					}
-
-					// 锁定卖家账户
-					BigDecimal unwithdrawMoney = null;
+				try {
+					// 锁定订单
 					pst = connection.prepareStatement(
-							new StringBuilder("select t.unwithdraw_money from t_user t where t.id=? for update")
-									.toString());
-					pst.setObject(1, sellerId);
+							"select buyer_id,seller_id,return_money,rightprotect_status,status,review_pic_audit from t_order where id=? for update");
+					pst.setObject(1, orderId);
 					rs = pst.executeQuery();
 					if (rs.next()) {
-						unwithdrawMoney = rs.getBigDecimal("unwithdraw_money");
-					} else
-						throw new InteractRuntimeException("用户不存在");
-					pst.close();
+						int rightprotectStatus = rs.getInt("rightprotect_status");
+						int status = rs.getInt("status");
+						int reviewPicAudit = rs.getInt("review_pic_audit");
+						BigDecimal returnMoney = rs.getBigDecimal("return_money");
+						String sellerId = rs.getString("seller_id");
+						String buyerId = rs.getString("buyer_id");
+						pst.close();
+						// 如果状态有变，跳过本次处理
+						if (rightprotectStatus != 13 && status != 0) {
+							connection.commit();
+							continue;
+						}
+						if (status != 1) {
+							connection.commit();
+							continue;
+						}
+						if (reviewPicAudit != 3 && reviewPicAudit != 0) {
+							connection.commit();
+							continue;
+						}
+						// 锁定买家账户
+						BigDecimal withdrawableMoney = null;
+						pst = connection.prepareStatement(
+								new StringBuilder("select t.withdrawable_money from t_user t where t.id=? for update")
+										.toString());
+						pst.setObject(1, buyerId);
+						rs = pst.executeQuery();
+						if (rs.next()) {
+							withdrawableMoney = rs.getBigDecimal("withdrawable_money");
+						} else
+							throw new InteractRuntimeException("用户不存在");
+						pst.close();
 
-					// 更新订单状态。维权成功，订单结束。
+						// 修改订单状态
+						pst = connection.prepareStatement(new StringBuilder(
+								"update t_order set status=2 where id=? and rightprotect_status in (13,0) and status=1 and reviewPicAudit in (3,0)")
+										.toString());
+						pst.setObject(1, orderId);
+						cnt = pst.executeUpdate();
+						if (cnt != 1)
+							throw new InteractRuntimeException("操作失败");
+						pst.close();
+
+						// 买家收到返现
+						BigDecimal addMoney = returnMoney.multiply(new BigDecimal(0.2)).setScale(2, RoundingMode.DOWN);
+						BigDecimal toWalletMoney = returnMoney.subtract(addMoney);
+						pst = connection.prepareStatement(new StringBuilder(
+								"update t_user set right_wallet_unoutable=right_wallet_unoutable+?,withdrawable_money=withdrawable_money+? where id=? ")
+										.toString());
+						pst.setObject(1, toWalletMoney);
+						pst.setObject(2, addMoney);
+						pst.setObject(3, buyerId);
+						cnt = pst.executeUpdate();
+						if (cnt != 1)
+							throw new InteractRuntimeException("操作失败");
+						pst.close();
+
+						String billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
+						pst = connection.prepareStatement(new StringBuilder(
+								"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
+										.toString());
+						pst.setObject(1, billId);
+						pst.setObject(2, buyerId);
+						pst.setObject(3, returnMoney);
+						pst.setObject(4, "收到返现，其中转入右钱包" + toWalletMoney);
+						pst.setObject(5, new Date().getTime());
+						pst.setObject(6, orderId);
+						cnt = pst.executeUpdate();
+						if (cnt != 1)
+							throw new InteractRuntimeException("操作失败");
+
+						String walletBillId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
+						pst = connection.prepareStatement(new StringBuilder(
+								"insert into t_wallet_bill (id,user_id,amount,note,happen_time,added_to_outable,order_id) values(?,?,?,?,?,?,?)")
+										.toString());
+						pst.setObject(1, walletBillId);
+						pst.setObject(2, buyerId);
+						pst.setObject(3, toWalletMoney);
+						pst.setObject(4, "从返现转入");
+						pst.setObject(5, new Date().getTime());
+						pst.setObject(6, 0);
+						pst.setObject(7, orderId);
+
+						cnt = pst.executeUpdate();
+						if (cnt != 1)
+							throw new InteractRuntimeException("操作失败");
+						connection.commit();
+					}
+				} catch (Exception e) {
+					logger.info(ExceptionUtils.getStackTrace(e));
+					if (connection != null)
+						connection.rollback();
+					continue;
+				} finally {
+					if (pst != null)
+						pst.close();
+				}
+
+			}
+
+			// 买家超过2天未处理，自动同意维权
+			// 查询需要处理的订单
+			pst = connection.prepareStatement(
+					"select id from t_order where rightprotect_status=7 and status=1 and rightprotect_time  is not null  and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-(rightprotect_time))>2*24*60*60*1000");
+			orderIds = new ArrayList<String>();
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				orderIds.add(rs.getString("id"));
+			}
+			pst.close();
+
+			for (int i = 0; i < orderIds.size(); i++) {
+				String orderId = orderIds.get(i);
+				try {
+					// 锁定订单
 					pst = connection.prepareStatement(
-							new StringBuilder("update t_order set rightprotect_status=12,finished=1 where id=?")
-									.toString());
+							"select buyer_id,seller_id,return_money,rightprotect_status,status from t_order where id=? for update");
 					pst.setObject(1, orderId);
-					cnt = pst.executeUpdate();
-					pst.close();
-					if (cnt != 1)
-						throw new InteractRuntimeException("操作失败");
+					rs = pst.executeQuery();
+					if (rs.next()) {
+						int rightprotectStatus = rs.getInt("rightprotect_status");
+						int status = rs.getInt("status");
+						BigDecimal returnMoney = rs.getBigDecimal("return_money");
+						String sellerId = rs.getString("seller_id");
+						pst.close();
+						// 如果状态有变，跳过本次处理
+						if (rightprotectStatus != 7 || status != 1) {
+							connection.commit();
+							continue;
+						}
 
-					// 返还卖家核对金额（返现+核对手续费）
-					pst = connection.prepareStatement(
-							new StringBuilder("update t_user set unwithdraw_money=unwithdraw_money+? where id=? ")
-									.toString());
-					pst.setObject(1, returnMoney.add(new BigDecimal(2)));
-					pst.setObject(2, sellerId);
-					cnt = pst.executeUpdate();
-					pst.close();
-					if (cnt != 1)
-						throw new InteractRuntimeException("操作失败");
+						// 锁定卖家账户
+						BigDecimal unwithdrawMoney = null;
+						pst = connection.prepareStatement(
+								new StringBuilder("select t.unwithdraw_money from t_user t where t.id=? for update")
+										.toString());
+						pst.setObject(1, sellerId);
+						rs = pst.executeQuery();
+						if (rs.next()) {
+							unwithdrawMoney = rs.getBigDecimal("unwithdraw_money");
+						} else
+							throw new InteractRuntimeException("用户不存在");
+						pst.close();
 
-					// 更新账单
-					String billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
-					pst = connection.prepareStatement(new StringBuilder(
-							"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
-									.toString());
-					pst.setObject(1, billId);
-					pst.setObject(2, sellerId);
-					pst.setObject(3, returnMoney);
-					pst.setObject(4, "试客超时，自动维权成功，退还返现金额。订单尾号" + orderId.substring(orderId.length() - 5));
-					pst.setObject(5, new Date().getTime());
-					pst.setObject(6, orderId);
-					cnt = pst.executeUpdate();
-					pst.close();
-					if (cnt != 1)
-						throw new InteractRuntimeException("操作失败");
-					// 更新账单
-					billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
-					pst = connection.prepareStatement(new StringBuilder(
-							"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
-									.toString());
-					pst.setObject(1, billId);
-					pst.setObject(2, sellerId);
-					pst.setObject(3, new BigDecimal(2));
-					pst.setObject(4, "试客超时，自动维权成功，退还核对手续费。订单尾号" + orderId.substring(orderId.length() - 5));
-					pst.setObject(5, new Date().getTime());
-					pst.setObject(6, orderId);
-					cnt = pst.executeUpdate();
-					pst.close();
-					if (cnt != 1)
-						throw new InteractRuntimeException("操作失败");
-					connection.commit();
+						// 更新订单状态。维权成功，订单结束。
+						pst = connection.prepareStatement(
+								new StringBuilder("update t_order set rightprotect_status=12,finished=1 where id=?")
+										.toString());
+						pst.setObject(1, orderId);
+						cnt = pst.executeUpdate();
+						pst.close();
+						if (cnt != 1)
+							throw new InteractRuntimeException("操作失败");
+
+						// 返还卖家核对金额（返现+核对手续费）
+						pst = connection.prepareStatement(
+								new StringBuilder("update t_user set unwithdraw_money=unwithdraw_money+? where id=? ")
+										.toString());
+						pst.setObject(1, returnMoney.add(new BigDecimal(2)));
+						pst.setObject(2, sellerId);
+						cnt = pst.executeUpdate();
+						pst.close();
+						if (cnt != 1)
+							throw new InteractRuntimeException("操作失败");
+
+						// 更新账单
+						String billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
+						pst = connection.prepareStatement(new StringBuilder(
+								"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
+										.toString());
+						pst.setObject(1, billId);
+						pst.setObject(2, sellerId);
+						pst.setObject(3, returnMoney);
+						pst.setObject(4, "试客超时，自动维权成功，退还返现金额。订单尾号" + orderId.substring(orderId.length() - 5));
+						pst.setObject(5, new Date().getTime());
+						pst.setObject(6, orderId);
+						cnt = pst.executeUpdate();
+						pst.close();
+						if (cnt != 1)
+							throw new InteractRuntimeException("操作失败");
+						// 更新账单
+						billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
+						pst = connection.prepareStatement(new StringBuilder(
+								"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
+										.toString());
+						pst.setObject(1, billId);
+						pst.setObject(2, sellerId);
+						pst.setObject(3, new BigDecimal(2));
+						pst.setObject(4, "试客超时，自动维权成功，退还核对手续费。订单尾号" + orderId.substring(orderId.length() - 5));
+						pst.setObject(5, new Date().getTime());
+						pst.setObject(6, orderId);
+						cnt = pst.executeUpdate();
+						pst.close();
+						if (cnt != 1)
+							throw new InteractRuntimeException("操作失败");
+						connection.commit();
+					}
+
+				} catch (Exception e) {
+					logger.info(ExceptionUtils.getStackTrace(e));
+					if (connection != null)
+						connection.rollback();
+					continue;
+				} finally {
+					if (pst != null)
+						pst.close();
 				}
 			}
 

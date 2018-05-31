@@ -156,8 +156,7 @@
                         var is_coupon = row.couponIf ==0 ? '' : '<i class="ptype juan"></i>';
                         var is_pay_hb = row.huabeiPay == 1 ? '<i class="ptype hbei"></i>' : '';
                         var is_pay_card = row.creditcardPay == 1 ? '<i class="ptype xyka"></i>' : '';
-                        var sevel_up_stataus = row.reviewPicAudit == 0 ? '<a href="buyed_pic.aspx?id=' + row.id + '"  class="mt5 bf60  sbt74_28 bl brd3 mauto mb5 recoder">查看截图</a>' : '';
-
+                        var sevel_up_stataus = row.reviewPicAudit != 3 ? '<a href="returnedorders_pic.html?id=' + row.id+'&reviewPics='+rxw.trimToEmpty(row.reviewPics)  + '"  class="mt5 bf60  sbt74_28 bl brd3 mauto mb5 recoder">查看截图</a>' : '';
                         txt = '<div class="item">'
                                 + '  <div class="tit"><p>活动标题：' + row.activityTitle + '<br />订单编号：' + row.id + '<br />下单时间：' +rxw.formatDateTime( row.orderTime )+ '</p></div>'
                                 + '  <a href="returnedorders_detail.html?id=' + row.id + '" class="recoder pro_min bt1"><img src="' + row.giftCover + '" class="img" onerror="this.src=\'image/nopic.png\'" />'
@@ -429,20 +428,19 @@
         var pobj = $(obj).parents(".item");
         $.ajax({
             type: "POST",
-            url: "/flow/DeleteSallerReback.ashx",
-            data: "rad=" + Math.random() + "&id=" + id,
+            url: "/rrightway/p/m/trademanageent/del",
+            data: { token: token, order_id: id },
             success: function (res) {
-                if (res != "" && res != "[]") {
-                    var comments = $.parseJSON(res);
-                    if (comments.success == "Y") {
+
+                    if (res.code==0) {
                         //确认成功
                         error("删除订单成功");
                         $(pobj).remove();
                     }
                     else {
-                        error(comments.msg);
+                        error(res.codeMsg);
                     }
-                }
+
             }
         });
         return true;

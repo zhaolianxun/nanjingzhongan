@@ -351,6 +351,8 @@
                     }
 
                     $('#stepinbtn').attr('href','rightprotectorders_sellerapplystepin.html?id=' + queryObject.id )
+                    $('#commitproofbtn').attr('href','rightprotectorders_selleraddproof.html?id=' + queryObject.id )
+
                     switch (res.data.rightprotectStatus) {
                         case 10:
                                 if(res.data.rightprotectSellerAddkf == 0 && res.data.rightprotectBuyerAddkf ==0){
@@ -526,8 +528,8 @@
         var id = $(obj).parent().attr("data");
         $.ajax({
             type: "POST",
-            url: "/flow/DeleteSallerActivist.ashx",
-            data: "rad=" + Math.random() + "&id=" + id,
+            url: "/p/m/trademanageent/del",
+            data: "token=" + token + "&order_id=" + id,
             success: function (res) {
                 if (res != "" && res != "[]") {
                     var comments = $.parseJSON(res);

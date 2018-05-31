@@ -853,7 +853,7 @@ public class CowryManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
-					new StringBuilder("update t_activity set status=4 where id=? and status=0").toString());
+					new StringBuilder("update t_activity set status=3 where id=? and status=0").toString());
 			pst.setObject(1, activityId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
@@ -890,15 +890,22 @@ public class CowryManageEntrance {
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement(new StringBuilder("select status from t_activity where id=?").toString());
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.status,(select count(id) from t_order where activity_id=t.id and finished=0) unfinished_count from t_activity t where t.id=? for update")
+							.toString());
 			pst.setObject(1, activityId);
 			ResultSet rs = pst.executeQuery();
 			int status = 0;
+			int unfinishedCount = 0;
 			if (rs.next()) {
 				status = rs.getInt("status");
+				unfinishedCount = rs.getInt("unfinished_count");
 			} else
 				throw new InteractRuntimeException("活动不存在");
+			pst.close();
 
+			if (unfinishedCount > 0)
+				throw new InteractRuntimeException("该活动有未结束的订单，不可删除");
 			if (status == 1)
 				throw new InteractRuntimeException("活动正在审核中");
 

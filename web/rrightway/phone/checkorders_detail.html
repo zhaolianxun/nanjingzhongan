@@ -436,7 +436,7 @@ var item ;
         //}, 500)
         $.ajax({
             type: "POST",
-            url: "/rrightway/p/m/trademanageent/needcheckorders/del",
+            url: "/rrightway/p/m/trademanageent/del",
             data: { token: token, order_id: id },
             success: function (res) {
                 if(res.code==0) {
