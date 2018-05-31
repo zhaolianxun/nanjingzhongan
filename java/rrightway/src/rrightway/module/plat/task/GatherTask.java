@@ -48,14 +48,22 @@ public class GatherTask {
 
 			
 			//核对后超过15天未主动返现或试客提交评价图后超过2天未主动返现，自动返现
+			pst = connection.prepareStatement(
+					"select id from t_order where (rightprotect_status=13 or rightprotect_status=0) and status=1 and ( ((rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-order_time)>2*24*60*60*1000 and review_pic_audit=0 ) or ((rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-order_time)>15*24*60*60*1000 and review_pic_audit=3 ))");
+			List<String> orderIds = new ArrayList<String>();
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				orderIds.add(rs.getString("id"));
+			}
+			pst.close();
 			
 			
 			// 买家超过2天未处理，自动同意维权
 			// 查询需要处理的订单
 			pst = connection.prepareStatement(
 					"select id from t_order where rightprotect_status=7 and status=1 and rightprotect_time  is not null  and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-(rightprotect_time))>2*24*60*60*1000");
-			List<String> orderIds = new ArrayList<String>();
-			ResultSet rs = pst.executeQuery();
+			 orderIds = new ArrayList<String>();
+			 rs = pst.executeQuery();
 			while (rs.next()) {
 				orderIds.add(rs.getString("id"));
 			}
