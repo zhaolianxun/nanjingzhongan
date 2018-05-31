@@ -29,9 +29,9 @@ public class GatherTask {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 
-			// 下架过期的活动
+			// 下架过期或卖完的活动
 			pst = connection.prepareStatement(
-					"update t_activity set status=3 where status=1 and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-(keep_days*24*60*60*1000+start_time))>0");
+					"update t_activity set status=3 where status=1 and and ((stock=0) or (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-(keep_days*24*60*60*1000+start_time))>0)");
 			int cnt = pst.executeUpdate();
 			logger.debug("下架了" + cnt + "个过期活动");
 			pst.close();
