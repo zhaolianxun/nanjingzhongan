@@ -7,7 +7,7 @@
     <meta name="full-screen" content="yes" /><meta name="browsermode" content="application" />
     <!-- QQ强制竖屏 QQ强制全屏 -->
     <meta name="x5-orientation" content="portrait" /><meta name="x5-fullscreen" content="true" /><meta name="x5-page-mode" content="app" /><title>
-        左左街，免费试用，轻松拿佣金
+        商家联盟，免费试用，轻松拿佣金
     </title>
     <meta name="keywords" content="审核中的宝贝" />
     <meta name="description" content="Y" />
@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="css/new.css" />
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="js/new.js?2351"></script>
+    <script type="text/javascript" src="js/clipboard.min.js"></script>
 </head>
 
 
@@ -46,9 +47,14 @@
         <div class="item h90 plr20 clearfix"><b class="c999 fl">信誉要求</b><i class="fr buyerMincredit">三心以上</i></div>
         <div class="item h90 plr20 clearfix"><b class="c999 fl">进店方式</b><i class="fr wayToShop">关键词搜索</i></div>
         <div class="item h90 plr20 clearfix"><b class="c999 fl">发货快递</b><i class="fr giftExpressCo">申通快递</i></div>
-        <div class="item h90 plr20 clearfix " style="border-bottom: none"><b class="c999 fl copycouponUrl" >复制优惠券</b>
-            <i id="couponUrl" class="fr couponUrl" style="width: 7rem;height: 40px;line-height: 40px;overflow: hidden"></i></div>
-        <div class="item plr20 clearfix  hidden"><b class="c999 fl h90">领券链接</b><i class="break ml210 bl line40 pt20 pb20 textr"></i></div>
+        <div id="couponIfPad" class="item plr20 clearfix hidden" data-text="https://www.taobao.com/"><b class="c999 fl h90">领券链接</b>
+            <i class="break ml210 bl line40 pt20 pb20 textr">点击复制</i></div>
+        <!--<div class="item h90 plr20 clearfix " style="border-bottom: none">-->
+            <!--&lt;!&ndash;id="btncouponurl" data-clipboard-text=""&ndash;&gt;-->
+            <!--<a href="javascript:;" class="submit" class="c999 fl copycouponUrl"-->
+               <!--id="btncouponurl" data-clipboard-text="">复制优惠券</a>-->
+            <!--<i id="couponUrl" class="fr couponUrl" style="width: 7rem;height: 40px;line-height: 40px;overflow: hidden;display: none"></i></div>-->
+        <!--<div class="item plr20 clearfix  hidden"><b class="c999 fl h90">领券链接</b><i class="break ml210 bl line40 pt20 pb20 textr"></i></div>-->
 
     </div>
 
@@ -56,7 +62,7 @@
         <img src="image/cz_ico.png" class="w36 mt_3"><span class="f28 ml20">操作要求</span>
     </div>
     <!-- 关键词搜索 显示-->
-    <dl class="searchMore keyword pt40 pb40 sec_deal sp2 pl20 bgfff ">
+    <dl style="display: none" class="keyword searchMore keyword pt40 pb40 sec_deal sp2 pl20 bgfff ">
         <dd>
             <div class="detail pr20">
                 <p class="f28">关键词搜索</p>
@@ -78,13 +84,13 @@
     </dl>
 
     <!--链接、淘口令显示-->
-    <div class="searchMore linkhref bgfff plr20 pt40 pb40 hidden">
+    <div style="display: none" class="linkhref searchMore linkhref bgfff plr20 pt40 pb40 ">
         <p class="center f28 c999 mb20">链接/淘宝口令下单链接</p>
         <div class="plr30 pt30 pb30 break bgf8f8f8 c666 f26 line40 "> </div>
     </div>
 
     <!--扫码 显示-->
-    <div class="searchMore twoD bgfff plr20 pt40 pb40 hidden ">
+    <div style="display: none" class="searchMore twoD twoD bgfff plr20 pt40 pb40  ">
         <div class="center c666 line40 f28 mb20">扫码下单二维码</div>
         <p class="center">
             <img src="http://upl.zuozuojie.com/" class="w400" />
@@ -92,7 +98,7 @@
     </div>
 
     <!-- 直通车搜索 显示-->
-    <dl class="searchMore carto pt40 pb40 sec_deal sp2 pl20 bgfff hidden ">
+    <dl style="display: none" class="searchMore carto carto pt40 pb40 sec_deal sp2 pl20 bgfff  ">
         <dd>
             <div class="detail pr20">
                 <p class="f28">关键词搜索</p>
@@ -194,6 +200,20 @@
         </div>
     </div>
 </div>
+<script>
+    window._bd_share_config = {
+        "common": {
+            "bdSnsKey": {},
+            "bdText": "",
+            "bdMini": "2",
+            "bdMiniList": false,
+            "bdPic": "",
+            "bdStyle": "0",
+            "bdSize": "16"
+        }, "share": {}
+    };
+    with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+</script>
 <!--图片框架 结束-->
 <script>
     var token = localStorage.getItem('token');
@@ -231,13 +251,26 @@
                 }else{
                     $('.buyWay').html('手机单')
                 }
+                if(res.data.couponIf == 1){
+                    $('#couponIfPad').attr('data-text',res.data.couponUrl);
+                    $('#couponIfPad').click(function(){
+                        var clipboard = new Clipboard('#couponIfPad',{
+                            text: function(trigger) {
+                                error("复制成功")
+                                return trigger.getAttribute('data-text');
+                            }
+                        });
+                    })
+                    $('#couponIfPad').removeClass('hidden')
+
+                }
 
                 if(res.data.wayToShop==1){
                     $('.wayToShop').html('关键词搜索');
-                    $('.searchMore:nth-child(1)').show();
-                    $('.searchMore:nth-child(2)').hide();
-                    $('.searchMore:nth-child(3)').hide();
-                    $('.searchMore:nth-child(4)').hide();
+                    $('.keyword').css('display','block');
+                    $('.searchMore:nth-child(2)').css('display','none');
+                    $('.searchMore:nth-child(3)').css('display','none');
+                    $('.searchMore:nth-child(4)').css('display','none');
                     var searchKeys=res.data.searchKeys;
                     searchKeys= JSON.parse(searchKeys);
 //                    console.log( JSON.parse(searchKeys))
@@ -255,24 +288,25 @@
                     $('.lazy').attr('src',res.data.cowryCover)
                 }else if(res.data.wayToShop==2){
                     $('.wayToShop').html('链接/淘宝口令下单');
-                    $('.searchMore:nth-child(1)').hide();
-                    $('.searchMore:nth-child(2)').show();
-                    $('.searchMore:nth-child(3)').hide();
-                    $('.searchMore:nth-child(4)').hide();
-                    $('.searchMore:nth-child(2)').children().eq(1).html(res.data.cowryUrl)
+                    $('.searchMore:nth-child(1)').css('display','none');
+                    $('.linkhref').css('display','block');
+                    $('.searchMore:nth-child(3)').css('display','none');
+                    $('.searchMore:nth-child(4)').css('display','none');
+                    $('.linkhref').children().eq(1).html(res.data.cowryUrl)
                 }else if(res.data.wayToShop==3){
+                    console.log(123)
                     $('.wayToShop').html('扫码下单');
-                    $('.searchMore:nth-child(1)').hide();
-                    $('.searchMore:nth-child(2)').hide();
-                    $('.searchMore:nth-child(3)').show();
-                    $('.searchMore:nth-child(4)').hide();
-                    $('.searchMore:nth-child(3)').children().eq(1).children().attr('src',res.data.qrcodeToOrder)
+                    $('.searchMore:nth-child(1)').css('display','none');
+                    $('.searchMore:nth-child(2)').css('display','none');
+                    $('.twoD').css('display','block');
+                    $('.searchMore:nth-child(4)').css('display','none');
+                    $('.twoD').children().eq(1).children().attr('src',res.data.qrcodeToOrder)
                 }else if(res.data.wayToShop==4){
                     $('.wayToShop').html('直通车搜索');
-                    $('.searchMore:nth-child(1)').hide();
-                    $('.searchMore:nth-child(2)').hide();
-                    $('.searchMore:nth-child(3)').hide();
-                    $('.searchMore:nth-child(4)').show();
+                    $('.searchMore:nth-child(1)').css('display','none');
+                    $('.searchMore:nth-child(2)').css('display','none');
+                    $('.searchMore:nth-child(3)').css('display','none');
+                    $('.carto').css('display','block');
                     var searchKeys=res.data.searchKeys;
                     searchKeys= JSON.parse(searchKeys);
 //                    console.log( JSON.parse(searchKeys))
@@ -345,8 +379,9 @@
     //    })
     $(function(){
         $(".copycouponUrl").click(function(){
-            var Url=$("#couponUrl").html();
-            copyToClipboard(Url);
+            $("#btncouponurl").attr("data-clipboard-text", $("#couponUrl").html());
+//            var Url=$("#couponUrl").html();
+//            copyToClipboard(Url);
         });
     });
     function copyToClipboard(maintext){

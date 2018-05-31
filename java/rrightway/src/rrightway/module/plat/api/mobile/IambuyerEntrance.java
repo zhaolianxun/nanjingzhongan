@@ -847,12 +847,26 @@ public class IambuyerEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t where t.id=?")
+					"select t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_seller_proof_desc,t.rightprotect_buyer_proof_desc,t.rightprotect_seller_proof_pics,t.rightprotect_buyer_proof_pics,t.rightprotect_buyer_addkf_describe,t.rightprotect_buyer_addkf_pics,t.rightprotect_seller_addkf_pics,t.rightprotect_seller_addkf_describe,t.rightprotect_reason,t.rightprotect_status,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,insert(t.seller_taobaoaccount_name,2,3,'***'),t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t where t.id=?")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
 			if (rs.next()) {
+				item.put("rightprotectSellerProof", rs.getObject("rightprotect_seller_proof"));
+				item.put("rightprotectBuyerProof", rs.getObject("rightprotect_buyer_proof"));
+				item.put("rightprotectSellerAddkf", rs.getObject("rightprotect_seller_addkf"));
+				item.put("rightprotectBuyerAddkf", rs.getObject("rightprotect_buyer_addkf"));
+				item.put("rightprotectSellerProofDesc", rs.getObject("rightprotect_seller_proof_desc"));
+				item.put("rightprotectBuyerProofDesc", rs.getObject("rightprotect_buyer_proof_desc"));
+				item.put("rightprotectSellerProofPics", rs.getObject("rightprotect_seller_proof_pics"));
+				item.put("rightprotectBuyerProofPics", rs.getObject("rightprotect_buyer_proof_pics"));
+				item.put("rightprotectBuyerAddkfPics", rs.getObject("rightprotect_buyer_addkf_pics"));
+				item.put("rightprotectBuyerAddkfDescribe", rs.getObject("rightprotect_buyer_addkf_describe"));
+				item.put("rightprotectSellerAddkfPics", rs.getObject("rightprotect_seller_addkf_pics"));
+				item.put("rightprotectSellerAddkfDescribe", rs.getObject("rightprotect_seller_addkf_describe"));
+				item.put("rightprotectReason", rs.getObject("rightprotect_reason"));
+				item.put("rightprotectStatus", rs.getObject("rightprotect_status"));
 				item.put("orderId", rs.getObject("id"));
 				item.put("wayToShop", rs.getObject("way_to_shop"));
 				item.put("activityId", rs.getObject("activity_id"));
@@ -1055,7 +1069,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize);
 
 			String sql = new StringBuilder(
-					"select t.rightprotect_reason,t.rightprotect_status,t.order_time,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buy_way,t.coupon_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 and t.buyer_id=?")
+					"select t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_status,t.rightprotect_reason,t.order_time,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buy_way,t.coupon_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 and t.buyer_id=?")
 							.append(tradeStatus == null ? " and t.rightprotect_status != 0 "
 									: (tradeStatus == 1 ? " and t.rightprotect_status in (7,10)"
 											: (tradeStatus == 2 ? " and t.rightprotect_status=12"
@@ -1094,6 +1108,10 @@ public class IambuyerEntrance {
 				item.put("creditcardPay", rs.getObject("creditcard_pay"));
 				item.put("rightprotectStatus", rs.getObject("rightprotect_status"));
 				item.put("rightprotectReason", rs.getObject("rightprotect_reason"));
+				item.put("rightprotectSellerProof", rs.getObject("rightprotect_seller_proof"));
+				item.put("rightprotectBuyerProof", rs.getObject("rightprotect_buyer_proof"));
+				item.put("rightprotectSellerAddkf", rs.getObject("rightprotect_seller_addkf"));
+				item.put("rightprotectBuyerAddkf", rs.getObject("rightprotect_buyer_addkf"));
 				items.add(item);
 			}
 			pst.close();

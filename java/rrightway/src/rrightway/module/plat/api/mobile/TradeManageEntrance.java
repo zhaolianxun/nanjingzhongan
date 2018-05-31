@@ -447,7 +447,7 @@ public class TradeManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_seller_proof_desc,t.rightprotect_buyer_proof_desc,t.rightprotect_seller_proof_pics,t.rightprotect_buyer_proof_pics,t.rightprotect_buyer_addkf_describe,t.rightprotect_buyer_addkf_pics,t.rightprotect_seller_addkf_pics,t.rightprotect_seller_addkf_describe,t.rightprotect_reason,t.review_pics,t.rightprotect_status,t.auto_return_time,t.activity_title,t.buyer_remind_check_if,a.coupon_url,t.gift_express_co,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t  left join t_activity a on t.activity_id=a.id where t.id=?")
+					"select t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_seller_proof_desc,t.rightprotect_buyer_proof_desc,t.rightprotect_seller_proof_pics,t.rightprotect_buyer_proof_pics,t.rightprotect_buyer_addkf_describe,t.rightprotect_buyer_addkf_pics,t.rightprotect_seller_addkf_pics,t.rightprotect_seller_addkf_describe,t.rightprotect_reason,t.rightprotect_status,t.review_pics,t.auto_return_time,t.activity_title,t.buyer_remind_check_if,a.coupon_url,t.gift_express_co,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t  left join t_activity a on t.activity_id=a.id where t.id=?")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
@@ -465,9 +465,9 @@ public class TradeManageEntrance {
 				item.put("rightprotectBuyerAddkfDescribe", rs.getObject("rightprotect_buyer_addkf_describe"));
 				item.put("rightprotectSellerAddkfPics", rs.getObject("rightprotect_seller_addkf_pics"));
 				item.put("rightprotectSellerAddkfDescribe", rs.getObject("rightprotect_seller_addkf_describe"));
-				item.put("orderId", rs.getObject("id"));
 				item.put("rightprotectReason", rs.getObject("rightprotect_reason"));
 				item.put("rightprotectStatus", rs.getObject("rightprotect_status"));
+				item.put("orderId", rs.getObject("id"));
 				item.put("activityTitle", rs.getObject("activity_title"));
 				item.put("buyerRemindCheckIf", rs.getObject("buyer_remind_check_if"));
 				item.put("giftExpressCo", rs.getObject("gift_express_co"));

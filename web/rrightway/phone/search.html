@@ -12,9 +12,9 @@
     <meta name="x5-orientation" content="portrait"/>
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
-    <title>搜索-左左试用平台触屏版</title>
-    <meta name="keywords" content="左左,左左街,试用,推广"/>
-    <meta name="description" content="左左街-专业的试用网"/>
+    <title>搜索-商家联盟试用平台触屏版</title>
+    <meta name="keywords" content="商家联盟,商家联盟,试用,推广"/>
+    <meta name="description" content="商家联盟-专业的试用网"/>
 
     <link rel="stylesheet" type="text/css" href="css/new.css">
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
@@ -35,9 +35,10 @@
         <div class="stxt">
             <div><img src="image/ico_search_gray_sbt.png" class="w24">
 
-                <form action="list/list.aspx">
+                <form action="">
                     <input type="text" class="clearinput" placeholder="搜索您想要的试用品" id="keyword" name="key"/>
-                    <input type="submit" value="0" class="hidden"/></form>
+                    <input type="submit" value="0" class="hidden"/>
+                </form>
             </div>
         </div>
     </div>
@@ -57,6 +58,21 @@
 
 <script type="text/javascript">
 
+    function getRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var key = getRequest().key;
+//    var sortby = getRequest().sortby;
+    $('#keyword').val(key);
 
     //关键词搜索的关键词
     $.ajax({
@@ -192,7 +208,12 @@
             $("#history_del").hide();
         }
     });
-
+    $('form').attr('action',"searchList.html?key=" + escape($("#keyword").val()));
+    $(document).keyup(function (event) {
+        if(event.keyCode==0x4){
+            //按下返回键后执行代码0x4对应返回键
+        }
+    });
 
 </script>
 </body>

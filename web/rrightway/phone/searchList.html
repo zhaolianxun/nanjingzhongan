@@ -12,9 +12,9 @@
     <meta name="x5-orientation" content="portrait"/>
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
-    <title>左左街 做试用活动免费领取奖品</title>
-    <meta name="keywords" content="左左,左左街,试用,推广"/>
-    <meta name="description" content="左左街-专业的试用网"/>
+    <title>商家联盟 做试用活动免费领取奖品</title>
+    <meta name="keywords" content="商家联盟,商家联盟,试用,推广"/>
+    <meta name="description" content="商家联盟-专业的试用网"/>
 
     <link rel="stylesheet" type="text/css" href="css/new.css">
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
@@ -97,11 +97,11 @@
     <!-- 底部 开始-->
     <div class="footer">
         <a href="phoneIndex.html"><img src="image/foot_nav1.png" data="foot_nav1_crent">首页</a>
-        <a href="classification.html"><img src="image/foot_nav2.png" data="foot_nav2_crent">分类</a>
-        <a href="/invite/index.aspx"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>
-        <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxNjg0OV80NzUyNDdfODAwMDE2ODQ5XzJf" target="_blank"><img
-                src="image/foot_nav4.png" data="foot_nav4_crent">客服</a>
-        <a href="myIndexGuest.html"><img src="image/foot_nav5.png" data="foot_nav5_crent">我的</a>
+        <a href="classification.html"><img src="phoneBox/foot_nav2.png" data="foot_nav2_crent">分类</a>
+        <a href="popularize.html"><img src="phoneBox/foot_nav3.png" data="foot_nav3_crent">推广</a>
+        <a href="mqqwpa://im/chat?chat_type=wpa&uin=413038044&version=1&src_type=web&web_src=oicqzone.com"><img
+                src="phoneBox/foot_nav4.png" data="foot_nav4_crent">客服</a>
+        <a href="myIndexGuest.html"><img src="phoneBox/foot_nav5.png" data="foot_nav5_crent">我的</a>
     </div>
     <!-- 底部 结束-->
     <!-- 底部 结束-->
@@ -237,7 +237,19 @@
         }
         return theRequest;
     }
-    var key = getRequest().key;
+
+    String.prototype.GetValue= function(para) {
+        var reg = new RegExp("(^|&)"+ para +"=([^&]*)(&|$)");
+//                var reg = new RegExp(para );
+        var r = this.substr(this.indexOf("\?")+1).match(reg);
+        if (r!=null) return r[2]; return null;
+    }
+    var str = decodeURIComponent(location.href);
+
+    var key =str.GetValue("key");
+//    var key = getRequest().key;
+    console.log(key)
+//    alert(key)
     var sortby = getRequest().sortby;
     $('#keyword').val(key);
     var keyw = key;
@@ -309,12 +321,13 @@
                         '<img src="' + res.data.activities.items[i].giftCover + '" data-img="' + res.data.activities.items[i].giftCover + '" class="lazy">' +
                         '<label>' +
                         '<b>' + res.data.activities.items[i].giftName + '</b>' +
-                        '<span>¥' + res.data.activities.items[i].payPrice / 100 + '</span>' +
+                        '<span>¥' + res.data.activities.items[i].payPrice  + '</span>' +
                         '<em>' + res.data.activities.items[i].buyerNum + '人已买</em>' +
                         '</label>' +
                         '</p>' +
                         '</a> ')
                     }
+                    $('#product_list a p  img').css('height',$('#product_list a p  img').width());
                 } else if (res.code == 20) {
                     localStorage.setItem('href', location.href);
                     location.href = 'login.html'
@@ -540,7 +553,7 @@
     })
 //输入搜索
     $('#keyword').click(function(){
-        location.href='search.html'
+        location.href='search.html?key='+escape($('#keyword').val());
     })
 
 </script>

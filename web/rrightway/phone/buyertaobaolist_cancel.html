@@ -8,7 +8,7 @@
 <body class="bgfff">
 <div class="p15">
     <div class="txtc">您确定要取消绑定买家淘宝账号吗？</div>
-    <div class="txtp bd1 brd5 mt15"><input type="password" class="f16" id="txtzfcode" placeholder="请输入左左街支付密码" ></div>
+    <div class="txtp bd1 brd5 mt15"><input type="password" class="f16" id="txtzfcode" placeholder="请输入商家联盟支付密码" ></div>
     <div class="mt15"><a href="javascript:;" class="bg2f97f0 cfff submit bl brd20 h40 txtc">确定</a></div>
 </div>
 </body>
@@ -35,7 +35,7 @@
         var zfcode = $("#txtzfcode").val();
 
         if (zfcode == "") {
-            parent.error("请输入左左街支付密码！");
+            parent.error("请输入商家联盟支付密码！");
             return;
         }
 

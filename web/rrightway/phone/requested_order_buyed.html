@@ -14,7 +14,7 @@
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
     <title>
-        已购买的订单-左左试用平台触屏版
+        已购买的订单-好商联盟试用平台触屏版
     </title>
     <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
     <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
@@ -34,8 +34,8 @@
         }
 
     </script>
-    <meta name="description" content="左左街-专业的试用网"/>
-    <meta name="keywords" content="左左,左左街,试用,推广"/>
+    <meta name="description" content="好商联盟街-专业的试用网"/>
+    <meta name="keywords" content="好商联盟,好商联盟街,试用,推广"/>
 </head>
 
 <body>
@@ -167,12 +167,12 @@
 
         <!--取消订单-->
         <dl class="order_cancle_select_list" style="display:none;background: #FFFFFF">
-            <dd><label class="crently">还没付款，不想做了<i><input type="radio" name="cancleorder" value="1" checked="checked"
+            <dd  reason="还没付款，不想做了"><label class="crently">还没付款，不想做了<i><input type="radio" name="cancleorder" value="1" checked="checked"
                                                           class="opa0 "></i></label></dd>
-            <dd><label>券已经完了，无法拍下<i><input type="radio" name="cancleorder" value="2" class="opa0"></i></label></dd>
-            <dd><label>宝贝库存不足，无法拍下<i><input type="radio" name="cancleorder" value="3" class="opa0"></i></label></dd>
-            <dd><label>宝贝描述与实际不符合<i><input type="radio" name="cancleorder" value="4" class="opa0"></i></label></dd>
-            <dd><label>已经付款了，但是我不想做了<i><input type="radio" name="cancleorder" value="5" class="opa0"></i></label></dd>
+            <dd reason="券已经完了，无法拍下"><label>券已经完了，无法拍下<i><input type="radio" name="cancleorder" value="2" class="opa0"></i></label></dd>
+            <dd reason="宝贝库存不足，无法拍下"><label>宝贝库存不足，无法拍下<i><input type="radio" name="cancleorder" value="3" class="opa0"></i></label></dd>
+            <dd reason="宝贝描述与实际不符合"><label>宝贝描述与实际不符合<i><input type="radio" name="cancleorder" value="4" class="opa0"></i></label></dd>
+            <dd reason="已经付款了，但是我不想做了"><label>已经付款了，但是我不想做了<i><input type="radio" name="cancleorder" value="5" class="opa0"></i></label></dd>
 
 
             <dt><a href="javascript:;" class="bg2f97f0 cfff submit makeSureSc">确定</a></dt>
@@ -183,7 +183,7 @@
 <div class="confirm2" style="display: none;">
     <div class="alert">
         <div><b>您确定要删除/取消订单吗？</b><span>删除后不可恢复，请谨慎操作</span></div>
-        <p><a href="javascript:;" class="cancle">取消</a><a href="javascript:;" class="submit"><i></i>确认</a></p></div>
+        <p class="cancleOver"><a href="javascript:;" class="cancle">取消</a><a href="javascript:;" class="submit"><i></i>确认</a></p></div>
     <div class="con_bg opa50"></div>
 </div>
 <link rel="stylesheet" type="text/css" href="css/date.css">
@@ -255,26 +255,28 @@
 //                                    '<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=800016849&amp;site=qq&amp;menu=yes" ' +
 //                                    'target="_blank" class="bg2f97f0 dl brd5 cfff sbt_100_30 ations">联系客服</a> '+
                                     '<a id="' + res.data.orders.items[i].orderId + '" class="bg2f97f0 dl brd5 cfff sbt_100_30 makesaller clickZhanggui">核对掌柜</a> ' +
-                                    '<a id="' + res.data.orders.items[i].orderId + '"  class="dl brd5 sbt_98_28 bd1 delete deleteOrder">删除订单</a>'
+                                    '<a id="' + res.data.orders.items[i].orderId + '"  class="dl brd5 sbt_98_28 bd1 delete deleteOrder">取消订单</a>'
                         } else if (status == 0 && res.data.orders.items[i].taobaoOrderid) {
                             var statusStack = '<b class="c2f97f0">订单审核</b><em class="c999 bl">(等待核对)</em>';
                             var statusStackLoad = '<a tbId="' + res.data.orders.items[i].taobaoOrderid + '" id="' + res.data.orders.items[i].orderId + '" class="bg75cc42 dl brd5 cfff sbt_100_30 ations checktbk lookTbao">查看淘单</a> ' +
 //                                    '<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=800016849&amp;site=qq&amp;menu=yes" ' +
 //                                    'target="_blank" class="bg2f97f0 dl brd5 cfff sbt_100_30 ations">联系客服</a> '+
                                     '<a  id="' + res.data.orders.items[i].orderId + '" class="bg2f97f0 dl brd5 cfff sbt_100_30 makesaller clickZhanggui">核对掌柜</a> ' +
-                                    '<a id="' + res.data.orders.items[i].orderId + '"  class="dl brd5 sbt_98_28 bd1 delete deleteOrder">删除订单</a>'
+                                    '<a id="' + res.data.orders.items[i].orderId + '"  class="dl brd5 sbt_98_28 bd1 delete deleteOrder">取消订单</a>'
                         }
                         else if (status == 3) {
                             var statusStack = '<b class="c2f97f0">订单关闭</b><em class="c999 bl">(买家取消)</em>';
                             var statusStackLoad =
-                                    '<a id="' + res.data.orders.items[i].orderId + '"  class="bg2f97f0 dl brd5 cfff sbt_100_30 makesaller clickZhanggui">核对掌柜</a> ' +
-                                    '<a id="' + res.data.orders.items[i].orderId + '"  class="dl brd5 sbt_98_28 bd1 delete deleteOrder">删除订单</a>'
+                                            '<a  id="' + res.data.orders.items[i].orderId + '" class="dl brd5 sbt_98_28 bd1 delete deleteDd">删除订单</a>'
+//                                    '<a id="' + res.data.orders.items[i].orderId + '"  class="bg2f97f0 dl brd5 cfff sbt_100_30 makesaller clickZhanggui">核对掌柜</a> ' +
+//                                    '<a id="' + res.data.orders.items[i].orderId + '"  class="dl brd5 sbt_98_28 bd1 delete deleteOrder">取消订单</a>'
                         } else {
                             var statusStack = '<b class="c2f97f0">订单关闭</b><em class="c999 bl">(卖家取消)</em>';
-                            var statusStackLoad = '<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=800016849&amp;site=qq&amp;menu=yes" ' +
+                            var statusStackLoad = '<a href="mqqwpa://im/chat?chat_type=wpa&uin=413038044&version=1&src_type=web&web_src=oicqzone.com" ' +
                                     'target="_blank" class="bg2f97f0 dl brd5 cfff sbt_100_30 ations">联系客服</a> ' +
                                     '<a  id="' + res.data.orders.items[i].orderId + '" class="bg2f97f0 dl brd5 cfff sbt_100_30 makesaller clickZhanggui">核对掌柜</a> ' +
-                                    '<a  id="' + res.data.orders.items[i].orderId + '" class="dl brd5 sbt_98_28 bd1 delete deleteOrder">删除订单</a>'
+                                    '<a  id="' + res.data.orders.items[i].orderId + '" class="dl brd5 sbt_98_28 bd1 delete deleteOrder">取消订单</a> '+
+                                    '<a  id="' + res.data.orders.items[i].orderId + '" class="dl brd5 sbt_98_28 bd1 delete deleteDd">删除订单</a>'
                         }
                         if (buyWay == 1) {
                             var buyWayStack = 'pc'
@@ -330,25 +332,29 @@
         $("#txttbname").val('');
         $('.order_cancle_select_list').css('display', 'none')
     })
+    var _overThis;
     $('#data').on('click', '.txtc .overClick', function () {
 
         $('.taobaoid').css('display', 'block');
         $("#maskDIV").css('display', 'block');
-        var _this = $(this)
+         _overThis = $(this);
         var order_id = $(this).attr('id');
         addTbOrder(order_id);
     });
     function addTbOrder(order_id) {
-        var _this = $(this)
+//        var _this = $(this);
+        console.log(_overThis,_overThis.html());
         $('.makeSureTb').click(function () {
+            console.log(_overThis,_overThis.html());
             $.ajax({
                 url: '/rrightway/p/m/iambuyerent/applyedorders/complete',
                 data: 'order_id=' + order_id + "&taobao_orderid=" + $("#txttborder").val() + "&token=" + token,
                 type: 'post',
                 success: function (res) {
                     if (res.code == 0) {
-                        _this.attr('tbId', $("#txttborder").val());
-                        _this.html('查看淘单').addClass('bg75cc42').removeClass('bgf60').addClass('overClick').removeClass('lookTbao');
+                        console.log(_overThis)
+                        _overThis.attr('tbId', $("#txttborder").val());
+                        _overThis.html('查看淘单').addClass('bg75cc42').removeClass('bgf60').addClass('lookTbao').removeClass('overClick');
 
                         $('.taobaoid').css('display', 'none');
                         $("#maskDIV").css('display', 'none');
@@ -402,10 +408,11 @@
                         error('您输入的掌柜名非商家活动的掌柜名')
                     } else {
                         error("核对成功")
-                    }
 
+                    }
+                    $('.zhanggui').css('display', 'block');
+                    $("#maskDIV").css('display', 'block');
                     $('.taobaoid').css('display', 'none');
-                    $("#maskDIV").css('display', 'none');
                     $("#txttbname").val('')
                 } else if (res.code == 20) {
                     location.href = "login.html"
@@ -415,29 +422,39 @@
             }
         })
     }
-    //删除订单
-    var _that
-    $('#data').on('click', '.txtc .deleteOrder', function () {
-//        alert($(this).attr('id'))
-        _that = $(this)
-        $('.confirm2').css('display', 'block');
-        $('.submit').attr('order_id', $(this).attr('id'))
+    //取消订单
+var reason;
+    $('.order_cancle_select_list dd').click(function(){
+        reason=$(this).attr('reason');
+       $(this).find('input').attr('checked','true');
+        $(this).find('label').addClass('crently');
+        $(this).siblings().find('label').removeClass('crently')
+    });
 
+    var _that;
+
+    $('#data').on('click', '.txtc .deleteOrder', function () {
+        _that=$(this)
+        var order_id = $(this).attr('id');
+        $('.order_cancle_select_list').css('display', 'block');
+        $("#maskDIV").css('display', 'block');
+        $('.makeSureSc').attr('order_id', order_id);
     });
-    $('.cancle').click(function () {
-        $('.confirm2').css('display', 'none')
-    });
-    $('.submit').click(function () {
+
+
+
+    $('.order_cancle_select_list .makeSureSc').click(function () {
 
         var order_id = $(this).attr('order_id');
         $.ajax({
             url: '/rrightway/p/m/iambuyerent/applyedorders/cancel',
-            data: 'order_id=' + order_id + "&token=" + token,
+            data: 'order_id=' + order_id + "&token=" + token+"&reason="+reason,
             type: 'post',
             success: function (res) {
                 if (res.code == 0) {
-                    _that.parent().parent().parent().remove();
-                    $('.confirm2').css('display', 'none');
+                    _that.parent().parent().parent().css('display','none')
+                    $("#maskDIV").css('display', 'none');
+//                    $('.makeSureSc').attr('order_id', order_id);
                 } else if (res.code == 20) {
                     location.href = "login.html"
                 } else {
@@ -446,6 +463,43 @@
             }
         })
     });
+
+
+//删除订单
+    $('#data').on('click', '.txtc .deleteDd', function () {
+//        alert($(this).attr('id'))
+        _that = $(this);
+        $('.confirm2').css('display', 'block');
+        $('.submit').attr('order_id', $(this).attr('id'))
+
+    });
+    $('.cancle').click(function () {
+        $('.confirm2').css('display', 'none')
+    });
+    $('.confirm2 .submit').click(function () {
+
+        var order_id = $(this).attr('order_id');
+        $.ajax({
+            url: '/rrightway/p/m/iambuyerent/applyedorders/del',
+            data: 'order_id=' + order_id + "&token=" + token,
+            type: 'post',
+            success: function (res) {
+                if (res.code == 0) {
+                    _that.parent().parent().parent().remove();
+                    $("#maskDIV").css('display', 'none');
+//                    $('.makeSureSc').attr('order_id', order_id);
+                } else if (res.code == 20) {
+                    location.href = "login.html"
+                } else {
+                    error(res.codeMsg)
+                }
+            }
+        })
+    });
+
+
+
+
     if (trade_status == 1) {
         $('.u_tab a:first-child').addClass('crently');
         reloadItem('', '', '', '', '', '', '', 1, 1);
@@ -564,7 +618,7 @@
         //取消提示
         $(".bit_bottom p .cancle").click(function () {
             var id = $(this).parent().attr("dataid");
-            layboxs("/user/dialog/order_cancle.aspx?id=" + id);
+//            layboxs("/user/dialog/order_cancle.aspx?id=" + id);
         });
 
         //提醒提示
@@ -637,7 +691,7 @@
         freshpage(window.location.href);
     }
 
-    //删除订单
+    //取消订单
     function delok(obj) {
         var id = $(obj).parent().attr("dataid");
 
@@ -656,7 +710,7 @@
                     if (comments.success == "Y") {
 
 
-                        error("删除订单成功！");
+                        error("取消订单成功！");
                         freshpage(window.location.href);
                         return true;
 

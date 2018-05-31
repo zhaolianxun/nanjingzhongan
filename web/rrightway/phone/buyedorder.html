@@ -7,7 +7,7 @@
     <meta name="full-screen" content="yes" /><meta name="browsermode" content="application" />
     <!-- QQ强制竖屏 QQ强制全屏 -->
     <meta name="x5-orientation" content="portrait" /><meta name="x5-fullscreen" content="true" /><meta name="x5-page-mode" content="app" /><title>
-        左左街，免费试用，轻松拿佣金
+        商家联盟，免费试用，轻松拿佣金
     </title>
     <meta name="keywords" content="已买下的订单" />
     <meta name="description" content="Y" />
@@ -228,10 +228,6 @@
                                     statusStr = '<b class="textr">待返现<i class="bl c999"></i></b>';
 
                                     btnStr += '<a href="javascript:;" class="app btn3 recoder">申请维权</a><a href="javascript:;" class="check btn4 recoder">确认返现</a>';
-
-                                    if (ele.buyerRemindReturnIf == 1) {
-                                        statusStr = '<b class="textr">待返现<i class="bl c999">(试客已提醒核对)</i></b>';
-                                    }
 
                                     if (ele.reviewPicAudit == 2) {
                                         statusStr = '<b class="textr">待返现<i class="bl c999">(图片不符)</i></b>';
@@ -519,7 +515,7 @@
 
                 var zdfxStr = isfk == "Y"?"<p class='f14 c2f97f0 line24'>主动核对返现将奖励您<i class='cf60'>0.50</i>元</p>":"";
 
-                accessconfirm("确定要确认返现订单吗？<br /><i class='cf60'>请务必到商城检查试客是否确定收货，若无确定收货给试客返现，出现资金问题左左街概不负责。</i>" + zdfxStr, checkok, $(this));
+                accessconfirm("确定要确认返现订单吗？<br /><i class='cf60'>请务必到商城检查试客是否确定收货，若无确定收货给试客返现，出现资金问题商家联盟概不负责。</i>" + zdfxStr, checkok, $(this));
             }
             //申请维权
             else if ($(this).hasClass("app")) {

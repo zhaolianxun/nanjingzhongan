@@ -13,9 +13,9 @@
     <meta name="x5-orientation" content="portrait"/>
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
-    <title>分类-左左试用平台触屏版</title>
-    <meta name="keywords" content="左左,左左街,试用,推广"/>
-    <meta name="description" content="左左街-专业的试用网"/>
+    <title>分类-好商联盟试用平台触屏版</title>
+    <meta name="keywords" content="好商联盟,好商联盟街,试用,推广"/>
+    <meta name="description" content="好商联盟街-专业的试用网"/>
 
     <link rel="stylesheet" type="text/css" href="css/new.css">
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
@@ -54,7 +54,8 @@
     <div class="footer">
         <a href="phoneIndex.html"><img src="image/foot_nav1.png" data="foot_nav1_crent">首页</a>
         <a href="classification.html" ><img src="image/foot_nav2_crent.png" data="foot_nav2_crent">分类</a>
-        <a href="popularize.html"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>
+        <!--<a href="popularize.html"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>-->
+        <a href="javascript:;" class="noOpen"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>
         <a href="mqqwpa://im/chat?chat_type=wpa&uin=413038044&version=1&src_type=web&web_src=oicqzone.com"><img
                 src="image/foot_nav4.png" data="foot_nav4_crent">客服</a>
         <a href="myIndexMerchant.html"><img src="image/foot_nav5.png" data="foot_nav5_crent">我的</a>
@@ -158,6 +159,9 @@
             }
         });
     }
+    $('.noOpen').click(function(){
+        error("功能即将开放，敬请期待！")
+    })
 </script>
 </body>
 

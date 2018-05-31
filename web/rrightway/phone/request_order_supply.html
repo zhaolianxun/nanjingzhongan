@@ -14,14 +14,14 @@
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
     <title>
-        投诉管理-左左试用平台触屏版
+        投诉管理-好商联盟试用平台触屏版
     </title>
     <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
     <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
     <script src="js/com.js" type="text/javascript"></script>
-    <meta name="description" content="左左街-专业的试用网"/>
-    <meta name="keywords" content="左左,左左街,试用,推广"/>
+    <meta name="description" content="好商联盟街-专业的试用网"/>
+    <meta name="keywords" content="好商联盟,好商联盟街,试用,推广"/>
 </head>
 
 <body>
@@ -45,8 +45,10 @@
             <a href="request_order_supply.html?trade_status=1">待审核<i></i></a>
             <a href="request_order_supply.html?trade_status=2">审核失败<i></i></a>
             <a href="request_order_supply.html?trade_status=3">待处理<i></i></a>
-            <a href="request_order_supply.html?trade_status=4">待确定</a></div>
-
+            <a href="request_order_supply.html?trade_status=4">待确定</a>
+        <!--<a href="request_order_supply.html?trade_status=5">已完成<i></i></a>-->
+        <!--<a href="request_order_supply.html?trade_status=6">已取消</a>-->
+        </div>
         <!-- 没有提示 开始-->
         <div id="noneall" class="fail ">
             <i></i>
@@ -69,7 +71,7 @@
             <div class="filterHd">
                 <div class="flbtn">取消</div>
                 <div class="tit">筛选</div>
-                <div class="frbtn" onclick="search()">确定</div>
+                <div class="frbtn" >确定</div>
             </div>
             <div class="big_item">
                 <div class="item return" rel="box02" id="buy_way">投诉状态 <i class="arrow_right fr">全部</i></div>
@@ -133,10 +135,10 @@
         }
         return theRequest;
     }
-    var trade_status = getRequest().trade_status;
+    var complain_status = getRequest().trade_status;
 
     var token = localStorage.getItem('token');
-    var buyer_nickname, seller_nickname, gift_name, order_id, taobao_orderid, order_time_start, order_time_end, trade_status, pageNo;
+    var buyer_nickname, seller_nickname, gift_name, order_id, taobao_orderid, complain_time_start, complain_time_end, complain_status, pageNo;
     if (!buyer_nickname) {
         buyer_nickname = ''
     }
@@ -152,27 +154,27 @@
     if (!taobao_orderid) {
         taobao_orderid = ''
     }
-    if (!order_time_start) {
-        order_time_start = ''
+    if (!complain_time_start) {
+        complain_time_start = ''
     }
-    if (!order_time_end) {
-        order_time_end = ''
+    if (!complain_time_end) {
+        complain_time_end = ''
     }
-    if (!trade_status) {
-        trade_status = ''
+    if (!complain_status) {
+        complain_status = ''
     }
 
 
 </script>
 <script>
 
-    function reloadItem(buyer_nickname, seller_nickname, gift_name, order_id, taobao_orderid, order_time_start, order_time_end, trade_status, pageNo) {
+    function reloadItem(buyer_nickname, seller_nickname, gift_name, order_id, taobao_orderid, complain_time_start, complain_time_end, complain_status, pageNo) {
         $.ajax({
             url: '/rrightway/p/m/iambuyerent/complainorders?token=' + token,
             type: 'post',
             data: 'buyer_nickname=' + buyer_nickname + "&seller_nickname=" + seller_nickname + "&gift_name=" + gift_name
-            + "&order_id=" + order_id + "&taobao_orderid=" + taobao_orderid + "&order_time_start=" + order_time_start + "&order_time_end=" + order_time_end
-            + "&complain_status=" + trade_status + "&page_no=" + pageNo + "&page_size=" + 15,
+            + "&order_id=" + order_id + "&taobao_orderid=" + taobao_orderid + "&complain_time_start=" + complain_time_start + "&complain_time_end=" + complain_time_end
+            + "&complain_status=" + complain_status + "&page_no=" + pageNo + "&page_size=" + 15,
             success: function (res) {
                 if (res.code == 0) {
 
@@ -242,19 +244,19 @@
             }
         });
     }
-    if (trade_status == '') {
+    if (complain_status == '') {
         $('.u_tab a:first-child').addClass('crently');
         reloadItem('', '', '', '', '', '', '', 1, 1);
-    } else if (trade_status == 1) {
+    } else if (complain_status == 1) {
         $('.u_tab a:nth-child(2)').addClass('crently');
         reloadItem('', '', '', '', '', '', '', 2, 1);
-    } else if (trade_status == 2) {
+    } else if (complain_status == 2) {
         $('.u_tab a:nth-child(3)').addClass('crently');
         reloadItem('', '', '', '', '', '', '', 2, 1);
-    } else if (trade_status == 3) {
+    } else if (complain_status == 3) {
         $('.u_tab a:nth-child(4)').addClass('crently');
         reloadItem('', '', '', '', '', '', '', 2, 1);
-    } else if (trade_status == 4) {
+    } else if (complain_status == 4) {
         $('.u_tab a:nth-child(5)').addClass('crently');
         reloadItem('', '', '', '', '', '', '', 2, 1);
     }
@@ -277,10 +279,94 @@
         });
         $("#txtetime").date();
         $("#txtstime").date();
-
         //确定查询
         $(".frbtn").click(function () {
-            //  window.location.reload();
+            if (!$("#txtsbuyer_taobao_name").val()) {
+                buyer_nickname = '';
+            } else {
+                buyer_nickname = $("#txtsbuyer_taobao_name").val();
+            }
+            if (!$("#txtssaller_tabao_name").val()) {
+                seller_nickname = '';
+            } else {
+                seller_nickname = $("#txtssaller_tabao_name").val();
+            }
+            if (!$("#txtsproduct_name").val()) {
+                gift_name = '';
+            } else {
+                gift_name = $("#txtsproduct_name").val();
+            }
+            if (!$("#txtsorder_num").val()) {
+                order_id = '';
+            } else {
+                order_id = $("#txtsorder_num").val();
+            }
+            if (!$("#txtscomplain_num").val()) {
+                taobao_orderid = '';
+            } else {
+                taobao_orderid = $("#txtscomplain_num").val();
+            }
+            if (!$("#txtstime").val()) {
+                complain_time_start = '';
+            } else {
+                complain_time_start = new Date($("#txtstime").val()).getTime();
+
+            }
+            if (!$("#txtetime").val()) {
+                complain_time_end = '';
+            } else {
+                complain_time_end = new Date($("#txtetime").val()).getTime();
+            }
+            if (buy_way == '') {
+                $('.u_tab a:nth-child(1)').addClass('crently');
+                $('.u_tab a:nth-child(2)').removeClass('crently');
+                $('.u_tab a:nth-child(3)').removeClass('crently');
+                $('.u_tab a:nth-child(4)').removeClass('crently');
+                $('.u_tab a:nth-child(5)').removeClass('crently');
+            } else if (buy_way == 1) {
+                $('.u_tab a:nth-child(1)').removeClass('crently');
+                $('.u_tab a:nth-child(2)').addClass('crently');
+                $('.u_tab a:nth-child(3)').removeClass('crently');
+                $('.u_tab a:nth-child(4)').removeClass('crently');
+                $('.u_tab a:nth-child(5)').removeClass('crently');
+            } else if (buy_way == 2) {
+                $('.u_tab a:nth-child(1)').removeClass('crently');
+                $('.u_tab a:nth-child(2)').removeClass('crently');
+                $('.u_tab a:nth-child(3)').addClass('crently');
+                $('.u_tab a:nth-child(4)').removeClass('crently');
+                $('.u_tab a:nth-child(5)').removeClass('crently');
+            }else if (buy_way == 3) {
+                $('.u_tab a:nth-child(1)').removeClass('crently');
+                $('.u_tab a:nth-child(2)').removeClass('crently');
+                $('.u_tab a:nth-child(3)').removeClass('crently');
+                $('.u_tab a:nth-child(4)').addClass('crently');
+                $('.u_tab a:nth-child(5)').removeClass('crently');
+            }else if (buy_way == 4) {
+                $('.u_tab a:nth-child(1)').removeClass('crently');
+                $('.u_tab a:nth-child(2)').removeClass('crently');
+                $('.u_tab a:nth-child(3)').removeClass('crently');
+                $('.u_tab a:nth-child(4)').removeClass('crently');
+                $('.u_tab a:nth-child(5)').addClass('crently');
+            }else if (buy_way == 5) {
+                $('.u_tab a:nth-child(1)').removeClass('crently');
+                $('.u_tab a:nth-child(2)').removeClass('crently');
+                $('.u_tab a:nth-child(3)').removeClass('crently');
+                $('.u_tab a:nth-child(4)').removeClass('crently');
+                $('.u_tab a:nth-child(5)').removeClass('crently');
+            }else if (buy_way == 6) {
+                $('.u_tab a:nth-child(1)').removeClass('crently');
+                $('.u_tab a:nth-child(2)').removeClass('crently');
+                $('.u_tab a:nth-child(3)').removeClass('crently');
+                $('.u_tab a:nth-child(4)').removeClass('crently');
+                $('.u_tab a:nth-child(5)').removeClass('crently');
+            }
+            $("#data").html('');
+            reloadItem(buyer_nickname, seller_nickname, gift_name, order_id, taobao_orderid, complain_time_start, complain_time_end, buy_way, 1);
+//            $('.clearvalue').click();
+//            $(".item input").val("");
+//            $("#buy_way").find("i").eq(0).html("全部");
+            $(".blank").hide();
+            $("#box01").removeClass("add")
         });
 
         //选择
@@ -388,18 +474,18 @@
     }
 
 
-    function search() {
-
-        if (checktime($("#txtstime").val(), $("#txtetime").val())) {
-
-            location.href = "index.aspx?type=" + escape(buy_way) + "&ssaller_tabao_name=" + escape($("#txtssaller_tabao_name").val())
-            + "&sbuyer_taobao_name=" + escape($("#txtsbuyer_taobao_name").val())
-            + "&sproduct_name=" + escape($("#txtsproduct_name").val())
-            + "&stime=" + escape($("#txtstime").val()) + "&etime=" + escape($("#txtetime").val())
-            + "&sorder_num=" + escape($("#txtsorder_num").val())
-            + "&scomplain_num=" + escape($("#txtscomplain_num").val());
-        }
-    }
+//    function search() {
+//
+//        if (checktime($("#txtstime").val(), $("#txtetime").val())) {
+//
+//            location.href = "index.aspx?type=" + escape(buy_way) + "&ssaller_tabao_name=" + escape($("#txtssaller_tabao_name").val())
+//            + "&sbuyer_taobao_name=" + escape($("#txtsbuyer_taobao_name").val())
+//            + "&sproduct_name=" + escape($("#txtsproduct_name").val())
+//            + "&stime=" + escape($("#txtstime").val()) + "&etime=" + escape($("#txtetime").val())
+//            + "&sorder_num=" + escape($("#txtsorder_num").val())
+//            + "&scomplain_num=" + escape($("#txtscomplain_num").val());
+//        }
+//    }
 
 </script>
 </body>

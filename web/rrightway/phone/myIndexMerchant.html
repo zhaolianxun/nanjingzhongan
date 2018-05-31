@@ -14,9 +14,9 @@
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
     <title>
-        左左街，免费试用，轻松拿佣金
+        好商联盟街，免费试用，轻松拿佣金
     </title>
-    <meta name="keywords" content="左左街"/>
+    <meta name="keywords" content="好商联盟街"/>
     <meta name="description" content="Y"/>
 
     <link rel="stylesheet" type="text/css" href="css/new.css"/>
@@ -70,7 +70,7 @@
     <!-- 顶部 结束 -->
 
 
-    <!-- 我的左左街 开始-->
+    <!-- 我的好商联盟街 开始-->
 
     <!-- 提示信息 开始-->
 
@@ -103,9 +103,9 @@
         <div class="list_tab sp3 after bt1 clearfix c999 pt40 pb40 mt40 f24 line24 center">
             <p class="item relative"><i class="f30 line30 bl c333 mb15 money">0.00</i>账户余额(元)</p>
 
-            <p class="item relative"><i class="f30 line30 bl c333 mb15 unwithdrawMoney">0.00</i>不可提金额(元)</p>
+            <p class="item relative"><i class="f30 line30 bl c333 mb15">0.00</i>不可提金额(元)</p>
 
-            <p class="item relative"><i class="f30 line30 bl c333 mb15 frozenMoney">0.00</i>冻结金额(元)</p>
+            <p class="item relative"><i class="f30 line30 bl c333 mb15">0.00</i>冻结金额(元)</p>
         </div>
     </div>
 
@@ -139,13 +139,16 @@
             <img src="image/sall_nav4.png" class="w54 mt_3 mlr20"/><em class="bl mt20">我的券包</em></a>
         <a href="moneymanage/ent.html" class="item bl pt20 pb20">
             <img src="image/user_nav1.png" class="w54 mt_3 mlr20"/><em class="bl mt20">资金管理</em></a>
-        <a href="popularizeMyRecoder.html" class="item bl pt20 pb20">
+
+        <a href="javascript:;" class="noOpen item bl pt20 pb20">
             <img src="image/user_nav4.png" class="w54 mt_3 mlr20"/><em class="bl mt20">我的推广</em></a>
+        <!--<a href="popularizeMyRecoder.html" class="item bl pt20 pb20">-->
+            <!--<img src="image/user_nav4.png" class="w54 mt_3 mlr20"/><em class="bl mt20">我的推广</em></a>-->
         <a href="securitySettings.html" class="item bl pt20 pb20">
             <img src="image/user_nav5.png" class="w54 mt_3 mlr20"/><em class="bl mt20">安全设置</em></a>
     </div>
 
-    <!-- 我的左左街 结束-->
+    <!-- 我的好商联盟街 结束-->
 
     <div class="plr20 mt40"><a href="javascript:;" class="e_submit">退出登录</a></div>
 
@@ -153,7 +156,8 @@
     <div class="footer">
         <a href="phoneIndex.html"><img src="image/foot_nav1.png" data="foot_nav1_crent">首页</a>
         <a href="classification.html"><img src="image/foot_nav2.png" data="foot_nav2_crent">分类</a>
-        <a href="popularize.html"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>
+        <!--<a href="popularize.html"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>-->
+        <a href="javascript:;" class="noOpen"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>
         <a href="mqqwpa://im/chat?chat_type=wpa&uin=413038044&version=1&src_type=web&web_src=oicqzone.com"><img
                 src="image/foot_nav4.png" data="foot_nav4_crent">客服</a>
         <a href="myIndexMerchant.html" ><img src="image/foot_nav5_crent.png" data="foot_nav5_crent">我的</a>
@@ -208,10 +212,7 @@
                 $('.complainCount em').html(res.data.complainCount);
                 $('.auditcowryCount em').html(res.data.auditcowryCount);
                 $('.inactcowryCount em').html(res.data.inactcowryCount);
-
                 $('.money').html(res.data.money);
-                $('.unwithdrawMoney').html(res.data.unwithdrawMoney);
-                $('.frozenMoney').html(res.data.frozenMoney);
                 $('.hello').html('Hi, ' + res.data.username)
             } else if (res.code == 20) {
                 localStorage.setItem('href', location.href);
@@ -237,6 +238,9 @@
                 error(res.codeMsg)
             }
         }
+    })
+    $('.noOpen').click(function(){
+        error("功能即将开放，敬请期待！")
     })
 </script>
 </body>

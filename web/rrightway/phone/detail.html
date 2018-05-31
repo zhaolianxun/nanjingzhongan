@@ -13,9 +13,9 @@
     <meta name="x5-orientation" content="portrait"/>
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
-    <title>晒衣夹子袜子夹 20个装-左左试用平台触屏版</title>
-    <meta name="keywords" content="左左,左左街,试用,推广"/>
-    <meta name="description" content="左左街-专业的试用网"/>
+    <title>晒衣夹子袜子夹 20个装-好商联盟试用平台触屏版</title>
+    <meta name="keywords" content="好商联盟,好商联盟街,试用,推广"/>
+    <meta name="description" content="好商联盟街-专业的试用网"/>
 
     <link rel="stylesheet" type="text/css" href="css/new.css">
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
@@ -34,7 +34,7 @@
     </div>
 
     <div class="relative giftCover">
-        <img src="http://upl.zuozuojie.com//upload/20180422/201804221116089696.png" class="pw100"/>
+        <img src="" class="pw100"/>
 
         <a href="javascript:;" class="opa60 bg000 cfff f24 w68 h68 line68 center absolute r20 t20 brd200 hidden "
            id="jubao">举报</a>
@@ -99,14 +99,14 @@
             </div>
             <div class="detail">
                 <p class="f28">4、系统返款</p>
-                <span class="f24 c999 line36 mt10">商家确定订单，返还<i class="cf60 return_money">137.00</i>元到您的左左街账户，交易完成<i
-                        class="cf60">(2018年2月7号后银行认证的会员完成活动，返现金额的5分之1将进入到左钱包，详情请到资金管理查看)</i>。</span>
+                <span class="f24 c999 line36 mt10">商家确定订单，返还<i class="cf60 return_money">137.00</i>元到您的好商联盟街账户，交易完成<i
+                        class="cf60 endtime">(2018年2月7号后银行认证的会员完成活动，返现金额的5分之1将进入到左钱包，详情请到资金管理查看)</i>。</span>
             </div>
         </dd>
     </dl>
 
     <!-- 购买成功后显示 -->
-    <div class="comm_title mt20 bb1 center   hidden"><img src="image/cz_ico.png" class="w36 mt_3"><span class="f28 ml20">操作要求</span>
+    <div class="comm_title mt20 bb1 center buysuccess  hidden"><img src="image/cz_ico.png" class="w36 mt_3"><span class="f28 ml20">操作要求</span>
     </div>
     <!-- 关键词搜索 显示-->
     <dl class="searchMore keyword pt40 pb40 sec_deal sp2 pl20 bgfff " style="display: none">
@@ -134,6 +134,8 @@
     <div class="searchMore linkhref bgfff plr20 pt40 pb40 " style="display: none">
         <p class="center f28 c999 mb20">链接/淘宝口令下单链接</p>
         <div class="plr30 pt30 pb30 break bgf8f8f8 c666 f26 line40 "> </div>
+        <p class="center f28 c999 mb20" style="margin-top: 10px"><a href="javascript:;" class="copy recoder" data-clipboard-text="http://passion.njshangka.com/rrightway/phone/detail.html?id=19">复制链接</a></p>
+
     </div>
 
     <!--扫码 显示-->
@@ -201,14 +203,14 @@
 
             <!--注意事项-->
             <div class="tabtxt f26 line40 c666 hidden">
-                <p>1、与商家旺旺聊天时不要提及&quot;免费试用、左左街、返款、拍A送A、拍A送B&quot;等敏感信息，否则视为无效。<br>
+                <p>1、与商家旺旺聊天时不要提及&quot;免费试用、好商联盟街、返款、拍A送A、拍A送B&quot;等敏感信息，否则视为无效。<br>
                     2、禁止使用信用卡、淘金币、余额宝分期、花呗等。<br>
                     3、禁止通过淘宝客、返利网、花呗、一淘。农村淘宝地址等返现返利网方式下单。<br>
                     4、禁止进店秒拍，宝贝页面必须拉到底停留3-5分钟，了解宝贝内容方可下单。<br>
                     5、禁止拍单不操作却不取消订单，禁止搜索店铺进店。<br>
                     6、手机试用必须全程手机操作，电脑试用必须全程电脑操作。</p>
 
-                <p class="cf60">注意：以上由于试客违规下单所产生的费用，由试客承担。左左街有权冻结其帐号，限制提现操作，IP列入黑名单。</p>
+                <p class="cf60">注意：以上由于试客违规下单所产生的费用，由试客承担。好商联盟街有权冻结其帐号，限制提现操作，IP列入黑名单。</p>
             </div>
 
             <!--温馨提示-->
@@ -289,6 +291,7 @@
             <!--内容 结束-->
         </div>
         <a href="javascript:;" class="h90 bg2f97f0 cfff f30 bl center" id="buy_submit">确认购买</a>
+        <a href="javascript:;" class="h90 bg2f97f0 cfff f30 bl center" style="display: none" id="buy_submits">绑定淘宝</a>
     </div>
     <div class="bg"></div>
 </div>
@@ -447,7 +450,7 @@
         // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
         //朋友圈
         wx.onMenuShareTimeline({
-            title: '【左左街】免费领取-晒衣夹子袜子夹 20个装', // 分享标题
+            title: '【好商联盟街】免费领取-晒衣夹子袜子夹 20个装', // 分享标题
             link: 'http://m.zuozuojie.com/detail.aspx?id=104027&rad=0.7123974699100228', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: 'http://upl.zuozuojie.com//upload/20180422/s201804221116089696.png', // 分享图标
             success: function () {
@@ -460,8 +463,8 @@
         });
         //朋友
         wx.onMenuShareAppMessage({
-            title: '【左左街】免费领取-晒衣夹子袜子夹 20个装', // 分享标题
-            desc: '【左左街】最安全的试客网', // 分享描述
+            title: '【好商联盟街】免费领取-晒衣夹子袜子夹 20个装', // 分享标题
+            desc: '【好商联盟街】最安全的试客网', // 分享描述
             link: 'http://m.zuozuojie.com/detail.aspx?id=104027&rad=0.7123974699100228', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: 'http://upl.zuozuojie.com//upload/20180422/s201804221116089696.png', // 分享图标
             type: '', // 分享类型,music、video或link，不填默认为link
@@ -480,6 +483,37 @@
     });
 </script>
 <script>
+    function countDownDetails(starttimes){
+//        var starttime = new Date("2018/11/20");
+        var starttime=new Date(starttimes)
+        setInterval(function () {
+            var nowtime = new Date();
+            var time = starttime - nowtime;
+            var day = parseInt(time / 1000 / 60 / 60 / 24);
+            var hour = parseInt(time / 1000 / 60 / 60 % 24);
+            var minute = parseInt(time / 1000 / 60 % 60);
+            var seconds = parseInt(time / 1000 % 60);
+            var timeend=day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒"
+            ////console.log(timeend)
+            //return (timeend)
+            day != 0 ? day = '<i>' + day + '</i><em>:</em>' : day = '<i>00</i><em>:</em>';
+            hour != 0 ? hour = '<i>' + hour + '</i><em>:</em>' : hour = '<i>00</i><em>:</em>';
+            minute != 0 ? minute = '<i>' + minute + '</i><em>:</em>' : minute = '<i>00</i><em>:</em>';
+            seconds != 0 ? seconds = '<i>' + seconds + '</i>' : seconds = '<i>00</i>';
+
+//            console.log(day + hour + minute + seconds)
+//            console.log(time)
+            if (parseInt(time) > 0){
+                //console.log(times)
+                $('.lefttime2').html(day + hour + minute + seconds)
+                return day + hour + minute + seconds
+
+            } else {
+                return ("已经下架！");
+            }
+            //$('.timespan').html(day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+        }, 1000);
+    }
     var token = localStorage.getItem('token');
     if (!token) {
         token = '';
@@ -488,6 +522,15 @@
     } else {
         $('#ContentPlaceHolder1_loginp').css('display', 'block');
         $('#ContentPlaceHolder1_nloginp').css('display', 'none');
+    }
+    function encodeNum(r){
+        if(r==0){
+            return '一'
+        }else if(r==1){
+            return '二'
+        }else if(r==2){
+            return '三'
+        }
     }
     function getRequest() {
         var url = location.search; //获取url中"?"符后的字串
@@ -502,18 +545,23 @@
         return theRequest;
     }
     var acitivy_id = getRequest().id;
+    var endtimes;
     $.ajax({
         url: '/rrightway/p/m/actdetent/detail',
         type: 'post',
+        async:false,
         data: "acitivy_id=" + acitivy_id + '&token=' + token,
         success: function (res) {
             if (res.code == 0) {
-
-
+                    $('.endtime').html('('+formatDates(res.data.endTime)+'后银行认证的会员完成活动，返现金额的5分之1将进入到左钱包，详情请到资金管理查看)')
+                 endtimes=res.data.endTime
+                $('.lefttime2').html(countDownDetails(endtimes))
 //                $('.lefttime2').attr('data',new Date(res.data.endTime));
-                $('.lefttime2').attr('data', _formatDates(1124541541));
+//                $('.lefttime2').html(countDownDetails(res.data.endTime));
+//                console.log(_formatDatesNoS(res.data.endTime/1000))
+//                console.log(countDownDetail(res.data.endTime))
 
-                $('.lefttime2').html(getDiffDate2(1124541541))
+//                $('.lefttime2').html(getDiffDate2(1124541541))
                 if (res.data.buyWay == 1) {
                     $('.buyWay').html('电脑单')
                 } else {
@@ -547,7 +595,11 @@
                 if(res.data.applyIf==0){
                     $('.buynow').html('立即申请').addClass('bg2f97f0').removeClass('bgccc')
                 }else{
-                    $('.buynow').html('已经申请').removeClass('buynow').addClass('bgccc').removeClass('bg2f97f0')
+                    $('.buynow').parent().html('已经申请').addClass('bgccc cfff center f30 addcart dis')
+//                    $('.buynow').html('已经申请').removeClass('buynow').addClass('bgccc').removeClass('bg2f97f0').css("cursor", "default").attr('disabled',"true")
+//                    $('.buynow').click(function (event) {
+//                        event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+//                    });
                 }
 //                cover图
 
@@ -563,11 +615,10 @@
                 $('.buyerNum').html(res.data.buyerNum + '人已买');
 
 if(!res.data.wayToShop){
-    $('.comm_title').hidden()
+    $('.buysuccess').removeClass('hidden')
 }else{
-    $('.comm_title').show()
+    $('.buysuccess').addClass('hidden')
     if(res.data.wayToShop==1){
-
         $('.wayToShop').html('关键词搜索');
         $('.keyword').css('display','block')
         $('.searchMore:nth-child(1)').css('display','block');
@@ -582,7 +633,7 @@ if(!res.data.wayToShop){
         $('.taobaoUserNick').html('<b class="c999">商家旺旺：</b><img src="image/saller_ico.png" class="w30 mr10 vmid mt_3" />'+res.data.taobaoUserNick)
         for(var r=0;r<searchKeys.length;r++){
             console.log(r,encodeNum(r))
-            $('.keyword').children().children().eq(0).append(' <div class="f24 c666 line36 mt20 "   >'+
+            $('.taobaoUserNick').parent().parent().append(' <div class="f24 c666 line36 mt20 "   >'+
             '<p><b class="c999">关键词'+encodeNum(r)+'：</b>'+searchKeys[r].key+'</p>'+
             '<p><b class="c999">大概页数：</b>第'+searchKeys[r].page+'页</p>'+
             '<p><b class="c999">其他说明：</b>'+searchKeys[r].note+'</p>'+
@@ -596,7 +647,9 @@ if(!res.data.wayToShop){
         $('.linkhref').css('display','block');
         $('.searchMore:nth-child(3)').css('display','none');
         $('.searchMore:nth-child(4)').css('display','none');
-        $('.linkhref').children().eq(1).html(res.data.cowryUrl)
+        $('.linkhref').children().eq(1).html(res.data.cowryUrl);
+
+        $('.copy').attr("data-clipboard-text", res.data.cowryUrl);
     }else if(res.data.wayToShop==3){
         console.log(1)
         $('.wayToShop').html('扫码下单');
@@ -762,7 +815,11 @@ if(!res.data.wayToShop){
         clipboard2.on('success', function (e) {
             error("复制链接或淘口令成功");
         });
-
+//一键复制链接或淘口令
+        var clipboard3 = new Clipboard('.copy');
+        clipboard3.on('success', function (e) {
+            error("复制链接成功");
+        });
         var hassalename = 0;//有没有输入掌柜名称0没有，1有
         //领券链接
         $(".getcodelink").click(function () {
@@ -902,11 +959,25 @@ if(!res.data.wayToShop){
                 data: 'token=' + token,
                 success: function (res) {
                     if (res.code == 0) {
-                        noscroll();
-                        $("#tb_pop").addClass("active");
-                        for (var i = 0; i < res.data.taobaoAccounts.items.length; i++) {
-                            $('.tb_user').append(' <p class="item " id="' + res.data.taobaoAccounts.items[i].taobaoAccountId + '"><a href="javascript:;">' + res.data.taobaoAccounts.items[i].taobaoUserNick + '</a></p>')
+                        console.log(res.data.taobaoAccounts.length)
+                        if(res.data.taobaoAccounts.items==''||res.data.taobaoAccounts.items==null||res.data.taobaoAccounts.items==undefined||res.data.taobaoAccounts.items=='null'||res.data.taobaoAccounts.items=='undefined'){
+                            console.log(13212313)
+                            $("#tb_pop").addClass("active");
+                            $('.tb_user').html('您尚未绑定淘宝账号，请先绑定淘宝！')
+                                $('#buy_submits').css('display','block')
+                            $('#buy_submit').css('display','none')
+                        }else{
+                            noscroll();
+                            $("#tb_pop").addClass("active");
+                            $("#tb_pop .tb_user").html('')
+                            for (var i = 0; i < res.data.taobaoAccounts.items.length; i++) {
+                                $('.tb_user').append(' <p class="item " status="' + res.data.taobaoAccounts.items[i].status +'" id="' + res.data.taobaoAccounts.items[i].taobaoAccountId + '"><a href="javascript:;">' + res.data.taobaoAccounts.items[i].taobaoUserNick + '</a></p>')
+                            }
+//                            $('.tb_user').html('您尚未绑定淘宝账号，请先绑定淘宝！')
+                            $('#buy_submits').css('display','none')
+                            $('#buy_submit').css('display','block')
                         }
+
 //                        $.ajax({
 //                            type: "get",
 //                            url: "/rrightway/p/m/actdetent/apply",
@@ -1020,27 +1091,45 @@ if(!res.data.wayToShop){
         })
 
         //选择淘宝帐号
+        var statusState
         $('.contact_more').on('click', '.tb_user .item', function () {
 
             $("#tb_txt").val($(this).text());
             $('#tb_id').val($(this).attr('id'));
-            ;
+            statusState=$(this).attr('status');
             $(this).addClass("crently").siblings().removeClass("crently");
         })
 
         //确认购买
         $("#buy_submit").click(function () {
 
+            if(statusState==0){
+                alert('资料未补全')
+                location.href="bindTaobaoPersonal.html"
+            }else if(statusState==1){
+                alert('账号等待审核')
+            }else if(statusState==2){
+                var tbname = $("#tb_txt").val();
+                var id = $('#tb_id').val();
 
-            var tbname = $("#tb_txt").val();
-            var id = $('#tb_id').val();
+
+                buy(id, tbname, '');
+            }else if(statusState==3){
+                alert('账号审核失败')
+            }
 
 
-            buy(id, tbname, '');
 
 
         })
+        //绑定淘宝
+        $("#buy_submits").click(function () {
 
+
+            location.href='bindTaobaoPersonal.html'
+
+
+        })
     })
 
 

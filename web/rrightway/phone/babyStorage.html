@@ -14,7 +14,7 @@
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
     <title>
-        左左街，免费试用，轻松拿佣金
+        商家联盟，免费试用，轻松拿佣金
     </title>
     <meta name="keywords" content="仓库中的宝贝"/>
     <meta name="description" content="Y"/>
@@ -222,7 +222,7 @@
         <div class="plr20 pt30 pb30 relative bgfff mt20 hidden" id="has_juan">
             <p class="f28 line28">您的券包共有0张2小时置顶券</p>
 
-            <p class="f24 c999 line24 mt20">一天一个左左街账号只能使用1张</p>
+            <p class="f24 c999 line24 mt20">一天一个商家联盟账号只能使用1张</p>
             <em class="absolute r0 t50 p20 mt_38">
                 <input type="checkbox" class="radio" id="usecoupon"><label class="mt0"></label></em>
         </div>
@@ -598,12 +598,12 @@
     //tab切换
     $(".com_tab a").click(function () {
         if (!$(this).hasClass("crently")) {
-            $('#spro_list3').html('')
             var tsvalue = $(this).attr("data");
             var tsvalues = $(this).attr("data-val");
             $("#protype").val(tsvalues);
             $(".protype").html(tsvalue);
             $("#protype").parent().find("a[data=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+            $('#spro_list3').html('');
             reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo)        }
         $(this).addClass("crently").siblings().removeClass("crently");
     })
@@ -628,7 +628,8 @@
         $(".interview_list .foot").each(function () {
             $(this).find(".item").eq(0).click();
         })
-        reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo)    })
+//        reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo)
+    })
 
 //    $("#btn_Reload").click(function () {
 //
@@ -691,7 +692,7 @@
             $('.com_tab  a:nth-child(2)').removeClass('crently');
         }
         console.log(1)
-        $("#spro_list1").html('')
+        $("#spro_list3").html('')
         title = $('#pro_title').val();
         gift_name = $('#pro_name').val();
         publish_time_start = $('.mindate').val();
@@ -749,7 +750,8 @@
                 success: function (res) {
                     if (res.code == 0) {
                         error('修改成功');
-                        $('#pubright').css('right','-100% !important');
+                        $('.goback').click()
+//                        $('#pubright').css('right','-100% !important');
                         _this.remove()
 
                     } else if (res.code == 20) {

@@ -14,7 +14,7 @@
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
     <title>
-        左左街，免费试用，轻松拿佣金
+        好商联盟街，免费试用，轻松拿佣金
     </title>
     <meta name="keywords" content="审核中的宝贝"/>
     <meta name="description" content="Y"/>
@@ -251,7 +251,8 @@
                         if(status==0){
                             statusSh='待审核';
                             itemBottom='<a class="btn3 repub recoder recordagain" id="'+res.data.activies.items[i].activityId+'">重新发布</a>' +
-                                    '<a class="del recoder refuseCode" id="'+res.data.activies.items[i].activityId+'">取消审核</a>'
+                                    '<a class="del recoder refuseCode" id="'+res.data.activies.items[i].activityId+'">取消审核</a>'+
+                            '<a class="deletes recoder deleteCode" id="'+res.data.activies.items[i].activityId+'">删除商品</a>'
                         }else if(status==2){
                             statusSh='审核失败'
                             itemBottom='<a  class="btn3 repub recoder recordagain" id="'+res.data.activies.items[i].activityId+'">重新发布</a>' +
@@ -263,7 +264,7 @@
 //                                     wayToShop activityId auditFailReason buyWay couponIf
                         $('#spro_list1').append('<div class="item">'+
                         '<div class="tit"><p>活动标题：'+res.data.activies.items[i].title+'<br>' +
-                        '参与人数：'+res.data.activies.items[i].stock+'<br>发布时间：'+_formatDatesNoS(res.data.activies.items[i].publishTime)+'<b class="statusSh">'+statusSh+'</b></p></div>'+
+                        '参与人数：'+res.data.activies.items[i].stock+'<br>发布时间：'+_formatDatesNoS(res.data.activies.items[i].publishTime/1000)+'<b class="statusSh">'+statusSh+'</b></p></div>'+
                         '<a href="baby_verify_detail.html?id='+res.data.activies.items[i].activityId+'" class="recoder pro_min bt1">' +
                         '<img src="'+res.data.activies.items[i].giftCover+'" class="img">'+
                         '<div class="relative"><p class="row1">'+res.data.activies.items[i].giftName+'</p>'+
@@ -676,7 +677,10 @@
                 corfirm("确定要取消发布宝贝吗？", canok, $(this));
             }
             else if ($(this).hasClass("del")) { //删除
-                corfirm("确定要删除宝贝吗？<br />删除后不可恢复，请谨慎操作！", delok, $(this));
+                corfirm("确定要取消宝贝吗？<br />取消后不可恢复，请谨慎操作！", delok, $(this));
+            }
+            else if ($(this).hasClass("deletes")) { //删除
+                corfirm("确定要删除宝贝吗？<br />删除后不可恢复，请谨慎操作！", deletesok, $(this));
             }
             else if ($(this).hasClass("repub")) { //重新发布
                 corfirm("确定要重新发布宝贝吗？", repub, $(this));
@@ -731,7 +735,31 @@ $('.cancle').click(function(){
         window.location.href = "babyEdit.html?id=" + id;
         return true;
     }
-
+//删除发布
+function deletesok(obj){
+    var id = $(obj).attr("id");
+    var _objthis=$(obj)
+    var _obj=$(obj).parent().parent();
+    $.ajax({
+        type: "POST",
+        url: "/rrightway/p/m/cowrymanageent/del",
+        data: "token="+token+"&activity_id="+id,
+        success: function (res) {
+            if (res.code==0) {
+                error("删除宝贝成功！");
+                _obj.remove();
+//                _obj.html('撤销审核')
+            }
+            else if(res.code==20) {
+                localStorage.setItem('href',location.href)
+                location.href='login.html'
+            }else{
+                error(res.codeMsg);
+            }
+        }
+    });
+    return true;
+}
     //取消发布
     function delok(obj) {
 //        var id = $(obj).parent().attr("data");

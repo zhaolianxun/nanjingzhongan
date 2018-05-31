@@ -12,15 +12,15 @@
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
     <title>
-        绑定银行卡-左左试用平台触屏版
+        绑定银行卡-商家联盟试用平台触屏版
     </title>
     <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
     <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
     <script src="js/com.js" type="text/javascript"></script>
     <script src="js/public.js"></script>
-    <meta name="description" content="左左街-专业的试用网"/>
-    <meta name="keywords" content="左左,左左街,试用,推广"/>
+    <meta name="description" content="商家联盟-专业的试用网"/>
+    <meta name="keywords" content="商家联盟,商家联盟,试用,推广"/>
 </head>
 
 <body>
@@ -58,7 +58,7 @@
             <div class="p15 bgfff">
                 <div class="txtc">您确定要删除银行卡吗？</div>
                 <div class="txtp bd1 brd5 mt15"><input type="password" class="f16" id="txtzfcode"
-                                                       placeholder="请输入左左街支付密码"></div>
+                                                       placeholder="请输入商家联盟支付密码"></div>
                 <div class="mt15"><a id=" deletecard" class="bg2f97f0 cfff submit bl brd20 h40 txtc">确定</a></div>
             </div>
         </div>
@@ -106,7 +106,7 @@
                 }
 //                history.back();
                 $('.bankname').html(res.data.bankname);
-                $('.belonger').html(res.data.belonger + '<br/> **** **** **** ***' + res.data.cardno.substring(res.data.cardno.length - 4, res.data.cardno.length) + '<br/>' + res.data.phone);
+                $('.belonger').html(res.data.belonger + '<br/> **** **** **** ***' +  res.data.cardno.substring(res.data.cardno.length - 4, res.data.cardno.length-3) +' '+res.data.cardno.substring(res.data.cardno.length - 3, res.data.cardno.length) + '<br/>' + res.data.phone);
 
             } else if (res.code == 20) {
                 localStorage.setItem('href', location.href);

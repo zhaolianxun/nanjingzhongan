@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <title>Pull to Refresh</title>
+    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;" />
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+
+    </style>
+</head>
+<body style="">
+
+<div onclick="error('沙发 盛大发售萨放散阀沙发')">123123123123123123</div>
+<!--<div class="outerScroller">-->
+
+<div class = 'scroll1' style="min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " >
+    <div  style="width:90%;text-align:center;margin:10px auto">地撒方撒地方</div>
+   <div style="width:100%;position: relative;bottom:0"><button style="width:50%;height:35px;">取消</button><button style="width:50%;height:35px;background-color: #007aff">确认</button></div>
+</div>
+<!--</div>-->
+<script>
+
+    function error(str) {
+        if ($("#errormsg").length <= 0) {
+            $("body").append('<div  id="errormsg" style="width:200px;padding:0 40px;position:absolute;position:fixed;top:30%;left:50%;transform:translateX(-50%);margin-top:-1.25rem;z-index:999999999;font-size:0.8rem;color:#fff;background:rgba(0,0,0,0.8);line-height:2.25rem;border-radius:0.25rem;text-align:center;">' + str + '</div>');
+        }
+        else {
+            $("#errormsg p").html(str);
+        }
+        $("#errormsg").fadeIn("slow");
+        setTimeout(function () {
+            $("#errormsg").fadeOut("slow");
+        }, 2000);
+    }
+
+
+
+
+
+
+</script>
+</body>
+</html>
