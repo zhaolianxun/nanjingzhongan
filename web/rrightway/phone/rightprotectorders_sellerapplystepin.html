@@ -118,6 +118,11 @@
             //图片上传方法
             //obj1传上传控件的name属性，obj2传图片控件id，obj3传显示上传控件的id，obj4传显示图片的id，obj5传隐藏域的id,num是图片数量
             function upload(obj1, num, maxlength) {
+                var size = $("#"+obj1)[0].files[0].size;
+                if(size > 3*1024*1024){
+                    error('图片需要小于3M');
+                    return;
+                }
                 var url = uploadImg(obj1)
                 var str = "<p class='uploadimg' >"
                         + '<img src="' + url + '" />'

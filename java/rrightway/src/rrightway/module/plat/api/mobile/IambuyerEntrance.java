@@ -446,7 +446,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.review_pic_audit,t.review_pics,t.rightprotect_status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where del=0 and t.buyer_id=?")
+					"select t.activity_id,t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.review_pic_audit,t.review_pics,t.rightprotect_status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where del=0 and t.buyer_id=?")
 							.append(tradeStatus == 1 ? " and t.status=1 " : "")
 							.append(tradeStatus == 2 ? " and t.status=1 and t.rightprotect_status in (7,8,9,10,11) "
 									: "")
@@ -466,6 +466,7 @@ public class IambuyerEntrance {
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("orderId", rs.getObject("id"));
+				item.put("activityId", rs.getObject("activity_id"));
 				item.put("orderTime", rs.getObject("order_time"));
 				item.put("payPrice", rs.getObject("pay_price"));
 				item.put("returnMoney", rs.getObject("return_money"));
@@ -1092,7 +1093,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize);
 
 			String sql = new StringBuilder(
-					"select t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_status,t.rightprotect_reason,t.order_time,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buy_way,t.coupon_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 and t.buyer_id=?")
+					"select t.activity_id,t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_status,t.rightprotect_reason,t.order_time,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buy_way,t.coupon_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 and t.buyer_id=?")
 							.append(tradeStatus == null ? " and t.rightprotect_status != 0 "
 									: (tradeStatus == 1 ? " and t.rightprotect_status in (7,10)"
 											: (tradeStatus == 2 ? " and t.rightprotect_status=12"
@@ -1116,6 +1117,7 @@ public class IambuyerEntrance {
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
+				item.put("activityId", rs.getObject("activity_id"));
 				item.put("giftCover", rs.getObject("gift_cover"));
 				item.put("orderTime", rs.getObject("order_time"));
 				item.put("buyWay", rs.getObject("buy_way"));

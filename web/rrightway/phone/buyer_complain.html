@@ -94,7 +94,7 @@
     var queryObject = rxw.parseQueryStr(location.search.substr(1))
 
     $('#orderId').text(queryObject.orderId);
-    $('#orderTime').text(rxw.formatDateTime(queryObject.orderTime));
+    $('#orderTime').text(rxw.formatDateTime(parseInt(queryObject.orderTime)));
     $('#giftName').text(queryObject.giftName);
     $('#giftCover').attr('src',queryObject.giftCover);
     $('#payPrice').text(parseInt(queryObject.payPrice).toFixed(2));

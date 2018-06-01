@@ -172,6 +172,7 @@
 </style>
 
 <script type="text/javascript" src="js/lazyload.js" charset="utf-8"></script>
+<link href="css/rxw.css" rel="stylesheet" type="text/css" />
 
 <script>
     rxw1.relitivePath=''
@@ -179,6 +180,7 @@
     var items = {};
     var noMoreItems = false;
     var param={}
+    var tradeStatus='';
     onload();
 rxw1.windowTouch({
     movedown:function(){onload()},
@@ -188,6 +190,18 @@ rxw1.windowTouch({
             loadItems()
         }
     }
+    ,moveright:function(){
+        var prev =$('.com_tab .crently').prev();
+        if(prev.length == 1)
+            prev.click();
+        else
+            history.back()
+    },moveleft:function(){
+        var next =$('.com_tab .crently').next();
+        if(next.length == 1)
+            next.click();
+
+    }
 })
     function onload(){
         param.page_no=1
@@ -195,6 +209,7 @@ rxw1.windowTouch({
         param={}
         noMoreItems = false;
         items = {};
+        param.trade_status= tradeStatus
         $('#spro_list5').html('')
         loadItems();
 
@@ -215,6 +230,7 @@ rxw1.windowTouch({
             param.page_no=1
         if(!param.page_size)
             param.page_size=30
+        $('.loadover').addClass('hidden')
         $.ajax({
             type: 'POST',
             data: param,
@@ -225,6 +241,10 @@ rxw1.windowTouch({
                     if(res.data.items.length==0) {
                         if(param.page_no != 1)
                             $('.loadover').removeClass('hidden').find('span').text('没有更多数据了')
+                        else{
+
+                        }
+
                         noMoreItems = true;
                     }else
                         $('.loadover').removeClass('hidden').find('span').text('上拉加载更多')
@@ -449,6 +469,8 @@ rxw1.windowTouch({
                 $(".protype").html(tsvalues);
                 $("#protype").parent().find("a[data=" + tsvalues + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
                 param={trade_status:tsvalue}
+                tradeStatus=tsvalue;
+                noMoreItems= false
                 reloaddata();
             }
             $(this).addClass("crently").siblings().removeClass("crently");
@@ -495,6 +517,7 @@ rxw1.windowTouch({
                 }
             }
             isRdata = true;
+
             param={trade_status:$('[name=tradeStatus].active a').attr('data-val'),
                 buyer_nickname:$('#saller_nc').val(),
                 seller_nickname:$('#buyer_nc').val(),

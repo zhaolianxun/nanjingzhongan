@@ -1,5 +1,5 @@
 var rxw1={};
-
+rxw1.relativePath=''
 rxw1.errorpad=function (content) {
     if ($("#errorpad").length <= 0) {
         $("body").append('<div  id="errorpad" style="width:200px;padding:0 40px;position:absolute;position:fixed;top:30%;left:50%;transform:translateX(-50%);margin-top:-1.25rem;z-index:999999999;font-size:0.8rem;color:#fff;background:rgba(0,0,0,0.8);line-height:2.25rem;border-radius:0.25rem;text-align:center;">' + content + '</div>');
@@ -65,8 +65,10 @@ rxw1.windowTouch = function(params){
         var touchData ={};
         window.touchData=touchData
 
-        touchData.touchStart = touch.pageY;
-        touchData.touchDis=0;
+        touchData.touchYStart = touch.pageY;
+        touchData.touchXStart = touch.pageX;
+        touchData.touchYDis=0;
+        touchData.touchXDis=0;
 
         var img=document.createElement("img");
 
@@ -76,7 +78,8 @@ rxw1.windowTouch = function(params){
         img.style.top='10%';
         img.style.left='50%';
         img.style.transform='translateX(-50%)';
-        img.src='wait.gif';
+        img.style['z-index']=9999999
+        img.src=rxw1.relativePath+'rxw/img/wait.gif';
 
         window.touchData.waitImg=img;
         document.body.appendChild(img);
@@ -84,18 +87,42 @@ rxw1.windowTouch = function(params){
     window.addEventListener('touchmove', function(event) {
         var touch = event.targetTouches[0];
 
-        window.touchData.touchDis=touch.pageY-window.touchData.touchStart;
+        window.touchData.touchYDis=touch.pageY-window.touchData.touchYStart;
+        window.touchData.touchXDis=touch.pageX-window.touchData.touchXStart;
 
-        if(window.touchData.touchDis>10){
+        if(window.touchData.touchYDis>10){
             window.touchData.waitImg.style.display='';
-        }else if(window.touchData.touchDis<10){
+        }else if(window.touchData.touchYDis<10){
 
         }
+
     }, false);
     window.addEventListener('touchend', function(event) {
 
-        if((window.touchData.touchDis>70))params.movedown();
-        if((window.touchData.touchDis<-30))params.moveup();
+        if((window.touchData.touchYDis>70)){
+            if( params.movedown){
+                params.movedown();
+            }else{
+                location.reload();
+            }
+
+        }
+        if((window.touchData.touchYDis<-30)) {
+            if (params.moveup) {
+                params.moveup();
+            }
+        }
+        if((window.touchData.touchXDis>30)){
+            if( params.moveleft)
+                 params.moveleft();
+            else{
+                history.back()
+            }
+        }
+        if((window.touchData.touchXDis<-30)){
+            if(params.moveright)
+                params.moveright();
+        }
         document.body.removeChild(window.touchData.waitImg)
         delete window.touchData;
 
