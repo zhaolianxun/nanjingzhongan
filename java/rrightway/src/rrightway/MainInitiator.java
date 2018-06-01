@@ -5,19 +5,31 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.security.Security;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Properties;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.bouncycastle.crypto.tls.HashAlgorithm;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 import rrightway.constant.OutApis;
 import rrightway.constant.SysConstant;
+import rrightway.constant.SysParam;
+import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 import redis.clients.jedis.JedisPool;
 
@@ -57,6 +69,8 @@ public class MainInitiator implements ServletContextListener {
 			logger.info("【jdbc数据源】");
 			RrightwayDataSource.setupDataSource(SysConstant.jdbc_driver, SysConstant.jdbc_url,
 					SysConstant.jdbc_username, SysConstant.jdbc_password);
+			logger.info("【初始化系统参数】");
+			initSysParam();
 			logger.info("-------初始化rrightway项目结束-------");
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -75,6 +89,35 @@ public class MainInitiator implements ServletContextListener {
 		SysConstant.errorCodeEnMapper.load(in);
 		in.close();
 		logger.debug(SysConstant.errorCodeEnMapper);
+	}
+
+	public void initSysParam() throws Exception {
+		Connection connection = null;
+		Statement st = null;
+		try {
+			connection = RrightwayDataSource.dataSource.getConnection();
+			st = connection.createStatement();
+			ResultSet rs = st.executeQuery("select code,value from t_sysparam");
+
+			while (rs.next()) {
+				String code = rs.getString("code");
+				if (code.equals("service_qq")) {
+					SysParam.service_qq = rs.getString("value");
+				} else if (code.equals("alipay_receipt_qrcode")) {
+					SysParam.alipay_receipt_qrcode = rs.getString("value");
+				}
+			}
+			st.close();
+			// 返回结果
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			// 释放资源
+			if (st != null)
+				st.close();
+			if (connection != null)
+				connection.close();
+		}
 	}
 
 	private void initConstant() throws UnsupportedEncodingException, IOException {
@@ -121,7 +164,6 @@ public class MainInitiator implements ServletContextListener {
 		SysConstant.project_ossroot = StringUtils.trimToNull(properties.getProperty("project.ossroot"));
 		SysConstant.project_name = StringUtils.trimToNull(properties.getProperty("project.name"));
 
-		
 		// 外部接口初始化
 		OutApis.sms_verification_verify = StringUtils
 				.trimToNull(properties.getProperty("outapi.sms.verification.verify"));

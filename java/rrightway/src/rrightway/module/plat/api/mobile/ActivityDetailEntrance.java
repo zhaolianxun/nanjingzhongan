@@ -214,7 +214,7 @@ public class ActivityDetailEntrance {
 				String receiverTel = rs.getString("receiver_tel");
 				if (receiverAddress == null || receiverAddress.isEmpty() || receiverTel == null
 						|| receiverTel.isEmpty())
-					throw new InteractRuntimeException("请先至'安全设置'中补全收货地址信息");
+					throw new InteractRuntimeException(1000, "请先至'安全设置'中补全收货地址信息");
 				buyerTaobaoUserNick = rs.getString("taobao_user_nick");
 				int status = rs.getInt("status");
 				String auditFailReason = rs.getString("audit_fail_reason");

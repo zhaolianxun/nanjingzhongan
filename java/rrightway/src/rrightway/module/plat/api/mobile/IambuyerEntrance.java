@@ -667,7 +667,7 @@ public class IambuyerEntrance {
 				int status = rs.getInt("status");
 				if (status != 1)
 					throw new InteractRuntimeException("核对后的订单才可以投诉");
-				if (complain != 0)
+				if (complain != 0 && complain != 2)
 					throw new InteractRuntimeException("该订单已经投诉过");
 			}
 			pst.close();

@@ -48,7 +48,7 @@ public class TradeManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select (select count(id) from t_order where seller_del=0 and seller_id=? and status=0 ) needCheckCount,(select count(id) from t_order where seller_del=0 and seller_id=? and status=1 and rightprotect_status in (0)) buyedCount,(select count(id) from t_order where seller_del=0 and seller_id=? and status=2) returnedCount,(select count(id) from t_order where seller_del=0 and seller_id=? and rightprotect_status !=0) rightprotectedCount,(select count(id) from t_order where seller_del=0 and seller_id=? and complain !=0) complainCount")
+					"select (select count(id) from t_order where seller_del=0 and seller_id=? and status=0 ) needCheckCount,(select count(id) from t_order where seller_del=0 and seller_id=? and status=1 and rightprotect_status in (0)) buyedCount,(select count(id) from t_order where seller_del=0 and seller_id=? and status=2) returnedCount,(select count(id) from t_order where seller_del=0 and seller_id=? and rightprotect_status !=0) rightprotectedCount,(select count(id) from t_order where seller_del=0 and seller_id=? and complain =6) complainCount")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, loginStatus.getUserId());
@@ -447,12 +447,15 @@ public class TradeManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.rightprotect_time,t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_seller_proof_desc,t.rightprotect_buyer_proof_desc,t.rightprotect_seller_proof_pics,t.rightprotect_buyer_proof_pics,t.rightprotect_buyer_addkf_describe,t.rightprotect_buyer_addkf_pics,t.rightprotect_seller_addkf_pics,t.rightprotect_seller_addkf_describe,t.rightprotect_reason,t.rightprotect_status,t.review_pics,t.auto_return_time,t.activity_title,t.buyer_remind_check_if,a.coupon_url,t.gift_express_co,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t  left join t_activity a on t.activity_id=a.id where t.id=?")
+					"select t.complain_proof_pics,t.complain_explanation,t.complain_reason,t.rightprotect_time,t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_seller_proof_desc,t.rightprotect_buyer_proof_desc,t.rightprotect_seller_proof_pics,t.rightprotect_buyer_proof_pics,t.rightprotect_buyer_addkf_describe,t.rightprotect_buyer_addkf_pics,t.rightprotect_seller_addkf_pics,t.rightprotect_seller_addkf_describe,t.rightprotect_reason,t.rightprotect_status,t.review_pics,t.auto_return_time,t.activity_title,t.buyer_remind_check_if,a.coupon_url,t.gift_express_co,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,t.seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t  left join t_activity a on t.activity_id=a.id where t.id=?")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
 			if (rs.next()) {
+				item.put("complainProofPics", rs.getObject("complain_proof_pics"));
+				item.put("complainExplanation", rs.getObject("complain_explanation"));
+				item.put("complainReason", rs.getObject("complain_reason"));
 				item.put("rightprotectSellerProof", rs.getObject("rightprotect_seller_proof"));
 				item.put("rightprotectBuyerProof", rs.getObject("rightprotect_buyer_proof"));
 				item.put("rightprotectSellerAddkf", rs.getObject("rightprotect_seller_addkf"));
@@ -1424,4 +1427,115 @@ public class TradeManageEntrance {
 		}
 	}
 
+	@RequestMapping(value = "/complainorders")
+	public void complainorders(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String buyerNickname = StringUtils.trimToNull(request.getParameter("buyer_nickname"));
+			String sellerNickname = StringUtils.trimToNull(request.getParameter("seller_nickname"));
+			String giftName = StringUtils.trimToNull(request.getParameter("gift_name"));
+			String title = StringUtils.trimToNull(request.getParameter("title"));
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			String taobaoOrderid = StringUtils.trimToNull(request.getParameter("taobao_orderid"));
+			String complainTimeStartParam = StringUtils.trimToNull(request.getParameter("complain_time_start"));
+			Long complainTimeStart = complainTimeStartParam == null ? null : Long.parseLong(complainTimeStartParam);
+			String complainTimeEndParam = StringUtils.trimToNull(request.getParameter("complain_time_end"));
+			Long complainTimeEnd = complainTimeEndParam == null ? null : Long.parseLong(complainTimeEndParam);
+			String complainStatusParam = StringUtils.trimToNull(request.getParameter("complain_status"));
+			Integer complainStatus = complainStatusParam == null ? null : Integer.parseInt(complainStatusParam);
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			List sqlParams = new ArrayList();
+			sqlParams.add(loginStatus.getUserId());
+			if (title != null)
+				sqlParams.add(new StringBuilder("%").append(title).append("%").toString());
+			if (buyerNickname != null)
+				sqlParams.add(new StringBuilder("%").append(buyerNickname).append("%").toString());
+			if (sellerNickname != null)
+				sqlParams.add(new StringBuilder("%").append(sellerNickname).append("%").toString());
+			if (giftName != null)
+				sqlParams.add(new StringBuilder("%").append(giftName).append("%").toString());
+			if (orderId != null)
+				sqlParams.add(new StringBuilder("%").append(orderId).append("%").toString());
+			if (taobaoOrderid != null)
+				sqlParams.add(new StringBuilder("%").append(taobaoOrderid).append("%").toString());
+			if (complainTimeStart != null)
+				sqlParams.add(complainTimeStart);
+			if (complainTimeEnd != null)
+				sqlParams.add(complainTimeEnd);
+
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.activity_title,t.complain,t.status,t.finished,a.huabei_pay,a.creditcard_pay,t.buy_way,t.finished,t.complain_time,t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.id,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t left join t_activity a on t.activity_id=t.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where t.del=0 and t.complain=6 and t.seller_id=?")
+							.append(title == null ? "" : " and t.activity_title like ? ")
+							.append(buyerNickname == null ? "" : " and t.buyer_taobaoaccount_name like ? ")
+							.append(sellerNickname == null ? "" : " and t.seller_taobaoaccount_name like ? ")
+							.append(giftName == null ? "" : " and t.gift_name like ? ")
+							.append(orderId == null ? "" : " and t.id like ? ")
+							.append(taobaoOrderid == null ? "" : " and t.taobao_orderid like ? ")
+							.append(complainTimeStart == null ? "" : " and t.complain_time >= ? ")
+							.append(complainTimeEnd == null ? "" : " and t.complain_time <= ? ")
+							.append(" order by t.order_time desc limit ?,? ").toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("complainProofPics", rs.getObject("complain_proof_pics"));
+				item.put("complainExplanation", rs.getObject("complain_explanation"));
+				item.put("complainReason", rs.getObject("complain_reason"));
+				item.put("finished", rs.getObject("finished"));
+				item.put("status", rs.getObject("status"));
+				item.put("complain", rs.getObject("complain"));
+				item.put("id", rs.getObject("id"));
+				item.put("complainTime", rs.getObject("complain_time"));
+				item.put("payPrice", rs.getObject("pay_price"));
+				item.put("returnMoney", rs.getObject("return_money"));
+				item.put("giftName", rs.getObject("gift_name"));
+				item.put("giftCover", rs.getObject("gift_cover"));
+				item.put("complain", rs.getObject("complain"));
+				item.put("buyWay", rs.getObject("buy_way"));
+				item.put("couponIf", rs.getObject("coupon_if"));
+				item.put("wayToShop", rs.getObject("way_to_shop"));
+				item.put("buyWay", rs.getObject("buy_way"));
+				item.put("huabeiPay", rs.getObject("huabei_pay"));
+				item.put("creditcardPay", rs.getObject("creditcard_pay"));
+				item.put("finished", rs.getObject("finished"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
 }

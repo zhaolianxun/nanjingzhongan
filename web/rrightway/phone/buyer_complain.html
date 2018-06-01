@@ -59,16 +59,16 @@
             <p class="pl80 clearfix sel"><label>投诉原因</label>
 
                 <select name="ddlreason" id="ddlreason">
-                    <option value="1000">包裹为空包</option>
-                    <option value="1001">发货超过48小时无物流信息</option>
-                    <option value="1002">赠品不一致</option>
-                    <option value="1003">赠品损坏</option>
-                    <option value="1004">未收到赠品</option>
-                    <option value="1005">未收到赠品（物流显示签收）</option>
-                    <option value="1007">超过48小时未发货</option>
-                    <option value="1008">赠品少发，漏发</option>
-                    <option value="1009">物流异常</option>
-                    <option value="1010">物流中断（超96小时无更新）</option>
+                    <option value="包裹为空包">包裹为空包</option>
+                    <option value="发货超过48小时无物流信息">发货超过48小时无物流信息</option>
+                    <option value="赠品不一致">赠品不一致</option>
+                    <option value="赠品损坏">赠品损坏</option>
+                    <option value="未收到赠品">未收到赠品</option>
+                    <option value="未收到赠品（物流显示签收）">未收到赠品（物流显示签收）</option>
+                    <option value="超过48小时未发货">超过48小时未发货</option>
+                    <option value="赠品少发，漏发">赠品少发，漏发</option>
+                    <option value="物流异常">物流异常</option>
+                    <option value="物流中断（超96小时无更新）">物流中断（超96小时无更新）</option>
 
                 </select>
 
@@ -204,8 +204,8 @@
             $.ajax({
                 type: "POST",
                 url: "/rrightway/p/m/iambuyerent/complain",
-                data: "token=" + token + "&order_id=" + queryObject.orderId + "&reason=" + escape($("#ddlreason").val())
-                + "&explanation=" + escape($("#txtscontent").val()) + "&proof_pics=" + escape($("#hfpic1").val().replace('|',',')),
+                data: "token=" + token + "&order_id=" + queryObject.orderId + "&reason=" + $("#ddlreason").val()
+                + "&explanation=" + $("#txtscontent").val() + "&proof_pics=" + escape($("#hfpic1").val().replace('|',',')),
                 success: function (res) {
 
                     if (res.code==0) {

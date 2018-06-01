@@ -90,6 +90,23 @@ public class MoneyManageEntrance {
 		}
 	}
 
+	@RequestMapping(value = "/topup/ent")
+	public void topupEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		try {
+			// 获取请求参数
+			JSONObject data = new JSONObject();
+			data.put("alipay_receipt_qrcode", SysParam.alipay_receipt_qrcode);
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+		}
+	}
+
 	@RequestMapping(value = "/topup/confirm")
 	public void topupconfirm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;

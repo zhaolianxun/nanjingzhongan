@@ -10,6 +10,7 @@ public class SysParam {
 	public static long walletOutableTime = 2 * 60 * 1000l;
 	// 从同一商家处购买商品间隔时间
 	public static long buyFromSameSellerInterval = 3 * 60 * 1000l;
-	
-	
+	public static String alipay_receipt_qrcode = null;
+	public static String service_qq = null;
+
 }
