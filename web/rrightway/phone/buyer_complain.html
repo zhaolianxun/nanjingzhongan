@@ -204,7 +204,7 @@
             $.ajax({
                 type: "POST",
                 url: "/rrightway/p/m/iambuyerent/complain",
-                data: "token=" + token + "&orderId=" + queryObject.orderId + "&reason=" + escape($("#ddlreason").val())
+                data: "token=" + token + "&order_id=" + queryObject.orderId + "&reason=" + escape($("#ddlreason").val())
                 + "&explanation=" + escape($("#txtscontent").val()) + "&proof_pics=" + escape($("#hfpic1").val().replace('|',',')),
                 success: function (res) {
 

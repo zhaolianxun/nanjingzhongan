@@ -50,7 +50,7 @@ public class CowryManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select (select count(id) from t_activity where user_id=? and status in (0,2)) auditingCount,(select count(id) from t_activity where user_id=? and status=1) inactCount,(select count(id) from t_activity where user_id=? and status=3) instoreCount")
+					"select (select count(id) from t_activity where user_id=? and audit in (0,2)) auditingCount,(select count(id) from t_activity where user_id=? and status=1 and audit=1) inactCount,(select count(id) from t_activity where user_id=? and status=3) instoreCount")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, loginStatus.getUserId());
@@ -475,24 +475,32 @@ public class CowryManageEntrance {
 			if (giftExpressCo != null)
 				sqlParams.add(giftExpressCo);
 			sqlParams.add(activityId);
-			pst = connection.prepareStatement(new StringBuilder("update t_activity set status=0,audit_fail_reason=null")
-					.append(activityTitle == null ? "" : ",title=?")
-					.append(taobaoaccountId == null ? "" : ",taobaoaccount_id=?")
-					.append(buyWay == null ? "" : ",buy_way=?").append(stock == null ? "" : ",stock=?")
-					.append(couponUrl == null ? "" : ",coupon_url=?").append(wayToShop == null ? "" : ",way_to_shop=?")
-					.append(qrcodeToOrder == null ? "" : ",qrcode_to_order=?")
-					.append(searchKeys == null ? "" : ",search_keys=?").append(cowryUrl == null ? "" : ",cowry_url=?")
-					.append(cowryCover == null ? "" : ",cowry_cover=?").append(payPrice == null ? "" : ",pay_price=?")
-					.append(returnMoney == null ? "" : ",return_money=?")
-					.append(buyerMincredit == null ? "" : ",buyer_mincredit=?")
-					.append(keepDays == null ? "" : ",keep_days=?").append(giftName == null ? "" : ",gift_name=?")
-					.append(giftType1Id == null ? "" : ",gift_type1_id=?")
-					.append(giftType2Id == null ? "" : ",gift_type2_id=?")
-					.append(giftType1Name == null ? "" : ",gift_type1_name=?")
-					.append(giftType2Name == null ? "" : ",gift_type2_name=?")
-					.append(giftUrl == null ? "" : ",gift_url=?").append(giftCover == null ? "" : ",gift_cover=?")
-					.append(giftPics == null ? "" : ",gift_pics=?").append(giftDetail == null ? "" : ",gift_detail=?")
-					.append(giftExpressCo == null ? "" : ",gift_express_co=?").append(" where id=?").toString());
+			pst = connection
+					.prepareStatement(new StringBuilder("update t_activity set status=3,audit=0,audit_fail_reason=null")
+							.append(activityTitle == null ? "" : ",title=?")
+							.append(taobaoaccountId == null ? "" : ",taobaoaccount_id=?")
+							.append(buyWay == null ? "" : ",buy_way=?").append(stock == null ? "" : ",stock=?")
+							.append(couponUrl == null ? "" : ",coupon_url=?")
+							.append(wayToShop == null ? "" : ",way_to_shop=?")
+							.append(qrcodeToOrder == null ? "" : ",qrcode_to_order=?")
+							.append(searchKeys == null ? "" : ",search_keys=?")
+							.append(cowryUrl == null ? "" : ",cowry_url=?")
+							.append(cowryCover == null ? "" : ",cowry_cover=?")
+							.append(payPrice == null ? "" : ",pay_price=?")
+							.append(returnMoney == null ? "" : ",return_money=?")
+							.append(buyerMincredit == null ? "" : ",buyer_mincredit=?")
+							.append(keepDays == null ? "" : ",keep_days=?")
+							.append(giftName == null ? "" : ",gift_name=?")
+							.append(giftType1Id == null ? "" : ",gift_type1_id=?")
+							.append(giftType2Id == null ? "" : ",gift_type2_id=?")
+							.append(giftType1Name == null ? "" : ",gift_type1_name=?")
+							.append(giftType2Name == null ? "" : ",gift_type2_name=?")
+							.append(giftUrl == null ? "" : ",gift_url=?")
+							.append(giftCover == null ? "" : ",gift_cover=?")
+							.append(giftPics == null ? "" : ",gift_pics=?")
+							.append(giftDetail == null ? "" : ",gift_detail=?")
+							.append(giftExpressCo == null ? "" : ",gift_express_co=?").append(" where id=?")
+							.toString());
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));
 
@@ -689,7 +697,7 @@ public class CowryManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.gift_cover,t.publish_time,t.stock,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.buyer_num,(t.start_time+t.keep_days*24*60*60*1000-rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')) remain_time from t_activity t where t.status=1 and t.user_id=?")
+					"select t.audit,t.gift_cover,t.publish_time,t.stock,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.buyer_num,(t.start_time+t.keep_days*24*60*60*1000-rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')) remain_time from t_activity t where t.status=1 and t.audit=1 and t.user_id=?")
 							.append(title == null ? "" : " and t.title like ? ")
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(buyWay == null ? "" : " and t.buy_way = ? ")
@@ -706,6 +714,7 @@ public class CowryManageEntrance {
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
+				item.put("audit", rs.getObject("audit"));
 				item.put("activityId", rs.getObject("id"));
 				item.put("giftName", rs.getObject("gift_name"));
 				item.put("giftCover", rs.getObject("gift_cover"));
@@ -790,10 +799,10 @@ public class CowryManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.gift_cover,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.stock,t.publish_time,t.status,t.audit_fail_reason from t_activity t where 1=1 and t.user_id=?")
-							.append(status == null ? " and t.status in (0,2,4) " : "")
-							.append((status != null && status == 1) ? " and t.status=0 " : "")
-							.append((status != null && status == 2) ? " and t.status=2 " : "")
+					"select t.audit,t.gift_cover,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.stock,t.publish_time,t.status,t.audit_fail_reason from t_activity t where 1=1 and t.user_id=?")
+							.append(status == null ? " and t.audit in (0,2) " : "")
+							.append((status != null && status == 1) ? " and t.audit=0 " : "")
+							.append((status != null && status == 2) ? " and t.audit=2 " : "")
 							.append(title == null ? "" : " and t.title like ? ")
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(buyWay == null ? "" : " and t.buy_way = ? ")
@@ -810,6 +819,7 @@ public class CowryManageEntrance {
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
+				item.put("audit", rs.getObject("audit"));
 				item.put("activityId", rs.getObject("id"));
 				item.put("giftName", rs.getObject("gift_name"));
 				item.put("giftCover", rs.getObject("gift_cover"));
@@ -863,7 +873,7 @@ public class CowryManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
-					new StringBuilder("update t_activity set status=3 where id=? and status=0").toString());
+					new StringBuilder("update t_activity set status=3,audit=4 where id=? and audit=0").toString());
 			pst.setObject(1, activityId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
@@ -901,14 +911,16 @@ public class CowryManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.status,(select count(id) from t_order where activity_id=t.id and finished=0) unfinished_count from t_activity t where t.id=? for update")
+					"select t.audit,t.status,(select count(id) from t_order where activity_id=t.id and finished=0) unfinished_count from t_activity t where t.id=? for update")
 							.toString());
 			pst.setObject(1, activityId);
 			ResultSet rs = pst.executeQuery();
 			int status = 0;
+			int audit = 0;
 			int unfinishedCount = 0;
 			if (rs.next()) {
 				status = rs.getInt("status");
+				audit = rs.getInt("audit");
 				unfinishedCount = rs.getInt("unfinished_count");
 			} else
 				throw new InteractRuntimeException("活动不存在");
@@ -917,8 +929,9 @@ public class CowryManageEntrance {
 			if (unfinishedCount > 0)
 				throw new InteractRuntimeException("该活动有未结束的订单，不可删除");
 			if (status == 1)
+				throw new InteractRuntimeException("活动正在进行中");
+			if (audit == 0)
 				throw new InteractRuntimeException("活动正在审核中");
-
 			pst = connection.prepareStatement(new StringBuilder("update t_activity set del=1 where id=?").toString());
 			pst.setObject(1, activityId);
 			int cnt = pst.executeUpdate();
@@ -968,8 +981,33 @@ public class CowryManageEntrance {
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(new StringBuilder(
-					"update t_activity set status=1,return_money=?,stock=?,keep_days=?,start_time=? where id=? and status=3 and return_money<=?")
+					"select t.audit_fail_reason,t.audit,t.status from t_activity t where t.id=? for update")
+							.toString());
+			pst.setObject(1, activityId);
+			ResultSet rs = pst.executeQuery();
+			int status = 0;
+			int audit = 0;
+			String auditFailReason = null;
+			if (rs.next()) {
+				status = rs.getInt("status");
+				audit = rs.getInt("audit");
+				auditFailReason = rs.getString("audit_fail_reason");
+			} else
+				throw new InteractRuntimeException("活动不存在");
+			pst.close();
+
+			if (status == 1)
+				throw new InteractRuntimeException("活动已在活动中");
+			if (audit == 0)
+				throw new InteractRuntimeException("活动正在审核中");
+			if (audit == 2)
+				throw new InteractRuntimeException("审核失败，请重新提交。原因：" + auditFailReason);
+			if (audit == 4)
+				throw new InteractRuntimeException("请先提交审核");
+			pst = connection.prepareStatement(new StringBuilder(
+					"update t_activity set status=1,return_money=?,stock=?,keep_days=?,start_time=? where id=? and status=3 and audit=1 and return_money<=?")
 							.toString());
 			pst.setObject(1, returnMoney);
 			pst.setObject(2, stock);
@@ -981,12 +1019,14 @@ public class CowryManageEntrance {
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
-
+			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
@@ -1300,10 +1340,11 @@ public class CowryManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.gift_cover,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.stock,t.publish_time,t.status,t.audit_fail_reason from t_activity t where 1=1 and t.user_id=?")
-							.append(status == null ? " and t.status in (2,3) "
-									: (status == 1 ? " and t.status=3 "
-											: (status == 2 ? " and t.status=2 " : " and t.status in (2,3) ")))
+					"select t.audit,t.gift_cover,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.stock,t.publish_time,t.status,t.audit_fail_reason from t_activity t where 1=1 and t.user_id=?")
+							.append(status == null ? " and t.status=3 and t.audit in (1,2,4)"
+									: (status == 1 ? " and t.status=3 and t.audit != 2"
+											: (status == 2 ? " and t.status=3 and t.audit=2 "
+													: " and t.status=3 and t.audit in (1,2,4)")))
 							.append(title == null ? "" : " and t.title like ? ")
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(buyWay == null ? "" : " and t.buy_way = ? ")
@@ -1321,6 +1362,7 @@ public class CowryManageEntrance {
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("activityId", rs.getObject("id"));
+				item.put("audit", rs.getObject("audit"));
 				item.put("giftName", rs.getObject("gift_name"));
 				item.put("giftCover", rs.getObject("gift_cover"));
 				item.put("title", rs.getObject("title"));
@@ -1376,13 +1418,14 @@ public class CowryManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.gift_url,t.keep_days,tb.taobao_user_nick,t.taobaoaccount_id,t.gift_type1_id,t.gift_type1_name,t.gift_type2_id,t.gift_type2_name,t.title,t.huabei_pay,t.creditcard_pay,t.status,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_cover,t.cowry_url,t.gift_pics,t.gift_cover,t.gift_name,t.pay_price,t.return_money,t.keep_days,t.stock,t.buy_way,t.coupon_url,t.buyer_mincredit,t.gift_express_co,t.gift_detail from t_activity t left join t_taobaoaccount tb on t.taobaoaccount_id=tb.id  where t.id=?")
+					"select t.audit,t.gift_url,t.keep_days,tb.taobao_user_nick,t.taobaoaccount_id,t.gift_type1_id,t.gift_type1_name,t.gift_type2_id,t.gift_type2_name,t.title,t.huabei_pay,t.creditcard_pay,t.status,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_cover,t.cowry_url,t.gift_pics,t.gift_cover,t.gift_name,t.pay_price,t.return_money,t.keep_days,t.stock,t.buy_way,t.coupon_url,t.buyer_mincredit,t.gift_express_co,t.gift_detail from t_activity t left join t_taobaoaccount tb on t.taobaoaccount_id=tb.id  where t.id=?")
 							.toString());
 			pst.setObject(1, activityId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
 			while (rs.next()) {
 				item.put("giftType1Id", rs.getInt("gift_type1_id"));
+				item.put("audit", rs.getInt("audit"));
 				item.put("giftType1Name", rs.getString("gift_type1_name"));
 				item.put("giftType2Id", rs.getInt("gift_type2_id"));
 				item.put("giftType2Name", rs.getString("gift_type2_name"));

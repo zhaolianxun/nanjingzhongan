@@ -84,7 +84,7 @@ public class HomeEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(
-					"select t.id,t.gift_cover,t.gift_name,t.pay_price from t_activity t where t.status=1 and t.del=0 order by rand() limit 0,8");
+					"select t.id,t.gift_cover,t.gift_name,t.pay_price from t_activity t where t.status=1 and t.audit=1 and t.del=0 order by rand() limit 0,8");
 			rs = pst.executeQuery();
 			JSONArray featuredActivities = new JSONArray();
 			while (rs.next()) {

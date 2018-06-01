@@ -988,7 +988,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.complain=1 and t.buyer_id=?")
+					"select t.complain_time,t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.id,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.complain=1 and t.buyer_id=?")
 							.append(complainStatus == null ? " and t.complain in (1,2,3,4,5,6) " : " and t.complain=? ")
 							.append(buyerNickname == null ? "" : " and t.buyer_taobaoaccount_name like ? ")
 							.append(sellerNickname == null ? "" : " and t.seller_taobaoaccount_name like ? ")
@@ -1005,8 +1005,8 @@ public class IambuyerEntrance {
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
-				item.put("orderId", rs.getObject("id"));
-				item.put("orderTime", rs.getObject("order_time"));
+				item.put("id", rs.getObject("id"));
+				item.put("complainTime", rs.getObject("complain_time"));
 				item.put("payPrice", rs.getObject("pay_price"));
 				item.put("returnMoney", rs.getObject("return_money"));
 				item.put("giftName", rs.getObject("gift_name"));
@@ -1021,9 +1021,7 @@ public class IambuyerEntrance {
 
 			// 返回结果
 			JSONObject data = new JSONObject();
-			JSONObject orders = new JSONObject();
-			orders.put("items", items);
-			data.put("orders", orders);
+			data.put("items", items);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
@@ -1100,7 +1098,7 @@ public class IambuyerEntrance {
 													: (tradeStatus == 3 ? " and t.rightprotect_status=13" : ""))))
 							.append(buyerNickname == null ? "" : " and bt.taobao_user_nick like ? ")
 							.append(sellerNickname == null ? "" : " and st.taobao_user_nick like ? ")
-							.append(title == null ? "" : " and t.title like ? ")
+							.append(title == null ? "" : " and t.activity_title like ? ")
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(orderId == null ? "" : " and t.id like ? ")
 							.append(taobaoOrderid == null ? "" : " and t.taobao_orderid like ? ")

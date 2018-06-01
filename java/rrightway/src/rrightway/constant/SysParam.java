@@ -8,4 +8,8 @@ public class SysParam {
 	public static long unreviewedExpiredReturnTime = 4 * 60 * 1000l;
 	// 钱包中的金额从不可转入余额到可转入的时间间隔 15*24*60*60*1000
 	public static long walletOutableTime = 2 * 60 * 1000l;
+	// 从同一商家处购买商品间隔时间
+	public static long buyFromSameSellerInterval = 3 * 60 * 1000l;
+	
+	
 }

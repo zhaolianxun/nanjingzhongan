@@ -7,9 +7,11 @@
     <!-- QQ强制竖屏 QQ强制全屏 -->
     <meta name="x5-orientation" content="portrait" /><meta name="x5-fullscreen" content="true" /><meta name="x5-page-mode" content="app" /><title>
         投诉管理-左左试用平台触屏版
-    </title><link rel="stylesheet" type="text/css" href="/css/golbal.css" /><link rel="stylesheet" type="text/css" href="/css/moblie.css" />
-    <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
-    <script src="/js/com.js" type="text/javascript"></script>
+    </title><link rel="stylesheet" type="text/css" href="css/golbal.css" /><link rel="stylesheet" type="text/css" href="css/moblie.css" />
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/com.js" type="text/javascript"></script>
+    <script src="js/default.js" type="text/javascript"></script>
+    <script src="rxw/rxw.js" type="text/javascript"></script>
     <meta name="description" content="左左街-专业的试用网" /><meta name="keywords" content="左左,左左街,试用,推广" /></head>
 
 <body>
@@ -53,24 +55,26 @@
         <div id="data">
 
 
-            <div class="buyed_item">
-                <div class="bit_head clearfix sp2"><p><b class="c2f97f0">等待客服审核</b></p><span>投诉编号：15277591612539<br />申请时间：2018-05-31 17:32</span></div>
+            <div id="itemExample" class="buyed_item" style="display:none">
+                <div class="bit_head clearfix sp2"><p><b class="c2f97f0" name="statusShow">等待客服审核</b></p><span>投诉编号：<span  name="complainId">15277591612539</span><br />申请时间：<span  name="complainTime">2018-05-31 17:32</span></span></div>
                 <div class="bit_content bt1 f14">
-                    <a href="detail.aspx?cid=7510&id=1107359">
-                        <img src="http://upl.zuozuojie.com//upload/20180516/s201805160901436058.jpg" onerror="this.src='/images/nopic.png'" >
-                        <p class="tit ellips">手机支架随机一个</p>
-                        <p class="clearfix c999">付款金额：<i class="c333">&yen;38.00</i>  返现金额：<i class="cf60">&yen;42.00</i></p>
+                    <a name="detailUrl" href="detail.aspx?cid=7510&id=1107359">
+                        <img name="giftCover" src="http://upl.zuozuojie.com//upload/20180516/s201805160901436058.jpg" onerror="this.src='image/nopic.png'" >
+                        <p class="tit ellips" name="giftName">手机支架随机一个</p>
+                        <p class="clearfix c999">付款金额：<i class="c333">&yen;<span name="payPrice">38.00</span></i>  返现金额：<i class="cf60">&yen;<span name="returnMoney">42.00</span></i></p>
                         <p class="type">
                             <i class="ptype tel"></i><i class="ptype juan"></i><i  class="ptype chi"></i>
                         </p>
                     </a>
                 </div>
-                <div class="bit_bottom bt1 clearfix"><p class="fr txtc" dataid="7510"><a href="list.aspx?id=7510" class="bgf60 dl brd5 cfff sbt_100_30 mr10">留言板</a><a href="javascript:;" class="dl brd5 sbt_98_28 bd1 sbt_100_30 cancle">取消投诉</a></p></div>
+                <div class="bit_bottom bt1 clearfix"><p class="fr txtc" dataid="7510"><a name="msgpadent" href="list.aspx?id=7510" class="bgf60 dl brd5 cfff sbt_100_30 mr10">留言板</a><a href="javascript:;" class="dl brd5 sbt_98_28 bd1 sbt_100_30 cancle">取消投诉</a></p></div>
             </div>
 
 
 
 
+
+            <div  class="loadover"><span>加载完成</span></div>
 
 
             <div class="selectpage mt15 mb15"> </div>
@@ -132,12 +136,107 @@
         <div id="datePlugin"></div>
     </div>
 </form>
-<link rel="stylesheet" type="text/css" href="/css/date.css">
-<script type="text/javascript" src="/js/jquery_date.js"></script>
-<script type="text/javascript" src="/js/date.js"></script>
-<script type="text/javascript" src="/js/iscroll_date.js"></script>
+<link rel="stylesheet" type="text/css" href="css/date.css">
+<script type="text/javascript" src="js/jquery_date.js"></script>
+<script type="text/javascript" src="js/date.js"></script>
+<script type="text/javascript" src="js/iscroll_date.js"></script>
 
 <script>
+
+
+    rxw1.relitivePath=''
+    var token = localStorage.getItem('token');
+    var items = {};
+    var noMoreItems = false;
+    var param={}
+    var tradeStatus='';
+    onload();
+    rxw1.windowTouch({
+        movedown:function(){onload()},
+        moveup:function(){
+            if(!noMoreItems){
+                param.page_no++;
+                loadItems()
+            }
+        }
+        ,moveright:function(){
+            var prev =$('.com_tab .crently').prev();
+            if(prev.length == 1)
+                prev.click();
+            else
+                history.back()
+        },moveleft:function(){
+            var next =$('.com_tab .crently').next();
+            if(next.length == 1)
+                next.click();
+
+        }
+    })
+    function onload(){
+        param.page_no=1
+        param.page_size=30
+        param={}
+        noMoreItems = false;
+        items = {};
+        param.trade_status= tradeStatus
+        $('#itemExample').nextAll('.buyed_item').remove();
+        loadItems();
+
+
+    }
+
+    //{page_no: pageNo,page_size: pageSize}
+    function loadItems(){
+        if(!param.page_no)
+            param.page_no=1
+        if(!param.page_size)
+            param.page_size=30
+        $('.loadover').addClass('hidden')
+        $.ajax({
+            type: 'POST',
+            data: param,
+            async: false,
+            url: '/rrightway/p/m/iambuyerent/complainorders?token='+token,
+            success: function(res){
+                if(res.code == 0){
+                    if(res.data.items.length==0 ) {
+                        if(param.page_no != 1)
+                            $('.loadover').removeClass('hidden').find('span').text('没有更多数据了')
+                        else{
+
+                        }
+
+                        noMoreItems = true;
+                    }else
+                        $('.loadover').removeClass('hidden').find('span').text('上拉加载更多')
+
+                    $(res.data.items).each(function(index,ele){
+                        items[ele.id]=ele;
+                        var newItem = $('#itemExample').clone(true);
+                        newItem.attr('id','item'+ele.id)
+                        if(ele.complain==1)
+                            newItem.find('[name=statusShow]').text('等待客服审核')
+                        newItem.find('[name=complainId]').text(ele.id)
+                        newItem.find('[name=complainTime]').text(rxw.formatDateTime(ele.complainTime))
+                        newItem.find('[name=detailUrl]').attr('href','buyer_complainManage_orderdetail.html?id='+ele.id)
+                        newItem.find('[name=giftCover]').attr('src',ele.giftCover)
+                        newItem.find('[name=giftName]').text(ele.giftName)
+                        newItem.find('[name=payPrice]').text(ele.payPrice.toFixed(2))
+                        newItem.find('[name=returnMoney]').text(ele.returnMoney.toFixed(2))
+                        newItem.find('[name=returnMoney]').text(ele.returnMoney.toFixed(2))
+                        newItem.find('[name=msgpadent]').attr('href','buyer_complainManage_msgspad.html?id='+ele.id)
+                        newItem.css('display','');
+                        $('#data .loadover').before(newItem);
+                    })
+                }else{
+                    alert(res.codeMsg)
+                }
+            }
+        });
+    }
+
+
+
     $(function () {
 
         buy_way = '0';
