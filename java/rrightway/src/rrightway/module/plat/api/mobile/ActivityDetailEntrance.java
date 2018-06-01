@@ -203,13 +203,18 @@ public class ActivityDetailEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select taobao_user_nick,status,audit_fail_reason from t_taobaoaccount where id=? and type=1 and user_id=?")
+					"select u.receiver_address,u.receiver_tel,t.taobao_user_nick,t.status,t.audit_fail_reason from t_taobaoaccount t left join t_user u on t.user_id=u.id where t.id=? and t.type=1 and t.user_id=?")
 							.toString());
 			pst.setObject(1, buyerTaobaoaccountId);
 			pst.setObject(2, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			String buyerTaobaoUserNick = null;
 			if (rs.next()) {
+				String receiverAddress = rs.getString("receiver_address");
+				String receiverTel = rs.getString("receiver_tel");
+				if (receiverAddress == null || receiverAddress.isEmpty() || receiverTel == null
+						|| receiverTel.isEmpty())
+					throw new InteractRuntimeException("请先至'安全设置'中补全收货地址信息");
 				buyerTaobaoUserNick = rs.getString("taobao_user_nick");
 				int status = rs.getInt("status");
 				String auditFailReason = rs.getString("audit_fail_reason");

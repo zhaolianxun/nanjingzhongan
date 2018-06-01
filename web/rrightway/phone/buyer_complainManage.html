@@ -56,10 +56,10 @@
 
 
             <div id="itemExample" class="buyed_item" style="display:none">
-                <div class="bit_head clearfix sp2"><p><b class="c2f97f0" name="statusShow">等待客服审核</b></p><span>投诉编号：<span  name="complainId">15277591612539</span><br />申请时间：<span  name="complainTime">2018-05-31 17:32</span></span></div>
+                <div class="bit_head clearfix sp2"><p><b class="c2f97f0" name="statusShow">等待客服审核</b></p><span>投诉编号：<span  name="complainId"></span><br />申请时间：<span  name="complainTime"></span></span></div>
                 <div class="bit_content bt1 f14">
-                    <a name="detailUrl" href="detail.aspx?cid=7510&id=1107359">
-                        <img name="giftCover" src="http://upl.zuozuojie.com//upload/20180516/s201805160901436058.jpg" onerror="this.src='image/nopic.png'" >
+                    <a name="detailUrl" href="">
+                        <img name="giftCover" src="" onerror="this.src='image/nopic.png'" >
                         <p class="tit ellips" name="giftName">手机支架随机一个</p>
                         <p class="clearfix c999">付款金额：<i class="c333">&yen;<span name="payPrice">38.00</span></i>  返现金额：<i class="cf60">&yen;<span name="returnMoney">42.00</span></i></p>
                         <p class="type">
@@ -67,7 +67,7 @@
                         </p>
                     </a>
                 </div>
-                <div class="bit_bottom bt1 clearfix"><p class="fr txtc" dataid="7510"><a name="msgpadent" href="list.aspx?id=7510" class="bgf60 dl brd5 cfff sbt_100_30 mr10">留言板</a><a href="javascript:;" class="dl brd5 sbt_98_28 bd1 sbt_100_30 cancle">取消投诉</a></p></div>
+                <div class="bit_bottom bt1 clearfix"><p name="dataid" class="fr txtc " dataid=""><a name="msgpadent" href="list.aspx?id=7510" class="bgf60 dl brd5 cfff sbt_100_30 mr10">留言板</a><a href="javascript:;" class="dl brd5 sbt_98_28 bd1 sbt_100_30 cancle">取消投诉</a></p></div>
             </div>
 
 
@@ -217,6 +217,7 @@
                         if(ele.complain==1)
                             newItem.find('[name=statusShow]').text('等待客服审核')
                         newItem.find('[name=complainId]').text(ele.id)
+                        newItem.find('[name=dataid]').attr('dataid',ele.id)
                         newItem.find('[name=complainTime]').text(rxw.formatDateTime(ele.complainTime))
                         newItem.find('[name=detailUrl]').attr('href','buyer_complainManage_orderdetail.html?id='+ele.id)
                         newItem.find('[name=giftCover]').attr('src',ele.giftCover)
@@ -338,17 +339,12 @@
 
         $.ajax({
             type: "POST",
-            url: "/flow/AS400104.ashx",
-            data: "rad=" + Math.random() + "&id=" + id + "&reason=",
+            url: "/rrightway/p/m/iambuyerent/complainorders/cancel",
+            data: "token=" + token + "&order_id=" + id ,
             success: function (res) {
 
-                if (res != "" && res != "[]") {
 
-                    var comments = $.parseJSON(res);
-
-
-
-                    if (comments.success == "Y") {
+                    if (res.code ==0) {
 
 
                         error("取消投诉成功");
@@ -358,11 +354,11 @@
                     }
 
                     else {
-                        error(comments.msg);
+                        error(res.codeMsg);
                         return true;
                     }
                 }
-            }
+
         });
 
 

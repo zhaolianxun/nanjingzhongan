@@ -701,6 +701,43 @@ public class IambuyerEntrance {
 		}
 	}
 
+	@RequestMapping(value = "/complainorders/cancel")
+	public void complainordersCancel(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
+			if (orderId == null)
+				throw new InteractRuntimeException("order_id 不能空");
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_order set complain=5 where id=? and finished=0 ").toString());
+			pst.setObject(1, orderId);
+			int cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
 	@RequestMapping(value = "/checkedorders/remindreturn")
 	public void remindReturn(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -988,7 +1025,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.complain_time,t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.id,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.complain=1 and t.buyer_id=?")
+					"select t.finished,t.complain_time,t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.id,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.complain=1 and t.buyer_id=?")
 							.append(complainStatus == null ? " and t.complain in (1,2,3,4,5,6) " : " and t.complain=? ")
 							.append(buyerNickname == null ? "" : " and t.buyer_taobaoaccount_name like ? ")
 							.append(sellerNickname == null ? "" : " and t.seller_taobaoaccount_name like ? ")
@@ -1005,6 +1042,7 @@ public class IambuyerEntrance {
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
+				item.put("finished", rs.getObject("finished"));
 				item.put("id", rs.getObject("id"));
 				item.put("complainTime", rs.getObject("complain_time"));
 				item.put("payPrice", rs.getObject("pay_price"));
