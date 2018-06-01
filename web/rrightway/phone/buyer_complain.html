@@ -7,14 +7,14 @@
     <meta name="full-screen" content="yes" /><meta name="browsermode" content="application" />
     <!-- QQ强制竖屏 QQ强制全屏 -->
     <meta name="x5-orientation" content="portrait" /><meta name="x5-fullscreen" content="true" /><meta name="x5-page-mode" content="app" /><title>
-        投诉商家-左左试用平台触屏版
+        投诉商家-商家联盟试用平台触屏版
     </title><link rel="stylesheet" type="text/css" href="css/golbal.css" /><link rel="stylesheet" type="text/css" href="css/moblie.css" />
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
     <script src="js/com.js" type="text/javascript"></script>
     <script src="js/default.js" type="text/javascript"></script>
     <script src="js/upload.js" type="text/javascript"></script>
     <script src="js/jquery-form.js"></script>
-    <meta name="description" content="左左街-专业的试用网" /><meta name="keywords" content="左左,左左街,试用,推广" /></head>
+    <meta name="description" content="商家联盟-专业的试用网" /><meta name="keywords" content="联盟,商家联盟,试用,推广" /></head>
 
 <body>
 <form method="post" action="./add.aspx?id=1107359" id="aspnetForm">
@@ -205,7 +205,7 @@
                 type: "POST",
                 url: "/rrightway/p/m/iambuyerent/complain",
                 data: "token=" + token + "&order_id=" + queryObject.orderId + "&reason=" + $("#ddlreason").val()
-                + "&explanation=" + $("#txtscontent").val() + "&proof_pics=" + escape($("#hfpic1").val().replace('|',',')),
+                + "&explanation=" + $("#txtscontent").val() + "&proof_pics=" + $("#hfpic1").val().replace(/\|/g,','),
                 success: function (res) {
 
                     if (res.code==0) {

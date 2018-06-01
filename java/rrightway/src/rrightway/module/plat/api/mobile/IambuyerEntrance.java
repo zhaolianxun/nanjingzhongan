@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import rrightway.constant.SysParam;
 import rrightway.entity.InteractRuntimeException;
 import rrightway.module.plat.business.GetLoginStatus;
 import rrightway.module.plat.entity.UserLoginStatus;
@@ -540,7 +541,7 @@ public class IambuyerEntrance {
 			pst = connection.prepareStatement(new StringBuilder(
 					"update t_order set auto_return_time=?,review_pic_audit=0,review_pics=?,review_pic_commit_time=? where id=?")
 							.toString());
-			pst.setObject(1, new Date().getTime() + 2 * 24 * 60 * 60 * 1000l);
+			pst.setObject(1, new Date().getTime() + SysParam.reviewedExpiredReturnTime);
 			pst.setObject(2, reviewPics);
 			pst.setObject(3, new Date().getTime());
 			pst.setObject(4, orderId);
@@ -718,7 +719,8 @@ public class IambuyerEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(
-					new StringBuilder("update t_order set complain=5 where id=? and finished=0 ").toString());
+					new StringBuilder("update t_order set complain=5 where id=? and finished=0 and complain in (1,6) ")
+							.toString());
 			pst.setObject(1, orderId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
@@ -753,6 +755,7 @@ public class IambuyerEntrance {
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(
 					new StringBuilder("select t.review_pic_audit,t.status from t_order t where t.id=?").toString());
 			pst.setObject(1, orderId);
@@ -764,12 +767,14 @@ public class IambuyerEntrance {
 					throw new InteractRuntimeException("卖家还未核对");
 				if (status == 2)
 					throw new InteractRuntimeException("已返现");
-				if (status == 3 || status == 4)
+				if (status == 3 || status == 4 || status == 5)
 					throw new InteractRuntimeException("已取消");
 				if (status != 1)
 					throw new InteractRuntimeException("订单不是已核对状态");
-				if (audit != 0)
+				if (audit == 3)
 					throw new InteractRuntimeException("评价图未提交");
+				if (audit == 2)
+					throw new InteractRuntimeException("评价图有误，请重新提交");
 			}
 			pst.close();
 
@@ -910,12 +915,22 @@ public class IambuyerEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_seller_proof_desc,t.rightprotect_buyer_proof_desc,t.rightprotect_seller_proof_pics,t.rightprotect_buyer_proof_pics,t.rightprotect_buyer_addkf_describe,t.rightprotect_buyer_addkf_pics,t.rightprotect_seller_addkf_pics,t.rightprotect_seller_addkf_describe,t.rightprotect_reason,t.rightprotect_status,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,insert(t.seller_taobaoaccount_name,2,3,'***') seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t where t.id=?")
+					"select t.complain_fail_reason,t.activity_title,a.coupon_url,t.auto_return_time,t.rightprotect_time,t.review_pics,t.complain_proof_pics,t.complain,t.complain_explanation,t.complain_reason,t.complain_time,t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_seller_proof_desc,t.rightprotect_buyer_proof_desc,t.rightprotect_seller_proof_pics,t.rightprotect_buyer_proof_pics,t.rightprotect_buyer_addkf_describe,t.rightprotect_buyer_addkf_pics,t.rightprotect_seller_addkf_pics,t.rightprotect_seller_addkf_describe,t.rightprotect_reason,t.rightprotect_status,t.buyer_cancel_reason,t.seller_cancel_reason,t.way_to_shop,t.activity_id,t.review_pic_audit,t.review_pic_commit_time,t.check_time,t.status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover,t.buy_way,t.coupon_if,t.buyer_taobaoaccount_name,insert(t.seller_taobaoaccount_name,2,3,'***') seller_taobaoaccount_name,t.gift_express_co,t.buyer_mincredit,t.taobao_orderid from t_order t left join t_activity a on t.activity_id=a.id where t.id=?")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
 			if (rs.next()) {
+				item.put("complainFailReason", rs.getObject("complain_fail_reason"));
+				item.put("couponUrl", rs.getObject("coupon_url"));
+				item.put("activityTitle", rs.getObject("activity_title"));
+				item.put("autoReturnTime", rs.getObject("auto_return_time"));
+				item.put("rightprotectTime", rs.getObject("rightprotect_time"));
+				item.put("complainProofPics", rs.getObject("complain_proof_pics"));
+				item.put("complain", rs.getObject("complain"));
+				item.put("complainExplanation", rs.getObject("complain_explanation"));
+				item.put("complainReason", rs.getObject("complain_reason"));
+				item.put("complainTime", rs.getObject("complain_time"));
 				item.put("rightprotectSellerProof", rs.getObject("rightprotect_seller_proof"));
 				item.put("rightprotectBuyerProof", rs.getObject("rightprotect_buyer_proof"));
 				item.put("rightprotectSellerAddkf", rs.getObject("rightprotect_seller_addkf"));
@@ -951,6 +966,7 @@ public class IambuyerEntrance {
 				item.put("status", rs.getObject("status"));
 				item.put("sellerCancelReason", rs.getObject("seller_cancel_reason"));
 				item.put("buyerCancelReason", rs.getObject("buyer_cancel_reason"));
+				item.put("reviewPics", rs.getObject("review_pics"));
 			} else
 				throw new InteractRuntimeException("订单不存在");
 
@@ -1025,8 +1041,8 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.finished,t.complain_time,t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.id,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.complain=1 and t.buyer_id=?")
-							.append(complainStatus == null ? " and t.complain in (1,2,3,4,5,6) " : " and t.complain=? ")
+					"select t.complain_fail_reason,t.finished,t.complain_time,t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.id,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.buyer_id=?")
+							.append(complainStatus == null ? " and t.complain in (1,2,6) " : " and t.complain=? ")
 							.append(buyerNickname == null ? "" : " and t.buyer_taobaoaccount_name like ? ")
 							.append(sellerNickname == null ? "" : " and t.seller_taobaoaccount_name like ? ")
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
@@ -1053,6 +1069,7 @@ public class IambuyerEntrance {
 				item.put("buyWay", rs.getObject("buy_way"));
 				item.put("couponIf", rs.getObject("coupon_if"));
 				item.put("wayToShop", rs.getObject("way_to_shop"));
+				item.put("complainFailReason", rs.getObject("complain_fail_reason"));
 				items.add(item);
 			}
 			pst.close();

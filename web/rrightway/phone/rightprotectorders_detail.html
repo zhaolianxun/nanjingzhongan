@@ -385,7 +385,7 @@
                             $('#statusNotes').text('维权中')
                             $('#notes').text('(等待试客确认)')
                             $('#cancelbtn').css('display','');
-                            $('#lefttimePad').removeClass('hidden').find('.lefttime').attr('date',rxw.formatDateTime(res.data.rightprotectTime+2*60*60*1000))
+                            $('#lefttimePad').removeClass('hidden').find('.lefttime').attr('date',rxw.formatDateTime(res.data.rightprotectTime+2*24*60*60*1000))
                            // btnstr += '<a href="javascript:;" class="cancle recoder">取消维权</a>';
                             break;
                         case 12:

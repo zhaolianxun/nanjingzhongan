@@ -6,13 +6,13 @@
     <meta name="full-screen" content="yes" /><meta name="browsermode" content="application" />
     <!-- QQ强制竖屏 QQ强制全屏 -->
     <meta name="x5-orientation" content="portrait" /><meta name="x5-fullscreen" content="true" /><meta name="x5-page-mode" content="app" /><title>
-        投诉管理-左左试用平台触屏版
+        投诉管理-商家联盟试用平台触屏版
     </title><link rel="stylesheet" type="text/css" href="css/golbal.css" /><link rel="stylesheet" type="text/css" href="css/moblie.css" />
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
     <script src="js/com.js" type="text/javascript"></script>
     <script src="js/default.js" type="text/javascript"></script>
     <script src="rxw/rxw.js" type="text/javascript"></script>
-    <meta name="description" content="左左街-专业的试用网" /><meta name="keywords" content="左左,左左街,试用,推广" /></head>
+    <meta name="description" content="商家联盟-专业的试用网" /><meta name="keywords" content="联盟,商家联盟,试用,推广" /></head>
 
 <body>
 <form method="post" action="./index.aspx?type=0" id="Form1">
@@ -56,7 +56,7 @@
 
 
             <div id="itemExample" class="buyed_item" style="display:none">
-                <div class="bit_head clearfix sp2"><p><b class="c2f97f0" name="statusShow">等待客服审核</b></p><span>投诉编号：<span  name="complainId"></span><br />申请时间：<span  name="complainTime"></span></span></div>
+                <div class="bit_head clearfix sp2"><p><b class="c2f97f0" name="statusShow"></b><i  name="notes" class="bl c999"></i></p><span>订单编号：<span  name="complainId"></span><br />投诉时间：<span  name="complainTime"></span></span></div>
                 <div class="bit_content bt1 f14">
                     <a name="detailUrl" href="">
                         <img name="giftCover" src="" onerror="this.src='image/nopic.png'" >
@@ -67,7 +67,7 @@
                         </p>
                     </a>
                 </div>
-                <div class="bit_bottom bt1 clearfix"><p name="dataid" class="fr txtc " dataid=""><a name="msgpadent" href="list.aspx?id=7510" class="bgf60 dl brd5 cfff sbt_100_30 mr10">留言板</a><a href="javascript:;" class="dl brd5 sbt_98_28 bd1 sbt_100_30 cancle">取消投诉</a></p></div>
+                <div class="bit_bottom bt1 clearfix"><p name="dataid" class="fr txtc " dataid=""><a name="msgpadent" href="list.aspx?id=7510" class="bgf60 dl brd5 cfff sbt_100_30 mr10">留言板</a><a  style="display: none"  href="javascript:;" class="dl brd5 sbt_98_28 bd1 sbt_100_30 cancle">取消投诉</a><a style="display: none" href="javascript:;" class="dl brd5 sbt_98_28 bd1 sbt_100_30 recomplain">重新投诉</a></p></div>
             </div>
 
 
@@ -214,8 +214,23 @@
                         items[ele.id]=ele;
                         var newItem = $('#itemExample').clone(true);
                         newItem.attr('id','item'+ele.id)
-                        if(ele.complain==1)
+                        if(ele.complain==1){
                             newItem.find('[name=statusShow]').text('等待客服审核')
+                            newItem.find('.cancle').css('display','')
+                        }else if(ele.complain==2){
+                            newItem.find('[name=statusShow]').text('审核失败')
+                            newItem.find('[name=notes]').text('('+ele.complainFailReason+')')
+                            newItem.find('.cancle').css('display','')
+                            newItem.find('.recomplain').css('display','').attr('href','buyer_complain.html?'+'orderId='+ele.id+'&orderTime='+ele.orderTime+'&giftName='+ele.giftName+'&giftCover='+ele.giftCover+'&payPrice='+ele.payPrice+'&returnMoney='+ele.returnMoney+'&activityId='+ele.activityId+'')
+
+
+                        }  else if(ele.complain==6){
+                            newItem.find('[name=statusShow]').text('投诉成功')
+                            newItem.find('.cancle').css('display','')
+                        } else if(res.data.complain==5){
+
+                            newItem.find('[name=statusShow]').text('投诉已取消')
+                        }
                         newItem.find('[name=complainId]').text(ele.id)
                         newItem.find('[name=dataid]').attr('dataid',ele.id)
                         newItem.find('[name=complainTime]').text(rxw.formatDateTime(ele.complainTime))

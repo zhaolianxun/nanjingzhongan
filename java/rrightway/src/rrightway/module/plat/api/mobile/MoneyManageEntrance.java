@@ -130,7 +130,7 @@ public class MoneyManageEntrance {
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 
-			String vcodeValue = jedis.get(vcode);
+			String vcodeValue = jedis.get(vcode.toUpperCase());
 			if (vcodeValue == null || vcodeValue.isEmpty())
 				throw new InteractRuntimeException("验证码错误");
 			else

@@ -108,9 +108,9 @@ public class GatherTask {
 										.toString());
 						pst.setObject(1, orderId);
 						cnt = pst.executeUpdate();
+						pst.close();
 						if (cnt != 1)
 							throw new InteractRuntimeException("操作失败");
-						pst.close();
 
 						// 买家收到返现
 						BigDecimal addMoney = returnMoney.multiply(new BigDecimal(0.2)).setScale(2, RoundingMode.DOWN);
@@ -122,9 +122,9 @@ public class GatherTask {
 						pst.setObject(2, addMoney);
 						pst.setObject(3, buyerId);
 						cnt = pst.executeUpdate();
+						pst.close();
 						if (cnt != 1)
 							throw new InteractRuntimeException("操作失败");
-						pst.close();
 
 						String billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 						pst = connection.prepareStatement(new StringBuilder(
@@ -137,6 +137,7 @@ public class GatherTask {
 						pst.setObject(5, new Date().getTime());
 						pst.setObject(6, orderId);
 						cnt = pst.executeUpdate();
+						pst.close();
 						if (cnt != 1)
 							throw new InteractRuntimeException("操作失败");
 
@@ -153,10 +154,12 @@ public class GatherTask {
 						pst.setObject(7, orderId);
 
 						cnt = pst.executeUpdate();
+						pst.close();
 						if (cnt != 1)
 							throw new InteractRuntimeException("操作失败");
 						connection.commit();
 					}
+					pst.close();
 				} catch (Exception e) {
 					logger.info(ExceptionUtils.getStackTrace(e));
 					if (connection != null)
@@ -172,7 +175,8 @@ public class GatherTask {
 			// 买家超过2天未处理，自动同意维权
 			// 查询需要处理的订单
 			pst = connection.prepareStatement(
-					"select id from t_order where rightprotect_status=7 and status=1 and rightprotect_time  is not null  and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-(rightprotect_time))>2*24*60*60*1000");
+					"select id from t_order where rightprotect_status=7 and status=1 and rightprotect_time  is not null  and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-(rightprotect_time))>?");
+			pst.setObject(1, SysParam.autoConfirmRightProjectPeriod);
 			orderIds = new ArrayList<String>();
 			rs = pst.executeQuery();
 			while (rs.next()) {
