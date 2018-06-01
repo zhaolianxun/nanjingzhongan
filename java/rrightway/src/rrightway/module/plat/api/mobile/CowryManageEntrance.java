@@ -153,21 +153,22 @@ public class CowryManageEntrance {
 			try {
 				Document mydoc = Jsoup.parse(new URL(crowyUrl), 30000);
 				List<String> pics = mydoc.getElementById("J_UlThumb").getElementsByTag("img").eachAttr("data-src");
+				List<String> pics1 = new ArrayList<String>();
 				for (int i = 0; i < pics.size(); i++) {
 					String pic = pics.get(i);
 					pic = pic.replaceAll("50x50", "400x400");
 					if (!pic.contains("https:")) {
 						pic = "https:" + pic;
 					}
-					pics.add(i, pic);
+					pics1.add(i, pic);
 				}
 
-				if (!pics.isEmpty()) {
-					cover = pics.get(0);
-					pics.remove(0);
-					if (pics.size() > 1) {
-						for (int i = 0; i < pics.size(); i++) {
-							detailPics.add(pics.get(i));
+				if (!pics1.isEmpty()) {
+					cover = pics1.get(0);
+					pics1.remove(0);
+					if (pics1.size() > 1) {
+						for (int i = 0; i < pics1.size(); i++) {
+							detailPics.add(pics1.get(i));
 						}
 					}
 				}
