@@ -39,6 +39,7 @@ public class ImgValidateController {
 			String code = ivc.createCode();
 			jedis.setex(code, 5 * 60, code);
 			jedis.close();
+			jedis = null;
 			// 返回结果
 			ivc.write(response.getOutputStream());
 		} catch (Exception e) {
