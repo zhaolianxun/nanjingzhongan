@@ -1,5 +1,5 @@
 var rxw1={};
-rxw1.debug=true
+rxw1.debug=false
 rxw1.relativePath=''
 rxw1.errorpad=function (content) {
     if ($("#errorpad").length <= 0) {

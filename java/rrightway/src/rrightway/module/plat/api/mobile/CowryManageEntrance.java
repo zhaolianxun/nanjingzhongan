@@ -52,7 +52,7 @@ public class CowryManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select (select count(id) from t_activity where del=0 and user_id=? and audit in (0,2)) auditingCount,(select count(id) from t_activity where del=0 and user_id=? and status=1 and audit=1) inactCount,(select count(id) from t_activity where del=0 and user_id=? and status=3) instoreCount")
+					"select (select count(id) from t_activity where del=0 and user_id=? and audit in (0,2)) auditingCount,(select count(id) from t_activity where del=0 and user_id=? and status=1 and audit=1) inactCount,(select count(id) from t_activity where del=0 and user_id=? and status=3 and audit in (1,2,4)) instoreCount")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, loginStatus.getUserId());
