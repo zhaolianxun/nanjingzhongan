@@ -25,6 +25,7 @@ import rrightway.constant.SysParam;
 import rrightway.entity.InteractRuntimeException;
 import rrightway.module.plat.business.GetLoginStatus;
 import rrightway.module.plat.entity.UserLoginStatus;
+import rrightway.module.plat.task.PushMessageQueue;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
@@ -59,7 +60,7 @@ public class ActivityDetailEntrance {
 					"select tb.taobao_user_nick,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_cover,t.cowry_url,t.gift_pics"
 							+ (loginStatus == null ? ",0"
 									: ",(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id)")
-							+ " apply_if,t.buyer_num,t.gift_cover,t.gift_name,t.pay_price,t.return_money,(t.publish_time+t.keep_days*24*60*60*1000) end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit,t.gift_express_co"
+							+ " apply_if,t.buyer_num,t.gift_cover,t.gift_name,t.pay_price,t.return_money,(t.start_time+t.keep_days*24*60*60*1000) end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit,t.gift_express_co"
 							+ (loginStatus == null ? ",null gift_detail" : ",t.gift_detail")
 							+ " from t_activity t left join t_taobaoaccount tb on t.taobaoaccount_id=tb.id where t.id=?")
 									.toString());
@@ -229,7 +230,7 @@ public class ActivityDetailEntrance {
 
 			pst.close();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.status,t.audit,(select if(count(id)>0,1,0) from t_order where buyer_id=? and seller_id=t.user_id and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0') -order_time) < ?) apply_of_seller_if,gift_type1_name,gift_type2_name,stock,way_to_shop,(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id) apply_if,t.start_time,t.keep_days,t.gift_express_co,t.buyer_mincredit,t.gift_cover,tbs.taobao_user_nick,t.taobaoaccount_id,t.user_id,t.gift_name,t.title,t.pay_price,t.return_money,t.buy_way,if((isnull(t.coupon_url)||length(trim(t.coupon_url))=0),0,1) coupon_if from t_activity t inner join t_taobaoaccount tbs on t.taobaoaccount_id=tbs.id where t.id=? for update")
+					"select t.user_id seller_id,t.status,t.audit,(select if(count(id)>0,1,0) from t_order where buyer_id=? and seller_id=t.user_id and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0') -order_time) < ?) apply_of_seller_if,gift_type1_name,gift_type2_name,stock,way_to_shop,(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id) apply_if,t.start_time,t.keep_days,t.gift_express_co,t.buyer_mincredit,t.gift_cover,tbs.taobao_user_nick,t.taobaoaccount_id,t.user_id,t.gift_name,t.title,t.pay_price,t.return_money,t.buy_way,if((isnull(t.coupon_url)||length(trim(t.coupon_url))=0),0,1) coupon_if from t_activity t inner join t_taobaoaccount tbs on t.taobaoaccount_id=tbs.id where t.id=? for update")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, SysParam.buyFromSameSellerInterval);
@@ -237,6 +238,8 @@ public class ActivityDetailEntrance {
 			pst.setObject(4, activityId);
 			rs = pst.executeQuery();
 			String orderId = null;
+			String sellerId = null;
+			String activityTitle = null;
 			int stock = 0;
 			if (rs.next()) {
 				int applyOfSellerIf = rs.getInt("apply_of_seller_if");
@@ -263,13 +266,13 @@ public class ActivityDetailEntrance {
 				stock = rs.getInt("stock");
 				if (stock <= 0)
 					throw new InteractRuntimeException("库存不足");
-
+				sellerId = rs.getString("seller_id");
 				String giftExpressCo = rs.getString("gift_express_co");
 				int couponIf = rs.getInt("coupon_if");
 				int buyWay = rs.getInt("buy_way");
 				int wayToShop = rs.getInt("way_to_shop");
 				String giftName = rs.getString("gift_name");
-				String title = rs.getString("title");
+				activityTitle = rs.getString("title");
 				String giftCover = rs.getString("gift_cover");
 				String sellerTaobaoUserNick = rs.getString("taobao_user_nick");
 				String giftType1Name = rs.getString("gift_type1_name");
@@ -289,7 +292,7 @@ public class ActivityDetailEntrance {
 				pst.setObject(5, buyerTaobaoaccountId);
 				pst.setObject(6, activityId);
 				pst.setObject(7, giftName);
-				pst.setObject(8, title);
+				pst.setObject(8, activityTitle);
 				pst.setObject(9, payPrice);
 				pst.setObject(10, returnMoney);
 				pst.setObject(11, new Date().getTime());
@@ -318,6 +321,8 @@ public class ActivityDetailEntrance {
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 			connection.commit();
+
+			PushMessageQueue.applyToSeller(sellerId, null, activityTitle);
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("orderId", orderId);

@@ -53,12 +53,13 @@ public class MessageCenterEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			List sqlParams = new ArrayList();
+			sqlParams.add(loginStatus.getUserId());
 			if (type != null)
 				sqlParams.add(type);
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.title,right(t.content, 100) content,t.type,t.read_if,t.send_time from t_message t where del=0 ")
+					"select t.id,t.title,right(t.content, 100) content,t.type,t.read_if,t.send_time from t_message t where t.del=0 and t.user_id=? ")
 							.append(type == null ? "" : " and t.type =? ")
 							.append(" order by t.read_if asc,t.send_time desc limit ?,?").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {

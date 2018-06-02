@@ -309,6 +309,8 @@ public class CowryManageEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
+			if (loginStatus.getStatus() == 1)
+				throw new InteractRuntimeException("您的账户已被冻结，请联系客服。");
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
@@ -440,7 +442,8 @@ public class CowryManageEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-
+			if (loginStatus.getStatus() == 1)
+				throw new InteractRuntimeException("您的账户已被冻结，请联系客服。");
 			connection = RrightwayDataSource.dataSource.getConnection();
 			List sqlParams = new ArrayList();
 			if (activityTitle != null)
@@ -598,7 +601,8 @@ public class CowryManageEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-
+			if (loginStatus.getStatus() == 1)
+				throw new InteractRuntimeException("您的账户已被冻结，请联系客服。");
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
 					new StringBuilder("update t_activity set stock=? where id=? and status=1").toString());
@@ -641,7 +645,8 @@ public class CowryManageEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-
+			if (loginStatus.getStatus() == 1)
+				throw new InteractRuntimeException("您的账户已被冻结，请联系客服。");
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
 					new StringBuilder("update t_activity set keep_days=?,start_time=? where id=? and status=1")
@@ -996,7 +1001,8 @@ public class CowryManageEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-
+			if (loginStatus.getStatus() == 1)
+				throw new InteractRuntimeException("您的账户已被冻结，请联系客服。");
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(new StringBuilder(

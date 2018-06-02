@@ -18,12 +18,16 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import redis.clients.jedis.Jedis;
+import rrightway.constant.SysConstant;
 import rrightway.entity.InteractRuntimeException;
 import rrightway.module.plat.business.GetLoginStatus;
 import rrightway.module.plat.entity.UserLoginStatus;
+import rrightway.module.plat.task.PushMessageQueue;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
@@ -715,35 +719,66 @@ public class AdminEntrance {
 	public void userFreeze(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
+		Jedis jedis = null;
 		try {
 			// 获取请求参数
 			String userId = StringUtils.trimToNull(request.getParameter("user_id"));
 			if (userId == null)
 				throw new InteractRuntimeException("user_id 不能空");
+			String reason = StringUtils.trimToNull(request.getParameter("reason"));
+			if (reason == null)
+				throw new InteractRuntimeException("reason 不能空");
 
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			jedis = SysConstant.jedisPool.getResource();
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request, jedis);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 			if (loginStatus.getAdminIf() != 1)
 				throw new InteractRuntimeException("您不是管理员");
 
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement(new StringBuilder("update t_user set status=1 where id=?").toString());
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_user set status=1,freeze_reason=? where id=?").toString());
 			pst.setObject(1, userId);
+			pst.setObject(2, reason);
 			int n = pst.executeUpdate();
-
 			pst.close();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
+
+			String userToken = jedis.get(userId);
+			UserLoginStatus userLoginStatus = null;
+			if (userToken != null && !userToken.isEmpty()) {
+				String userLoginStatusStr = jedis.get("rrightway.plat.token-" + userToken);
+				if (userLoginStatusStr != null && !userLoginStatusStr.isEmpty())
+					userLoginStatus = JSON.parseObject(userLoginStatusStr, UserLoginStatus.class);
+			}
+			if (userLoginStatus != null) {
+				userLoginStatus.setStatus(1);
+
+				jedis.set("rrightway.plat.token-" + userToken, JSON.toJSONString(userLoginStatus));
+				jedis.set(userId, userToken);
+
+				jedis.expire(userId, 7 * 24 * 60 * 60);
+				jedis.expire("rrightway.plat.token-" + userToken, 7 * 24 * 60 * 60);
+			}
+			connection.commit();
+
+			PushMessageQueue.freezeUser(userId, null, reason);
 
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
+			if (jedis != null)
+				jedis.close();
 			if (pst != null)
 				pst.close();
 			if (connection != null)
@@ -755,20 +790,25 @@ public class AdminEntrance {
 	public void userUnfreeze(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
+		Jedis jedis = null;
+
 		try {
 			// 获取请求参数
 			String userId = StringUtils.trimToNull(request.getParameter("user_id"));
 			if (userId == null)
 				throw new InteractRuntimeException("user_id 不能空");
 
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			jedis = SysConstant.jedisPool.getResource();
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request, jedis);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 			if (loginStatus.getAdminIf() != 1)
 				throw new InteractRuntimeException("您不是管理员");
 
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement(new StringBuilder("update t_user set status=0 where id=?").toString());
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_user set status=0,freeze_reason=null where id=?").toString());
 			pst.setObject(1, userId);
 			int n = pst.executeUpdate();
 
@@ -776,14 +816,35 @@ public class AdminEntrance {
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
 
+			String userToken = jedis.get(userId);
+			UserLoginStatus userLoginStatus = null;
+			if (userToken != null && !userToken.isEmpty()) {
+				String userLoginStatusStr = jedis.get("rrightway.plat.token-" + userToken);
+				if (userLoginStatusStr != null && !userLoginStatusStr.isEmpty())
+					userLoginStatus = JSON.parseObject(userLoginStatusStr, UserLoginStatus.class);
+			}
+			if (userLoginStatus != null) {
+				userLoginStatus.setStatus(0);
+				jedis.set("rrightway.plat.token-" + userToken, JSON.toJSONString(userLoginStatus));
+				jedis.set(userId, userToken);
+				jedis.expire(userId, 7 * 24 * 60 * 60);
+				jedis.expire("rrightway.plat.token-" + userToken, 7 * 24 * 60 * 60);
+			}
+			connection.commit();
+
+			PushMessageQueue.unfreezeUser(userId, null);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
+			if (jedis != null)
+				jedis.close();
 			if (pst != null)
 				pst.close();
 			if (connection != null)
@@ -1046,11 +1107,11 @@ public class AdminEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection.prepareStatement(
-					new StringBuilder("select t.complain,t.finished from t_order t  where t.id=? for update")
-							.toString());
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.complain,t.finished,t.seller_id from t_order t  where t.id=? for update").toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
+			String sellerId = null;
 			if (rs.next()) {
 				int complain = rs.getInt("complain");
 				int finished = rs.getInt("finished");
@@ -1060,6 +1121,7 @@ public class AdminEntrance {
 					throw new InteractRuntimeException("买家已取消");
 				if (finished == 1)
 					throw new InteractRuntimeException("订单已结束");
+				sellerId = rs.getString("seller_id");
 			}
 			pst.close();
 
@@ -1070,6 +1132,8 @@ public class AdminEntrance {
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
 			connection.commit();
+
+			PushMessageQueue.complainWarning(sellerId, null, orderId);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {

@@ -416,6 +416,8 @@
                             break;
                     }
                     $('#activityTitle').text(res.data.activityTitle);
+                    $('#payPrice').text(res.data.payPrice.toFixed(2));
+                    $('#returnMoney').text(res.data.returnMoney.toFixed(2));
                     $('#orderTime').text(rxw.formatDateTime(res.data.orderTime));
                     $('#cowryUrl').attr('href','detail.html?id='+res.data.activityId)
                     $('#taobaoOrderid').text(res.data.taobaoOrderid);

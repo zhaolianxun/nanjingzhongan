@@ -335,7 +335,8 @@ public class TradeManageEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-
+			if (loginStatus.getStatus() == 1)
+				throw new InteractRuntimeException("您的账户已被冻结，请联系客服。");
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(new StringBuilder(
@@ -854,37 +855,6 @@ public class TradeManageEntrance {
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
-
-			// 卖家扣除返现
-			// pst = connection.prepareStatement(
-			// new StringBuilder("update t_user set frozen_money=frozen_money-?
-			// where id=? and frozen_money-? >=0")
-			// .toString());
-			// pst.setObject(1, returnMoney);
-			// pst.setObject(2, loginStatus.getUserId());
-			// pst.setObject(3, returnMoney);
-			// cnt = pst.executeUpdate();
-			// if (cnt != 1)
-			// throw new InteractRuntimeException("操作失败");
-			// pst.close();
-
-			// String billId = new Date().getTime() +
-			// RandomStringUtils.randomNumeric(2);
-			// pst = connection.prepareStatement(new StringBuilder(
-			// "insert into t_bill
-			// (id,user_id,amount,note,happen_time,link,type)
-			// values(?,?,?,?,?,?,4)")
-			// .toString());
-			// pst.setObject(1, billId);
-			// pst.setObject(2, loginStatus.getUserId());
-			// pst.setObject(3, returnMoney.negate());
-			// pst.setObject(4, "扣除返现");
-			// pst.setObject(5, new Date().getTime());
-			// pst.setObject(6, orderId);
-			// cnt = pst.executeUpdate();
-			// if (cnt != 1)
-			// throw new InteractRuntimeException("操作失败");
-			// pst.close();
 
 			// 卖家主动返现奖励
 			pst = connection.prepareStatement(

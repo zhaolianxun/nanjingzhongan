@@ -104,7 +104,7 @@ public class GatherTask {
 
 						// 修改订单状态
 						pst = connection.prepareStatement(new StringBuilder(
-								"update t_order set status=2 where id=? and rightprotect_status in (13,0) and status=1 and reviewPicAudit in (3,0)")
+								"update t_order set status=2,finished=1 where id=? and rightprotect_status in (13,0) and status=1 and reviewPicAudit in (3,0)")
 										.toString());
 						pst.setObject(1, orderId);
 						cnt = pst.executeUpdate();
@@ -133,7 +133,7 @@ public class GatherTask {
 						pst.setObject(1, billId);
 						pst.setObject(2, buyerId);
 						pst.setObject(3, returnMoney);
-						pst.setObject(4, "收到返现，其中转入右钱包" + toWalletMoney);
+						pst.setObject(4, "收到返现" + returnMoney + "元，其中转入右钱包" + toWalletMoney);
 						pst.setObject(5, new Date().getTime());
 						pst.setObject(6, orderId);
 						cnt = pst.executeUpdate();
@@ -271,6 +271,7 @@ public class GatherTask {
 						connection.commit();
 					}
 
+					// 钱包的钱超过15天计入可转金额
 				} catch (Exception e) {
 					logger.info(ExceptionUtils.getStackTrace(e));
 					if (connection != null)

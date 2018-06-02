@@ -129,7 +129,8 @@ public class MoneyManageEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request, jedis);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-
+			if (loginStatus.getStatus() == 1)
+				throw new InteractRuntimeException("您的账户已被冻结，请联系客服。");
 			String vcodeValue = jedis.get(vcode.toUpperCase());
 			if (vcodeValue == null || vcodeValue.isEmpty())
 				throw new InteractRuntimeException("验证码错误");
@@ -288,7 +289,8 @@ public class MoneyManageEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-
+			if (loginStatus.getStatus() == 1)
+				throw new InteractRuntimeException("您的账户已被冻结，请联系客服。");
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(new StringBuilder(

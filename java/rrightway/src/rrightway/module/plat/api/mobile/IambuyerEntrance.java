@@ -25,6 +25,7 @@ import rrightway.constant.SysParam;
 import rrightway.entity.InteractRuntimeException;
 import rrightway.module.plat.business.GetLoginStatus;
 import rrightway.module.plat.entity.UserLoginStatus;
+import rrightway.module.plat.task.PushMessageQueue;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
@@ -214,6 +215,19 @@ public class IambuyerEntrance {
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement(
+					new StringBuilder("select t.seller_id,t.taobao_orderid from t_order t where t.id=? for update")
+							.toString());
+			pst.setObject(1, orderId);
+			ResultSet rs = pst.executeQuery();
+			String sellerId = null;
+			String oldTaobaoOrderid = null;
+			if (rs.next()) {
+				sellerId = rs.getString("seller_id");
+				oldTaobaoOrderid = rs.getString("taobao_orderid");
+			} else
+				throw new InteractRuntimeException("订单不存在");
+
 			pst = connection
 					.prepareStatement(new StringBuilder("update t_order set taobao_orderid=? where id=?").toString());
 			pst.setObject(1, taobaoOrderid);
@@ -223,6 +237,8 @@ public class IambuyerEntrance {
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 
+			if (StringUtils.isEmpty(oldTaobaoOrderid))
+				PushMessageQueue.completeToSeller(sellerId, null, orderId);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
@@ -447,7 +463,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.activity_id,t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.review_pic_audit,t.review_pics,t.rightprotect_status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where del=0 and t.buyer_id=?")
+					"select t.activity_id,t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.review_pic_audit,t.review_pics,t.rightprotect_status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.buyer_id=?")
 							.append(tradeStatus == 1 ? " and t.status=1 " : "")
 							.append(tradeStatus == 2 ? " and t.status=1 and t.rightprotect_status in (7,8,9,10,11) "
 									: "")
@@ -1146,7 +1162,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize);
 
 			String sql = new StringBuilder(
-					"select t.activity_id,t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_status,t.rightprotect_reason,t.order_time,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buy_way,t.coupon_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 and t.buyer_id=?")
+					"select t.activity_id,t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.rightprotect_status,t.rightprotect_reason,t.order_time,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buy_way,t.coupon_if,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id where 1=1 and t.buyer_id=? and t.del=0 ")
 							.append(tradeStatus == null ? " and t.rightprotect_status != 0 "
 									: (tradeStatus == 1 ? " and t.rightprotect_status in (7,10)"
 											: (tradeStatus == 2 ? " and t.rightprotect_status=12"

@@ -347,6 +347,7 @@ public class UserAction {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
+			String presenterId = StringUtils.trimToNull(request.getParameter("presenter_id"));
 			String username = StringUtils.trimToNull(request.getParameter("username"));
 			if (username == null)
 				throw new InteractRuntimeException("username 不可空");
@@ -373,13 +374,14 @@ public class UserAction {
 
 			// 插入用户
 			pst = connection.prepareStatement(
-					"insert into t_user (id,username,pwd,pwd_md5,register_time,qq) values(?,?,?,?,?,?)");
+					"insert into t_user (id,username,pwd,pwd_md5,register_time,qq,register_presenter_id) values(?,?,?,?,?,?,?)");
 			pst.setObject(1, RandomStringUtils.randomNumeric(12));
 			pst.setObject(2, username);
 			pst.setObject(3, pwd);
 			pst.setObject(4, DigestUtils.md5Hex(pwd));
 			pst.setObject(5, new Date().getTime());
 			pst.setObject(6, qq);
+			pst.setObject(7, presenterId);
 
 			int n = pst.executeUpdate();
 			if (n != 1)

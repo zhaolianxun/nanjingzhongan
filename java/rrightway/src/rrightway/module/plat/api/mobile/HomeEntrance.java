@@ -72,7 +72,7 @@ public class HomeEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(
-					"select id,title,if(length(content)<1000,content,null) content from t_notice order by add_time desc limit 0,10");
+					"select id,t.title,if(length(content)<1000,t.content,null) content from t_notice t order by t.last_update_time desc,t.add_time desc limit 0,10");
 			rs = pst.executeQuery();
 			JSONArray notices = new JSONArray();
 			while (rs.next()) {
@@ -148,7 +148,7 @@ public class HomeEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.title,t.content,t.add_time from t_notice t order by t.add_time desc limit ?,? ")
+					"select t.id,t.title,t.content,t.add_time from t_notice t order by t.last_update_time desc,t.add_time desc limit ?,? ")
 							.toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));

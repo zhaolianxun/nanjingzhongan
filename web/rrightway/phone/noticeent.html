@@ -20,9 +20,11 @@
     <meta name="description" content="商家联盟-专业的试用网" />
 
     <link rel="stylesheet" type="text/css" href="css/new.css">
+    <link rel="stylesheet" type="text/css" href="css/rxw.css">
     <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
     <script type="text/javascript" src="js/new.js?2351"></script>
     <script type="text/javascript" src="js/default.js?2351"></script>
+    <script type="text/javascript" src="rxw/rxw.js?2351"></script>
 
 </head>
 
@@ -55,33 +57,53 @@
 <script type="text/javascript" src="js/yh.scroll.store.js" charset="utf-8"></script>
 
 <script>
-
+rxw1.windowTouch({moveup:function(){
+    params.page_no++;
+    loadItems();
+}});
 
     var token = localStorage.getItem('token');
-    var pageNo = 1;
-    var pageSize=30;
+
     var noMoreItems = false;
+    var params = {}
     onload();
 
     function onload(){
+        params = {}
+        noMoreItems = false;
+        params.page_no=1
+        params.page_size=30
         loadItems();
-        if($('#news_list').children().size() == 1)
-            $('.no_data').removeClass('hidden');
-        else
-            $('.loadover').removeClass('hidden');
+//        if($('#news_list').children().size() == 1)
+//            $('.no_data').removeClass('hidden');
+//        else
+//            $('.loadover').removeClass('hidden');
     }
 
 
     function loadItems(){
+        if(!params.page_no)
+            params.page_no = 1;
+        if(!params.page_size)
+            params.page_size = 30;
         $.ajax({
             type: 'POST',
-            data: {page_no: pageNo,page_size: pageSize},
+            data: params,
             async: false,
             url: '/rrightway/p/m/homee/notice/ent?token='+token,
             success: function(res){
                 if(res.code == 0){
-                    if(res.data.items.length==0)
+                    if(res.data.items.length==0){
+                        if(params.page_no == 1){
+                            $('.no_data').removeClass('hidden');
+                        }else{
+                            $('.loadover').removeClass('hidden').text('加载完成');
+                        }
                         noMoreItems=true;
+                    }
+                    else{
+                        $('.loadover').removeClass('hidden').text('上拉加载更多');
+                    }
                     $(res.data.items).each(function(index,ele){
                         var newItem = $('#itemExample').clone(true);
                         newItem.attr('href','phoneIndex_noticeDetail.html?id='+ele.id)
@@ -89,7 +111,7 @@
                         newItem.find('[name=addTime]').text(rxw.formatDateTime(ele.addTime));
 
                         newItem.css('display','');
-                        $('#itemExample').before(newItem);
+                        $('.news_list').append(newItem);
                     })
 
                 }else{

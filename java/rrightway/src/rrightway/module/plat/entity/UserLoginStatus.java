@@ -7,6 +7,15 @@ public class UserLoginStatus {
 	private String username;
 	private long loginTime;
 	private int adminIf;
+	private int status;
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 	public int getAdminIf() {
 		return adminIf;
