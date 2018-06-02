@@ -38,11 +38,11 @@
 
 
         <!-- 已购买的订单 开始-->
-        <div class="u_tab sp5"><a href="index.aspx?type=0" class="crently">全部<i></i></a>
-            <a href="index.aspx?type=1" >待审核<i></i></a>
-            <a href="index.aspx?type=2" >审核失败<i></i></a>
-            <a href="index.aspx?type=3" >待处理<i></i></a>
-            <a href="index.aspx?type=4" >待确定</a></div>
+        <div class="u_tab sp5"><a style="width:100%;" href="buyer_complainManage.html" class="crently">全部<i></i></a></div>
+            <!--<a href="index.aspx?type=1" >待审核<i></i></a>-->
+            <!--<a href="index.aspx?type=2" >审核失败<i></i></a>-->
+            <!--<a href="index.aspx?type=3" >待处理<i></i></a>-->
+            <!--<a href="index.aspx?type=4" >待确定</a>-->
 
         <!-- 没有提示 开始-->
 
@@ -98,15 +98,15 @@
                 <div class="tit">筛选</div>
                 <div class="frbtn" onclick="search()">确定</div>
             </div>
-            <div class="big_item">
-                <div class="item return" rel="box02" id="buy_way">投诉状态 <i class="arrow_right fr">全部</i></div>
-            </div>
+            <!--<div class="big_item">-->
+                <!--<div class="item return" rel="box02" id="buy_way">投诉状态 <i class="arrow_right fr">全部</i></div>-->
+            <!--</div>-->
             <div class="big_item">
                 <div class="item return mt10">买家旺旺<span class="fr pro_txt"><input name="txtsbuyer_taobao_name" type="text" id="txtsbuyer_taobao_name" /></span></div>
                 <div class="item return">卖家旺旺<span class="fr pro_txt"><input name="txtssaller_tabao_name" type="text" id="txtssaller_tabao_name" /></span></div>
                 <div class="item return">商品名称<span class="fr pro_txt"><input name="txtsproduct_name" type="text" id="txtsproduct_name" /></span></div>
                 <div class="item return">订单编号<span class="fr pro_txt"><input name="txtsorder_num" type="text" id="txtsorder_num" /></span></div>
-                <div class="item return">投诉编号<span class="fr pro_txt"><input name="txtscomplain_num" type="text" id="txtscomplain_num" /></span></div>
+                <!--<div class="item return">投诉编号<span class="fr pro_txt"><input name="txtscomplain_num" type="text" id="txtscomplain_num" /></span></div>-->
             </div>
             <div class="big_item">
                 <div class="item return mt10" id="search_time">申请时间<span class="fr time_txt">
@@ -117,19 +117,19 @@
             </div>
             <div class="mt15"><a href="#" class="clearvalue" data="您确定要清空历史记录吗？"><i class="ico_del"></i>清除选项</a></div>
         </div>
-        <div class="content-box bgfff" id="box02">
-            <div class="filterHd">
-                <div class="rebtn">返回</div>
-                <div class="tit">投诉状态</div>
-            </div>
-            <div class="item arrow_select crently" rel="buy_way" data="0">全部<i class="fr"></i></div>
-            <div class="item arrow_select " rel="buy_way" data="1">等待客服审核<i class="fr"></i></div>
-            <div class="item arrow_select " rel="buy_way" data="2">审核失败<i class="fr"></i></div>
-            <div class="item arrow_select " rel="buy_way" data="3">等待商家处理<i class="fr"></i></div>
-            <div class="item arrow_select " rel="buy_way" data="4">等待客服确定<i class="fr"></i></div>
-            <div class="item arrow_select " rel="buy_way" data="5">已完成<i class="fr"></i></div>
-            <div class="item arrow_select " rel="buy_way" data="6">已取消<i class="fr"></i></div>
-        </div>
+        <!--<div class="content-box bgfff" id="box02">-->
+            <!--<div class="filterHd">-->
+                <!--<div class="rebtn">返回</div>-->
+                <!--<div class="tit">投诉状态</div>-->
+            <!--</div>-->
+            <!--<div class="item arrow_select crently" rel="buy_way" data="0">全部<i class="fr"></i></div>-->
+            <!--<div class="item arrow_select " rel="buy_way" data="1">等待客服审核<i class="fr"></i></div>-->
+            <!--<div class="item arrow_select " rel="buy_way" data="2">审核失败<i class="fr"></i></div>-->
+            <!--<div class="item arrow_select " rel="buy_way" data="3">等待商家处理<i class="fr"></i></div>-->
+            <!--<div class="item arrow_select " rel="buy_way" data="4">等待客服确定<i class="fr"></i></div>-->
+            <!--<div class="item arrow_select " rel="buy_way" data="5">已完成<i class="fr"></i></div>-->
+            <!--<div class="item arrow_select " rel="buy_way" data="6">已取消<i class="fr"></i></div>-->
+        <!--</div>-->
         <!-- 筛选内容 结束 -->
 
         <!--弹出时间-->
@@ -203,7 +203,7 @@
                         if(param.page_no != 1)
                             $('.loadover').removeClass('hidden').find('span').text('没有更多数据了')
                         else{
-
+                            $('.loadover').removeClass('hidden').find('span').text('没有相关订单哦')
                         }
 
                         noMoreItems = true;
@@ -381,16 +381,32 @@
 
 
     function search() {
-
+        var s_time = $("#txtstime").val()
+        var e_time = $("#txtetime").val()
         if (checktime($("#txtstime").val(), $("#txtetime").val())) {
-
-            location.href = "index.aspx?type=" + escape(buy_way) + "&ssaller_tabao_name=" + escape($("#txtssaller_tabao_name").val())
-                    + "&sbuyer_taobao_name=" + escape($("#txtsbuyer_taobao_name").val())
-                    + "&sproduct_name=" + escape($("#txtsproduct_name").val())
-                    + "&stime=" + escape($("#txtstime").val()) + "&etime=" + escape($("#txtetime").val())
-                    + "&sorder_num=" + escape($("#txtsorder_num").val())
-                    + "&scomplain_num=" + escape($("#txtscomplain_num").val());
+            param = {
+                buyer_nickname: $('#txtsbuyer_taobao_name').val(),
+                seller_nickname: $('#txtssaller_tabao_name').val(),
+                gift_name: $('#txtsproduct_name').val(),
+                order_id: $('#txtsorder_num').val(),
+                page_no:1,
+                page_size:30,
+                order_time_start: s_time == '' ? '' : new Date(s_time.replace('.', '-')).getTime(),
+                order_time_end: e_time == '' ? '' : new Date(e_time.replace('.', '-')).getTime(),
+            }
+            loadItems();
+            $(".blank").hide();
+            $("#box01").removeClass("add");
         }
+//        if (checktime($("#txtstime").val(), $("#txtetime").val())) {
+//
+//            location.href = "index.aspx?type=" + escape(buy_way) + "&ssaller_tabao_name=" + escape($("#txtssaller_tabao_name").val())
+//                    + "&sbuyer_taobao_name=" + escape($("#txtsbuyer_taobao_name").val())
+//                    + "&sproduct_name=" + escape($("#txtsproduct_name").val())
+//                    + "&stime=" + escape($("#txtstime").val()) + "&etime=" + escape($("#txtetime").val())
+//                    + "&sorder_num=" + escape($("#txtsorder_num").val())
+//                    + "&scomplain_num=" + escape($("#txtscomplain_num").val());
+//        }
     }
 
 </script>

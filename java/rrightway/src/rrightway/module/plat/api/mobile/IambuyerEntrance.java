@@ -1050,7 +1050,7 @@ public class IambuyerEntrance {
 							.append(taobaoOrderid == null ? "" : " and t.taobao_orderid like ? ")
 							.append(complainTimeStart == null ? "" : " and t.complain_time >= ? ")
 							.append(complainTimeEnd == null ? "" : " and t.complain_time <= ? ")
-							.append(" order by t.order_time desc limit ?,? ").toString());
+							.append(" order by t.complain_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -1159,7 +1159,7 @@ public class IambuyerEntrance {
 							.append(taobaoOrderid == null ? "" : " and t.taobao_orderid like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
 							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ")
-							.append(" order by t.order_time desc limit ?,? ").toString();
+							.append(" order by t.rightprotect_time desc limit ?,? ").toString();
 			logger.debug(sql);
 			logger.debug(sqlParams);
 			pst = connection.prepareStatement(sql);

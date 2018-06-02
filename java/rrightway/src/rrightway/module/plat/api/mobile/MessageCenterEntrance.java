@@ -159,7 +159,7 @@ public class MessageCenterEntrance {
 			if (messageIdsParam == null)
 				throw new InteractRuntimeException("message_ids 不能空");
 			String[] messageIds = messageIdsParam.split(",");
-			
+
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
@@ -200,15 +200,19 @@ public class MessageCenterEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-
+			String typeParam = StringUtils.trimToNull(request.getParameter("type"));
+			if (typeParam == null)
+				throw new InteractRuntimeException("type 不能空");
+			int type = Integer.parseInt(typeParam);
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("update t_message set del=1 where user_id=?");
+			pst = connection.prepareStatement("update t_message set del=1 where user_id=? and type=?");
 			pst.setString(1, loginStatus.getUserId());
+			pst.setInt(2, type);
 			pst.executeUpdate();
 
 			pst.close();

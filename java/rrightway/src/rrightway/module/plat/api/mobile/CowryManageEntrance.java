@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,7 @@ import rrightway.entity.InteractRuntimeException;
 import rrightway.module.plat.business.GetLoginStatus;
 import rrightway.module.plat.entity.UserLoginStatus;
 import rrightway.util.HttpRespondWithData;
+import rrightway.util.ProjectUtils;
 import rrightway.util.RrightwayDataSource;
 
 @Controller("plat.api.mobile.CowryManageEntrance")
@@ -143,6 +145,14 @@ public class CowryManageEntrance {
 			String crowyUrl = StringUtils.trimToNull(request.getParameter("crowy_url"));
 			if (crowyUrl == null)
 				throw new InteractRuntimeException("crowy_url 不可空");
+			Map<String, String> map = ProjectUtils.URLRequest(crowyUrl);
+			String id = map.get("id");
+			String skuId = map.get("skuId");
+			crowyUrl = crowyUrl.split("\\?")[0];
+			crowyUrl = crowyUrl + "?id=" + id;
+			crowyUrl = crowyUrl + "&cm_id=" + map.get("cm_id");
+			crowyUrl = crowyUrl + "&abbucket=" + map.get("abbucket");
+			crowyUrl = crowyUrl + "&skuId=" + skuId;
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -152,11 +162,13 @@ public class CowryManageEntrance {
 			String cover = null;
 			try {
 				Document mydoc = Jsoup.parse(new URL(crowyUrl), 30000);
-				List<String> pics = mydoc.getElementById("J_UlThumb").getElementsByTag("img").eachAttr("data-src");
+				List<String> pics = mydoc.getElementById("J_UlThumb").getElementsByTag("img").eachAttr("src");
+				if (pics == null || pics.isEmpty())
+					pics = mydoc.getElementById("J_UlThumb").getElementsByTag("img").eachAttr("data-src");
 				List<String> pics1 = new ArrayList<String>();
 				for (int i = 0; i < pics.size(); i++) {
 					String pic = pics.get(i);
-					pic = pic.replaceAll("50x50", "400x400");
+					pic = pic.replaceAll("_\\d\\dx\\d\\d", "_400x400");
 					if (!pic.contains("https:")) {
 						pic = "https:" + pic;
 					}
@@ -166,7 +178,7 @@ public class CowryManageEntrance {
 				if (!pics1.isEmpty()) {
 					cover = pics1.get(0);
 					pics1.remove(0);
-					if (pics1.size() > 1) {
+					if (pics1.size() >= 1) {
 						for (int i = 0; i < pics1.size(); i++) {
 							detailPics.add(pics1.get(i));
 						}
@@ -287,6 +299,11 @@ public class CowryManageEntrance {
 			String giftExpressCo = StringUtils.trimToNull(request.getParameter("gift_express_co"));
 			if (giftExpressCo == null)
 				throw new InteractRuntimeException("gift_express_co 不能空");
+
+			int freeTry = 0;
+			if (StringUtils.isNotEmpty(cowryUrl) && StringUtils.isNotEmpty(giftName) && cowryCover.equals(giftName)) {
+				freeTry = 1;
+			}
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);

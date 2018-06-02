@@ -167,6 +167,8 @@ public class MainInitiator implements ServletContextListener {
 		// 外部接口初始化
 		OutApis.sms_verification_verify = StringUtils
 				.trimToNull(properties.getProperty("outapi.sms.verification.verify"));
+		OutApis.sms_sms_send = StringUtils.trimToNull(properties.getProperty("outapi.sms.sms.send"));
+
 	}
 
 	private void initJedisPool() {

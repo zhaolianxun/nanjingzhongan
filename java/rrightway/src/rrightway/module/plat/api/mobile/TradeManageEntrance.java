@@ -26,6 +26,7 @@ import rrightway.constant.SysParam;
 import rrightway.entity.InteractRuntimeException;
 import rrightway.module.plat.business.GetLoginStatus;
 import rrightway.module.plat.entity.UserLoginStatus;
+import rrightway.module.plat.task.PushMessageQueue;
 import rrightway.util.HttpRespondWithData;
 import rrightway.util.RrightwayDataSource;
 
@@ -338,13 +339,13 @@ public class TradeManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.status,t.taobao_orderid,t.return_money,u.unwithdraw_money,t.order_time from t_order t left join t_user u on t.seller_id=u.id where t.id=? for update")
+					"select t.buyer_id,t.status,t.taobao_orderid,t.return_money,u.unwithdraw_money,t.order_time from t_order t left join t_user u on t.seller_id=u.id where t.id=? for update")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			BigDecimal unwithdrawMoney = null;
 			BigDecimal returnMoney = null;
-
+			String buyerId = null;
 			BigDecimal serviceCharge = new BigDecimal(2);
 			if (rs.next()) {
 				int status = rs.getInt("status");
@@ -360,7 +361,7 @@ public class TradeManageEntrance {
 				if ((taobaoOrderid == null || taobaoOrderid.isEmpty())
 						&& (new Date().getTime() - orderTime) < 2 * 60 * 60 * 100l)
 					throw new InteractRuntimeException("试客未填写淘宝单号的请在下单2小时候再操作");
-
+				buyerId = rs.getString("buyer_id");
 			} else
 				throw new InteractRuntimeException("订单不存在");
 			pst.close();
@@ -414,6 +415,8 @@ public class TradeManageEntrance {
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 			connection.commit();
+
+			PushMessageQueue.buyerBeChecked(buyerId, null, orderId);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
@@ -1263,7 +1266,7 @@ public class TradeManageEntrance {
 							.append(taobaoOrderid == null ? "" : " and t.taobao_orderid like ? ")
 							.append(orderTimeStart == null ? "" : " and t.order_time >= ? ")
 							.append(orderTimeEnd == null ? "" : " and t.order_time <= ? ")
-							.append(" order by t.order_time desc limit ?,? ").toString();
+							.append(" order by t.rightprotect_time desc limit ?,? ").toString();
 			logger.debug(sql);
 			logger.debug(sqlParams);
 			pst = connection.prepareStatement(sql);
@@ -1504,7 +1507,7 @@ public class TradeManageEntrance {
 							.append(taobaoOrderid == null ? "" : " and t.taobao_orderid like ? ")
 							.append(complainTimeStart == null ? "" : " and t.complain_time >= ? ")
 							.append(complainTimeEnd == null ? "" : " and t.complain_time <= ? ")
-							.append(" order by t.order_time desc limit ?,? ").toString());
+							.append(" order by t.complain_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}

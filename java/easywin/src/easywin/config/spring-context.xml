@@ -21,7 +21,7 @@
 		/> <mvc:resources mapping="**/*.png" location="/" /> <mvc:resources mapping="**/*.jsp" 
 		location="/" /> -->
 
-	<task:annotation-driven scheduler="scheduler" />
+	<task:annotation-driven scheduler="scheduler" executor="" />
 	<task:scheduler id="scheduler" pool-size="5" />
 
 	<context:component-scan base-package="*" />

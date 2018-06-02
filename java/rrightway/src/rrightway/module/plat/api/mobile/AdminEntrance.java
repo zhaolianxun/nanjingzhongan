@@ -107,7 +107,7 @@ public class AdminEntrance {
 			sqlParams.add(pageSize);
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select title,publish_time,status,id,gift_cover,gift_name,pay_price,return_money from t_activity where 1=1 ")
+					"select audit,title,publish_time,status,id,gift_cover,gift_name,pay_price,return_money from t_activity where 1=1 ")
 							.append(couponIf == null ? ""
 									: couponIf == 0 ? " and (isnull(coupon_url) or length(trim(coupon_url))=0) "
 											: "and (!isnull(coupon_url) and length(trim(coupon_url))>0) ")
@@ -144,6 +144,7 @@ public class AdminEntrance {
 				item.put("returnMoney", rs.getBigDecimal("return_money"));
 				item.put("status", rs.getObject("status"));
 				item.put("title", rs.getObject("title"));
+				item.put("audit", rs.getObject("audit"));
 				item.put("publishTime", rs.getObject("publish_time"));
 				items.add(item);
 			}
@@ -186,7 +187,7 @@ public class AdminEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select  t.huabei_pay,t.creditcard_pay,tb.taobao_user_nick,u.phone,u.username,t.gift_pics,t.title,t.publish_time,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_url,t.cowry_cover,t.buy_way,t.coupon_url,t.pay_price,t.return_money,t.buyer_mincredit,t.keep_days,t.stock,t.start_time,t.gift_name,t.gift_type1_name,t.gift_type2_name,t.gift_url,t.gift_cover,t.gift_detail,t.gift_express_co,t.status,t.audit_fail_reason,t.buyer_num from t_activity t inner join t_user u on t.user_id=u.id inner join t_taobaoaccount tb on tb.id=t.taobaoaccount_id where t.id=?")
+					"select  t.audit,t.huabei_pay,t.creditcard_pay,tb.taobao_user_nick,u.phone,u.username,t.gift_pics,t.title,t.publish_time,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_url,t.cowry_cover,t.buy_way,t.coupon_url,t.pay_price,t.return_money,t.buyer_mincredit,t.keep_days,t.stock,t.start_time,t.gift_name,t.gift_type1_name,t.gift_type2_name,t.gift_url,t.gift_cover,t.gift_detail,t.gift_express_co,t.status,t.audit_fail_reason,t.buyer_num from t_activity t inner join t_user u on t.user_id=u.id inner join t_taobaoaccount tb on tb.id=t.taobaoaccount_id where t.id=?")
 							.toString());
 			pst.setObject(1, activityId);
 			ResultSet rs = pst.executeQuery();
@@ -194,6 +195,7 @@ public class AdminEntrance {
 			while (rs.next()) {
 				item.put("taobaoUserNick", rs.getObject("taobao_user_nick"));
 				item.put("phone", rs.getObject("phone"));
+				item.put("audit", rs.getObject("audit"));
 				item.put("username", rs.getObject("username"));
 				item.put("giftPics", rs.getObject("gift_pics"));
 				item.put("title", rs.getObject("title"));
@@ -265,7 +267,7 @@ public class AdminEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(
-					new StringBuilder("update t_activity set status=3,start_time=? where id=?").toString());
+					new StringBuilder("update t_activity set audit=1,status=3,start_time=? where id=?").toString());
 			pst.setObject(1, new Date().getTime());
 			pst.setObject(2, activityId);
 			int cnt = pst.executeUpdate();
@@ -311,7 +313,8 @@ public class AdminEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(
-					new StringBuilder("update t_activity set status=2,audit_fail_reason=? where id=?").toString());
+					new StringBuilder("update t_activity set audit=2,status=3,audit_fail_reason=? where id=?")
+							.toString());
 			pst.setObject(1, reason);
 			pst.setObject(2, activityId);
 			int cnt = pst.executeUpdate();
@@ -1091,7 +1094,7 @@ public class AdminEntrance {
 		try {
 			// 获取请求参数
 			String statusParam = StringUtils.trimToNull(request.getParameter("status"));
-			Integer status = statusParam == null ? 1 : Integer.parseInt(statusParam);
+			Integer status = statusParam == null ? null : Integer.parseInt(statusParam);
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
 			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
 			if (pageNo <= 0)
@@ -1105,17 +1108,17 @@ public class AdminEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			List sqlParams = new ArrayList();
 			if (status != null)
 				sqlParams.add(status);
-			sqlParams.add(loginStatus.getUserId());
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.alipay_tradeno,t.id,t.amount,t.status,t.topup_time,t.fail_reason,u.user_id,if(isnull(u.realname),if(isnull(u.phone),u.username,u.phone),u.realname) user_logo from t_topup t left join t_user u on t.user_id=u.id where 1=1 ")
+					"select t.alipay_tradeno,t.id,t.amount,t.status,t.topup_time,t.fail_reason,t.user_id,if(isnull(u.realname),if(isnull(u.phone),u.username,u.phone),u.realname) user_logo from t_topup t left join t_user u on t.user_id=u.id where 1=1 ")
 							.append(status == null ? "" : " and t.status=?")
 							.append(" order by t.topup_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
@@ -1301,7 +1304,7 @@ public class AdminEntrance {
 		try {
 			// 获取请求参数
 			String statusParam = StringUtils.trimToNull(request.getParameter("status"));
-			Integer status = statusParam == null ? 1 : Integer.parseInt(statusParam);
+			Integer status = statusParam == null ? null : Integer.parseInt(statusParam);
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
 			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
 			if (pageNo <= 0)
@@ -1315,11 +1318,13 @@ public class AdminEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			List sqlParams = new ArrayList();
-			sqlParams.add(status);
+			if (status != null)
+				sqlParams.add(status);
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
@@ -1354,6 +1359,418 @@ public class AdminEntrance {
 			JSONObject data = new JSONObject();
 			data.put("items", items);
 			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/withdraw/done")
+	public void withdrawConfirm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String id = StringUtils.trimToNull(request.getParameter("id"));
+			if (id == null)
+				throw new InteractRuntimeException("id 不能空");
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(
+					new StringBuilder("select status from t_widthdraw where id=? for update").toString());
+			pst.setObject(1, id);
+			ResultSet rs = pst.executeQuery();
+			int status = 0;
+			if (rs.next()) {
+				status = rs.getInt("status");
+			} else
+				throw new InteractRuntimeException("提现记录不存在");
+			pst.close();
+			if (status != 0)
+				throw new InteractRuntimeException("已处理过");
+
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_widthdraw set status=1,process_time=? where id=? and status=0")
+							.toString());
+			pst.setObject(1, new Date().getTime());
+			pst.setObject(2, id);
+			int cnt = pst.executeUpdate();
+			pst.close();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection == null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/withdraw/fail")
+	public void withdrawFail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String id = StringUtils.trimToNull(request.getParameter("id"));
+			if (id == null)
+				throw new InteractRuntimeException("id 不能空");
+			String reason = StringUtils.trimToNull(request.getParameter("reason"));
+			if (reason == null)
+				throw new InteractRuntimeException("reason 不能空");
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(
+					new StringBuilder("select user_id,amount,status from t_widthdraw where id=? for update")
+							.toString());
+			pst.setObject(1, id);
+			ResultSet rs = pst.executeQuery();
+			int status = 0;
+			BigDecimal amount = null;
+			String userId = null;
+			if (rs.next()) {
+				status = rs.getInt("status");
+				userId = rs.getString("user_id");
+				amount = rs.getBigDecimal("amount");
+			} else
+				throw new InteractRuntimeException("提现记录不存在");
+			pst.close();
+			if (status != 0)
+				throw new InteractRuntimeException("已处理过");
+
+			pst = connection
+					.prepareStatement(new StringBuilder("select id from t_user where id=? for update").toString());
+			pst.setObject(1, userId);
+			rs = pst.executeQuery();
+			if (rs.next()) {
+			} else
+				throw new InteractRuntimeException("用户不存在");
+			pst.close();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"update t_widthdraw set fail_reason=?,status=2,process_time=? where id=? and status=0").toString());
+			pst.setObject(1, reason);
+			pst.setObject(2, new Date().getTime());
+			pst.setObject(3, id);
+			int cnt = pst.executeUpdate();
+			pst.close();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_user set withdrawable_money=withdrawable_money+? where id=?")
+							.toString());
+			pst.setObject(1, amount);
+			pst.setObject(2, userId);
+			cnt = pst.executeUpdate();
+			pst.close();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			String billId = new Date().getTime() + RandomStringUtils.randomNumeric(2);
+			pst = connection.prepareStatement(new StringBuilder(
+					"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,6)")
+							.toString());
+			pst.setObject(1, billId);
+			pst.setObject(2, userId);
+			pst.setObject(3, amount);
+			pst.setObject(4, "提现失败返还");
+			pst.setObject(5, new Date().getTime());
+			pst.setObject(6, id);
+			cnt = pst.executeUpdate();
+			pst.close();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection == null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/notice/ent")
+	public void noticeEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			List sqlParams = new ArrayList();
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			pst = connection
+					.prepareStatement(new StringBuilder("select id,title,add_time,last_update_time from t_notice ")
+							.append(" order by t.add_time desc limit ?,? ").toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("id", rs.getObject("id"));
+				item.put("title", rs.getObject("title"));
+				item.put("addTime", rs.getObject("add_time"));
+				item.put("lastUpdateTime", rs.getObject("last_update_time"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/notice/detail")
+	public void noticeDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id 不能空");
+			int id = Integer.parseInt(idParam);
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(
+					new StringBuilder("select id,title,content,add_time,last_update_time from t_notice where id=?")
+							.toString());
+			pst.setObject(1, id);
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("id", rs.getObject("id"));
+				item.put("title", rs.getObject("title"));
+				item.put("content", rs.getObject("content"));
+				item.put("addTime", rs.getObject("add_time"));
+				item.put("lastUpdateTime", rs.getObject("last_update_time"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/notice/publish")
+	public void noticePublish(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String title = StringUtils.trimToNull(request.getParameter("title"));
+			if (title == null)
+				throw new InteractRuntimeException("title 不能空");
+			String content = StringUtils.trimToNull(request.getParameter("content"));
+			if (content == null)
+				throw new InteractRuntimeException("content 不能空");
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(
+					new StringBuilder("insert into t_notice (title,content,add_time) values(?,?,?)").toString());
+			pst.setObject(1, title);
+			pst.setObject(2, content);
+			pst.setObject(3, new Date().getTime());
+			int cnt = pst.executeUpdate();
+			pst.close();
+			if (cnt != 1)
+				throw new InteractRuntimeException("发布失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/notice/update")
+	public void noticeUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id 不能空");
+			int id = Integer.parseInt(idParam);
+			String title = StringUtils.trimToNull(request.getParameter("title"));
+			if (title == null)
+				throw new InteractRuntimeException("title 不能空");
+			String content = StringUtils.trimToNull(request.getParameter("content"));
+			if (content == null)
+				throw new InteractRuntimeException("content 不能空");
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(
+					new StringBuilder("update  t_notice set title=?,content=?,last_update_time=? where id=?")
+							.toString());
+			pst.setObject(1, title);
+			pst.setObject(2, content);
+			pst.setObject(3, new Date().getTime());
+			pst.setObject(4, id);
+			int cnt = pst.executeUpdate();
+			pst.close();
+			if (cnt != 1)
+				throw new InteractRuntimeException("目标不存在");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/notice/del")
+	public void noticeDel(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id 不能空");
+			int id = Integer.parseInt(idParam);
+
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(new StringBuilder("delete from t_notice where id=?").toString());
+			pst.setObject(1, id);
+			int cnt = pst.executeUpdate();
+			pst.close();
+			if (cnt != 1)
+				throw new InteractRuntimeException("目标不存在");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
