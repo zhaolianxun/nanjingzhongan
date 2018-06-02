@@ -52,7 +52,7 @@ public class CowryManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select (select count(id) from t_activity where user_id=? and audit in (0,2)) auditingCount,(select count(id) from t_activity where user_id=? and status=1 and audit=1) inactCount,(select count(id) from t_activity where user_id=? and status=3) instoreCount")
+					"select (select count(id) from t_activity where del=0 and user_id=? and audit in (0,2)) auditingCount,(select count(id) from t_activity where del=0 and user_id=? and status=1 and audit=1) inactCount,(select count(id) from t_activity where del=0 and user_id=? and status=3) instoreCount")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, loginStatus.getUserId());
@@ -719,7 +719,7 @@ public class CowryManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.audit,t.gift_cover,t.publish_time,t.stock,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.buyer_num,(t.start_time+t.keep_days*24*60*60*1000-rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')) remain_time from t_activity t where t.status=1 and t.audit=1 and t.user_id=?")
+					"select t.audit,t.gift_cover,t.publish_time,t.stock,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.buyer_num,(t.start_time+t.keep_days*24*60*60*1000-rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')) remain_time from t_activity t where t.del=0 and t.status=1 and t.audit=1 and t.user_id=?")
 							.append(title == null ? "" : " and t.title like ? ")
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
 							.append(buyWay == null ? "" : " and t.buy_way = ? ")
@@ -821,7 +821,7 @@ public class CowryManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.audit,t.gift_cover,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.stock,t.publish_time,t.status,t.audit_fail_reason from t_activity t where 1=1 and t.user_id=?")
+					"select t.audit,t.gift_cover,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.stock,t.publish_time,t.status,t.audit_fail_reason from t_activity t where t.del=0 and 1=1 and t.user_id=?")
 							.append(status == null ? " and t.audit in (0,2) " : "")
 							.append((status != null && status == 1) ? " and t.audit=0 " : "")
 							.append((status != null && status == 2) ? " and t.audit=2 " : "")
@@ -1363,9 +1363,9 @@ public class CowryManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.audit,t.gift_cover,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.stock,t.publish_time,t.status,t.audit_fail_reason from t_activity t where 1=1 and t.user_id=?")
+					"select t.audit,t.gift_cover,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.stock,t.publish_time,t.status,t.audit_fail_reason from t_activity t where  t.del=0 and t.user_id=?")
 							.append(status == null ? " and t.status=3 and t.audit in (1,2,4)"
-									: (status == 1 ? " and t.status=3 and t.audit != 2"
+									: (status == 1 ? " and t.status=3 and t.audit in (1,2,4)"
 											: (status == 2 ? " and t.status=3 and t.audit=2 "
 													: " and t.status=3 and t.audit in (1,2,4)")))
 							.append(title == null ? "" : " and t.title like ? ")
