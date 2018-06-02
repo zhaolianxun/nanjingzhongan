@@ -715,6 +715,67 @@ public class AdminEntrance {
 		}
 	}
 
+	@RequestMapping(value = "/user/sendmsg")
+	public void userSendmsg(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String userId = StringUtils.trimToNull(request.getParameter("user_id"));
+			if (userId == null)
+				throw new InteractRuntimeException("user_id 不能空");
+			String phone = StringUtils.trimToNull(request.getParameter("phone"));
+			String title = StringUtils.trimToNull(request.getParameter("title"));
+			if (title == null)
+				throw new InteractRuntimeException("title 不能空");
+			String content = StringUtils.trimToNull(request.getParameter("content"));
+			if (content == null)
+				throw new InteractRuntimeException("content 不能空");
+			String typeParam = StringUtils.trimToNull(request.getParameter("type"));
+			if (typeParam == null)
+				throw new InteractRuntimeException("type 不能空");
+			Integer type = Integer.parseInt(typeParam);
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(
+					new StringBuilder("insert into t_message (user_id,title,content,type,send_time) values(?,?,?,?,?)")
+							.toString());
+			pst.setObject(1, userId);
+			pst.setObject(2, title);
+			pst.setObject(3, content);
+			pst.setObject(4, type);
+			pst.setObject(5, new Date().getTime());
+			int cnt = pst.executeUpdate();
+			pst.close();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId, title, type, content);
+			payload.setPhone(phone);
+			PushMessageQueue.queue.put(payload);
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
 	@RequestMapping(value = "/user/freeze")
 	public void userFreeze(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -1847,4 +1908,5 @@ public class AdminEntrance {
 				connection.close();
 		}
 	}
+
 }
