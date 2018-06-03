@@ -14,7 +14,7 @@
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
     <title>
-        商家联盟，免费试用，轻松拿佣金
+        好商联盟，免费试用，轻松拿佣金
     </title>
     <meta name="keywords" content="仓库中的宝贝"/>
     <meta name="description" content="Y"/>
@@ -60,7 +60,7 @@
 
     </div>
     <!-- 列表页 结束-->
-
+    <div  class="loadover hidden"><span>加载完成</span></div>
     <!-- 没有数据提示-->
     <div class="no_data hidden">
         <div class="pb40 mt100">
@@ -100,9 +100,9 @@
                     <div class="bt1 sp2 clearfix c_ftab list666 protypeList" data="protype">
                         <input type="hidden" id="protype" value="全部"/>
 
-                        <div class="item active"><a href="javascript:;" data="" data-val="全部"><em>全部</em></a></div>
-                        <div class="item"><a href="javascript:;" data="1" data-val="仓库中"><em>仓库中</em></a></div>
-                        <div class="item"><a href="javascript:;" data="2" data-val="重新审核失败"><em>重新审核失败</em></a></div>
+                        <div name="statusState" class="item active"><a href="javascript:;" data="" data-val="全部"><em>全部</em></a></div>
+                        <div name="statusState" class="item"><a href="javascript:;" data="1" data-val="仓库中"><em>仓库中</em></a></div>
+                        <!--<div class="item"><a href="javascript:;" data="2" data-val="重新审核失败"><em>重新审核失败</em></a></div>-->
                         <!--&lt;!&ndash;<div class="item" style="display: none"><a href="javascript:;" data="定时上架中" data-val="D"><em>定时上架中</em></a>&ndash;&gt;</div>-->
         </div>
         </dd>
@@ -199,10 +199,10 @@
             <li class="nl hidden" id="countts">
                 <p class=" pt20 pb20 line36 cf60">您设置参与人数较多，随时可能存在同一时间在商城拍下的情况。</p>
             </li>
-            <li style="display: none"><b>付款金额</b>
+            <li ><b>付款金额</b>
 
                 <p class="pr190">
-                    <input type="number" placeholder="不得高于800元" id="txtspay_amount" value="" disabled="disabled">
+                    <input type="number" placeholder="" id="txtspay_amount" value="" disabled="disabled">
                 </p>
                 <span class="r20">元 </span></li>
             <li><b>返现金额</b>
@@ -222,7 +222,7 @@
         <div class="plr20 pt30 pb30 relative bgfff mt20 hidden" id="has_juan">
             <p class="f28 line28">您的券包共有0张2小时置顶券</p>
 
-            <p class="f24 c999 line24 mt20">一天一个商家联盟账号只能使用1张</p>
+            <p class="f24 c999 line24 mt20">一天一个好商联盟账号只能使用1张</p>
             <em class="absolute r0 t50 p20 mt_38">
                 <input type="checkbox" class="radio" id="usecoupon"><label class="mt0"></label></em>
         </div>
@@ -300,8 +300,12 @@
     .mbsc-android-holo .mbsc-sc-whl-w.mbsc-dt-whl-y {
         margin-left: 0.25rem;
     }
+    .loadmore{
+        display: none;
+    }
 </style>
-
+<script src="rxw/rxw.js" type="text/javascript"></script>
+<link href="css/rxw.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/lazyload.js" charset="utf-8"></script>
 
 <script>
@@ -350,14 +354,33 @@
 
 
     function reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo) {
+
+        if(!pageNo)
+            pageNo=1;
+        if(!pageSize)
+            pageSize=30;
+        $('.loadover').addClass('hidden');
         $.ajax({
             url: '/rrightway/p/m/cowrymanageent/storingcowries?token=' + token,
             type: 'post',
             data: 'title=' + title + "&gift_name=" + gift_name + "&buy_way=" + buy_way
             + "&coupon_if=" + coupon_if + "&publish_time_start=" + publish_time_start + "&publish_time_end=" + publish_time_end + "&status=" + status
             + "&page_no=" + pageNo + "&page_size=" + 30,
+            async:false,
             success: function (res) {
                 if (res.code == 0) {
+                    if(res.data.activies.items.length==0) {
+                        if(pageNo != 1)
+                            $('.loadover').removeClass('hidden').find('span').text('没有更多数据了');
+                        else{
+
+                        }
+
+                        noMoreItems = true;
+
+                    }else{
+                        $('.loadover').removeClass('hidden').find('span').text('上拉加载更多')
+                    }
 
                     for (var i = 0; i < res.data.activies.items.length; i++) {
                         var status = res.data.activies.items[i].status;
@@ -373,18 +396,28 @@
                         }else{
                             buyWayP=' <i class="ptype tel"></i>'
                         }
-                        if(status==0){
+                        if(res.data.activies.items[i].audit==0){
                             statusSh='待审核';
                             itemBottom='<a href="javascript:;" class="del recoder">删除</a>'
-                        }else if(status==2){
+                        }else if(res.data.activies.items[i].audit==2){
                             statusSh='审核失败'
                             itemBottom='<a href="javascript:;" class="btn3 repub recoder">重新发布</a>' +
                             '<a href="javascript:;" class="btn2 look" data-val="'+res.data.activies.items[i].auditFailReason+'">查看原因</a>' +
                             '<a href="javascript:;" class="del recoder">删除</a>'
 
                         }
+                        var shstatus = '';
+                        if(res.data.activies.items[i].audit==0){
+                            shstatus='<em style="float: right;color: #999">待审核</em>'
+                        }else if(res.data.activies.items[i].audit==1){
+                            shstatus='<em style="float: right;color: #999">审核通过</em>'
+                        }else if(res.data.activies.items[i].audit==2){
+                            shstatus='<em style="float: right;color: #999">审核失败</em>'
+                        }else if(res.data.activies.items[i].audit==4){
+                            shstatus='<em style="float: right;color: #999">未提交审核</em>'
+                        }
 //                                     wayToShop activityId auditFailReason buyWay couponIf
-                        $('#spro_list3').append('<div class="item">  <div class="tit"><p>活动标题：'+res.data.activies.items[i].title+'<br>发布时间：'+_formatDatesNoS(res.data.activies.items[i].publishTime)+'<b>仓库中</b></p>' +
+                        $('#spro_list3').append('<div class="item">  <div class="tit"><p>活动标题：'+res.data.activies.items[i].title+'<br>发布时间：'+_formatDatesNoS(res.data.activies.items[i].publishTime/1000)+'<b>仓库中</b>'+shstatus+'</p>' +
                         '</div>  <a href="baby_verify_detail.html?id='+res.data.activies.items[i].activityId+'" class="recoder pro_min bt1">' +
                         '<img src="'+res.data.activies.items[i].giftCover+'" class="img">    ' +
                         '<div class="relative">      <p class="row1">'+res.data.activies.items[i].giftName+'</p>      ' +
@@ -392,11 +425,12 @@
                         '  返现金额：<i class="cf60">¥'+res.data.activies.items[i].returnMoney+'</i></p>    ' +
                         '  <p class="type absolute l0 b0">'+buyWayP+'</p> ' +
                         '   </div>  </a>  <div class="foot" data="'+res.data.activies.items[i].activityId+'" data-val="">' +
-//                        '<a href="javascript:;" class="btn3 repub recoder">重发</a>' +
+                        '<a href="javascript:;"  class="btn3 repub recoder">重发</a>' +
 //                        '<a href="setpub.aspx?id=111838" class="  btn5 recoder " style="display:none">定时上架</a>' +
-                        '<a href="javascript:;" class="pub btn4 recoder" data="'+res.data.activies.items[i].activityId+'" data-fkmomey="200.00" ' +
+                        '<a href="javascript:;" class="pub btn4 recoder" txtsreturn_amount="'+res.data.activies.items[i].returnMoney+'"  txtspay_amount="'+res.data.activies.items[i].payPrice+'" data="'+res.data.activies.items[i].activityId+'" data-fkmomey="200.00" ' +
                         'onclick="openright(this)" data-fxmomey="205.00">上架</a>' +
-//                        '<a href="premium.aspx?id=111838" class="btn6">设置</a><a href="javascript:;" class="del recoder">删除</a>' +
+//                        '<a href="premium.aspx?id=111838" class="btn6">设置</a>' +
+                        '<a href="javascript:;" class="del recoder"   data="'+res.data.activies.items[i].activityId+'">删除</a>' +
                         '</div></div>')
                     }
 
@@ -411,10 +445,70 @@
     }
     if (status == 1) {
         $('.com_tab a:nth-child(2)').addClass('crently');
-        reloadItem('', '', '', '', '', '', 1, 1);
+//        reloadItem('', '', '', '', '', '', 1, 1);
     } else {
         $('.com_tab a:first-child').addClass('crently');
-        reloadItem('', '', '', '', '', '','', 1);
+//        reloadItem('', '', '', '', '', '','', 1);
+    }
+
+
+    function godetail() {
+        $('.recoder').unbind();
+        $('.recoder').click(function () {
+            ys.savehis(); //如果返回需要记录页面位置和加载历史页数，切记调用此行
+        });
+    }
+    rxw1.relitivePath=''
+    var noMoreItems = false;
+    onload();
+    rxw1.windowTouch({
+        movedown:function(){onload()},
+        moveup:function(){
+            if(!noMoreItems){
+                pageNo++;
+//                pageNo++;
+                reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo)
+            }
+        }
+        ,moveright:function(){
+            pageNo=1
+            var prev =$('.com_tab .crently').prev();
+            if(prev.length == 1)
+                prev.click();
+            else
+                history.back()
+        },moveleft:function(){
+            pageNo=1
+            var next =$('.com_tab .crently').next();
+            if(next.length == 1)
+                next.click();
+
+        }
+    })
+
+    function onload(){
+        pageNo=1;
+        pageSize=20;
+//        pageNo=1
+//        pageSize=30
+//        param={}
+        noMoreItems = false;
+//        items = {};
+//        param.trade_status= tradeStatus
+        status=$('.com_tab .crently').attr('data-val');
+        console.log('mmmmm'+status)
+        $('#spro_list3').html('');
+        reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo)
+
+        if($('#spro_list3').html()){
+            godetail();
+            $('#spro_list3').removeClass('hidden');
+            $('.no_data').addClass('hidden');
+            Echo.init({ offset: 5, throttle: 100 });
+        }else {
+            $('#spro_list3').addClass('hidden');
+            $('.no_data').removeClass('hidden');
+        }
     }
 </script>
 
@@ -604,7 +698,10 @@
             $(".protype").html(tsvalue);
             $("#protype").parent().find("a[data=" + tsvalue + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
             $('#spro_list3').html('');
-            reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo)        }
+            status=tsvalues
+            pageNo=1
+            reloadItem(title, gift_name, buy_way, coupon_if, publish_time_start, publish_time_end, status, pageNo)
+        }
         $(this).addClass("crently").siblings().removeClass("crently");
     })
 
@@ -692,6 +789,7 @@
             $('.com_tab  a:nth-child(2)').removeClass('crently');
         }
         console.log(1)
+        status=$('[name=statusState].active a').attr('data')
         $("#spro_list3").html('')
         title = $('#pro_title').val();
         gift_name = $('#pro_name').val();
@@ -724,25 +822,33 @@
     })
 
     //上架
-    var idobj,_this
+    var idobj,_this,yesMoney
     function openright(obj) {
         idobj = $(obj).attr("data");
         $("#no_juan").hide();
         $('#pubright').css('right',0);
         _this=$(obj).parent().parent()
+        $('#txtspay_amount').val($(obj).attr('txtspay_amount'))
+        $('#txtsreturn_amount').val($(obj).attr('txtsreturn_amount'))
+        yesMoney=$(obj).attr('txtsreturn_amount')
     }
     $('.goback').click(function(){
         $('#pubright').css('right','-100%');
     })
     $('.submit').click(function(){
-        console.log(idobj)
 
 //        $("#" + id + "right .submit").attr("data", $(obj).parent().attr("data"));
 //        $("#txtspay_amount").val($(obj).attr("data-fkmomey"));
 //        $("#txtsreturn_amount").val($(obj).attr("data-fxmomey"));
+        var moneyInterval= $('#txtsreturn_amount').val()-$('#txtspay_amount').val();
+        var addMoney=$('#txtsreturn_amount').val()-yesMoney
+
         if(!$('#active_time').val()||!$('#txtsreturn_amount').val()||!$('#count').val()){
             error('请填写完整输入框')
-        }else {
+        }else if(moneyInterval>20&&moneyInterval<0&&addMoney<0){
+            error('只能增加奖金，不能减少并且不能超过付款金额20元')
+        }
+        else {
             $.ajax({
                 url: '/rrightway/p/m/cowrymanageent/storingcowries/online',
                 data: 'activity_id=' + idobj + "&stock=" + $('#count').val() + "&return_money=" + $('#txtsreturn_amount').val() + "&days=" + $('#active_time').val() + '&token=' + token,
@@ -764,32 +870,65 @@
             })
         }
     })
-
-
+//重新发布
+    function repub(obj) {
+        var id = $(obj).parent().attr("data");
+        window.location.href = "babyEdit.html?id=" + id;
+        return true;
+    }
 
     //确认删除
     function delok(obj) {
         var id = $(obj).parent().attr("data");
+        var removeP=$(obj).parent().parent()
         $.ajax({
             type: "POST",
-            url: "/flow/DeleteProduct.ashx",
-            data: "rad=" + Math.random() + "&id=" + id,
+            url: "/rrightway/p/m/cowrymanageent/del",
+            data: "token=" + token + "&activity_id=" + id,
             success: function (res) {
-                if (res != "" && res != "[]") {
-                    var comments = $.parseJSON(res);
-                    if (comments.success == "Y") {
-                        error("删除宝贝成功！");
-                        var pobj = $(obj).parents(".item");
-                        $(pobj).remove();
-                    }
-                    else {
-                        error(comments.msg);
-                    }
+                if(res.code==0){
+                    error('删除成功');
+                    removeP.remove()
+//                    window.location.reload();
+                } else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
                 }
             }
         });
         return true;
     }
+
+
+
+
+    $(".spro_list").on("click", ".foot a", function () {
+//        if ($(this).hasClass("cancle")) {//取消发布
+//            corfirm("确定要取消发布宝贝吗？", canok, $(this));
+//        }
+//        else
+        if ($(this).hasClass("del")) { //删除
+            corfirm("确定要取消宝贝吗？<br />取消后不可恢复，请谨慎操作！", delok, $(this));
+        }
+//        else if ($(this).hasClass("deletes")) { //删除
+//            corfirm("确定要删除宝贝吗？<br />删除后不可恢复，请谨慎操作！", deletesok, $(this));
+//        }
+        else if ($(this).hasClass("repub")) { //重新发布
+            corfirm("确定要重新发布宝贝吗？", repub, $(this));
+        }
+//        else if ($(this).hasClass("look")) {
+//            var id = $(this).parent().attr("data");
+//            var v = $(this).attr("data-val");
+//            accesstx(v);
+//            //accesstx("您的宝贝部分信息不符合发布规定，<br />请重新修改发布！");
+//        }
+        else {
+            return false;
+        }
+
+    })
 </script>
 </body>
 

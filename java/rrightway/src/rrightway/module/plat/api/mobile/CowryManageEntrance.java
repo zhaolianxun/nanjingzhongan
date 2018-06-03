@@ -300,11 +300,6 @@ public class CowryManageEntrance {
 			if (giftExpressCo == null)
 				throw new InteractRuntimeException("gift_express_co 不能空");
 
-			int freeTry = 0;
-			if (StringUtils.isNotEmpty(cowryUrl) && StringUtils.isNotEmpty(giftName) && cowryCover.equals(giftName)) {
-				freeTry = 1;
-			}
-
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)

@@ -12,7 +12,7 @@
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
     <title>
-        收货地址-商家联盟触屏版
+        收货地址-好商联盟触屏版
     </title>
     <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
     <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
@@ -38,23 +38,16 @@
 
         <div id="question">
             <div class="login_txt mt10">
-                <p class="sel clearfix"><label class="lrow3">收货地址</label>
-                    <select name="ddlusf" class="ddlusf" id="ddlusf">
-                        <option class="selectAll" selected="selected" value="0">请选择</option>
+                <p class="sel clearfix"><label class="lrow3">省</label>
+                    <input name="ddlusf" class="ddlusf" id="ddlusf" type="text"/>
 
+                <p class="sel clearfix"><label>市</label>
+                <input name="ddlus" class="ddlus" id="ddlus" type="text"/>
 
-                    </select>
-                <p class="sel clearfix"><label></label>
-                    <select name="ddlus" class="ddlus" id="ddlus">
-                        <option selected="selected" value="0">请选择</option>
-
-                    </select>
                 </p>
-                <p class="sel clearfix"><label></label>
-                    <select name="ddluq" class="ddluq" id="ddluq">
-                        <option value="0">请选择</option>
-
-                    </select></p>
+                <p class="sel clearfix"><label>区</label>
+                    <input name="ddluq" class="ddluq" id="ddluq" type="text"/>
+</p>
 
                 <p class="sel clearfix"><label>收货地址</label>
                     <input name="txt_saddress" type="text" id="txt_saddress" placeholder="请输入收货地址"/></p>
@@ -134,9 +127,9 @@
 
     $('.login_sbt').click(function () {
         $(this).attr('disabled', true);
-        var provinces = $('.ddlusf option:selected').text();
-        var cities = $('.ddlus option:selected').text();
-        var distincts = $('.ddluq option:selected').text();
+        var provinces = $('.ddlusf').val();
+        var cities = $('.ddlus').val();
+        var distincts = $('.ddluq').val();
         var txt_saddress = $('#txt_saddress').val();
         var txt_sperson = $('#txt_sperson').val();
         var txt_stelphone = $('#txt_stelphone').val();

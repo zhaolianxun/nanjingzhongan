@@ -14,7 +14,7 @@
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
     <title>
-        商家联盟，免费试用，轻松拿佣金
+        好商联盟，免费试用，轻松拿佣金
     </title>
     <meta name="keywords" content="发布活动宝贝"/>
     <meta name="description" content="Y"/>
@@ -40,7 +40,7 @@
         </div>
         <!-- 顶部 结束 -->
 
-        <div class="f24 c999 p20 line36">商家联盟目前仅支持拍实物商品，同时要求赠送的商品和现金价值总额须超过6.00元，否则将无法通过审核(赠送的商品和现金价值越高参加的用户会越多)。</div>
+        <div class="f24 c999 p20 line36">好商联盟目前仅支持拍实物商品，同时要求赠送的商品和现金价值总额须超过6.00元，否则将无法通过审核(赠送的商品和现金价值越高参加的用户会越多)。</div>
 
         <ul class="form_area f28 place28">
             <li style="" id="ysname">
@@ -217,7 +217,7 @@
             </li>
         </ul>
 
-        <div class="bgfefcec cf60 line36 f24 p20">请务必关注微信公众号【商家联盟】，并且登陆上您的账号，实时接收审核结果，审核通过后产品将放置在仓库中，请手动设置参数上架产品。也请点击查看<a
+        <div class="bgfefcec cf60 line36 f24 p20">请务必关注微信公众号【好商联盟】，并且登陆上您的账号，实时接收审核结果，审核通过后产品将放置在仓库中，请手动设置参数上架产品。也请点击查看<a
                 href="/help/detail.html?id=2075" target="_blank" class="c2f97f0">【注意事项】</a>避免违规处罚！
         </div>
         <div class="plr20 pt30 pb30 f28 line40 bgfff bt1 clearfix hidden">
@@ -269,10 +269,10 @@
             <div class="p20 c999">店铺信誉低于2钻和0销量的宝贝，建议只使用淘口令或扫码下单，若选择直通车搜索有禁止地区搜索，则请在其他说明里面说明禁止的地区。</div>
             <div class="tabarea">
                 <div class="tabmenu list_tab sp2 shop_way_type clearfix center plr10 pb10 f28">
-                    <a href="javascript:;" class="item"><span>关键词搜索</span></a>
-                    <a href="javascript:;" class="item "><span>链接/淘宝口令下单</span></a>
-                    <a href="javascript:;" class="item "><span>扫码下单</span></a>
-                    <a href="javascript:;" class="item  "><span>直通车搜索</span></a>
+                    <a href="javascript:;" class="item w1"><span>关键词搜索</span></a>
+                    <a href="javascript:;" class="item w2"><span>链接/淘宝口令下单</span></a>
+                    <a href="javascript:;" class="item w3"><span>扫码下单</span></a>
+                    <a href="javascript:;" class="item  w4"><span>直通车搜索</span></a>
                 </div>
 
                 <div>
@@ -746,6 +746,7 @@
 
 
     <script>
+        var item ;
         var type1_id, type2_id, type1_name, type2_name;
         var params, params_url, params_sm;
         var token = localStorage.getItem('token');
@@ -771,12 +772,12 @@
                 data: 'token=' + token + "&acitivy_id=" + acitivy_id,
                 success: function (res) {
                     if (res.code == 0) {
-
+                        item=res.data;
                         var buyerMincredit = res.data.buyerMincredit;
                         var buyWay = res.data.buyWay;
                         var wayToShop = res.data.wayToShop;
                         if (wayToShop == 1) {
-                            $("#hfpic3").val(res.data.cowryUrl)
+                            $("#hfpic3").val(res.data.cowryCover)
                             $("#shop_wayright .shop_way_type  a.item").eq(1).click();
                             $("#shop_way").val('关键词搜索');
                             params_url = '';
@@ -795,15 +796,16 @@
                             '<a href="javascript:;" onclick="del(this,3)"><img src="image/ico_close_write.png"></a></p></div>')
                             params = res.data.searchKeys + '&cowry_url=' + res.data.cowryUrl + '&cowry_cover=' + res.data.cowryUrl + '&way_to_shop=1'
                         } else if (wayToShop == 2) {
-                            $("#txtsproduct_url").val('链接/淘宝口令下单')
+                            $("#shop_way").val('链接/淘宝口令下单')
                             $("#shop_wayright .shop_way_type  a.item").eq(2).click();
-                            $("#hfpicewm").val(res.data.cowryUrl)
+                            $("#txtsproduct_url").val(res.data.cowryUrl)
                         } else if (wayToShop == 3) {
                             $("#shop_way").val('扫码下单')
                             $("#hfpicewm").val(res.data.qrcodeToOrder)
+                            $('#ewmdived img').attr('src',res.data.qrcodeToOrder)
                             $("#shop_wayright .shop_way_type  a.item").eq(3).click();
                         } else if (wayToShop == 4) {
-                            $("#hfpic4").val(res.data.cowryUrl)
+                            $("#hfpic4").val(res.data.cowryCover)
                             $("#shop_wayright .shop_way_type  a.item").eq(4).click();
                             $("#shop_way").val('直通车搜索')
                             params_url = '';
@@ -1023,7 +1025,7 @@
                 } else {
                     $.ajax({
                         url: '/rrightway/p/m/cowrymanageent/publishent/gettaobaocrowycover?token=' + token,
-                        data: 'crowy_url=' + url,
+                        data: 'crowy_url=' + encodeURIComponent(url),
                         type: 'post',
                         success: function (res) {
                             if (res.code == 0) {
@@ -1054,7 +1056,7 @@
                 } else {
                     $.ajax({
                         url: '/rrightway/p/m/cowrymanageent/publishent/gettaobaocrowycover?token=' + token,
-                        data: 'crowy_url=' + url,
+                        data: 'crowy_url=' + encodeURIComponent(url),
                         type: 'post',
                         success: function (res) {
                             if (res.code == 0) {
@@ -1090,7 +1092,7 @@
                 } else {
                     $.ajax({
                         url: '/rrightway/p/m/cowrymanageent/publishent/gettaobaocrowycover?token=' + token,
-                        data: 'crowy_url=' + url,
+                        data: 'crowy_url=' + encodeURIComponent(url),
                         type: 'post',
                         success: function (res) {
                             if (res.code == 0) {
@@ -1218,17 +1220,16 @@
             $(".right_winds").click(function () {
                 var id = $(this).attr("id");
                 //if (geturl("type") && geturl("ids")) {
-                var SSEARCH_WAY = "";
-                switch (SSEARCH_WAY) {
-                    case "链接/淘宝口令下单":
+                switch (item.wayToShop) {
+                    case 2:
                         $("#shop_wayright .shop_way_type  a.item").eq(1).click();
                         console.log("1");
                         break;
-                    case "扫码下单":
+                    case 3:
                         $("#shop_wayright .shop_way_type  a.item").eq(2).click();
                         console.log("2");
                         break;
-                    case "直通车搜索":
+                    case 4:
                         $("#shop_wayright .shop_way_type  a.item").eq(3).click();
                         console.log("3");
                         break;
@@ -1254,6 +1255,7 @@
 
             //确认进店方式
             $("#shop_wayright .submit").click(function () {
+
                 var txt = $("#shop_wayright .tabmenu a.crently").text();
                 switch (txt) {
                     case "关键词搜索":
@@ -1597,7 +1599,7 @@
                         pagethree = $("#txtpage3").val();
                         txtbzthree = $("#txtbz3").val();
                         keyImgP = $("#hfpic3").val();
-                        keyEImgPurl = $("#txt_bb_pic").val();
+                        keyEImgPurl = encodeURIComponent($("#txt_bb_pic").val());
                         break;
                     case "直通车搜索":
                         keyone = $("#txtkey4").val();
@@ -1610,7 +1612,7 @@
                         pagethree = $("#txtpage6").val();
                         txtbzthree = $("#txtbz6").val();
                         keyImgP = $("#hfpic4").val();
-                        keyEImgPurl = $("#txt_bb_pics").val();
+                        keyEImgPurl = encodeURIComponent($("#txt_bb_pics").val());
                         break;
                     case "扫码下单":
                         keyEImgP = $("#hfpicewm").val();
@@ -1666,7 +1668,7 @@
                             'note': txtbztwo
                         }];
                         params = JSON.stringify(params) +
-                        '&cowry_url=' + keyEImgPurl + '&cowry_cover=' + keyImgP + '&way_to_shop=1'
+                        '&cowry_url=' + keyEImgPurl + '&cowry_cover=' + keyImgP + '&way_to_shop=4'
                     } else if (keyone && keytwo && keythree) {
                         params = [{'key': keyone, 'page': pageone, 'note': txtbzone}, {
                             'key': keytwo,
@@ -1718,10 +1720,10 @@
                 $.ajax({
                     url: '/rrightway/p/m/cowrymanageent/republish?token=' + token,
                     data: 'taobaoaccount_id=' + sallnc + "&activity_title=" + txtsact_title + "&buy_way=" + buy_way
-                    + "&stock=" + txtsact_title_value + "&coupon_url=" + user_juanUrl + "&pay_price=" + txtspay_amount + "&return_money=" + txtsreturn_amount
+                    + "&stock=" + txtsact_title_value + "&coupon_url=" + encodeURIComponent(user_juanUrl) + "&pay_price=" + txtspay_amount + "&return_money=" + txtsreturn_amount
                     + "&buyer_mincredit=" + xy_level + "&keep_days=" + active_time + "&gift_name=" + txtsproduct_name
                     + "&gift_type1_id=" + type1_id + "&gift_type1_name=" + type1_name + "&gift_type2_id=" + type2_id
-                    + "&gift_type2_name=" + type2_name + "&gift_url=" + $("#txt_tbpic").val() + "&gift_cover=" + txt_tbpic
+                    + "&gift_type2_name=" + type2_name + "&gift_url=" + encodeURIComponent($("#txt_tbpic").val()) + "&gift_cover=" + txt_tbpic
                     + "&gift_detail=" + txtsproduct_detail + "&gift_express_co=" + express + "&gift_pics=" + gift_pics +
                     '&search_keys=' + params + params_url + params_sm + "&activity_id=" + acitivy_id,
                     type: 'post',
@@ -1748,7 +1750,7 @@
 
     <script type="text/javascript">
         //<![CDATA[
-        accesstx('请关注微信公众号‘商家联盟’绑定上您的商家联盟号，保证第一时间收到审核信息！')//]]>
+        accesstx('请关注微信公众号‘好商联盟’绑定上您的好商联盟号，保证第一时间收到审核信息！')//]]>
     </script>
 </div>
 </body>
