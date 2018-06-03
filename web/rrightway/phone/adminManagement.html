@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        商家联盟，免费试用，轻松拿佣金
+    </title>
+    <meta name="keywords" content="管理员首页"/>
+    <meta name="description" content="Y"/>
+
+    <link rel="stylesheet" type="text/css" href="css/new.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
+</head>
+<body>
+<div class="bgfff pt40">
+    <div class="viewport">
+        <!-- 顶部 开始 -->
+        <div class="header">
+            <a href="javascript:;" class="type" onClick="history.back();"><img src="image/arrow_left2.png" class="h40"></a>
+            <!--<a href="msg.html?stype=0" class="user"><img src="image/ico_message2.png" class="h40"/>-->
+                <!--<i id="newmsgFlag" style="display: none"><img src="image/blankbg.png"/></i></a>-->
+            <!--</a>-->
+
+            <div class="htxt">我的</div>
+        </div>
+        <div class="plr20 relative" style="height: 1rem">
+            <p class="f30 hello">你好，<span id="userLogo"></span></p>
+            <!--<button class="admin"><a href="admin.html" style="color: #fff;font-size: 0.6rem;">我是管理员</a></button>-->
+            <!--<div class="mt20">-->
+
+
+            <!--</div>-->
+            <!--<a href="myIndexMerchant.html" class="tosaller">我是商家<img src="image/arrow_right.png" class="h24 ml20"></a>-->
+        </div>
+        <div class="list_tab sp3 after bt1 clearfix c999 pt40 pb40 mt40 f24 line24 center">
+            <a href="admin.html" class="item relative c999"><i class="f30 line30 bl c333 mb15 money">活动管理</i></a>
+            <a href="adminOrder.html" class="item relative c999 "><i
+                    class="f30 line30 bl c333 mb15 withdrawingMoney">订单管理</i></a>
+            <a href="adminUserList.html" class="item relative c999"><i
+                    class="f30 line30 bl c333 mb15 rightWallet">用户管理</i></a>
+        </div>
+        <div class="list_tab sp3 after bt1 clearfix c999 pt40 pb40  f24 line24 center">
+            <a href="admin_paymoney.html" class="item relative c999"><i class="f30 line30 bl c333 mb15 money">充值管理</i></a>
+            <a href="admin_withdraw.html" class="item relative c999 "><i
+                    class="f30 line30 bl c333 mb15 withdrawingMoney">提现管理</i></a>
+            <a href="admin_announcement.html" class="item relative c999"><i
+                    class="f30 line30 bl c333 mb15 rightWallet">公告管理</i></a>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var token = localStorage.getItem('token');
+    if(!token)
+        location.href="login.html";
+    $.ajax({
+        url: '/rrightway/p/useraction/loginrefresh',
+        type: 'post',
+        data: 'token=' + token ,
+        success: function (res) {
+            if (res.code == 0) {
+               if(res.data.adminIf != 1){
+                   error('您不是管理员')
+               }
+               $('#userLogo').text( res.data.username)
+            }else if(res.code == 20){
+                localStorage.getItem('token','');
+                location.href="login.html";
+            }else{
+                error(res.codeMsg)
+            }
+        }
+    })
+</script>
+</html>

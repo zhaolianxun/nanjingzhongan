@@ -138,9 +138,6 @@ public class HomeEntrance {
 				throw new InteractRuntimeException("page_size有误");
 
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
-			if (loginStatus == null)
-				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 
@@ -193,9 +190,6 @@ public class HomeEntrance {
 			int id = idParam == null ? null : Integer.parseInt(idParam);
 
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
-			if (loginStatus == null)
-				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 

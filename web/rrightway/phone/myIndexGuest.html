@@ -13,9 +13,9 @@
     <meta name="x5-orientation" content="portrait"/>
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
-    <title>我的好商联盟街-好商联盟试用平台触屏版</title>
-    <meta name="keywords" content="好商联盟,好商联盟街,试用,推广"/>
-    <meta name="description" content="好商联盟街-专业的试用网"/>
+    <title>我的好商联盟-好商联盟试用平台触屏版</title>
+    <meta name="keywords" content="好商联盟,好商联盟,试用,推广"/>
+    <meta name="description" content="好商联盟-专业的试用网"/>
 
     <link rel="stylesheet" type="text/css" href="css/new.css">
     <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
@@ -70,7 +70,7 @@
         <!-- 顶部 结束 -->
 
 
-        <!-- 我的好商联盟街 开始-->
+        <!-- 我的好商联盟 开始-->
 
         <!-- 提示信息 开始-->
 
@@ -91,7 +91,7 @@
         <div class="bgfff pt40">
             <div class="plr20 relative" style="height: 1rem">
                 <p class="f30 hello" ></p>
-                <button class="admin" ><a href="adminManagement.html"  style="color: #fff;font-size: 0.6rem;">我是管理员</a></button>
+                <button class="admin" style="display: none"><a href="adminManagement.html"  style="color: #fff;font-size: 0.6rem;">我是管理员</a></button>
                 <div class="mt20">
 
 
@@ -119,7 +119,7 @@
                     class="f28 line28 mb10 c333 bl returnedCount">0</em>已返现</a>
             <a href="request_order_activist.html?trade_status=1" class="item relative pt40 pb40 c999"><em
                     class="f28 line28 mb10 c333 bl protectedCount">0</em>维权</a>
-            <a href="buyer_complainManage.html?trade_status=" class="item relative pt40 pb40 c999"><em
+            <a href="buyer_complainManage.html" class="item relative pt40 pb40 c999"><em
                     class="f28 line28 mb10 c333 bl complainCount">0</em>投诉</a>
         </div>
 
@@ -158,7 +158,7 @@
                     class="absolute t0 r20"><img src="image/arrow_right.png" class="h30"/></em></a>
         </div>
         <div class="plr20 mt40"><a href="javascript:;" class="e_submit">退出登录</a></div>
-        <!-- 我的好商联盟街 结束-->
+        <!-- 我的好商联盟 结束-->
 
         <!-- 底部 开始-->
 
@@ -166,9 +166,9 @@
         <div class="footer">
             <a href="phoneIndex.html"><img src="image/foot_nav1.png" data="foot_nav1_crent">首页</a>
             <a href="classification.html"><img src="image/foot_nav2.png" data="foot_nav2_crent">分类</a>
-            <a href="javascript:;" class="noOpen"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>
-            <!--<a href="popularize.html" ><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>-->
-            <a href="mqqwpa://im/chat?chat_type=wpa&uin=413038044&version=1&src_type=web&web_src=oicqzone.com"><img
+            <!--<a href="javascript:;" class="noOpen"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>-->
+            <a href="popularize.html" ><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>
+            <a href="mqqwpa://im/chat?chat_type=wpa&uin=3511345200&version=1&src_type=web&web_src=oicqzone.com"><img
                     src="image/foot_nav4.png" data="foot_nav4_crent">客服</a>
             <a href="myIndexGuest.html" ><img src="image/foot_nav5_crent.png" data="foot_nav5_crent">我的</a>
         </div>
@@ -189,9 +189,9 @@
             })
 
             $(".tosaller").click(function () {
-                //accesstx("商家请用电脑打开网站进行操作哦！<br />passion.njshangka.com/rrightway/phone/phoneIndex.html");
+                //accesstx("商家请用电脑打开网站进行操作哦！<br />haoshanglianmeng.com/rrightway/phone/phoneIndex.html");
 
-                // corfirm3("商家请用电脑打开网站进行操作哦！<br />passion.njshangka.com/rrightway/phone/phoneIndex.html", "取消", "打开网站", "http://passion.njshangka.com/rrightway/phone/phoneIndex.html?touch=1");
+                // corfirm3("商家请用电脑打开网站进行操作哦！<br />haoshanglianmeng.com/rrightway/phone/phoneIndex.html", "取消", "打开网站", "http://haoshanglianmeng.com/rrightway/phone/phoneIndex.html?touch=1");
 
             });
 
@@ -255,8 +255,8 @@
             data: 'token=' + token,
             success: function (res) {
                 if (res.code == 0) {
-                   if(res.data.adminIf!=1){
-                       $('.admin').css('display','none')
+                   if(res.data.adminIf==1){
+                       $('.admin').css('display','')
                    }
                 } else if (res.code == 20) {
                     localStorage.setItem('href', location.href);

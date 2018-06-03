@@ -14,9 +14,9 @@
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
     <title>
-        好商联盟街，免费试用，轻松拿佣金
+        好商联盟，免费试用，轻松拿佣金
     </title>
-    <meta name="keywords" content="好商联盟街"/>
+    <meta name="keywords" content="好商联盟"/>
     <meta name="description" content="Y"/>
 
     <link rel="stylesheet" type="text/css" href="css/new.css"/>
@@ -70,7 +70,7 @@
     <!-- 顶部 结束 -->
 
 
-    <!-- 我的好商联盟街 开始-->
+    <!-- 我的好商联盟 开始-->
 
     <!-- 提示信息 开始-->
 
@@ -92,7 +92,7 @@
     <div class="bgfff pt40">
         <div class="plr20 relative" style="height: 1rem">
             <p class="f30 hello" ></p>
-            <button class="admin" ><a href="admin.html" style="color: #fff;font-size: 0.6rem;">我是管理员</a></button>
+            <button class="admin"  style="display: none" ><a href="adminManagement.html" style="color: #fff;font-size: 0.6rem;">我是管理员</a></button>
 
             <div class="mt20">
 
@@ -117,7 +117,7 @@
                 <em class="f30 line30 mt20 c333 bl">0</em></a>
             <a href="rightprotectorders.html" class="item pt40 pb40 c999 bt1 relative rightprotectedCount">维权的订单<em
                     class="f30 line30 mt20 c333 bl">0</em></a>
-            <a href="" class="item pt40 pb40 c999 bt1 relative complainCount">投诉管理<em
+            <a href="seller_complainManage.html" class="item pt40 pb40 c999 bt1 relative complainCount">投诉管理<em
                     class="f30 line30 mt20 c333 bl">0</em></a>
             <a href="babyVerify.html" class="item pt40 pb40 c999 bt1 relative auditcowryCount">审核中的宝贝<em
                     class="f30 line30 mt20 c333 bl">0</em></a>
@@ -148,7 +148,7 @@
             <img src="image/user_nav5.png" class="w54 mt_3 mlr20"/><em class="bl mt20">安全设置</em></a>
     </div>
 
-    <!-- 我的好商联盟街 结束-->
+    <!-- 我的好商联盟 结束-->
 
     <div class="plr20 mt40"><a href="javascript:;" class="e_submit">退出登录</a></div>
 
@@ -156,9 +156,9 @@
     <div class="footer">
         <a href="phoneIndex.html"><img src="image/foot_nav1.png" data="foot_nav1_crent">首页</a>
         <a href="classification.html"><img src="image/foot_nav2.png" data="foot_nav2_crent">分类</a>
-        <!--<a href="popularize.html"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>-->
-        <a href="javascript:;" class="noOpen"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>
-        <a href="mqqwpa://im/chat?chat_type=wpa&uin=413038044&version=1&src_type=web&web_src=oicqzone.com"><img
+        <a href="popularize.html"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>
+        <!--<a href="javascript:;" class="noOpen"><img src="image/foot_nav3.png" data="foot_nav3_crent">推广</a>-->
+        <a href="mqqwpa://im/chat?chat_type=wpa&uin=3511345200&version=1&src_type=web&web_src=oicqzone.com"><img
                 src="image/foot_nav4.png" data="foot_nav4_crent">客服</a>
         <a href="myIndexMerchant.html" ><img src="image/foot_nav5_crent.png" data="foot_nav5_crent">我的</a>
     </div>
@@ -228,8 +228,8 @@
         data: 'token=' + token,
         success: function (res) {
             if (res.code == 0) {
-                if(res.data.adminIf!=1){
-                    $('.admin').css('display','none')
+                if(res.data.adminIf==1){
+                    $('.admin').css('display','')
                 }
             } else if (res.code == 20) {
                 localStorage.setItem('href', location.href);

@@ -801,8 +801,8 @@ public class AdminEntrance {
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(
 					new StringBuilder("update t_user set status=1,freeze_reason=? where id=?").toString());
-			pst.setObject(1, userId);
-			pst.setObject(2, reason);
+			pst.setObject(1, reason);
+			pst.setObject(2, userId);
 			int n = pst.executeUpdate();
 			pst.close();
 			if (n != 1)
@@ -1683,7 +1683,7 @@ public class AdminEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection
-					.prepareStatement(new StringBuilder("select id,title,add_time,last_update_time from t_notice ")
+					.prepareStatement(new StringBuilder("select t.id,t.title,t.add_time,t.last_update_time from t_notice t")
 							.append(" order by t.add_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));

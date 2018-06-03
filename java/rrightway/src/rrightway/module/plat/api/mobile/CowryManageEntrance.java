@@ -1028,7 +1028,7 @@ public class CowryManageEntrance {
 			if (audit == 2)
 				throw new InteractRuntimeException("审核失败，请重新提交。原因：" + auditFailReason);
 			if (audit == 4)
-				throw new InteractRuntimeException("请先提交审核");
+				throw new InteractRuntimeException("活动还未审核通过，请重新发布");
 			pst = connection.prepareStatement(new StringBuilder(
 					"update t_activity set status=1,return_money=?,stock=?,keep_days=?,start_time=? where id=? and status=3 and audit=1 and return_money<=?")
 							.toString());
