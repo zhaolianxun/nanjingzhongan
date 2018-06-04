@@ -5,7 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -117,9 +119,6 @@ public class MoneyManageEntrance {
 			String alipayTradeno = StringUtils.trimToNull(request.getParameter("alipay_tradeno"));
 			if (alipayTradeno == null)
 				throw new InteractRuntimeException("alipay_tradeno 不可空");
-			if (alipayTradeno.length() != 28)
-				throw new InteractRuntimeException("交易号异常");
-
 			String vcode = StringUtils.trimToNull(request.getParameter("vcode"));
 			if (vcode == null)
 				throw new InteractRuntimeException("vcode 不可空");

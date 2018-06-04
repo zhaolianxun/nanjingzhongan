@@ -49,7 +49,8 @@ public class BindTaobaoEntrance {
 			String url = new StringBuilder(SysConstant.ali_open_oauth_url).append("?response_type=token&")
 					.append("client_id=").append(SysConstant.ali_open_app_rrightway_appkey).append("&redirect_uri=")
 					.append(SysConstant.project_rooturl).append(go).append("&state=").append(loginStatus.getUserId())
-					.append(",").append(accountType).append("&view=wap").toString();
+					.append(",").append(accountType).append(",").append(loginStatus.getToken()).append("&view=wap")
+					.toString();
 
 			// 返回结果
 			JSONObject data = new JSONObject();
@@ -74,6 +75,7 @@ public class BindTaobaoEntrance {
 			String[] stateSplits = state.split(",");
 			String userId = stateSplits[0];
 			int accountType = Integer.parseInt(stateSplits[1]);
+			String token = stateSplits[2];
 			String taobaoUserNick = StringUtils.trimToNull(request.getParameter("taobao_user_nick"));
 			if (taobaoUserNick == null)
 				throw new InteractRuntimeException("taobao_user_nick 不能空");
