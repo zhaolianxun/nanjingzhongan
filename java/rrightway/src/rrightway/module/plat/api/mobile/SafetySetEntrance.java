@@ -52,7 +52,7 @@ public class SafetySetEntrance {
 			// 更新密码
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
-					"select if((isnull(t.paypwd_md5)||length(t.paypwd_md5)=0),0,1) paypwd_setted,if((isnull(t.phone)||length(t.phone)=0),0,1) phone_bound,(select if(count(id)>0,1,0) from t_user_bankcard where id=t.id) bankcard_bound from t_user t where t.id= ? ");
+					"select if((isnull(t.paypwd_md5)||length(t.paypwd_md5)=0),0,1) paypwd_setted,if((isnull(t.phone)||length(t.phone)=0),0,1) phone_bound,(select if(count(id)>0,1,0) from t_user_bankcard where user_id=t.id) bankcard_bound from t_user t where t.id= ? ");
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			JSONObject data = new JSONObject();

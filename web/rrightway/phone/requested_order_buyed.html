@@ -19,23 +19,24 @@
     <link rel="stylesheet" type="text/css" href="css/golbal.css"/>
     <link rel="stylesheet" type="text/css" href="css/moblie.css"/>
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
     <script src="js/com.js" type="text/javascript"></script>
     <script src="js/public.js"></script>
     <script>
 
-        function search() {
-            if (checktime($("#txtstime").val(), $("#txtetime").val())) {
-
-                location.href = "buyed.aspx?type=" + escape(buy_way) + "&salename=" + escape($("#txtsalename").val())
-                + "&buyname=" + escape($("#txtbuyname").val()) + "&productname=" + escape($("#txtproductname").val())
-                + "&stime=" + escape($("#txtstime").val()) + "&etime=" + escape($("#txtetime").val())
-                + "&ordernum=" + escape($("#txtordernum").val()) + "&staobaoordernum=" + escape($("#txtstaobaoordernum").val());
-            }
-        }
+//        function search() {
+//            if (checktime($("#txtstime").val(), $("#txtetime").val())) {
+//
+//                location.href = "buyed.aspx?type=" + escape(buy_way) + "&salename=" + escape($("#txtsalename").val())
+//                + "&buyname=" + escape($("#txtbuyname").val()) + "&productname=" + escape($("#txtproductname").val())
+//                + "&stime=" + escape($("#txtstime").val()) + "&etime=" + escape($("#txtetime").val())
+//                + "&ordernum=" + escape($("#txtordernum").val()) + "&staobaoordernum=" + escape($("#txtstaobaoordernum").val());
+//            }
+//        }
 
     </script>
-    <meta name="description" content="好商联盟街-专业的试用网"/>
-    <meta name="keywords" content="好商联盟,好商联盟街,试用,推广"/>
+    <meta name="description" content="好商联盟-专业的试用网"/>
+    <meta name="keywords" content="好商联盟,好商联盟,试用,推广"/>
 </head>
 
 <body>
@@ -73,16 +74,17 @@
             <!--<i class="ptype tel"></i><i class="ptype sou"></i>-->
 
             <!--<div class="selectpage mt15 mb15"></div>-->
-            <script>
-                $("#pagerSelectChang").change(function () {
-                    var m = $(this).find("option:selected").html();
-                    var total = $(this).attr("value-total");
-                    var l = m + "/" + total;
-                    $("#pagerShow em").html(l);
-                    window.location.href = $(this).val();
-                });
-            </script>
+            <!--<script>-->
+                <!--$("#pagerSelectChang").change(function () {-->
+                    <!--var m = $(this).find("option:selected").html();-->
+                    <!--var total = $(this).attr("value-total");-->
+                    <!--var l = m + "/" + total;-->
+                    <!--$("#pagerShow em").html(l);-->
+                    <!--window.location.href = $(this).val();-->
+                <!--});-->
+            <!--</script>-->
         </div>
+        <div  class="loadover hidden"><span>加载完成</span></div>
         <!-- 已购买的订单 结束-->
 
         <!-- 筛选内容 开始 -->
@@ -142,7 +144,7 @@
         <!--输入淘宝订单号-->
         <div id="check" class=" p15 taobaoid" style="display:none;background: #FFFFFF">
             <div class="txtp bd1 brd5 mt15"><input type="text" class="f16" id="txttborder" placeholder="请输入淘宝订单号"></div>
-            <p class=" mt10 txtc"><a href="http://m.zuozuojie.com//help/detail.aspx?id=2077" target="_blank"
+            <p class=" mt10 txtc"><a href="http://m.haoshanglianmeng.com//help/detail.aspx?id=2077" target="_blank"
                                      class="cf60">如何获取淘宝订单号</a></p>
 
             <div class="mt15"><a href="javascript:;" class="bg2f97f0 cfff submit bl brd20 h40 txtc makeSureTb">确定</a>
@@ -157,7 +159,7 @@
         <!--输入店铺掌柜名-->
         <div class="p15 zhanggui" style="display:none;background: #FFFFFF">
             <div class="txtc">请输入‘商家掌柜名’已确保操作的店铺是网站商家发布的活动！</div>
-            <p class=" mt10 txtc"><a href="http://m.zuozuojie.com/help/detail.aspx?id=2076" target="_blank"
+            <p class=" mt10 txtc"><a href="http://m.haoshanglianmeng.com/help/detail.aspx?id=2076" target="_blank"
                                      class="cf60">【点击查看获取商家掌柜名的方法】</a></p>
 
             <div class="txtp bd1 brd5 mt15"><input type="text" class="f16" id="txttbname" placeholder="请输入商家掌柜名"></div>
@@ -190,7 +192,15 @@
 <script type="text/javascript" src="js/jquery_date.js"></script>
 <script type="text/javascript" src="js/date.js"></script>
 <script type="text/javascript" src="js/iscroll_date.js"></script>
+<style>
 
+    .loadmore{
+        display: none;
+    }
+</style>
+<script src="rxw/rxw.js" type="text/javascript"></script>
+<link href="css/rxw.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/lazyload.js" charset="utf-8"></script>
 <script>
 
     function getRequest() {
@@ -235,14 +245,33 @@
     }
 
     function reloadItem(buyer_nickname, seller_nickname, gift_name, order_id, taobao_orderid, order_time_start, order_time_end, trade_status, pageNo) {
+        if(!pageNo)
+            pageNo=1;
+        if(!pageSize)
+            pageSize=30;
+        $('.loadover').addClass('hidden');
+
         $.ajax({
             url: '/rrightway/p/m/iambuyerent/applyedorders?token=' + token,
             type: 'post',
             data: 'buyer_nickname=' + buyer_nickname + "&seller_nickname=" + seller_nickname + "&gift_name=" + gift_name
             + "&order_id=" + order_id + "&taobao_orderid=" + taobao_orderid + "&order_time_start=" + order_time_start + "&order_time_end=" + order_time_end
             + "&trade_status=" + trade_status + "&page_no=" + pageNo + "&page_size=" + 15,
+            async:false,
             success: function (res) {
                 if (res.code == 0) {
+                    if(res.data.orders.items.length==0) {
+                        if(pageNo != 1)
+                            $('.loadover').removeClass('hidden').find('span').text('没有更多数据了');
+                        else{
+
+                        }
+
+                        noMoreItems = true;
+
+                    }else{
+                        $('.loadover').removeClass('hidden').find('span').text('上拉加载更多')
+                    }
 
                     for (var i = 0; i < res.data.orders.items.length; i++) {
                         var status = res.data.orders.items[i].status;
@@ -252,14 +281,14 @@
                         if (status == 0 && !res.data.orders.items[i].taobaoOrderid) {
                             var statusStack = '<b class="c2f97f0">订单审核</b><em class="c999 bl">(等待核对)</em>';
                             var statusStackLoad = '<a   id="' + res.data.orders.items[i].orderId + '"  class="bgf60 dl brd5 cfff sbt_100_30 ations checktbk overClick">完成操作</a> ' +
-//                                    '<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=800016849&amp;site=qq&amp;menu=yes" ' +
+//                                    '<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=3511345200&amp;site=qq&amp;menu=yes" ' +
 //                                    'target="_blank" class="bg2f97f0 dl brd5 cfff sbt_100_30 ations">联系客服</a> '+
                                     '<a id="' + res.data.orders.items[i].orderId + '" class="bg2f97f0 dl brd5 cfff sbt_100_30 makesaller clickZhanggui">核对掌柜</a> ' +
                                     '<a id="' + res.data.orders.items[i].orderId + '"  class="dl brd5 sbt_98_28 bd1 delete deleteOrder">取消订单</a>'
                         } else if (status == 0 && res.data.orders.items[i].taobaoOrderid) {
                             var statusStack = '<b class="c2f97f0">订单审核</b><em class="c999 bl">(等待核对)</em>';
                             var statusStackLoad = '<a tbId="' + res.data.orders.items[i].taobaoOrderid + '" id="' + res.data.orders.items[i].orderId + '" class="bg75cc42 dl brd5 cfff sbt_100_30 ations checktbk lookTbao">查看淘单</a> ' +
-//                                    '<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=800016849&amp;site=qq&amp;menu=yes" ' +
+//                                    '<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=3511345200&amp;site=qq&amp;menu=yes" ' +
 //                                    'target="_blank" class="bg2f97f0 dl brd5 cfff sbt_100_30 ations">联系客服</a> '+
                                     '<a  id="' + res.data.orders.items[i].orderId + '" class="bg2f97f0 dl brd5 cfff sbt_100_30 makesaller clickZhanggui">核对掌柜</a> ' +
                                     '<a id="' + res.data.orders.items[i].orderId + '"  class="dl brd5 sbt_98_28 bd1 delete deleteOrder">取消订单</a>'
@@ -272,10 +301,10 @@
 //                                    '<a id="' + res.data.orders.items[i].orderId + '"  class="dl brd5 sbt_98_28 bd1 delete deleteOrder">取消订单</a>'
                         } else {
                             var statusStack = '<b class="c2f97f0">订单关闭</b><em class="c999 bl">(卖家取消)</em>';
-                            var statusStackLoad = '<a href="mqqwpa://im/chat?chat_type=wpa&uin=413038044&version=1&src_type=web&web_src=oicqzone.com" ' +
+                            var statusStackLoad = '<a href="mqqwpa://im/chat?chat_type=wpa&uin=3511345200&version=1&src_type=web&web_src=oicqzone.com" ' +
                                     'target="_blank" class="bg2f97f0 dl brd5 cfff sbt_100_30 ations">联系客服</a> ' +
-                                    '<a  id="' + res.data.orders.items[i].orderId + '" class="bg2f97f0 dl brd5 cfff sbt_100_30 makesaller clickZhanggui">核对掌柜</a> ' +
-                                    '<a  id="' + res.data.orders.items[i].orderId + '" class="dl brd5 sbt_98_28 bd1 delete deleteOrder">取消订单</a> '+
+//                                    '<a  id="' + res.data.orders.items[i].orderId + '" class="bg2f97f0 dl brd5 cfff sbt_100_30 makesaller clickZhanggui">核对掌柜</a> ' +
+//                                    '<a  id="' + res.data.orders.items[i].orderId + '" class="dl brd5 sbt_98_28 bd1 delete deleteOrder">取消订单</a> '+
                                     '<a  id="' + res.data.orders.items[i].orderId + '" class="dl brd5 sbt_98_28 bd1 delete deleteDd">删除订单</a>'
                         }
                         if (buyWay == 1) {
@@ -322,6 +351,67 @@
             }
         });
     }
+
+
+    function godetail() {
+        $('.recoder').unbind();
+        $('.recoder').click(function () {
+            ys.savehis(); //如果返回需要记录页面位置和加载历史页数，切记调用此行
+        });
+    }
+    rxw1.relitivePath=''
+    var noMoreItems = false;
+    onload();
+    rxw1.windowTouch({
+        movedown:function(){onload()},
+        moveup:function(){
+            if(!noMoreItems){
+                pageNo++;
+//                pageNo++;
+                reloadItem(buyer_nickname, seller_nickname, gift_name, order_id, taobao_orderid, order_time_start, order_time_end, trade_status, pageNo)
+            }
+        }
+        ,moveright:function(){
+            pageNo=1
+            var prev =$('.com_tab .crently').prev();
+            if(prev.length == 1)
+                prev.click();
+            else
+                history.back()
+        },moveleft:function(){
+            pageNo=1
+            var next =$('.com_tab .crently').next();
+            if(next.length == 1)
+                next.click();
+
+        }
+    })
+
+    function onload(){
+        pageNo=1;
+        pageSize=20;
+//        pageNo=1
+//        pageSize=30
+//        param={}
+        noMoreItems = false;
+//        items = {};
+//        param.trade_status= tradeStatus
+        status=$('.com_tab .crently').attr('data-val');
+        console.log('mmmmm'+status)
+        $('#data').html('');
+        reloadItem(buyer_nickname, seller_nickname, gift_name, order_id, taobao_orderid, order_time_start, order_time_end, trade_status, pageNo)
+
+        if($('#data').html()){
+            godetail();
+            $('#data').removeClass('hidden');
+            $('.no_data').addClass('hidden');
+            Echo.init({ offset: 5, throttle: 100 });
+        }else {
+            $('#data').addClass('hidden');
+            $('.no_data').removeClass('hidden');
+        }
+    }
+
     //完成操作
     $('#maskoparet').click(function () {
         $('.taobaoid').css('display', 'none');
@@ -333,45 +423,10 @@
         $('.order_cancle_select_list').css('display', 'none')
     })
     var _overThis;
-    $('#data').on('click', '.txtc .overClick', function () {
-
-        $('.taobaoid').css('display', 'block');
-        $("#maskDIV").css('display', 'block');
-         _overThis = $(this);
-        var order_id = $(this).attr('id');
-        addTbOrder(order_id);
-    });
-    function addTbOrder(order_id) {
-//        var _this = $(this);
-        console.log(_overThis,_overThis.html());
-        $('.makeSureTb').click(function () {
-            console.log(_overThis,_overThis.html());
-            $.ajax({
-                url: '/rrightway/p/m/iambuyerent/applyedorders/complete',
-                data: 'order_id=' + order_id + "&taobao_orderid=" + $("#txttborder").val() + "&token=" + token,
-                type: 'post',
-                success: function (res) {
-                    if (res.code == 0) {
-                        console.log(_overThis)
-                        _overThis.attr('tbId', $("#txttborder").val());
-                        _overThis.html('查看淘单').addClass('bg75cc42').removeClass('bgf60').addClass('lookTbao').removeClass('overClick');
-
-                        $('.taobaoid').css('display', 'none');
-                        $("#maskDIV").css('display', 'none');
-                        $("#txttborder").val('')
-                    } else if (res.code == 20) {
-                        location.href = "login.html"
-                    } else {
-                        error(res.codeMsg)
-                    }
-                }
-            })
-        });
-
-    }
     //查看淘单
     $('#data').on('click', '.txtc .lookTbao', function () {
 //        alert($(this).attr('id'))
+        _overThis = $(this);
         $('#update').css('display', 'block');
         $("#maskDIV").css('display', 'block');
         var _this = $(this);
@@ -382,8 +437,52 @@
             $('#update').css('display', 'none');
             $('.taobaoid').css('display', 'block');
         })
-        addTbOrder(order_id)
+        $('.makeSureTb').attr('order_id',order_id)
+//        addTbOrder(order_id)
     });
+//    完成操作
+    $('#data').on('click', '.txtc .overClick', function () {
+
+        $('.taobaoid').css('display', 'block');
+        $("#maskDIV").css('display', 'block');
+         _overThis = $(this);
+        var order_id = $(this).attr('id');
+        $('.makeSureTb').attr('order_id',order_id)
+//        addTbOrder(order_id);
+    });
+    $('.makeSureTb').click(function () {
+        var order_id = $(this).attr('order_id');
+        addTbOrder(order_id);
+    })
+    function addTbOrder(order_id) {
+//        var _this = $(this);
+//        console.log(_overThis,_overThis.html());
+//        $('.makeSureTb').click(function () {
+//            console.log(_overThis,_overThis.html());
+        $.ajax({
+            url: '/rrightway/p/m/iambuyerent/applyedorders/complete',
+            data: 'order_id=' + order_id + "&taobao_orderid=" + $("#txttborder").val() + "&token=" + token,
+            type: 'post',
+            success: function (res) {
+                if (res.code == 0) {
+                    console.log(_overThis)
+                    _overThis.attr('tbId', $("#txttborder").val());
+                    console.log(_overThis.attr('tbId'))
+                    _overThis.html('查看淘单').addClass('bg75cc42').removeClass('bgf60').addClass('lookTbao').removeClass('overClick');
+
+                    $('.taobaoid').css('display', 'none');
+                    $("#maskDIV").css('display', 'none');
+                    $("#txttborder").val('')
+                } else if (res.code == 20) {
+                    location.href = "login.html"
+                } else {
+                    error(res.codeMsg)
+                }
+            }
+        })
+//        });
+
+    }
     //核对掌柜
     $('#data').on('click', '.txtc .clickZhanggui', function () {
 //        alert($(this).attr('id'))
@@ -408,11 +507,11 @@
                         error('您输入的掌柜名非商家活动的掌柜名')
                     } else {
                         error("核对成功")
-
+                        $('.zhanggui').css('display', 'none');
+                        $("#maskDIV").css('display', 'none');
+                        $('.taobaoid').css('display', 'none');
                     }
-                    $('.zhanggui').css('display', 'block');
-                    $("#maskDIV").css('display', 'block');
-                    $('.taobaoid').css('display', 'none');
+
                     $("#txttbname").val('')
                 } else if (res.code == 20) {
                     location.href = "login.html"
@@ -488,6 +587,7 @@ var reason;
                     _that.parent().parent().parent().remove();
                     $("#maskDIV").css('display', 'none');
 //                    $('.makeSureSc').attr('order_id', order_id);
+                    location.reload()
                 } else if (res.code == 20) {
                     location.href = "login.html"
                 } else {
@@ -502,15 +602,15 @@ var reason;
 
     if (trade_status == 1) {
         $('.u_tab a:first-child').addClass('crently');
-        reloadItem('', '', '', '', '', '', '', 1, 1);
+//        reloadItem('', '', '', '', '', '', '', 1, 1);
         console.log($('.buyed_item').length)
     } else if (trade_status == 2) {
         $('.u_tab a:nth-child(2)').addClass('crently');
-        reloadItem('', '', '', '', '', '', '', 2, 1);
+//        reloadItem('', '', '', '', '', '', '', 2, 1);
         console.log($('.buyed_item').length)
     } else {
         $('.u_tab a:nth-child(3)').addClass('crently');
-        reloadItem('', '', '', '', '', '', '', 3, 1);
+//        reloadItem('', '', '', '', '', '', '', 3, 1);
         console.log($('.buyed_item').length)
     }
 
@@ -535,7 +635,7 @@ var reason;
 
         //确定查询
         $(".frbtn").click(function () {
-
+            buy_way=$('[rel=buy_way].crently ').attr('data')
             if (!$("#txtbuyname").val()) {
                 buyer_nickname = '';
             } else {
@@ -611,9 +711,9 @@ var reason;
 
 
         //删除提示
-        $(".bit_bottom p .delete").click(function () {
-            corfirm2("您确定要删除订单吗？", "删除后不可恢复，请谨慎操作", delok, $(this));
-        });
+//        $(".bit_bottom p .delete").click(function () {
+//            corfirm2("您确定要删除订单吗？", "删除后不可恢复，请谨慎操作", delok, $(this));
+//        });
 
         //取消提示
         $(".bit_bottom p .cancle").click(function () {
@@ -621,49 +721,14 @@ var reason;
 //            layboxs("/user/dialog/order_cancle.aspx?id=" + id);
         });
 
-        //提醒提示
-        $(".bit_bottom p .checktbk").click(function () {
-            var id = $(this).parent().attr("dataid");
 
-            layboxs("/user/dialog/order_buyed_checktbk.aspx?id=" + id);
-
-
-            //$.ajax({
-            //    type: "POST",
-            //    url: "/flow/AS200101.ashx",
-            //    data: "rad=" + Math.random() + "&id=" + id,
-            //    success: function (res) {
-
-            //        if (res != "" && res != "[]") {
-
-            //            var comments = $.parseJSON(res);
-
-
-            //            if (comments.success == "Y") {
-            //                error("提醒卖家核对订单成功！");
-            //            }
-            //            else if (comments.success == "R") {
-            //                error("已经提醒卖家核对，每个订单只能提醒一次！");
-            //            }
-            //            else if (comments.success == "T") {
-            //                error("24小时内无法提醒卖家核对订单，请耐心等待！");
-            //            }
-            //            else {
-            //                error(comments.msg);
-            //            }
-            //        }
-            //    }
-            //});
-
-
-        });
 
 
         //旺旺核对
-        $(".bit_bottom p .makesaller").click(function () {
-            var id = $(this).parent().attr("dataid");
-            layboxs("/user/dialog/order_buyed_checksaller.aspx?id=" + id);
-        });
+//        $(".bit_bottom p .makesaller").click(function () {
+//            var id = $(this).parent().attr("dataid");
+//            layboxs("/user/dialog/order_buyed_checksaller.aspx?id=" + id);
+//        });
 
 
         //查看备注
@@ -674,15 +739,15 @@ var reason;
     });
 
 
-    //提交淘宝订单成功
-    function checktbksuc() {
-        error("提交淘宝订单号成功！");
-        closemask();
-        $(".checktbk").html("查看淘单");
-        $(".checktbk").removeClass("bgf60");
-        $(".checktbk").addClass("bg75cc42");
-
-    }
+//    //提交淘宝订单成功
+//    function checktbksuc() {
+//        error("提交淘宝订单号成功！");
+//        closemask();
+//        $(".checktbk").html("查看淘单");
+//        $(".checktbk").removeClass("bgf60");
+//        $(".checktbk").addClass("bg75cc42");
+//
+//    }
 
 
     //取消成功

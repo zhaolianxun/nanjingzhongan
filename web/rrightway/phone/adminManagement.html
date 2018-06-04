@@ -14,7 +14,7 @@
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
     <title>
-        商家联盟，免费试用，轻松拿佣金
+        好商联盟，免费试用，轻松拿佣金
     </title>
     <meta name="keywords" content="管理员首页"/>
     <meta name="description" content="Y"/>
@@ -36,7 +36,7 @@
             <div class="htxt">我的</div>
         </div>
         <div class="plr20 relative" style="height: 1rem">
-            <p class="f30 hello">你好，<span id="userLogo"></span></p>
+            <p class="f30 hello"></p>
             <!--<button class="admin"><a href="admin.html" style="color: #fff;font-size: 0.6rem;">我是管理员</a></button>-->
             <!--<div class="mt20">-->
 
@@ -58,30 +58,30 @@
             <a href="admin_announcement.html" class="item relative c999"><i
                     class="f30 line30 bl c333 mb15 rightWallet">公告管理</i></a>
         </div>
+        <div class="list_tab sp3 after bt1 clearfix c999 pt40 pb40  f24 line24 center">
+            <a href="admin_taobao.html" class="item relative c999" style="border-right:1px solid #e6e6e6 "><i class="f30 line30 bl c333 mb15 money">淘宝管理</i></a>
+            <!--<a href="admin_withdraw.html" class="item relative c999 "><i-->
+                    <!--class="f30 line30 bl c333 mb15 withdrawingMoney">提现管理</i></a>-->
+            <!--<a href="admin_announcement.html" class="item relative c999"><i-->
+                    <!--class="f30 line30 bl c333 mb15 rightWallet">公告管理</i></a>-->
+        </div>
     </div>
+    <script>
+        var token=localStorage.getItem('token')
+        $.ajax({
+            url:'/rrightway/p/useraction/loginrefresh?token='+token,
+            type:'post',
+            success:function(res){
+                if(res.code==0){
+                    $('.hello').html('你好:'+(res.data.phone||res.data.username))
+                }else if(res.code==20){
+                    $('.hello').html('你好，请先<a href="login.html">登录</a>')
+                }else{
+                    error(res.codeMsg)
+                }
+            }
+        })
+    </script>
 </div>
 </body>
-<script>
-    var token = localStorage.getItem('token');
-    if(!token)
-        location.href="login.html";
-    $.ajax({
-        url: '/rrightway/p/useraction/loginrefresh',
-        type: 'post',
-        data: 'token=' + token ,
-        success: function (res) {
-            if (res.code == 0) {
-               if(res.data.adminIf != 1){
-                   error('您不是管理员')
-               }
-               $('#userLogo').text( res.data.username)
-            }else if(res.code == 20){
-                localStorage.getItem('token','');
-                location.href="login.html";
-            }else{
-                error(res.codeMsg)
-            }
-        }
-    })
-</script>
 </html>

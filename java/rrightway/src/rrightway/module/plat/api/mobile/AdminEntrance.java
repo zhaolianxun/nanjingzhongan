@@ -111,7 +111,7 @@ public class AdminEntrance {
 			sqlParams.add(pageSize);
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select audit,title,publish_time,status,id,gift_cover,gift_name,pay_price,return_money from t_activity where 1=1 ")
+					"select del,audit,title,publish_time,status,id,gift_cover,gift_name,pay_price,return_money from t_activity where 1=1 ")
 							.append(couponIf == null ? ""
 									: couponIf == 0 ? " and (isnull(coupon_url) or length(trim(coupon_url))=0) "
 											: "and (!isnull(coupon_url) and length(trim(coupon_url))>0) ")
@@ -142,6 +142,7 @@ public class AdminEntrance {
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("id", rs.getInt("id"));
+				item.put("del", rs.getInt("del"));
 				item.put("giftCover", rs.getString("gift_cover"));
 				item.put("giftName", rs.getString("gift_name"));
 				item.put("payPrice", rs.getBigDecimal("pay_price"));
@@ -642,6 +643,224 @@ public class AdminEntrance {
 			JSONObject data = new JSONObject();
 			data.put("items", items);
 			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/taobaoaccountaudit/ent")
+	public void taobaoaccountauditEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String statusParam = StringUtils.trimToNull(request.getParameter("status"));
+			Integer status = statusParam == null ? null : Integer.parseInt(statusParam);
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			List sqlParams = new ArrayList();
+			if (status != null)
+				sqlParams.add(status);
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			String sql = new StringBuilder(
+					"select t.user_id,if(isnull(u.realname),if(isnull(u.phone),u.username,u.phone),u.realname) user_logo,t.id,t.taobao_user_nick,t.idcard_front,t.idcard_back,t.idcard_no,t.alipay_account,t.type,t.status,t.audit_fail_reason from t_taobaoaccount t left join t_user u on t.user_id=u.id where 1=1 ")
+							.append(status == null ? "" : " and t.status=?")
+							.append(" order by t.status desc limit ?,? ").toString();
+			logger.debug(sql);
+			pst = connection.prepareStatement(sql);
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("id", rs.getObject("id"));
+				item.put("userLogo", rs.getObject("user_logo"));
+				item.put("userId", rs.getObject("user_id"));
+				item.put("taobaoUserNick", rs.getObject("taobao_user_nick"));
+				item.put("idcardFront", rs.getObject("idcard_front"));
+				item.put("idcardBack", rs.getObject("idcard_back"));
+				item.put("idcardNo", rs.getObject("idcard_no"));
+				item.put("alipayAccount", rs.getObject("alipay_account"));
+				item.put("type", rs.getObject("type"));
+				item.put("status", rs.getObject("status"));
+				item.put("auditFailReason", rs.getObject("audit_fail_reason"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/user/taobaoaccounts")
+	public void userTaobaoaccounts(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String userId = StringUtils.trimToNull(request.getParameter("user_id"));
+			if (userId == null)
+				throw new InteractRuntimeException("user_id 不能空");
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			String sql = new StringBuilder("select * from t_taobaoaccount where user_id=?").toString();
+			logger.debug(sql);
+			pst = connection.prepareStatement(sql);
+			pst.setObject(1, userId);
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("id", rs.getObject("id"));
+				item.put("taobaoUserNick", rs.getObject("taobao_user_nick"));
+				item.put("idcardFront", rs.getObject("idcard_front"));
+				item.put("idcardBack", rs.getObject("idcard_back"));
+				item.put("idcardNo", rs.getObject("idcard_no"));
+				item.put("alipayAccount", rs.getObject("alipay_account"));
+				item.put("type", rs.getObject("type"));
+				item.put("status", rs.getObject("status"));
+				item.put("auditFailReason", rs.getObject("audit_fail_reason"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/taobaoaccountauditfail")
+	public void userTaobaoaccountauditfail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id 不能空");
+			int id = Integer.parseInt(idParam);
+			String reason = StringUtils.trimToNull(request.getParameter("reason"));
+			if (reason == null)
+				throw new InteractRuntimeException("reason 不能空");
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_taobaoaccount set status=3,audit_fail_reason=? where id=? ")
+							.toString());
+			pst.setObject(1, reason);
+			pst.setObject(2, id);
+			int n = pst.executeUpdate();
+			pst.close();
+
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/taobaoaccountauditsuccess")
+	public void userTaobaoaccountauditsuccess(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id 不能空");
+			int id = Integer.parseInt(idParam);
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection
+					.prepareStatement(new StringBuilder("update t_taobaoaccount set status=2 where id=? ").toString());
+			pst.setObject(1, id);
+			int n = pst.executeUpdate();
+			pst.close();
+
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
@@ -1187,7 +1406,7 @@ public class AdminEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(
-					new StringBuilder("update t_order set complain=2 where id=? and complain not in (0,5)").toString());
+					new StringBuilder("update t_order set complain=6 where id=? and complain not in (0,5)").toString());
 			pst.setObject(1, orderId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
@@ -1682,8 +1901,8 @@ public class AdminEntrance {
 			List sqlParams = new ArrayList();
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
-			pst = connection
-					.prepareStatement(new StringBuilder("select t.id,t.title,t.add_time,t.last_update_time from t_notice t")
+			pst = connection.prepareStatement(
+					new StringBuilder("select t.id,t.title,t.add_time,t.last_update_time from t_notice t")
 							.append(" order by t.add_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));

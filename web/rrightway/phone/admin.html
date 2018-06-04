@@ -12,9 +12,9 @@
     <meta name="x5-orientation" content="portrait"/>
     <meta name="x5-fullscreen" content="true"/>
     <meta name="x5-page-mode" content="app"/>
-    <title>商家联盟 做试用活动免费领取奖品</title>
-    <meta name="keywords" content="商家联盟,商家联盟,试用,推广"/>
-    <meta name="description" content="商家联盟-专业的试用网"/>
+    <title>好商联盟 做试用活动免费领取奖品</title>
+    <meta name="keywords" content="活动管理"/>
+    <meta name="description" content="好商联盟-专业的试用网"/>
 
     <link rel="stylesheet" type="text/css" href="css/new.css">
     <!--<link rel="stylesheet" type="text/css" href="css/golbal.css"/>-->
@@ -130,11 +130,31 @@
                         <input type="hidden" id="statusState"/>
 
                         <div class="item active"><a href="javascript:;" data=""><em>不限制</em></a></div>
-                        <div class="item"><a href="javascript:;" data="0"><em>待审核</em></a></div>
+                        <!--<div class="item"><a href="javascript:;" data="0"><em>待审核</em></a></div>-->
                         <div class="item"><a href="javascript:;" data="1"><em>活动中</em></a></div>
-                        <div class="item"><a href="javascript:;" data="2"><em>审核失败</em></a></div>
+                        <!--<div class="item"><a href="javascript:;" data="2"><em>审核失败</em></a></div>-->
                         <div class="item"><a href="javascript:;" data="3"><em>下架(仓库中)</em></a></div>
-                        <div class="item"><a href="javascript:;" data="4"><em>已取消审核</em></a></div>
+                        <!--<div class="item"><a href="javascript:;" data="4"><em>已取消审核</em></a></div>-->
+                    </div>
+                </dd>
+            </dl>
+            <dl class="item">
+                <dt class="head">
+                <div class="cls">
+                    <div class="h90">审核状态 <em class="auditState fr c999">不限制</em></div>
+                    <span class="arrow"><img src="image/arrow_down.svg" class="w30"></span>
+                </div>
+                </dt>
+                <dd class="foot hidden">
+                    <div class="bt1 sp3 clearfix c_ftab list666 auditStateList" data="auditState">
+                        <input type="hidden" id="auditState"/>
+
+                        <div class="item active"><a href="javascript:;" data=""><em>不限制</em></a></div>
+                        <div class="item"><a href="javascript:;" data="0"><em>待审核</em></a></div>
+                        <div class="item"><a href="javascript:;" data="1"><em>审核通过</em></a></div>
+                        <div class="item"><a href="javascript:;" data="2"><em>审核失败</em></a></div>
+                        <!--<div class="item"><a href="javascript:;" data="3"><em>下架(仓库中)</em></a></div>-->
+                        <!--<div class="item"><a href="javascript:;" data="4"><em>已取消审核</em></a></div>-->
                     </div>
                 </dd>
             </dl>
@@ -163,7 +183,7 @@
                 <dt class="head">
                 <div class="cls">
                     <div class="h90">购买类型 <em class="buytype fr c999">不限制</em></div>
-                    <span class="arrow rotate180"><img src="image/arrow_down.svg" class="w30"></span>
+                    <span class="arrow "><img src="image/arrow_down.svg" class="w30"></span>
                 </div>
                 </dt>
                 <dd class="foot hidden">
@@ -267,7 +287,7 @@
 
     var pay_price_min = $('.minprice').val();
     var pay_price_max = $('.maxprice').val();
-    var keyw, buy_way, type1_id, coupon_if, way_to_shop, buyer_mincredit, status, pageNo
+    var keyw, buy_way, type1_id, coupon_if, way_to_shop, buyer_mincredit, status, pageNo,audit
     //    status	0待审核  1活动中  2审核失败 3下架（仓库中）
 
     if (!type1_id || type1_id == undefined) {
@@ -298,41 +318,55 @@
     if (!buy_way) {
         buy_way = ''
     }
-
+    if(!audit){
+        audit=''
+    }
 
     var pageNo = 1, pageSize = 20;
-    function reload(keyw, buy_way, type1_id, coupon_if, way_to_shop, buyer_mincredit, status, pageNo) {
+    function reload(keyw, buy_way, type1_id, coupon_if, way_to_shop, buyer_mincredit, status,audit, pageNo) {
         $.ajax({
             url: '/rrightway/p/m/admin/activity/ent',
             data: 'keyw=' + keyw +  "&type1_id=" + type1_id + "&buy_way=" + buy_way
             + "&coupon_if=" + coupon_if + "&way_to_shop=" + way_to_shop + "&buyer_mincredit=" + buyer_mincredit
             + "&pay_price_min=" + pay_price_min + "&pay_price_max=" + pay_price_max + "&status=" + status
-            + '&page_no=' + pageNo + "&page_size=" + pageSize + '&token=' + token,
+            + '&page_no=' + pageNo + "&page_size=" + pageSize + '&token=' + token+"&audit="+audit,
             type: 'post',
             success: function (res) {
                 if (res.code == 0) {
-                    var statusIcon, statusTitle;
+                    var statusIcon, statusTitle,status;
                     for (var i = 0; i < res.data.items.length; i++) {
-                        if (res.data.items[i].status == 0) {
+                        if(res.data.items[i].status==1)
+                         status='活动中'
+                        else if(res.data.items[i].status==3){
+                            status='仓库中'
+                        }
+                        if(res.data.items[i].del==1)
+                            status='商家已删除'
+                        if (res.data.items[i].audit == 0) {
+
                             statusIcon = '<a href="javascript:;" id="' + res.data.items[i].id + '" class="bg2f97f0 dl brd5 cfff sbt_100_30 makesaller">审核通过</a>' +
                             '<a href="javascript:;" id="' + res.data.items[i].id + '" class="dl brd5 sbt_98_28 bd1 delete">拒绝通过</a>';
-                            statusTitle = '<b class="c2f97f0 statusText">待审核</b>'
-                        } else if (res.data.items[i].status == 1) {
+                            statusTitle = '<b class="c2f97f0 statusText">待审核</b><em class="c999 bl">('+status+')</em>'
+                        } else if (res.data.items[i].audit == 1) {
                             statusIcon = ''
-                            statusTitle = '<b class="c2f97f0 statusText">审核通过</b>'
-                        } else if (res.data.items[i].status == 2) {
+                            statusTitle = '<b class="c2f97f0 statusText">审核通过</b><em class="c999 bl">('+status+')</em>'
+                        } else if (res.data.items[i].audit == 2) {
                             statusIcon = ''
-                            statusTitle = '<b class="c2f97f0 statusText">审核失败</b>'
-                        } else if (res.data.items[i].status == 3) {
+                            statusTitle = '<b class="c2f97f0 statusText">审核失败</b><em class="c999 bl">('+status+')</em>'
+                        } else if (res.data.items[i].audit == 4) {
                             statusIcon = ''
-                            statusTitle = '<b class="c2f97f0 statusText">已下架</b>'
-                        } else if (res.data.items[i].status == 4) {
-                            statusIcon = ''
-                            statusTitle = '<b class="c2f97f0 statusText">已取消审核</b>'
+                            statusTitle = '<b class="c2f97f0 statusText">未提交审核</b><em class="c999 bl">('+status+')</em>'
                         }
+//                        else if (res.data.items[i].status == 3) {
+//                            statusIcon = ''
+//                            statusTitle = '<b class="c2f97f0 statusText">已下架</b>'
+//                        } else if (res.data.items[i].status == 4) {
+//                            statusIcon = ''
+//                            statusTitle = '<b class="c2f97f0 statusText">已取消审核</b>'
+//                        }
                         $("#data").append(' <div class="buyed_item">' +
                         '<div class="bit_head clearfix"><p>' + statusTitle + '</p>' +
-                        '<span>活动标题：' + res.data.items[i].title + '<br>发布时间：' + _formatDatesNoS(res.data.items[i].publishTime) + '</span></div>' +
+                        '<span>活动标题：' + res.data.items[i].title + '<br>发布时间：' + _formatDatesNoS(res.data.items[i].publishTime/1000) + '</span></div>' +
                         '<div class="bit_content bt1 f14">' +
                         '<a href="adminDetail.html?id=' + res.data.items[i].id + '">' +
                         '<img src="' + res.data.items[i].giftCover + '" data-img="' + res.data.items[i].giftCover + '"' +
@@ -361,7 +395,7 @@
         })
     }
 
-    reload(keyw, buy_way, type1_id, coupon_if, way_to_shop, buyer_mincredit, status, pageNo)
+    reload(keyw, buy_way, type1_id, coupon_if, way_to_shop, buyer_mincredit, status,audit, pageNo)
 
     //    审核通过
     var _this;
@@ -490,6 +524,17 @@ $(".cancle").click(function(){
         status = id;
         console.log(id, name);
     })
+    //审核状态
+    $('.auditStateList .item').click(function () {
+        var id = $(this).children().attr('data');
+        var name = $(this).children().children().html();
+        $(this).addClass('active');
+        $(this).siblings().removeClass('active');
+        $('.auditState').html(name);
+        $('#auditState').val(id);
+        audit = id;
+        console.log(id, name);
+    })
 
     //购买资格
     $('.levelList .item').click(function () {
@@ -591,7 +636,7 @@ $(".cancle").click(function(){
         keyw = $('.searchKeyW').val();
         pay_price_min = $('.minprice').val();
         pay_price_max = $('.maxprice').val();
-        reload(keyw, buy_way, type1_id, coupon_if, way_to_shop, buyer_mincredit, status, pageNo)
+        reload(keyw, buy_way, type1_id, coupon_if, way_to_shop, buyer_mincredit, status,audit, pageNo)
         $(".nofilter").click();
         $("#filterright").removeClass("active");
 

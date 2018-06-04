@@ -1,0 +1,699 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="x5-page-mode" content="app"/>
+    <title>
+        好商联盟，免费试用，轻松拿佣金
+    </title>
+    <meta name="keywords" content="充值列表"/>
+    <meta name="description" content="Y"/>
+
+    <link rel="stylesheet" type="text/css" href="css/new.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js?32222"></script>
+    <script type="text/javascript" src="js/new.js?2351"></script>
+    <script type="text/javascript" src="js/default.js"></script>
+    <script src="js/public.js"></script>
+    <style>
+        #rxw1-touchDataShow {
+            display: none;
+        }
+input{
+    width: 90%;
+    padding: 0 5%;
+    height: 40px;
+    /* border: none; */
+    display: block;
+}
+        /*.foot {*/
+        /*height: 1.5rem;*/
+        /*}*/
+    </style>
+</head>
+
+
+<body>
+<div class="viewport">
+    <!-- 顶部 开始 -->
+    <div class="header">
+        <a href="javascript:;" class="type" onClick="history.back();">
+            <img src="image/arrow_left2.svg" class="h40"></a>
+        <a href="javascript:;" class="tosearch filter">
+            <img src="image/ico_show_type1.png" class="h40"/></a>
+
+        <div class="htxt">充值列表</div>
+    </div>
+    <!-- 顶部 结束 -->
+
+    <!--<div class="h90"></div>-->
+    <!--<div class="com_tab sp3 fixed"><a href="javascript:;" data="全部" class="crently" data-val="" >全部</a><a href="javascript:;" data="维权中"   data-val="1">维权中</a><a href="javascript:;"  data="未提交评价图" data-val="2">未提交评价图</a></div>-->
+
+    <!-- 列表页 开始-->
+    <div class="spro_list clearfix mt20" id="spro_list5">
+
+
+    </div>
+
+    <!-- 列表页 结束-->
+
+    <div class="loadover hidden"><span>加载完成</span></div>
+
+    <!-- 没有数据提示-->
+    <div class="no_data hidden">
+        <div class="pb40 mt100">
+            <div class="success">
+                <i>
+                    <img src="image/fail_ico.png"/></i>
+
+                <p class="c999">没有相关的订单哦~</p>
+
+                <!-- 筛选没有显示-->
+                <a href="javascript:;" class="h66 bd1 dl brd100 c2f97f0 plr60 mt30 nofilter f28" style="display: none;">全部订单</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--筛选 弹窗-->
+<div class="pop_from_right sp2 animate" id="filterright">
+    <div class="maskbg animate"></div>
+    <div class="h90 relative clearfix bgf8f8f8">
+        <a href="javascript:;" class="goback plr20 relative z9">
+            <img src="image/close2_ico.png" class="w30"/></a>
+
+        <div class="center absolute l0 t0 pw100 f30">筛选</div>
+    </div>
+    <div class="scroll sp2 bgfff">
+        <div class="listborder interview_list bgf8f8f8 sp3 bb1 f28">
+            <dl class="item close">
+                <dt class="head">
+                <div class="cls">
+                    <div class="h90">充值状态 <em class="protype fr c999">全部</em></div>
+                                <span class="arrow rotate180">
+                                    <img src="image/arrow_down.svg" class="w30"></span>
+                </div>
+                </dt>
+                <dd class="foot f28 hidden" style="display: block;">
+                    <div class="bt1 sp2 clearfix c_ftab list666" data="protype">
+                        <input type="hidden" id="protype" value="">
+                        <div name="tradeStatus" class="item active"><a href="javascript:;" data="全部" data-val=""><em>全部</em></a></div>
+                        <div name="tradeStatus" class="item"><a href="javascript:;" data="未处理" data-val="1"><em>未处理</em></a></div>
+                        <div name="tradeStatus" class="item"><a href="javascript:;" data="已处理" data-val="2"><em>已处理</em></a></div>
+                        <div name="tradeStatus" class="item"><a href="javascript:;" data="校验失败" data-val="4"><em>校验失败</em></a></div>
+                    </div>
+                </dd>
+            </dl>
+
+            <!--<div class="form_area place28 bgfff">-->
+                <!--<div class="item">-->
+                    <!--<b>买家昵称</b>-->
+
+                    <!--<p class="pr20">-->
+                        <!--<input type="text" class="textr" placeholder="请输入买家昵称" id="saller_nc"/>-->
+                    <!--</p>-->
+                <!--</div>-->
+                <!--<div class="item">-->
+                    <!--<b>卖家昵称</b>-->
+
+                    <!--<p class="pr20">-->
+                        <!--<input type="text" class="textr" placeholder="请输入卖家昵称" id="buyer_nc"/>-->
+                    <!--</p>-->
+                <!--</div>-->
+                <!--<div class="item">-->
+                    <!--<b>用户名</b>-->
+
+                    <!--<p class="pr20">-->
+                        <!--<input type="text" class="textr" placeholder="请输入用户名" id="pro_name"/>-->
+                    <!--</p>-->
+                <!--</div>-->
+                <!--<div class="item">-->
+                    <!--<b>手机号码</b>-->
+
+                    <!--<p class="pr20">-->
+                        <!--<input type="text" class="textr" placeholder="请输入手机号码" id="order_id"/>-->
+                    <!--</p>-->
+                <!--</div>-->
+                <!--<div class="item">-->
+                    <!--<b>真实姓名</b>-->
+
+                    <!--<p class="pr20">-->
+                        <!--<input type="text" class="textr" placeholder="请输入真实姓名" id="staobaoordernum"/>-->
+                    <!--</p>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        </div>
+    </div>
+    <div class="absolute l0 b0 h90 list_tab sp2 bgfff pw100 f30 center"><a href="javascript:;"
+                                                                           class="bgf2f2f2 c999 item nofilter">清空条件</a><a
+            href="javascript:;" class="bg2f97f0 cfff item" id="btn_Reload">确认</a></div>
+</div>
+
+<!--申请维权 弹窗-->
+<div class="pop_from_right bgfff animate" id="appright">
+    <div class="head">
+        <a href="javascript:;" class="goback plr20">
+            <img src="image/ico_close_write.png" class="w30"/></a>
+
+        <p>申请维权</p>
+    </div>
+    <div class="scroll sp2 bgeee">
+        <ul class="checklist f28">
+            <li class="item" data="试客在淘宝申请退款，已经同意退款" data-val="试客在淘宝申请退款，已经同意退款">
+                <p>试客在淘宝申请退款，已经同意退款<i class="c sp2"><img src="image/ico_selected.png" class="h30"></i></p>
+            </li>
+            <li class="item" data="误点击为确定已拍下的试客" data-val="误点击为确定已拍下的试客">
+                <p>误点击为确定已拍下的试客<i class="c sp2"><img src="image/ico_selected.png" class="h30"></i></p>
+            </li>
+            <li class="item" data="试客已提交评价图但未收货" data-val="试客已提交评价图但未收货">
+                <p>试客已提交评价图但未收货<i class="c sp2"><img src="image/ico_selected.png" class="h30"></i></p>
+            </li>
+            <li class="item" data="评价存在负面影响" data-val="评价存在负面影响">
+                <p>评价存在负面影响<i class="c sp2"><img src="image/ico_selected.png" class="h30"></i></p>
+            </li>
+        </ul>
+    </div>
+    <div class="com_footer sp2 "><a href="javascript:;" class="bg2f97f0 bl cfff center f30 submit">确认提交</a></div>
+</div>
+
+
+<script type="text/javascript" src="js/yh.scroll.active.js" charset="utf-8"></script>
+
+<!--时间-->
+<link href="mobiscroll/mobiscroll.custom-3.0.0.min.css" rel="stylesheet" type="text/css"/>
+<script src="mobiscroll/mobiscroll.custom-3.0.0.min.js?31" type="text/javascript"></script>
+<script src="rxw/rxw.js" type="text/javascript"></script>
+<style>
+    .mbsc-android-holo .mbsc-sc-whl-w.mbsc-dt-whl-y {
+        margin-left: 0.25rem;
+    }
+</style>
+
+<script type="text/javascript" src="js/lazyload.js" charset="utf-8"></script>
+<link href="css/rxw.css" rel="stylesheet" type="text/css"/>
+
+<script>
+    rxw1.relitivePath = ''
+    var token = localStorage.getItem('token');
+    var items = {};
+    var noMoreItems = false;
+    var param = {}
+    var tradeStatus = '';
+    onload();
+    rxw1.windowTouch({
+        movedown: function () {
+            onload()
+        },
+        moveup: function () {
+            if (!noMoreItems) {
+                param.page_no++;
+                loadItems()
+            }
+        }
+        , moveright: function () {
+            var prev = $('.com_tab .crently').prev();
+            if (prev.length == 1)
+                prev.click();
+            else
+                history.back()
+        }, moveleft: function () {
+            var next = $('.com_tab .crently').next();
+            if (next.length == 1)
+                next.click();
+
+        }
+    })
+    function onload() {
+        param.page_no = 1
+        param.page_size = 30
+        param = {}
+        noMoreItems = false;
+        items = {};
+//        param.trade_status = tradeStatus
+        $('#spro_list5').html('')
+        loadItems();
+
+        if ($('#spro_list5').html()) {
+            godetail();
+            $('#spro_list5').removeClass('hidden');
+            $('.no_data').addClass('hidden');
+            Echo.init({offset: 5, throttle: 100});
+        } else {
+            $('#spro_list5').addClass('hidden');
+//            $('.no_data').removeClass('hidden');
+        }
+    }
+
+    //{page_no: pageNo,page_size: pageSize}
+    function loadItems() {
+        if (!param.page_no)
+            param.page_no = 1
+        if (!param.page_size)
+            param.page_size = 30
+        $('.loadover').addClass('hidden')
+        $.ajax({
+            type: 'POST',
+            data: param,
+            async: false,
+            url: '/rrightway/p/m/admin/topup/ent?token=' + token,
+            success: function (res) {
+                if (res.code == 0) {
+                    if (res.data.items.length == 0) {
+                        if (param.page_no != 1)
+                            $('.loadover').removeClass('hidden').find('span').text('没有更多数据了')
+                        else {
+
+                        }
+
+                        noMoreItems = true;
+                    } else
+                        $('.loadover').removeClass('hidden').find('span').text('上拉加载更多')
+
+                    $(res.data.items).each(function (index, ele) {
+                    var statusState
+                        items[ele.id] = ele;
+                            if(ele.status==1){
+                                statusState="未处理"
+                            }else if(ele.status==2){
+                                statusState="已处理"
+                            }else if(ele.status==4){
+                                statusState="校验失败"
+                            }
+
+                        var btnStr = '<a href="javascript:;" class="app btn3 recoder"  topup_id="'+ele.id+'">校验成功</a>' +
+                                '<a href="javascript:;" class="check btn4 recoder"  topup_id="'+ele.id+'">校验失败</a>'
+
+                        txt = '<div class="item">'
+                        + '  <div class="tit">' +
+                        '<p>用户名：' + ele.userLogo +
+                        '<br />订单编号：' + ele.id +
+                        '<br />支付宝账号：' + (ele.alipayTradeno||'')+
+                        '<br />充值金额：￥' + (ele.amount||'') +
+                        '<br />充值时间：' + _formatDatesNoS(ele.topupTime/1000) +
+                        '<br />失败原因：' + (ele.failReason||'') +
+                        '<br />充值状态：' + statusState +
+                        '</p></div>'
+//                        + '  <a href="' + betailBtn + '" class="recoder pro_min bt1"><img src="' + ele.giftCover + '" class="img" onerror="this.src=\'image/nopic.png\'" />'
+//                        + '    <div class="relative">'
+//                        + '      <p class="row1">' + ele.giftName + '</p>'
+//                        + '      <p class="row1 c999 mt10">付款金额：<i class="cf60">¥' + getFloatStr(ele.payPrice) + '</i>  返现金额：<i class="cf60">¥' + getFloatStr(ele.returnMoney) + '</i></p>'
+//                        + '       <p class="type absolute l0 b0">' + sbuy_way + is_coupon + Get_ssearch_way_Icon(ele.wayToShop, "p") + is_pay_hb + is_pay_card + '</p>'
+//                        + '    </div>'
+//                        + '  </a>'
+                        + '  <div class="foot" isfk="Y" data="' + ele.id + '">' + btnStr + '</div>'
+                        + '</div>';
+
+                        $('#spro_list5').append(txt);
+                    })
+
+                    if ($('#spro_list5').children().size() == 0) {
+                        $('.no_data').show();
+                        if (isRdata) {
+                            $('.no_data  .nofilter').show();
+                        }
+                    } else {
+                        $('#spro_list5').removeClass('hidden');
+                        $('.no_data').hide();
+                    }
+                } else {
+                    alert(res.codeMsg)
+                }
+            }
+        });
+    }
+
+
+    function godetail() {
+        $('.recoder').unbind();
+        $('.recoder').click(function () {
+            ys.savehis(); //如果返回需要记录页面位置和加载历史页数，切记调用此行
+        });
+    }
+
+    var cooketab = "spro_list5";
+    var objcontainer = "#spro_list5";
+    var isRdata = false; //是否为筛选标识
+
+    function reloaddata() {
+        if ($("#filterright").hasClass("active")) {
+            $(".pop_from_right .goback").click();
+        }
+        //交易状态(protype),买家昵称(saller_nc),卖家昵称(buyer_nc),活动标题(pro_title),商品名称(pro_name),订单编号(order_id),下单时间(pubtime)
+        var protype = $("#protype").val(), saller_nc = escape(encodeURI($("#saller_nc").val())), buyer_nc = escape(encodeURI($("#buyer_nc").val())), pro_title = $("#pro_title").val(), pro_name = $("#pro_name").val(), order_id = $("#order_id").val(), staobaoordernum = $("#staobaoordernum").val();
+        pubtime = $(".mindate").val() + "-" + $(".maxdate").val();
+        pubstime = $(".mindate").val();
+        pubetime = $(".maxdate").val();
+
+        if ($(".com_tab  a[data-val=" + protype + "]").length > 0) {
+            $(".com_tab  a[data-val=" + protype + "]").addClass("crently").siblings().removeClass("crently");
+        }
+        else {
+            $(".com_tab  a[data=全部]").addClass("crently").siblings().removeClass("crently");
+        }
+
+
+        $('#spro_list5').empty();
+        loadItems();
+        // $("#filterright").removeClass("active");
+
+
+//        $(objcontainer).html("");
+//        ys.reload({
+//            params: {
+//                protype: protype,
+//                saller_nc: saller_nc,
+//                buyer_nc: buyer_nc,
+//                pro_title: pro_title,
+//                pro_name: pro_name,
+//                order_id: order_id,
+//                pubtime: pubtime,
+//                pubstime: pubstime,
+//                pubetime: pubetime,
+//                staobaoordernum: staobaoordernum,
+//            },
+//            onbeforeReload: function () {
+//                $(objcontainer).removeClass('hidden');
+//                $('.no_data').addClass('hidden');
+//                if (isRdata) {
+//                    $('.no_data  .nofilter').show();
+//                }
+//            }
+//        });
+    }
+
+    $(function () {
+        var now = new Date();
+        // Mobiscroll Date & Time initialization
+        $('.datem').mobiscroll().date({
+            theme: 'android-holo', // Specify theme like: theme: 'ios' or omit setting to use default
+            lang: 'zh', // Specify language like: lang: 'pl' or omit setting to use default
+            display: 'center', // Specify display mode like: display: 'bottom' or omit setting to use default
+            mode: 'scroller', // More info about mode: https://docs.mobiscroll.com/3-0-0_beta5/datetime#!opt-mode
+            min: new Date(2017, now.getMonth(), now.getDate()), // More info about min: https://docs.mobiscroll.com/3-0-0_beta5/datetime#!opt-min
+            max: new Date(now.getFullYear() + 10, 11, 31),
+            dateFormat: 'yy.mm.dd',//https://docs.mobiscroll.com/3-0-0_beta5/jquery/datetime#localization-dateFormat
+            dateWheels: 'YY m d',
+        });
+        $('.datem').click(function () {
+            $('.datem').mobiscroll('show');
+        })
+
+        //交易状态(protype),买家昵称(saller_nc),卖家昵称(buyer_nc),活动标题(pro_title),商品名称(pro_name),订单编号(order_id),下单时间(pubtime)
+        var protype = $("#protype").val(), saller_nc = escape(encodeURI($("#saller_nc").val())), buyer_nc = escape(encodeURI($("#buyer_nc").val())), pro_title = $("#pro_title").val(), pro_name = $("#pro_name").val(), order_id = $("#order_id").val(), staobaoordernum = $("#staobaoordernum").val();
+        pubtime = $(".mindate").val() + "-" + $(".maxdate").val();
+        pubstime = $(".mindate").val();
+        pubetime = $(".maxdate").val();
+
+        if (geturl("protype") != null) {
+            //综合
+            protype = $(".com_tab a[data=" + geturl("protype") + "]").addClass("crently").siblings().removeClass("crently");
+            protype = geturl("protype");
+        }
+        else {
+            protype = "";
+        }
+        $(".order_fixed p[data=" + protype + "]").addClass("active").siblings().removeClass("active");
+        $("#protype").val(protype);
+
+
+        //tab切换
+        $(".com_tab a").click(function () {
+            if (!$(this).hasClass("crently")) {
+                var tsvalue = $(this).attr("data-val");
+                var tsvalues = $(this).attr("data");
+                $("#protype").val(tsvalue);
+                $(".protype").html(tsvalues);
+                $("#protype").parent().find("a[data=" + tsvalues + "]").eq(0).parent().addClass("active").siblings().removeClass("active");
+                param = {trade_status: tsvalue}
+                tradeStatus = tsvalue;
+                noMoreItems = false
+                reloaddata();
+            }
+            $(this).addClass("crently").siblings().removeClass("crently");
+        })
+
+
+        //筛选
+        $(".filter").click(function () {
+            $(".order_fixed").removeClass("active");
+            $(".order_fixed").hide();
+            $(".order_fixed .bg,.order_fixed .slist").removeClass("animate");
+            $("#filterright").addClass("active")
+            noscroll();
+        })
+
+        //清除筛选
+        $(".nofilter").click(function () {
+            $("#saller_nc").val('');
+            $("#buyer_nc").val('')
+            $("#order_id").val('')
+            $("#staobaoordernum").val('')
+            $("#pro_name").val('');
+            isRdata = true;
+            $(".no_data .nofilter").hide();
+
+            $(".interview_list .foot").each(function () {
+                $(this).find(".item").eq(0).click();
+            })
+
+            param = {};
+//            reloaddata();
+        })
+
+        $("#btn_Reload").click(function () {
+
+//            var s_time = $(".mindate").val();
+//            var e_time = $(".maxdate").val();
+//            if (s_time != "" && e_time != "") {
+//                if (s_time > e_time) {
+//                    error("请选择正确时间！");
+//                    return false;
+//                }
+//            }
+//            isRdata = true;
+
+            param = {
+                status: $('[name=tradeStatus].active a').attr('data-val'),
+//                buyer_nickname: $('#saller_nc').val(),
+//                seller_nickname: $('#buyer_nc').val(),
+//                username: $('#pro_name').val(),
+//                phone: $('#order_id').val(),
+//                realname: $('#staobaoordernum').val(),
+            }
+            $('#spro_list5').html('')
+            loadItems();
+            $("#filterright").removeClass("active")
+        });
+
+        $(".pop_from_right .goback,.pop_from_right .maskbg").click(function () {
+            autoscroll();
+            $(this).parents(".pop_from_right").addClass("close");
+            var obj = $(this);
+            setTimeout(function () {
+                $(obj).parents(".pop_from_right").removeClass("close").removeClass("active");
+            }, 300)
+        })
+
+        $(".interview_list .item .cls").click(function () {
+            if ($(this).parents(".item").hasClass("close")) {
+                $(this).parents(".item").removeClass("close");
+                $(this).parents(".item").find(".arrow").removeClass("rotate180");
+                $(this).parents(".item").find(".foot").slideUp();
+            }
+            else {
+                $(this).parents(".item").addClass("close");
+                $(this).parents(".item").find(".arrow").addClass("rotate180");
+                $(this).parents(".item").find(".foot").slideDown();
+                $(this).parents(".item").siblings().removeClass("close").find(".foot").slideUp();
+                $(this).parents(".item").siblings().find(".arrow").removeClass("rotate180");
+            }
+        })
+
+
+        //筛选点击
+        $("#filterright .scroll .c_ftab .item").click(function () {
+            if (!$(this).hasClass("active"))
+                $("#" + $(this).parent().attr("data")).val($(this).find("a").eq(0).attr("data-val"));
+            $(this).addClass("active").siblings().removeClass("active");
+            $("em." + $(this).parent().attr("data")).html($(this).find("a").eq(0).attr("data"));
+            //reloaddata();
+        })
+
+
+        $(".spro_list").on("click", ".foot a", function () {
+            //console.log($(this).text());
+            //解冻
+            if ($(this).hasClass("btn4")) {
+                var id = $(this).parent().attr("data");
+                corfirm("请输入校验失败理由!<br /><input type='text' class='f16' id='txttbname' placeholder='请输入校验失败理由！ '>", jynook, $(this));
+//                accessconfirm("确定要解冻用户吗？", thaw, $(this))
+            }
+            //冻结
+            if ($(this).hasClass("btn3")) {
+                var id = $(this).parent().attr("data");
+                corfirm("请输入充值金额!<br /><input type='number' class='f16' id='txttborder' placeholder='请输入充值金额！ '>",jyok , $(this));
+//                accessconfirm("确定要冻结用户吗？", freeze, $(this))
+            }
+
+        })
+
+
+
+    })
+    var topup_id;
+    function jyok(obj){
+        var amount=$('#txttborder').val();
+        topup_id=$(obj).attr('topup_id')
+        $.ajax({
+            type: "POST",
+            url: "/rrightway/p/m/admin/topup/checksuccess?token="+token,
+            data: "amount=" + amount + "&topup_id=" + topup_id,
+            success: function (res) {
+                if(res.code==0){
+                    //确认成功
+                    error("充值成功！");
+                    freshpage(window.location.href);
+                } else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
+                }
+
+            }
+        });
+    }
+    function jynook(obj){
+        var reason=$('#txttbname').val();
+        topup_id=$(obj).attr('topup_id')
+        $.ajax({
+            type: "POST",
+            url: "/rrightway/p/m/admin/topup/checkfail?token="+token,
+            data: "reason=" + reason + "&topup_id=" + topup_id,
+            success: function (res) {
+                if(res.code==0){
+                    //确认成功
+                    error("充值失败！");
+                    freshpage(window.location.href);
+                } else if (res.code == 20) {
+                    localStorage.setItem('href', location.href);
+                    location.href = 'login.html'
+                } else {
+                    error(res.codeMsg)
+                }
+
+            }
+        });
+    }
+    //1关键词搜索 2链接/淘宝口令下单 3扫码下单 4直通车搜索
+    function Get_ssearch_way_Icon(ssearch_way, type) {
+        var res = "非法类型";
+        switch (ssearch_way) {
+            case 1:
+                res = '<i class="ptype sou"></i>';
+                break;
+            case 2:
+                res = '<i class="ptype chi"></i>';
+                break;
+            case 3:
+                res = '<i class="ptype chi"></i>';
+                break;
+            case 4:
+                res = '<i class="ptype sou"></i>';
+                break;
+        }
+        return res;
+    }
+
+//    //确认返现
+//    function checkok(obj) {
+//        var id = $(obj).parent().attr("data");
+//        $.ajax({
+//            type: "POST",
+//            url: "/rrightway/p/m/trademanageent/buyedorders/returnmoney",
+//            data: "token=" + token + "&order_id=" + id,
+//            success: function (res) {
+//                if (res.code == 0) {
+//                    error("确认返现订单成功！");
+//                    //$(obj).parents(".item").remove();
+//                    freshpage(window.location.href);
+//                } else {
+//                    error(res.codeMsg);
+//                }
+//            }
+//
+//        });
+//        return true;
+//    }
+//    //冻结
+//    function freeze(obj) {
+//        var id = $(obj).parent().attr("data");
+////        var pobj = $(obj).parents(".item");
+//        $.ajax({
+//            type: "POST",
+//            url: "/rrightway/p/m/admin/user/freeze",
+//            data: "token=" + token + "&user_id=" + id,
+//            success: function (res) {
+//                if (res.code == 0) {
+//                    //确认成功
+//                    error("冻结成功！");
+//                    //$(pobj).find("b").html("待返现<i class='bl c999'>(试客未提交评价图)</i>");
+//                    //$(pobj).find(".foot").html('<a href="javascript:;" class="app btn3">申请维权</a><a href="javascript:;" class="check btn4">确认返现</a>');
+////                    freshpage(window.location.href);
+//                }
+//                else {
+//                    error(res.codeMsg);
+//                }
+//            }
+//        });
+//        return true;
+//    }
+//    //解冻
+//    function thaw(obj) {
+//        var id = $(obj).parent().attr("data");
+////        var pobj = $(obj).parents(".item");
+//        $.ajax({
+//            type: "POST",
+//            url: "/rrightway/p/m/admin/user/unfreeze",
+//            data: "token=" + token + "&user_id=" + id,
+//            success: function (res) {
+//                if (res.code == 0) {
+//                    //确认成功
+//                    error("解冻成功！");
+//                    //$(pobj).find("b").html("待返现<i class='bl c999'>(试客未提交评价图)</i>");
+//                    //$(pobj).find(".foot").html('<a href="javascript:;" class="app btn3">申请维权</a><a href="javascript:;" class="check btn4">确认返现</a>');
+////                    freshpage(window.location.href);
+//                }
+//                else {
+//                    error(res.codeMsg);
+//                }
+//            }
+//        });
+//        return true;
+//    }
+//
+//
+//    //确认删除
+//    function delok(obj) {
+//        var id = $(obj).parent().attr("data");
+//        error("删除订单成功");
+//        var pobj = $(obj).parents(".item");
+//        $(pobj).remove();
+//        return true;
+//    }
+</script>
+</body>
+
+
+</html>

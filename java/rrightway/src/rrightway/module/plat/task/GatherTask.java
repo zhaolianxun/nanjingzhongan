@@ -59,11 +59,12 @@ public class GatherTask {
 				orderIds.add(rs.getString("id"));
 			}
 			pst.close();
-
+			logger.debug("发现需要自动返现的订单 : " + orderIds);
 			for (int i = 0; i < orderIds.size(); i++) {
 				String orderId = orderIds.get(i);
 				try {
 					// 锁定订单
+					logger.debug("锁定订单");
 					pst = connection.prepareStatement(
 							"select buyer_id,seller_id,return_money,rightprotect_status,status,review_pic_audit from t_order where id=? for update");
 					pst.setObject(1, orderId);
@@ -77,19 +78,24 @@ public class GatherTask {
 						String buyerId = rs.getString("buyer_id");
 						pst.close();
 						// 如果状态有变，跳过本次处理
-						if (rightprotectStatus != 13 && status != 0) {
+						if (rightprotectStatus != 13 && rightprotectStatus != 0) {
+							logger.debug("跳过1");
 							connection.commit();
 							continue;
 						}
 						if (status != 1) {
+							logger.debug("跳过3");
+
 							connection.commit();
 							continue;
 						}
 						if (reviewPicAudit != 3 && reviewPicAudit != 0) {
+							logger.debug("跳过3");
 							connection.commit();
 							continue;
 						}
 						// 锁定买家账户
+						logger.debug("锁定买家账户");
 						BigDecimal withdrawableMoney = null;
 						pst = connection.prepareStatement(
 								new StringBuilder("select t.withdrawable_money from t_user t where t.id=? for update")
@@ -103,8 +109,9 @@ public class GatherTask {
 						pst.close();
 
 						// 修改订单状态
+						logger.debug("修改订单状态");
 						pst = connection.prepareStatement(new StringBuilder(
-								"update t_order set status=2,finished=1 where id=? and rightprotect_status in (13,0) and status=1 and reviewPicAudit in (3,0)")
+								"update t_order set status=2,finished=1 where id=? and rightprotect_status in (13,0) and status=1 and review_pic_audit in (3,0)")
 										.toString());
 						pst.setObject(1, orderId);
 						cnt = pst.executeUpdate();
@@ -113,8 +120,10 @@ public class GatherTask {
 							throw new InteractRuntimeException("操作失败");
 
 						// 买家收到返现
-						BigDecimal addMoney = returnMoney.multiply(new BigDecimal(0.2)).setScale(2, RoundingMode.DOWN);
-						BigDecimal toWalletMoney = returnMoney.subtract(addMoney);
+						logger.debug("买家收到返现");
+						BigDecimal toWalletMoney = returnMoney.multiply(new BigDecimal(0.2)).setScale(2,
+								RoundingMode.DOWN);
+						BigDecimal addMoney = returnMoney.subtract(toWalletMoney);
 						pst = connection.prepareStatement(new StringBuilder(
 								"update t_user set right_wallet_unoutable=right_wallet_unoutable+?,withdrawable_money=withdrawable_money+? where id=? ")
 										.toString());
@@ -126,6 +135,7 @@ public class GatherTask {
 						if (cnt != 1)
 							throw new InteractRuntimeException("操作失败");
 
+						logger.debug("生成账单");
 						String billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 						pst = connection.prepareStatement(new StringBuilder(
 								"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
@@ -141,6 +151,7 @@ public class GatherTask {
 						if (cnt != 1)
 							throw new InteractRuntimeException("操作失败");
 
+						logger.debug("生成钱包账单");
 						String walletBillId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
 						pst = connection.prepareStatement(new StringBuilder(
 								"insert into t_wallet_bill (id,user_id,amount,note,happen_time,added_to_outable,order_id) values(?,?,?,?,?,?,?)")
@@ -157,6 +168,8 @@ public class GatherTask {
 						pst.close();
 						if (cnt != 1)
 							throw new InteractRuntimeException("操作失败");
+
+						logger.debug("结束");
 						connection.commit();
 					}
 					pst.close();
