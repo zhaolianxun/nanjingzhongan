@@ -59,6 +59,15 @@ public class SysConstant {
 	public static String ali_open_app_rrightway_appkey;
 	public static String ali_open_app_rrightway_appsecret;
 
+	public static String topupComplete_sms_tmpl_id;
+	public static String topupFail_sms_tmpl_id;
+	public static String orderBeCheckedToBuyer_sms_tmpl_id;
+	public static String newApplyToSeller_sms_tmpl_id;
+	public static String freezeUser_sms_tmpl_id;
+	public static String unfreezeUser_sms_tmpl_id;
+	public static String complainWarningToSeller_sms_tmpl_id;
+	public static String uploadTaobaoOrderIdToSeller_sms_tmpl_id;
+
 	public static void main(String[] args) {
 		System.out.println(urlsWithEmptyPattern.matcher("1,  1,1").find());
 	}

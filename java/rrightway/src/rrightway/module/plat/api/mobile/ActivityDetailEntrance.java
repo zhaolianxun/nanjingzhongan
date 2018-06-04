@@ -322,7 +322,7 @@ public class ActivityDetailEntrance {
 			pst.close();
 			connection.commit();
 
-			PushMessageQueue.applyToSeller(sellerId, null, activityTitle);
+			PushMessageQueue.newApplyToSeller(sellerId, null, activityTitle);
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("orderId", orderId);

@@ -53,7 +53,7 @@ public class PushMessageQueue implements Runnable {
 		}
 	}
 
-	public static void buyerBeChecked(String buyerId, String phone, String orderId) {
+	public static void orderBeCheckedToBuyer(String buyerId, String phone, String orderId) {
 		try {
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(buyerId,
 					new StringBuilder("您的订单（")
@@ -67,7 +67,7 @@ public class PushMessageQueue implements Runnable {
 		}
 	}
 
-	public static void applyToSeller(String sellerId, String phone, String activityTitle) {
+	public static void newApplyToSeller(String sellerId, String phone, String activityTitle) {
 		try {
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(sellerId,
 					new StringBuilder("您有新的订单（活动：").append(activityTitle).append("）").toString(), 1,
@@ -102,7 +102,7 @@ public class PushMessageQueue implements Runnable {
 		}
 	}
 
-	public static void complainWarning(String sellerId, String phone, String orderId) {
+	public static void complainWarningToSeller(String sellerId, String phone, String orderId) {
 		try {
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(sellerId,
 					new StringBuilder("试客对您的投诉已通过，请注意。订单尾号：")
@@ -115,7 +115,7 @@ public class PushMessageQueue implements Runnable {
 		}
 	}
 
-	public static void completeToSeller(String sellerId, String phone, String orderId) {
+	public static void uploadTaobaoOrderIdToSeller(String sellerId, String phone, String orderId) {
 		try {
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(sellerId,
 					new StringBuilder("试客上传了淘单号，请及时核对。订单（")

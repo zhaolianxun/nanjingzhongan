@@ -417,7 +417,7 @@ public class TradeManageEntrance {
 			pst.close();
 			connection.commit();
 
-			PushMessageQueue.buyerBeChecked(buyerId, null, orderId);
+			PushMessageQueue.orderBeCheckedToBuyer(buyerId, null, orderId);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {

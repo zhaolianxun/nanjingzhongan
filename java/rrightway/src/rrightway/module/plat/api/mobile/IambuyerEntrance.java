@@ -238,7 +238,7 @@ public class IambuyerEntrance {
 			pst.close();
 
 			if (StringUtils.isEmpty(oldTaobaoOrderid))
-				PushMessageQueue.completeToSeller(sellerId, null, orderId);
+				PushMessageQueue.uploadTaobaoOrderIdToSeller(sellerId, null, orderId);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {

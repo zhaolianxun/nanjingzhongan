@@ -142,11 +142,7 @@ public class UserAction {
 			} else
 				throw new InteractRuntimeException(20);
 
-			jedis.set(token, JSON.toJSONString(loginStatus));
-			jedis.set(userId, token);
-
-			jedis.expire(userId, 7 * 24 * 60 * 60);
-			jedis.expire(token, 7 * 24 * 60 * 60);
+			GetLoginStatus.refreshLoginStatus(jedis, token, loginStatus);
 
 			// 返回结果
 			JSONObject data = new JSONObject();

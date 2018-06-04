@@ -964,19 +964,6 @@ public class AdminEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 
-			pst = connection.prepareStatement(
-					new StringBuilder("insert into t_message (user_id,title,content,type,send_time) values(?,?,?,?,?)")
-							.toString());
-			pst.setObject(1, userId);
-			pst.setObject(2, title);
-			pst.setObject(3, content);
-			pst.setObject(4, type);
-			pst.setObject(5, new Date().getTime());
-			int cnt = pst.executeUpdate();
-			pst.close();
-			if (cnt != 1)
-				throw new InteractRuntimeException("操作失败");
-
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId, title, type, content);
 			payload.setPhone(phone);
 			PushMessageQueue.queue.put(payload);
@@ -1413,7 +1400,7 @@ public class AdminEntrance {
 				throw new InteractRuntimeException("操作失败");
 			connection.commit();
 
-			PushMessageQueue.complainWarning(sellerId, null, orderId);
+			PushMessageQueue.complainWarningToSeller(sellerId, null, orderId);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {

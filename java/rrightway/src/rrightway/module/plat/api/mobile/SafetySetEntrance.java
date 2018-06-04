@@ -646,7 +646,7 @@ public class SafetySetEntrance {
 			if (rs.next()) {
 				String paypwdMd5 = rs.getString("paypwd_md5");
 				if (paypwdMd5 == null || paypwdMd5.isEmpty())
-					throw new InteractRuntimeException("请先至'安全设置'设置支付密码");
+					throw new InteractRuntimeException(1001, "请先至'安全设置'设置支付密码");
 				if (!DigestUtils.md5Hex(paypwd).equals(paypwdMd5))
 					throw new InteractRuntimeException("支付密码错误");
 			} else
