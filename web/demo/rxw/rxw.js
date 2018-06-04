@@ -17,8 +17,8 @@ rxw1.errorpad=function (content) {
 
 rxw1.confirmpad=function(param) {
     this.layer({init:function(){
-        this.style['background-color']='rgba(0, 0, 0, 0.1)';
-    var confirmpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >È¡Ïû</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >È·ÈÏ</button></div></div>');
+        this.style['background-color']='rgba(0, 0, 0, 0)';
+        var confirmpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >å–æ¶ˆ</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >ç¡®è®¤</button></div></div>');
         $(this).append(confirmpad);
 
         $(confirmpad).find('[name=cancel]').click(function(){
@@ -33,7 +33,7 @@ rxw1.confirmpad=function(param) {
     }})
 
     //if ($("#confirmpad").length <= 0) {
-    //    $("body").append('<div id = "confirmpad" style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >å–æ¶ˆ</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >ç¡®è®¤</button></div></div>');
+    //    $("body").append('<div id = "confirmpad" style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >é–¸æ¬ç‰—ç»‰ï¿½</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >ç»¾î…§å–›é¡“ï¿½</button></div></div>');
     //    $('#confirmpad [name=cancel]').click(function(){
     //        $("#confirmpad").remove()
     //    });
@@ -53,8 +53,8 @@ rxw1.confirmpad=function(param) {
 
 rxw1.inputpad=function input(param) {
     this.layer({init:function(){
-        this.style['background-color']='rgba(0, 0, 0, 0.1)';
-        var inputpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div  style="width:90%;text-align:center;margin:10px auto;"><input type="text" value="" style="text-align: center;width:100%"/></div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >È¡Ïû</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >È·ÈÏ</button></div></div>');
+        this.style['background-color']='rgba(0, 0, 0, 0)';
+        var inputpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div  style="width:90%;text-align:center;margin:10px auto;"><input type="text" value="" style="text-align: center;width:100%"/></div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >å–æ¶ˆ</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >ç¡®è®¤</button></div></div>');
         $(this).append(inputpad);
 
         $(inputpad).find('[name=cancel]').click(function(){
@@ -72,7 +72,7 @@ rxw1.inputpad=function input(param) {
 
 //rxw1.inputpad=function input(param) {
 //    if ($("#inputpad").length <= 0) {
-//        $("body").append('<div id = "inputpad" style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div  style="width:90%;text-align:center;margin:10px auto;"><input type="text" value="'+param.default+'" style="text-align: center;width:100%"/></div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >å–æ¶ˆ</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >ç¡®è®¤</button></div></div>');
+//        $("body").append('<div id = "inputpad" style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div  style="width:90%;text-align:center;margin:10px auto;"><input type="text" value="'+param.default+'" style="text-align: center;width:100%"/></div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >é–¸æ¬ç‰—ç»‰ï¿½</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >ç»¾î…§å–›é¡“ï¿½</button></div></div>');
 //
 //
 //        $('#inputpad [name=cancel]').click(function(){
@@ -135,7 +135,7 @@ rxw1.layer=function (params){
     div.style.right='0';
     div.style.overflow='scroll';
     div.style['z-index']=9999999,
-    div.style['background-color']='rgba(0, 0, 0, 0.3)';
+        div.style['background-color']='rgba(0, 0, 0, 0.3)';
     document.body.appendChild(div);
     if(params.init!=undefined||params.init!=null){
         div.init=params.init;
@@ -164,7 +164,7 @@ rxw1.windowTouch = function(params){
         touchData.touchXDis=0;
         if(rxw1.debug){
             if(document.getElementById('rxw1-windowTouch-debug-touchDataShow'))
-                 document.body.removeChild( document.getElementById('rxw1-windowTouch-debug-touchDataShow'))
+                document.body.removeChild( document.getElementById('rxw1-windowTouch-debug-touchDataShow'))
 
             var div = document.createElement('div');
             div.id='rxw1-windowTouch-debug-touchDataShow'
@@ -233,7 +233,7 @@ rxw1.windowTouch = function(params){
             }
         }
         if(window.touchData.touchXDis>150){
-                history.back()
+            history.back()
         }
         if(window.touchData.touchXDis<-100  && window.touchData.touchXDis>-150){
             if( params.moveleft)
@@ -261,14 +261,14 @@ rxw1.addEvent=function addEvent(el, type, fn,useCapture) {
     }
 }
 rxw1.cancelHandler=function (event){
-    var event=event||window.event;//¼æÈİIE
+    var event=event||window.event;
 
-    //È¡ÏûÊÂ¼şÏà¹ØµÄÄ¬ÈÏĞĞÎª
-    if(event.preventDefault)    //±ê×¼¼¼Êõ
+
+    if(event.preventDefault)
         event.preventDefault();
-    if(event.returnValue)    //¼æÈİIE9Ö®Ç°µÄIE
+    if(event.returnValue)
         event.returnValue=false;
-    return false;    //ÓÃÓÚ´¦ÀíÊ¹ÓÃ¶ÔÏóÊôĞÔ×¢²áµÄ´¦Àí³ÌĞò
+    return false;
 }
 function parseQueryStr(queryStr){
     var str=decodeURIComponent(queryStr);
