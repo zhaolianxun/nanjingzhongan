@@ -1,5 +1,6 @@
 package rrightway.module.plat.task;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,6 +29,29 @@ public class PushMessageQueue implements Runnable {
 
 	// 创建队列 可接受SmsPayload类的任务 该队列是阻塞队列，也就是当没有任务的时候队列阻塞（也就是暂停）
 	public static BlockingQueue<Payload> queue = new LinkedBlockingDeque<Payload>();
+
+	public static void topupComplete(String userId, String phone, BigDecimal amount) {
+		try {
+			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId,
+					new StringBuilder("您充值成功（").append(amount.toString()).append("元）。").toString(), 0,
+					new StringBuilder("您充值成功（").append(amount.toString()).append("元）。").toString());
+			payload.setPhone(phone);
+			PushMessageQueue.queue.put(payload);
+		} catch (InterruptedException e) {
+			logger.info("消息插入失败");
+		}
+	}
+
+	public static void topupFail(String userId, String phone, String reason) {
+		try {
+			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId,
+					new StringBuilder("您的充值失败，请查看。").toString(), 0, new StringBuilder(reason).toString());
+			payload.setPhone(phone);
+			PushMessageQueue.queue.put(payload);
+		} catch (InterruptedException e) {
+			logger.info("消息插入失败");
+		}
+	}
 
 	public static void buyerBeChecked(String buyerId, String phone, String orderId) {
 		try {
@@ -153,6 +177,7 @@ public class PushMessageQueue implements Runnable {
 						throw new RuntimeException("用户不存在");
 					pst.close();
 				}
+
 				pst = connection.prepareStatement(
 						"insert into t_message (user_id,title,content,type,send_time) values(?,?,?,?,?)");
 				pst.setObject(1, payload.userId);
@@ -161,13 +186,9 @@ public class PushMessageQueue implements Runnable {
 				pst.setObject(4, payload.type);
 				pst.setObject(5, new Date().getTime());
 				int cnt = pst.executeUpdate();
-				if (cnt != 1) {
-					logger.info("消息插入失败");
-					if (payload.failTimes < 3) {
-						payload.failTimes++;
-						queue.put(payload);
-					}
-				}
+				pst.close();
+				if (cnt != 1)
+					throw new RuntimeException("消息插入失败");
 
 				// 短信校验
 				if (payload.phone != null && !payload.phone.isEmpty()) {
@@ -184,6 +205,16 @@ public class PushMessageQueue implements Runnable {
 				}
 			} catch (Exception e) {
 				logger.info(ExceptionUtils.getStackTrace(e));
+				if (payload != null) {
+					if (payload.failTimes < 3) {
+						payload.failTimes++;
+						try {
+							queue.put(payload);
+						} catch (InterruptedException e1) {
+							logger.info(ExceptionUtils.getStackTrace(e1));
+						}
+					}
+				}
 			} finally {
 				if (pst != null)
 					try {

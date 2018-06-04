@@ -1502,7 +1502,7 @@ public class AdminEntrance {
 	}
 
 	@RequestMapping(value = "/topup/checkfail")
-	public void topupTopup(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void topupCheckfail(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -1519,6 +1519,21 @@ public class AdminEntrance {
 				throw new InteractRuntimeException("您不是管理员");
 
 			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(
+					new StringBuilder("select status,user_id from t_topup where id=? for update").toString());
+			pst.setObject(1, topupId);
+			ResultSet rs = pst.executeQuery();
+			int status = 0;
+			String userId = null;
+			if (rs.next()) {
+				status = rs.getInt("status");
+				userId = rs.getString("user_id");
+			} else
+				throw new InteractRuntimeException("充值记录不存在");
+			pst.close();
+			if (status != 1)
+				throw new InteractRuntimeException("已处理过");
 
 			pst = connection.prepareStatement(
 					new StringBuilder("update t_topup set status=4,fail_reason=? where id=? and status=1").toString());
@@ -1527,11 +1542,15 @@ public class AdminEntrance {
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
+			connection.commit();
+			PushMessageQueue.topupFail(userId, null, reason);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
@@ -1624,6 +1643,8 @@ public class AdminEntrance {
 				throw new InteractRuntimeException("操作失败");
 
 			connection.commit();
+
+			PushMessageQueue.topupComplete(userId, null, amount);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {

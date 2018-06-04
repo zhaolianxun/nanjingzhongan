@@ -9,12 +9,14 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import rrightway.constant.SysConstant;
 import rrightway.entity.InteractRuntimeException;
@@ -62,4 +64,14 @@ public class GetLoginStatus {
 		}
 	}
 
+	public static void refreshLoginStatus(Jedis jedis, String token, UserLoginStatus loginStatus) throws Exception {
+		loginStatus.setToken(token);
+
+		jedis.set("rrightway.plat.token-" + token, JSON.toJSONString(loginStatus));
+		jedis.set(loginStatus.getUserId(), token);
+
+		jedis.expire(loginStatus.getUserId(), 7 * 24 * 60 * 60);
+		jedis.expire("rrightway.plat.token-" + token, 7 * 24 * 60 * 60);
+
+	}
 }

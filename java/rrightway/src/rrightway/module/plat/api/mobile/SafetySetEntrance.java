@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import okhttp3.Request;
 import okhttp3.Response;
+import redis.clients.jedis.Jedis;
 import rrightway.constant.OutApis;
 import rrightway.constant.SysConstant;
 import rrightway.entity.InteractRuntimeException;
@@ -206,6 +207,7 @@ public class SafetySetEntrance {
 	public void bindphone(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
+		Jedis jedis = null;
 		try {
 			// 获取请求参数
 			String phone = StringUtils.trimToNull(request.getParameter("phone"));
@@ -215,7 +217,8 @@ public class SafetySetEntrance {
 			if (vcode == null)
 				throw new InteractRuntimeException("vcode不可空");
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			jedis = SysConstant.jedisPool.getResource();
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request, jedis);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 
@@ -240,6 +243,8 @@ public class SafetySetEntrance {
 			if (n != 1)
 				throw new InteractRuntimeException("手机号已绑定过，请使用修改操作");
 
+			loginStatus.setPhone(phone);
+			GetLoginStatus.refreshLoginStatus(jedis, loginStatus.getToken(), loginStatus);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
@@ -248,6 +253,8 @@ public class SafetySetEntrance {
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
+			if (jedis != null)
+				jedis.close();
 			if (pst != null)
 				pst.close();
 			if (connection != null)
@@ -259,6 +266,7 @@ public class SafetySetEntrance {
 	public void alterbindphone(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
+		Jedis jedis = null;
 		try {
 			// 获取请求参数
 			String phoneOld = StringUtils.trimToNull(request.getParameter("phone_old"));
@@ -271,7 +279,8 @@ public class SafetySetEntrance {
 			if (vcode == null)
 				throw new InteractRuntimeException("vcode 不可空");
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			jedis = SysConstant.jedisPool.getResource();
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request, jedis);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 
@@ -295,6 +304,9 @@ public class SafetySetEntrance {
 			int n = pst.executeUpdate();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
+
+			loginStatus.setPhone(phone);
+			GetLoginStatus.refreshLoginStatus(jedis, loginStatus.getToken(), loginStatus);
 
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
@@ -634,7 +646,7 @@ public class SafetySetEntrance {
 			if (rs.next()) {
 				String paypwdMd5 = rs.getString("paypwd_md5");
 				if (paypwdMd5 == null || paypwdMd5.isEmpty())
-					throw new InteractRuntimeException("请先设置支付密码");
+					throw new InteractRuntimeException("请先至'安全设置'设置支付密码");
 				if (!DigestUtils.md5Hex(paypwd).equals(paypwdMd5))
 					throw new InteractRuntimeException("支付密码错误");
 			} else
@@ -974,8 +986,16 @@ public class SafetySetEntrance {
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 
-			if (!loginStatus.getPhone().equals(phone))
-				throw new InteractRuntimeException("手机号错误");
+			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("select phone from t_user where id=?");
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				if (!rs.getString("phone").equals(phone))
+					throw new InteractRuntimeException("手机号错误");
+			} else
+				throw new InteractRuntimeException(20);
+			pst.close();
 
 			// 短信校验
 			String url = new StringBuilder(OutApis.sms_verification_verify).append("?").append("phone=").append(phone)
@@ -989,7 +1009,6 @@ public class SafetySetEntrance {
 				throw new InteractRuntimeException(resultVo.getString("codeMsg"));
 
 			// 更新密码
-			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement("update t_user set paypwd=?,paypwd_md5=? where phone=?");
 			pst.setObject(1, newpwd);
 			pst.setObject(2, DigestUtils.md5Hex(newpwd));
