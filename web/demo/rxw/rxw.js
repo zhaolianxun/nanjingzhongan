@@ -103,7 +103,7 @@ rxw1.imgPreview=function(src){
     }})
 }
 
-rxw1.waitShow = function () {
+rxw1.waitLock = function () {
     this.layer({init:function(){
         this.style['background-color']='rgba(0,0,0,0)'
         var img=document.createElement("img");
@@ -115,7 +115,7 @@ rxw1.waitShow = function () {
         img.src=rxw1.relativePath+'rxw/img/wait.gif';
         this.appendChild(img);
         var layer = this;
-        rxw1.waitShow.remove = function(){
+        rxw1.waitLock.remove = function(){
             layer.parentNode.removeChild(layer);
         }
     }})
@@ -138,8 +138,8 @@ rxw1.layer=function (params){
         div.style['background-color']='rgba(0, 0, 0, 0.3)';
     document.body.appendChild(div);
     if(params.init!=undefined||params.init!=null){
-        div.init=params.init;
-        div.init();
+        div.rxw1_layerInit=params.init;
+        div.rxw1_layerInit();
     }
     div.style.display='block';
 }
