@@ -307,7 +307,16 @@ public class CowryManageEntrance {
 			if (loginStatus.getStatus() == 1)
 				throw new InteractRuntimeException("您的账户已被冻结，请联系客服。");
 
+
 			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("select status from t_taobaoaccount where id=?");
+			pst.setObject(1, taobaoaccountId);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+			} else
+				throw new InteractRuntimeException("淘宝账号不存在");
+			pst.close();
+			
 			pst = connection.prepareStatement(
 					"INSERT INTO `t_activity` (`user_id`, `taobaoaccount_id`, `title`, `publish_time`, `way_to_shop`, `qrcode_to_order`, `search_keys`, `cowry_url`, `cowry_cover`,`buy_way`, `coupon_url`,`pay_price`, `return_money`, `buyer_mincredit`, `keep_days`, `gift_name`, `gift_type1_id`, `gift_type1_name`, `gift_type2_id`, `gift_type2_name`, `gift_url`, `gift_cover`, `gift_detail`, `gift_express_co`,`stock`,`gift_pics`,`start_time`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
 					Statement.RETURN_GENERATED_KEYS);
@@ -342,7 +351,7 @@ public class CowryManageEntrance {
 			int n = pst.executeUpdate();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
-			ResultSet rs = pst.getGeneratedKeys();
+			rs = pst.getGeneratedKeys();
 			rs.next();
 			int activityId = rs.getInt(1);
 			pst.close();
@@ -440,6 +449,14 @@ public class CowryManageEntrance {
 			if (loginStatus.getStatus() == 1)
 				throw new InteractRuntimeException("您的账户已被冻结，请联系客服。");
 			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("select status from t_taobaoaccount where id=?");
+			pst.setObject(1, taobaoaccountId);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+			} else
+				throw new InteractRuntimeException("淘宝账号不存在");
+			pst.close();
+
 			List sqlParams = new ArrayList();
 			if (activityTitle != null)
 				sqlParams.add(activityTitle);
@@ -1001,21 +1018,25 @@ public class CowryManageEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.audit_fail_reason,t.audit,t.status from t_activity t where t.id=? for update")
+					"select t.audit_fail_reason,t.audit,t.status,tb.status taobao_status from t_activity t left join t_taobaoaccount tb on t.taobaoaccount_id=tb.id where t.id=? for update")
 							.toString());
 			pst.setObject(1, activityId);
 			ResultSet rs = pst.executeQuery();
 			int status = 0;
 			int audit = 0;
 			String auditFailReason = null;
+			Integer taobaoStatus = null;
 			if (rs.next()) {
 				status = rs.getInt("status");
 				audit = rs.getInt("audit");
 				auditFailReason = rs.getString("audit_fail_reason");
+				taobaoStatus = (Integer) rs.getObject("taobao_status");
 			} else
 				throw new InteractRuntimeException("活动不存在");
 			pst.close();
 
+			if (taobaoStatus == null)
+				throw new InteractRuntimeException("淘宝账号不存在");
 			if (status == 1)
 				throw new InteractRuntimeException("活动已在活动中");
 			if (audit == 0)

@@ -30,91 +30,140 @@ public class PushMessageQueue implements Runnable {
 	// 创建队列 可接受SmsPayload类的任务 该队列是阻塞队列，也就是当没有任务的时候队列阻塞（也就是暂停）
 	public static BlockingQueue<Payload> queue = new LinkedBlockingDeque<Payload>();
 
+	public static void systemMsg(String userId, String phone, String msg,int type) {
+		try {
+			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId, msg, type, msg);
+			payload.setPhone(phone);
+			payload.smsContents = msg;
+			payload.business = "systemMsg";
+			PushMessageQueue.queue.put(payload);
+		} catch (InterruptedException e) {
+			logger.info("消息插入失败");
+		}
+	}
+
+	// w JSM42444-0002
 	public static void topupComplete(String userId, String phone, BigDecimal amount) {
 		try {
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId,
-					new StringBuilder("您充值成功（").append(amount.toString()).append("元）。").toString(), 0,
-					new StringBuilder("您充值成功（").append(amount.toString()).append("元）。").toString());
+					new StringBuilder("您已充值成功（").append(amount.toString()).append("元）。").toString(), 0,
+					new StringBuilder("您已充值成功（").append(amount.toString()).append("元）。").toString());
 			payload.setPhone(phone);
+			payload.smsContents = amount.toString();
+			payload.business = "topupComplete";
 			PushMessageQueue.queue.put(payload);
 		} catch (InterruptedException e) {
 			logger.info("消息插入失败");
 		}
 	}
 
+	// w JSM42444-0004
 	public static void topupFail(String userId, String phone, String reason) {
 		try {
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId,
-					new StringBuilder("您的充值失败，请查看。").toString(), 0, new StringBuilder(reason).toString());
+					new StringBuilder("您的充值失败，请查看。").toString(), 0,
+					new StringBuilder("您的充值失败，原因：").append(reason).toString());
 			payload.setPhone(phone);
+			payload.smsContents = reason;
+			payload.business = "topupFail";
 			PushMessageQueue.queue.put(payload);
 		} catch (InterruptedException e) {
 			logger.info("消息插入失败");
 		}
 	}
 
+	// w JSM42444-0003
 	public static void orderBeCheckedToBuyer(String buyerId, String phone, String orderId) {
 		try {
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(buyerId,
-					new StringBuilder("您的订单（")
+					new StringBuilder("您的订单（尾号")
 							.append(orderId.length() < 5 ? "" : orderId.substring(orderId.length() - 5))
-							.append("）已经核对，收货后请及时提交评论图。").toString(),
-					2, new StringBuilder("您的订单已经核对，收货后请及时提交评论图。订单ID：").append(orderId).toString());
+							.append("），商户已核对，收货后请及时提交评论图。").toString(),
+					2, new StringBuilder("您的订单，商户已核对，收货后请及时提交评论图。订单ID：").append(orderId).toString());
 			payload.setPhone(phone);
+			payload.smsContents = orderId;
+			payload.business = "orderBeCheckedToBuyer";
 			PushMessageQueue.queue.put(payload);
 		} catch (InterruptedException e) {
 			logger.info("消息插入失败");
 		}
 	}
 
+	// w JSM42444-0005
 	public static void newApplyToSeller(String sellerId, String phone, String activityTitle) {
 		try {
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(sellerId,
 					new StringBuilder("您有新的订单（活动：").append(activityTitle).append("）").toString(), 1,
 					new StringBuilder("您有新的订单（活动：").append(activityTitle).append("）").toString());
 			payload.setPhone(phone);
+			payload.smsContents = activityTitle;
+			payload.business = "newApplyToSeller";
 			PushMessageQueue.queue.put(payload);
 		} catch (InterruptedException e) {
 			logger.info("消息插入失败");
 		}
 	}
 
+	// w JSM42444-0006
 	public static void freezeUser(String userId, String phone, String reason) {
 		try {
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId,
 					new StringBuilder("您的账号被冻结，原因：").append(reason).toString(), 0,
 					new StringBuilder("您的账号被冻结，原因：").append(reason).toString());
 			payload.setPhone(phone);
+			payload.smsContents = reason;
+			payload.business = "freezeUser";
 			PushMessageQueue.queue.put(payload);
 		} catch (InterruptedException e) {
 			logger.info("消息插入失败");
 		}
 	}
 
+	// w JSM42444-0007
+	public static void adminAlterPhone(String userId, String phone) {
+		try {
+			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId,
+					new StringBuilder("您的手机号已被重置为：").append(phone).toString(), 0,
+					new StringBuilder("您的手机号已被重置为：").append(phone).toString());
+			payload.setPhone(phone);
+			payload.smsContents = phone;
+			payload.business = "adminAlterPhone";
+			PushMessageQueue.queue.put(payload);
+		} catch (InterruptedException e) {
+			logger.info("消息插入失败");
+		}
+	}
+
+	// w JSM42444-0008
 	public static void unfreezeUser(String userId, String phone) {
 		try {
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId,
 					new StringBuilder("您的账号已解冻。").toString(), 0, new StringBuilder("您的账号已解冻。").toString());
 			payload.setPhone(phone);
+			payload.business = "unfreezeUser";
 			PushMessageQueue.queue.put(payload);
 		} catch (InterruptedException e) {
 			logger.info("消息插入失败");
 		}
 	}
 
+	// w JSM42444-0009
 	public static void complainWarningToSeller(String sellerId, String phone, String orderId) {
 		try {
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(sellerId,
-					new StringBuilder("试客对您的投诉已通过，请注意。订单尾号：")
+					new StringBuilder("试客对您的投诉已审核通过，请注意。订单尾号：")
 							.append(orderId.length() < 5 ? "" : orderId.substring(orderId.length() - 5)).toString(),
-					0, new StringBuilder("试客对您的投诉已通过，请注意。订单号：").append(orderId).toString());
+					0, new StringBuilder("试客对您的投诉已审核通过，请注意。订单号：").append(orderId).toString());
 			payload.setPhone(phone);
+			payload.smsContents = orderId;
+			payload.business = "complainWarningToSeller";
 			PushMessageQueue.queue.put(payload);
 		} catch (InterruptedException e) {
 			logger.info("消息插入失败");
 		}
 	}
 
+	// w JSM42444-0010
 	public static void uploadTaobaoOrderIdToSeller(String sellerId, String phone, String orderId) {
 		try {
 			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(sellerId,
@@ -123,6 +172,8 @@ public class PushMessageQueue implements Runnable {
 							.toString(),
 					1, new StringBuilder("试客上传了淘单号，请及时核对。订单（").append(orderId).append("）").toString());
 			payload.setPhone(phone);
+			payload.smsContents = orderId;
+			payload.business = "uploadTaobaoOrderIdToSeller";
 			PushMessageQueue.queue.put(payload);
 		} catch (InterruptedException e) {
 			logger.info("消息插入失败");
@@ -135,7 +186,9 @@ public class PushMessageQueue implements Runnable {
 		private String title;
 		private int type;// 1系统消息 2买家消息 3卖家消息 4警告消息
 		private String content;
+		private String smsContents;
 		private int failTimes = 0;
+		private String business;
 
 		public Payload(String userId, String title, int type, String content) {
 			super();
@@ -192,9 +245,9 @@ public class PushMessageQueue implements Runnable {
 
 				// 短信校验
 				if (payload.phone != null && !payload.phone.isEmpty()) {
-					String url = new StringBuilder(OutApis.sms_sms_send).append("?").append("phone=")
-							.append(payload.phone).append("&content=").append(payload.content)
-							.append("&account=JSM4103805").toString();
+					String url = new StringBuilder(OutApis.sms_sms_sendtemplate).append("?").append("phone=")
+							.append(payload.phone).append("&contents=").append(payload.smsContents).append("&business=")
+							.append(payload.business).append("&client=rrightway").toString();
 					Request okHttpRequest = new Request.Builder().url(url).build();
 					Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
 					String responseBody = okHttpResponse.body().string();

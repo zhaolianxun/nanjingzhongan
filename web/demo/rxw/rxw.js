@@ -145,9 +145,46 @@ rxw1.layer=function (params){
 }
 
 
+//{img:, width:, height:, ratio:}
+//ratio:0 - 1
+rxw1.compressImg = function (params) {
+    var canvas, ctx, img64;
+
+    canvas = document.createElement('canvas');
+    var width = params.width || params.img.width;
+    var height = params.height || params.img.height;
+    var ratio = params.ratio||1;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    ctx = canvas.getContext("2d");
+    ctx.drawImage(params.img, 0, 0, width, height);
+
+    img64 = canvas.toDataURL("image/jpeg", ratio);
+
+    return img64;
+}
 
 
+rxw1.chooseFile = function (params){
+    var inputId = Math.round(Math.random()*12);
+    var input=document.createElement("input");
+    input.type='file';
+    input.id=inputId;
+    input.name='file';
+    input.style.display='none';
+    rxw1.addEvent(input,'change',function(){
+        var file=this.files[0] // 获取input上传的图片数据;
 
+        if(params.chooseEnd)
+        {
+            this.rxw1_chooseFile_end=params.chooseEnd;
+            this.rxw1_chooseFile_end();
+        }
+    })
+    input.click();
+}
 
 rxw1.windowTouch = function(params){
     if(params== undefined||params==null)

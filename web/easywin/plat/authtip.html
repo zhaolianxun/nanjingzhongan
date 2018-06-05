@@ -36,26 +36,35 @@
 <script>
 
 
+    if(!location.hash){
+    }else{
+        window.parent.location.href=location.hash.substr(1);
+    }
 
     function gotoAuth() {
         var token = $.cookie('token');
         var queryStrObj= parseQueryStr(location.search.substr(1));
+        var param={}
+        if(queryStrObj.app_id)
+            param.app_id=queryStrObj.app_id;
+        param.seed_id=queryStrObj.seed_id;
         $.ajax({
             type: 'POST',
-            data: {seed_id:queryStrObj.seed_id},
+            data: param,
             url: '/easywin/p/wop3a/getauthurl?token='+token,
             beforeSend:function(){
                 waitShow();
             },
             success: function(res){
                 if(res.code == 0){
-                    window.parent.location.href = res.data.url;
+                    window.location.href ="http://passion.njshangka.com/easywin/plat/authtip.html#"+res.data.url ;
                 }else{
                     alert(res.codeMsg)
                 }
             }
         })
     }
+
 </script>
 <body style="margin:0;">
 

@@ -936,8 +936,6 @@ public class AdminEntrance {
 
 	@RequestMapping(value = "/user/sendmsg")
 	public void userSendmsg(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Connection connection = null;
-		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
 			String userId = StringUtils.trimToNull(request.getParameter("user_id"));
@@ -962,11 +960,7 @@ public class AdminEntrance {
 			if (loginStatus.getAdminIf() != 1)
 				throw new InteractRuntimeException("您不是管理员");
 
-			connection = RrightwayDataSource.dataSource.getConnection();
-
-			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId, title, type, content);
-			payload.setPhone(phone);
-			PushMessageQueue.queue.put(payload);
+			PushMessageQueue.systemMsg(userId, phone, content,type);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
@@ -975,6 +969,67 @@ public class AdminEntrance {
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
+		}
+	}
+
+	@RequestMapping(value = "/user/alterphone")
+	public void user_AlterPhone(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		Jedis jedis = null;
+		try {
+			// 获取请求参数
+			String userId = StringUtils.trimToNull(request.getParameter("user_id"));
+			if (userId == null)
+				throw new InteractRuntimeException("user_id 不能空");
+			String phone = StringUtils.trimToNull(request.getParameter("phone"));
+			if (phone == null)
+				throw new InteractRuntimeException("phone 不能空");
+
+			jedis = SysConstant.jedisPool.getResource();
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request, jedis);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (loginStatus.getAdminIf() != 1)
+				throw new InteractRuntimeException("您不是管理员");
+
+			connection = RrightwayDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(new StringBuilder("update t_user set phone=? where id=?").toString());
+			pst.setObject(1, phone);
+			pst.setObject(2, userId);
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			String userToken = jedis.get(userId);
+			UserLoginStatus userLoginStatus = null;
+			if (userToken != null && !userToken.isEmpty()) {
+				String userLoginStatusStr = jedis.get("rrightway.plat.token-" + userToken);
+				if (userLoginStatusStr != null && !userLoginStatusStr.isEmpty())
+					userLoginStatus = JSON.parseObject(userLoginStatusStr, UserLoginStatus.class);
+			}
+			if (userLoginStatus != null) {
+				userLoginStatus.setPhone(phone);
+				GetLoginStatus.refreshLoginStatus(jedis, userLoginStatus.getToken(), userLoginStatus);
+			}
+			connection.commit();
+
+			PushMessageQueue.adminAlterPhone(userId, phone);
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (jedis != null)
+				jedis.close();
 			if (pst != null)
 				pst.close();
 			if (connection != null)
@@ -1023,12 +1078,7 @@ public class AdminEntrance {
 			}
 			if (userLoginStatus != null) {
 				userLoginStatus.setStatus(1);
-
-				jedis.set("rrightway.plat.token-" + userToken, JSON.toJSONString(userLoginStatus));
-				jedis.set(userId, userToken);
-
-				jedis.expire(userId, 7 * 24 * 60 * 60);
-				jedis.expire("rrightway.plat.token-" + userToken, 7 * 24 * 60 * 60);
+				GetLoginStatus.refreshLoginStatus(jedis, userLoginStatus.getToken(), userLoginStatus);
 			}
 			connection.commit();
 
@@ -1092,10 +1142,7 @@ public class AdminEntrance {
 			}
 			if (userLoginStatus != null) {
 				userLoginStatus.setStatus(0);
-				jedis.set("rrightway.plat.token-" + userToken, JSON.toJSONString(userLoginStatus));
-				jedis.set(userId, userToken);
-				jedis.expire(userId, 7 * 24 * 60 * 60);
-				jedis.expire("rrightway.plat.token-" + userToken, 7 * 24 * 60 * 60);
+				GetLoginStatus.refreshLoginStatus(jedis, userLoginStatus.getToken(), userLoginStatus);
 			}
 			connection.commit();
 

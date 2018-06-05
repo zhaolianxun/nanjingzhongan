@@ -57,7 +57,7 @@ public class ActivityDetailEntrance {
 			}
 			sqlParams.add(activityId);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select tb.taobao_user_nick,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_cover,t.cowry_url,t.gift_pics"
+					"select insert(tb.taobao_user_nick,2,3,'***') taobao_user_nick,t.way_to_shop,t.qrcode_to_order,t.search_keys,t.cowry_cover,t.cowry_url,t.gift_pics"
 							+ (loginStatus == null ? ",0"
 									: ",(select if(count(id)>0,1,0) from t_order where buyer_id=? and activity_id=t.id)")
 							+ " apply_if,t.buyer_num,t.gift_cover,t.gift_name,t.pay_price,t.return_money,(t.start_time+t.keep_days*24*60*60*1000) end_time,t.stock,t.buy_way,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buyer_mincredit,t.gift_express_co"

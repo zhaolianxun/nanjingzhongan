@@ -308,8 +308,30 @@ public class WxOpenP3Authorization {
 			} else
 				throw new InteractRuntimeException("代理不存在");
 
+			String fromAgentDomain = null;
+			if (fromAgentId != null) {
+				pst = connection.prepareStatement("select agent_domain from t_user where id=?");
+				pst.setObject(1, fromAgentId);
+				rs = pst.executeQuery();
+				if (rs.next()) {
+					fromAgentDomain = rs.getString("agent_domain");
+				}
+				pst.close();
+			}
+
+			String fromAppNickName = null;
+			if (fromAppId != null) {
+				pst = connection.prepareStatement("select nick_name from t_app where id=?");
+				pst.setObject(1, fromAppId);
+				rs = pst.executeQuery();
+				if (rs.next()) {
+					fromAppNickName = rs.getString("nick_name");
+				}
+				pst.close();
+			}
+
 			pst = connection.prepareStatement(
-					"select agent.phone from_agent_phone,t.from_agent_id,t.id,t.user_id,u.phone,t.nick_name from t_app t inner join t_user u on t.user_id=u.id left join t_user agent on t.from_agent_id=agent.id where t.wx_appid=?");
+					"select agent.agent_domain from_agent_domain,t.seed_id,agent.phone from_agent_phone,t.from_agent_id,t.id,t.user_id,u.phone,t.nick_name from t_app t inner join t_user u on t.user_id=u.id left join t_user agent on t.from_agent_id=agent.id where t.wx_appid=?");
 			pst.setObject(1, authorizerAppId);
 			rs = pst.executeQuery();
 			String existAppId = null;
@@ -318,6 +340,8 @@ public class WxOpenP3Authorization {
 			String existNickName = null;
 			String existFromAgentId = null;
 			String existFromAgentPhone = null;
+			String existFromAgentDomain = null;
+			String existSeedId = null;
 
 			if (rs.next()) {
 				existAppId = rs.getString("id");
@@ -326,14 +350,19 @@ public class WxOpenP3Authorization {
 				existNickName = rs.getString("nick_name");
 				existFromAgentId = rs.getString("from_agent_id");
 				existFromAgentPhone = rs.getString("from_agent_phone");
+				existFromAgentDomain = rs.getString("from_agent_domain");
+				seedId = rs.getString("seed_id");
 			}
 			pst.close();
+			if (seedId != null && existSeedId != null && !seedId.equals(existSeedId))
+				throw new InteractRuntimeException("目前不可以更换小程序所绑定的应用，您可以用新的小程序来绑定。");
 			if (existAppId != null && fromAppId != null && !existAppId.equals(fromAppId))
-				throw new InteractRuntimeException("请选择对应的小程序进行授权：" + existNickName);
+				throw new InteractRuntimeException("请选择对应的小程序进行授权：" + fromAppNickName);
 			if (existUserId != null && !existUserId.equals(fromUserId))
 				throw new InteractRuntimeException("您的微信小程序公众号已经绑定了其他账号 账号:" + existPhone);
 			if (existFromAgentId != null && !existFromAgentId.equals(fromAgentId))
-				throw new InteractRuntimeException("您的微信小程序公众号已授权给了其他代理 代理号:" + existFromAgentPhone);
+				throw new InteractRuntimeException(
+						"您的微信小程序公众号(" + existNickName + ")已授权给了其他代理 请通过该代理域名进行登录:" + existFromAgentDomain);
 
 			String authorizerAccessToken = authorizationInfo.getString("authorizer_access_token");
 			long authorizerExpiresIn = authorizationInfo.getIntValue("expires_in");
@@ -478,32 +507,37 @@ public class WxOpenP3Authorization {
 				throw new InteractRuntimeException(resultVo.getString("errmsg"));
 
 			// 设置小程序业务域名
-			url = new StringBuilder("https://api.weixin.qq.com/wxa/setwebviewdomain?").append("access_token=")
-					.append(authorizerAccessToken);
-			logger.debug("url " + url);
-
-			content = new JSONObject();
-			content.put("action", "set");
-			JSONArray webviewdomain = new JSONArray();
-			webviewdomain.add("https://" + SysConstant.project_domain);
-			content.put("webviewdomain", webviewdomain);
-
-			contentStr = content.toJSONString();
-			logger.debug(contentStr);
-
-			body = RequestBody.create(MediaType.parse("application/json"), contentStr);
-
-			okHttpRequest = new Request.Builder().url(url.toString()).post(body).build();
-			okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
-			responseBody = okHttpResponse.body().string();
-			logger.debug("responseBody " + responseBody);
-			resultVo = JSON.parseObject(responseBody);
-			if (resultVo.getIntValue("errcode") != 0)
-				throw new InteractRuntimeException(resultVo.getString("errmsg"));
+			// url = new
+			// StringBuilder("https://api.weixin.qq.com/wxa/setwebviewdomain?").append("access_token=")
+			// .append(authorizerAccessToken);
+			// logger.debug("url " + url);
+			//
+			// content = new JSONObject();
+			// content.put("action", "set");
+			// JSONArray webviewdomain = new JSONArray();
+			// webviewdomain.add("https://" + SysConstant.project_domain);
+			// content.put("webviewdomain", webviewdomain);
+			//
+			// contentStr = content.toJSONString();
+			// logger.debug(contentStr);
+			//
+			// body = RequestBody.create(MediaType.parse("application/json"),
+			// contentStr);
+			//
+			// okHttpRequest = new
+			// Request.Builder().url(url.toString()).post(body).build();
+			// okHttpResponse =
+			// SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+			// responseBody = okHttpResponse.body().string();
+			// logger.debug("responseBody " + responseBody);
+			// resultVo = JSON.parseObject(responseBody);
+			// if (resultVo.getIntValue("errcode") != 0)
+			// throw new InteractRuntimeException(resultVo.getString("errmsg"));
 
 			connection.commit();
 			// 返回结果
-			response.sendRedirect("/easywin/plat/index.html?tab=myapp");
+			response.sendRedirect(fromAgentDomain == null ? "/easywin/plat/index.html?tab=myapp"
+					: request.getScheme() + "://" + fromAgentDomain + "/easywin/plat/index.html?tab=myapp");
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));

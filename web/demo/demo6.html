@@ -8,13 +8,37 @@
 </head>
 <body>
 <a onclick="aa()">aaa</a>
-<!--<div style="overflow:scroll; position:fixed;display: block;top:0;left:0;bottom: 0;right:0;z-index: 999999;background-color:rgba(0, 0, 0, 0.1) ;">-->
-    <!--<img style="margin:auto;display:block" src="微信图片_20180504112644.jpg">-->
-<!--</div>-->
+<img />
+<input type="file"/>
 </body>
 <script>
+//    document.getElementsByTagName('input')[0].onchange=function(){
+//        var file=this.files[0] // 获取input上传的图片数据;
+//
+//        if(file) {
+//            if (!file.type || file.type.indexOf('image') != 0) {
+//                alert('请选择一张图片');
+//            } else {
+//                var img = new Image();
+//                url = window.URL.createObjectURL(file) // 得到bolb对象路径，可当成普通的文件路径一样使用，赋值给src;
+//                var img = document.getElementsByTagName('img')[0];
+//                img.src = url;
+//                function a() {
+//                    if(!img.width) {
+//                        setTimeout(a,500)
+//                    }else
+//                    {
+//                        img.src= rxw1.compressImg({img:img,ratio:0.4})
+//                    }
+//                }
+//                setTimeout(a,500)
+//            }
+//        }
+ //   }
     function aa(){
-          rxw1.errorpad('微信图片_20180129113026.jpg')
+        rxw1.chooseFile({chooseEnd:function(){
+            alert(this)
+        }})
     }
 </script>
 </html>

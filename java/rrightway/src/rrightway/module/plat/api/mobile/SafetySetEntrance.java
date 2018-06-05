@@ -235,6 +235,15 @@ public class SafetySetEntrance {
 
 			// 更新密码
 			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement("select count(id) from t_user where phone=?");
+			pst.setObject(1, phone);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				if (rs.getInt(1) > 0)
+					throw new InteractRuntimeException("手机号存在");
+			}
+			pst.close();
+
 			pst = connection
 					.prepareStatement("update t_user set phone=? where id=? and (isnull(phone) or length(phone)=0)");
 			pst.setObject(1, phone);
@@ -926,7 +935,8 @@ public class SafetySetEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-
+			if (loginStatus.getPhone() == null || loginStatus.getPhone().isEmpty())
+				throw new InteractRuntimeException(1002, "未绑定手机号");
 			if (!loginStatus.getPhone().equals(phone))
 				throw new InteractRuntimeException("手机号错误");
 			// 短信校验
@@ -985,6 +995,8 @@ public class SafetySetEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
+			if (loginStatus.getPhone() == null || loginStatus.getPhone().isEmpty())
+				throw new InteractRuntimeException(1002, "未绑定手机号");
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement("select phone from t_user where id=?");
@@ -1230,12 +1242,22 @@ public class SafetySetEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
-					"select count(id) from t_order where status in (0,1,3,4,5) and buyer_taobaoaccount_id=?");
+					"select count(id) from t_order where finished=0 and (buyer_taobaoaccount_id=? or seller_taobaoaccount_id=?)");
 			pst.setObject(1, taobaoaccountId);
+			pst.setObject(2, taobaoaccountId);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				if (rs.getInt(1) > 0)
-					throw new InteractRuntimeException("此买家账号正在参与交易中，无法取消绑定！");
+					throw new InteractRuntimeException("此淘宝账号正在参与交易中，无法取消绑定！");
+			}
+			pst.close();
+
+			pst = connection.prepareStatement("select count(id) from t_activity where status=1 and taobaoaccount_id=?");
+			pst.setObject(1, taobaoaccountId);
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				if (rs.getInt(1) > 0)
+					throw new InteractRuntimeException("此淘宝账号中有在线的活动，请下架后再操作。");
 			}
 			pst.close();
 

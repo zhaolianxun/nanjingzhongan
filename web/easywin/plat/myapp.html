@@ -288,15 +288,17 @@
             })
 
 
-        function gotoAuth(seedId,appId) {
 
+
+        function gotoAuth(seedId,appId) {
             $.ajax({
                 type: 'POST',
                 data: {seed_id:seedId,app_id:appId},
                 url: '/easywin/p/wop3a/getauthurl?token='+token,
                 success: function(res){
                     if(res.code == 0){
-                        window.parent.location.href = res.data.url;
+                        window.location.href ="http://passion.njshangka.com/easywin/plat/authtip.html?seed_id="+seedId+'&app_id='+appId+'#'+res.data.url;
+                      //  window.parent.location.href = res.data.url;
                     }else{
                         alert('请求失败！')
                     }
