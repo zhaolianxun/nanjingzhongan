@@ -8,6 +8,7 @@
     <script src="libs/jquery.cookie.js"></script>
     <script src="libs/vue.js"></script>
     <script src="libs/default.js"></script>
+    <script src="../rxw/rxw.js"></script>
 
 </head>
     <link rel="stylesheet" type="text/css" href="libs/iziToast/css/iziToast.min.css">
@@ -189,6 +190,8 @@
 </body>
 
     <script type="text/javascript">
+
+        rxw1.relativePath='../'
         function add0(m){return m<10?'0'+m:m }
         //时间戳转化成时间格式
         function timeFormat(timestamp){
@@ -388,6 +391,32 @@
         //关闭提示框
         function closePrompt(){
             $('#prompt').fadeOut();
+        }
+
+
+
+        function previewNewest(appId,newestTemplateVersion){
+            $.ajax({
+                type: 'POST',
+                async: false,
+                data: {app_id:appId,template_version:newestTemplateVersion},
+                url: '/easywin/p/e/myapp/commitcode?token='+token,
+                complete:function(){
+                    rxw1.waitLock.remove();
+                },
+                beforeSend:function(){
+                    rxw1.waitLock();
+                },
+                success: function(res){
+                    if(res.code == 0){
+                        var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
+                        $('#carddivSon'+appId+' .qrcodeBox').css('display','block');
+                        $('#carddivSon'+appId+' .qrcodeBox .qrcode').attr('src',src);
+                    }else{
+                        alert(res)
+                    }
+                }
+            });
         }
     </script>
 
