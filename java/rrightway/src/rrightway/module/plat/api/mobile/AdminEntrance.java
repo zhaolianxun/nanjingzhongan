@@ -1,6 +1,7 @@
 package rrightway.module.plat.api.mobile;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -1696,6 +1697,7 @@ public class AdminEntrance {
 			if (amountParam == null)
 				throw new InteractRuntimeException("amount 不能空");
 			BigDecimal amount = new BigDecimal(amountParam);
+			amount = amount.setScale(2, RoundingMode.DOWN);
 			if (amount.floatValue() <= 0)
 				throw new InteractRuntimeException("金额有误");
 
@@ -2154,7 +2156,8 @@ public class AdminEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(
-					new StringBuilder("insert into t_notice (title,content,add_time,last_update_time) values(?,?,?,?)").toString());
+					new StringBuilder("insert into t_notice (title,content,add_time,last_update_time) values(?,?,?,?)")
+							.toString());
 			pst.setObject(1, title);
 			pst.setObject(2, content);
 			pst.setObject(3, new Date().getTime());

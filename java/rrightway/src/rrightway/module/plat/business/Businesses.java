@@ -1,119 +1,107 @@
 package rrightway.module.plat.business;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.log4j.Logger;
 
+import rrightway.constant.SysParam;
 import rrightway.entity.InteractRuntimeException;
+import rrightway.util.RrightwayDataSource;
 
 public class Businesses {
+	private static Logger logger = Logger.getLogger(Businesses.class);
 
-	public static void returnMoney(Connection connection, String orderId) {
+	public static BigDecimal computeWalletOutable(String userId) throws Exception {
+		Connection connection = null;
+		try {
+			connection = RrightwayDataSource.dataSource.getConnection();
+			return computeWalletOutable(userId, connection);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	public static BigDecimal computeWalletOutable(String userId, Connection connection) throws Exception {
 		PreparedStatement pst = null;
 		try {
-			pst = connection.prepareStatement(
-					"select finished,buyer_id,seller_id,return_money,rightprotect_status,status,review_pic_audit from t_order where id=? for update");
-			pst.setObject(1, orderId);
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(new StringBuilder(
+					"select right_wallet_unoutable,right_wallet_outable from t_user where id=? for update").toString());
+			pst.setObject(1, userId);
 			ResultSet rs = pst.executeQuery();
+			BigDecimal rightWalletOutable = null;
+			BigDecimal rightWalletUnoutable = null;
 			if (rs.next()) {
-				int rightprotectStatus = rs.getInt("rightprotect_status");
-				int status = rs.getInt("status");
-				int finished = rs.getInt("finished");
-				int reviewPicAudit = rs.getInt("review_pic_audit");
-				BigDecimal returnMoney = rs.getBigDecimal("return_money");
-				String sellerId = rs.getString("seller_id");
-				String buyerId = rs.getString("buyer_id");
-				pst.close();
-				// 如果状态有变，跳过本次处理
-				if (finished == 1) {
-					connection.commit();
-				}
-				if (rightprotectStatus != 13 && status != 0) {
-					connection.commit();
-				}
-				if (status != 1) {
-					connection.commit();
-				}
-				if (reviewPicAudit != 3 && reviewPicAudit != 0) {
-					connection.commit();
-				}
-				// 锁定买家账户
-				BigDecimal withdrawableMoney = null;
-				pst = connection.prepareStatement(
-						new StringBuilder("select t.withdrawable_money from t_user t where t.id=? for update")
-								.toString());
-				pst.setObject(1, buyerId);
-				rs = pst.executeQuery();
-				if (rs.next()) {
-					withdrawableMoney = rs.getBigDecimal("withdrawable_money");
-				} else
-					throw new InteractRuntimeException("用户不存在");
-				pst.close();
+				rightWalletOutable = rs.getBigDecimal("right_wallet_outable");
+				rightWalletUnoutable = rs.getBigDecimal("right_wallet_unoutable");
+			} else
+				throw new InteractRuntimeException("用户不存在");
 
-				// 修改订单状态
+			pst.close();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.id,t.amount from t_wallet_bill t where t.amount>0 and t.added_to_outable=0 and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-t.happen_time)>"
+							+ SysParam.walletOutableTime + " and t.user_id=?").toString());
+			pst.setObject(1, userId);
+			rs = pst.executeQuery();
+			BigDecimal totalAmount = BigDecimal.ZERO;
+			List<String> billIds = new ArrayList<String>();
+			while (rs.next()) {
+				String walletBillId = rs.getString("id");
+				billIds.add(walletBillId);
+				BigDecimal amount = rs.getBigDecimal("amount");
+				totalAmount = totalAmount.add(amount);
+			}
+			pst.close();
+
+			if (billIds.size() > 0) {
+				rightWalletOutable = rightWalletOutable.add(totalAmount);
+				rightWalletUnoutable = rightWalletUnoutable.subtract(totalAmount);
+				if (rightWalletUnoutable.intValue() < 0)
+					throw new InteractRuntimeException("操作失败");
+
 				pst = connection.prepareStatement(new StringBuilder(
-						"update t_order set status=2,finished=1 where id=? and rightprotect_status in (13,0) and status=1 and reviewPicAudit in (3,0)")
-								.toString());
-				pst.setObject(1, orderId);
+						"update t_user set right_wallet_unoutable=?,right_wallet_outable=? where id=?").toString());
+				pst.setObject(1, rightWalletUnoutable);
+				pst.setObject(2, rightWalletOutable);
+				pst.setObject(3, userId);
 				int cnt = pst.executeUpdate();
-				pst.close();
 				if (cnt != 1)
 					throw new InteractRuntimeException("操作失败");
-
-				// 买家收到返现
-				BigDecimal addMoney = returnMoney.multiply(new BigDecimal(0.2)).setScale(2, RoundingMode.DOWN);
-				BigDecimal toWalletMoney = returnMoney.subtract(addMoney);
-				pst = connection.prepareStatement(new StringBuilder(
-						"update t_user set right_wallet_unoutable=right_wallet_unoutable+?,withdrawable_money=withdrawable_money+? where id=? ")
-								.toString());
-				pst.setObject(1, toWalletMoney);
-				pst.setObject(2, addMoney);
-				pst.setObject(3, buyerId);
-				cnt = pst.executeUpdate();
 				pst.close();
-				if (cnt != 1)
-					throw new InteractRuntimeException("操作失败");
 
-				String billId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
-				pst = connection.prepareStatement(new StringBuilder(
-						"insert into t_bill (id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,4)")
-								.toString());
-				pst.setObject(1, billId);
-				pst.setObject(2, buyerId);
-				pst.setObject(3, returnMoney);
-				pst.setObject(4, "收到返现，其中转入右钱包" + toWalletMoney);
-				pst.setObject(5, new Date().getTime());
-				pst.setObject(6, orderId);
-				cnt = pst.executeUpdate();
+				pst = connection.prepareStatement(
+						new StringBuilder("update t_wallet_bill set added_to_outable=1 where id=?").toString());
+				for (int i = 0; i < billIds.size(); i++) {
+					pst.setObject(1, billIds.get(i));
+					pst.addBatch();
+				}
+				int[] n = pst.executeBatch();
+				if (n.length != billIds.size())
+					throw new InteractRuntimeException("操作失败");
 				pst.close();
-				if (cnt != 1)
-					throw new InteractRuntimeException("操作失败");
-
-				String walletBillId = new Date().getTime() + RandomStringUtils.randomNumeric(3);
-				pst = connection.prepareStatement(new StringBuilder(
-						"insert into t_wallet_bill (id,user_id,amount,note,happen_time,added_to_outable,order_id) values(?,?,?,?,?,?,?)")
-								.toString());
-				pst.setObject(1, walletBillId);
-				pst.setObject(2, buyerId);
-				pst.setObject(3, toWalletMoney);
-				pst.setObject(4, "从返现转入");
-				pst.setObject(5, new Date().getTime());
-				pst.setObject(6, 0);
-				pst.setObject(7, orderId);
-
-				cnt = pst.executeUpdate();
-				pst.close();
-				if (cnt != 1)
-					throw new InteractRuntimeException("操作失败");
 			}
 			connection.commit();
-		} catch (Exception e) {
 
+			return rightWalletOutable;
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			connection.rollback();
+			throw e;
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
 		}
 	}
 }

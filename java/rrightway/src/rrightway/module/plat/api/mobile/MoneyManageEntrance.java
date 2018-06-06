@@ -1,6 +1,7 @@
 package rrightway.module.plat.api.mobile;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,6 +30,7 @@ import redis.clients.jedis.Jedis;
 import rrightway.constant.SysConstant;
 import rrightway.constant.SysParam;
 import rrightway.entity.InteractRuntimeException;
+import rrightway.module.plat.business.Businesses;
 import rrightway.module.plat.business.GetLoginStatus;
 import rrightway.module.plat.entity.UserLoginStatus;
 import rrightway.util.HttpRespondWithData;
@@ -274,6 +276,7 @@ public class MoneyManageEntrance {
 			if (amountParam == null)
 				throw new InteractRuntimeException("amount 不可空");
 			BigDecimal amount = new BigDecimal(amountParam);
+			amount = amount.setScale(2, RoundingMode.DOWN);
 			if (amount.compareTo(new BigDecimal(50)) == -1)
 				throw new InteractRuntimeException("最低50才能提现");
 			String bankIdParam = StringUtils.trimToNull(request.getParameter("bank_id"));
@@ -649,8 +652,6 @@ public class MoneyManageEntrance {
 
 	@RequestMapping(value = "/walletout/ent")
 	public void walletoutEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Connection connection = null;
-		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
 
@@ -659,65 +660,7 @@ public class MoneyManageEntrance {
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 
-			connection = RrightwayDataSource.dataSource.getConnection();
-			connection.setAutoCommit(false);
-			pst = connection.prepareStatement(new StringBuilder(
-					"select right_wallet_unoutable,right_wallet_outable from t_user where id=? for update").toString());
-			pst.setObject(1, loginStatus.getUserId());
-			ResultSet rs = pst.executeQuery();
-			BigDecimal rightWalletOutable = null;
-			BigDecimal rightWalletUnoutable = null;
-			if (rs.next()) {
-				rightWalletOutable = rs.getBigDecimal("right_wallet_outable");
-				rightWalletUnoutable = rs.getBigDecimal("right_wallet_unoutable");
-			} else
-				throw new InteractRuntimeException("用户不存在");
-
-			pst.close();
-
-			pst = connection.prepareStatement(new StringBuilder(
-					"select t.id,t.amount from t_wallet_bill t where t.amount>0 and t.added_to_outable=0 and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-t.happen_time)>"
-							+ SysParam.walletOutableTime + " and t.user_id=?").toString());
-			pst.setObject(1, loginStatus.getUserId());
-			rs = pst.executeQuery();
-			BigDecimal totalAmount = BigDecimal.ZERO;
-			List<String> billIds = new ArrayList<String>();
-			while (rs.next()) {
-				String walletBillId = rs.getString("id");
-				billIds.add(walletBillId);
-				BigDecimal amount = rs.getBigDecimal("amount");
-				totalAmount = totalAmount.add(amount);
-			}
-			pst.close();
-
-			if (billIds.size() > 0) {
-				rightWalletOutable = rightWalletOutable.add(totalAmount);
-				rightWalletUnoutable = rightWalletUnoutable.subtract(totalAmount);
-				if (rightWalletUnoutable.intValue() < 0)
-					throw new InteractRuntimeException("操作失败");
-
-				pst = connection.prepareStatement(new StringBuilder(
-						"update t_user set right_wallet_unoutable=?,right_wallet_outable=? where id=?").toString());
-				pst.setObject(1, rightWalletUnoutable);
-				pst.setObject(2, rightWalletOutable);
-				pst.setObject(3, loginStatus.getUserId());
-				int cnt = pst.executeUpdate();
-				if (cnt != 1)
-					throw new InteractRuntimeException("操作失败");
-				pst.close();
-
-				pst = connection.prepareStatement(
-						new StringBuilder("update t_wallet_bill set added_to_outable=1 where id=?").toString());
-				for (int i = 0; i < billIds.size(); i++) {
-					pst.setObject(1, billIds.get(i));
-					pst.addBatch();
-				}
-				int[] n = pst.executeBatch();
-				if (n.length != billIds.size())
-					throw new InteractRuntimeException("操作失败");
-				pst.close();
-			}
-			connection.commit();
+			BigDecimal rightWalletOutable = Businesses.computeWalletOutable(loginStatus.getUserId());
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("rightWalletOutable", rightWalletOutable);
@@ -725,15 +668,9 @@ public class MoneyManageEntrance {
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
-			if (connection != null)
-				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
-			if (pst != null)
-				pst.close();
-			if (connection != null)
-				connection.close();
 		}
 	}
 
@@ -747,7 +684,8 @@ public class MoneyManageEntrance {
 			if (amountParam == null)
 				throw new InteractRuntimeException("amount 不可空");
 			BigDecimal amount = new BigDecimal(amountParam);
-			if (amount.intValue() <= 0)
+			amount = amount.setScale(2, RoundingMode.DOWN);
+			if (amount.floatValue() <= 0)
 				throw new InteractRuntimeException("金额有误");
 
 			// 业务处理
