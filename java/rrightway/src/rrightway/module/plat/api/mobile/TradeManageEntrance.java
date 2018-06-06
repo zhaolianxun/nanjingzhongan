@@ -49,7 +49,7 @@ public class TradeManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(new StringBuilder(
-					"select (select count(id) from t_order where seller_del=0 and seller_id=? and status=0 ) needCheckCount,(select count(id) from t_order where seller_del=0 and seller_id=? and status=1 and rightprotect_status in (0)) buyedCount,(select count(id) from t_order where seller_del=0 and seller_id=? and status=2) returnedCount,(select count(id) from t_order where seller_del=0 and seller_id=? and rightprotect_status !=0) rightprotectedCount,(select count(id) from t_order where seller_del=0 and seller_id=? and complain =6) complainCount")
+					"select (select count(id) from t_order where seller_del=0 and seller_id=? and status=0 ) needCheckCount,(select count(id) from t_order where seller_del=0 and seller_id=? and status=1 and rightprotect_status in (0,13)) buyedCount,(select count(id) from t_order where seller_del=0 and seller_id=? and status=2) returnedCount,(select count(id) from t_order where seller_del=0 and seller_id=? and rightprotect_status !=0) rightprotectedCount,(select count(id) from t_order where seller_del=0 and seller_id=? and complain =6) complainCount")
 							.toString());
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, loginStatus.getUserId());
