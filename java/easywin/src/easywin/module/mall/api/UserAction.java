@@ -111,7 +111,7 @@ public class UserAction {
 			if (userId == null) {
 				userId = RandomStringUtils.randomNumeric(12);
 				pst = connection.prepareStatement(
-						"insert into t_mall_user (id,mall_id,headimg,wx_openid,wx_sessionkey,register_time,from_user_id,nickname) values(?,?,?,?,?,rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0'),?,?)");
+						"insert into t_mall_user (id,mall_id,headimg,wx_openid,wx_sessionkey,register_time,register_from_user_id,nickname) values(?,?,?,?,?,rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0'),?,?)");
 				pst.setObject(1, userId);
 				pst.setObject(2, mallId);
 				pst.setObject(3, "");

@@ -464,7 +464,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
 					"select t.activity_id,t.way_to_shop,t.coupon_if,t.buy_way,t.complain,t.review_pic_audit,t.review_pics,t.rightprotect_status,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.buyer_id=?")
-							.append(tradeStatus == 1 ? " and t.status=1 " : "")
+							.append(tradeStatus == 1 ? " and t.status=1 and t.rightprotect_status in (0,13)" : "")
 							.append(tradeStatus == 2 ? " and t.status=1 and t.rightprotect_status in (7,8,9,10,11) "
 									: "")
 							.append(buyerNickname == null ? "" : " and t.buyer_taobaoaccount_name like ? ")

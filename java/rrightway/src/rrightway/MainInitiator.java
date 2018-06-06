@@ -114,7 +114,7 @@ public class MainInitiator implements ServletContextListener {
 				SysParam.unreviewedExpiredReturnTime = 15 * 60 * 1000l;
 				SysParam.walletOutableTime = 2 * 60 * 1000l;
 				SysParam.buyFromSameSellerInterval = 3 * 60 * 1000l;
-				SysParam.autoConfirmRightProjectPeriod = 3 * 60 * 1000l;
+				SysParam.autoConfirmRightProjectPeriod = 15 * 60 * 1000l;
 				SysParam.cancelableOrderTime = 3 * 60 * 1000l;
 			} else if (SysConstant.project_environment.equals("product")) {
 				// 买家已提交评价图的自动返现时间，2天

@@ -121,7 +121,7 @@ public class GoodManageEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢商品详情
 			pst = connection.prepareStatement(
-					"select detail,id,name,detail_pics,saled_count,buyer_count,params,onsale,type1_name,type2_name,type3_name,cover from t_mall_good where id=?");
+					"select share_reward,detail,id,name,detail_pics,saled_count,buyer_count,params,onsale,type1_name,type2_name,type3_name,cover from t_mall_good where id=?");
 
 			pst.setObject(1, goodId);
 
@@ -140,6 +140,7 @@ public class GoodManageEntrance {
 				good.put("type3Name", rs.getObject("type3_name"));
 				good.put("cover", rs.getObject("cover"));
 				good.put("detail", rs.getObject("detail"));
+				good.put("shareReward", rs.getObject("share_reward"));
 			} else {
 				throw new InteractRuntimeException("商品不存在");
 			}
@@ -210,6 +211,8 @@ public class GoodManageEntrance {
 			String params = StringUtils.trimToNull(request.getParameter("params"));
 			String detailPics = StringUtils.trimToNull(request.getParameter("detail_pics"));
 			String cover = StringUtils.trimToNull(request.getParameter("cover"));
+			String shareRewardParam = StringUtils.trimToNull(request.getParameter("share_reward"));
+			int shareReward = shareRewardParam == null ? 0 : Integer.parseInt(shareRewardParam);
 			String skusParam = StringUtils.trimToNull(request.getParameter("skus"));
 			if (skusParam == null)
 				throw new InteractRuntimeException("skus 不可空");
@@ -229,7 +232,7 @@ public class GoodManageEntrance {
 			connection.setAutoCommit(false);
 			// 查詢商品详情
 			pst = connection.prepareStatement(
-					"INSERT INTO `t_mall_good` (`id`, `mall_id`, `name`, `tags`, `type1`, `type1_name`, `type2`, `type2_name`,  `onsale`, `detail`, `params`, `detail_pics`, `cover`, `add_time`,`base_alter_time`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					"INSERT INTO `t_mall_good` (`id`, `mall_id`, `name`, `tags`, `type1`, `type1_name`, `type2`, `type2_name`,  `onsale`, `detail`, `params`, `detail_pics`, `cover`, `add_time`,`base_alter_time`,`share_reward`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			String goodId = RandomStringUtils.randomNumeric(12);
 			pst.setObject(1, goodId);
 			pst.setObject(2, mallId);
@@ -247,6 +250,8 @@ public class GoodManageEntrance {
 			long addTime = new Date().getTime();
 			pst.setObject(14, addTime);
 			pst.setObject(15, addTime);
+			pst.setObject(16, shareReward);
+
 			int n = pst.executeUpdate();
 			pst.close();
 			if (n == 0)
@@ -365,6 +370,8 @@ public class GoodManageEntrance {
 			String params = StringUtils.trimToNull(request.getParameter("params"));
 			String detailPics = StringUtils.trimToNull(request.getParameter("detail_pics"));
 			String cover = StringUtils.trimToNull(request.getParameter("cover"));
+			String shareRewardParam = StringUtils.trimToNull(request.getParameter("share_reward"));
+			Integer shareReward = shareRewardParam == null ? null : Integer.parseInt(shareRewardParam);
 			String skusParam = StringUtils.trimToNull(request.getParameter("skus"));
 			JSONArray skus = null;
 			if (skusParam != null)
@@ -385,6 +392,8 @@ public class GoodManageEntrance {
 			boolean baseAlter = false;
 			boolean sqlParamsEmpty = false;
 			List sqlParams = new ArrayList();
+			if (shareReward != null)
+				sqlParams.add(shareReward);
 			if (name != null)
 				sqlParams.add(name);
 			if (tags != null)
@@ -411,15 +420,15 @@ public class GoodManageEntrance {
 				baseAlter = true;
 				sqlParams.add(new Date().getTime());
 			}
-			sqlParamsEmpty = sqlParams.isEmpty();
-			sqlParams.add(goodId);
-			if (!sqlParamsEmpty) {
-				String s = (name == null ? "" : " ,`name`=?") + (tags == null ? "" : " ,`tags`=?")
-						+ (type1 == null ? "" : " ,`type1`=?") + (type1Name == null ? "" : " ,`type1_name`=?")
-						+ (type2 == null ? "" : " ,`type2`=?") + (type2Name == null ? "" : " ,`type2_name`=?")
-						+ (onsale == null ? "" : " ,`onsale`=?") + (detail == null ? "" : " ,`detail`=?")
-						+ (params == null ? "" : " ,`params`=?") + (detailPics == null ? "" : " ,`detail_pics`=?")
-						+ (cover == null ? "" : " ,`cover`=?") + (!baseAlter ? "" : " ,`base_alter_time`=?");
+			if (!sqlParams.isEmpty()) {
+				sqlParams.add(goodId);
+				String s = (shareReward == null ? "" : " ,`share_reward`=?") + (name == null ? "" : " ,`name`=?")
+						+ (tags == null ? "" : " ,`tags`=?") + (type1 == null ? "" : " ,`type1`=?")
+						+ (type1Name == null ? "" : " ,`type1_name`=?") + (type2 == null ? "" : " ,`type2`=?")
+						+ (type2Name == null ? "" : " ,`type2_name`=?") + (onsale == null ? "" : " ,`onsale`=?")
+						+ (detail == null ? "" : " ,`detail`=?") + (params == null ? "" : " ,`params`=?")
+						+ (detailPics == null ? "" : " ,`detail_pics`=?") + (cover == null ? "" : " ,`cover`=?")
+						+ (!baseAlter ? "" : " ,`base_alter_time`=?");
 				pst = connection.prepareStatement("update `t_mall_good` set " + s.substring(2) + " where id=?");
 				for (int i = 0; i < sqlParams.size(); i++) {
 					pst.setObject(i + 1, sqlParams.get(i));
@@ -734,6 +743,56 @@ public class GoodManageEntrance {
 			pst = connection.prepareStatement("delete from t_mall_good_sku where id=?");
 			pst.setObject(1, skuId);
 			n = pst.executeUpdate();
+			pst.close();
+			if (n == 0)
+				throw new InteractRuntimeException("sku不存在");
+			else if (n > 1)
+				throw new InteractRuntimeException("操作失败");
+
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/altersku")
+	public void alterSku(@PathVariable("mallId") String mallId, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String goodId = StringUtils.trimToNull(request.getParameter("good_id"));
+			if (goodId == null)
+				throw new InteractRuntimeException("good_id 不能空");
+			String skuId = StringUtils.trimToNull(request.getParameter("sku_id"));
+			if (skuId == null)
+				throw new InteractRuntimeException("sku_id 不能空");
+			// 业务处理
+			connection = EasywinDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"update `t_mall_good_attr_value` t inner join t_mall_good_sku u on t.id=u.value_ids set  ")
+					.append(name == null?"":",t.name=?")
+					.append(price == null?"":",u.price=?")
+					.append(" where u.id=? and u.good_id=? ").toString());
+			pst.setObject(1, skuName);
+			pst.setObject(2, skuId);
+			pst.setObject(3, goodId);
+			int n = pst.executeUpdate();
 			pst.close();
 			if (n == 0)
 				throw new InteractRuntimeException("sku不存在");
