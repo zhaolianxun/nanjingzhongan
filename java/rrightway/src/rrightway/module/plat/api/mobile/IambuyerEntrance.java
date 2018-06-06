@@ -539,10 +539,14 @@ public class IambuyerEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection.prepareStatement(
-					new StringBuilder("select t.status from t_order t  where t.id=? for update").toString());
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.status,t.seller_id,t.review_pic_audit from t_order t  where t.id=? for update")
+							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
+			String sellerId = null;
+			int reviewPicAudit = 0;
+
 			if (rs.next()) {
 				int status = rs.getInt("status");
 				if (status == 0)
@@ -551,6 +555,8 @@ public class IambuyerEntrance {
 					throw new InteractRuntimeException("已返现,不可提交");
 				if (status == 3 || status == 4)
 					throw new InteractRuntimeException("已取消,不可提交");
+				sellerId = rs.getString("seller_id");
+				reviewPicAudit = rs.getInt("review_pic_audit");
 			}
 			pst.close();
 
@@ -565,6 +571,11 @@ public class IambuyerEntrance {
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
 			connection.commit();
+			if (reviewPicAudit == 3 || reviewPicAudit == 2)
+				PushMessageQueue.sellerMsg(
+						sellerId, null, new StringBuilder("试客已提交评价图（订单尾号：")
+								.append(orderId.substring(orderId.length() - 5)).append("），请注意查看。").toString(),
+						"试客已提交评价图，请注意查看。订单号：" + orderId);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
