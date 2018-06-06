@@ -110,8 +110,8 @@ public class MainInitiator implements ServletContextListener {
 			st.close();
 
 			if (SysConstant.project_environment.equals("test") || SysConstant.project_environment.equals("develop")) {
-				SysParam.reviewedExpiredReturnTime = 2 * 60 * 1000l;
-				SysParam.unreviewedExpiredReturnTime = 4 * 60 * 1000l;
+				SysParam.reviewedExpiredReturnTime = 4 * 60 * 1000l;
+				SysParam.unreviewedExpiredReturnTime = 8 * 60 * 1000l;
 				SysParam.walletOutableTime = 2 * 60 * 1000l;
 				SysParam.buyFromSameSellerInterval = 3 * 60 * 1000l;
 				SysParam.autoConfirmRightProjectPeriod = 3 * 60 * 1000l;

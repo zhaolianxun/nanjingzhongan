@@ -67,7 +67,7 @@ public class AdminEntrance {
 
 			// 1综合 2销量 3最新 4付款金额升序 5付款金额降序 6奖金升序 7奖金降序
 			String sortbyParam = StringUtils.trimToNull(request.getParameter("sortby"));
-			int sortby = sortbyParam == null ? 1 : Integer.parseInt(sortbyParam);
+			Integer sortby = sortbyParam == null ? null : Integer.parseInt(sortbyParam);
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
 			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
 			if (pageNo <= 0)
@@ -125,14 +125,16 @@ public class AdminEntrance {
 							.append(payPriceMin == null ? "" : " and pay_price >= ? ")
 							.append(payPriceMax == null ? "" : " and pay_price <= ? ")
 							.append(status == null ? "" : " and status = ? ")
-							.append(sortby == 1 || sortby == 2 ? " order by buyer_num desc "
-									: sortby == 3 ? " order by publish_time desc "
-											: sortby == 4 ? " order by pay_price asc "
-													: sortby == 5 ? " order by pay_price desc "
-															: sortby == 6 ? " order by return_money-pay_price asc "
-																	: sortby == 7
-																			? " order by return_money-pay_price desc "
-																			: " order by buyer_num desc ")
+							.append(sortby == null ? " order by audit asc,publish_time asc "
+									: (sortby == 1 || sortby == 2) ? " order by buyer_num desc "
+											: sortby == 3 ? " order by publish_time desc "
+													: sortby == 4 ? " order by pay_price asc "
+															: sortby == 5 ? " order by pay_price desc "
+																	: sortby == 6
+																			? " order by return_money-pay_price asc "
+																			: sortby == 7
+																					? " order by return_money-pay_price desc "
+																					: " order by audit asc,publish_time asc ")
 							.append(" limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -687,9 +689,9 @@ public class AdminEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			String sql = new StringBuilder(
-					"select t.user_id,if(isnull(u.realname),if(isnull(u.phone),u.username,u.phone),u.realname) user_logo,t.id,t.taobao_user_nick,t.idcard_front,t.idcard_back,t.idcard_no,t.alipay_account,t.type,t.status,t.audit_fail_reason from t_taobaoaccount t left join t_user u on t.user_id=u.id where 1=1 ")
+					"select t.user_id,if(isnull(u.realname),if(isnull(u.phone),u.username,u.phone),u.realname) user_logo,t.id,t.taobao_user_nick,t.idcard_front,t.idcard_back,t.idcard_no,t.alipay_account,t.type,t.status,t.audit_fail_reason from (select id,1 sort_id  from t_taobaoaccount  where status=1 union select id,2 sort_id from t_taobaoaccount  where status=0 union select id,3 sort_id from t_taobaoaccount  where status=3 union select id,4 sort_id from t_taobaoaccount  where status=2) uu inner join t_taobaoaccount t on uu.id=t.id left join t_user u on t.user_id=u.id where 1=1")
 							.append(status == null ? "" : " and t.status=?")
-							.append(" order by t.bind_time desc limit ?,? ").toString();
+							.append("  order by uu.sort_id asc,t.bind_time desc limit ?,? ").toString();
 			logger.debug(sql);
 			pst = connection.prepareStatement(sql);
 			for (int i = 0; i < sqlParams.size(); i++) {
@@ -2152,10 +2154,11 @@ public class AdminEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(
-					new StringBuilder("insert into t_notice (title,content,add_time) values(?,?,?)").toString());
+					new StringBuilder("insert into t_notice (title,content,add_time,last_update_time) values(?,?,?,?)").toString());
 			pst.setObject(1, title);
 			pst.setObject(2, content);
 			pst.setObject(3, new Date().getTime());
+			pst.setObject(4, new Date().getTime());
 			int cnt = pst.executeUpdate();
 			pst.close();
 			if (cnt != 1)
