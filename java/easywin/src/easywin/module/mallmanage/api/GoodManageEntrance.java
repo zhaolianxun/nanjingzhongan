@@ -3,6 +3,7 @@ package easywin.module.mallmanage.api;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -716,9 +717,11 @@ public class GoodManageEntrance {
 			String goodId = StringUtils.trimToNull(request.getParameter("good_id"));
 			if (goodId == null)
 				throw new InteractRuntimeException("good_id 不能空");
-			String skuId = StringUtils.trimToNull(request.getParameter("sku_id"));
-			if (skuId == null)
+			String skuIdParam = StringUtils.trimToNull(request.getParameter("sku_id"));
+			if (skuIdParam == null)
 				throw new InteractRuntimeException("sku_id 不能空");
+			int skuId = Integer.parseInt(skuIdParam);
+
 			// 业务处理
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
@@ -777,26 +780,50 @@ public class GoodManageEntrance {
 			String goodId = StringUtils.trimToNull(request.getParameter("good_id"));
 			if (goodId == null)
 				throw new InteractRuntimeException("good_id 不能空");
-			String skuId = StringUtils.trimToNull(request.getParameter("sku_id"));
-			if (skuId == null)
+			String skuIdParam = StringUtils.trimToNull(request.getParameter("sku_id"));
+			if (skuIdParam == null)
 				throw new InteractRuntimeException("sku_id 不能空");
+			int skuId = Integer.parseInt(skuIdParam);
+			String inventoryParam = StringUtils.trimToNull(request.getParameter("inventory"));
+			Integer inventory = inventoryParam == null ? null : Integer.parseInt(inventoryParam);
+			if (inventory != null && inventory < 0)
+				throw new InteractRuntimeException("库存值有误");
+			String priceParam = StringUtils.trimToNull(request.getParameter("price"));
+			Integer price = priceParam == null ? null : Integer.parseInt(priceParam);
+			if (price != null && price <= 0)
+				throw new InteractRuntimeException("价格有误");
+			String originalPriceParam = StringUtils.trimToNull(request.getParameter("original_price"));
+			Integer originalPrice = originalPriceParam == null ? null : Integer.parseInt(originalPriceParam);
+			if (originalPrice != null && originalPrice <= 0)
+				throw new InteractRuntimeException("原价有误");
+			String name = StringUtils.trimToNull(request.getParameter("name"));
+
 			// 业务处理
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-
+			List sqlParams = new ArrayList();
+			if (name != null)
+				sqlParams.add(name);
+			if (price != null)
+				sqlParams.add(price);
+			if (originalPrice != null)
+				sqlParams.add(originalPrice);
+			if (inventory != null)
+				sqlParams.add(inventory);
+			sqlParams.add(skuId);
+			sqlParams.add(goodId);
 			pst = connection.prepareStatement(new StringBuilder(
 					"update `t_mall_good_attr_value` t inner join t_mall_good_sku u on t.id=u.value_ids set  ")
-					.append(name == null?"":",t.name=?")
-					.append(price == null?"":",u.price=?")
-					.append(" where u.id=? and u.good_id=? ").toString());
-			pst.setObject(1, skuName);
-			pst.setObject(2, skuId);
-			pst.setObject(3, goodId);
+							.append(name == null ? "" : ",t.name=?").append(price == null ? "" : ",u.price=?")
+							.append(originalPrice == null ? "" : ",u.original_price=?")
+							.append(inventory == null ? "" : ",u.inventory=?").append(" where u.id=? and u.good_id=? ")
+							.toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
 			int n = pst.executeUpdate();
 			pst.close();
-			if (n == 0)
-				throw new InteractRuntimeException("sku不存在");
-			else if (n > 1)
+			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
 
 			connection.commit();
@@ -816,4 +843,99 @@ public class GoodManageEntrance {
 				connection.close();
 		}
 	}
+
+//	@RequestMapping(value = "/addsku")
+//	public void addSku(@PathVariable("mallId") String mallId, HttpServletRequest request, HttpServletResponse response)
+//			throws Exception {
+//		Connection connection = null;
+//		PreparedStatement pst = null;
+//		try {
+//			// 获取请求参数
+//			String goodId = StringUtils.trimToNull(request.getParameter("good_id"));
+//			if (goodId == null)
+//				throw new InteractRuntimeException("good_id 不能空");
+//			String inventoryParam = StringUtils.trimToNull(request.getParameter("inventory"));
+//			if (inventoryParam == null)
+//				throw new InteractRuntimeException("inventory 不能空");
+//			Integer inventory = Integer.parseInt(inventoryParam);
+//			if (inventory < 0)
+//				throw new InteractRuntimeException("库存值有误");
+//			String priceParam = StringUtils.trimToNull(request.getParameter("price"));
+//			if (priceParam == null)
+//				throw new InteractRuntimeException("price 不能空");
+//			Integer price = Integer.parseInt(priceParam);
+//			if (price <= 0)
+//				throw new InteractRuntimeException("价格有误");
+//			String originalPriceParam = StringUtils.trimToNull(request.getParameter("original_price"));
+//			if (originalPriceParam == null)
+//				throw new InteractRuntimeException("original_price 不能空");
+//			Integer originalPrice = Integer.parseInt(originalPriceParam);
+//			if (originalPrice <= 0)
+//				throw new InteractRuntimeException("原价有误");
+//			String name = StringUtils.trimToNull(request.getParameter("name"));
+//			if (name == null)
+//				throw new InteractRuntimeException("name 不能空");
+//			// 业务处理
+//			connection = EasywinDataSource.dataSource.getConnection();
+//			connection.setAutoCommit(false);
+//
+//			pst = connection.prepareStatement("select id from t_mall_good_attr where good_id=? and name='规格'");
+//			pst.setObject(1, goodId);
+//			ResultSet rs = pst.executeQuery();
+//			int attrId = 0;
+//			if (rs.next()) {
+//				attrId = rs.getInt(1);
+//			} else
+//				throw new InteractRuntimeException("规格不存在，请删除后重新添加整个商品");
+//			pst.close();
+//
+//			pst = connection.prepareStatement(
+//					new StringBuilder("insert into t_mall_good_attr_value (attr_id,name) values(?,?)").toString(),
+//					Statement.RETURN_GENERATED_KEYS);
+//			pst.setObject(1, attrId);
+//			pst.setObject(2, name);
+//			int n = pst.executeUpdate();
+//			if (n != 1)
+//				throw new InteractRuntimeException("操作失败");
+//			rs = pst.getGeneratedKeys();
+//			rs.next();
+//			int attrValueId = rs.getInt(1);
+//
+//			List sqlParams = new ArrayList();
+//			sqlParams.add(attrId);
+//			sqlParams.add(price);
+//			sqlParams.add(originalPrice);
+//			sqlParams.add(inventory);
+//			sqlParams.add(goodId);
+//			pst = connection.prepareStatement(new StringBuilder(
+//					"insert into t_mall_good_sku (good_id,attr_ids,value_ids,inventory,price,original_price) values()")
+//							.append(name == null ? "" : ",t.name=?").append(price == null ? "" : ",u.price=?")
+//							.append(originalPrice == null ? "" : ",u.original_price=?")
+//							.append(inventory == null ? "" : ",u.inventory=?").append(" where u.id=? and u.good_id=? ")
+//							.toString());
+//			for (int i = 0; i < sqlParams.size(); i++) {
+//				pst.setObject(i + 1, sqlParams.get(i));
+//			}
+//			int n = pst.executeUpdate();
+//			pst.close();
+//			if (n != 1)
+//				throw new InteractRuntimeException("操作失败");
+//
+//			connection.commit();
+//			// 返回结果
+//			HttpRespondWithData.todo(request, response, 0, null, null);
+//		} catch (Exception e) {
+//			// 处理异常
+//			logger.info(ExceptionUtils.getStackTrace(e));
+//			if (connection != null)
+//				connection.rollback();
+//			HttpRespondWithData.exception(request, response, e);
+//		} finally {
+//			// 释放资源
+//			if (pst != null)
+//				pst.close();
+//			if (connection != null)
+//				connection.close();
+//		}
+//	}
 }

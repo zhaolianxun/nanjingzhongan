@@ -116,7 +116,8 @@ public class MainInitiator implements ServletContextListener {
 		// 外部接口初始化
 		OutApis.sms_verification_verify = StringUtils
 				.trimToNull(properties.getProperty("outapi.sms.verification.verify"));
-		OutApis.sms_send = StringUtils.trimToNull(properties.getProperty("outapi.sms.send"));
+		OutApis.sms_sms_send = StringUtils.trimToNull(properties.getProperty("outapi.sms.sms.send"));
+		OutApis.sms_sms_sendtemplate = StringUtils.trimToNull(properties.getProperty("outapi.sms.sms.sendtemplate"));
 
 	}
 

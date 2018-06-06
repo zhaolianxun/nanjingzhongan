@@ -712,11 +712,9 @@ public class MoneyManageEntrance {
 					pst.setObject(1, billIds.get(i));
 					pst.addBatch();
 				}
-				if (billIds.size() > 0) {
-					int[] n = pst.executeBatch();
-					if (n.length != billIds.size())
-						throw new InteractRuntimeException("操作失败");
-				}
+				int[] n = pst.executeBatch();
+				if (n.length != billIds.size())
+					throw new InteractRuntimeException("操作失败");
 				pst.close();
 			}
 			connection.commit();
