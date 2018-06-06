@@ -53,7 +53,7 @@ public class SafetySetEntrance {
 			// 更新密码
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
-					"select if((isnull(t.paypwd_md5)||length(t.paypwd_md5)=0),0,1) paypwd_setted,if((isnull(t.phone)||length(t.phone)=0),0,1) phone_bound,(select if(count(id)>0,1,0) from t_user_bankcard where user_id=t.id) bankcard_bound from t_user t where t.id= ? ");
+					"select if((isnull(t.receiver_address)||length(t.receiver_address)=0),0,1) receiver_address_setted,if((isnull(t.paypwd_md5)||length(t.paypwd_md5)=0),0,1) paypwd_setted,if((isnull(t.phone)||length(t.phone)=0),0,1) phone_bound,(select if(count(id)>0,1,0) from t_user_bankcard where user_id=t.id) bankcard_bound from t_user t where t.id= ? ");
 			pst.setObject(1, loginStatus.getUserId());
 			ResultSet rs = pst.executeQuery();
 			JSONObject data = new JSONObject();
@@ -61,6 +61,7 @@ public class SafetySetEntrance {
 				data.put("paypwdSetted", rs.getInt("paypwd_setted"));
 				data.put("phoneBound", rs.getInt("phone_bound"));
 				data.put("bankcardBound", rs.getInt("bankcard_bound"));
+				data.put("receiverAddressSetted", rs.getInt("receiver_address_setted"));
 			}
 			pst.close();
 			// 返回结果

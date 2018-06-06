@@ -689,7 +689,7 @@ public class AdminEntrance {
 			String sql = new StringBuilder(
 					"select t.user_id,if(isnull(u.realname),if(isnull(u.phone),u.username,u.phone),u.realname) user_logo,t.id,t.taobao_user_nick,t.idcard_front,t.idcard_back,t.idcard_no,t.alipay_account,t.type,t.status,t.audit_fail_reason from t_taobaoaccount t left join t_user u on t.user_id=u.id where 1=1 ")
 							.append(status == null ? "" : " and t.status=?")
-							.append(" order by t.status desc limit ?,? ").toString();
+							.append(" order by t.bind_time desc limit ?,? ").toString();
 			logger.debug(sql);
 			pst = connection.prepareStatement(sql);
 			for (int i = 0; i < sqlParams.size(); i++) {
@@ -740,6 +740,8 @@ public class AdminEntrance {
 			String userId = StringUtils.trimToNull(request.getParameter("user_id"));
 			if (userId == null)
 				throw new InteractRuntimeException("user_id 不能空");
+			String typeParam = StringUtils.trimToNull(request.getParameter("type"));
+			Integer type = typeParam == null ? null : Integer.parseInt(typeParam);
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
@@ -747,11 +749,18 @@ public class AdminEntrance {
 			if (loginStatus.getAdminIf() != 1)
 				throw new InteractRuntimeException("您不是管理员");
 
+			List sqlParams = new ArrayList();
+			sqlParams.add(userId);
+			if (type != null)
+				sqlParams.add(type);
 			connection = RrightwayDataSource.dataSource.getConnection();
-			String sql = new StringBuilder("select * from t_taobaoaccount where user_id=?").toString();
+			String sql = new StringBuilder("select * from t_taobaoaccount where user_id=?")
+					.append(type == null ? "" : " and type=? ").append(" order by bind_time ").toString();
 			logger.debug(sql);
 			pst = connection.prepareStatement(sql);
-			pst.setObject(1, userId);
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
@@ -806,6 +815,24 @@ public class AdminEntrance {
 				throw new InteractRuntimeException("您不是管理员");
 
 			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement(new StringBuilder(
+					"select u.phone,tb.user_id,tb.type,tb.taobao_user_nick from t_taobaoaccount tb left join t_user u on tb.user_id=u.id where tb.id=?")
+							.toString());
+			pst.setObject(1, id);
+			ResultSet rs = pst.executeQuery();
+			String phone = null;
+			String userId = null;
+			String taobaoUserNick = null;
+			int type = 0;
+			if (rs.next()) {
+				taobaoUserNick = rs.getString("taobao_user_nick");
+				phone = rs.getString("phone");
+				userId = rs.getString("user_id");
+				type = rs.getInt("type");
+			} else
+				throw new InteractRuntimeException("淘宝账户不存在");
+			pst.close();
+
 			pst = connection.prepareStatement(
 					new StringBuilder("update t_taobaoaccount set status=3,audit_fail_reason=? where id=? ")
 							.toString());
@@ -817,6 +844,9 @@ public class AdminEntrance {
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
 
+			PushMessageQueue.systemMsg(userId, phone, "淘宝账号审核失败",
+					new StringBuilder("您的淘宝").append(type == 1 ? "买家" : (type == 2 ? "卖家" : "")).append("账号'")
+							.append(taobaoUserNick).append("'审核被拒。原因：").append(reason).toString());
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
@@ -850,6 +880,24 @@ public class AdminEntrance {
 				throw new InteractRuntimeException("您不是管理员");
 
 			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement(new StringBuilder(
+					"select u.phone,tb.user_id,tb.type,tb.taobao_user_nick from t_taobaoaccount tb left join t_user u on tb.user_id=u.id where tb.id=?")
+							.toString());
+			pst.setObject(1, id);
+			ResultSet rs = pst.executeQuery();
+			String phone = null;
+			String userId = null;
+			String taobaoUserNick = null;
+			int type = 0;
+			if (rs.next()) {
+				taobaoUserNick = rs.getString("taobao_user_nick");
+				phone = rs.getString("phone");
+				userId = rs.getString("user_id");
+				type = rs.getInt("type");
+			} else
+				throw new InteractRuntimeException("淘宝账户不存在");
+			pst.close();
+
 			pst = connection
 					.prepareStatement(new StringBuilder("update t_taobaoaccount set status=2 where id=? ").toString());
 			pst.setObject(1, id);
@@ -859,6 +907,9 @@ public class AdminEntrance {
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
 
+			PushMessageQueue.systemMsg(userId, phone, "淘宝账号审核通过",
+					new StringBuilder("您的淘宝").append(type == 1 ? "买家" : (type == 2 ? "卖家" : "")).append("账号'")
+							.append(taobaoUserNick).append("'已审核通过").toString());
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
@@ -959,8 +1010,16 @@ public class AdminEntrance {
 				throw new InteractRuntimeException(20);
 			if (loginStatus.getAdminIf() != 1)
 				throw new InteractRuntimeException("您不是管理员");
-
-			PushMessageQueue.systemMsg(userId, phone, content,type);
+			if (type == 0)
+				PushMessageQueue.systemMsg(userId, phone, title, content);
+			else if (type == 1)
+				PushMessageQueue.sellerMsg(userId, phone, title, content);
+			else if (type == 2)
+				PushMessageQueue.buyerMsg(userId, phone, title, content);
+			else if (type == 3)
+				PushMessageQueue.warningMsg(userId, phone, title, content);
+			else
+				throw new InteractRuntimeException("消息类型有误");
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
@@ -1185,12 +1244,13 @@ public class AdminEntrance {
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.rightprotect_status,t.return_money,t.seller_id,t.finished from t_order t  where t.id=?   for update")
+					"select t.buyer_id,t.rightprotect_status,t.return_money,t.seller_id,t.finished from t_order t  where t.id=?   for update")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			BigDecimal returnMoney = null;
 			String sellerId = null;
+			String buyerId = null;
 			if (rs.next()) {
 				int rightprotectStatus = rs.getInt("rightprotect_status");
 				int finished = rs.getInt("finished");
@@ -1201,6 +1261,7 @@ public class AdminEntrance {
 
 				returnMoney = rs.getBigDecimal("return_money");
 				sellerId = rs.getString("seller_id");
+				buyerId = rs.getString("buyer_id");
 			} else
 				throw new InteractRuntimeException("订单不存在");
 
@@ -1264,6 +1325,17 @@ public class AdminEntrance {
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 			connection.commit();
+
+			PushMessageQueue.buyerMsg(
+					buyerId, null, new StringBuilder("订单（尾号：").append(orderId.substring(orderId.length() - 5))
+							.append("），商家维权成功").toString(),
+					new StringBuilder("商家维权成功，订单ID：").append(orderId).toString());
+
+			PushMessageQueue.sellerMsg(sellerId, null,
+					new StringBuilder("订单（尾号：").append(orderId.substring(orderId.length() - 5)).append("），维权成功")
+							.toString(),
+					new StringBuilder("您的订单维权成功，退款").append(returnMoney.toString()).append("元，订单ID：").append(orderId)
+							.toString());
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
@@ -1300,11 +1372,13 @@ public class AdminEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection.prepareStatement(
-					new StringBuilder("select t.rightprotect_status,t.finished from t_order t  where t.id=? for update")
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.seller_id,t.buyer_id,t.rightprotect_status,t.finished from t_order t  where t.id=? for update")
 							.toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
+			String sellerId = null;
+			String buyerId = null;
 			if (rs.next()) {
 				int rightprotectStatus = rs.getInt("rightprotect_status");
 				int finished = rs.getInt("finished");
@@ -1312,6 +1386,8 @@ public class AdminEntrance {
 					throw new InteractRuntimeException("订单未维权");
 				if (finished == 1)
 					throw new InteractRuntimeException("订单已结束");
+				sellerId = rs.getString("seller_id");
+				buyerId = rs.getString("buyer_id");
 			}
 			pst.close();
 
@@ -1324,6 +1400,16 @@ public class AdminEntrance {
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
 			connection.commit();
+
+			PushMessageQueue.buyerMsg(buyerId,
+					null, new StringBuilder("订单（尾号：").append(orderId.substring(orderId.length() - 5))
+							.append("），商家对您维权失败").toString(),
+					new StringBuilder("商家对您维权失败，订单ID：").append(orderId).toString());
+
+			PushMessageQueue.sellerMsg(sellerId,
+					null, new StringBuilder("订单（尾号：").append(orderId.substring(orderId.length() - 5))
+							.append("），您申请的维权审核失败").toString(),
+					new StringBuilder("您申请的订单维权失败，订单ID：").append(orderId).toString());
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {

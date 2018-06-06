@@ -171,6 +171,18 @@ public class GatherTask {
 
 						logger.debug("结束");
 						connection.commit();
+
+						PushMessageQueue.buyerMsg(buyerId, null,
+								new StringBuilder("订单（尾号：").append(orderId.substring(orderId.length() - 5))
+										.append("）已返现到您的账户").toString(),
+								new StringBuilder("您的订单已返现，金额").append(returnMoney.toString()).append("，转入钱包")
+										.append(toWalletMoney.toString()).append("元，订单ID：").append(orderId).toString());
+
+						PushMessageQueue.sellerMsg(sellerId, null,
+								new StringBuilder("订单（尾号：").append(orderId.substring(orderId.length() - 5))
+										.append("）已自动返现给试客").toString(),
+								new StringBuilder("您的订单处理已超时，自动返现给试客，金额").append(returnMoney.toString())
+										.append("元，订单ID：").append(orderId).toString());
 					}
 					pst.close();
 				} catch (Exception e) {
@@ -210,6 +222,7 @@ public class GatherTask {
 						int status = rs.getInt("status");
 						BigDecimal returnMoney = rs.getBigDecimal("return_money");
 						String sellerId = rs.getString("seller_id");
+						String buyerId = rs.getString("buyer_id");
 						pst.close();
 						// 如果状态有变，跳过本次处理
 						if (rightprotectStatus != 7 || status != 1) {
@@ -282,6 +295,17 @@ public class GatherTask {
 						if (cnt != 1)
 							throw new InteractRuntimeException("操作失败");
 						connection.commit();
+
+						PushMessageQueue.buyerMsg(buyerId, null,
+								new StringBuilder("订单（尾号：").append(orderId.substring(orderId.length() - 5))
+										.append("）操作超时，商家对您的维权成功").toString(),
+								new StringBuilder("您的订单操作超时，商家维权成功，订单ID：").append(orderId).toString());
+
+						PushMessageQueue.sellerMsg(sellerId, null,
+								new StringBuilder("订单（尾号：").append(orderId.substring(orderId.length() - 5))
+										.append("）试客操作超时，您维权成功").toString(),
+								new StringBuilder("您的订单试客操作超时，维权成功，退款").append(returnMoney.toString())
+										.append("元，订单ID：").append(orderId).toString());
 					}
 
 					// 钱包的钱超过15天计入可转金额

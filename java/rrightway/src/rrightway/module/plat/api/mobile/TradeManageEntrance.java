@@ -926,6 +926,12 @@ public class TradeManageEntrance {
 				throw new InteractRuntimeException("操作失败");
 
 			connection.commit();
+
+			PushMessageQueue.buyerMsg(buyerId, null,
+					new StringBuilder("订单（尾号：").append(orderId.substring(orderId.length() - 5)).append("）已返现")
+							.toString(),
+					new StringBuilder("已返现到您的账户，金额").append(returnMoney.toString()).append("，转入钱包")
+							.append(toWalletMoney.toString()).append("元，订单ID：").append(orderId).toString());
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
@@ -999,12 +1005,12 @@ public class TradeManageEntrance {
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
 					"select t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.buyer_remind_check_if,t.rightprotect_status,t.way_to_shop,t.gift_cover,act.huabei_pay,act.creditcard_pay,t.coupon_if,t.buy_way,t.order_time,t.review_pic_audit,t.review_pics,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id left join t_activity act on t.activity_id=act.id where t.seller_del=0 and t.seller_id=?")
-							.append(tradeStatus == null ? " and t.status=1 and t.rightprotect_status in (0,7,10)  "
+							.append(tradeStatus == null ? " and t.status=1 and t.rightprotect_status in (0,7,10,13)  "
 									: (tradeStatus == 1 ? " and t.status=1 and t.rightprotect_status in (7,10)  "
 											: (tradeStatus == 2
-													? " and t.status=1 and t.review_pic_audit=3 and t.rightprotect_status=0"
+													? " and t.status=1 and t.review_pic_audit=3 and t.rightprotect_status in (0,13)"
 													: (tradeStatus == 3
-															? " and  t.status=1 and t.review_pic_audit in (0,2) and t.rightprotect_status=0"
+															? " and  t.status=1 and t.review_pic_audit in (0,2) and t.rightprotect_status in (0,13)"
 															: ""))))
 							.append(buyerNickname == null ? "" : " and bt.taobao_user_nick like ? ")
 							.append(sellerNickname == null ? "" : " and st.taobao_user_nick like ? ")

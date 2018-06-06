@@ -121,7 +121,7 @@ public class BindTaobaoEntrance {
 					throw new InteractRuntimeException("操作失败");
 			} else {
 				pst = connection.prepareStatement(
-						"INSERT INTO `t_taobaoaccount` ( `user_id`, `taobao_user_nick`, `taobao_user_id`,`type`, `access_token`, `expire_time`, `refresh_token`,status) VALUES ( ?, ?, ?, ?, ?, ?, ?,0)");
+						"INSERT INTO `t_taobaoaccount` ( `user_id`, `taobao_user_nick`, `taobao_user_id`,`type`, `access_token`, `expire_time`, `refresh_token`,status,bind_time) VALUES ( ?, ?, ?, ?, ?, ?, ?,0, ?)");
 				pst.setObject(1, userId);
 				pst.setObject(2, taobaoUserNick);
 				pst.setObject(3, taobaoOpenUid);
@@ -129,6 +129,7 @@ public class BindTaobaoEntrance {
 				pst.setObject(5, accessToken);
 				pst.setObject(6, new Date().getTime() + expiresIn * 1000l);
 				pst.setObject(7, refreshToken);
+				pst.setObject(8, new Date().getTime());
 				int n = pst.executeUpdate();
 				pst.close();
 				if (n != 1)

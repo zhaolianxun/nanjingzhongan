@@ -30,9 +30,45 @@ public class PushMessageQueue implements Runnable {
 	// 创建队列 可接受SmsPayload类的任务 该队列是阻塞队列，也就是当没有任务的时候队列阻塞（也就是暂停）
 	public static BlockingQueue<Payload> queue = new LinkedBlockingDeque<Payload>();
 
-	public static void systemMsg(String userId, String phone, String msg,int type) {
+	public static void systemMsg(String userId, String phone, String title, String msg) {
 		try {
-			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId, msg, type, msg);
+			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId, title, 0, msg);
+			payload.setPhone(phone);
+			payload.smsContents = msg;
+			payload.business = "systemMsg";
+			PushMessageQueue.queue.put(payload);
+		} catch (InterruptedException e) {
+			logger.info("消息插入失败");
+		}
+	}
+
+	public static void sellerMsg(String userId, String phone, String title, String msg) {
+		try {
+			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId, title, 1, msg);
+			payload.setPhone(phone);
+			payload.smsContents = msg;
+			payload.business = "systemMsg";
+			PushMessageQueue.queue.put(payload);
+		} catch (InterruptedException e) {
+			logger.info("消息插入失败");
+		}
+	}
+
+	public static void buyerMsg(String userId, String phone, String title, String msg) {
+		try {
+			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId, title, 2, msg);
+			payload.setPhone(phone);
+			payload.smsContents = msg;
+			payload.business = "systemMsg";
+			PushMessageQueue.queue.put(payload);
+		} catch (InterruptedException e) {
+			logger.info("消息插入失败");
+		}
+	}
+
+	public static void warningMsg(String userId, String phone, String title, String msg) {
+		try {
+			PushMessageQueue.Payload payload = new PushMessageQueue.Payload(userId, title, 3, msg);
 			payload.setPhone(phone);
 			payload.smsContents = msg;
 			payload.business = "systemMsg";

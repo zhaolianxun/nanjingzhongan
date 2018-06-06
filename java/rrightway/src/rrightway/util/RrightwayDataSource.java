@@ -24,8 +24,16 @@ public class RrightwayDataSource {
 		Class.forName(driver);
 		ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(connectURI, username, password);
 		PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
+		poolableConnectionFactory.setValidationQuery("select 1");
+		poolableConnectionFactory.setValidationQueryTimeout(10);
+		GenericObjectPoolConfig config = new GenericObjectPoolConfig();
+		config.setTestOnBorrow(false);
+		config.setTestWhileIdle(true);
+		config.setTimeBetweenEvictionRunsMillis(30 * 60 * 1000l);
+		config.setMinEvictableIdleTimeMillis(2 * 60 * 60 * 1000l);
+		config.setNumTestsPerEvictionRun(-1);
 		ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<PoolableConnection>(
-				poolableConnectionFactory);
+				poolableConnectionFactory, config);
 		poolableConnectionFactory.setPool(connectionPool);
 
 		dataSource = new PoolingDataSource<PoolableConnection>(connectionPool);

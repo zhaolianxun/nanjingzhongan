@@ -1,0 +1,280 @@
+@layout("/common/_container.html"){
+<script>
+    $().ready(function(e) {
+        $("#timePicker").hunterTimePicker();
+        $(".time-picker").hunterTimePicker();
+    });
+
+    var nowTime = '<%=DateTime.Now.ToString("HH:mm")%>';
+    $("#startTime").val(nowTime).timepicker('setTime', nowTime);
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>作业计划管理</h5>
+            </div>
+            <div class="ibox-content" style="height: 600px">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <#NameCon id="condition" name="名称" />
+                            </div>
+                            <div class="col-sm-3">
+                                <#button name="搜索" icon="fa-search" clickFun="NodeJob.search()"/>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="NodeJobTableToolbar" role="group">
+                            @if(shiro.hasPermission("/nodeJob/add")){
+                            <#button name="添加" icon="fa-plus" clickFun="NodeJob.openAddNodeJob()"/>
+                            @}
+                            @if(shiro.hasPermission("/nodeJob/update")){
+                            <#button name="修改" icon="fa-edit" clickFun="NodeJob.openNodeJobDetail()" space="true"/>
+                            @}
+                            @if(shiro.hasPermission("/nodeJob/delete")){
+                            <#button name="删除" icon="fa-remove" clickFun="NodeJob.delete()" space="true"/>
+                            @}
+                        </div>
+                        <div class="container-fluid">
+                            <div class="row-fluie">
+                                <div class="col-sm-3 col-md-2 sidebar">
+                                    <ul class="nav nav-sidebar">
+                                        <!-- 一级菜单 -->
+                                        <li class="active"><a href="#userMeun" class="nav-header menu-first collapsed" data-toggle="collapse">
+                                            <i class="fa fa-user"></i>&nbsp; 用户管理 <span class="sr-only">(current)</span></a>
+                                        </li>
+                                        <!-- 二级菜单 -->
+                                        <!-- 注意一级菜单中<a>标签内的href="#……"里面的内容要与二级菜单中<ul>标签内的id="……"里面的内容一致 -->
+                                        <ul id="userMeun" class="nav nav-list collapse menu-second">
+                                            <li><a href="###" onclick="showAtRight('userList.jsp')"><i class="fa fa-users"></i> 用户列表</a></li>
+                                        </ul>
+
+                                        <li><a href="#productMeun" class="nav-header menu-first collapsed" data-toggle="collapse">
+                                            <i class="fa fa-globe"></i>&nbsp; 产品管理 <span class="sr-only">(current)</span></a>
+                                        </li>
+                                        <ul id="productMeun" class="nav nav-list collapse menu-second">
+                                            <li><a href="###" onclick="showAtRight('productList.jsp')"><i class="fa fa-list-alt"></i> 产品列表</a></li>
+                                        </ul>
+
+                                        <li><a href="#recordMeun" class="nav-header menu-first collapsed" data-toggle="collapse">
+                                            <i class="fa fa-file-text"></i>&nbsp; 订单管理 <span class="sr-only">(current)</span></a>
+                                        </li>
+                                        <ul id="recordMeun" class="nav nav-list collapse menu-second">
+                                            <li><a href="###" onclick="showAtRight('recordList.jsp')" ><i class="fa fa-list"></i> 订单列表</a></li>
+                                        </ul>
+
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                        <#table id="NodeJobTable"/>
+                    </div>
+
+                </div>
+            </div>
+
+                <div class="ibox-title"  style="border: 1px; margin-top: 30px;border-color: grey;border-style:solid;width: 1000px;height: 350px;position: relative;top: 100px">
+                    <form class="form-horizontal m-t">
+                    <div style="margin: 0 auto;padding: 0;top: -50px;left: 50px;position: relative">
+                        <div class="checkbox i-checks" style="display: inline;padding-right: 20px;">
+                            <label>
+                                <input type="checkbox" value="" style="margin-top: 2px"> <i></i>是否启用该计划</label>
+                        </div>
+                        <select class="selectpicker combobox" data-style="btn-primary" value="1">
+                            <option>请选择计划类型</option>
+                            <option value="1">每间隔</option>
+                            <option value="2">每天</option>
+                            <option value="3">每周</option>
+                            <option value="4">仅一次</option>
+                        </select>
+                    </div>
+                    <div class="container" style="position: relative;top: -100px;left: 100px;">
+                        <div class="page-header" style="display: inline-block;position: relative;top: 55px;right: 65px">每时/分/秒</div>
+                        <div class="input-group spinner" style="width: 100px;text-align: right">
+                            <input type="text" class="form-control" value="30">
+                            <div class="input-group-btn-vertical"
+                                 style="position: relative;white-space: nowrap;width: 1%;vertical-align: middle;display: table-cell">
+                                <button class="btn btn-default" type="button"
+                                        style="display: block;float: none;width: 100%;max-width: 100%;padding: 8px;margin-left: -1px;position: relative;border-radius: 0;border-top-right-radius: 4px">
+                                    <i class="fa fa-caret-up" style="position: absolute;top: 0;left: 4px;"></i>
+                                </button>
+                                <button class="btn btn-default" type="button"
+                                        style="display: block;float: none;width: 100%;max-width: 100%;padding: 8px;margin-left: -1px;position: relative;border-radius: 0;margin-top: -6px;border-bottom-right-radius: 4px">
+                                    <i class="fa fa-caret-down" style="position: absolute;top: 0;left: 4px;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="position: relative;top: -135px;left: 250px">
+                        <label class="radio-inline">
+                            <input type="radio" name="optionsRadiosinline" id="optionsRadios3" value="option1" checked>小时
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optionsRadiosinline" id="optionsRadios4" value="option2">分钟
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optionsRadiosinline" id="optionsRadios5" value="option3">秒
+                        </label>
+
+                    </div>
+                    <h4 style="display: block;position: relative;top: -110px;left: 50px;">运行时间段</h4>
+
+                    <div class="form-group" style="position: relative;top: -100px;right: 30px;">
+                        <label class="col-sm-2 control-label">运行区间:</label>
+                        <span class="fl">
+                    <input class="laydate-icon" name="begin_time" value="" placeholder="开始时间" id="start" type="text">
+                    </span>
+                        <span class="fl">
+                        <input class="laydate-icon" name="end_time" value="" placeholder="结束时间" id="end" type="text">
+                    </span>
+                    </div>
+                        <div class="form-group" style="position: relative;top: -100px;right: 30px;">
+                            <label class="col-sm-2 control-label" style="margin-top: 5px">运行时段:</label>
+                            <input type="text" class="time-picker" name="2" value="00:00" readonly style="margin: 10px 0 0 10px;">
+                            <input type="text" class="time-picker" name="3" value="00:00" readonly style="margin: 10px 0 0 10px;">
+                        </div>
+
+                    <button class="btn btn-primary" type="submit" style="position: absolute;top: 280px;left: 260px;">保存内容</button>
+                    </form>
+                </div>
+            <div class="ibox-title"  style="border: 1px; margin-top: 30px;border-color: grey;border-style:solid;;width: 1600px;height: 400px;position: relative;top: 100px">
+                <form class="form-horizontal m-t">
+                    <div>
+                        <div class="checkbox i-checks">
+                            <label>
+                                <input type="checkbox" value=""> <i></i>是否启用该计划</label>
+                        </div>
+                        <select class="selectpicker combobox" data-style="btn-primary" value="2">
+                            <option>请选择计划类型</option>
+                            <option value="1">每间隔</option>
+                            <option value="2">每天</option>
+                            <option value="3">每周</option>
+                            <option value="4">仅一次</option>
+                        </select>
+                    </div>
+                    <span>每天</span>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">运行时间：</label>
+                        <span>在每天这些时间点</span>
+                        <input type="text" id="timePicker" name="1" readonly style="margin: 50px 0 0 100px;">
+                    </div>
+                    <div class="col-sm-10">
+
+                        <div class="radio i-checks">
+                            <label>
+                                <input type="radio" value="option1" name="a"> <i></i>每天</label>
+                        </div>
+                        <div class="radio i-checks" style="float: left">
+                            <label>
+                                <input type="radio" checked="" value="option2" name="a"> <i></i>每隔</label>
+                        </div>
+                        <div class="input-group spinner" style="width: 100px;text-align: right;float: left" >
+                            <input type="text" class="form-control" value="20">
+                            <div class="input-group-btn-vertical" style="position: relative;white-space: nowrap;width: 1%;vertical-align: middle;display: table-cell">
+                                <button class="btn btn-default" type="button" style="display: block;float: none;width: 100%;max-width: 100%;padding: 8px;margin-left: -1px;position: relative;border-radius: 0;border-top-right-radius: 4px">
+                                    <i class="fa fa-caret-up" style="position: absolute;top: 0;left: 4px;"></i>
+                                </button>
+                                <button class="btn btn-default" type="button" style="display: block;float: none;width: 100%;max-width: 100%;padding: 8px;margin-left: -1px;position: relative;border-radius: 0;margin-top: -2px;border-bottom-right-radius: 4px">
+                                    <i class="fa fa-caret-down" style="position: absolute;top: 0;left: 4px;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">保存内容</button>
+                    <button class="btn btn-white" type="submit">取消</button>
+                 </form>
+            </div>
+
+            <div class="ibox-title"  style="border: 1px; margin-top: 30px;border-color: grey;border-style:solid;;width: 1600px;height: 400px;position: relative;top: 100px">
+                <form class="form-horizontal m-t">
+                    <div>
+                        <div class="checkbox i-checks">
+                            <label>
+                                <input type="checkbox" value=""> <i></i>是否启用该计划</label>
+                        </div>
+                        <select class="selectpicker combobox" data-style="btn-primary" value="3">
+                            <option>请选择计划类型</option>
+                            <option value="1">每间隔</option>
+                            <option value="2">每天</option>
+                            <option value="3">每周</option>
+                            <option value="4">仅一次</option>
+                        </select>
+                    </div>
+                    <p>每周</p>
+                    <div class="form-group">
+                        <span>运行时间:</span>
+                        <input type="text" class="time-picker" name="4" value="00:00" readonly style="margin: 10px 0 0 10px;">
+                    </div>
+                    <p>请选择下面的日期:</p>
+                    <div class="col-sm-10">
+                        <div class="checkbox i-checks" style="float: left">
+                            <label>
+                                <input type="checkbox" value="1"> <i></i>星期一</label>
+                        </div>
+                        <div class="checkbox i-checks" style="float: left">
+                            <label>
+                                <input type="checkbox" value="2"><i></i>星期二</label>
+                        </div>
+                        <div class="checkbox i-checks" style="float: left">
+                            <label>
+                                <input type="checkbox" value="3"><i></i>星期三</label>
+                        </div>
+                        <div class="checkbox i-checks" style="float: left">
+                            <label>
+                                <input type="checkbox" value="4"><i></i>星期四</label>
+                        </div>
+                        <div class="checkbox i-checks" style="float: left">
+                            <label>
+                                <input type="checkbox" value="5"><i></i>星期五</label>
+                        </div>
+                        <div class="checkbox i-checks" style="float: left">
+                            <label>
+                                <input type="checkbox" value="6"><i></i>星期六</label>
+                        </div>
+                        <div class="checkbox i-checks" style="float: left">
+                            <label>
+                                <input type="checkbox" value="7"><i></i>星期日</label>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">保存内容</button>
+                </form>
+            </div>
+
+            <div class="ibox-title"  style="border: 1px; margin-top: 30px;border-color: grey;border-style:solid;;width: 1600px;height: 400px;position: relative;top: 100px">
+                <form class="form-horizontal m-t">
+                    <div>
+                        <div class="checkbox i-checks">
+                            <label>
+                                <input type="checkbox" value=""> <i></i>是否启用该计划</label>
+                        </div>
+                        <select class="selectpicker combobox" data-style="btn-primary" value="4">
+                            <option>请选择计划类型</option>
+                            <option value="1">每间隔</option>
+                            <option value="2">每天</option>
+                            <option value="3">每周</option>
+                            <option value="4">仅一次</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">仅一次</label>
+                        <div class="col-sm-10">
+                            <input class="form-control layer-date" placeholder="YYYY-MM-DD hh:mm:ss" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" style="width: 200px">
+                            <label class="laydate-icon"></label>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">保存内容</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/nodeJob/nodeJob.js"></script>
+
+
+
+@}
