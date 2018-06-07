@@ -376,11 +376,11 @@ public class TradeManageEntrance {
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 
-			pst = connection.prepareStatement(
-					new StringBuilder("update t_order set status=1,auto_return_time=? where id=? and status=0")
-							.toString());
-			pst.setObject(1, new Date().getTime() + SysParam.unreviewedExpiredReturnTime);
-			pst.setObject(2, orderId);
+			pst = connection.prepareStatement(new StringBuilder(
+					"update t_order set check_time=?,status=1,auto_return_time=? where id=? and status=0").toString());
+			pst.setObject(1, new Date().getTime());
+			pst.setObject(2, new Date().getTime() + SysParam.unreviewedExpiredReturnTime);
+			pst.setObject(3, orderId);
 			cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -776,6 +776,24 @@ public class TradeManageEntrance {
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement(
+					new StringBuilder("select t.status,t.buyer_id,t.review_pic_audit from t_order t  where t.id=?")
+							.toString());
+			pst.setObject(1, orderId);
+			ResultSet rs = pst.executeQuery();
+			String buyerId = null;
+			int reviewPicAudit = 0;
+
+			if (rs.next()) {
+				int status = rs.getInt("status");
+				if (status != 1)
+					throw new InteractRuntimeException("订单目前不可提交评价图，状态非已核对");
+				buyerId = rs.getString("buyer_id");
+				reviewPicAudit = rs.getInt("review_pic_audit");
+				if (reviewPicAudit == 3)
+					throw new InteractRuntimeException("试客还未提交评价图");
+			}
+			pst.close();
 
 			pst = connection
 					.prepareStatement(new StringBuilder("update t_order set review_pic_audit=2 where id=?").toString());
@@ -785,6 +803,11 @@ public class TradeManageEntrance {
 				throw new InteractRuntimeException("操作失败");
 			pst.close();
 
+			if (reviewPicAudit == 0)
+				PushMessageQueue.buyerMsg(buyerId, null,
+						new StringBuilder("您的订单（尾号").append(orderId.substring(orderId.length() - 5))
+								.append("）提交的评价图被商家判为无效。").toString(),
+						new StringBuilder("您的订单提交的评价图被商家判为无效。订单号：").append(orderId).toString());
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
@@ -928,10 +951,10 @@ public class TradeManageEntrance {
 			connection.commit();
 
 			PushMessageQueue.buyerMsg(buyerId, null,
-					new StringBuilder("订单（尾号：").append(orderId.substring(orderId.length() - 5)).append("）已返现")
+					new StringBuilder("订单（尾号").append(orderId.substring(orderId.length() - 5)).append("）已返现")
 							.toString(),
 					new StringBuilder("已返现到您的账户，金额").append(returnMoney.toString()).append("，转入钱包")
-							.append(toWalletMoney.toString()).append("元，订单ID：").append(orderId).toString());
+							.append(toWalletMoney.toString()).append("元，订单号：").append(orderId).toString());
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
