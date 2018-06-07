@@ -1,5 +1,5 @@
 var rxw1={};
-rxw1.debug=false
+rxw1.debug=true
 rxw1.relativePath=''
 
 rxw1.errorpad=function (content) {
@@ -113,10 +113,10 @@ rxw1.waitLock = function () {
         img.style.left='50%';
         img.style.transform='translate(-50%,-50%)';
         img.src=rxw1.relativePath+'rxw/img/wait.gif';
+        this.classList.add('rxw1-waitLock')
         this.appendChild(img);
-        var layer = this;
         rxw1.waitLock.remove = function(){
-            layer.parentNode.removeChild(layer);
+            $('.rxw1-waitLock').remove()
         }
     }})
 }
@@ -124,9 +124,10 @@ rxw1.waitLock = function () {
 rxw1.layer=function (params){
     var div = document.createElement('div');
     if(params.id==undefined||params.id==null)
-        div.id='rxw1-layer'
+        div.id='rxw1-layer'+ Math.round(Math.random()*12)
     else
         div.id=params.id;
+    div.classList.add('rxw1-layer')
     div.style.position='fixed';
     div.style.display='none';
     div.style.top='0';
@@ -307,7 +308,8 @@ rxw1.cancelHandler=function (event){
         event.returnValue=false;
     return false;
 }
-function parseQueryStr(queryStr){
+
+rxw1.parseQueryStr =function (queryStr){
     var str=decodeURIComponent(queryStr);
     var arr=str.split("&");
     var obj = {};
@@ -316,4 +318,15 @@ function parseQueryStr(queryStr){
         obj[arrsub[0]]=arrsub[1];
     }
     return obj;
+}
+
+
+rxw1.isEmptyStr =function (str){
+   if(str == undefined || str == null || this.trimStrToEmpty(str).length==0)
+        return true;
+    return false;
+}
+
+rxw1.trimStrToEmpty = function(str){
+    return str.replace(/^\s+|\s+$/gm,'');
 }

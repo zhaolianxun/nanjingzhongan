@@ -243,77 +243,81 @@ public class MyAppEntrance {
 
 			// 查询应用信息
 			pst = connection.prepareStatement(
-					"select t.user_id,t.access_token,t.wx_appid,use_endtime,tt.template_code from t_app t left join t_app_seed tt on t.seed_id=tt.id  where t.id=? for update");
+					"select t.commit_template_version,t.user_id,t.access_token,t.wx_appid,use_endtime,tt.template_code from t_app t left join t_app_seed tt on t.seed_id=tt.id  where t.id=? for update");
 			pst.setObject(1, appId);
 			ResultSet rs = pst.executeQuery();
 			if (!rs.next()) {
 				pst.close();
 				throw new InteractRuntimeException("应用不存在");
 			}
+			String commitTemplateVersion = rs.getString("commit_template_version");
 			String templateCode = rs.getString("template_code");
 			String accessToken = rs.getString("access_token");
 			String userId = rs.getString("user_id");
 			String wxAppid = rs.getString("wx_appid");
 			Long useEndtime = (Long) rs.getObject("use_endtime");
 			pst.close();
-			if (!userId.equals(loginStatus.getUserId()))
-				throw new InteractRuntimeException("这不是您的应用");
-			if (accessToken == null || accessToken.trim().length() == 0)
-				throw new InteractRuntimeException("您还未授权该应用");
-			if (useEndtime == null || useEndtime <= new Date().getTime())
-				throw new InteractRuntimeException("你的使用权已到期");
-			// 查询版本信息
-			pst = connection.prepareStatement(
-					"select t.wx_templateid,t.tpl_version,t.tpl_code from t_seed_template t  where t.tpl_code=? and t.tpl_version=?");
-			pst.setObject(1, templateCode);
-			pst.setObject(2, templateVersion);
-			rs = pst.executeQuery();
-			if (!rs.next()) {
+
+			if (StringUtils.isEmpty(commitTemplateVersion) || !commitTemplateVersion.equals(templateVersion)) {
+				if (!userId.equals(loginStatus.getUserId()))
+					throw new InteractRuntimeException("这不是您的应用");
+				if (accessToken == null || accessToken.trim().length() == 0)
+					throw new InteractRuntimeException("您还未授权该应用");
+				if (useEndtime == null || useEndtime <= new Date().getTime())
+					throw new InteractRuntimeException("你的使用权已到期");
+				// 查询版本信息
+				pst = connection.prepareStatement(
+						"select t.wx_templateid,t.tpl_version,t.tpl_code from t_seed_template t  where t.tpl_code=? and t.tpl_version=?");
+				pst.setObject(1, templateCode);
+				pst.setObject(2, templateVersion);
+				rs = pst.executeQuery();
+				if (!rs.next()) {
+					pst.close();
+					throw new InteractRuntimeException("模板不存在");
+				}
+				int wxTemplateId = rs.getInt("wx_templateid");
+				String version = rs.getString("tpl_version");
+				String tplCode = rs.getString("tpl_code");
 				pst.close();
-				throw new InteractRuntimeException("模板不存在");
+
+				// 更新应用信息
+				pst = connection
+						.prepareStatement("update t_app set commit_template_version=?,commit_status=1 where id=?");
+				pst.setObject(1, version);
+				pst.setObject(2, appId);
+				int n = pst.executeUpdate();
+				pst.close();
+				if (n != 1)
+					throw new InteractRuntimeException("操作失败");
+
+				// 提交到微信
+				String url = new StringBuilder("https://api.weixin.qq.com/wxa/commit?").append("access_token=")
+						.append(accessToken).toString();
+				logger.debug(url);
+				JSONObject content = new JSONObject();
+				content.put("template_id", wxTemplateId);
+				content.put("user_version", version);
+				content.put("user_desc", tplCode);
+				JSONObject extJson = new JSONObject();
+				extJson.put("extAppid", wxAppid);
+				JSONObject ext = new JSONObject();
+				if (tplCode.equals("mall"))
+					ext.put("mallId", appId);
+				extJson.put("ext", ext);
+				// JSONObject extPages = new JSONObject();
+				// extJson.put("extPages", extPages);
+				content.put("ext_json", extJson.toJSONString());
+				String contentStr = content.toJSONString();
+				logger.debug(contentStr);
+				Request okHttpRequest = new Request.Builder().url(url)
+						.post(RequestBody.create(MediaType.parse("application/json"), contentStr)).build();
+				Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+				String responseBody = okHttpResponse.body().string();
+				logger.debug("responseBody " + responseBody);
+				JSONObject resultVo = JSON.parseObject(responseBody);
+				if (resultVo.getIntValue("errcode") != 0)
+					throw new InteractRuntimeException(resultVo.getString("errmsg"));
 			}
-			int wxTemplateId = rs.getInt("wx_templateid");
-			String version = rs.getString("tpl_version");
-			String tplCode = rs.getString("tpl_code");
-			pst.close();
-
-			// 更新应用信息
-			pst = connection.prepareStatement("update t_app set commit_template_version=?,commit_status=1 where id=?");
-			pst.setObject(1, version);
-			pst.setObject(2, appId);
-			int n = pst.executeUpdate();
-			pst.close();
-			if (n != 1)
-				throw new InteractRuntimeException("操作失败");
-
-			// 提交到微信
-			String url = new StringBuilder("https://api.weixin.qq.com/wxa/commit?").append("access_token=")
-					.append(accessToken).toString();
-			logger.debug(url);
-			JSONObject content = new JSONObject();
-			content.put("template_id", wxTemplateId);
-			content.put("user_version", version);
-			content.put("user_desc", tplCode);
-			JSONObject extJson = new JSONObject();
-			extJson.put("extAppid", wxAppid);
-			JSONObject ext = new JSONObject();
-			if (tplCode.equals("mall"))
-				ext.put("mallId", appId);
-			extJson.put("ext", ext);
-			// JSONObject extPages = new JSONObject();
-			// extJson.put("extPages", extPages);
-			content.put("ext_json", extJson.toJSONString());
-			String contentStr = content.toJSONString();
-			logger.debug(contentStr);
-			Request okHttpRequest = new Request.Builder().url(url)
-					.post(RequestBody.create(MediaType.parse("application/json"), contentStr)).build();
-			Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
-			String responseBody = okHttpResponse.body().string();
-			logger.debug("responseBody " + responseBody);
-			JSONObject resultVo = JSON.parseObject(responseBody);
-			if (resultVo.getIntValue("errcode") != 0)
-				throw new InteractRuntimeException(resultVo.getString("errmsg"));
-
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);

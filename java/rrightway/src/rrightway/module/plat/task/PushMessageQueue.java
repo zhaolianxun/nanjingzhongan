@@ -256,16 +256,6 @@ public class PushMessageQueue implements Runnable {
 				payload = queue.take();
 				logger.debug("发现新的消息发送送任务");
 				connection = RrightwayDataSource.dataSource.getConnection();
-				if (payload.phone == null || payload.phone.isEmpty()) {
-					pst = connection.prepareStatement("select phone from t_user where id=?");
-					pst.setObject(1, payload.userId);
-					ResultSet rs = pst.executeQuery();
-					if (rs.next()) {
-						payload.phone = rs.getString("phone");
-					} else
-						throw new RuntimeException("用户不存在");
-					pst.close();
-				}
 
 				pst = connection.prepareStatement(
 						"insert into t_message (user_id,title,content,type,send_time) values(?,?,?,?,?)");
@@ -280,18 +270,29 @@ public class PushMessageQueue implements Runnable {
 					throw new RuntimeException("消息插入失败");
 
 				// 短信校验
-				if (payload.phone != null && !payload.phone.isEmpty()) {
-					String url = new StringBuilder(OutApis.sms_sms_sendtemplate).append("?").append("phone=")
-							.append(payload.phone).append("&contents=").append(payload.smsContents).append("&business=")
-							.append(payload.business).append("&client=rrightway").toString();
-					Request okHttpRequest = new Request.Builder().url(url).build();
-					Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
-					String responseBody = okHttpResponse.body().string();
-					okHttpResponse.close();
-					JSONObject resultVo = JSON.parseObject(responseBody);
-					if (resultVo.getInteger("code") != 0)
-						logger.info("短信发送失败 : " + resultVo.getString("codeMsg"));
-				}
+					if (payload.phone == null || payload.phone.isEmpty()) {
+						pst = connection.prepareStatement("select phone from t_user where id=?");
+						pst.setObject(1, payload.userId);
+						ResultSet rs = pst.executeQuery();
+						if (rs.next()) {
+							payload.phone = rs.getString("phone");
+						} else
+							throw new RuntimeException("用户不存在");
+						pst.close();
+					}
+
+					if (payload.phone != null && !payload.phone.isEmpty()) {
+						String url = new StringBuilder(OutApis.sms_sms_sendtemplate).append("?").append("phone=")
+								.append(payload.phone).append("&contents=").append(payload.smsContents)
+								.append("&business=").append(payload.business).append("&client=rrightway").toString();
+						Request okHttpRequest = new Request.Builder().url(url).build();
+						Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+						String responseBody = okHttpResponse.body().string();
+						okHttpResponse.close();
+						JSONObject resultVo = JSON.parseObject(responseBody);
+						if (resultVo.getInteger("code") != 0)
+							logger.info("短信发送失败 : " + resultVo.getString("codeMsg"));
+					}
 			} catch (Exception e) {
 				logger.info(ExceptionUtils.getStackTrace(e));
 				if (payload != null) {

@@ -168,9 +168,9 @@
                     <div class="vtimetxt"></div>
                 </div>
                 <div class="cardbt-con">
-                    <button class="updatebtn" style="display:none">更新</button>
-                    <button class="goauthbtn" style="display:none">前往授权</button>
                     <button class="previewbtn" style="display:none" onmouseout="closeBox()">预览</button>
+                  <!--  <button class="updatebtn" style="display:none">更新</button>-->
+                    <button class="goauthbtn" style="display:none">前往授权</button>
                     <button class="managebtn" style="display:none">管理后台</button>
                     <button class="lookstatusbtn" style="display:none">查看状态</button>
                     <div class="qrcodeBox" style="display:none">
@@ -239,8 +239,8 @@
                                 newCarddiv.css('display','block');
                                 newCarddiv.appendTo(cardcon);
                                 newCarddiv.find('.cardmsg').text('未授权');
-                            }else{
 
+                            }else{
                                     var newCarddiv = $('#carddivFather').clone(true);
                                     newCarddiv.attr('id','carddivSon'+ a.appId);
                                     newCarddiv.find('.cardnumtxt').text(i+1);
@@ -259,7 +259,7 @@
                                         newCarddiv.find('.cardmsg').text('审核中');
                                     } else if(!a.currentTemplateVersion){
                                         newCarddiv.find('.cardmsg').text('请进入"查看状态"提交审核');
-                                    }else{
+                                    }else if(a.auditStatus==4){
                                         newCarddiv.find('.cardmsg').text('运行中');
                                         newCarddiv.find('.cardmsg').css('color','green');
                                     }
@@ -269,20 +269,25 @@
                                     if(useEndIf == true){
                                         newCarddiv.find('.vtimetxt').css('color','red');
                                     }
-                                if(a.commitTemplateVersion && a.commitTemplateVersion != a.newestTemplateVersion){
-                                    newCarddiv.find('.updatebtn').css('display','');
-                                    newCarddiv.find('.updatebtn').attr('onclick','update(\''+ a.appId+'\',\''+ a.newestTemplateVersion+'\')')
-                                }
-                                if(a.commitStatus == 1){
-                                    newCarddiv.find('.previewbtn').css('display','');
-                                    newCarddiv.find('.previewbtn').attr('onclick','gotoPreview(\''+ a.appId+'\')')
-                                }
-                                    newCarddiv.find('.managebtn').css('display','');
-                                    newCarddiv.find('.managebtn').attr('onclick','enterManagement(\''+ a.appId+'\')')
-                                    newCarddiv.find('.lookstatusbtn').css('display','');
-                                    newCarddiv.find('.lookstatusbtn').attr('onclick','gotoStatus(\''+ a.appId+'\')')
-                                    newCarddiv.css('display','block');
-                                    newCarddiv.appendTo(cardcon);
+
+                                newCarddiv.find('.previewbtn').css('display','');
+                                newCarddiv.find('.previewbtn').attr('onclick','previewNewest(\''+ a.appId+'\',\''+ a.newestTemplateVersion+'\')')
+
+                                newCarddiv.find('.managebtn').css('display','');
+                                newCarddiv.find('.managebtn').attr('onclick','enterManagement(\''+ a.appId+'\')')
+                                newCarddiv.find('.lookstatusbtn').css('display','');
+                                newCarddiv.find('.lookstatusbtn').attr('onclick','gotoStatus(\''+ a.appId+'\')')
+                                newCarddiv.css('display','block');
+                                newCarddiv.appendTo(cardcon);
+//                                if(rxw1.isEmptyStr(a.commitTemplateVersion) && a.commitTemplateVersion != a.newestTemplateVersion){
+//                                    newCarddiv.find('.updatebtn').css('display','');
+//                                    newCarddiv.find('.updatebtn').attr('onclick','update(\''+ a.appId+'\',\''+ a.newestTemplateVersion+'\')')
+//                                }
+//                                if(a.commitStatus == 1){
+//                                    newCarddiv.find('.previewbtn').css('display','');
+//                                    newCarddiv.find('.previewbtn').attr('onclick','gotoPreview(\''+ a.appId+'\')')
+//                                }
+
 
                             }
                         }
@@ -315,62 +320,62 @@
             })
         }
         //预览
-        function gotoPreview(appId){
-                var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
-            $('#carddivSon'+appId+' .qrcodeBox').css('display','block');
-           $('#carddivSon'+appId+' .qrcodeBox .qrcode').attr('src',src);
-
-        }
-        //更新
-        function update(appId,newestTemplateVersion){
-            if(!apps[appId].businessbaseFill){
-                alert('请进入"后台管理"补全信息')
-                return;
-            }
-            if(!confirm("请先通过‘应用商店’-‘扫码体验’后，在决定更新。是否更新？")){
-               return;
-            }
-            $.ajax({
-                type: 'POST',
-                async: false,
-                data: {app_id:appId,template_version:newestTemplateVersion},
-                url: '/easywin/p/e/myapp/commitcode?token='+token,
-                complete:function(){
-                    waitShowStop()
-                },
-                beforeSend:function(){
-                    waitShow();
-                },
-                success: function(res){
-                    if(res.code == 0){
-                        $.ajax({
-                            type: 'POST',
-                            data: {app_id:appId},
-                            url: '/easywin/p/e/myapp/submitaudit?token='+token,
-                            complete:function(){
-                                waitShowStop()
-                            },
-                            beforeSend:function(){
-                                waitShow();
-                            },
-                            success: function(res){
-                                if(res.code == 0){
-                                    location.reload();
-                                }else{
-                                    alert(res.codeMsg);
-                                }
-                            }
-                        });
-                    }else{
-                        alert('提交失败！')
-                    }
-                }
-            });
-        }
+//        function gotoPreview(appId){
+//                var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
+//            $('#carddivSon'+appId+' .qrcodeBox').css('display','block');
+//           $('#carddivSon'+appId+' .qrcodeBox .qrcode').attr('src',src);
+//
+//        }
+//        //更新
+//        function update(appId,newestTemplateVersion){
+//            if(!apps[appId].businessbaseFill){
+//                alert('请进入"后台管理"补全信息')
+//                return;
+//            }
+//            if(!confirm("请先通过‘应用商店’-‘扫码体验’后，在决定更新。是否更新？")){
+//               return;
+//            }
+//            $.ajax({
+//                type: 'POST',
+//                async: false,
+//                data: {app_id:appId,template_version:newestTemplateVersion},
+//                url: '/easywin/p/e/myapp/commitcode?token='+token,
+//                complete:function(){
+//                    waitShowStop()
+//                },
+//                beforeSend:function(){
+//                    waitShow();
+//                },
+//                success: function(res){
+//                    if(res.code == 0){
+//                        $.ajax({
+//                            type: 'POST',
+//                            data: {app_id:appId},
+//                            url: '/easywin/p/e/myapp/submitaudit?token='+token,
+//                            complete:function(){
+//                                waitShowStop()
+//                            },
+//                            beforeSend:function(){
+//                                waitShow();
+//                            },
+//                            success: function(res){
+//                                if(res.code == 0){
+//                                    location.reload();
+//                                }else{
+//                                    alert(res.codeMsg);
+//                                }
+//                            }
+//                        });
+//                    }else{
+//                        alert('提交失败！')
+//                    }
+//                }
+//            });
+//        }
         //查看状态
         function gotoStatus(appId){
             if(!apps[appId].businessbaseFill){
-               alert('请进入"后台管理"补全信息')
+                rxw1.errorpad('请进入"后台管理"补全信息')
                 return;
             }
             location.href='preview.html?app_id='+appId;
@@ -396,27 +401,31 @@
 
 
         function previewNewest(appId,newestTemplateVersion){
+            rxw1.waitLock();
+
+          var commitTemplateVersion=  apps[appId].commitTemplateVersion;
+           if(!rxw1.isEmptyStr(commitTemplateVersion) && commitTemplateVersion == newestTemplateVersion){
+               var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
+               $('#carddivSon'+appId+' .qrcodeBox').css('display','block');
+               $('#carddivSon'+appId+' .qrcodeBox .qrcode').attr('src',src);
+           }else{
             $.ajax({
                 type: 'POST',
                 async: false,
                 data: {app_id:appId,template_version:newestTemplateVersion},
                 url: '/easywin/p/e/myapp/commitcode?token='+token,
-                complete:function(){
-                    rxw1.waitLock.remove();
-                },
-                beforeSend:function(){
-                    rxw1.waitLock();
-                },
                 success: function(res){
                     if(res.code == 0){
                         var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
                         $('#carddivSon'+appId+' .qrcodeBox').css('display','block');
                         $('#carddivSon'+appId+' .qrcodeBox .qrcode').attr('src',src);
                     }else{
-                        alert(res)
+                        rxw1.errorpad(res.codeMsg)
                     }
                 }
             });
+        }
+            rxw1.waitLock.remove();
         }
     </script>
 

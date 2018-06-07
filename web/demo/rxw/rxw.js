@@ -1,5 +1,5 @@
 var rxw1={};
-rxw1.debug=false
+rxw1.debug=true
 rxw1.relativePath=''
 
 rxw1.errorpad=function (content) {
@@ -307,7 +307,8 @@ rxw1.cancelHandler=function (event){
         event.returnValue=false;
     return false;
 }
-function parseQueryStr(queryStr){
+
+rxw1.parseQueryStr =function (queryStr){
     var str=decodeURIComponent(queryStr);
     var arr=str.split("&");
     var obj = {};
@@ -316,4 +317,15 @@ function parseQueryStr(queryStr){
         obj[arrsub[0]]=arrsub[1];
     }
     return obj;
+}
+
+
+rxw1.isEmptyStr =function (str){
+   if(str == undefined || str == null || this.trimStrToEmpty(str).length==0)
+        return true;
+    return false;
+}
+
+rxw1.trimStrToEmpty = function(str){
+    return str.replace(/^\s+|\s+$/gm,'');
 }

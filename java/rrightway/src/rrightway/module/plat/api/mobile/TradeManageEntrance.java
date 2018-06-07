@@ -568,7 +568,7 @@ public class TradeManageEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"update t_order set rightprotect_time=?,rightprotect_status=7,rightprotect_reason=? where id=? and status=1 and rightprotect_status in (0,13) and finished=0")
+					"update t_order set rightprotect_time=?,rightprotect_status=7,rightprotect_reason=?,rightprotect_seller_addkf=0,rightprotect_buyer_addkf=0,rightprotect_seller_addkf_pics=null,rightprotect_buyer_addkf_pics=null,rightprotect_seller_addkf_describe=null,rightprotect_buyer_addkf_describe=null,rightprotect_seller_proof=0,rightprotect_buyer_proof=0,rightprotect_seller_proof_pics=null,rightprotect_buyer_proof_pics=null,rightprotect_seller_proof_desc=null,rightprotect_buyer_proof_desc=null where id=? and status=1 and rightprotect_status in (0,13) and finished=0")
 							.toString());
 			pst.setObject(1, new Date().getTime());
 			pst.setObject(2, reason);

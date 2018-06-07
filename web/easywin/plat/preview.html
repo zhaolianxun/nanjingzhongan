@@ -8,6 +8,7 @@
     <script src="libs/jquery.cookie.js"></script>
     <script src="libs/vue.js"></script>
     <script src="libs/default.js"></script>
+    <script src="../rxw/rxw.js"></script>
 
 </head>
     <style type="text/css">
@@ -144,8 +145,8 @@
                 </div>
                 <p id="option"></p>
                 <div class="cardbt-con">
-                    <button id="submit" style="display: none;" onclick="submitAudit()">提交审核</button>
-                    <button id="submitCodeAndAudit" style="display: none;" onclick="submitCodeAndAudit()">提交审核</button>
+                  <!--  <button id="submit" style="display: none;" onclick="submitAudit()">提交新版本审核</button>-->
+                  <button id="submitCodeAndAudit" style="display: none;" onclick="submitCodeAndAudit()">提交新版审核</button>
                     <button style="display: none;" id="release" onclick="release()">发布</button>
                 </div>
                 <p id="failReason" style="margin: 95px;"></p>
@@ -157,214 +158,135 @@
 </body>
 
 <script type="text/javascript">
-
+    rxw1.relativePath='../'
     var queryStrObj= parseQueryStr(location.search.substr(1));
     var appId = queryStrObj.app_id;
     var token = $.cookie('token');
 
     var appData;
+
+    onload()
+    function onload(){
+        rxw1.waitLock();
         $.ajax({
             type: 'POST',
             async: false,
             data: {app_id:appId},
             url: '/easywin/p/e/myapp/getauditstatus?token='+token,
-            complete:function(){
-                waitShowStop()
-            },
-            beforeSend:function(){
-                waitShow();
-            },
             success: function(res){
                 if(res.code == 0){
 
                 }else{
-                    alert(res.codeMsg);
+                    rxw1.errorpad(res.codeMsg);
                 }
             }
         });
 
-    $.ajax({
-        type: 'POST',
-        async: false,
-        data: {app_id:appId},
-        url: '/easywin/p/e/myapp/appinfo?token='+token,
-        complete:function(){
-            waitShowStop()
-        },
-        beforeSend:function(){
-            waitShow();
-        },
-        success: function(res){
-            if(res.code == 0){
-                appData = res.data;
-            }else{
-                alert(res.codeMsg);
+        $.ajax({
+            type: 'POST',
+            async: false,
+            data: {app_id:appId},
+            url: '/easywin/p/e/myapp/appinfo?token='+token,
+            success: function(res){
+                if(res.code == 0){
+                    appData = res.data;
+                }else{
+                    rxw1.errorpad(res.codeMsg);
+                }
             }
-        }
-    });
+        });
 
-    if(appData.auditTemplateVersion != appData.commitTemplateVersion){
-        //提交了新版本代码
-        if(confirm("发现新版未审核，请先返回并‘预览’在做决定。是否提交审核")){
-            submitAudit();
-        }
-    }
-
-    $('#nickname').html(appData.nickName);
-    $.ajax({
-        type: 'POST',
-        data: {app_id:appData.appId},
-        url: '/easywin/p/e/myapp/getoptionalcategory?token='+token,
-        complete:function(){
-            waitShowStop()
-        },
-        beforeSend:function(){
-            waitShow();
-        },
-        success: function(res){
-            if(res.code == 0){
-                $('#option').html('当前类目：<span style="color: red;">'+res.data.optionalCategoryExplain+'</span>');
-            }else{
-                alert(res.codeMsg);
+        $('#nickname').html(appData.nickName);
+        $.ajax({
+            type: 'POST',
+            data: {app_id:appData.appId},
+            url: '/easywin/p/e/myapp/getoptionalcategory?token='+token,
+            success: function(res){
+                if(res.code == 0){
+                    $('#option').html('当前类目：<span style="color: red;">'+res.data.optionalCategoryExplain+'</span>');
+                }else{
+                    rxw1.errorpad(res.codeMsg);
+                }
             }
+        });
+
+        if(appData.newestTemplateVersion !=appData.auditTemplateVersion)
+            $('#submitCodeAndAudit').show();
+
+        if(appData.auditStatus ==4){
+            $('#released img').attr('src','img/icon002.png');
+            $('#released').siblings().children('img').attr('src','img/icon001.png');
+            $('#release').hide();
+        }else if(appData.auditStatus == 2){//0未提交  1已提交  2通过  3失败  4已发布
+            $('#auditStatus img').attr('src','img/icon002.png');
+            $('#auditStatus').siblings().children('img').attr('src','img/icon001.png');
+            $('#submitCodeAndAudit').hide();
+            $('#release').show();
+        }else if(appData.auditStatus == 1){
+            $('#auditing img').attr('src','img/icon002.png');
+            $('#auditing').siblings().children('img').attr('src','img/icon001.png');
+            $('#submitCodeAndAudit').hide();
+            $('#release').hide();
+        }else if(appData.auditStatus == 3){
+            $('#auditStatus img').attr('src','img/icon002.png');
+            $('#auditStatus').siblings().children('img').attr('src','img/icon001.png');
+            $('#auditStatus').children('span').html('3 审核失败');
+            $('#submitCodeAndAudit').show();
+            $('#release').hide();
+            $('#failReason').html('<span style="color: red;">失败原因：</span>'+appData.auditFailReason);
+        }else if(appData.auditStatus == 0){
+
         }
-    });
-
-    if(!appData.commitTemplateVersion) {
-        //未提交
-        $('#submitCodeAndAudit').show();
+       rxw1.waitLock.remove();
     }
-
-
-    if(!appData.commitTemplateVersion) {
-        //未提交
-        $('#submitCodeAndAudit').show();
-        $('#submit').hide();
-        $('#release').hide();
-    }else if(appData.auditStatus ==4){
-        $('#released img').attr('src','img/icon002.png');
-        $('#released').siblings().children('img').attr('src','img/icon001.png');
-        $('#submit').hide();
-        $('#release').hide();
-        $('#submitCodeAndAudit').hide();
-    }else if(appData.auditStatus == 2){//0未提交  1已提交  2通过  3失败  4已发布
-        $('#auditStatus img').attr('src','img/icon002.png');
-        $('#auditStatus').siblings().children('img').attr('src','img/icon001.png');
-        $('#submit').hide();
-        $('#submitCodeAndAudit').hide();
-        $('#release').show();
-    }else if(appData.auditStatus == 1){
-        $('#auditing img').attr('src','img/icon002.png');
-        $('#auditing').siblings().children('img').attr('src','img/icon001.png');
-        $('#submitCodeAndAudit').hide();
-        $('#submit').hide();
-        $('#release').hide();
-    }else if(appData.auditStatus == 3){
-        $('#auditStatus img').attr('src','img/icon002.png');
-        $('#auditStatus').siblings().children('img').attr('src','img/icon001.png');
-        $('#auditStatus').children('span').html('3 审核失败');
-        $('#submitCodeAndAudit').hide();
-        $('#submit').show();
-        $('#release').hide();
-        $('#failReason').html('<span style="color: red;">失败原因：</span>'+appData.auditFailReason);
-    }else if(appData.auditStatus == 0){
-        $('#submitCodeAndAudit').hide();
-        $('#submit').show();
-        $('#release').hide();
-    }
-
-//    var miniappid = appData.appId;
-
-
-
-
-
-
 
 
     function submitCodeAndAudit(){
+        rxw1.waitLock();
             $.ajax({
                 type: 'POST',
                 async: false,
                 data: {app_id:appData.appId,template_version:appData.newestTemplateVersion},
                 url: '/easywin/p/e/myapp/commitcode?token='+token,
-                complete:function(){
-                    waitShowStop()
-                },
-                beforeSend:function(){
-                    waitShow();
-                },
                 success: function(res){
                     if(res.code == 0){
                         $.ajax({
                             type: 'POST',
+                            async: false,
                             data: {app_id:appData.appId},
                             url: '/easywin/p/e/myapp/submitaudit?token='+token,
-                            complete:function(){
-                                waitShowStop()
-                            },
-                            beforeSend:function(){
-                                waitShow();
-                            },
                             success: function(res){
                                 if(res.code == 0){
-                                    location.reload();
+                                    rxw1.waitLock.remove();
+                                    onload();
                                 }else{
-                                    alert(res.codeMsg);
+                                    rxw1.errorpad(res.codeMsg);
                                 }
                             }
                         });
                     }else{
-                        alert('提交失败！')
+                        rxw1.errorpad(res.codeMsg);
                     }
                 }
             });
+        rxw1.waitLock.remove();
     }
-
-
-    function submitAudit(){
-            $.ajax({
-                type: 'POST',
-                data: {app_id:appData.appId},
-                url: '/easywin/p/e/myapp/submitaudit?token='+token,
-                complete:function(){
-                    waitShowStop()
-                },
-                beforeSend:function(){
-                    waitShow();
-                },
-                success: function(res){
-                    if(res.code == 0){
-                        location.reload();
-                    }else{
-                        alert(res.codeMsg);
-                    }
-                }
-            });
-
-    }
-
 
     function release(){
+        rxw1.waitLock();
         $.ajax({
             type: 'POST',
             data: {app_id:appData.appId},
             url: '/easywin/p/e/myapp/release?token='+token,
-            complete:function(){
-                waitShowStop()
-            },
-            beforeSend:function(){
-                waitShow();
-            },
             success: function(res){
                 if(res.code == 0){
-                    location.reload();
+                    onload();
                 }else{
-                    alert(res.codeMsg);
+                    rxw1.errorpad(res.codeMsg);
                 }
             }
         });
-
+        rxw1.waitLock.remove();
     }
 </script>
 
