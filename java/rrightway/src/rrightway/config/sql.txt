@@ -1,3 +1,4 @@
-------0.0.1--------------
-创建数据库rrightway
+------0.0.3--------------
+部署前
+alter table t_activity add column offline_time BIGINT null after status;
 

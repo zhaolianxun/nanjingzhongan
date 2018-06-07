@@ -304,11 +304,18 @@ public class GatherTask {
 						PushMessageQueue.sellerMsg(sellerId, null,
 								new StringBuilder("订单（尾号：").append(orderId.substring(orderId.length() - 5))
 										.append("）试客操作超时，您维权成功").toString(),
-								new StringBuilder("您的订单试客操作超时，维权成功，退款").append(returnMoney.toString())
-										.append("元，订单ID：").append(orderId).toString());
+								new StringBuilder("您的订单试客操作超时，维权成功，退款").append(returnMoney.toString()).append("元，订单ID：")
+										.append(orderId).toString());
 					}
 
-					// 钱包的钱超过15天计入可转金额
+					// 删除仓库中超过30天的活动
+					// 返还卖家核对金额（返现+核对手续费）
+					pst = connection.prepareStatement(new StringBuilder(
+							"update t_activity set del=1 where status=3 and !isnull(offline_time) and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-offline_time) > 30*24*60*60*1000")
+									.toString());
+					pst.executeUpdate();
+					pst.close();
+					connection.commit();
 				} catch (Exception e) {
 					logger.info(ExceptionUtils.getStackTrace(e));
 					if (connection != null)

@@ -573,8 +573,9 @@ public class CowryManageEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement(
-					new StringBuilder("update t_activity set status=3 where id=? and status=1").toString());
-			pst.setObject(1, activityId);
+					new StringBuilder("update t_activity set status=3,offline_time=? where id=?").toString());
+			pst.setObject(1, new Date().getTime());
+			pst.setObject(2, activityId);
 			int cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
