@@ -404,11 +404,11 @@
             rxw1.waitLock();
 
           var commitTemplateVersion=  apps[appId].commitTemplateVersion;
-           if(!rxw1.isEmptyStr(commitTemplateVersion) && commitTemplateVersion == newestTemplateVersion){
-               var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
-               $('#carddivSon'+appId+' .qrcodeBox').css('display','block');
-               $('#carddivSon'+appId+' .qrcodeBox .qrcode').attr('src',src);
-           }else{
+//           if(!rxw1.isEmptyStr(commitTemplateVersion) && commitTemplateVersion == newestTemplateVersion){
+//               var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
+//               $('#carddivSon'+appId+' .qrcodeBox').css('display','block');
+//               $('#carddivSon'+appId+' .qrcodeBox .qrcode').attr('src',src);
+//           }else{
             $.ajax({
                 type: 'POST',
                 async: false,
@@ -416,7 +416,7 @@
                 url: '/easywin/p/e/myapp/commitcode?token='+token,
                 success: function(res){
                     if(res.code == 0){
-                        var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
+                        var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId+'&rand='+Math.round(Math.random()*5);
                         $('#carddivSon'+appId+' .qrcodeBox').css('display','block');
                         $('#carddivSon'+appId+' .qrcodeBox .qrcode').attr('src',src);
                     }else{
@@ -424,7 +424,7 @@
                     }
                 }
             });
-        }
+       // }
             rxw1.waitLock.remove();
         }
     </script>

@@ -257,67 +257,68 @@ public class MyAppEntrance {
 			String wxAppid = rs.getString("wx_appid");
 			Long useEndtime = (Long) rs.getObject("use_endtime");
 			pst.close();
+			// if (StringUtils.isEmpty(commitTemplateVersion) ||
+			// !commitTemplateVersion.equals(templateVersion)) {
 
-			if (StringUtils.isEmpty(commitTemplateVersion) || !commitTemplateVersion.equals(templateVersion)) {
-				if (!userId.equals(loginStatus.getUserId()))
-					throw new InteractRuntimeException("这不是您的应用");
-				if (accessToken == null || accessToken.trim().length() == 0)
-					throw new InteractRuntimeException("您还未授权该应用");
-				if (useEndtime == null || useEndtime <= new Date().getTime())
-					throw new InteractRuntimeException("你的使用权已到期");
-				// 查询版本信息
-				pst = connection.prepareStatement(
-						"select t.wx_templateid,t.tpl_version,t.tpl_code from t_seed_template t  where t.tpl_code=? and t.tpl_version=?");
-				pst.setObject(1, templateCode);
-				pst.setObject(2, templateVersion);
-				rs = pst.executeQuery();
-				if (!rs.next()) {
-					pst.close();
-					throw new InteractRuntimeException("模板不存在");
-				}
-				int wxTemplateId = rs.getInt("wx_templateid");
-				String version = rs.getString("tpl_version");
-				String tplCode = rs.getString("tpl_code");
+			if (!userId.equals(loginStatus.getUserId()))
+				throw new InteractRuntimeException("这不是您的应用");
+			if (accessToken == null || accessToken.trim().length() == 0)
+				throw new InteractRuntimeException("您还未授权该应用");
+			if (useEndtime == null || useEndtime <= new Date().getTime())
+				throw new InteractRuntimeException("你的使用权已到期");
+			// 查询版本信息
+			pst = connection.prepareStatement(
+					"select t.wx_templateid,t.tpl_version,t.tpl_code from t_seed_template t  where t.tpl_code=? and t.tpl_version=?");
+			pst.setObject(1, templateCode);
+			pst.setObject(2, templateVersion);
+			rs = pst.executeQuery();
+			if (!rs.next()) {
 				pst.close();
-
-				// 更新应用信息
-				pst = connection
-						.prepareStatement("update t_app set commit_template_version=?,commit_status=1 where id=?");
-				pst.setObject(1, version);
-				pst.setObject(2, appId);
-				int n = pst.executeUpdate();
-				pst.close();
-				if (n != 1)
-					throw new InteractRuntimeException("操作失败");
-
-				// 提交到微信
-				String url = new StringBuilder("https://api.weixin.qq.com/wxa/commit?").append("access_token=")
-						.append(accessToken).toString();
-				logger.debug(url);
-				JSONObject content = new JSONObject();
-				content.put("template_id", wxTemplateId);
-				content.put("user_version", version);
-				content.put("user_desc", tplCode);
-				JSONObject extJson = new JSONObject();
-				extJson.put("extAppid", wxAppid);
-				JSONObject ext = new JSONObject();
-				if (tplCode.equals("mall"))
-					ext.put("mallId", appId);
-				extJson.put("ext", ext);
-				// JSONObject extPages = new JSONObject();
-				// extJson.put("extPages", extPages);
-				content.put("ext_json", extJson.toJSONString());
-				String contentStr = content.toJSONString();
-				logger.debug(contentStr);
-				Request okHttpRequest = new Request.Builder().url(url)
-						.post(RequestBody.create(MediaType.parse("application/json"), contentStr)).build();
-				Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
-				String responseBody = okHttpResponse.body().string();
-				logger.debug("responseBody " + responseBody);
-				JSONObject resultVo = JSON.parseObject(responseBody);
-				if (resultVo.getIntValue("errcode") != 0)
-					throw new InteractRuntimeException(resultVo.getString("errmsg"));
+				throw new InteractRuntimeException("模板不存在");
 			}
+			int wxTemplateId = rs.getInt("wx_templateid");
+			String version = rs.getString("tpl_version");
+			String tplCode = rs.getString("tpl_code");
+			pst.close();
+
+			// 更新应用信息
+			pst = connection.prepareStatement("update t_app set commit_template_version=?,commit_status=1 where id=?");
+			pst.setObject(1, version);
+			pst.setObject(2, appId);
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 提交到微信
+			String url = new StringBuilder("https://api.weixin.qq.com/wxa/commit?").append("access_token=")
+					.append(accessToken).toString();
+			logger.debug(url);
+			JSONObject content = new JSONObject();
+			content.put("template_id", wxTemplateId);
+			content.put("user_version", version);
+			content.put("user_desc", tplCode);
+			JSONObject extJson = new JSONObject();
+			extJson.put("extAppid", wxAppid);
+			extJson.put("extEnable", true);
+			JSONObject ext = new JSONObject();
+			if (tplCode.equals("mall"))
+				ext.put("mallId", appId);
+			extJson.put("ext", ext);
+			// JSONObject extPages = new JSONObject();
+			// extJson.put("extPages", extPages);
+			content.put("ext_json", extJson.toJSONString());
+			String contentStr = content.toJSONString();
+			logger.debug(contentStr);
+			Request okHttpRequest = new Request.Builder().url(url)
+					.post(RequestBody.create(MediaType.parse("application/json"), contentStr)).build();
+			Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+			String responseBody = okHttpResponse.body().string();
+			logger.debug("responseBody " + responseBody);
+			JSONObject resultVo = JSON.parseObject(responseBody);
+			if (resultVo.getIntValue("errcode") != 0)
+				throw new InteractRuntimeException(resultVo.getString("errmsg"));
+			// }
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
@@ -407,6 +408,8 @@ public class MyAppEntrance {
 			if (resultVo.getIntValue("errcode") != 0)
 				throw new InteractRuntimeException(resultVo.getString("errmsg"));
 			JSONArray categoryList = resultVo.getJSONArray("category_list");
+			if (categoryList == null || categoryList.isEmpty())
+				throw new InteractRuntimeException("您的小程序还没有类目，请登录微信公众平台设置");
 
 			// 提交审核
 			url = new StringBuilder("https://api.weixin.qq.com/wxa/submit_audit?").append("access_token=")
@@ -595,6 +598,7 @@ public class MyAppEntrance {
 				reason = resultVo.getString("reason");
 				if (status != 1 && status != 2 && status != 0)
 					throw new InteractRuntimeException("未知状态");
+				// status 微信方审核状态，其中0为审核成功，1为审核失败，2为审核中
 				auditstatus = status == 0 ? 2 : status == 1 ? 3 : 1;
 				pst = connection.prepareStatement(
 						"update t_app set audit_fail_reason=?,audit_status=? where id=? and audit_status=1");
@@ -612,6 +616,83 @@ public class MyAppEntrance {
 			data.put("status", auditstatus);
 			data.put("reason", reason);
 			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/unaudit", method = RequestMethod.POST)
+	public void unaudit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String appId = StringUtils.trimToNull(request.getParameter("app_id"));
+			if (appId == null)
+				throw new InteractRuntimeException("app_id 不能为空");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection
+					.prepareStatement("select access_token,audit_status,wx_audit_id from t_app where id=? for update");
+			pst.setObject(1, appId);
+			ResultSet rs = pst.executeQuery();
+			if (!rs.next()) {
+				pst.close();
+				throw new InteractRuntimeException("应用不存在");
+			}
+			int auditstatus = rs.getInt("audit_status");
+			Integer wxAuditId = (Integer) rs.getObject("wx_audit_id");
+			String accessToken = rs.getString("access_token");
+			pst.close();
+
+			if (accessToken == null || accessToken.trim().length() == 0)
+				throw new InteractRuntimeException("您还未授权该应用");
+			if (auditstatus == 0 || wxAuditId == null)
+				throw new InteractRuntimeException("还未提交审核");
+			if (auditstatus == 2 || auditstatus == 4 || auditstatus == 3)
+				throw new InteractRuntimeException("已审核过");
+			if (auditstatus == 1) {
+				// 获取小程序的第三方提交代码的页面配置
+				String url = new StringBuilder("https://api.weixin.qq.com/wxa/undocodeaudit?").append("access_token=")
+						.append(accessToken).toString();
+				logger.debug("url " + url);
+
+				Request okHttpRequest = new Request.Builder().url(url).build();
+				Response okHttpResponse = SysConstant.okHttpClient.newCall(okHttpRequest).execute();
+				String responseBody = okHttpResponse.body().string();
+				logger.debug("responseBody " + responseBody);
+				JSONObject resultVo = JSON.parseObject(responseBody);
+
+				if (resultVo.getIntValue("errcode") != 0)
+					throw new InteractRuntimeException(resultVo.getString("errmsg"));
+
+				pst = connection.prepareStatement(
+						"update t_app set audit_status=0,audit_template_version=null,wx_audit_id=null where id=? and audit_status=1");
+				pst.setObject(1, appId);
+				int n = pst.executeUpdate();
+				pst.close();
+				if (n != 1)
+					throw new InteractRuntimeException("操作失败");
+			}
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));

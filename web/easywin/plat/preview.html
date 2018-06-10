@@ -146,7 +146,8 @@
                 <p id="option"></p>
                 <div class="cardbt-con">
                   <!--  <button id="submit" style="display: none;" onclick="submitAudit()">提交新版本审核</button>-->
-                  <button id="submitCodeAndAudit" style="display: none;" onclick="submitCodeAndAudit()">提交新版审核</button>
+                    <button id="submitCodeAndAudit" style="display: none;" onclick="submitCodeAndAudit()">提交新版审核</button>
+                    <button id="unaudit" style="display: none;" onclick="unaudit()">取消审核</button>
                     <button style="display: none;" id="release" onclick="release()">发布</button>
                 </div>
                 <p id="failReason" style="margin: 95px;"></p>
@@ -227,6 +228,7 @@
             $('#auditing').siblings().children('img').attr('src','img/icon001.png');
             $('#submitCodeAndAudit').hide();
             $('#release').hide();
+            $('#unaudit').show();
         }else if(appData.auditStatus == 3){
             $('#auditStatus img').attr('src','img/icon002.png');
             $('#auditStatus').siblings().children('img').attr('src','img/icon001.png');
@@ -240,6 +242,23 @@
        rxw1.waitLock.remove();
     }
 
+    function unaudit(){
+        rxw1.waitLock();
+        $.ajax({
+            type: 'POST',
+            async: false,
+            data: {app_id:appData.appId},
+            url: '/easywin/p/e/myapp/unaudit?token='+token,
+            success: function(res){
+                if(res.code == 0){
+                    location.reload()
+                }else{
+                    rxw1.errorpad(res.codeMsg);
+                }
+            }
+        });
+        rxw1.waitLock.remove();
+    }
 
     function submitCodeAndAudit(){
         rxw1.waitLock();
@@ -257,8 +276,7 @@
                             url: '/easywin/p/e/myapp/submitaudit?token='+token,
                             success: function(res){
                                 if(res.code == 0){
-                                    rxw1.waitLock.remove();
-                                    onload();
+                                    location.reload()
                                 }else{
                                     rxw1.errorpad(res.codeMsg);
                                 }

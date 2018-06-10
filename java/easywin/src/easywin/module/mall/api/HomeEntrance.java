@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -122,7 +123,6 @@ public class HomeEntrance {
 			}
 			pst.close();
 
-			
 			// 查询优惠券
 			List sqlParams = new ArrayList();
 			if (loginStatus != null) {
