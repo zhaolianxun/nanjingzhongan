@@ -302,9 +302,10 @@ public class MyAppEntrance {
 			extJson.put("extAppid", wxAppid);
 			extJson.put("extEnable", true);
 			JSONObject ext = new JSONObject();
-			if (tplCode.equals("mall"))
+			//if (tplCode.equals("mall"))
 				ext.put("mallId", appId);
 			extJson.put("ext", ext);
+			extJson.put("mallId", appId);
 			// JSONObject extPages = new JSONObject();
 			// extJson.put("extPages", extPages);
 			content.put("ext_json", extJson.toJSONString());

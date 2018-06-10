@@ -4,3 +4,4 @@ alter table t_activity add column offline_time BIGINT null after status;
 日志: 
 rrightway.module.plat.task.GatherTask:311 (删除仓库中超过30天的活动)
 接口 /p/m/cowrymanageent/inactcowries/offline (下架时更新offine_time时间)
+/publishent/publish (修改发布活动时的支付金额和返现金额限制)

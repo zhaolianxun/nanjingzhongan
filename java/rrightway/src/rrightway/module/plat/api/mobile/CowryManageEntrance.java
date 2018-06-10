@@ -251,16 +251,12 @@ public class CowryManageEntrance {
 			if (payPriceParam == null)
 				throw new InteractRuntimeException("pay_price 不能空");
 			BigDecimal payPrice = new BigDecimal(payPriceParam);
-			if (payPrice.floatValue() > 800) {
-				throw new InteractRuntimeException("付款金额不可大于800");
-			}
 			String returnMoneyParam = StringUtils.trimToNull(request.getParameter("return_money"));
 			if (returnMoneyParam == null)
 				throw new InteractRuntimeException("return_money 不能空");
 			BigDecimal returnMoney = new BigDecimal(returnMoneyParam);
-			if (returnMoney.compareTo(payPrice) == -1
-					|| returnMoney.subtract(payPrice).compareTo(new BigDecimal(20)) == 1)
-				throw new InteractRuntimeException("不得低于‘付款金额’，不得高于‘付款金额’20元");
+			if (returnMoney.compareTo(payPrice) == -1)
+				throw new InteractRuntimeException("不得低于‘付款金额’");
 
 			String buyerMincreditParam = StringUtils.trimToNull(request.getParameter("buyer_mincredit"));
 			if (buyerMincreditParam == null)
@@ -307,7 +303,6 @@ public class CowryManageEntrance {
 			if (loginStatus.getStatus() == 1)
 				throw new InteractRuntimeException("您的账户已被冻结，请联系客服。");
 
-
 			connection = RrightwayDataSource.dataSource.getConnection();
 			pst = connection.prepareStatement("select status from t_taobaoaccount where id=?");
 			pst.setObject(1, taobaoaccountId);
@@ -316,7 +311,7 @@ public class CowryManageEntrance {
 			} else
 				throw new InteractRuntimeException("淘宝账号不存在");
 			pst.close();
-			
+
 			pst = connection.prepareStatement(
 					"INSERT INTO `t_activity` (`user_id`, `taobaoaccount_id`, `title`, `publish_time`, `way_to_shop`, `qrcode_to_order`, `search_keys`, `cowry_url`, `cowry_cover`,`buy_way`, `coupon_url`,`pay_price`, `return_money`, `buyer_mincredit`, `keep_days`, `gift_name`, `gift_type1_id`, `gift_type1_name`, `gift_type2_id`, `gift_type2_name`, `gift_url`, `gift_cover`, `gift_detail`, `gift_express_co`,`stock`,`gift_pics`,`start_time`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
 					Statement.RETURN_GENERATED_KEYS);
