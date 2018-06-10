@@ -309,7 +309,6 @@ public class GatherTask {
 					}
 
 					// 删除仓库中超过30天的活动
-					// 返还卖家核对金额（返现+核对手续费）
 					pst = connection.prepareStatement(new StringBuilder(
 							"update t_activity set del=1 where status=3 and !isnull(offline_time) and (rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')-offline_time) > 30*24*60*60*1000")
 									.toString());

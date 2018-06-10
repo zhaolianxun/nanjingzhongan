@@ -1,4 +1,0 @@
-------0.0.3--------------
-部署前
-alter table t_activity add column offline_time BIGINT null after status;
-
