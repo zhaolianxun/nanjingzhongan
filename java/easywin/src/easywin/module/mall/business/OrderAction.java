@@ -23,7 +23,8 @@ public class OrderAction {
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			// 查詢主轮播图
-			pst = connection.prepareStatement("select t.mall_id,t.amount,t.status from t_mall_order t where t.id=? for update");
+			pst = connection
+					.prepareStatement("select t.mall_id,t.amount,t.status from t_mall_order t where t.id=? for update");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			int amount = 0;
@@ -73,18 +74,17 @@ public class OrderAction {
 				throw new InteractRuntimeException("用户不存在");
 			pst.close();
 
+			// 分销奖励
 			if (registerFromUserId != null) {
 				pst = connection.prepareStatement(
 						"select od.name,od.id order_detail_id,od.good_id,g.share_reward from t_mall_order_detail od left join t_mall_good g on od.good_id=g.id where od.order_id=?");
 				pst.setObject(1, orderId);
 				rs = pst.executeQuery();
-				String goodId = null;
 				String goodName = null;
 				Integer shareReward = null;
 				Integer totalShareReward = 0;
 				Integer orderDetailId = 0;
 				while (rs.next()) {
-					goodId = rs.getString("good_id");
 					goodName = rs.getString("name");
 					shareReward = (Integer) rs.getObject("share_reward");
 					orderDetailId = (Integer) rs.getObject("order_detail_id");
@@ -96,8 +96,8 @@ public class OrderAction {
 								"insert into t_mall_user_bill (user_id,amount,note,happen_time,link,type,mall_id) values(?,?,?,?,?,1,?)");
 						pst.setObject(1, registerFromUserId);
 						pst.setObject(2, shareReward);
-						pst.setObject(3, new StringBuilder("分享奖励。受您推荐的'").append(userLogo).append("'购买了'").append(goodName)
-								.append("'").toString());
+						pst.setObject(3, new StringBuilder("分享奖励。受您推荐的'").append(userLogo).append("'购买了'")
+								.append(goodName).append("'").toString());
 						pst.setObject(4, new Date().getTime());
 						pst.setObject(5, orderDetailId);
 						pst.setObject(6, mallId);

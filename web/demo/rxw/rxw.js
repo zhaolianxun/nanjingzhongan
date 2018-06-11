@@ -7,7 +7,7 @@ rxw1.errorpad=function (content) {
         $("body").append('<div  id="errorpad" style="width:200px;padding:0 40px;position:absolute;position:fixed;top:30%;left:50%;transform:translateX(-50%);margin-top:-1.25rem;z-index:999999999;font-size:0.8rem;color:#fff;background:rgba(0,0,0,0.8);line-height:2.25rem;border-radius:0.25rem;text-align:center;">' + content + '</div>');
     }
     else {
-        $("#errorpad").html(content);
+        $("#errorpad p").html(content);
     }
     $("#errorpad").fadeIn();
     setTimeout(function () {
@@ -15,11 +15,14 @@ rxw1.errorpad=function (content) {
     }, 2000);
 }
 
+//{content:'',
+// data,{},
+// confirm:function(){}}
 rxw1.confirmpad=function(param) {
-    this.layer({init:function(){
-        this.style['background-color']='rgba(0, 0, 0, 0)';
+    this.layer({init:function(layer){
+        layer.style['background-color']='rgba(0, 0, 0, 0)';
         var confirmpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div></div>');
-        $(this).append(confirmpad);
+        $(layer).append(confirmpad);
 
         $(confirmpad).find('[name=cancel]').click(function(){
             $(this).parent().parent().parent().remove()
@@ -27,7 +30,7 @@ rxw1.confirmpad=function(param) {
         $(confirmpad).find('[name=confirm]').click(function(){
             $(this).parent().parent().parent().remove()
             if(param.confirm){
-                param.confirm(param.data);
+                param.confirm();
             }
         });
     }})
@@ -52,16 +55,16 @@ rxw1.confirmpad=function(param) {
 }
 
 rxw1.inputpad=function input(param) {
-    this.layer({init:function(){
-        this.style['background-color']='rgba(0, 0, 0, 0)';
+    this.layer({init:function(layer){
+        layer.style['background-color']='rgba(0, 0, 0, 0)';
         var inputpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div  style="width:90%;text-align:center;margin:10px auto;"><input type="text" value="" style="text-align: center;width:100%"/></div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div></div>');
-        $(this).append(inputpad);
+        $(layer).append(inputpad);
 
         $(inputpad).find('[name=cancel]').click(function(){
             $(this).parent().parent().parent().remove()
         });
         $(inputpad).find('[name=confirm]').click(function(){
-            var val = $(this).parent().parent().find("input").val()
+            var val = $(layer).parent().parent().find("input").val()
             $(this).parent().parent().parent().remove()
             if(param.confirm){
                 param.confirm(val);
@@ -95,17 +98,17 @@ rxw1.inputpad=function input(param) {
 //}
 
 rxw1.imgPreview=function(src){
-    this.layer({init:function(){
-        $(this).append('<img style="margin:auto;display:block;position:relative;top:50%;transform: translateY(-50%)" src="'+src+'">')
-        this.onclick= function (){
+    this.layer({init:function(layer){
+        $(layer).append('<img style="margin:50px auto;display:block;position:relative;" src="'+src+'">')
+        layer.onclick= function (){
             this.parentNode.removeChild(this)
         }
     }})
 }
 
 rxw1.waitLock = function () {
-    this.layer({init:function(){
-        this.style['background-color']='rgba(0,0,0,0)'
+    this.layer({init:function(layer){
+        layer.style['background-color']='rgba(0,0,0,0)'
         var img=document.createElement("img");
         img.style.width='60px';
         img.style.position='absolute';
@@ -113,20 +116,22 @@ rxw1.waitLock = function () {
         img.style.left='50%';
         img.style.transform='translate(-50%,-50%)';
         img.src=rxw1.relativePath+'rxw/img/wait.gif';
-        this.appendChild(img);
-        var layer = this;
-        rxw1.waitLock.remove = function(){
-            layer.parentNode.removeChild(layer);
-        }
+        layer.classList.add('rxw1-waitLock')
+        layer.appendChild(img);
     }})
+
+}
+rxw1.waitLock.remove = function(){
+    $('.rxw1-waitLock').remove()
 }
 
 rxw1.layer=function (params){
     var div = document.createElement('div');
     if(params.id==undefined||params.id==null)
-        div.id='rxw1-layer'
+        div.id='rxw1-layer'+ Math.round(Math.random()*12)
     else
         div.id=params.id;
+    div.classList.add('rxw1-layer')
     div.style.position='fixed';
     div.style.display='none';
     div.style.top='0';
@@ -134,12 +139,13 @@ rxw1.layer=function (params){
     div.style.bottom='0';
     div.style.right='0';
     div.style.overflow='scroll';
-    div.style['z-index']=9999999,
-        div.style['background-color']='rgba(0, 0, 0, 0.3)';
+    div.style['z-index']=9999999;
+    div.style['background-color']='rgba(0, 0, 0, 0.3)';
     document.body.appendChild(div);
     if(params.init!=undefined||params.init!=null){
-        div.rxw1_layerInit=params.init;
-        div.rxw1_layerInit();
+        params.init(div);
+        //div.rxw1_layerInit=params.init;
+        //div.rxw1_layerInit();
     }
     div.style.display='block';
 }
@@ -179,8 +185,7 @@ rxw1.chooseFile = function (params){
 
         if(params.chooseEnd)
         {
-            this.rxw1_chooseFile_end=params.chooseEnd;
-            this.rxw1_chooseFile_end();
+            params.chooseEnd(this)
         }
     })
     input.click();

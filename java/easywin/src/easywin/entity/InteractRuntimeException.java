@@ -15,8 +15,8 @@ public class InteractRuntimeException extends RuntimeException {
 		this.data = data;
 	}
 
-	public InteractRuntimeException(int code, Object data) {
-		super();
+	public InteractRuntimeException(int code, String message, Object data) {
+		super(message);
 		this.code = code;
 		this.data = data;
 	}

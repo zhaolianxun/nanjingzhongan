@@ -3,7 +3,9 @@ package easywin.module.mall.api;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +50,7 @@ public class MyLitterCoffer {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 检查手机号
 			pst = connection.prepareStatement(
-					"select (select ifnull(sum(amount),0) from t_mall_user_bill where user_id=t.id and mall_id=t.mall_id) reward_money,t.money,(select count(id) from t_mall_user where register_from_user_id=t.id) my_fans_count from t_mall_user t where t.id=? and t.mall_id=?");
+					"select (select ifnull(sum(amount),0) from t_mall_user_withdraw where user_id=t.id and status=1) withdrewMoney,t.money canWithdrawMoney,(select ifnull(sum(amount),0) from t_mall_user_bill where user_id=t.id and mall_id=t.mall_id) reward_money,t.money,(select count(id) from t_mall_user where register_from_user_id=t.id) my_fans_count from t_mall_user t where t.id=? and t.mall_id=?");
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, mallId);
 			ResultSet rs = pst.executeQuery();
@@ -84,8 +86,8 @@ public class MyLitterCoffer {
 		}
 	}
 
-	@RequestMapping(value = "/bill/ent")
-	public void billEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/rewardrecord/ent")
+	public void rewardrecordEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -113,7 +115,7 @@ public class MyLitterCoffer {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.type,t.amount,t.note,t.happen_time from t_mall_user_bill t where t.user_id=? and t.mall_id=? ")
+					"select t.amount,t.note,t.happen_time from t_mall_user_bill t where t.user_id=? and t.mall_id=? and t.type=1")
 							.append(" order by t.happen_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -125,7 +127,6 @@ public class MyLitterCoffer {
 				item.put("amount", rs.getObject("amount"));
 				item.put("note", rs.getObject("note"));
 				item.put("happenTime", rs.getObject("happen_time"));
-				item.put("type", rs.getObject("type"));
 				items.add(item);
 			}
 			pst.close();
@@ -137,6 +138,235 @@ public class MyLitterCoffer {
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/withdrawrecord/ent")
+	public void withdrawrecordEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String mallId = StringUtils.trimToNull(request.getParameter("mall_id"));
+			if (mallId == null)
+				throw new InteractRuntimeException("mall_id不可空");
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			List sqlParams = new ArrayList();
+			sqlParams.add(loginStatus.getUserId());
+			sqlParams.add(mallId);
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.status,t.amount,t.note,t.fail_reason,t.apply_time from t_mall_user_withdraw t where t.user_id=? and t.mall_id=?")
+							.append(" order by t.apply_time desc limit ?,? ").toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("status", rs.getObject("status"));
+				item.put("amount", rs.getObject("amount"));
+				item.put("note", rs.getObject("note"));
+				item.put("failReason", rs.getObject("fail_reason"));
+				item.put("applyTime", rs.getObject("apply_time"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/myfans/ent")
+	public void myfansEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String mallId = StringUtils.trimToNull(request.getParameter("mall_id"));
+			if (mallId == null)
+				throw new InteractRuntimeException("mall_id不可空");
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			List sqlParams = new ArrayList();
+			sqlParams.add(loginStatus.getUserId());
+			sqlParams.add(mallId);
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.headimg,t.register_time,insert(if(isnull(t.realname),if(isnull(t.phone),t.nickname,t.phone),t.realname),2,3,'***') user_logo from t_mall_user t  where t.register_from_user_id=? and t.mall_id=?")
+							.append(" order by t.register_time desc limit ?,? ").toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("headimg", rs.getObject("headimg"));
+				item.put("registerTime", rs.getObject("register_time"));
+				item.put("userLogo", rs.getObject("user_logo"));
+				items.add(item);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/withdraw/apply")
+	public void withdrawApply(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String mallId = StringUtils.trimToNull(request.getParameter("mall_id"));
+			if (mallId == null)
+				throw new InteractRuntimeException("mall_id不可空");
+			String amountParam = StringUtils.trimToNull(request.getParameter("amount"));
+			if (amountParam == null)
+				throw new InteractRuntimeException("amount不可空");
+			Integer amount = Integer.parseInt(amountParam);
+			if (amount <= 0)
+				throw new InteractRuntimeException("金额有误");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+
+			List sqlParams = new ArrayList();
+			sqlParams.add(loginStatus.getUserId());
+			sqlParams.add(mallId);
+			pst = connection.prepareStatement(
+					new StringBuilder("select t.money from t_mall_user t where t.id=? and t.mall_id=? for update")
+							.toString());
+			for (int i = 0; i < sqlParams.size(); i++)
+				pst.setObject(i + 1, sqlParams.get(i));
+
+			ResultSet rs = pst.executeQuery();
+			int money = 0;
+			if (rs.next()) {
+				money = rs.getInt("money");
+			} else
+				throw new InteractRuntimeException("用户不存在");
+			pst.close();
+
+			if (money < amount)
+				throw new InteractRuntimeException(1000, "余额不足", null);
+
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_mall_user set money=money-? where id=? and mall_id=? and (money-?)>=0")
+							.toString());
+			pst.setObject(1, amount);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, mallId);
+			pst.setObject(4, amount);
+			int cnt = pst.executeUpdate();
+			pst.close();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"insert into t_mall_user_withdraw (mall_id,user_id,amount,apply_time) values(?,?,?,?)").toString(),
+					Statement.RETURN_GENERATED_KEYS);
+			pst.setObject(1, mallId);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, amount);
+			pst.setObject(4, new Date().getTime());
+			cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			rs = pst.getGeneratedKeys();
+			rs.next();
+			int withdrawId = rs.getInt(1);
+			pst.close();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"insert into t_mall_user_bill (mall_id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,2)")
+							.toString());
+			pst.setObject(1, mallId);
+			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(3, amount);
+			pst.setObject(4, "提现");
+			pst.setObject(5, new Date().getTime());
+			pst.setObject(6, withdrawId);
+			cnt = pst.executeUpdate();
+			if (cnt != 1)
+				throw new InteractRuntimeException("操作失败");
+			pst.close();
+
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源

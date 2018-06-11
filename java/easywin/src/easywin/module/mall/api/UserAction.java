@@ -52,6 +52,7 @@ public class UserAction {
 			if (mallId == null)
 				throw new InteractRuntimeException("mall_id不可空");
 			String nickname = StringUtils.trimToNull(request.getParameter("nickname"));
+			String headimg = StringUtils.trimToNull(request.getParameter("headimg"));
 			String appId = mallId;
 			String fromUserId = StringUtils.trimToNull(request.getParameter("from"));
 			connection = EasywinDataSource.dataSource.getConnection();
@@ -111,7 +112,7 @@ public class UserAction {
 			if (userId == null) {
 				userId = RandomStringUtils.randomNumeric(12);
 				pst = connection.prepareStatement(
-						"insert into t_mall_user (id,mall_id,headimg,wx_openid,wx_sessionkey,register_time,register_from_user_id,nickname) values(?,?,?,?,?,rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0'),?,?)");
+						"insert into t_mall_user (id,mall_id,headimg,wx_openid,wx_sessionkey,register_time,register_from_user_id,nickname,headimg) values(?,?,?,?,?,rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0'),?,?,?)");
 				pst.setObject(1, userId);
 				pst.setObject(2, mallId);
 				pst.setObject(3, "");
@@ -119,17 +120,19 @@ public class UserAction {
 				pst.setObject(5, sessionKey);
 				pst.setObject(6, fromUserId);
 				pst.setObject(7, nickname);
+				pst.setObject(8, headimg);
 				int n = pst.executeUpdate();
 				pst.close();
 				if (n != 1)
 					throw new InteractRuntimeException("操作失败");
 			} else {
-				pst = connection
-						.prepareStatement("update t_mall_user set wx_openid=?,wx_sessionkey=?,nickname=? where id=?");
+				pst = connection.prepareStatement(
+						"update t_mall_user set wx_openid=?,wx_sessionkey=?,nickname=?,headimg=? where id=?");
 				pst.setObject(1, openid);
 				pst.setObject(2, sessionKey);
 				pst.setObject(3, nickname);
-				pst.setObject(4, userId);
+				pst.setObject(4, headimg);
+				pst.setObject(5, userId);
 				int n = pst.executeUpdate();
 				pst.close();
 				if (n != 1)
