@@ -150,6 +150,45 @@ rxw1.layer=function (params){
     div.style.display='block';
 }
 
+//{complete:function({canvas:,imgType:'image/png'}){},xRadio:1,yRadio:1}
+rxw1.cutImg = function (params){
+    rxw1.chooseFile({chooseEnd:function(input){
+        var file=input.files[0];
+        if(!file.type || file.type.indexOf('image') != 0){
+            alert('请选择一张图片');
+        }else {
+            var img = new Image();
+            url = window.URL.createObjectURL(file) // 得到bolb对象路径，可当成普通的文件路径一样使用，赋值给src;
+            rxw1.layer({
+                init:function(layer){
+                    layer.style.padding='30px 0';
+                    layer.innerHTML="<div style='margin:auto;width:300px;text-align: center;margin-bottom:30px'><button style='width:100px' name='cancel'>取消</button><span style='width:30px;display: inline-block'></span><button style='width:100px' name='confirm'>确定</button></div><img name='targetImg' style='margin:30px auto;display:block;' src='"+url+"'>";
+
+                    var xRadio = params.xRadio||1;
+                    var yRadio = params.yRadio||1;
+
+                    $(layer).find('[name=targetImg]').cropper({
+                        aspectRatio: xRadio / yRadio,
+                        viewMode:1,
+                        background:false
+                    });
+
+                    $(layer).find('[name=cancel]').click(function(){
+                        $(layer).remove();
+                    })
+
+                    $(layer).find('[name=confirm]').click(function(){
+                        var cas=$(layer).find('[name=targetImg]').cropper('getCroppedCanvas');
+                        $(layer).remove();
+                        if(params.complete)
+                            params.complete({canvas:cas,imgType:file.type})
+
+                    })
+                }
+            })
+        }
+    }});
+}
 
 //{img:, width:, height:, ratio:}
 //ratio:0 - 1
@@ -172,6 +211,14 @@ rxw1.compressImg = function (params) {
     return img64;
 }
 
+rxw1.convertBase64UrlToBlob=function(urlData){
+    var arr = urlData.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
+}
 
 rxw1.chooseFile = function (params){
     var inputId = Math.round(Math.random()*12);

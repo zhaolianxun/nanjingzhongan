@@ -166,13 +166,12 @@
 
     var appData;
 
-    try{
+
         onload()
-    }catch(e){
-        rxw1.errorpad(e);
-    }
+
     function onload(){
-        rxw1.waitLock();
+        try{
+            rxw1.waitLock();
         $.ajax({
             type: 'POST',
             async: false,
@@ -243,7 +242,12 @@
         }else if(appData.auditStatus == 0){
 
         }
-       rxw1.waitLock.remove();
+
+        }catch(e){
+            rxw1.errorpad(e);
+        }finally{
+            rxw1.waitLock.remove();
+        }
     }
 
     function unaudit(){

@@ -15,11 +15,14 @@ rxw1.errorpad=function (content) {
     }, 2000);
 }
 
+//{content:'',
+// data,{},
+// confirm:function(){}}
 rxw1.confirmpad=function(param) {
-    this.layer({init:function(){
-        this.style['background-color']='rgba(0, 0, 0, 0)';
+    this.layer({init:function(layer){
+        layer.style['background-color']='rgba(0, 0, 0, 0)';
         var confirmpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div></div>');
-        $(this).append(confirmpad);
+        $(layer).append(confirmpad);
 
         $(confirmpad).find('[name=cancel]').click(function(){
             $(this).parent().parent().parent().remove()
@@ -27,7 +30,7 @@ rxw1.confirmpad=function(param) {
         $(confirmpad).find('[name=confirm]').click(function(){
             $(this).parent().parent().parent().remove()
             if(param.confirm){
-                param.confirm(param.data);
+                param.confirm();
             }
         });
     }})
@@ -52,16 +55,16 @@ rxw1.confirmpad=function(param) {
 }
 
 rxw1.inputpad=function input(param) {
-    this.layer({init:function(){
-        this.style['background-color']='rgba(0, 0, 0, 0)';
+    this.layer({init:function(layer){
+        layer.style['background-color']='rgba(0, 0, 0, 0)';
         var inputpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div  style="width:90%;text-align:center;margin:10px auto;"><input type="text" value="" style="text-align: center;width:100%"/></div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div></div>');
-        $(this).append(inputpad);
+        $(layer).append(inputpad);
 
         $(inputpad).find('[name=cancel]').click(function(){
             $(this).parent().parent().parent().remove()
         });
         $(inputpad).find('[name=confirm]').click(function(){
-            var val = $(this).parent().parent().find("input").val()
+            var val = $(layer).parent().parent().find("input").val()
             $(this).parent().parent().parent().remove()
             if(param.confirm){
                 param.confirm(val);
@@ -95,17 +98,17 @@ rxw1.inputpad=function input(param) {
 //}
 
 rxw1.imgPreview=function(src){
-    this.layer({init:function(){
-        $(this).append('<img style="margin:auto;display:block;position:relative;top:50%;transform: translateY(-50%)" src="'+src+'">')
-        this.onclick= function (){
+    this.layer({init:function(layer){
+        $(layer).append('<img style="margin:50px auto;display:block;position:relative;" src="'+src+'">')
+        layer.onclick= function (){
             this.parentNode.removeChild(this)
         }
     }})
 }
 
 rxw1.waitLock = function () {
-    this.layer({init:function(){
-        this.style['background-color']='rgba(0,0,0,0)'
+    this.layer({init:function(layer){
+        layer.style['background-color']='rgba(0,0,0,0)'
         var img=document.createElement("img");
         img.style.width='60px';
         img.style.position='absolute';
@@ -113,12 +116,13 @@ rxw1.waitLock = function () {
         img.style.left='50%';
         img.style.transform='translate(-50%,-50%)';
         img.src=rxw1.relativePath+'rxw/img/wait.gif';
-        this.classList.add('rxw1-waitLock')
-        this.appendChild(img);
-        rxw1.waitLock.remove = function(){
-            $('.rxw1-waitLock').remove()
-        }
+        layer.classList.add('rxw1-waitLock')
+        layer.appendChild(img);
     }})
+
+}
+rxw1.waitLock.remove = function(){
+    $('.rxw1-waitLock').remove()
 }
 
 rxw1.layer=function (params){
@@ -135,16 +139,56 @@ rxw1.layer=function (params){
     div.style.bottom='0';
     div.style.right='0';
     div.style.overflow='scroll';
-    div.style['z-index']=9999999,
-        div.style['background-color']='rgba(0, 0, 0, 0.3)';
+    div.style['z-index']=9999999;
+    div.style['background-color']='rgba(0, 0, 0, 0.3)';
     document.body.appendChild(div);
     if(params.init!=undefined||params.init!=null){
-        div.rxw1_layerInit=params.init;
-        div.rxw1_layerInit();
+        params.init(div);
+        //div.rxw1_layerInit=params.init;
+        //div.rxw1_layerInit();
     }
     div.style.display='block';
 }
 
+//{complete:function({canvas:,imgType:'image/png'}){},xRadio:1,yRadio:1}
+rxw1.cutImg = function (params){
+    rxw1.chooseFile({chooseEnd:function(input){
+        var file=input.files[0];
+        if(!file.type || file.type.indexOf('image') != 0){
+            alert('请选择一张图片');
+        }else {
+            var img = new Image();
+            url = window.URL.createObjectURL(file) // 得到bolb对象路径，可当成普通的文件路径一样使用，赋值给src;
+            rxw1.layer({
+                init:function(layer){
+                    layer.style.padding='30px 0';
+                    layer.innerHTML="<div style='margin:auto;width:300px;text-align: center;margin-bottom:30px'><button style='width:100px' name='cancel'>取消</button><span style='width:30px;display: inline-block'></span><button style='width:100px' name='confirm'>确定</button></div><img name='targetImg' style='margin:30px auto;display:block;' src='"+url+"'>";
+
+                    var xRadio = params.xRadio||1;
+                    var yRadio = params.yRadio||1;
+
+                    $(layer).find('[name=targetImg]').cropper({
+                        aspectRatio: xRadio / yRadio,
+                        viewMode:1,
+                        background:false
+                    });
+
+                    $(layer).find('[name=cancel]').click(function(){
+                        $(layer).remove();
+                    })
+
+                    $(layer).find('[name=confirm]').click(function(){
+                        var cas=$(layer).find('[name=targetImg]').cropper('getCroppedCanvas');
+                        $(layer).remove();
+                        if(params.complete)
+                            params.complete({canvas:cas,imgType:file.type})
+
+                    })
+                }
+            })
+        }
+    }});
+}
 
 //{img:, width:, height:, ratio:}
 //ratio:0 - 1
@@ -167,6 +211,14 @@ rxw1.compressImg = function (params) {
     return img64;
 }
 
+rxw1.convertBase64UrlToBlob=function(urlData){
+    var arr = urlData.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
+}
 
 rxw1.chooseFile = function (params){
     var inputId = Math.round(Math.random()*12);
@@ -180,8 +232,7 @@ rxw1.chooseFile = function (params){
 
         if(params.chooseEnd)
         {
-            this.rxw1_chooseFile_end=params.chooseEnd;
-            this.rxw1_chooseFile_end();
+            params.chooseEnd(this)
         }
     })
     input.click();

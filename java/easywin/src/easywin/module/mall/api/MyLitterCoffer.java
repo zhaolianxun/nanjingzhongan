@@ -115,7 +115,7 @@ public class MyLitterCoffer {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.amount,t.note,t.happen_time from t_mall_user_bill t where t.user_id=? and t.mall_id=? and t.type=1")
+					"select u.headimg,t.amount,t.note,t.happen_time from t_mall_user_bill t left join t_mall_order_detail od on t.link=od.id left join t_mall_order o on od.order_id=o.id left join t_mall_user u on u.id=o.user_id where t.user_id=? and t.mall_id=? and t.type=1")
 							.append(" order by t.happen_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -125,6 +125,7 @@ public class MyLitterCoffer {
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("amount", rs.getObject("amount"));
+				item.put("headimg", rs.getObject("headimg"));
 				item.put("note", rs.getObject("note"));
 				item.put("happenTime", rs.getObject("happen_time"));
 				items.add(item);

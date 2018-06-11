@@ -1,5 +1,6 @@
 package easywin.module.mall.api;
 
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -119,7 +120,7 @@ public class UserAction {
 				pst.setObject(4, openid);
 				pst.setObject(5, sessionKey);
 				pst.setObject(6, fromUserId);
-				pst.setObject(7, nickname);
+				pst.setObject(7, URLEncoder.encode(nickname, SysConstant.SYS_CHARSET));
 				pst.setObject(8, headimg);
 				int n = pst.executeUpdate();
 				pst.close();
@@ -130,7 +131,7 @@ public class UserAction {
 						"update t_mall_user set wx_openid=?,wx_sessionkey=?,nickname=?,headimg=? where id=?");
 				pst.setObject(1, openid);
 				pst.setObject(2, sessionKey);
-				pst.setObject(3, nickname);
+				pst.setObject(3, URLEncoder.encode(nickname, SysConstant.SYS_CHARSET));
 				pst.setObject(4, headimg);
 				pst.setObject(5, userId);
 				int n = pst.executeUpdate();

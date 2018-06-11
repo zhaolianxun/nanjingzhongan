@@ -1,4 +1,4 @@
-------0.0.3--------------
+------0.0.3--------------2018/06/11 16:19
 部署前执行sql: 
 alter table t_activity add column offline_time BIGINT null after status;
 日志: 
