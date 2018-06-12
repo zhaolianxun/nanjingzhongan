@@ -117,7 +117,7 @@ public class UserManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
-					"select id,phone,nickname,realname,register_time from t_user where 1=1 and from_agent_id=? "
+					"select agent_is,id,phone,nickname,realname,register_time from t_user where 1=1 and from_agent_id=? "
 							+ (phone == null ? "" : " and phone like ? ") + " order by register_time desc limit ?,?");
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -130,11 +130,11 @@ public class UserManageEntrance {
 				item.put("nickname", rs.getObject("nickname"));
 				item.put("realname", rs.getObject("realname"));
 				item.put("registerTime", rs.getObject("register_time"));
+				item.put("agentIs", rs.getObject("agent_is"));
 				items.add(item);
 			}
 			pst.close();
 
-			
 			sqlParams = new ArrayList();
 			sqlParams.add(loginStatus.getUserId());
 			if (phone != null)
@@ -149,7 +149,7 @@ public class UserManageEntrance {
 				sum.put("count", rs.getObject("total_count"));
 			}
 			pst.close();
-			
+
 			// 返回结果
 			JSONObject data = new JSONObject();
 			JSONObject users = new JSONObject();

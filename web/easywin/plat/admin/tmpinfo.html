@@ -4,8 +4,12 @@
     <script type="text/javascript" src="../libs/jquery.min.js"></script>
     <script src="../libs/jquery.cookie.js"></script>
     <script src="../libs/default.js"></script>
+    <script src="../libs/json2.js"></script>
     <script src="../libs/upload.js"></script>
-
+    <script src="../../rxw/rxw.js"></script>
+    <script src="../../cropper/cropper.js"></script>
+    <link href="../../cropper/cropper.css" rel="stylesheet" />
+    <script src="../../libs/vconsole.min.js"></script>
 </head>
 <body style="margin:20px">
 
@@ -40,100 +44,119 @@
 
 
 <script type="text/javascript">
+    rxw1.relativePath='../../'
     var token = $.cookie('token');
-    var queryStrObj= parseQueryStr(location.search.substr(1));
+    var queryStrObj= rxw1.parseQueryStr(location.search.substr(1));
     var id = queryStrObj.seed_id;
     var item ;
     onload();
 
 
     function alterIcon(){
-        previewImg(function(url){
-            alter('icon',url);
-            $('#icon').html('<img style="width:35px;cursor:pointer;" onclick="imgShow(this)" src="'+url+'" />');
-        });
+        rxw1.cutImg({complete:function(params){
+            params.canvas.toBlob(function (blob) {
+                var url = uploadFileByBlob(blob,params.input.files[0].name)
+                alter('icon',url);
+                $('#icon').html('<img style="width:35px;cursor:pointer;" onclick="rxw1.imgPreview(this.src)" src="'+url+'" />');
+            })
+        },xRadio:1,yRadio:1})
     }
     function alterIntroPic(){
-        previewImg(function(url){
-            alter('intro_pic',url);
-            $('#introPic').html('<img style="width:35px;cursor:pointer;" onclick="imgShow(this)" src="'+url+'" />');
-        });
+        rxw1.cutImg({complete:function(params){
+            params.canvas.toBlob(function (blob) {
+                var url = uploadFileByBlob(blob,params.input.files[0].name)
+                alter('intro_pic',url);
+                $('#introPic').html('<img style="width:35px;cursor:pointer;" onclick="rxw1.imgPreview(this.src)" src="'+url+'" />');
+            })
+        },xRadio:1.58,yRadio:1})
+
+//
+//        previewImg(function(url){
+//            alter('intro_pic',url);
+//            $('#introPic').html('<img style="width:35px;cursor:pointer;" onclick="imgShow(this)" src="'+url+'" />');
+//        });
     }
 function alterName(){
-   rxw.inputpad('输入模板名',$('#name').text(),function(val){
-       if(!val)
-           return;
-       alter('name',val);
-   });
-
+    rxw1.inputpad({content:'输入模板名',confirm:function(val){
+        if(!val)
+            return;
+        alter('name',val);
+    }})
 }
     function alterSummary(){
-        var value= prompt('输入概要');
-        if(!value)
-            return;
-        alter('summary',value);
+        rxw1.inputpad({content:'输入概要',confirm:function(val){
+            if(!val)
+                return;
+            alter('summary',val);
+        }})
     }
     function alterRemark(){
-        var value= prompt('输入备注');
-        if(!value)
-            return;
-        alter('remark',value);
+        rxw1.inputpad({content:'输入备注',confirm:function(val){
+            if(!val)
+                return;
+            alter('remark',val);
+        }})
     }
     function alterPrice(){
-        var value= prompt('输入价格');
-        if(!value)
-            return;
-        if(isNaN(value)){
-            alert('请输出数字')
+        rxw1.inputpad({content:'输入价格',confirm:function(val){
+            if(!val)
                 return;
-        }
-        if(value < 0){
-            alert('不可小于0')
-            return;
-        }
-        alter('price',value*100);
+            if(isNaN(val)){
+                rxw1.errorpad('请输出数字')
+                return;
+            }
+            if(val < 0){
+                rxw1.errorpad('不可小于0')
+                return;
+            }
+            alter('price',val*100);
+        }})
     }
     function alterAgent1Price(){
-        var value= prompt('输入代理1价格');
-        if(!value)
-            return;
-            if(isNaN(value)){
-                alert('请输出数字')
+        rxw1.inputpad({content:'输入代理1价格',confirm:function(val){
+            if(!val)
+                return;
+            if(isNaN(val)){
+                rxw1.errorpad('请输出数字')
                 return;
             }
-        if(value < 0){
-            alert('不可小于0')
-            return;
-        }
-        alter('agent1_price',value*100);
+            if(val < 0){
+                rxw1.errorpad('不可小于0')
+                return;
+            }
+            alter('agent1_price',val*100);
+        }})
+
     }
     function alterAgent2Price(){
-        var value= prompt('输入代理2价格');
-        if(!value)
-            return;
-            if(isNaN(value)){
-                alert('请输出数字')
+        rxw1.inputpad({content:'输入代理2价格',confirm:function(val){
+            if(!val)
+                return;
+            if(isNaN(val)){
+                rxw1.errorpad('请输出数字')
                 return;
             }
-        if(value < 0){
-            alert('不可小于0')
-            return;
-        }
-        alter('agent2_price',value*100);
+            if(val < 0){
+                rxw1.errorpad('不可小于0')
+                return;
+            }
+            alter('agent2_price',val*100);
+        }})
     }
     function alterAgent3Price(){
-        var value= prompt('输入代理3价格');
-        if(!value)
-            return;
-            if(isNaN(value)){
-                alert('请输出数字')
+        rxw1.inputpad({content:'输入代理3价格',confirm:function(val){
+            if(!val)
+                return;
+            if(isNaN(val)){
+                rxw1.errorpad('请输出数字')
                 return;
             }
-        if(value < 0){
-            alert('不可小于0')
-            return;
-        }
-        alter('agent3_price',value*100);
+            if(val < 0){
+                rxw1.errorpad('不可小于0')
+                return;
+            }
+            alter('agent3_price',val*100);
+        }})
     }
     function alter(name,value){
         var data = {};
@@ -147,7 +170,7 @@ function alterName(){
                 if(res.code == 0){
                     location.reload();
                 }else{
-                    alert( res.codeMsg)
+                    rxw1.errorpad( res.codeMsg)
                 }
             }
         })
@@ -166,13 +189,13 @@ function alterName(){
                     $('#agent1Price').text(res.data.agent1Price/100);
                     $('#agent2Price').text(res.data.agent2Price/100);
                     $('#agent3Price').text(res.data.agent3Price/100);
-                    $('#icon').html('<img style="width:35px;cursor:pointer;" onclick="imgShow(this)" src="'+res.data.icon+'" />');
+                    $('#icon').html('<img style="width:35px;cursor:pointer;" onclick="rxw1.imgPreview(this.src)" src="'+res.data.icon+'" />');
                     $('#name').text(res.data.name);
                     $('#summary').text(res.data.summary);
-                    $('#introPic').html('<img style="width:35px;cursor:pointer;" onclick="imgShow(this)" src="'+res.data.introPic+'" />');
+                    $('#introPic').html('<img style="width:35px;cursor:pointer;" onclick="rxw1.imgPreview(this.src)" src="'+res.data.introPic+'" />');
                     $('#remark').text(res.data.remark);
                 }else{
-                    alert( res.codeMsg)
+                    rxw1.errorpad( res.codeMsg)
                 }
             }
         })

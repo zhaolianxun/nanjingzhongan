@@ -70,11 +70,14 @@
 
 function scrollBottom(ele){
     ele.onscroll = function() {
+        var div = document.createElement("div");
+        div.innerText = ele.scrollTop + ' ' + this.scrollHeight
         if (this.scrollTop + this.offsetHeight >= this.scrollHeight) {
-            var div = document.createElement("div");
-            div.innerText = ele.scrollTop + ' ' + this.scrollHeight
             this.appendChild(div)
+        }else if(this.scrollTop == 0){
+
         }
+
     }
 }
     //-----------------结束--------------------

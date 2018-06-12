@@ -5,6 +5,7 @@
     <title></title>
 </head>
 <body>
+
 <div>13</div>
 <div>13</div><div>13</div><div>13</div><div>13</div><div>13</div><div>13</div><div>13</div><div>13</div><div>13</div><div>13</div><div>13</div><div>13</div><div>13</div><div>13</div><div>13</div><div>13</div><div>13</div>
 <div>13</div>
@@ -58,12 +59,20 @@
 <div>13</div>
 <div>13</div>
 <div>13</div>
+
 </body>
 
 <script>
+windowScroll({down:function(){
+    //向下到底
+    var div = document.createElement("div");
 
+    div.innerText=111
+    document.body.appendChild(div)
+}})
     //--------------上拉加载更多---------------
     //获取滚动条当前的位置
+function windowScroll(params){
     function getScrollTop() {
         var scrollTop = 0;
         if(document.documentElement && document.documentElement.scrollTop) {
@@ -93,14 +102,19 @@
     //滚动事件触发
     window.onscroll = function() {
         if(getScrollTop() + getClientHeight() >= getScrollHeight()) {
-            var div = document.createElement("div");
-            div.style.height='30px'
-            div.innerText=getScrollTop()+' '+getClientHeight()+' '+getScrollHeight()
-                document.body.appendChild(div)
-           }else if(getScrollTop() == 0){
-                    alert(1)
+
+            if(params.down)
+                params.down();
+        }else if(getScrollTop() == 0){
+            //向上到顶
         }
     }
+}
+//var div = document.createElement("div");
+//div.style.height='30px'
+//div.innerText=getScrollTop()+' '+getClientHeight()+' '+getScrollHeight()
+//document.body.appendChild(div)
+
     //-----------------结束--------------------
 </script>
 </html>

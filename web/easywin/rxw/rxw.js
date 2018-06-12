@@ -159,8 +159,10 @@ rxw1.cutImg = function (params){
         }else {
             var img = new Image();
             url = window.URL.createObjectURL(file) // 得到bolb对象路径，可当成普通的文件路径一样使用，赋值给src;
+
             rxw1.layer({
                 init:function(layer){
+                    console.log(layer)
                     layer.style.padding='30px 0';
                     layer.innerHTML="<div style='margin:auto;width:300px;text-align: center;margin-bottom:30px'><button style='width:100px' name='cancel'>取消</button><span style='width:30px;display: inline-block'></span><button style='width:100px' name='confirm'>确定</button></div><img name='targetImg' style='margin:30px auto;display:block;' src='"+url+"'>";
 
@@ -179,9 +181,9 @@ rxw1.cutImg = function (params){
 
                     $(layer).find('[name=confirm]').click(function(){
                         var cas=$(layer).find('[name=targetImg]').cropper('getCroppedCanvas');
-                        $(layer).remove();
                         if(params.complete)
-                            params.complete({canvas:cas,imgType:file.type})
+                            params.complete({canvas:cas,imgType:file.type,fileName:file.name})
+                        $(layer).remove();
 
                     })
                 }
@@ -229,12 +231,11 @@ rxw1.chooseFile = function (params){
     input.style.display='none';
     rxw1.addEvent(input,'change',function(){
         var file=this.files[0] // 获取input上传的图片数据;
-
         if(params.chooseEnd)
-        {
             params.chooseEnd(this)
-        }
+      document.body.removeChild(input)
     })
+    document.body.appendChild(input);
     input.click();
 }
 

@@ -20,6 +20,10 @@
     <script type="text/javascript" src="js/image-file-visible.js"></script>
     <script type="text/javascript" src="plugins/layui/layui.js"></script>
     <script src="js/addTmpImg.js"></script>
+    <script src="../../libs/upload.js"></script>
+    <script src="../../rxw/rxw.js"></script>
+    <script src="../../cropper/cropper.js"></script>
+    <link href="../../cropper/cropper.css" rel="stylesheet" />
     <style>#tbody > tr > td > img {
         max-height: 100px;
     }
@@ -119,7 +123,7 @@
                         </form>
 
                         <form id="userCard" class="userCard">
-                            <h5 style="margin-top: 20px;margin-bottom: 20px">三、请上传图片:</h5>
+                            <h5 style="margin-top: 20px;margin-bottom: 20px">三、请上传图片:</h5><span style="color: red !important;font-size: 12px;line-height: 20px;">上传图片jpg，png，jpeg格式，最大1M</span>
                             <div class="mingpian rt" >
                                 <input id="pic2" name="file" type="file" style="cursor:pointer"/>
                                 <div id="image_wrap2" class="lf userCard_img" >
@@ -159,6 +163,28 @@
 <!--<script src="js/oss-api.js"></script>-->
 
 <script>
+    rxw1.relativePath='../../'
+    var pic2 = {};
+$('#pic2').click(function(){
+
+        rxw1.cutImg({
+            complete: function (params) {
+                pic2.canvas = params.canvas;
+                pic2.input = params.input;
+                params.canvas.toBlob(function (blob) {
+                    if(blob.size > 1*1024*1024)
+                        rxw1.errorpad('请选择1M以下的图片')
+                    pic2.blob = blob;
+                })
+                $('.userCard_img_1').attr('src', params.canvas.toDataURL(params.input.type));
+
+
+            }, xRadio: 1, yRadio: 1
+        })
+
+        event.preventDefault();
+
+})
     var token=  localStorage.getItem("token");
     var  mall_id= localStorage.getItem("mall_id");
     var totalPage;
@@ -170,9 +196,10 @@
     layui.config({
         base: 'plugins/layui/modules/'
     });
-    $('.btnFT').on('click','.btnF .btn',function(){
+    $('.btnFT .btn').on('click',function(){
 //        $.addTmpImgYichacha("userCard");
-        var leadPic= $.uploadImgs('userCard');
+        var leadPic = uploadFileByBlob(rxw1.convertBase64UrlToBlob(pic2.canvas.toDataURL(pic2.input.type)),pic2.input.files[0].name);
+
         console.log(leadPic)
         var name=$('.name').val();
         var serviceType=$('.serviceType').val()

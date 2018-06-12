@@ -21,7 +21,7 @@ rxw1.errorpad=function (content) {
 rxw1.confirmpad=function(param) {
     this.layer({init:function(layer){
         layer.style['background-color']='rgba(0, 0, 0, 0)';
-        var confirmpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div></div>');
+        var confirmpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="font-size:14px;font-weight:600;width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button><button name="confirm" style="font-size:14px;font-weight:600;width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div></div>');
         $(layer).append(confirmpad);
 
         $(confirmpad).find('[name=cancel]').click(function(){
@@ -34,30 +34,12 @@ rxw1.confirmpad=function(param) {
             }
         });
     }})
-
-    //if ($("#confirmpad").length <= 0) {
-    //    $("body").append('<div id = "confirmpad" style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >閸欐牗绉�</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >绾喛顓�</button></div></div>');
-    //    $('#confirmpad [name=cancel]').click(function(){
-    //        $("#confirmpad").remove()
-    //    });
-    //    $('#confirmpad [name=confirm]').click(function(){
-    //        $("#confirmpad").remove()
-    //        if(param.confirm){
-    //            param.confirm(param.data);
-    //        }
-    //    });
-    //
-    //}else{
-    //    $("#confirmpad").show()
-    //}
-
-
 }
 
 rxw1.inputpad=function input(param) {
     this.layer({init:function(layer){
         layer.style['background-color']='rgba(0, 0, 0, 0)';
-        var inputpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div  style="width:90%;text-align:center;margin:10px auto;"><input type="text" value="" style="text-align: center;width:100%"/></div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div></div>');
+        var inputpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div  style="width:90%;text-align:center;margin:10px auto;"><input type="text" value="" style="text-align: center;width:100%"/></div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="font-size:14px;font-weight:600;width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button><button name="confirm" style="font-size:14px;font-weight:600;width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div></div>');
         $(layer).append(inputpad);
 
         $(inputpad).find('[name=cancel]').click(function(){
@@ -72,34 +54,25 @@ rxw1.inputpad=function input(param) {
         });
     }})
 }
+rxw1.randomString=function (randomFlag, min, max){
+    var str = "",
+        range = min,
+        arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
-//rxw1.inputpad=function input(param) {
-//    if ($("#inputpad").length <= 0) {
-//        $("body").append('<div id = "inputpad" style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div  style="width:90%;text-align:center;margin:10px auto;"><input type="text" value="'+param.default+'" style="text-align: center;width:100%"/></div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >閸欐牗绉�</button><button name="confirm" style="width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >绾喛顓�</button></div></div>');
-//
-//
-//        $('#inputpad [name=cancel]').click(function(){
-//            $("#inputpad").remove()});
-//        $('#inputpad [name=confirm]').click(function(){
-//            var val = $("#inputpad input").val()
-//            $("#inputpad").remove()
-//            if(param.confirm){
-//                param.confirm(val);
-//            }
-//        });
-//    }else{
-//        $("#inputpad").show()
-//    }
-//}
-
-
-//rxw1.imgPreview=function (url){
-//    $("body").append('<div onclick="$(this).remove();$(\'body\').css(\'overflow\',\'auto\')" style="z-index:999999;position: absolute;left: 0;top:0;background-color: rgba(0,0,0,0.1);width:100%;height:500px;"> <img style="display:block;margin:auto;position:relative;" src="'+url+'"> /*<img style="display:block;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%)" src="'+url+'">*/ </div>')
-//}
+    // 随机产生
+    if(randomFlag){
+        range = Math.round(Math.random() * (max-min)) + min;
+    }
+    for(var i=0; i<range; i++){
+        pos = Math.round(Math.random() * (arr.length-1));
+        str += arr[pos];
+    }
+    return str;
+}
 
 rxw1.imgPreview=function(src){
     this.layer({init:function(layer){
-        $(layer).append('<img style="margin:50px auto;display:block;position:relative;" src="'+src+'">')
+        $(layer).append('<img style="margin:50px auto;display:block;position:relative;max-width:95%" src="'+src+'">')
         layer.onclick= function (){
             this.parentNode.removeChild(this)
         }
@@ -128,7 +101,7 @@ rxw1.waitLock.remove = function(){
 rxw1.layer=function (params){
     var div = document.createElement('div');
     if(params.id==undefined||params.id==null)
-        div.id='rxw1-layer'+ Math.round(Math.random()*12)
+        div.id='rxw1-layer'+ rxw1.randomString(false,4)
     else
         div.id=params.id;
     div.classList.add('rxw1-layer')
@@ -155,14 +128,16 @@ rxw1.cutImg = function (params){
     rxw1.chooseFile({chooseEnd:function(input){
         var file=input.files[0];
         if(!file.type || file.type.indexOf('image') != 0){
-            alert('请选择一张图片');
+            throw '选择的文件不是图片格式';
         }else {
             var img = new Image();
             url = window.URL.createObjectURL(file) // 得到bolb对象路径，可当成普通的文件路径一样使用，赋值给src;
+
             rxw1.layer({
                 init:function(layer){
+                    console.log(layer)
                     layer.style.padding='30px 0';
-                    layer.innerHTML="<div style='margin:auto;width:300px;text-align: center;margin-bottom:30px'><button style='width:100px' name='cancel'>取消</button><span style='width:30px;display: inline-block'></span><button style='width:100px' name='confirm'>确定</button></div><img name='targetImg' style='margin:30px auto;display:block;' src='"+url+"'>";
+                    layer.innerHTML="<div style='margin:auto;width:100%;text-align: center;margin-bottom:30px'><button style='width:100px' name='cancel'>取消</button><span style='width:30px;display: inline-block'></span><button style='width:100px' name='confirm'>确定</button></div><img name='targetImg' style='margin:30px auto;display:block;' src='"+url+"'>";
 
                     var xRadio = params.xRadio||1;
                     var yRadio = params.yRadio||1;
@@ -177,12 +152,12 @@ rxw1.cutImg = function (params){
                         $(layer).remove();
                     })
 
+
                     $(layer).find('[name=confirm]').click(function(){
                         var cas=$(layer).find('[name=targetImg]').cropper('getCroppedCanvas');
-                        $(layer).remove();
                         if(params.complete)
-                            params.complete({canvas:cas,imgType:file.type})
-
+                            params.complete({input:input,canvas:cas})
+                        $(layer).remove();
                     })
                 }
             })
@@ -221,7 +196,7 @@ rxw1.convertBase64UrlToBlob=function(urlData){
 }
 
 rxw1.chooseFile = function (params){
-    var inputId = Math.round(Math.random()*12);
+    var inputId = rxw1.randomString(false,12);
     var input=document.createElement("input");
     input.type='file';
     input.id=inputId;
@@ -229,12 +204,11 @@ rxw1.chooseFile = function (params){
     input.style.display='none';
     rxw1.addEvent(input,'change',function(){
         var file=this.files[0] // 获取input上传的图片数据;
-
         if(params.chooseEnd)
-        {
             params.chooseEnd(this)
-        }
+      document.body.removeChild(input)
     })
+    document.body.appendChild(input);
     input.click();
 }
 
@@ -380,4 +354,45 @@ rxw1.isEmptyStr =function (str){
 
 rxw1.trimStrToEmpty = function(str){
     return str.replace(/^\s+|\s+$/gm,'');
+}
+
+
+
+
+rxw1.windowScrollPaging = function (params){
+    function getScrollTop() {
+        var scrollTop = 0;
+        if(document.documentElement && document.documentElement.scrollTop) {
+            scrollTop = document.documentElement.scrollTop;
+        } else if(document.body) {
+            scrollTop = document.body.scrollTop;
+        }
+        return scrollTop;
+    }
+
+    //获取当前可视范围的高度
+    function getClientHeight() {
+        var clientHeight = 0;
+        if(document.body.clientHeight && document.documentElement.clientHeight) {
+            clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight);
+        } else {
+            clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+        }
+        return clientHeight;
+    }
+
+    //获取文档完整的高度
+    function getScrollHeight() {
+        return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    }
+
+    //滚动事件触发
+    window.onscroll = function() {
+        if(getScrollTop() + getClientHeight() >= getScrollHeight()) {
+            if(params.down)
+                params.down();
+        }else if(getScrollTop() == 0){
+            //向上到顶
+        }
+    }
 }

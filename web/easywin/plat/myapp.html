@@ -11,422 +11,410 @@
     <script src="../rxw/rxw.js"></script>
 
 </head>
-    <link rel="stylesheet" type="text/css" href="libs/iziToast/css/iziToast.min.css">
-    <script type="text/javascript" src="libs/iziToast/js/iziToast.min.js"></script>
-    <style type="text/css">
+<link rel="stylesheet" type="text/css" href="libs/iziToast/css/iziToast.min.css">
+<script type="text/javascript" src="libs/iziToast/js/iziToast.min.js"></script>
+<style type="text/css">
 
-    body{margin:0;}
-       #myappContent .cardcon {
-            padding: 20px 35px
-        }
+    body {
+        margin: 0;
+    }
 
-       #myappContent .carddiv {
-            min-width: 800px;
-            height: 90px;
-            background: #fff;
-            padding: 10px;
-            margin-bottom: 20px;
-            position: relative;
-            box-shadow: 0 2px 4px #ccc
-        }
+    #myappContent .cardcon {
+        padding: 20px 35px
+    }
 
-       #myappContent .carddiv button {
-            font-size: 13px;
-            background: #fff;
-            border: 1px solid #269abc;
-            color: #269abc;
-            border-radius: 3px;
-            width: 70px;
-            height: 25px;
-            margin-top: 32px;
-            margin-right: 8px
-        }
+    #myappContent .carddiv {
+        min-width: 800px;
+        height: 90px;
+        background: #fff;
+        padding: 10px;
+        margin-bottom: 20px;
+        position: relative;
+        box-shadow: 0 2px 4px #ccc
+    }
 
-       #myappContent .carddiv button:hover {
-            background: #269abc;
-            color: #fff
-        }
+    #myappContent .carddiv button {
+        font-size: 13px;
+        background: #fff;
+        border: 1px solid #269abc;
+        color: #269abc;
+        border-radius: 3px;
+        width: 70px;
+        height: 25px;
+        margin-top: 32px;
+        margin-right: 8px
+    }
 
-       #myappContent  .cardnumimg {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 41px
-        }
+    #myappContent .carddiv button:hover {
+        background: #269abc;
+        color: #fff
+    }
 
-       #myappContent  .cardnumtxt {
-            position: absolute;
-            top: 2px;
-            left: 7px;
-            color: #fff;
-            font-weight: 700
-        }
+    #myappContent .cardnumimg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 41px
+    }
 
-       #myappContent  .cardicon {
-            width: 75px;
-            float: left;
-            margin-left: 30px;
-            margin-top: 8px;
-            border-radius: 12px
-        }
+    #myappContent .cardnumtxt {
+        position: absolute;
+        top: 2px;
+        left: 7px;
+        color: #fff;
+        font-weight: 700
+    }
 
-       #myappContent  .carddesc {
-            float: left;
-            vertical-align: top;
-            margin-left: 18px;
-            font-size: 16px;
-            width: 380px;
-            overflow: hidden
-        }
+    #myappContent .cardicon {
+        width: 75px;
+        float: left;
+        margin-left: 30px;
+        margin-top: 8px;
+        border-radius: 12px
+    }
 
-       #myappContent  .cardbt-con {
-            float: right;
-            margin-top: 2px;
-            margin-right: 20px
-        }
+    #myappContent .carddesc {
+        float: left;
+        vertical-align: top;
+        margin-left: 18px;
+        font-size: 16px;
+        width: 380px;
+        overflow: hidden
+    }
 
-       #myappContent .vtimetxt {
-            float: left;
-            margin-left: 15px;
-            color: #3c0;
-            font-size: 13px;
-            line-height: 50px
-        }
-       #myappContent  .qrcodeBox{
-            width: 214px;
-            height: 242px;
-            position: absolute;
-            top: 70px;
-            right: 125px;
-            display: none;
-            z-index: 100;
-        }
-       #myappContent  .qrcode{
-            width: 200px;
-            height: 200px;
-            position: absolute;
-            top: 35px;
-            left: 7px;
-        }
-       #myappContent  #prompt{
-            border-radius: 8px;
-            width: 412px;
-            height: 202px;
-            background-color: #fff;
-            margin: 0 auto;
-            position: relative;
-            display: none;
-        }
-       #myappContent  .tips{
-            color: #000;
-            font-size: 20px;
-            line-height: 140px;
-            text-align: center;
-            margin: 0;
-        }
-       #myappContent .btnBox{
-            width: 195px;
-            margin: 15px auto;
-        }
-       #myappContent  .Btn{
-            color: #fff;
-            width: 80px;
-            height: 30px;
-            border-radius: 3px;
-            text-align: center;
-        }
-       #myappContent  .cancelBtn{
-            background-color: #ec6941;
-            margin-right: 30px;
-        }
-       #myappContent  .alterBtn{
-            background-color: #00a0e9;
-        }
-       #myappContent  hr{
-            margin: 0;
-        }
+    #myappContent .cardbt-con {
+        float: right;
+        margin-top: 2px;
+        margin-right: 20px
+    }
 
-    </style>
+    #myappContent .vtimetxt, .agentInfoEnt {
+        float: left;
+        margin-left: 15px;
+        color: #3c0;
+        font-size: 13px;
+        line-height: 50px
+    }
+
+    #myappContent .qrcodeBox {
+        width: 214px;
+        height: 242px;
+        position: absolute;
+        top: 70px;
+        right: 125px;
+        display: none;
+        z-index: 100;
+    }
+
+    #myappContent .qrcode {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        top: 35px;
+        left: 7px;
+    }
+
+    #myappContent #prompt {
+        border-radius: 8px;
+        width: 412px;
+        height: 202px;
+        background-color: #fff;
+        margin: 0 auto;
+        position: relative;
+        display: none;
+    }
+
+    #myappContent .tips {
+        color: #000;
+        font-size: 20px;
+        line-height: 140px;
+        text-align: center;
+        margin: 0;
+    }
+
+    #myappContent .btnBox {
+        width: 195px;
+        margin: 15px auto;
+    }
+
+    #myappContent .Btn {
+        color: #fff;
+        width: 80px;
+        height: 30px;
+        border-radius: 3px;
+        text-align: center;
+    }
+
+    #myappContent .cancelBtn {
+        background-color: #ec6941;
+        margin-right: 30px;
+    }
+
+    #myappContent .alterBtn {
+        background-color: #00a0e9;
+    }
+
+    #myappContent hr {
+        margin: 0;
+    }
+
+</style>
 <body style="margin:0;">
 <div id="myappContent">
-   <!-- <div style="height:51px;border-bottom:1px solid #ddd;background:#fff">
-        <span style="line-height:50px;float:left;margin-left:66px">
-            <a style="display:none" href="javascript:window.parent.memuClick('userinfo');">控制台</a>
-            <span style="margin:0 10px;display:none">/</span>
-            <a href="myapp.html">我的应用</a>
-        </span>
-    </div>-->
+    <!-- <div style="height:51px;border-bottom:1px solid #ddd;background:#fff">
+         <span style="line-height:50px;float:left;margin-left:66px">
+             <a style="display:none" href="javascript:window.parent.memuClick('userinfo');">控制台</a>
+             <span style="margin:0 10px;display:none">/</span>
+             <a href="myapp.html">我的应用</a>
+         </span>
+     </div>-->
     <div id="body-con" class="body-con">
         <div id="cardcon" class="cardcon">
             <div id="carddivFather" class="carddiv" style="display:none;">
                 <img class="cardnumimg" src="img/cardsanjiao.png">
+
                 <div class="cardnumtxt"></div>
-                <img class="cardicon" >
+                <img class="cardicon">
+
                 <div class="carddesc">
-                    <div  style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"><span class="cardname"></span><span class="cardmsg" style="margin-left:15px;font-size: 10px;color:red;"></span></div>
+                    <div style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                        <span class="cardname"></span>
+                        <span class="cardmsg" style="margin-left:15px;font-size: 10px;color:red;"></span>
+                    </div>
                     <div class="cardcreatetime" style="float:left;font-size: 13px;line-height:50px;"></div>
                     <div class="vtimetxt"></div>
+                    <div class="agentInfoEnt"><a href="javascript:;">所属代理</a></div>
                 </div>
                 <div class="cardbt-con">
-                    <button class="previewbtn" style="display:none" onmouseout="closeBox()">预览</button>
-                  <!--  <button class="updatebtn" style="display:none">更新</button>-->
+                    <button class="previewbtn" style="display:none" onblur="closeBox()">预览</button>
+                    <!--  <button class="updatebtn" style="display:none">更新</button>-->
                     <button class="goauthbtn" style="display:none">前往授权</button>
                     <button class="managebtn" style="display:none">管理后台</button>
                     <button class="lookstatusbtn" style="display:none">查看状态</button>
-                    <div class="qrcodeBox" style="display:none">
-                        <img src="img/rectangle1@2x.png">
-                        <img id="qrcode" class="qrcode" src="" alter="请重试">
+                    <div class="qrcodeBox" style="display:none" >
+                        <img src="img/rectangle1@2x.png" >
+                        <img id="qrcode" class="qrcode" src="" alter="请重试" onmouseout="closeBox()">
                     </div>
-                </div>
-                <div style="clear:both;"></div>
-                </div>
                 </div>
                 <div style="clear:both;"></div>
             </div>
         </div>
+        <div style="clear:both;"></div>
     </div>
-
+    <div id="pagingBottomPad" style="text-align: center">
+        <span name="more" style="cursor:pointer;display:none;position: relative;z-index: 2;background:white;padding:0 5px;color:#7d7d7d" onclick="loadMore()">点击加载更多</span>
+        <span name="finish" style="cursor: default;;display:none;position: relative;z-index: 2;background:white;padding:0 5px;color:#7d7d7d">加载完毕</span>
+        <div style="margin:auto;position: relative; left: 0;top: -10px;width: 95%;height: 1px;background: #DCDCDC;z-index: 1;"></div>
+    </div>
 </div>
+
 </body>
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        rxw1.relativePath='../'
-        function add0(m){return m<10?'0'+m:m }
-        //时间戳转化成时间格式
-        function timeFormat(timestamp){
-            var time = new Date(parseInt(timestamp));
-            var year = time.getFullYear();
-            var month = time.getMonth()+1;
-            var date = time.getDate();
-            return year+'-'+add0(month)+'-'+add0(date);
+    var page_no;
+    var page_size;
+    var hasMoreItems;
+
+    rxw1.relativePath = '../'
+    function add0(m) {
+        return m < 10 ? '0' + m : m
+    }
+    //时间戳转化成时间格式
+    function timeFormat(timestamp) {
+        var time = new Date(parseInt(timestamp));
+        var year = time.getFullYear();
+        var month = time.getMonth() + 1;
+        var date = time.getDate();
+        return year + '-' + add0(month) + '-' + add0(date);
+    }
+    var token = $.cookie('token');
+
+    var apps = {};
+    var appArray = [];
+    onload();
+    function onload() {
+        page_no = 1;
+        page_size = 20;
+        hasMoreItems = true;
+        loadItems();
+    }
+
+    function loadMore(){
+        if (hasMoreItems) {
+            page_no++;
+            loadItems();
+        } else {
+
         }
-        var token = $.cookie('token');
+    }
+    rxw1.windowScrollPaging({
+        down: function () {
+            if (hasMoreItems) {
+                page_no++;
+                loadItems();
+            } else {
 
-        var apps={};
+            }
+        }
+    })
+    function loadItems() {
+        rxw1.waitLock();
+        $.ajax({
+            type: "POST",
+            data: {page_no: page_no, page_size: page_size},
+            url: "/easywin/p/e/myapp/apps?token=" + token,
+            success: function (res) {
+                if (res.code == 0) {
+                    var items = res.data.apps;
+                    if (items.length == 0 || items.length < page_size) {
+                        hasMoreItems = false;
+                        $('#pagingBottomPad [name=finish]').show()
+                        $('#pagingBottomPad [name=more]').hide()
+                    }else{
+                        $('#pagingBottomPad [name=finish]').hide()
+                        $('#pagingBottomPad [name=more]').show()
+                    }
+                    for (var i = 0; i < items.length; i++) {
+                        var a = items[i];
+                        apps[a.appId] = a;
+                        appArray.push(a);
+                        var useEndIf = null;
+                        if (a.useEndtime)
+                            useEndIf = false;
+                        if (a.useEndtime && Date.parse(new Date()) > a.useEndtime)
+                            useEndIf = true;
 
-            $.ajax({
-                type: "POST",
-                data: {page_no:1,page_size: 20},
-                url:"/easywin/p/e/myapp/apps?token="+token,
-                complete:function(){
-                    waitShowStop()
-                },
-                beforeSend:function(){
-                    waitShow();
-                },
-                success: function (res) {
-                    if(res.code == 0){
-                        var items = res.data.apps;
-                        for(var i = 0 ; i < items.length ; i ++){
-                            var a = items[i];
-                            apps[a.appId]=a;
-                            var useEndIf = null;
-                            if(a.useEndtime)
-                                useEndIf = false;
-                            if(a.useEndtime && Date.parse( new Date()) > a.useEndtime)
-                                useEndIf=true;
-
-                            var cardcon=$('#cardcon');
-                            if(a.authorized == 0){
-                                  var newCarddiv = $('#carddivFather').clone(true);
-                                newCarddiv.attr('id','carddivSon'+ a.appId);
-                                newCarddiv.find('.cardnumtxt').text(i+1);
-                                newCarddiv.find('.cardname').text(a.nickName);
-                                newCarddiv.find('.goauthbtn').css('display','');
-                                newCarddiv.find('.goauthbtn').attr('onclick','gotoAuth(\''+ a.seedId+'\',\''+ a.appId+'\')')
-                                newCarddiv.find('.cardicon').attr('src',a.headImg);
-                                newCarddiv.css('display','block');
-                                newCarddiv.appendTo(cardcon);
-                                newCarddiv.find('.cardmsg').text('未授权');
-
-                            }else{
-                                    var newCarddiv = $('#carddivFather').clone(true);
-                                    newCarddiv.attr('id','carddivSon'+ a.appId);
-                                    newCarddiv.find('.cardnumtxt').text(i+1);
-                                    newCarddiv.find('.cardname').text(a.nickName);
-                                    newCarddiv.find('.cardicon').attr('src',a.headImg);
-                                    if(!a.businessbaseFill)
-                                        newCarddiv.find('.cardmsg').text('请进入"后台管理"补全信息');
-                                    else if(useEndIf == true){
-                                        newCarddiv.find('.cardmsg').css('color','red');
-                                        newCarddiv.find('.cardmsg').text('使用期已过,请联系代理');
-                                    }else if(a.auditStatus==3){
-                                        newCarddiv.find('.cardmsg').text('审核失败:'+ a.auditFailReason);
-                                    }else if(a.auditStatus==2){
-                                        newCarddiv.find('.cardmsg').text('审核通过，请进入"查看状态"进行发布');
-                                    }else if(a.auditStatus==1){
-                                        newCarddiv.find('.cardmsg').text('审核中');
-                                    } else if(!a.currentTemplateVersion){
-                                        newCarddiv.find('.cardmsg').text('请进入"查看状态"提交审核');
-                                    }else if(a.auditStatus==4){
-                                        newCarddiv.find('.cardmsg').text('运行中');
-                                        newCarddiv.find('.cardmsg').css('color','green');
-                                    }
-                                    newCarddiv.find('.cardcreatetime').text('创建时间：'+ timeFormat(a.bindTime));
-
-                                    newCarddiv.find('.vtimetxt').text('有效期至：'+ timeFormat(a.useEndtime));
-                                    if(useEndIf == true){
-                                        newCarddiv.find('.vtimetxt').css('color','red');
-                                    }
-
-                                newCarddiv.find('.previewbtn').css('display','');
-                                newCarddiv.find('.previewbtn').attr('onclick','previewNewest(\''+ a.appId+'\',\''+ a.newestTemplateVersion+'\')')
-
-                                newCarddiv.find('.managebtn').css('display','');
-                                newCarddiv.find('.managebtn').attr('onclick','enterManagement(\''+ a.appId+'\')')
-                                newCarddiv.find('.lookstatusbtn').css('display','');
-                                newCarddiv.find('.lookstatusbtn').attr('onclick','gotoStatus(\''+ a.appId+'\')')
-                                newCarddiv.css('display','block');
-                                newCarddiv.appendTo(cardcon);
-//                                if(rxw1.isEmptyStr(a.commitTemplateVersion) && a.commitTemplateVersion != a.newestTemplateVersion){
-//                                    newCarddiv.find('.updatebtn').css('display','');
-//                                    newCarddiv.find('.updatebtn').attr('onclick','update(\''+ a.appId+'\',\''+ a.newestTemplateVersion+'\')')
-//                                }
-//                                if(a.commitStatus == 1){
-//                                    newCarddiv.find('.previewbtn').css('display','');
-//                                    newCarddiv.find('.previewbtn').attr('onclick','gotoPreview(\''+ a.appId+'\')')
-//                                }
-
-
+                        var cardcon = $('#cardcon');
+                        var newCarddiv = $('#carddivFather').clone(true);
+                        newCarddiv.attr('id', 'carddivSon' + a.appId);
+                        newCarddiv.attr('data', a.appId);
+                        newCarddiv.find('.cardnumtxt').text(appArray.length);
+                        newCarddiv.find('.cardname').text(a.nickName);
+                        newCarddiv.find('.cardicon').attr('src', a.headImg);
+                        newCarddiv.find('.agentInfoEnt a').click(function () {
+                            var aa = apps[$(this).parents('.carddiv').attr('data')];
+                            rxw1.confirmpad({content: '<div>' + aa.agentPhone + '</div><div>' + aa.agentDomain + '</div>'})
+                        })
+                        if (a.authorized == 0) {
+                            newCarddiv.find('.goauthbtn').css('display', '');
+                            newCarddiv.find('.goauthbtn').attr('onclick', 'gotoAuth(\'' + a.seedId + '\',\'' + a.appId + '\')')
+                            newCarddiv.css('display', 'block');
+                            newCarddiv.appendTo(cardcon);
+                            newCarddiv.find('.cardmsg').text('未授权');
+                        } else {
+                            if (!a.businessbaseFill)
+                                newCarddiv.find('.cardmsg').text('请进入"后台管理"补全信息');
+                            else if (useEndIf == true) {
+                                newCarddiv.find('.cardmsg').css('color', 'red');
+                                newCarddiv.find('.cardmsg').text('使用期已过,请联系代理');
+                            } else if (a.auditStatus == 3) {
+                                newCarddiv.find('.cardmsg').text('审核失败:' + a.auditFailReason);
+                            } else if (a.auditStatus == 2) {
+                                newCarddiv.find('.cardmsg').text('审核通过，请进入"查看状态"进行发布');
+                            } else if (a.auditStatus == 1) {
+                                newCarddiv.find('.cardmsg').text('审核中');
+                            } else if (!a.currentTemplateVersion) {
+                                newCarddiv.find('.cardmsg').text('请进入"查看状态"提交审核');
+                            } else if (a.auditStatus == 4) {
+                                newCarddiv.find('.cardmsg').text('运行中');
+                                newCarddiv.find('.cardmsg').css('color', 'green');
                             }
+                            newCarddiv.find('.cardcreatetime').text('创建时间：' + timeFormat(a.bindTime));
+
+                            newCarddiv.find('.vtimetxt').text('有效期至：' + timeFormat(a.useEndtime));
+                            if (useEndIf == true) {
+                                newCarddiv.find('.vtimetxt').css('color', 'red');
+                            }
+
+                            newCarddiv.find('.previewbtn').css('display', '');
+                            newCarddiv.find('.previewbtn').attr('onclick', 'previewNewest(\'' + a.appId + '\',\'' + a.newestTemplateVersion + '\')')
+
+                            newCarddiv.find('.managebtn').css('display', '');
+                            newCarddiv.find('.managebtn').attr('onclick', 'enterManagement(\'' + a.appId + '\')')
+                            newCarddiv.find('.lookstatusbtn').css('display', '');
+                            newCarddiv.find('.lookstatusbtn').attr('onclick', 'gotoStatus(\'' + a.appId + '\')')
+                            newCarddiv.css('display', 'block');
+                            newCarddiv.appendTo(cardcon);
+
+
                         }
                     }
+                }else{
+                    rxw1.errorpad(res.codeMsg)
                 }
-            })
-
-
-
-
-        function gotoAuth(seedId,appId) {
-            $.ajax({
-                type: 'POST',
-                data: {seed_id:seedId,app_id:appId},
-                url: '/easywin/p/wop3a/getauthurl?token='+token,
-                success: function(res){
-                    if(res.code == 0){
-                        window.location.href ="http://passion.njshangka.com/easywin/plat/authtip.html?seed_id="+seedId+'&app_id='+appId+'#'+res.data.url;
-                      //  window.parent.location.href = res.data.url;
-                    }else{
-                        alert('请求失败！')
-                    }
-                },
-                complete:function(){
-                    waitShowStop()
-                },
-                beforeSend:function(){
-                    waitShow();
-                }
-            })
-        }
-        //预览
-//        function gotoPreview(appId){
-//                var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
-//            $('#carddivSon'+appId+' .qrcodeBox').css('display','block');
-//           $('#carddivSon'+appId+' .qrcodeBox .qrcode').attr('src',src);
-//
-//        }
-//        //更新
-//        function update(appId,newestTemplateVersion){
-//            if(!apps[appId].businessbaseFill){
-//                alert('请进入"后台管理"补全信息')
-//                return;
-//            }
-//            if(!confirm("请先通过‘应用商店’-‘扫码体验’后，在决定更新。是否更新？")){
-//               return;
-//            }
-//            $.ajax({
-//                type: 'POST',
-//                async: false,
-//                data: {app_id:appId,template_version:newestTemplateVersion},
-//                url: '/easywin/p/e/myapp/commitcode?token='+token,
-//                complete:function(){
-//                    waitShowStop()
-//                },
-//                beforeSend:function(){
-//                    waitShow();
-//                },
-//                success: function(res){
-//                    if(res.code == 0){
-//                        $.ajax({
-//                            type: 'POST',
-//                            data: {app_id:appId},
-//                            url: '/easywin/p/e/myapp/submitaudit?token='+token,
-//                            complete:function(){
-//                                waitShowStop()
-//                            },
-//                            beforeSend:function(){
-//                                waitShow();
-//                            },
-//                            success: function(res){
-//                                if(res.code == 0){
-//                                    location.reload();
-//                                }else{
-//                                    alert(res.codeMsg);
-//                                }
-//                            }
-//                        });
-//                    }else{
-//                        alert('提交失败！')
-//                    }
-//                }
-//            });
-//        }
-        //查看状态
-        function gotoStatus(appId){
-            if(!apps[appId].businessbaseFill){
-                rxw1.errorpad('请进入"后台管理"补全信息')
-                return;
             }
-            location.href='preview.html?app_id='+appId;
-        }
-        //管理后台
-        function enterManagement(appId){
-            var app = apps[appId];
-            if(app.templateCode == 'mall'){
-                window.open('/easywin/mallmanage/threeMinuteProgram_maintain/index.html?token='+token+'&mall_id='+appId);
-            }else{
-                alert('未知模板')
-            }
-        }
-        //关闭预览
-        function closeBox() {
-            $('.qrcodeBox').fadeOut();
-        }
-        //关闭提示框
-        function closePrompt(){
-            $('#prompt').fadeOut();
-        }
+        })
+        rxw1.waitLock.remove();
+    }
 
 
-
-        function previewNewest(appId,newestTemplateVersion){
-            rxw1.waitLock();
-
-          var commitTemplateVersion=  apps[appId].commitTemplateVersion;
-//           if(!rxw1.isEmptyStr(commitTemplateVersion) && commitTemplateVersion == newestTemplateVersion){
-//               var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId;
-//               $('#carddivSon'+appId+' .qrcodeBox').css('display','block');
-//               $('#carddivSon'+appId+' .qrcodeBox .qrcode').attr('src',src);
-//           }else{
-            $.ajax({
-                type: 'POST',
-                async: false,
-                data: {app_id:appId,template_version:newestTemplateVersion},
-                url: '/easywin/p/e/myapp/commitcode?token='+token,
-                success: function(res){
-                    if(res.code == 0){
-                        var src ='/easywin/p/e/myapp/pretasteqrcode?token='+token+'&app_id='+appId+'&rand='+Math.round(Math.random()*5);
-                        $('#carddivSon'+appId+' .qrcodeBox').css('display','block');
-                        $('#carddivSon'+appId+' .qrcodeBox .qrcode').attr('src',src);
-                    }else{
-                        rxw1.errorpad(res.codeMsg)
-                    }
+    function gotoAuth(seedId, appId) {
+        rxw1.waitLock();
+        $.ajax({
+            type: 'POST',
+            data: {seed_id: seedId, app_id: appId},
+            url: '/easywin/p/wop3a/getauthurl?token=' + token,
+            success: function (res) {
+                if (res.code == 0) {
+                    window.location.href = "http://passion.njshangka.com/easywin/plat/authtip.html?seed_id=" + seedId + '&app_id=' + appId + '#' + res.data.url;
+                    //  window.parent.location.href = res.data.url;
+                } else {
+                    rxw1.errorpad(res.codeMsg)
                 }
-            });
-       // }
-            rxw1.waitLock.remove();
+            }
+        })
+        rxw1.waitLock().remove()
+    }
+
+    //查看状态
+    function gotoStatus(appId) {
+        if (!apps[appId].businessbaseFill) {
+            rxw1.errorpad('请进入"后台管理"补全信息')
+            return;
         }
-    </script>
+        location.href = 'preview.html?app_id=' + appId;
+    }
+    //管理后台
+    function enterManagement(appId) {
+        var app = apps[appId];
+        if (app.templateCode == 'mall') {
+            window.open('/easywin/mallmanage/threeMinuteProgram_maintain/index.html?token=' + token + '&mall_id=' + appId);
+        } else {
+            alert('未知模板')
+        }
+    }
+    //关闭预览
+    function closeBox() {
+        $('.qrcodeBox').fadeOut();
+    }
+    //关闭提示框
+    function closePrompt() {
+        $('#prompt').fadeOut();
+    }
+
+
+    function previewNewest(appId, newestTemplateVersion) {
+        rxw1.waitLock();
+
+        var commitTemplateVersion = apps[appId].commitTemplateVersion;
+        $.ajax({
+            type: 'POST',
+            async: false,
+            data: {app_id: appId, template_version: newestTemplateVersion},
+            url: '/easywin/p/e/myapp/commitcode?token=' + token,
+            success: function (res) {
+                if (res.code == 0) {
+                    var src = '/easywin/p/e/myapp/pretasteqrcode?token=' + token + '&app_id=' + appId + '&rand=' + Math.round(Math.random() * 5);
+                    $('#carddivSon' + appId + ' .qrcodeBox').css('display', 'block');
+                    $('#carddivSon' + appId + ' .qrcodeBox .qrcode').attr('src', src);
+                } else {
+                    rxw1.errorpad(res.codeMsg)
+                }
+            }
+        });
+        rxw1.waitLock.remove();
+    }
+</script>
 
 </html>

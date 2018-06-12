@@ -15,7 +15,6 @@
 </body>
 <script>
 function aa(){
-
     cutImg({complete:function(params){
         rxw1.imgPreview(params.canvas.toDataURL(params.imgType))
     }})
@@ -51,7 +50,7 @@ function aa(){
                            var cas=$(layer).find('[name=targetImg]').cropper('getCroppedCanvas');
                            $(layer).remove();
                            if(params.complete)
-                               params.complete({canvas:cas,imgType:file.type})
+                               params.complete({canvas:cas,imgType:file.type,fileName:file.name})
 
                        })
                    }
