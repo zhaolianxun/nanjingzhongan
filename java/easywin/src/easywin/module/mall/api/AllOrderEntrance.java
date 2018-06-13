@@ -160,13 +160,15 @@ public class AllOrderEntrance {
 
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection.prepareStatement("select id from t_mall_order where id=? for update");
+			pst = connection.prepareStatement("select id,coupon_id from t_mall_order where id=? for update");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
-			if (!rs.next()) {
-				pst.close();
+			Integer couponId = null;
+			if (rs.next()) {
+				couponId = (Integer) rs.getInt("couponId");
+			} else
 				throw new InteractRuntimeException("订单号");
-			}
+
 			pst.close();
 			// 查詢主轮播图
 			pst = connection.prepareStatement(
@@ -180,6 +182,14 @@ public class AllOrderEntrance {
 				throw new InteractRuntimeException("订单已支付，如需取消，请联系卖家退款");
 			pst.close();
 
+			if (couponId != null) {
+				pst = connection.prepareStatement("update t_mall_usercoupon set used=0 where id=?");
+				pst.setObject(1, couponId);
+				n = pst.executeUpdate();
+				pst.close();
+				if (n != 1)
+					throw new InteractRuntimeException("操作失败");
+			}
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);

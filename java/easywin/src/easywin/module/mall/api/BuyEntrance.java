@@ -129,7 +129,7 @@ public class BuyEntrance {
 			JSONObject selectedCoupon = new JSONObject();
 			if (selectedCouponId != null) {
 				pst = connection.prepareStatement(
-						"select c.title,t.used,c.type,c.type1_uptomoney,c.type1_submoney,c.type1_starttime,c.type1_endtime from t_mall_usercoupon t inner join t_mall_coupon c on t.coupon_id=c.id where t.id=? and t.user_id=? and t.mall_id=?");
+						"select t.title,t.used,t.type,t.type1_uptomoney,t.type1_submoney,t.type1_starttime,t.type1_endtime from t_mall_usercoupon t  where t.id=? and t.user_id=? and t.mall_id=?");
 				pst.setObject(1, selectedCouponId);
 				pst.setObject(2, loginStatus.getUserId());
 				pst.setObject(3, mallId);
@@ -176,7 +176,7 @@ public class BuyEntrance {
 			sqlParams.add(mallId);
 			sqlParams.add(loginStatus.getUserId());
 			pst = connection.prepareStatement(
-					"select tt.id,t.title,t.desc,t.type,t.type1_uptomoney,t.type1_submoney,t.type1_starttime,t.type1_endtime from t_mall_coupon t right join t_mall_usercoupon tt on t.id=tt.coupon_id where tt.mall_id=? and tt.user_id=?  and tt.used=0  order by tt.get_time desc");
+					"select tt.id,tt.title,tt.desc,tt.type,tt.type1_uptomoney,tt.type1_submoney,tt.type1_starttime,tt.type1_endtime from t_mall_usercoupon tt  where tt.mall_id=? and tt.user_id=?  and tt.used=0  order by tt.get_time desc");
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));
 			rs = pst.executeQuery();
@@ -323,7 +323,6 @@ public class BuyEntrance {
 				pst.close();
 				if (nn != 1)
 					throw new InteractRuntimeException("操作失败");
-				
 
 				totalPrice = totalPrice + price * cnt;
 				totalCount = totalCount + cnt;
@@ -367,7 +366,7 @@ public class BuyEntrance {
 			String couponTitle = null;
 			if (couponId != null) {
 				pst = connection.prepareStatement(
-						"select t.used,c.type,c.type1_uptomoney,c.type1_submoney,c.type1_starttime,c.type1_endtime from t_mall_usercoupon t inner join t_mall_coupon c on t.coupon_id=c.id where t.id=? and t.user_id=? and t.mall_id=?");
+						"select t.title,t.used,t.type,t.type1_uptomoney,t.type1_submoney,t.type1_starttime,t.type1_endtime from t_mall_usercoupon t  where t.id=? and t.user_id=? and t.mall_id=? for update");
 				pst.setObject(1, couponId);
 				pst.setObject(2, loginStatus.getUserId());
 				pst.setObject(3, mallId);
@@ -408,6 +407,13 @@ public class BuyEntrance {
 				pst.close();
 			}
 
+			pst = connection.prepareStatement("update t_mall_usercoupon set used=1 where id=?");
+			pst.setObject(1, couponId);
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
 			// 插入订单
 			pst = connection.prepareStatement(
 					"insert into t_mall_order (id,mall_id,user_id,amount,good_count,status,order_time,receiver_name,receiver_phone,receiver_address,buyer_note,coupon_id,submoney,original_total_amount,coupon_title) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -430,7 +436,7 @@ public class BuyEntrance {
 			pst.setObject(14, originalTotalPrice);
 			pst.setObject(15, couponTitle);
 
-			int n = pst.executeUpdate();
+			n = pst.executeUpdate();
 			if (n == 0)
 				throw new InteractRuntimeException("生成订单失败");
 			pst.close();
@@ -651,7 +657,7 @@ public class BuyEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
-					"select tt.id,t.title,t.desc,t.type,t.type1_uptomoney,t.type1_submoney,t.type1_starttime,t.type1_endtime from t_mall_coupon t right join t_mall_usercoupon tt on t.id=tt.coupon_id where tt.mall_id=? and tt.user_id=?  and tt.used=0  order by tt.get_time desc limit ?,?");
+					"select tt.id,tt.title,tt.desc,tt.type,tt.type1_uptomoney,tt.type1_submoney,tt.type1_starttime,tt.type1_endtime from  t_mall_usercoupon tt where tt.mall_id=? and tt.user_id=?  and tt.used=0  order by tt.get_time desc limit ?,?");
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));
 			ResultSet rs = pst.executeQuery();
@@ -661,11 +667,24 @@ public class BuyEntrance {
 				coupon.put("title", rs.getObject("title"));
 				coupon.put("couponId", rs.getObject("id"));
 				coupon.put("desc", rs.getObject("desc"));
-				coupon.put("type", rs.getInt("type"));
-				coupon.put("type1Starttime", rs.getObject("type1_starttime"));
-				coupon.put("type1Endtime", rs.getObject("type1_endtime"));
-				coupon.put("type1Uptomoney", rs.getObject("type1_uptomoney"));
-				coupon.put("type1Submoney", rs.getObject("type1_submoney"));
+				int type = rs.getInt("type");
+				if (type == 1) {
+					Integer couponType1Uptomoney = rs.getInt("type1_uptomoney");
+					Integer couponType1Submoney = rs.getInt("type1_submoney");
+					Long couponType1Starttime = rs.getLong("type1_starttime");
+					if (new Date().getTime() < couponType1Starttime)
+						continue;
+					Long couponType1Endtime = rs.getLong("type1_endtime");
+					if (new Date().getTime() > couponType1Endtime)
+						continue;
+
+					coupon.put("type1Starttime", couponType1Starttime);
+					coupon.put("type1Endtime", couponType1Endtime);
+					coupon.put("type1Uptomoney", couponType1Uptomoney);
+					coupon.put("type1Submoney", couponType1Submoney);
+				} else
+					continue;
+				coupon.put("type", type);
 				coupons.add(coupon);
 			}
 			pst.close();

@@ -259,22 +259,31 @@ public class HomeEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(
-					"select t.type,t.type1_uptomoney,t.type1_submoney,t.type1_starttime,t.type1_endtime,(select if(count(id)>0,1,0) from t_mall_usercoupon where coupon_id=t.id and user_id=?) getted from t_mall_coupon t where t.id=?");
+					"select t.type,t.title,t.desc,t.type1_uptomoney,t.type1_submoney,t.type1_starttime,t.type1_endtime,(select if(count(id)>0,1,0) from t_mall_usercoupon where coupon_id=t.id and user_id=?) getted from t_mall_coupon t where t.id=?");
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, couponId);
 			ResultSet rs = pst.executeQuery();
+			int type = 0;
+			Integer type1Uptomoney = null;
+			Integer type1Submoney = null;
+			String title = null;
+			String desc = null;
+			Long type1Starttime = null;
+			Long type1Endtime = null;
 			if (rs.next()) {
-				int type = rs.getInt("type");
+				title = rs.getString("title");
+				desc = rs.getString("desc");
+				type = rs.getInt("type");
 				int getted = rs.getInt("getted");
 				if (getted == 1)
 					throw new InteractRuntimeException("您已经领取");
-				long type1Starttime = rs.getLong("type1_starttime");
-				long type1Endtime = rs.getLong("type1_endtime");
 				if (type == 1) {
+					type1Uptomoney = rs.getInt("type1_uptomoney");
+					type1Submoney = rs.getInt("type1_submoney");
+					type1Starttime = rs.getLong("type1_starttime");
+					type1Endtime = rs.getLong("type1_endtime");
 					if (new Date().getTime() > type1Endtime)
 						throw new InteractRuntimeException("已结束");
-					if (new Date().getTime() < type1Starttime)
-						throw new InteractRuntimeException("未开始");
 				}
 			} else
 				throw new InteractRuntimeException("卡券不存在");
@@ -282,11 +291,18 @@ public class HomeEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(
-					"INSERT INTO `t_mall_usercoupon` ( `mall_id`, `user_id`, `coupon_id`, `get_time`) VALUES ( ?, ?, ?, ?)");
+					"INSERT INTO `t_mall_usercoupon` ( `mall_id`, `user_id`, `coupon_id`, `get_time`,title,`desc`,type,type1_uptomoney,type1_submoney,type1_starttime,type1_endtime) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			pst.setObject(1, mallId);
 			pst.setObject(2, loginStatus.getUserId());
 			pst.setObject(3, couponId);
 			pst.setObject(4, new Date().getTime());
+			pst.setObject(5, title);
+			pst.setObject(6, desc);
+			pst.setObject(7, type);
+			pst.setObject(8, type1Uptomoney);
+			pst.setObject(9, type1Submoney);
+			pst.setObject(10, type1Starttime);
+			pst.setObject(11, type1Endtime);
 			pst.executeUpdate();
 			pst.close();
 

@@ -147,12 +147,13 @@ public class OrderManageEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.express_co,t.express_no,t.cancel_reason,t.refund_reason,t.refund_fail_reason,t.refund_time,t.original_total_amount,t.submoney,t.finished,t.refund_status,t.good_count,t.cancel_time,t.receive_time,t.deliver_time,t.pay_type,t.pay_time,t.order_time,t.status,t.amount,t.receiver_name,t.receiver_phone,t.receiver_address,t.buyer_note,u.phone,u.nickname,u.realname from t_mall_order t left join t_mall_user u on t.user_id=u.id where t.id=? ");
+					"select t.coupon_title,t.express_co,t.express_no,t.cancel_reason,t.refund_reason,t.refund_fail_reason,t.refund_time,t.original_total_amount,t.submoney,t.finished,t.refund_status,t.good_count,t.cancel_time,t.receive_time,t.deliver_time,t.pay_type,t.pay_time,t.order_time,t.status,t.amount,t.receiver_name,t.receiver_phone,t.receiver_address,t.buyer_note,u.phone,u.nickname,u.realname from t_mall_order t left join t_mall_user u on t.user_id=u.id where t.id=? ");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject order = new JSONObject();
 			if (rs.next()) {
 				order.put("orderId", orderId);
+				order.put("couponTitle", rs.getObject("coupon_title"));
 				order.put("expressNo", rs.getObject("express_no"));
 				order.put("expressCo", rs.getObject("express_co"));
 				order.put("originalTotalAmount", rs.getObject("original_total_amount"));
@@ -297,12 +298,14 @@ public class OrderManageEntrance {
 
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection.prepareStatement("select id,status from t_mall_order where id=? for update");
+			pst = connection.prepareStatement("select id,status,coupon_id from t_mall_order where id=? for update");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			String status = null;
+			Integer couponId = null;
 			if (rs.next()) {
 				status = rs.getString("status");
+				couponId = (Integer) rs.getInt("coupon_id");
 			} else
 				throw new InteractRuntimeException("订单号有误");
 			pst.close();
@@ -321,6 +324,15 @@ public class OrderManageEntrance {
 			pst.close();
 			if (n == 0)
 				throw new InteractRuntimeException("订单已支付");
+
+			if (couponId != null) {
+				pst = connection.prepareStatement("update t_mall_usercoupon set used=0 where id=?");
+				pst.setObject(1, couponId);
+				n = pst.executeUpdate();
+				pst.close();
+				if (n != 1)
+					throw new InteractRuntimeException("操作失败");
+			}
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
@@ -446,9 +458,10 @@ public class OrderManageEntrance {
 
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"update t_mall_order set refund_status='1',refund_reason=?,refund_fail_reason=null where id=? and status in ('1','2','3') and refund_status in ('0','3')");
-			pst.setObject(1, reason);
-			pst.setObject(2, orderId);
+					"update t_mall_order set refund_status='1',refund_time=?refund_reason=?,refund_fail_reason=null where id=? and status in ('1','2','3') and refund_status in ('0','3')");
+			pst.setObject(1, new Date().getTime());
+			pst.setObject(2, reason);
+			pst.setObject(3, orderId);
 			int n = pst.executeUpdate();
 			pst.close();
 			if (n == 0)

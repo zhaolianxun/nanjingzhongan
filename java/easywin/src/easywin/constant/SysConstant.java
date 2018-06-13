@@ -26,6 +26,7 @@ public class SysConstant {
 
 	public static String project_domain;
 	public static String project_name;
+	public static String project_ip;
 	public static String project_rooturl;
 	public static String project_ossroot;
 

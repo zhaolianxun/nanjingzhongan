@@ -17,7 +17,7 @@
 
 <body>
     <div style="width:100%;">
-        <form id="orderPad">
+        <form id="orderPad" style="line-height: 20px">
             <fieldset>
             <legend style="color: #595959">订单信息</legend>
                 <div><span>订单号 : </span><span name="orderId"></span></div>
@@ -27,12 +27,12 @@
                 <div><span>支付金额 : </span><span name="amount"></span></div>
                 <div><span>原金额 : </span><span name="originalTotalAmount"></span></div>
                 <div><span>优惠金额 : </span><span name="submoney"></span></div>
+                <div><span>优惠券 : </span><span name="couponTitle"></span></div>
                 <div><span>买家备注 : </span><span  name="buyerNote"></span></div>
-
             </fieldset>
         </form>
 
-        <form id="expressPad">
+        <form id="expressPad" style="margin-top:20px;line-height: 20px">
             <fieldset>
                 <legend style="color: #595959">物流信息</legend>
                 <div><span>发货快递 : </span><span  name="expressCo"></span></div>
@@ -41,7 +41,7 @@
         </form>
 
 
-        <form id="buyerPad">
+        <form id="buyerPad" style="margin-top:20px;line-height: 20px">
             <fieldset>
                 <legend style="color: #595959">买家信息</legend>
                 <div><span>手机号 : </span><span name="phone"></span></div>
@@ -52,7 +52,7 @@
             </fieldset>
         </form>
 
-        <form id="refundPad">
+        <form id="refundPad" style="margin-top:20px;line-height: 20px">
             <fieldset>
                 <legend style="color:red">退款信息</legend>
                 <div><button id="refundRefresh" style="color:red">刷新</button></div>
@@ -63,7 +63,7 @@
             </fieldset>
         </form>
 
-        <form id="goodsPad">
+        <form id="goodsPad" style="margin-top:20px;line-height: 20px">
             <fieldset>
                 <legend style="color: #595959">商品信息</legend>
                 <fieldset name="goodExample" style="display:none">
@@ -119,6 +119,7 @@
                 $('#orderPad [name=originalTotalAmount]').text(item.originalTotalAmount);
                 $('#orderPad [name=submoney]').text(item.submoney);
                     $('#orderPad [name=buyerNote]').text(item.buyerNote);
+                    $('#orderPad [name=couponTitle]').text(item.couponTitle);
 
                     $('#buyerPad [name=phone]').text(item.phone);
                     $('#buyerPad [name=nickname]').text(item.nickname);

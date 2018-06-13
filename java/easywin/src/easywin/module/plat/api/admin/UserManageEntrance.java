@@ -1,5 +1,6 @@
 package easywin.module.plat.api.admin;
 
+import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import easywin.constant.SysConstant;
 import easywin.entity.InteractRuntimeException;
 import easywin.module.plat.business.GetLoginStatus;
 import easywin.module.plat.entity.UserLoginStatus;
@@ -186,11 +188,23 @@ public class UserManageEntrance {
 			String agentLevelParam = StringUtils.trimToNull(request.getParameter("agent_level"));
 			Integer agentLevel = agentLevelParam == null ? null : Integer.parseInt(agentLevelParam);
 			String agentDomain = StringUtils.trimToNull(request.getParameter("agent_domain"));
-
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
+
+			if (agentDomain != null) {
+				try {
+					InetAddress[] inetAddresses = InetAddress.getAllByName(agentDomain);
+					if (inetAddresses == null || inetAddresses.length == 0)
+						throw new InteractRuntimeException(1000, "域名解析时发生错误，请联系管理员。", null);
+					if (!InetAddress.getAllByName("passion.njshangka.com")[0].getHostAddress()
+							.equals(SysConstant.project_ip))
+						throw new InteractRuntimeException(1000, "域名必须指向IP错误，请联系管理员。", null);
+				} catch (Exception e) {
+					throw new InteractRuntimeException(1000, "域名有误，样例: passion.njshangka.com", null);
+				}
+			}
 
 			if (loginStatus.getAdminIs() != 1)
 				throw new InteractRuntimeException("您不是管理员");

@@ -76,7 +76,7 @@ rxw1.inputmorepad=function input(param) {
         layer.style['background-color']='rgba(0, 0, 0, 0)';
         var a = '';
         for(index in param.items){
-            a=a+'<div><span>'+param.items[index].name+' : </span><input name="'+param.items[index].code+'"/></div>'
+            a=a+'<div style="margin:15px 10px"><span>'+param.items[index].name+' : </span><input name="'+param.items[index].code+'"/></div>'
         }
         var inputpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " >'+a+'<div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="font-size:14px;font-weight:600;width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button><button name="confirm" style="font-size:14px;font-weight:600;width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div></div>');
 

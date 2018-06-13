@@ -142,9 +142,18 @@ public class CouponManageEntrance {
 			String submoneyParam = StringUtils.trimToNull(request.getParameter("submoney"));
 			Integer submoney = submoneyParam == null ? null : Integer.parseInt(submoneyParam);
 			String starttimeParam = StringUtils.trimToNull(request.getParameter("starttime"));
-			Long starttime = starttimeParam == null ? null : Long.parseLong(starttimeParam);
+			if (starttimeParam == null)
+				throw new InteractRuntimeException("请选择开始时间");
+			long starttime = Long.parseLong(starttimeParam);
 			String endtimeParam = StringUtils.trimToNull(request.getParameter("endtime"));
-			Long endtime = endtimeParam == null ? null : Long.parseLong(endtimeParam);
+			if (endtimeParam == null)
+				throw new InteractRuntimeException("请选择结束时间");
+			long endtime = Long.parseLong(endtimeParam);
+
+			if (endtime < starttime)
+				throw new InteractRuntimeException("结束时间不可小于开始时间");
+			if (starttime <= new Date().getTime())
+				throw new InteractRuntimeException("开始时间不可小于现在");
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -154,29 +163,30 @@ public class CouponManageEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢主轮播图
 			List sqlParams = new ArrayList();
-			if (desc == null)
+			if (desc != null)
 				sqlParams.add(desc);
-			if (uptomoney == null)
+			if (uptomoney != null)
 				sqlParams.add(uptomoney);
-			if (submoney == null)
+			if (submoney != null)
 				sqlParams.add(submoney);
-			if (starttime == null)
-				sqlParams.add(starttime);
-			if (endtime == null)
-				sqlParams.add(endtime);
-			if (title == null)
+			sqlParams.add(starttime);
+			sqlParams.add(endtime);
+			if (title != null)
 				sqlParams.add(title);
 			sqlParams.add(couponId);
-			pst = connection.prepareStatement(new StringBuilder("update t_mall_coupon set id=id")
-					.append(desc == null ? "" : ",desc=?").append(uptomoney == null ? "" : ",type1_uptomoney=?")
-					.append(submoney == null ? "" : ",type1_submoney=?")
-					.append(starttime == null ? "" : ",type1_starttime=?")
-					.append(endtime == null ? "" : ",type1_endtime=?").append(title == null ? "" : ",title=?")
-					.append(" where id=?").toString());
+			String sql = new StringBuilder("update t_mall_coupon set id=id").append(desc == null ? "" : ",`desc`=?")
+					.append(uptomoney == null ? "" : ",type1_uptomoney=?")
+					.append(submoney == null ? "" : ",type1_submoney=?").append(",type1_starttime=?")
+					.append(",type1_endtime=?").append(title == null ? "" : ",title=?").append(" where id=?")
+					.toString();
+			logger.debug(sql);
+			logger.debug(sqlParams);
+			pst = connection.prepareStatement(sql);
 			for (int i = 0; i < sqlParams.size(); i++) {
-				pst.setObject(i + 1, i);
+				pst.setObject(i + 1, sqlParams.get(i));
 			}
 			int n = pst.executeUpdate();
+			logger.debug(new StringBuilder("effect : ").append(n).toString());
 			pst.close();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -218,7 +228,7 @@ public class CouponManageEntrance {
 				throw new InteractRuntimeException("submoney 不能为空");
 			int submoney = Integer.parseInt(submoneyParam);
 			if (submoney >= uptomoney)
-				throw new InteractRuntimeException("优惠金额不可大于门槛金额");
+				throw new InteractRuntimeException("优惠金额只能小于满足金额");
 			String starttimeParam = StringUtils.trimToNull(request.getParameter("starttime"));
 			if (starttimeParam == null)
 				throw new InteractRuntimeException("starttime 不能为空");
