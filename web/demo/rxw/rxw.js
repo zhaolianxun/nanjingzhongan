@@ -70,6 +70,35 @@ rxw1.inputpad=function input(param) {
         });
     }})
 }
+
+rxw1.inputmorepad=function input(param) {
+    this.layer({init:function(layer){
+        layer.style['background-color']='rgba(0, 0, 0, 0)';
+        var a = '';
+        for(index in param.items){
+            a=a+'<div><span>'+param.items[index].name+' : </span><input name="'+param.items[index].code+'"/></div>'
+        }
+        var inputpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " >'+a+'<div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="font-size:14px;font-weight:600;width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button><button name="confirm" style="font-size:14px;font-weight:600;width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div></div>');
+
+        $(layer).append(inputpad);
+
+        $(inputpad).find('[name=cancel]').click(function(){
+            $(this).parent().parent().parent().remove()
+        });
+        $(inputpad).find('[name=confirm]').click(function(){
+            var inputs = $(layer).find("input")
+            var vals = {};
+            for(var i=0 ;i<inputs.length;i++){
+                vals[inputs[i].name]=inputs[i].value
+            }
+            $(this).parent().parent().parent().remove()
+            if(param.confirm){
+                param.confirm(vals);
+            }
+        });
+    }})
+}
+
 rxw1.randomString=function (randomFlag, min, max){
     var str = "",
         range = min,
@@ -202,6 +231,31 @@ rxw1.compressImg = function (params) {
     return img64;
 }
 
+rxw1.formatTime=function (timestamp) {
+    var date = new Date(timestamp);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+};
+
+rxw1.formatDate=function (timestamp) {
+    var date = new Date(timestamp);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    return y + '-' + m + '-' + d;
+};
 rxw1.convertBase64UrlToBlob=function(urlData){
     var arr = urlData.split(','), mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);

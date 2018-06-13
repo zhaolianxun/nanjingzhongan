@@ -33,7 +33,7 @@ public class MyLitterCoffer {
 	public static Logger logger = Logger.getLogger(MyLitterCoffer.class);
 
 	@RequestMapping(value = "/ent")
-	public void goodDetailEntrance(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void ent(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -50,27 +50,35 @@ public class MyLitterCoffer {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 检查手机号
 			pst = connection.prepareStatement(
-					"select (select ifnull(sum(amount),0) from t_mall_user_withdraw where user_id=t.id and status=1) withdrewMoney,t.money canWithdrawMoney,(select ifnull(sum(amount),0) from t_mall_user_bill where user_id=t.id and mall_id=t.mall_id) reward_money,t.money,(select count(id) from t_mall_user where register_from_user_id=t.id) my_fans_count from t_mall_user t where t.id=? and t.mall_id=?");
+					"select (select count(id) from t_mall_user_withdraw where user_id=t.id and status=1) withdrew_count,(select ifnull(sum(amount),0) from t_mall_user_withdraw where user_id=t.id and status=1) withdrewMoney,t.money canWithdrawMoney,(select count(id) from t_mall_user_bill where type=1 and user_id=t.id and mall_id=t.mall_id) reward_count,(select ifnull(sum(amount),0) from t_mall_user_bill where type=1 and user_id=t.id and mall_id=t.mall_id) reward_money,t.money,(select count(id) from t_mall_user where register_from_user_id=t.id and mall_id=t.mall_id) my_fans_count from t_mall_user t where t.id=? and t.mall_id=?");
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, mallId);
 			ResultSet rs = pst.executeQuery();
 			int money = 0;
 			int myFansCount = 0;
 			int rewardMoney = 0;
+			int withdrewMoney = 0;
+			int rewardCount = 0;
+			int withdrewCount = 0;
 			if (rs.next()) {
 				money = rs.getInt("money");
 				myFansCount = rs.getInt("my_fans_count");
 				rewardMoney = rs.getInt("reward_money");
+				withdrewMoney = rs.getInt("withdrewMoney");
+				rewardCount = rs.getInt("reward_count");
+				withdrewCount = rs.getInt("withdrew_count");
 			} else
 				throw new InteractRuntimeException(20);
 			pst.close();
 
 			JSONObject data = new JSONObject();
 			data.put("money", money);
-			data.put("withdrewMoney", 0);
-			data.put("canWithdrawMoney", 0);
+			data.put("withdrewCount", withdrewCount);
+			data.put("withdrewMoney", withdrewMoney);
+			data.put("canWithdrawMoney", money);
 			data.put("rewardMoney", rewardMoney);
 			data.put("myFansCount", myFansCount);
+			data.put("rewardCount", rewardCount);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {

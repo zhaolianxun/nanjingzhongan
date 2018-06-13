@@ -88,7 +88,7 @@ public class OrderManageEntrance {
 			sqlParams.add(pageSize);
 			// 查詢主轮播图
 			pst = connection.prepareStatement(
-					"select finished,refund_status,t.id,t.order_time,t.status,t.amount,t.buyer_note,u.phone,u.nickname from t_mall_order t left join t_mall_user u on t.user_id=u.id where t.mall_id=? "
+					"select finished,refund_status,t.id,t.order_time,t.status,t.amount,t.buyer_note,u.phone,u.nickname from t_mall_order t left join t_mall_user u on t.user_id=u.id where t.mall_id=? and t.seller_del=0 "
 							+ (orderStatus == null ? "" : " and t.status=? ")
 							+ (finished == null ? "" : " and t.finished=? ") + (orderId == null ? "" : " and t.id=?")
 							+ " order by t.order_time desc limit ?,?");
@@ -147,21 +147,28 @@ public class OrderManageEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.finished,t.refund_status,t.good_count,t.cancel_time,t.receive_time,t.deliver_time,t.pay_type,t.pay_time,t.order_time,t.status,t.amount,t.receiver_name,t.receiver_phone,t.receiver_address,t.buyer_note,u.phone,u.nickname,u.realname from t_mall_order t left join t_mall_user u on t.user_id=u.id where t.id=? ");
+					"select t.express_co,t.express_no,t.cancel_reason,t.refund_reason,t.refund_fail_reason,t.refund_time,t.original_total_amount,t.submoney,t.finished,t.refund_status,t.good_count,t.cancel_time,t.receive_time,t.deliver_time,t.pay_type,t.pay_time,t.order_time,t.status,t.amount,t.receiver_name,t.receiver_phone,t.receiver_address,t.buyer_note,u.phone,u.nickname,u.realname from t_mall_order t left join t_mall_user u on t.user_id=u.id where t.id=? ");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
-
 			JSONObject order = new JSONObject();
 			if (rs.next()) {
 				order.put("orderId", orderId);
+				order.put("expressNo", rs.getObject("express_no"));
+				order.put("expressCo", rs.getObject("express_co"));
+				order.put("originalTotalAmount", rs.getObject("original_total_amount"));
+				order.put("submoney", rs.getObject("submoney"));
 				order.put("goodCount", rs.getObject("good_count"));
 				order.put("finished", rs.getObject("finished"));
 				order.put("refundStatus", rs.getObject("refund_status"));
+				order.put("refundReason", rs.getObject("refund_reason"));
+				order.put("refundFailReason", rs.getObject("refund_fail_reason"));
+				order.put("refundTime", rs.getObject("refund_time"));
 				order.put("cancelTime", rs.getObject("cancel_time"));
 				order.put("receiveTime", rs.getObject("receive_time"));
 				order.put("deliverTime", rs.getObject("deliver_time"));
 				order.put("payType", rs.getObject("pay_type"));
 				order.put("payTime", rs.getObject("pay_time"));
+				order.put("cancelReason", rs.getObject("cancel_reason"));
 				order.put("orderTime", rs.getObject("order_time"));
 				order.put("status", rs.getObject("status"));
 				order.put("amount", rs.getObject("amount"));
@@ -172,26 +179,27 @@ public class OrderManageEntrance {
 				order.put("phone", rs.getObject("phone"));
 				order.put("nickname", rs.getObject("nickname"));
 				order.put("realname", rs.getObject("realname"));
-				pst.close();
-
-				pst = connection.prepareStatement(
-						"select cover,price,count,name,attr_names,value_names from t_mall_order_detail where order_id=?");
-				pst.setObject(1, orderId);
-				JSONArray orderDetails = new JSONArray();
-				while (rs.next()) {
-					JSONObject orderDetail = new JSONObject();
-					orderDetail.put("cover", rs.getObject("cover"));
-					orderDetail.put("price", rs.getObject("price"));
-					orderDetail.put("count", rs.getObject("count"));
-					orderDetail.put("name", rs.getObject("name"));
-					orderDetail.put("attrNames", rs.getObject("attr_names"));
-					orderDetail.put("valueNames", rs.getObject("value_names"));
-					orderDetails.add(orderDetail);
-				}
-				pst.close();
-				order.put("details", orderDetails);
 			} else
 				throw new InteractRuntimeException("订单不存在");
+			pst.close();
+
+			pst = connection.prepareStatement(
+					"select cover,price,count,name,attr_names,value_names from t_mall_order_detail where order_id=?");
+			pst.setObject(1, orderId);
+			rs = pst.executeQuery();
+			JSONArray orderDetails = new JSONArray();
+			while (rs.next()) {
+				JSONObject orderDetail = new JSONObject();
+				orderDetail.put("cover", rs.getObject("cover"));
+				orderDetail.put("price", rs.getObject("price"));
+				orderDetail.put("count", rs.getObject("count"));
+				orderDetail.put("name", rs.getObject("name"));
+				orderDetail.put("attrNames", rs.getObject("attr_names"));
+				orderDetail.put("valueNames", rs.getObject("value_names"));
+				orderDetails.add(orderDetail);
+			}
+			pst.close();
+			order.put("details", orderDetails);
 
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, order);
@@ -215,6 +223,8 @@ public class OrderManageEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
+			String expressNo = StringUtils.trimToNull(request.getParameter("express_no"));
+			String expressCo = StringUtils.trimToNull(request.getParameter("express_co"));
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -223,24 +233,34 @@ public class OrderManageEntrance {
 
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection.prepareStatement("select id from t_mall_order where id=? for update");
+			pst = connection.prepareStatement("select id,status,finished from t_mall_order where id=? for update");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
-			if (!rs.next()) {
-				pst.close();
+			String status = null;
+			int finished = 0;
+			if (rs.next()) {
+				status = rs.getString("status");
+				finished = rs.getInt("finished");
+			} else
 				throw new InteractRuntimeException("订单号有误");
-			}
 			pst.close();
-
+			if (finished == 1)
+				throw new InteractRuntimeException("订单已结束");
+			if (status.equals("0"))
+				throw new InteractRuntimeException("买家还未支付");
+			if (status.equals("3"))
+				throw new InteractRuntimeException("买家已经签收");
 			// 查詢订单列表
-			pst = connection
-					.prepareStatement("update t_mall_order set status='2',deliver_time=? where id=? and status='1'");
+			pst = connection.prepareStatement(
+					"update t_mall_order set status='2',deliver_time=?,express_no=?,express_co=? where id=? and status='1'");
 			pst.setObject(1, new Date().getTime());
-			pst.setObject(2, orderId);
+			pst.setObject(2, expressNo);
+			pst.setObject(3, expressCo);
+			pst.setObject(4, orderId);
 			int n = pst.executeUpdate();
 			pst.close();
-			if (n == 0)
-				throw new InteractRuntimeException("订单未支付");
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
@@ -277,14 +297,19 @@ public class OrderManageEntrance {
 
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection.prepareStatement("select id from t_mall_order where id=? for update");
+			pst = connection.prepareStatement("select id,status from t_mall_order where id=? for update");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
-			if (!rs.next()) {
-				pst.close();
+			String status = null;
+			if (rs.next()) {
+				status = rs.getString("status");
+			} else
 				throw new InteractRuntimeException("订单号有误");
-			}
 			pst.close();
+			if (!"0".equals(status)) {
+				throw new InteractRuntimeException("订单状态有误");
+			}
+
 			// 查詢订单列表
 			pst = connection.prepareStatement(
 					"update t_mall_order set finished=1,finish_time=?,status='4',cancel_time=?,cancel_reason=? where id=? and status='0'");
@@ -296,6 +321,58 @@ public class OrderManageEntrance {
 			pst.close();
 			if (n == 0)
 				throw new InteractRuntimeException("订单已支付");
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/del/{orderId}")
+	public void del(@PathVariable("mallId") String mallId, @PathVariable("orderId") String orderId,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement("select id,finished from t_mall_order where id=? for update");
+			pst.setObject(1, orderId);
+			ResultSet rs = pst.executeQuery();
+			int finished = 0;
+			if (rs.next()) {
+				finished = rs.getInt("finished");
+			} else
+				throw new InteractRuntimeException("订单号有误");
+			pst.close();
+			if (finished == 0)
+				throw new InteractRuntimeException("订单未结束");
+
+			// 查詢订单列表
+			pst = connection.prepareStatement("update t_mall_order set seller_del=1 where id=? and finished=1");
+			pst.setObject(1, orderId);
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
@@ -369,7 +446,7 @@ public class OrderManageEntrance {
 
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"update t_mall_order set refund_status='1',refund_reason=? where id=? and status in ('1','2','3') and refund_status='0'");
+					"update t_mall_order set refund_status='1',refund_reason=?,refund_fail_reason=null where id=? and status in ('1','2','3') and refund_status in ('0','3')");
 			pst.setObject(1, reason);
 			pst.setObject(2, orderId);
 			int n = pst.executeUpdate();

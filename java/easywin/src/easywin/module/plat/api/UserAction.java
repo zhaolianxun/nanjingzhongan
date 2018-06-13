@@ -71,10 +71,6 @@ public class UserAction {
 				throw new InteractRuntimeException("用户名或密码错误");
 
 			jedis = SysConstant.jedisPool.getResource();
-			String oldToken = jedis.get(loginStatus.getUserId());
-			if (oldToken != null && !oldToken.isEmpty())
-				jedis.del(SysConstant.PLAT_Login_Token_Prefix + oldToken);
-			jedis.del(loginStatus.getUserId());
 			String token = RandomStringUtils.randomNumeric(12);
 			jedis.set(SysConstant.PLAT_Login_Token_Prefix + token, JSON.toJSONString(loginStatus));
 			jedis.set(loginStatus.getUserId(), token);

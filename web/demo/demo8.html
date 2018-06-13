@@ -16,7 +16,9 @@
 </body>
 <script>
 function aa(){
-    rxw1.imgPreview('微信图片_20180504112644.jpg')
+    rxw1.inputmorepad({confirm:function(vals){
+        alert(vals)
+    },items:[{name:'名字',code:'name'},{name:'性别',code:'sex'}]})
 
 }
 </script>

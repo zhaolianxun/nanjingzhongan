@@ -173,20 +173,16 @@
         }
         getData('',1);
         $('.next').click(function () {
-//            console.log(123);
             toPageNo++;
             getData(name, toPageNo)
         })
         $('.prev').click(function () {
 
             toPageNo--;
-            console.log(toPageNo);
             if (toPageNo >= 1) {
-//                console.log(789);
                 getData(name, toPageNo)
             } else {
                 toPageNo++;
-                console.log(toPageNo);
                 alert("已到达首页！！")
             }
 
@@ -292,7 +288,6 @@
                 })
             }else{
                 $("input[name='select']").each(function(){
-                    console.log(this.value)
 //                    goodsId=goodsId+this.value+','
                     $("input[name='select']").prop("checked",false)
 //                    $("input[name='select']").attr('checked','');
@@ -305,7 +300,6 @@
             goodsId=goodsId+this.value+','
         })
          goodsId=goodsId.substr(0,goodsId.length-1)
-console.log(goodsId)
         if( goodsId==''){
             alert('请选择商品')
         }else{

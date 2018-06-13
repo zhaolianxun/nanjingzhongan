@@ -22,27 +22,24 @@ public class OrderAction {
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			// 查詢主轮播图
-			pst = connection.prepareStatement("select amount,refund_status from t_mall_order where id=? for update");
+			pst = connection.prepareStatement("select refund_status from t_mall_order where id=? for update");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
-			int amount = 0;
 			String refundStatus = null;
 			if (rs.next()) {
-				amount = rs.getInt("amount");
 				refundStatus = rs.getString("refund_status");
 			} else
 				throw new InteractRuntimeException("订单不存在");
 			pst.close();
 
-			if (amount != refundAmount)
-				throw new InteractRuntimeException("退款金额有误");
-			if (!refundStatus.equals("1"))
-				throw new InteractRuntimeException("退款状态状态有误");
+			if (refundStatus.equals("2"))
+				throw new InteractRuntimeException("已退款成功");
 
-			pst = connection
-					.prepareStatement("update t_mall_order set finished=1,refund_status=2,refund_time=? where id=?");
-			pst.setObject(1, new Date().getTime());
-			pst.setObject(2, orderId);
+			pst = connection.prepareStatement(
+					"update t_mall_order set refund_amount=?,finished=1,refund_status=2,refund_time=? where id=?");
+			pst.setObject(1, refundAmount);
+			pst.setObject(2, new Date().getTime());
+			pst.setObject(3, orderId);
 			int n = pst.executeUpdate();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -81,8 +78,8 @@ public class OrderAction {
 				throw new InteractRuntimeException("订单不存在");
 			pst.close();
 
-			if (!refundStatus.equals("1"))
-				throw new InteractRuntimeException("退款状态状态有误");
+			if (refundStatus.equals("2"))
+				throw new InteractRuntimeException("已退款成功");
 
 			pst = connection
 					.prepareStatement("update t_mall_order set refund_status=3,refund_fail_reason=? where id=?");

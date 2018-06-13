@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script src="../../rxw/rxw.js"></script>
+    <title>订单详情</title>
+
+
+</head>
+
+<body>
+    <div style="width:100%;">
+        <form id="orderPad">
+            <fieldset>
+            <legend style="color: #595959">订单信息</legend>
+                <div><span>订单号 : </span><span name="orderId"></span></div>
+                <div><span>下单时间 : </span><span name="orderTime"></span></div>
+                <div><span>状态 : </span><span name="status"></span></div>
+                <div name="cancelReasonLine"><span>取消原因 : </span><span name="cancelReason"></span></div>
+                <div><span>支付金额 : </span><span name="amount"></span></div>
+                <div><span>原金额 : </span><span name="originalTotalAmount"></span></div>
+                <div><span>优惠金额 : </span><span name="submoney"></span></div>
+                <div><span>买家备注 : </span><span  name="buyerNote"></span></div>
+
+            </fieldset>
+        </form>
+
+        <form id="expressPad">
+            <fieldset>
+                <legend style="color: #595959">物流信息</legend>
+                <div><span>发货快递 : </span><span  name="expressCo"></span></div>
+                <div><span>发货单号 : </span><span  name="expressNo"></span></div>
+            </fieldset>
+        </form>
+
+
+        <form id="buyerPad">
+            <fieldset>
+                <legend style="color: #595959">买家信息</legend>
+                <div><span>手机号 : </span><span name="phone"></span></div>
+                <div><span>昵称 : </span><span name="nickname"></span></div>
+                <div><span>收货人姓名 : </span><span name="receiverName"></span></div>
+                <div><span>收货人手机号 : </span><span name="receiverPhone"></span></div>
+                <div><span>收货地址 : </span><span name="receiverAddress"></span></div>
+            </fieldset>
+        </form>
+
+        <form id="refundPad">
+            <fieldset>
+                <legend style="color:red">退款信息</legend>
+                <div><button id="refundRefresh" style="color:red">刷新</button></div>
+                <div><span>状态 : </span><span name="refundStatus"></span></div>
+                <div><span>申请时间 : </span><span name="refundTime"></span></div>
+                <div><span>退款原因 : </span><span name="refundReason"></span></div>
+                <div name="refundFailReasonLine"><span>退款失败原因 : </span><span name="refundFailReason"></span></div>
+            </fieldset>
+        </form>
+
+        <form id="goodsPad">
+            <fieldset>
+                <legend style="color: #595959">商品信息</legend>
+                <fieldset name="goodExample" style="display:none">
+                    <legend name="name"></legend>
+                    <div><span>封面 : </span><span ><img name="cover" style="width:30px;cursor: pointer" src=""></span></div>
+                    <div><span>价格 : </span><span name="price"></span></div>
+                    <div><span>数量 : </span><span name="count"></span></div>
+                    <div><span>规格 : </span><span name="skuShow"></span></div>
+                </fieldset>
+                <div name="goodsShow">
+
+                </div>
+            </fieldset>
+        </form>
+
+        <div style="margin-top:20px"><button id="deliverEnt" style="margin:0 10px;margin-top:5px;width:100px;height:30px">发货</button><button id="refundEnt" style="margin:0 10px;margin-top:5px;width:100px;height:30px">退款</button><button id="cancelEnt" style="margin:0 10px;margin-top:5px;width:100px;height:30px">取消</button><button id="deleteEnt" style="margin:0 10px;margin-top:5px;width:100px;height:30px">删除</button></div>
+        <div style="margin-top:20px;"></div>
+    </div>
+</body>
+<script>
+    rxw1.relativePath='../../'
+    var token = localStorage.getItem('token');
+    var  mallId= localStorage.getItem("mall_id");
+    var queryString  = rxw1.parseQueryStr(location.search.substr(1));
+    var orderId = queryString.id;
+    var item;
+    onload();
+    function onload(){
+        rxw1.waitLock()
+        $('#refundPad').css('display','none');
+        $('#goodsPad [name=goodsShow]').html('');
+        $('#deliverEnt').css('display','none');
+        $('#refundEnt').css('display','none');
+        $('#cancelEnt').css('display','none');
+        $('#deleteEnt').css('display','none');
+        $('#expressPad').css('display','none');
+        $('#refundRefresh').css('display','none');
+        $('#orderPad [name=cancelReasonLine]').css('display','none');
+        $('#refundPad [name=refundFailReasonLine]').css('display','none');
+
+        $.ajax({
+            url:"/easywin/mm/"+mallId+"/e/order/orderinfo/"+orderId,
+            type:'post',
+            async:false,
+            data:{token:token},
+            success:function(res){
+                if(res.code==0){
+                    item = res.data;
+                $('#orderPad [name=orderId]').text(item.orderId);
+                $('#orderPad [name=orderTime]').text(rxw1.formatTime(item.orderTime));
+                $('#orderPad [name=status]').text(orderStatusParse(item.status));
+                $('#orderPad [name=amount]').text(item.amount);
+                $('#orderPad [name=originalTotalAmount]').text(item.originalTotalAmount);
+                $('#orderPad [name=submoney]').text(item.submoney);
+                    $('#orderPad [name=buyerNote]').text(item.buyerNote);
+
+                    $('#buyerPad [name=phone]').text(item.phone);
+                    $('#buyerPad [name=nickname]').text(item.nickname);
+                    $('#buyerPad [name=receiverName]').text(item.receiverName);
+                    $('#buyerPad [name=receiverPhone]').text(item.receiverPhone);
+                    $('#buyerPad [name=receiverAddress]').text(item.receiverAddress);
+
+                    if(!rxw1.isEmptyStr(item.expressNo)){
+                        $('#expressPad').css('display','').find('[name=expressNo]').text(item.expressNo);
+                        $('#expressPad [name=expressCo]').text(item.expressCo)
+                    }
+                    if(item.status=='4'){
+                        $('#orderPad [name=cancelReasonLine]').css('display','').find('[name=cancelReason]').text(item.cancelReason);
+                    }
+                    //0无退款 1退款中(已提交到微信) 2成功 3失败
+
+                if(item.refundStatus != '0'){
+                    $('#refundPad').css('display','');
+                    $('#refundPad [name=refundStatus]').text(refundStatusParse(item.refundStatus));
+                    $('#refundPad [name=refundTime]').text(rxw1.formatTime(item.refundTime));
+                    $('#refundPad [name=refundReason]').text(item.refundReason);
+                    if(item.refundStatus =='3' ){
+                        $('#refundPad [name=refundFailReasonLine]').css('display','').find('[name=refundFailReason]').text(item.refundFailReason);
+                    }else  if(item.refundStatus =='1' ){
+                        $('#refundRefresh').css('display','');
+                    }else{
+                    }
+                }
+
+                for(index in item.details){
+                    var good = item.details[index];
+                   var goodEle =  $('#goodsPad [name=goodExample]').clone(true);
+                    goodEle.find('[name=cover]').attr('src',good.cover).click(function(){
+                        rxw1.imgPreview(this.src)
+                    });
+                    goodEle.find('[name=price]').text(good.price);
+                    goodEle.find('[name=name]').text(good.name);
+                    goodEle.find('[name=count]').text(good.count);
+                    var goodAttrs = good.attrNames.split(',');
+                    var goodValues = good.valueNames.split(',');
+                    var skuShow = '';
+                    for(i in goodAttrs){
+                        if(i != 0)
+                            skuShow= skuShow+' , ';
+                        skuShow =skuShow+(goodAttrs[i]+':'+goodValues[i]);
+                    }
+                    goodEle.find('[name=skuShow]').text(skuShow);
+                    goodEle.css('display','');
+                    $('#goodsPad [name=goodsShow]').append(goodEle);
+                }
+                    //0待支付 1已支付 2已发货 3已收货 4已取消
+                    var refundable = false;
+                    if(item.status == '0'){
+                        $('#cancelEnt').css('display','');
+                    }else if(item.status == '1'){
+                        $('#deliverEnt').css('display','');
+                        $('#refundEnt').css('display','');
+                        refundable = true;
+                    }else if(item.status == '2'){
+                        $('#refundEnt').css('display','');
+                        refundable = true;
+                    }else if(item.status == '3'){
+                        $('#refundEnt').css('display','');
+                        refundable = true;
+                    }else if(item.status == '4'){
+                        $('#deleteEnt').css('display','');
+                    }
+
+//0无退款 1退款中(已提交到微信) 2成功 3失败
+                    if(refundable && (item.refundStatus == '2'||item.refundStatus == '1')){
+                        $('#refundEnt').css('display','none');
+                    }
+
+            }else{
+                    rxw1.errorpad(res.codeMsg)
+                }
+            }
+        })
+
+        rxw1.waitLock.remove()
+    }
+
+    $('#refundRefresh').click(function(){
+        rxw1.waitLock();
+        setTimeout(function(){
+            onload();
+            rxw1.waitLock.remove()
+        },200)
+        event.preventDefault();
+    });
+
+    $('#deliverEnt').click(function() {
+        rxw1.inputmorepad({
+            items:[{name:'快递公司',code:'expressCo'},
+                {name:'快递单号',code:'expressNo'}
+            ],
+            confirm:function(data){
+                $.ajax({
+                    url: "/easywin/mm/" + mallId + "/e/order/deliver/" + orderId,
+                    type: 'post',
+                    async: false,
+                    data: {token: token,express_co:data.expressCo,express_no:data.expressNo},
+                    success: function (res) {
+                        if(res.code==0){
+                            onload();
+                        }else{
+                            rxw1.errorpad(res.codeMsg)
+                        }
+                    }
+                });
+            }})
+    })
+    $('#refundEnt').click(function() {
+        rxw1.inputpad({content:'退款原因',confirm:function(data){
+            if(rxw1.isEmptyStr(data)){
+                rxw1.errorpad('退款原因不可空')
+            }
+            $.ajax({
+                url: "/easywin/mm/" + mallId + "/e/order/refund/" + orderId,
+                type: 'post',
+                async: false,
+                data: {token: token,reason:'商家退款:'+data},
+                success: function (res) {
+                    if(res.code==0){
+                        onload();
+                    }else{
+                        rxw1.errorpad(res.codeMsg)
+                    }
+                }
+            });
+        }})
+    })
+
+    $('#cancelEnt').click(function() {
+        rxw1.inputpad({content:'取消原因',confirm:function(data){
+            if(rxw1.isEmptyStr(data)){
+                rxw1.errorpad('取消原因不可空')
+            }
+            $.ajax({
+                url: "/easywin/mm/" + mallId + "/e/order/cancel/" + orderId,
+                type: 'post',
+                async: false,
+                data: {token: token,reason:'商家取消:'+data},
+                success: function (res) {
+                    if(res.code==0){
+                        onload();
+                    }else{
+                        rxw1.errorpad(res.codeMsg)
+                    }
+                }
+            });
+        }})
+    })
+
+    $('#deleteEnt').click(function() {
+        $.ajax({
+            url: "/easywin/mm/" + mallId + "/e/order/del/" + orderId,
+            type: 'post',
+            async: false,
+            data: {token: token},
+            success: function (res) {
+                if(res.code==0){
+                    history.back();
+                }else{
+                    rxw1.errorpad(res.codeMsg)
+                }
+            }
+        });
+    })
+
+    function orderStatusParse(status){
+        //0待支付 1已支付 2已发货 3确认收货 4已取消
+            switch(status){
+                case '0':
+                    return '待支付';
+                case '1':
+                    return '已支付';
+                case '2':
+                    return '已发货';
+                case '3':
+                    return '已收货';
+                case '4':
+                    return '已取消';
+            }
+    }
+
+    function refundStatusParse(status){
+        //0无退款 1退款中(已提交到微信) 2成功 3失败
+        switch(status){
+            case '0':
+                return '无退款';
+            case '1':
+                return '退款中';
+            case '2':
+                return '成功';
+            case '3':
+                return '失败';
+
+        }
+    }
+</script>
+
+</html>

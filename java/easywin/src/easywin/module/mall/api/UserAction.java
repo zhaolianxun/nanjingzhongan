@@ -1,6 +1,5 @@
 package easywin.module.mall.api;
 
-import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -113,15 +112,14 @@ public class UserAction {
 			if (userId == null) {
 				userId = RandomStringUtils.randomNumeric(12);
 				pst = connection.prepareStatement(
-						"insert into t_mall_user (id,mall_id,headimg,wx_openid,wx_sessionkey,register_time,register_from_user_id,nickname,headimg) values(?,?,?,?,?,rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0'),?,?,?)");
+						"insert into t_mall_user (id,mall_id,headimg,wx_openid,wx_sessionkey,register_time,register_from_user_id,nickname) values(?,?,?,?,?,rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0'),?,?)");
 				pst.setObject(1, userId);
 				pst.setObject(2, mallId);
-				pst.setObject(3, "");
+				pst.setObject(3, headimg);
 				pst.setObject(4, openid);
 				pst.setObject(5, sessionKey);
 				pst.setObject(6, fromUserId);
-				pst.setObject(7, URLEncoder.encode(nickname, SysConstant.SYS_CHARSET));
-				pst.setObject(8, headimg);
+				pst.setObject(7, nickname);
 				int n = pst.executeUpdate();
 				pst.close();
 				if (n != 1)
@@ -131,7 +129,7 @@ public class UserAction {
 						"update t_mall_user set wx_openid=?,wx_sessionkey=?,nickname=?,headimg=? where id=?");
 				pst.setObject(1, openid);
 				pst.setObject(2, sessionKey);
-				pst.setObject(3, URLEncoder.encode(nickname, SysConstant.SYS_CHARSET));
+				pst.setObject(3, nickname);
 				pst.setObject(4, headimg);
 				pst.setObject(5, userId);
 				int n = pst.executeUpdate();
@@ -149,11 +147,6 @@ public class UserAction {
 			loginStatus.setMallId(mallId);
 			loginStatus.setWxOpenid(openid);
 			String loginRedisKey = new StringBuilder(SysConstant.MALL_Login_Token_Prefix).append(token).toString();
-			//// 清除历史登录状态
-			String oldToken = jedis.get(userId);
-			if (oldToken != null && !oldToken.isEmpty())
-				jedis.del(new StringBuilder(SysConstant.MALL_Login_Token_Prefix).append(oldToken).toString());
-			jedis.del(userId);
 			//// 设置新登录状态
 			jedis.set(loginRedisKey, JSON.toJSONString(loginStatus));
 			jedis.set(userId, token);
