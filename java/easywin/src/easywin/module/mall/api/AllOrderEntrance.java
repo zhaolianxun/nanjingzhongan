@@ -165,12 +165,18 @@ public class AllOrderEntrance {
 			ResultSet rs = pst.executeQuery();
 			Integer couponId = null;
 			if (rs.next()) {
-				couponId = (Integer) rs.getInt("couponId");
+				couponId = (Integer) rs.getObject("coupon_id");
+				logger.debug("couponId " + couponId);
 			} else
 				throw new InteractRuntimeException("订单号");
-
 			pst.close();
-			// 查詢主轮播图
+
+			pst = connection.prepareStatement(
+					"update t_mall_good_sku gs left join t_mall_order_detail od on gs.id=od.sku_id set gs.inventory=gs.inventory+od.count where od.order_id=?");
+			pst.setObject(1, orderId);
+			pst.executeUpdate();
+			pst.close();
+
 			pst = connection.prepareStatement(
 					"update t_mall_order set finish_time=?,finished=1,status=4,cancel_time=? where id=? and user_id=? and status='0'");
 			pst.setObject(1, new Date().getTime());
@@ -183,7 +189,7 @@ public class AllOrderEntrance {
 			pst.close();
 
 			if (couponId != null) {
-				pst = connection.prepareStatement("update t_mall_usercoupon set used=0 where id=?");
+				pst = connection.prepareStatement("update t_mall_usercoupon set used=0,order_id=null where id=?");
 				pst.setObject(1, couponId);
 				n = pst.executeUpdate();
 				pst.close();

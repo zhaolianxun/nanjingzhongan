@@ -405,14 +405,15 @@ public class BuyEntrance {
 					throw new InteractRuntimeException("优惠券不存在");
 				}
 				pst.close();
-			}
 
-			pst = connection.prepareStatement("update t_mall_usercoupon set used=1 where id=?");
-			pst.setObject(1, couponId);
-			int n = pst.executeUpdate();
-			pst.close();
-			if (n != 1)
-				throw new InteractRuntimeException("操作失败");
+				pst = connection.prepareStatement("update t_mall_usercoupon set used=1,order_id=? where id=?");
+				pst.setObject(1, orderId);
+				pst.setObject(2, couponId);
+				int n = pst.executeUpdate();
+				pst.close();
+				if (n != 1)
+					throw new InteractRuntimeException("操作失败");
+			}
 
 			// 插入订单
 			pst = connection.prepareStatement(
@@ -436,7 +437,7 @@ public class BuyEntrance {
 			pst.setObject(14, originalTotalPrice);
 			pst.setObject(15, couponTitle);
 
-			n = pst.executeUpdate();
+			int n = pst.executeUpdate();
 			if (n == 0)
 				throw new InteractRuntimeException("生成订单失败");
 			pst.close();

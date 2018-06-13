@@ -115,9 +115,9 @@
                 $('#orderPad [name=orderId]').text(item.orderId);
                 $('#orderPad [name=orderTime]').text(rxw1.formatTime(item.orderTime));
                 $('#orderPad [name=status]').text(orderStatusParse(item.status));
-                $('#orderPad [name=amount]').text(item.amount);
-                $('#orderPad [name=originalTotalAmount]').text(item.originalTotalAmount);
-                $('#orderPad [name=submoney]').text(item.submoney);
+                $('#orderPad [name=amount]').text(item.amount/100);
+                $('#orderPad [name=originalTotalAmount]').text(item.originalTotalAmount/100);
+                $('#orderPad [name=submoney]').text(item.submoney/100);
                     $('#orderPad [name=buyerNote]').text(item.buyerNote);
                     $('#orderPad [name=couponTitle]').text(item.couponTitle);
 
@@ -152,10 +152,11 @@
                 for(index in item.details){
                     var good = item.details[index];
                    var goodEle =  $('#goodsPad [name=goodExample]').clone(true);
+                    goodEle.attr('name','')
                     goodEle.find('[name=cover]').attr('src',good.cover).click(function(){
                         rxw1.imgPreview(this.src)
                     });
-                    goodEle.find('[name=price]').text(good.price);
+                    goodEle.find('[name=price]').text(good.price/100);
                     goodEle.find('[name=name]').text(good.name);
                     goodEle.find('[name=count]').text(good.count);
                     var goodAttrs = good.attrNames.split(',');
@@ -254,6 +255,7 @@
     })
 
     $('#cancelEnt').click(function() {
+        rxw1.waitLock();
         rxw1.inputpad({content:'取消原因',confirm:function(data){
             if(rxw1.isEmptyStr(data)){
                 rxw1.errorpad('取消原因不可空')
@@ -265,6 +267,7 @@
                 data: {token: token,reason:'商家取消:'+data},
                 success: function (res) {
                     if(res.code==0){
+                        rxw1.waitLock.remove();
                         onload();
                     }else{
                         rxw1.errorpad(res.codeMsg)
@@ -272,6 +275,7 @@
                 }
             });
         }})
+        rxw1.waitLock.remove();
     })
 
     $('#deleteEnt').click(function() {

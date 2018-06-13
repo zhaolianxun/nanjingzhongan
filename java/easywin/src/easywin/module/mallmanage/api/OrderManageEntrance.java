@@ -305,13 +305,19 @@ public class OrderManageEntrance {
 			Integer couponId = null;
 			if (rs.next()) {
 				status = rs.getString("status");
-				couponId = (Integer) rs.getInt("coupon_id");
+				couponId = (Integer) rs.getObject("coupon_id");
 			} else
 				throw new InteractRuntimeException("订单号有误");
 			pst.close();
 			if (!"0".equals(status)) {
 				throw new InteractRuntimeException("订单状态有误");
 			}
+
+			pst = connection.prepareStatement(
+					"update t_mall_good_sku gs left join t_mall_order_detail od on gs.id=od.sku_id set gs.inventory=gs.inventory+od.count where od.order_id=?");
+			pst.setObject(1, orderId);
+			pst.executeUpdate();
+			pst.close();
 
 			// 查詢订单列表
 			pst = connection.prepareStatement(
@@ -326,7 +332,7 @@ public class OrderManageEntrance {
 				throw new InteractRuntimeException("订单已支付");
 
 			if (couponId != null) {
-				pst = connection.prepareStatement("update t_mall_usercoupon set used=0 where id=?");
+				pst = connection.prepareStatement("update t_mall_usercoupon set used=0,order_id=null where id=?");
 				pst.setObject(1, couponId);
 				n = pst.executeUpdate();
 				pst.close();
@@ -458,7 +464,7 @@ public class OrderManageEntrance {
 
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"update t_mall_order set refund_status='1',refund_time=?refund_reason=?,refund_fail_reason=null where id=? and status in ('1','2','3') and refund_status in ('0','3')");
+					"update t_mall_order set refund_status='1',refund_time=?,refund_reason=?,refund_fail_reason=null where id=? and status in ('1','2','3') and refund_status in ('0','3')");
 			pst.setObject(1, new Date().getTime());
 			pst.setObject(2, reason);
 			pst.setObject(3, orderId);

@@ -278,10 +278,10 @@ public class HomeEntrance {
 				if (getted == 1)
 					throw new InteractRuntimeException("您已经领取");
 				if (type == 1) {
-					type1Uptomoney = rs.getInt("type1_uptomoney");
-					type1Submoney = rs.getInt("type1_submoney");
-					type1Starttime = rs.getLong("type1_starttime");
-					type1Endtime = rs.getLong("type1_endtime");
+					type1Uptomoney = (Integer) rs.getObject("type1_uptomoney");
+					type1Submoney = (Integer) rs.getObject("type1_submoney");
+					type1Starttime = (Long) rs.getObject("type1_starttime");
+					type1Endtime = (Long) rs.getObject("type1_endtime");
 					if (new Date().getTime() > type1Endtime)
 						throw new InteractRuntimeException("已结束");
 				}

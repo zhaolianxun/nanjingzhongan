@@ -166,12 +166,9 @@
 
     var appData;
 
-
-        onload()
-
+    onload()
     function onload(){
-        try{
-            rxw1.waitLock();
+        rxw1.waitLock();
         $.ajax({
             type: 'POST',
             async: false,
@@ -181,7 +178,7 @@
                 if(res.code == 0){
 
                 }else{
-                    throw res.codeMsg
+                    rxw1.errorpad(res.codeMsg);
                 }
             }
         });
@@ -195,7 +192,7 @@
                 if(res.code == 0){
                     appData = res.data;
                 }else{
-                    throw res.codeMsg
+                    rxw1.errorpad(res.codeMsg);
                 }
             }
         });
@@ -209,7 +206,7 @@
                 if(res.code == 0){
                     $('#option').html('当前类目：<span style="color: red;">'+res.data.optionalCategoryExplain+'</span>');
                 }else{
-                    throw res.codeMsg
+                    rxw1.errorpad(res.codeMsg);
                 }
             }
         });
@@ -242,12 +239,7 @@
         }else if(appData.auditStatus == 0){
 
         }
-
-        }catch(e){
-            rxw1.errorpad(e);
-        }finally{
-            rxw1.waitLock.remove();
-        }
+       rxw1.waitLock.remove();
     }
 
     function unaudit(){
