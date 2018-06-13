@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>商品列表</title>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/table.css" />
+    <style>
+        #page span.layui-laypage-total {
+            background-color: #eee !important;
+        }
+
+        .tablePage {
+            background-color: #eee !important;
+            height: 40px;
+            width: 98%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            padding-right: 2%;
+        }
+
+        .tablePage button {
+            float: right;
+            /*margin-right: 20px;*/
+            border: 1px solid #333;
+
+            display: inline-block;
+            vertical-align: middle;
+            padding: 0 15px;
+            height: 28px;
+            line-height: 28px;
+            margin: 6px -1px 6px 0;
+            background-color: #fff;
+            color: #333;
+            font-size: 12px;
+        }
+
+        .prev {
+            /*margin-right: 20px;*/
+            border-radius: 0 2px 2px 0;
+        }
+
+        .next {
+            border-radius: 2px 0 0 2px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="admin-main">
+    <!--<textarea id="demo" style="display: block;"></textarea>-->
+    <!--<script>-->
+        <!--layui.use('layedit', function(){-->
+            <!--var layedit = layui.layedit;-->
+            <!--layedit.build('demo'); //建立编辑器-->
+        <!--});-->
+    <!--</script>-->
+    <blockquote class="layui-elem-quote" id="searchBox">
+        <a  class="layui-btn layui-btn-normal layui-btn-small" id="up">
+            <i class="layui-icon">&#xe62f;</i> 上架
+        </a>
+        <a class="layui-btn layui-btn-normal layui-btn-small" id="down">
+            <i class="layui-icon">&#xe601;</i> 下架
+        </a>
+
+        <input id="goodName" style="width: 20%;display: inline-block;" type="text" class="layui-input" placeholder="请输入商品名称">
+        <a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-small" id="search">
+            <i class="layui-icon">&#xe615;</i> 搜索
+        </a>
+        <a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-small" id="refresh">
+            <i class="layui-icon">&#xe63d;</i> 重置
+        </a>
+
+        <a href="goodsAdd.html?id=" style="float: right;" class="layui-btn layui-btn-warm layui-btn-small" id="add">
+            <i class="layui-icon">&#xe608;</i> 添加商品
+        </a>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>商品列表</legend>
+        <div class="layui-field-box">
+            <table class="site-table table-hover">
+                <thead>
+                <tr>
+                    <th><input class="selectAll" name="selectAll" title="全选" type="checkbox"  value="all"></th>
+                    <th>商品ID</th>
+                    <th style="width: 250px;">商品名称</th>
+                    <th>价格</th>
+                    <th>已售</th>
+                    <th>是否在售</th>
+                    <th>库存</th>
+                    <th>封面图</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <div class="tablePage">
+
+        <button id="next" class="next">下一页</button>
+        <button id="prev" class="prev">上一页</button>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="plugins/layui/layui.js"></script>
+<script>
+    var token=  localStorage.getItem("token");
+    var  mall_id= localStorage.getItem("mall_id");
+    layui.config({
+        base: 'plugins/layui/modules/'
+    });
+
+    layui.use(['icheck', 'laypage','layer'], function() {
+        var $ = layui.jquery,
+                laypage = layui.laypage,
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+
+        var name = '';
+        var toPageNo = 1;
+        //数据获取
+        function getData(name, toPageNo) {
+            $.ajax( {
+                type: 'GET',
+                data: {name:name,page_no:toPageNo,page_size:15,token: token},
+                async: false,
+                url: '/easywin/mm/'+mall_id+'/e/goodmanage/goods',
+                success: function(data){
+                    if(data.code == 0){
+                        $('#tbody').children().remove();
+                        var data = data.data;
+//                        totalPage = data.sum.totalPageCount;
+                        for(var i = 0 ; i < data.goods.length ; i ++){
+
+                                $('#tbody').append('<tr>' +
+                                        '<td><input name="select" title=""  goodId="" type="checkbox"  value="'+ data.goods[i].goodId +'"></td>'+
+                                        '<td>'+ data.goods[i].goodId +'</td>' +
+                                        '<td style="width: 250px;">'+ data.goods[i].name +'</td>' +
+
+                                        '<td>'+ data.goods[i].price/100 +' 元</td>' +
+                                        '<td>'+ data.goods[i].buyerCount +'</td>' +
+                                        '<td>'+ (data.goods[i].onsale==1?'上架中':data.goods[i].onsale==0?'已下架':'未知') +'</td>' +
+                                        '<td>'+ data.goods[i].inventory +'</td>' +
+//                                        '<td>'+ data.goods[i].areaName +'</td>' +
+                                        '<td><img style="width: 100px;height: 100px;" src="'+ data.goods[i].cover +'" /></td>' +
+                                        '<td>' +
+//                                        '<a href="javascript:;" data-id="'+ data.goods[i].goodId +'" data-sold="'+ data.goods[i].soldcount +'" class="sold layui-btn layui-btn-mini">删除规格</a><br/><br/>' +
+                                        '<a href="goodsEdit.html?id='+ data.goods[i].goodId +'" class="edit layui-btn layui-btn-normal layui-btn-mini">编辑信息</a><br/><br/>' +
+                                        '<a href="javascript:;" data-id="'+ data.goods[i].goodId +'" class="del layui-btn layui-btn-danger layui-btn-mini">删除商品</a>' +
+                                        '</td>' +
+                                        '</tr>'
+                                );
+                        }
+                    }else if(data.code == 20){
+                        alert('登录已失效，请重新登录！！');
+//                        window.parent.location.href = 'login.html';
+                    }else{
+                        layer.msg(data.message);
+                    }
+                }
+            } );
+        }
+        getData('',1);
+        $('.next').click(function () {
+//            console.log(123);
+            toPageNo++;
+            getData(name, toPageNo)
+        })
+        $('.prev').click(function () {
+
+            toPageNo--;
+            console.log(toPageNo);
+            if (toPageNo >= 1) {
+//                console.log(789);
+                getData(name, toPageNo)
+            } else {
+                toPageNo++;
+                console.log(toPageNo);
+                alert("已到达首页！！")
+            }
+
+        })
+        //关键词搜索
+        $('#search').on('click', function() {
+            toPageNo = 1;
+            name = $('#goodName').val();
+            getData(name,1);
+        });
+        $('#refresh').on('click', function() {
+            toPageNo = 1;
+            name ='';
+            getData(name,1);
+        });
+//        删除商品
+        $('#tbody').on('click','.del',function(){
+            var id = $(this).attr('data-id');
+            var me = $(this).parent().parent();
+            layer.open({
+                type: 1
+                ,title: false //不显示标题栏
+                ,closeBtn: false
+                ,area: '300px;'
+                ,shade: 0.8
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确定要删除此商品吗？<br/>删除后其下不同规格商品也会一并删除。</div>'
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        $.ajax( {
+                            type: 'POST',
+                            data: {good_id:id,token:token},
+                            url: '/easywin/mm/'+mall_id+'/e/goodmanage/delgood',
+                            success: function(data){
+                                if(data.code == 0){
+                                    layer.msg('删除成功！', {
+                                        time: 2000
+                                    });
+                                    me.remove();
+                                }else if(data.code == 20){
+                                    alert('登录已失效，请重新登录！！');
+//                                    window.parent.location.href = 'login.html';
+                                }else{
+                                    layer.msg(data.message);
+                                }
+                            }
+                        } )
+                    });
+                }
+            });
+        });
+//删除skus
+        $('#tbody').on('click','a.sold',function(){
+            var sku_id = $(this).attr('data-skuid');
+            var goodId = $(this).attr('data-id');
+            layer.open({
+                type: 1
+                ,title: false //不显示标题栏
+                ,closeBtn: false
+                ,area: '300px;'
+                ,shade: 0.8
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确定要删除此商品下的分类吗？</div>'
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.css('text-align', 'center');
+                    btn.find('.layui-layer-btn0').on('click',function(){
+                        $.ajax( {
+                            type: 'POST',
+                            data: {good_id:goodId,token:token,sku_id:sku_id},
+                            url:'/easywin/mm/'+mall_id+'/e/goodmanage/delsku',
+                            success: function(data){
+                                if(data.code == 0){
+                                    layer.msg('删除成功！', {
+                                        time: 2000
+                                    });
+                                    me.remove();
+                                }else if(data.code == 20){
+                                    alert('登录已失效，请重新登录！！');
+//                                    window.parent.location.href = 'login.html';
+                                }else{
+                                    layer.msg(data.message);
+                                }
+                            }
+                        } )
+                    });
+                }
+            });
+        })
+
+//        复选框全选
+        $('.selectAll').click(function(){
+            if($(".selectAll").is(":checked")){
+                $("input[name='select']").each(function(){
+//                    goodsId=goodsId+this.value+','
+                    $("input[name='select']").prop('checked',true);
+                })
+            }else{
+                $("input[name='select']").each(function(){
+                    console.log(this.value)
+//                    goodsId=goodsId+this.value+','
+                    $("input[name='select']").prop("checked",false)
+//                    $("input[name='select']").attr('checked','');
+                })
+            }
+        })
+    $('#up').click(function(){
+        var goodsId=''
+        $("input[name='select']:checked").each(function(){
+            goodsId=goodsId+this.value+','
+        })
+         goodsId=goodsId.substr(0,goodsId.length-1)
+console.log(goodsId)
+        if( goodsId==''){
+            alert('请选择商品')
+        }else{
+            $.ajax( {
+                type: 'GET',
+                data: {good_ids:goodsId,token: token},
+                async: false,
+                url: '/easywin/mm/'+mall_id+'/e/goodmanage/batchonsale',
+                success: function(data){
+                    if(data.code == 0){
+                        alert('上架成功！！')
+                    }else if(data.code == 20){
+                        alert('登录已失效，请重新登录！！');
+//                        window.parent.location.href = 'login.html';
+                    }else{
+                        layer.msg(data.codeMsg);
+                    }
+                }
+            } );
+        }
+
+
+    })
+        $('#down').click(function(){
+            var goodsId=''
+            $("input[name='select']:checked").each(function(){
+                goodsId=goodsId+this.value+','
+            })
+            goodsId=goodsId.substr(0,goodsId.length-1)
+
+            if( goodsId==''){
+                alert('请选择商品')
+            }else {
+                $.ajax({
+                    type: 'GET',
+                    data: {good_ids: goodsId, token: token},
+                    async: false,
+                    url: '/easywin/mm/' + mall_id + '/e/goodmanage/batchoffsale',
+                    success: function (data) {
+                        if (data.code == 0) {
+                            alert('下架成功！！')
+                        } else if (data.code == 20) {
+                            alert('登录已失效，请重新登录！！');
+//                            window.parent.location.href = 'login.html';
+                        } else {
+                            layer.msg(data.message);
+                        }
+                    }
+                });
+            }
+        })
+
+    });
+
+
+
+</script>
+</body>
+</html>

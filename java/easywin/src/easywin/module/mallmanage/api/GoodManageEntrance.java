@@ -122,7 +122,7 @@ public class GoodManageEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢商品详情
 			pst = connection.prepareStatement(
-					"select share_reward,detail,id,name,detail_pics,saled_count,buyer_count,params,onsale,type1_name,type2_name,type3_name,cover from t_mall_good where id=?");
+					"select tags,share_reward,detail,id,name,detail_pics,saled_count,buyer_count,params,onsale,type1_name,type2_name,type3_name,cover from t_mall_good where id=?");
 
 			pst.setObject(1, goodId);
 
@@ -130,6 +130,7 @@ public class GoodManageEntrance {
 			JSONObject good = new JSONObject();
 			if (rs.next()) {
 				good.put("goodId", rs.getObject("id"));
+				good.put("tags", rs.getObject("tags"));
 				good.put("name", rs.getObject("name"));
 				good.put("detailPics", rs.getObject("detail_pics"));
 				good.put("saledCount", rs.getObject("saled_count"));
@@ -206,23 +207,22 @@ public class GoodManageEntrance {
 			String type2Name = StringUtils.trimToNull(request.getParameter("type2_name"));
 			if (type2 != null && type2Name == null)
 				throw new InteractRuntimeException("type2_name 不可空");
-			String onsale = StringUtils.trimToNull(request.getParameter("onsale"));
-			onsale = onsale == null ? "0" : "1";
 			String detail = StringUtils.trimToNull(request.getParameter("detail"));
 			String params = StringUtils.trimToNull(request.getParameter("params"));
 			String detailPics = StringUtils.trimToNull(request.getParameter("detail_pics"));
 			String cover = StringUtils.trimToNull(request.getParameter("cover"));
 			String shareRewardParam = StringUtils.trimToNull(request.getParameter("share_reward"));
 			int shareReward = shareRewardParam == null ? 0 : Integer.parseInt(shareRewardParam);
-			String skusParam = StringUtils.trimToNull(request.getParameter("skus"));
-			if (skusParam == null)
-				throw new InteractRuntimeException("skus 不可空");
-			JSONArray skus = null;
-			try {
-				skus = JSON.parseArray(skusParam);
-			} catch (Exception e) {
-				throw new InteractRuntimeException("skus 格式有误");
-			}
+			// String skusParam =
+			// StringUtils.trimToNull(request.getParameter("skus"));
+			// if (skusParam == null)
+			// throw new InteractRuntimeException("skus 不可空");
+			// JSONArray skus = null;
+			// try {
+			// skus = JSON.parseArray(skusParam);
+			// } catch (Exception e) {
+			// throw new InteractRuntimeException("skus 格式有误");
+			// }
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -243,7 +243,7 @@ public class GoodManageEntrance {
 			pst.setObject(6, type1Name);
 			pst.setObject(7, type2);
 			pst.setObject(8, type2Name);
-			pst.setObject(9, onsale);
+			pst.setObject(9, 0);
 			pst.setObject(10, detail);
 			pst.setObject(11, params);
 			pst.setObject(12, detailPics);
@@ -275,54 +275,57 @@ public class GoodManageEntrance {
 			int attrId = rs.getInt(1);
 			pst.close();
 
-			for (int i = 0; i < skus.size(); i++) {
-				JSONObject sku = skus.getJSONObject(i);
-				String skuName = sku.getString("skuName");
-				Integer skuInventory = sku.getInteger("inventory");
-				Integer skuPrice = sku.getInteger("price");
-				Integer skuOriginalPrice = sku.getInteger("originalPrice");
-
-				if (skuName == null)
-					throw new InteractRuntimeException("skus[x].skuName 不能空");
-				if (skuInventory == null)
-					throw new InteractRuntimeException("skus[x].inventory 不能空");
-				if (skuPrice == null)
-					throw new InteractRuntimeException("skus[x].price 不能空");
-				if (skuOriginalPrice == null)
-					throw new InteractRuntimeException("skus[x].originalPrice 不能空");
-
-				// 插入属性值
-				pst = connection.prepareStatement(
-						"INSERT INTO `t_mall_good_attr_value` ( `attr_id`, `name`) VALUES ( ?, ?)",
-						PreparedStatement.RETURN_GENERATED_KEYS);
-				pst.setObject(1, attrId);
-				pst.setObject(2, skuName);
-				n = pst.executeUpdate();
-				if (n == 0) {
-					pst.close();
-					throw new InteractRuntimeException("操作失败");
-				}
-				rs = pst.getGeneratedKeys();
-				rs.next();
-				int valueId = rs.getInt(1);
-				pst.close();
-
-				// 插入sku
-				pst = connection.prepareStatement(
-						"INSERT INTO `t_mall_good_sku` ( `good_id`, `attr_ids`, `value_ids`, `inventory`, `price`, `original_price`) VALUES (?,?,?,?,?,?)");
-				pst.setObject(1, goodId);
-				pst.setObject(2, attrId);
-				pst.setObject(3, valueId);
-				pst.setObject(4, skuInventory);
-				pst.setObject(5, skuPrice);
-				pst.setObject(6, skuOriginalPrice);
-				n = pst.executeUpdate();
-				if (n == 0) {
-					pst.close();
-					throw new InteractRuntimeException("操作失败");
-				}
-				pst.close();
-			}
+			// for (int i = 0; i < skus.size(); i++) {
+			// JSONObject sku = skus.getJSONObject(i);
+			// String skuName = sku.getString("skuName");
+			// Integer skuInventory = sku.getInteger("inventory");
+			// Integer skuPrice = sku.getInteger("price");
+			// Integer skuOriginalPrice = sku.getInteger("originalPrice");
+			//
+			// if (skuName == null)
+			// throw new InteractRuntimeException("skus[x].skuName 不能空");
+			// if (skuInventory == null)
+			// throw new InteractRuntimeException("skus[x].inventory 不能空");
+			// if (skuPrice == null)
+			// throw new InteractRuntimeException("skus[x].price 不能空");
+			// if (skuOriginalPrice == null)
+			// throw new InteractRuntimeException("skus[x].originalPrice 不能空");
+			//
+			// // 插入属性值
+			// pst = connection.prepareStatement(
+			// "INSERT INTO `t_mall_good_attr_value` ( `attr_id`, `name`) VALUES
+			// ( ?, ?)",
+			// PreparedStatement.RETURN_GENERATED_KEYS);
+			// pst.setObject(1, attrId);
+			// pst.setObject(2, skuName);
+			// n = pst.executeUpdate();
+			// if (n == 0) {
+			// pst.close();
+			// throw new InteractRuntimeException("操作失败");
+			// }
+			// rs = pst.getGeneratedKeys();
+			// rs.next();
+			// int valueId = rs.getInt(1);
+			// pst.close();
+			//
+			// // 插入sku
+			// pst = connection.prepareStatement(
+			// "INSERT INTO `t_mall_good_sku` ( `good_id`, `attr_ids`,
+			// `value_ids`, `inventory`, `price`, `original_price`) VALUES
+			// (?,?,?,?,?,?)");
+			// pst.setObject(1, goodId);
+			// pst.setObject(2, attrId);
+			// pst.setObject(3, valueId);
+			// pst.setObject(4, skuInventory);
+			// pst.setObject(5, skuPrice);
+			// pst.setObject(6, skuOriginalPrice);
+			// n = pst.executeUpdate();
+			// if (n == 0) {
+			// pst.close();
+			// throw new InteractRuntimeException("操作失败");
+			// }
+			// pst.close();
+			// }
 			connection.commit();
 			// 返回结果
 			JSONObject data = new JSONObject();
@@ -366,21 +369,12 @@ public class GoodManageEntrance {
 			String type2Name = StringUtils.trimToNull(request.getParameter("type2_name"));
 			if (type2 != null && type2Name == null)
 				throw new InteractRuntimeException("type2_name 不可空");
-			String onsale = StringUtils.trimToNull(request.getParameter("onsale"));
 			String detail = StringUtils.trimToNull(request.getParameter("detail"));
 			String params = StringUtils.trimToNull(request.getParameter("params"));
 			String detailPics = StringUtils.trimToNull(request.getParameter("detail_pics"));
 			String cover = StringUtils.trimToNull(request.getParameter("cover"));
 			String shareRewardParam = StringUtils.trimToNull(request.getParameter("share_reward"));
 			Integer shareReward = shareRewardParam == null ? null : Integer.parseInt(shareRewardParam);
-			String skusParam = StringUtils.trimToNull(request.getParameter("skus"));
-			JSONArray skus = null;
-			if (skusParam != null)
-				try {
-					skus = JSON.parseArray(skusParam);
-				} catch (Exception e) {
-					throw new InteractRuntimeException("skus 格式有误");
-				}
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -407,8 +401,6 @@ public class GoodManageEntrance {
 				sqlParams.add(type2);
 			if (type2Name != null)
 				sqlParams.add(type2Name);
-			if (onsale != null)
-				sqlParams.add(onsale);
 			if (detail != null)
 				sqlParams.add(detail);
 			if (params != null)
@@ -426,10 +418,9 @@ public class GoodManageEntrance {
 				String s = (shareReward == null ? "" : " ,`share_reward`=?") + (name == null ? "" : " ,`name`=?")
 						+ (tags == null ? "" : " ,`tags`=?") + (type1 == null ? "" : " ,`type1`=?")
 						+ (type1Name == null ? "" : " ,`type1_name`=?") + (type2 == null ? "" : " ,`type2`=?")
-						+ (type2Name == null ? "" : " ,`type2_name`=?") + (onsale == null ? "" : " ,`onsale`=?")
-						+ (detail == null ? "" : " ,`detail`=?") + (params == null ? "" : " ,`params`=?")
-						+ (detailPics == null ? "" : " ,`detail_pics`=?") + (cover == null ? "" : " ,`cover`=?")
-						+ (!baseAlter ? "" : " ,`base_alter_time`=?");
+						+ (type2Name == null ? "" : " ,`type2_name`=?") + (detail == null ? "" : " ,`detail`=?")
+						+ (params == null ? "" : " ,`params`=?") + (detailPics == null ? "" : " ,`detail_pics`=?")
+						+ (cover == null ? "" : " ,`cover`=?") + (!baseAlter ? "" : " ,`base_alter_time`=?");
 				pst = connection.prepareStatement("update `t_mall_good` set " + s.substring(2) + " where id=?");
 				for (int i = 0; i < sqlParams.size(); i++) {
 					pst.setObject(i + 1, sqlParams.get(i));
@@ -442,101 +433,6 @@ public class GoodManageEntrance {
 					throw new InteractRuntimeException("操作失败");
 			}
 
-			for (int i = 0; i < skus.size(); i++) {
-				JSONObject sku = skus.getJSONObject(i);
-				Integer skuId = sku.getInteger("id");
-				String skuName = sku.getString("skuName");
-				Integer skuInventory = sku.getInteger("inventory");
-				Integer skuPrice = sku.getInteger("price");
-				Integer skuOriginalPrice = sku.getInteger("originalPrice");
-				if (skuId != null) {
-					if (skuName != null) {
-						pst = connection.prepareStatement(
-								"update `t_mall_good_attr_value` t inner join t_mall_good_sku u on t.id=u.value_ids set t.name=?  where u.id=? and u.good_id=?");
-						pst.setObject(1, skuName);
-						pst.setObject(2, skuId);
-						pst.setObject(3, goodId);
-						int n = pst.executeUpdate();
-						pst.close();
-						if (n == 0)
-							throw new InteractRuntimeException("sku不存在");
-						else if (n > 1)
-							throw new InteractRuntimeException("操作失败");
-					}
-
-					// 插入sku
-					List sqlParams1 = new ArrayList();
-					if (skuInventory != null)
-						sqlParams1.add(skuInventory);
-					if (skuPrice != null)
-						sqlParams1.add(skuPrice);
-					if (skuOriginalPrice != null)
-						sqlParams1.add(skuOriginalPrice);
-					if (!sqlParams1.isEmpty()) {
-						sqlParams1.add(skuId);
-						pst = connection.prepareStatement("update `t_mall_good_sku` set id=id"
-								+ (skuInventory == null ? "" : " ,inventory=?") + (skuPrice == null ? "" : " ,price=?")
-								+ (skuOriginalPrice == null ? "" : " ,original_price=?") + " where id=?");
-						for (int j = 0; j < sqlParams1.size(); j++) {
-							pst.setObject(j + 1, sqlParams1.get(j));
-						}
-						int n = pst.executeUpdate();
-						pst.close();
-						if (n == 0)
-							throw new InteractRuntimeException("sku不存在");
-						else if (n > 1)
-							throw new InteractRuntimeException("操作失败");
-					}
-				} else {
-					if (skuName == null)
-						throw new InteractRuntimeException("skus[x].skuName 不能空");
-					if (skuInventory == null)
-						throw new InteractRuntimeException("skus[x].inventory 不能空");
-					if (skuPrice == null)
-						throw new InteractRuntimeException("skus[x].price 不能空");
-					if (skuOriginalPrice == null)
-						throw new InteractRuntimeException("skus[x].originalPrice 不能空");
-
-					pst = connection.prepareStatement("select id from t_mall_good_attr where good_id=?");
-					pst.setObject(1, goodId);
-					ResultSet rs = pst.executeQuery();
-					rs.next();
-					int attrId = rs.getInt(1);
-					pst.close();
-
-					// 插入属性值
-					pst = connection.prepareStatement(
-							"INSERT INTO `t_mall_good_attr_value` ( `attr_id`, `name`) VALUES ( ?, ?)",
-							PreparedStatement.RETURN_GENERATED_KEYS);
-					pst.setObject(1, attrId);
-					pst.setObject(2, skuName);
-					int n = pst.executeUpdate();
-					if (n == 0) {
-						pst.close();
-						throw new InteractRuntimeException("操作失败");
-					}
-					rs = pst.getGeneratedKeys();
-					rs.next();
-					int valueId = rs.getInt(1);
-					pst.close();
-
-					// 插入sku
-					pst = connection.prepareStatement(
-							"INSERT INTO `t_mall_good_sku` ( `good_id`, `attr_ids`, `value_ids`, `inventory`, `price`, `original_price`) VALUES (?,?,?,?,?,?)");
-					pst.setObject(1, goodId);
-					pst.setObject(2, attrId);
-					pst.setObject(3, valueId);
-					pst.setObject(4, skuInventory);
-					pst.setObject(5, skuPrice);
-					pst.setObject(6, skuOriginalPrice);
-					n = pst.executeUpdate();
-					if (n == 0) {
-						pst.close();
-						throw new InteractRuntimeException("操作失败");
-					}
-					pst.close();
-				}
-			}
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
@@ -622,18 +518,36 @@ public class GoodManageEntrance {
 
 			if (goodIds != null && goodIds.length > 0) {
 				StringBuilder sb = new StringBuilder("update t_mall_good set onsale='1' where id in (");
+				pst = connection.prepareStatement(
+						"select count(s.id) count,(select name from t_mall_good where id=?) good_name from t_mall_good_sku s  where s.good_id=?");
 				for (int i = 0; i < goodIds.length; i++) {
+					pst.setObject(1, goodIds[i]);
+					pst.setObject(2, goodIds[i]);
+					ResultSet rs = pst.executeQuery();
+					if (rs.next()) {
+						int skuCount = rs.getInt("count");
+						String goodName = rs.getString("good_name");
+						if (skuCount == 0)
+							throw new InteractRuntimeException(
+									new StringBuilder("至少添加一个规格，才可上架。商品 '").append(goodName).append("'").toString());
+					}
+
 					if (i == goodIds.length - 1)
 						sb.append("?");
 					else
 						sb.append("?,");
 				}
 				sb.append(")");
+				pst.close();
+
 				pst = connection.prepareStatement(sb.toString());
 				for (int j = 0; j < goodIds.length; j++) {
 					pst.setObject(j + 1, goodIds[j]);
 				}
-				pst.executeUpdate();
+				int cnt = pst.executeUpdate();
+				if (cnt != goodIds.length)
+					throw new InteractRuntimeException("操作失败");
+				pst.close();
 			}
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
@@ -734,6 +648,8 @@ public class GoodManageEntrance {
 				if (cnt == 1)
 					throw new InteractRuntimeException("至少保留一个规格");
 			}
+			pst.close();
+
 			pst = connection.prepareStatement(
 					"delete t from t_mall_good_attr_value t inner join t_mall_good_sku u on u.value_ids=t.id where u.id=?");
 			pst.setObject(1, skuId);
@@ -804,6 +720,25 @@ public class GoodManageEntrance {
 			List sqlParams = new ArrayList();
 			if (name != null)
 				sqlParams.add(name);
+			sqlParams.add(skuId);
+			sqlParams.add(goodId);
+			String sql = new StringBuilder(
+					"update `t_mall_good_attr_value` t inner join t_mall_good_sku u on t.id=u.value_ids set  t.id=t.id")
+							.append(name == null ? "" : ",t.name=?").append(" where u.id=? and u.good_id=? ")
+							.toString();
+			logger.debug(sql);
+			logger.debug(sqlParams);
+			pst = connection.prepareStatement(sql);
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			int n = pst.executeUpdate();
+			logger.debug(n);
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			sqlParams = new ArrayList();
 			if (price != null)
 				sqlParams.add(price);
 			if (originalPrice != null)
@@ -812,16 +747,19 @@ public class GoodManageEntrance {
 				sqlParams.add(inventory);
 			sqlParams.add(skuId);
 			sqlParams.add(goodId);
-			pst = connection.prepareStatement(new StringBuilder(
-					"update `t_mall_good_attr_value` t inner join t_mall_good_sku u on t.id=u.value_ids set  ")
-							.append(name == null ? "" : ",t.name=?").append(price == null ? "" : ",u.price=?")
-							.append(originalPrice == null ? "" : ",u.original_price=?")
-							.append(inventory == null ? "" : ",u.inventory=?").append(" where u.id=? and u.good_id=? ")
-							.toString());
+			sql = new StringBuilder("update  t_mall_good_sku u  set  u.id=u.id")
+					.append(price == null ? "" : ",u.price=?")
+					.append(originalPrice == null ? "" : ",u.original_price=?")
+					.append(inventory == null ? "" : ",u.inventory=?").append(" where u.id=? and u.good_id=? ")
+					.toString();
+			logger.debug(sql);
+			logger.debug(sqlParams);
+			pst = connection.prepareStatement(sql);
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
-			int n = pst.executeUpdate();
+			n = pst.executeUpdate();
+			logger.debug(n);
 			pst.close();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -844,98 +782,97 @@ public class GoodManageEntrance {
 		}
 	}
 
-//	@RequestMapping(value = "/addsku")
-//	public void addSku(@PathVariable("mallId") String mallId, HttpServletRequest request, HttpServletResponse response)
-//			throws Exception {
-//		Connection connection = null;
-//		PreparedStatement pst = null;
-//		try {
-//			// 获取请求参数
-//			String goodId = StringUtils.trimToNull(request.getParameter("good_id"));
-//			if (goodId == null)
-//				throw new InteractRuntimeException("good_id 不能空");
-//			String inventoryParam = StringUtils.trimToNull(request.getParameter("inventory"));
-//			if (inventoryParam == null)
-//				throw new InteractRuntimeException("inventory 不能空");
-//			Integer inventory = Integer.parseInt(inventoryParam);
-//			if (inventory < 0)
-//				throw new InteractRuntimeException("库存值有误");
-//			String priceParam = StringUtils.trimToNull(request.getParameter("price"));
-//			if (priceParam == null)
-//				throw new InteractRuntimeException("price 不能空");
-//			Integer price = Integer.parseInt(priceParam);
-//			if (price <= 0)
-//				throw new InteractRuntimeException("价格有误");
-//			String originalPriceParam = StringUtils.trimToNull(request.getParameter("original_price"));
-//			if (originalPriceParam == null)
-//				throw new InteractRuntimeException("original_price 不能空");
-//			Integer originalPrice = Integer.parseInt(originalPriceParam);
-//			if (originalPrice <= 0)
-//				throw new InteractRuntimeException("原价有误");
-//			String name = StringUtils.trimToNull(request.getParameter("name"));
-//			if (name == null)
-//				throw new InteractRuntimeException("name 不能空");
-//			// 业务处理
-//			connection = EasywinDataSource.dataSource.getConnection();
-//			connection.setAutoCommit(false);
-//
-//			pst = connection.prepareStatement("select id from t_mall_good_attr where good_id=? and name='规格'");
-//			pst.setObject(1, goodId);
-//			ResultSet rs = pst.executeQuery();
-//			int attrId = 0;
-//			if (rs.next()) {
-//				attrId = rs.getInt(1);
-//			} else
-//				throw new InteractRuntimeException("规格不存在，请删除后重新添加整个商品");
-//			pst.close();
-//
-//			pst = connection.prepareStatement(
-//					new StringBuilder("insert into t_mall_good_attr_value (attr_id,name) values(?,?)").toString(),
-//					Statement.RETURN_GENERATED_KEYS);
-//			pst.setObject(1, attrId);
-//			pst.setObject(2, name);
-//			int n = pst.executeUpdate();
-//			if (n != 1)
-//				throw new InteractRuntimeException("操作失败");
-//			rs = pst.getGeneratedKeys();
-//			rs.next();
-//			int attrValueId = rs.getInt(1);
-//
-//			List sqlParams = new ArrayList();
-//			sqlParams.add(attrId);
-//			sqlParams.add(price);
-//			sqlParams.add(originalPrice);
-//			sqlParams.add(inventory);
-//			sqlParams.add(goodId);
-//			pst = connection.prepareStatement(new StringBuilder(
-//					"insert into t_mall_good_sku (good_id,attr_ids,value_ids,inventory,price,original_price) values()")
-//							.append(name == null ? "" : ",t.name=?").append(price == null ? "" : ",u.price=?")
-//							.append(originalPrice == null ? "" : ",u.original_price=?")
-//							.append(inventory == null ? "" : ",u.inventory=?").append(" where u.id=? and u.good_id=? ")
-//							.toString());
-//			for (int i = 0; i < sqlParams.size(); i++) {
-//				pst.setObject(i + 1, sqlParams.get(i));
-//			}
-//			int n = pst.executeUpdate();
-//			pst.close();
-//			if (n != 1)
-//				throw new InteractRuntimeException("操作失败");
-//
-//			connection.commit();
-//			// 返回结果
-//			HttpRespondWithData.todo(request, response, 0, null, null);
-//		} catch (Exception e) {
-//			// 处理异常
-//			logger.info(ExceptionUtils.getStackTrace(e));
-//			if (connection != null)
-//				connection.rollback();
-//			HttpRespondWithData.exception(request, response, e);
-//		} finally {
-//			// 释放资源
-//			if (pst != null)
-//				pst.close();
-//			if (connection != null)
-//				connection.close();
-//		}
-//	}
+	@RequestMapping(value = "/addsku")
+	public void addSku(@PathVariable("mallId") String mallId, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String goodId = StringUtils.trimToNull(request.getParameter("good_id"));
+			if (goodId == null)
+				throw new InteractRuntimeException("good_id 不能空");
+			String inventoryParam = StringUtils.trimToNull(request.getParameter("inventory"));
+			if (inventoryParam == null)
+				throw new InteractRuntimeException("inventory 不能空");
+			Integer inventory = Integer.parseInt(inventoryParam);
+			if (inventory < 0)
+				throw new InteractRuntimeException("库存值有误");
+			String priceParam = StringUtils.trimToNull(request.getParameter("price"));
+			if (priceParam == null)
+				throw new InteractRuntimeException("price 不能空");
+			Integer price = Integer.parseInt(priceParam);
+			if (price <= 0)
+				throw new InteractRuntimeException("价格有误");
+			String originalPriceParam = StringUtils.trimToNull(request.getParameter("original_price"));
+			if (originalPriceParam == null)
+				throw new InteractRuntimeException("original_price 不能空");
+			Integer originalPrice = Integer.parseInt(originalPriceParam);
+			if (originalPrice <= 0)
+				throw new InteractRuntimeException("原价有误");
+			String name = StringUtils.trimToNull(request.getParameter("name"));
+			if (name == null)
+				throw new InteractRuntimeException("name 不能空");
+			// 业务处理
+			connection = EasywinDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+
+			pst = connection.prepareStatement("select id from t_mall_good_attr where good_id=? and name='规格'");
+			pst.setObject(1, goodId);
+			ResultSet rs = pst.executeQuery();
+			int attrId = 0;
+			if (rs.next()) {
+				attrId = rs.getInt(1);
+			} else
+				throw new InteractRuntimeException("规格不存在，请删除后重新添加整个商品");
+			pst.close();
+
+			pst = connection.prepareStatement(
+					new StringBuilder("insert into t_mall_good_attr_value (attr_id,name) values(?,?)").toString(),
+					Statement.RETURN_GENERATED_KEYS);
+			pst.setObject(1, attrId);
+			pst.setObject(2, name);
+			int n = pst.executeUpdate();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+			rs = pst.getGeneratedKeys();
+			rs.next();
+			int attrValueId = rs.getInt(1);
+			pst.close();
+
+			List sqlParams = new ArrayList();
+			sqlParams.add(goodId);
+			sqlParams.add(attrId);
+			sqlParams.add(attrValueId);
+			sqlParams.add(inventory);
+			sqlParams.add(price);
+			sqlParams.add(originalPrice);
+			pst = connection.prepareStatement(new StringBuilder(
+					"insert into t_mall_good_sku (good_id,attr_ids,value_ids,inventory,price,original_price) values(?,?,?,?,?,?)")
+							.toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
 }
