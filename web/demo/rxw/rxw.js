@@ -266,7 +266,7 @@ rxw1.convertBase64UrlToBlob=function(urlData){
 }
 
 rxw1.chooseFile = function (params){
-    var inputId = rxw1.randomString(false,12);
+    var inputId = 'rxw1-'+rxw1.randomString(false,12);
     var input=document.createElement("input");
     input.type='file';
     input.id=inputId;
