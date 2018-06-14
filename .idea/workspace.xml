@@ -23,103 +23,181 @@
     <leaf>
       <file leaf-file-name="rxw.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/demo/rxw/rxw.js">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="109.333336">
+              <caret line="57" column="406" selection-start-line="57" selection-start-column="406" selection-end-line="57" selection-end-column="406" />
+              <folding>
+                <marker date="1528988784111" expanded="true" signature="177:434" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="861:1026" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="1042:1086" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="1123:1195" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="1226:1334" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="1378:1507" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="2093:2258" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="2274:2318" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="2355:2427" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="2459:2589" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="3048:3213" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="3229:3273" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="3311:3356" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="3427:3456" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="3477:3549" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="3580:3688" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="3732:3861" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="4569:4585" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="4729:4894" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="4914:4986" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="5017:5125" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="5169:5298" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="8792:8852" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="8869:8880" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="8920:8952" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="8976:8987" placeholder="..." />
+                <marker date="1528988784111" expanded="true" signature="9050:9081" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rxw.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/rxw/rxw.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <marker date="1528985807124" expanded="true" signature="177:434" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="861:1026" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="1042:1086" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="1123:1195" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="1226:1334" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="1378:1507" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="2093:2258" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="2274:2318" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="2355:2427" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="2459:2589" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="3048:3213" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="3229:3273" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="3311:3356" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="3393:3422" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="3443:3515" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="3546:3654" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="3698:3827" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="4535:4551" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="4695:4860" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="4880:4952" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="4983:5091" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="5135:5264" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="8758:8818" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="8835:8846" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="8886:8918" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="8942:8953" placeholder="..." />
+                <marker date="1528985807124" expanded="true" signature="9016:9047" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.38846153">
+            <state vertical-scroll-proportion="-2.3488371">
               <caret line="63" column="40" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nav.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/datas/nav.js">
+      <file leaf-file-name="orderInfo.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/orderInfo.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.8333335">
-              <caret line="304" column="28" selection-start-line="304" selection-start-column="26" selection-end-line="304" selection-end-column="28" />
+            <state vertical-scroll-proportion="-15.24138">
+              <caret line="228" column="30" selection-start-line="228" selection-start-column="30" selection-end-line="228" selection-end-column="30" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="userwithdraw_ent.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/userwithdraw_ent.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="7.1876106">
+              <caret line="225" column="26" selection-start-line="225" selection-start-column="26" selection-end-line="225" selection-end-column="26" />
+              <folding>
+                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#span#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#1;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#2;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1528990021623" expanded="true" signature="9017:9028" placeholder="..." />
+                <marker date="1528990021623" expanded="true" signature="9060:9153" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="userwithdraw_detail.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/userwithdraw_detail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-20.637932">
+              <caret line="105" column="28" selection-start-line="105" selection-start-column="28" selection-end-line="105" selection-end-column="28" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#legend#0;n#fieldset#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="users.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/users.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <marker date="1508462776000" expanded="true" signature="6572:6590" placeholder="..." />
+                <marker date="1508462776000" expanded="true" signature="8580:8671" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="clipboard.min.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/demo/js/clipboard.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.6785714">
+              <caret line="6" column="5076" selection-start-line="6" selection-start-column="5076" selection-end-line="6" selection-end-column="5076" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/main.html">
+      <file leaf-file-name="myapp.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/easywin/plat/myapp.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tree.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/layui/lay/modules/tree.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="-71.25">
+              <caret line="209" column="6" selection-start-line="209" selection-start-column="6" selection-end-line="209" selection-end-column="6" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="util.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/layui/lay/modules/util.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="laydate.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/layui/lay/modules/laydate.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="element.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/layui/lay/modules/element.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="layui.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/plugins/layui/layui.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="element.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/plugins/layui/lay/modules/element.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -153,9 +231,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/web/rrightway/phone/rightprotectorders_detail.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/noticeent.html" />
-        <option value="$PROJECT_DIR$/web/demo/demo4.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/rxw/rxw.js" />
         <option value="$PROJECT_DIR$/web/rrightway/package.json" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/moneymanage/css/new.css" />
@@ -198,12 +273,15 @@
         <option value="$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/couponManagement.html" />
         <option value="$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/orderInfo.html" />
         <option value="$PROJECT_DIR$/web/demo/demo8.html" />
-        <option value="$PROJECT_DIR$/web/demo/rxw/rxw.js" />
         <option value="$PROJECT_DIR$/web/easywin/rxw/rxw.js" />
         <option value="$PROJECT_DIR$/web/easywin/plat/myapp.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/preview.html" />
         <option value="$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/paymentConfiguration.html" />
         <option value="$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/index.html" />
+        <option value="$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/datas/nav.js" />
+        <option value="$PROJECT_DIR$/web/demo/rxw/rxw.js" />
+        <option value="$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/userwithdraw_detail.html" />
+        <option value="$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/userwithdraw_ent.html" />
       </list>
     </option>
   </component>
@@ -335,28 +413,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="plat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="easywin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="mallmanage" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -424,8 +480,8 @@
       <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\rxw" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\mallmanage\threeMinuteProgram_maintain" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\easywin\libs" />
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\demo\js" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\demo\rxw" />
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\demo" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\temp\GitHub\nanjingzhongan\web\demo\js" />
@@ -497,14 +553,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20886889" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20758355" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14650537" sideWeight="0.5025707" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.123655915" sideWeight="0.5025707" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14650537" sideWeight="0.4974293" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.123655915" sideWeight="0.4974293" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -545,35 +601,33 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="177:434" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="861:1026" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="1042:1086" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="1123:1195" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="1226:1334" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="1378:1507" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="2093:2258" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="2274:2318" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="2355:2427" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="2459:2589" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3048:3213" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3229:3273" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3311:3356" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3427:3456" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3477:3549" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3580:3688" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3732:3861" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="4569:4585" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="4729:4894" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="4914:4986" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="5017:5125" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="5169:5298" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="8792:8852" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="8869:8880" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="8920:8952" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="8976:8987" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="9050:9081" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -589,6 +643,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.107143">
           <caret line="195" column="11" selection-start-line="195" selection-start-column="11" selection-end-line="195" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -603,6 +658,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="80.46429">
           <caret line="12" column="7" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -667,90 +725,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/demo/rxw/rxw.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.7">
-          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
-          <folding>
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947267203" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/rxw/rxw.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="263" selection-start-line="6" selection-start-column="263" selection-end-line="6" selection-end-column="263" />
-          <folding>
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1528947355080" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/plat/myapp.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.107143">
-          <caret line="189" column="106" selection-start-line="189" selection-start-column="106" selection-end-line="189" selection-end-column="106" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat/preview.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-11.0">
@@ -804,7 +778,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -859,17 +833,181 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/datas/nav.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.8333335">
-          <caret line="304" column="28" selection-start-line="304" selection-start-column="26" selection-end-line="304" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.5323993">
+          <caret line="97" column="38" selection-start-line="97" selection-start-column="38" selection-end-line="97" selection-end-column="38" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/myapp.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-71.25">
+          <caret line="209" column="6" selection-start-line="209" selection-start-column="6" selection-end-line="209" selection-end-column="6" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/demo/js/clipboard.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.6785714">
+          <caret line="6" column="5076" selection-start-line="6" selection-start-column="5076" selection-end-line="6" selection-end-column="5076" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/libs/clipboard.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/orderInfo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.24138">
+          <caret line="228" column="30" selection-start-line="228" selection-start-column="30" selection-end-line="228" selection-end-column="30" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38846153">
+        <state vertical-scroll-proportion="-2.3488371">
           <caret line="63" column="40" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/users.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1508462776000" expanded="true" signature="6572:6590" placeholder="..." />
+            <marker date="1508462776000" expanded="true" signature="8580:8671" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/rxw/rxw.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1528985807124" expanded="true" signature="177:434" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="861:1026" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="1042:1086" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="1123:1195" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="1226:1334" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="1378:1507" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="2093:2258" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="2274:2318" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="2355:2427" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="2459:2589" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="3048:3213" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="3229:3273" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="3311:3356" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="3393:3422" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="3443:3515" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="3546:3654" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="3698:3827" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="4535:4551" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="4695:4860" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="4880:4952" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="4983:5091" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="5135:5264" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="8758:8818" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="8835:8846" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="8886:8918" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="8942:8953" placeholder="..." />
+            <marker date="1528985807124" expanded="true" signature="9016:9047" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/demo/rxw/rxw.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="109.333336">
+          <caret line="57" column="406" selection-start-line="57" selection-start-column="406" selection-end-line="57" selection-end-column="406" />
+          <folding>
+            <marker date="1528988784111" expanded="true" signature="177:434" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="861:1026" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="1042:1086" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="1123:1195" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="1226:1334" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="1378:1507" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="2093:2258" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="2274:2318" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="2355:2427" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="2459:2589" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3048:3213" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3229:3273" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3311:3356" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3427:3456" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3477:3549" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3580:3688" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="3732:3861" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="4569:4585" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="4729:4894" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="4914:4986" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="5017:5125" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="5169:5298" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="8792:8852" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="8869:8880" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="8920:8952" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="8976:8987" placeholder="..." />
+            <marker date="1528988784111" expanded="true" signature="9050:9081" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/userwithdraw_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-20.637932">
+          <caret line="105" column="28" selection-start-line="105" selection-start-column="28" selection-end-line="105" selection-end-column="28" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#legend#0;n#fieldset#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/userwithdraw_ent.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="7.1876106">
+          <caret line="225" column="26" selection-start-line="225" selection-start-column="26" selection-end-line="225" selection-end-column="26" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#span#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#2;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1528990021623" expanded="true" signature="9017:9028" placeholder="..." />
+            <marker date="1528990021623" expanded="true" signature="9060:9153" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

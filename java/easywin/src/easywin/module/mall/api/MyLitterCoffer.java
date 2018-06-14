@@ -50,7 +50,7 @@ public class MyLitterCoffer {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 检查手机号
 			pst = connection.prepareStatement(
-					"select (select count(id) from t_mall_user_withdraw where user_id=t.id and status=1) withdrew_count,(select ifnull(sum(amount),0) from t_mall_user_withdraw where user_id=t.id and status=1) withdrewMoney,t.money canWithdrawMoney,(select count(id) from t_mall_user_bill where type=1 and user_id=t.id and mall_id=t.mall_id) reward_count,(select ifnull(sum(amount),0) from t_mall_user_bill where type=1 and user_id=t.id and mall_id=t.mall_id) reward_money,t.money,(select count(id) from t_mall_user where register_from_user_id=t.id and mall_id=t.mall_id) my_fans_count from t_mall_user t where t.id=? and t.mall_id=?");
+					"select t.alipay_account,t.alipay_account_name,(select count(id) from t_mall_user_withdraw where user_id=t.id and status=1) withdrew_count,(select ifnull(sum(amount),0) from t_mall_user_withdraw where user_id=t.id and status=1) withdrewMoney,t.money canWithdrawMoney,(select count(id) from t_mall_user_bill where type=1 and user_id=t.id and mall_id=t.mall_id) reward_count,(select ifnull(sum(amount),0) from t_mall_user_bill where type=1 and user_id=t.id and mall_id=t.mall_id) reward_money,t.money,(select count(id) from t_mall_user where register_from_user_id=t.id and mall_id=t.mall_id) my_fans_count from t_mall_user t where t.id=? and t.mall_id=?");
 			pst.setObject(1, loginStatus.getUserId());
 			pst.setObject(2, mallId);
 			ResultSet rs = pst.executeQuery();
@@ -60,6 +60,8 @@ public class MyLitterCoffer {
 			int withdrewMoney = 0;
 			int rewardCount = 0;
 			int withdrewCount = 0;
+			String alipayAccount = null;
+			String alipayAccountName = null;
 			if (rs.next()) {
 				money = rs.getInt("money");
 				myFansCount = rs.getInt("my_fans_count");
@@ -67,11 +69,15 @@ public class MyLitterCoffer {
 				withdrewMoney = rs.getInt("withdrewMoney");
 				rewardCount = rs.getInt("reward_count");
 				withdrewCount = rs.getInt("withdrew_count");
+				alipayAccount = rs.getString("alipay_account");
+				alipayAccountName = rs.getString("alipay_account_name");
 			} else
 				throw new InteractRuntimeException(20);
 			pst.close();
 
 			JSONObject data = new JSONObject();
+			data.put("alipayAccount", alipayAccount);
+			data.put("alipayAccountName", alipayAccountName);
 			data.put("money", money);
 			data.put("withdrewCount", withdrewCount);
 			data.put("withdrewMoney", withdrewMoney);
@@ -81,6 +87,54 @@ public class MyLitterCoffer {
 			data.put("rewardCount", rewardCount);
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/bindalipay")
+	public void bindalipay(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String mallId = StringUtils.trimToNull(request.getParameter("mall_id"));
+			if (mallId == null)
+				throw new InteractRuntimeException("mall_id不可空");
+			String alipayAccount = StringUtils.trimToNull(request.getParameter("alipay_account"));
+			if (alipayAccount == null)
+				throw new InteractRuntimeException("请输入支付宝账号");
+			String alipayAccountName = StringUtils.trimToNull(request.getParameter("alipay_account_name"));
+			if (alipayAccountName == null)
+				throw new InteractRuntimeException("请输入支付宝账号姓名");
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			// 检查手机号
+			pst = connection
+					.prepareStatement("update t_mall_user set alipay_account=?,alipay_account_name=? where id=?");
+			pst.setObject(1, alipayAccount);
+			pst.setObject(2, alipayAccountName);
+			pst.setObject(3, loginStatus.getUserId());
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
@@ -186,7 +240,7 @@ public class MyLitterCoffer {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.status,t.amount,t.note,t.fail_reason,t.apply_time from t_mall_user_withdraw t where t.user_id=? and t.mall_id=?")
+					"select t.alipay_tradeno,t.note,t.alipay_account,t.alipay_account_name,t.status,t.amount,t.note,t.fail_reason,t.apply_time from t_mall_user_withdraw t where t.user_id=? and t.mall_id=?")
 							.append(" order by t.apply_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -200,6 +254,10 @@ public class MyLitterCoffer {
 				item.put("note", rs.getObject("note"));
 				item.put("failReason", rs.getObject("fail_reason"));
 				item.put("applyTime", rs.getObject("apply_time"));
+				item.put("alipayAccount", rs.getObject("alipay_account"));
+				item.put("alipayAccountName", rs.getObject("alipay_account_name"));
+				item.put("note", rs.getObject("note"));
+				item.put("alipayTradeno", rs.getObject("alipay_tradeno"));
 				items.add(item);
 			}
 			pst.close();
@@ -310,23 +368,28 @@ public class MyLitterCoffer {
 			List sqlParams = new ArrayList();
 			sqlParams.add(loginStatus.getUserId());
 			sqlParams.add(mallId);
-			pst = connection.prepareStatement(
-					new StringBuilder("select t.money from t_mall_user t where t.id=? and t.mall_id=? for update")
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.money,t.alipay_account,t.alipay_account_name from t_mall_user t where t.id=? and t.mall_id=? for update")
 							.toString());
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));
 
 			ResultSet rs = pst.executeQuery();
 			int money = 0;
+			String alipayAccount = null;
+			String alipayAccountName = null;
 			if (rs.next()) {
 				money = rs.getInt("money");
+				alipayAccount = rs.getString("alipay_account");
+				alipayAccountName = rs.getString("alipay_account_name");
 			} else
 				throw new InteractRuntimeException("用户不存在");
 			pst.close();
 
 			if (money < amount)
 				throw new InteractRuntimeException(1000, "余额不足", null);
-
+			if (StringUtils.isEmpty(alipayAccount) || StringUtils.isEmpty(alipayAccountName))
+				throw new InteractRuntimeException(1001, "缺少支付宝账号信息", null);
 			pst = connection.prepareStatement(
 					new StringBuilder("update t_mall_user set money=money-? where id=? and mall_id=? and (money-?)>=0")
 							.toString());
@@ -340,12 +403,15 @@ public class MyLitterCoffer {
 				throw new InteractRuntimeException("操作失败");
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"insert into t_mall_user_withdraw (mall_id,user_id,amount,apply_time) values(?,?,?,?)").toString(),
+					"insert into t_mall_user_withdraw (mall_id,user_id,amount,apply_time,alipay_account,alipay_account_name) values(?,?,?,?,?,?)")
+							.toString(),
 					Statement.RETURN_GENERATED_KEYS);
 			pst.setObject(1, mallId);
 			pst.setObject(2, loginStatus.getUserId());
 			pst.setObject(3, amount);
 			pst.setObject(4, new Date().getTime());
+			pst.setObject(5, alipayAccount);
+			pst.setObject(6, alipayAccountName);
 			cnt = pst.executeUpdate();
 			if (cnt != 1)
 				throw new InteractRuntimeException("操作失败");
@@ -359,7 +425,7 @@ public class MyLitterCoffer {
 							.toString());
 			pst.setObject(1, mallId);
 			pst.setObject(2, loginStatus.getUserId());
-			pst.setObject(3, amount);
+			pst.setObject(3, -amount);
 			pst.setObject(4, "提现");
 			pst.setObject(5, new Date().getTime());
 			pst.setObject(6, withdrawId);

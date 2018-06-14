@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script src="../../rxw/rxw.js"></script>
+    <title>订单详情</title>
+
+    <style>
+
+
+        .alterItem {
+            font-size: 12px;
+            cursor: pointer;
+            background-color: #eb7350;
+            margin-left:5px;
+            width:40px;
+            height:20px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+<div style="width:100%;">
+    <form id="detailPad" style="line-height: 20px">
+        <fieldset>
+            <legend style="color: #595959">详细信息</legend>
+            <div><span>用户 : </span><span name="nickname"></span></div>
+            <div><span>金额 : </span><span name="amount"></span></div>
+            <div><span>状态 : </span><span name="status"></span></div>
+            <div name="failReasonLine"><span>失败原因 : </span><span name="failReason"></span></div>
+            <div><span>申请时间 : </span><span name="applyTime"></span></div>
+            <div><span>支付宝账号 : </span><span name="alipayAccount"></span></div>
+            <div><span>支付宝姓名 : </span><span name="alipayAccountName"></span></div>
+            <div><span>支付宝打款交易号 : </span><span name="alipayTradeno"></span></div>
+            <div  name="noteLine"><span>备注 : </span><span name="note"></span><button class="alterItem">修改</button></div>
+        </fieldset>
+    </form>
+
+
+    <div style="margin-top:20px">
+        <button name="successBtn" style="margin:0 10px;margin-top:5px;width:100px;height:30px">成功</button>
+        <button name="failBtn" style="margin:0 10px;margin-top:5px;width:100px;height:30px">拒绝</button>
+    </div>
+    <div style="margin-top:20px;"></div>
+</div>
+</body>
+<script>
+    rxw1.relativePath = '../../'
+    var token = localStorage.getItem('token');
+    var mallId = localStorage.getItem("mall_id");
+    var queryString = rxw1.parseQueryStr(location.search.substr(1));
+    var id = queryString.id;
+    var item;
+    onload();
+    function onload() {
+        rxw1.waitLock()
+        $('#detailPad [name=failReasonLine]').css('display', 'none');
+        $('[name=successBtn]').css('display', 'none');
+        $('[name=failBtn]').css('display', 'none');
+
+        $.ajax({
+            url: "/easywin/mm/" + mallId + "/e/userwithdraw/detail",
+            type: 'post',
+            async: false,
+            data: {id: id, token: token},
+            success: function (res) {
+                if (res.code == 0) {
+                    item = res.data;
+                    $('#detailPad [name=amount]').text(item.amount / 100);
+                    $('#detailPad [name=applyTime]').text(rxw1.formatTime(item.applyTime));
+                    $('#detailPad [name=status]').text(statusParse(item.status));
+                    $('#detailPad [name=alipayAccount]').text(item.alipayAccount);
+                    $('#detailPad [name=alipayAccountName]').text(item.alipayAccountName);
+                    $('#detailPad [name=alipayTradeno]').text(item.alipayTradeno);
+                    $('#detailPad [name=nickname]').text(item.nickname);
+                    $('#detailPad [name=note]').text(item.note);
+                    if (item.status == 2) {
+                        $('#detailPad [name=failReasonLine]').css('display', '').find('[name=failReason]').text(item.failReason);
+                    }
+
+                    if (item.status == 0) {
+                        $('[name=successBtn]').css('display', '');
+                        $('[name=failBtn]').css('display', '');
+                    }
+                } else {
+                    rxw1.errorpad(res.codeMsg)
+                }
+            }
+        })
+
+        rxw1.waitLock.remove()
+    }
+
+
+    $('[name=successBtn]').click(function () {
+        rxw1.inputmorepad({
+            items: [{name: '支付宝交易号', code: 'alipayTradeno'},
+                {name: '备注', code: 'note'}
+            ],
+            confirm: function (data) {
+                $.ajax({
+                    url: "/easywin/mm/" + mallId + "/e/userwithdraw/success",
+                    type: 'post',
+                    async: false,
+                    data: {id: id, token: token, alipay_tradeno: data.alipayTradeno, note: data.note},
+                    success: function (res) {
+                        if (res.code == 0) {
+                            onload();
+                        } else {
+                            rxw1.errorpad(res.codeMsg)
+                        }
+                    }
+                })
+
+            }
+        })
+    })
+
+
+    $('[name=failBtn]').click(function () {
+        rxw1.inputmorepad({
+            items: [{name: '拒绝原因', code: 'reason'}
+            ],
+            confirm: function (data) {
+                $.ajax({
+                    url: "/easywin/mm/" + mallId + "/e/userwithdraw/fail",
+                    type: 'post',
+                    async: false,
+                    data: {id: id, token: token, reason: data.reason},
+                    success: function (res) {
+                        if (res.code == 0) {
+                            onload();
+                        } else {
+                            rxw1.errorpad(res.codeMsg)
+                        }
+                    }
+                })
+
+            }
+        })
+    })
+
+    $('[name=noteLine] .alterItem').click(function () {
+        rxw1.inputpad({
+            content: "请输入备注",def:$('[name=note]').text(), confirm: function (data) {
+                $.ajax({
+                    url: "/easywin/mm/" + mallId + "/e/userwithdraw/alternote",
+                    type: 'post',
+                    async: false,
+                    data: {id: id, token: token, note: data},
+                    success: function (res) {
+                        if (res.code == 0) {
+                            onload();
+                        } else {
+                            rxw1.errorpad(res.codeMsg)
+                        }
+                    }
+                })
+            }
+        })
+        event.preventDefault();
+    })
+
+    function statusParse(status) {
+        switch (status) {
+            case 0:
+                return '未处理';
+            case 1:
+                return '成功';
+            case 2:
+                return '失败';
+        }
+    }
+</script>
+
+</html>

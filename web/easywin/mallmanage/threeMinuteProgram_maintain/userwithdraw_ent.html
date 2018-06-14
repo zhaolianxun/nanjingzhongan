@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script src="../../rxw/rxw.js"></script>
+    <title>用户提现</title>
+
+    <style>
+        .cell {
+            text-align: center;
+            display: inline-block;
+            padding:0 5px;
+            overflow: hidden;
+            height:100%;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+            cursor: default;
+        }
+        .cell1 {
+            width:30px;
+        }
+        .cell2 {
+            width:100px;
+            border-left: 1px solid #7d7d7d;
+        }
+        .cell3 {
+            width:50px;
+            border-left: 1px solid #7d7d7d;
+        }
+        .cell4 {
+            width:50px;
+            border-left: 1px solid #7d7d7d;
+        }
+        .cell5 {
+            width:150px;
+            border-left: 1px solid #7d7d7d;
+        }
+        .cell6 {
+            width:100px;
+            border-left: 1px solid #7d7d7d;
+        }
+        .cell7 {
+            width:100px;
+            border-left: 1px solid #7d7d7d;
+        }
+        .cell8 {
+            width:100px;
+            border-left: 1px solid #7d7d7d;
+        }
+        .cell9 {
+            width:100px;
+            border-left: 1px solid #7d7d7d;
+
+        }
+        .row {
+            border-top: 1px solid #7d7d7d;
+            padding:3px 0;
+            height:20px;
+            font-size:15px;
+            min-width:1000px;
+        }
+
+        .row:hover{
+            background-color:#e8e8e8;
+        }
+        .row-title {
+            padding:2px 0;
+            min-width:1000px;
+
+        }
+
+    </style>
+</head>
+
+<body style="margin:0;">
+
+<div style="width:100%;margin-top:5px;">
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;width:60px;height:25px" onclick="query()">查询</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;width:60px;height:25px" onclick="success()">通过</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;width:60px;height:25px" onclick="fail()">拒绝</button>
+</div>
+
+        <div style="width:100%;margin-top:10px;">
+                <span style="margin:0 5px;display:inline-block;margin-top:5px;">
+                    <span style="font-size: 14px">状态:</span>
+                    <span>
+                        <select name="statusQuery">
+                            <option value="">全部</option>
+                            <option value="0">未处理</option>
+                            <option value="1">成功</option>
+                            <option value="2">失败</option>
+                        </select>
+                    </span>
+                </span>
+        </div>
+
+<div style="width:99%;border: 1px solid black;margin:0 auto;margin-top:10px;overflow: auto;" >
+    <div class="row-title">
+        <span class="cell cell1"></span><span class="cell cell2">用户</span><span class="cell cell2">金额</span><span class="cell cell4">状态</span><span class="cell cell5">申请时间</span><span class="cell cell6">支付宝账号</span><span class="cell cell7">支付宝姓名</span><span class="cell cell8">支付宝交易号</span><span class="cell cell9">操作</span>
+    </div>
+    <div name="itemExample" class="row" style="display:none">
+        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="nickname"></span><span class="cell cell2" name="amount"></span><span class="cell cell4" name="status"></span><span class="cell cell5" name="applyTime"></span><span class="cell cell6" name="alipayAccount"></span><span class="cell cell7" name="alipayAccountName"></span><span class="cell cell8" name="alipayTradeno"></span><span class="cell cell9" ><button name="detailEntDoor">详情</button></span>
+    </div>
+    <div name="itemsShowPad" style="max-height:300px;">
+        <div name="itemsShow">
+
+        </div>
+        <div name="pagingBottomPad" style="text-align: center;margin:5px  0;">
+            <span name="noitem" style="display:none;position: relative;z-index: 2;background:white;padding:0 5px;color:#7d7d7d">无数据</span>
+            <span name="more" style="display:none;cursor:pointer;position: relative;z-index: 2;background:white;padding:0 5px;color:#7d7d7d" onclick="loadMore()">点击加载更多</span>
+            <span name="finish" style="cursor: default;;display:none;position: relative;z-index: 2;background:white;padding:0 5px;color:#7d7d7d">加载完毕</span>
+            <div style="margin:auto;position: relative; left: 0;top: -10px;width: 95%;height: 1px;background: #DCDCDC;z-index: 1;"></div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+<script>
+    rxw1.relativePath = '../../'
+    var token = localStorage.getItem('token');
+    var mallId = localStorage.getItem("mall_id");
+    var page_no;
+    var page_size;
+    var items = {};
+    var queryParams = {token: token}
+    onload();
+
+
+    function onload() {
+        rxw1.waitLock()
+        page_no = 1;
+        page_size = 30;
+        $('[name=itemsShow]').html('');
+        $('[name=pagingBottomPad] [name=noitem]').css('display', '');
+        $('[name=pagingBottomPad] [name=more]').css('display', 'none');
+        $('[name=pagingBottomPad] [name=finish]').css('display', 'none');
+        loadItems();
+        rxw1.waitLock.remove()
+    }
+
+    function query(){
+        queryParams.status=$('[name=statusQuery]').val();
+        onload();
+    }
+    function loadMore(){
+        rxw1.waitLock()
+        page_no++;
+        loadItems();
+        rxw1.waitLock.remove()
+    }
+
+    function loadItems(){
+        queryParams.page_no=page_no;
+        queryParams.page_size=page_size;
+        $.ajax({
+            url: "/easywin/mm/" + mallId + "/e/userwithdraw/ent" ,
+            type: 'post',
+            async: false,
+            data: queryParams,
+            success: function (res) {
+                if (res.code == 0) {
+                    var itemsLength = res.data.items.length;
+                    if(itemsLength==0 && page_no ==1){
+
+                    }else if(itemsLength>= 0 && itemsLength<page_size && page_no>=1){
+                        $('[name=pagingBottomPad] [name=noitem]').css('display', 'none');
+                        $('[name=pagingBottomPad] [name=more]').css('display', 'none');
+                        $('[name=pagingBottomPad] [name=finish]').css('display', '');
+                    }else if(itemsLength==page_size){
+                        $('[name=pagingBottomPad] [name=noitem]').css('display', 'none');
+                        $('[name=pagingBottomPad] [name=finish]').css('display', 'none');
+                        $('[name=pagingBottomPad] [name=more]').css('display', '');
+                    }
+                    $(res.data.items).each(function(index,item){
+                        items[index]=item;
+                        var newItemRow = $('[name=itemExample]').clone(true)
+                        renderItemRow(newItemRow,item)
+                        eventToItemRow(newItemRow,item.id)
+                        newItemRow.css('display', '');
+                        $('[name=itemsShow]').append(newItemRow)
+                    })
+                } else {
+                    rxw1.errorpad(res.codeMsg)
+                }
+            }
+        })
+    }
+
+
+function refreshItemRow(itemRow,itemId){
+    $.ajax({
+        url: "/easywin/mm/" + mallId + "/e/userwithdraw/detail",
+        type: 'post',
+        async: false,
+        data: {id:itemId,token:token},
+        success: function (res) {
+            if(res.code==0){
+                var item = res.data;
+                items[itemId]= item;
+                renderItemRow(itemRow,item)
+            }else{
+                rxw1.errorpad(res.codeMsg)
+            }
+        }
+    })
+}
+
+
+    function renderItemRow(itemRow,item) {
+        itemRow.attr('name','')
+        itemRow.attr('itemId',item.id)
+        itemRow.find('[name=nickname]').text(item.nickname).attr('title',item.nickname)
+        itemRow.find('[name=amount]').text(item.amount/100)
+        itemRow.find('[name=status]').text(statusParse(item.status))
+        itemRow.find('[name=applyTime]').text(rxw1.formatTime(item.applyTime)).attr('title',rxw1.formatTime(item.applyTime))
+        itemRow.find('[name=alipayAccount]').text(item.alipayAccount)
+        itemRow.find('[name=alipayAccountName]').text(item.alipayAccountName)
+        itemRow.find('[name=alipayTradeno]').text(item.alipayTradeno)
+
+    }
+
+function eventToItemRow(itemRow,itemId){
+    itemRow.find('[name=detailEntDoor]').click(function(){
+        rxw1.waitLock()
+        rxw1.layer({init:function(layer){
+            layer.style['background-color']='white';
+            $(layer).append('<div style="height:30px"><a href="javascript:;" style="text-decoration:none;font-size:20px;float:right;position: relative;right:30px;cursor: pointer" name="closeLayer">X</a></div>')
+            $(layer).append('<iframe scrolling="no" frameborder="no" style="width: 100%;height:100%" src="'+'userwithdraw_detail.html?id='+itemId+'"></iframe>')
+            $(layer).find('[name=closeLayer]').click(function(){
+                refreshItemRow(itemRow,itemId)
+                $(layer).remove();
+            })
+        }})
+        rxw1.waitLock.remove()
+    })
+    itemRow.click(function(){
+        $('.row [name=itemChosen] ').prop("checked",false);
+        $(this).find('[name=itemChosen]').prop("checked",true);
+        $('.row').css('background-color','')
+        $(this).css('background-color','#e8e8e8')
+    })
+}
+
+
+    $('#deliverEnt').click(function () {
+        rxw1.inputmorepad({
+            items: [{name: '快递公司', code: 'expressCo'},
+                {name: '快递单号', code: 'expressNo'}
+            ],
+            confirm: function (data) {
+                $.ajax({
+                    url: "/easywin/mm/" + mallId + "/e/order/deliver/" + orderId,
+                    type: 'post',
+                    async: false,
+                    data: {token: token, express_co: data.expressCo, express_no: data.expressNo},
+                    success: function (res) {
+                        if (res.code == 0) {
+                            onload();
+                        } else {
+                            rxw1.errorpad(res.codeMsg)
+                        }
+                    }
+                });
+            }
+        })
+    })
+
+    function success(){
+        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
+        var itemId = itemRow.attr('itemId')
+        if(itemId){
+            rxw1.inputmorepad({
+                items:[{name:'支付宝交易号',code:'alipayTradeno'},
+                    {name:'备注',code:'note'}
+                ],
+                confirm:function(data){
+                    $.ajax({
+                        url: "/easywin/mm/" + mallId + "/e/userwithdraw/success",
+                        type: 'post',
+                        async: false,
+                        data: {id:itemId,token:token,alipay_tradeno:data.alipayTradeno,note:data.note},
+                        success: function (res) {
+                            if(res.code==0){
+                                refreshItemRow(itemRow,itemId)
+                            }else{
+                                rxw1.errorpad(res.codeMsg)
+                            }
+                        }
+                    })
+
+                }})
+
+        }else
+            rxw1.errorpad('请选择一条记录')
+    }
+
+    function fail(){
+        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
+        var itemId = itemRow.attr('itemId')
+        if(itemId){
+            rxw1.inputmorepad({
+                items:[{name:'拒绝原因',code:'reason'}
+                ],
+                confirm:function(data){
+                    $.ajax({
+                        url: "/easywin/mm/" + mallId + "/e/userwithdraw/fail",
+                        type: 'post',
+                        async: false,
+                        data: {id:itemId,token:token,reason:data.reason},
+                        success: function (res) {
+                            if(res.code==0){
+                                refreshItemRow(itemRow,itemId)
+                            }else{
+                                rxw1.errorpad(res.codeMsg)
+                            }
+                        }
+                    })
+
+                }})
+
+        }else
+            rxw1.errorpad('请选择一条记录')
+    }
+    function statusParse(status) {
+        switch (status) {
+            case 0:
+                return '未处理';
+            case 1:
+                return '成功';
+            case 2:
+                return '失败';
+        }
+    }
+
+
+</script>
+
+</html>

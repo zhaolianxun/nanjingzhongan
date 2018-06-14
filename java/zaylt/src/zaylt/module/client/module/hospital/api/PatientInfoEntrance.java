@@ -225,8 +225,8 @@ public class PatientInfoEntrance {
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-			if (!loginStatus.getType().equals("2"))
-				throw new InteractRuntimeException("您不是门诊用户");
+			if (!loginStatus.getType().equals("1"))
+				throw new InteractRuntimeException("您不是医院用户");
 
 			connection = ZayltDataSource.dataSource.getConnection();
 			pst = connection
