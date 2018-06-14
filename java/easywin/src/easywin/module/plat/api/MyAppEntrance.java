@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import easywin.constant.SysConstant;
 import easywin.entity.InteractRuntimeException;
+import easywin.module.plat.business.Business;
 import easywin.module.plat.business.GetLoginStatus;
 import easywin.module.plat.entity.UserLoginStatus;
 import easywin.util.EasywinDataSource;
@@ -34,6 +35,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import redis.clients.jedis.Jedis;
 
 @Controller("plat.api.MyAppEntrance")
 @RequestMapping(value = "/p/e/myapp")
@@ -115,6 +117,7 @@ public class MyAppEntrance {
 	public void appinfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
+		Jedis jedis = null;
 		try {
 			// 获取请求参数
 			String appId = StringUtils.trimToNull(request.getParameter("app_id"));
@@ -122,12 +125,17 @@ public class MyAppEntrance {
 				throw new InteractRuntimeException("app_id不能空");
 
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			jedis = SysConstant.jedisPool.getResource();
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request, jedis);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢订单列表
+			Business.refreshWxAppInfo(appId, connection, jedis);
+			jedis.close();
+			jedis = null;
+
 			pst = connection.prepareStatement(
 					"select t.businessbase_fill,t.head_img,t.seed_id,t.nick_name,t.id,t.current_template_version,t.authorized,t.audit_template_version,t.commit_template_version,t.bind_time,t.commit_status,t.audit_status,t.audit_fail_reason,u.newest_version newest_template_version,t.use_endtime,u.template_code from t_app t inner join t_app_seed u on t.seed_id=u.id where t.id=?");
 			pst.setObject(1, appId);
@@ -167,6 +175,8 @@ public class MyAppEntrance {
 				pst.close();
 			if (connection != null)
 				connection.close();
+			if (jedis != null)
+				jedis.close();
 		}
 	}
 
@@ -381,7 +391,7 @@ public class MyAppEntrance {
 				throw new InteractRuntimeException("请先提交版本");
 			else {
 				if (commitTemplateVersion.equals(currentTemplateVersion))
-					throw new InteractRuntimeException("当前版本号与提交的版本号相同");
+					throw new InteractRuntimeException("该版本已在运营中，无需提交审核。");
 			}
 			if (auditStatus == 1)
 				throw new InteractRuntimeException("有正在审核中的版本");
@@ -435,10 +445,25 @@ public class MyAppEntrance {
 			responseBody = okHttpResponse.body().string();
 			logger.debug("responseBody " + responseBody);
 			resultVo = JSON.parseObject(responseBody);
+			int wxErrcode = resultVo.getIntValue("errcode");
+			if (wxErrcode != 0) {
+				if (wxErrcode == 85009) {
+					String url1 = new StringBuilder("https://api.weixin.qq.com/wxa/undocodeaudit?")
+							.append("access_token=").append(accessToken).toString();
+					logger.debug("url " + url);
 
-			if (resultVo.getIntValue("errcode") != 0)
-				throw new InteractRuntimeException(resultVo.getString("errmsg"));
+					Request okHttpRequest1 = new Request.Builder().url(url1).build();
+					Response okHttpResponse1 = SysConstant.okHttpClient.newCall(okHttpRequest1).execute();
+					String responseBody1 = okHttpResponse1.body().string();
+					logger.debug("responseBody " + responseBody1);
+					JSONObject resultVo1 = JSON.parseObject(responseBody1);
 
+					if (resultVo1.getIntValue("errcode") != 0)
+						throw new InteractRuntimeException(resultVo1.getString("errmsg"));
+					throw new InteractRuntimeException("请重新提交");
+				} else
+					throw new InteractRuntimeException("提交审核失败，微信方错误信息: " + resultVo.getString("errmsg"));
+			}
 			long auditId = resultVo.getLongValue("auditid");
 
 			pst = connection.prepareStatement(
@@ -576,7 +601,7 @@ public class MyAppEntrance {
 
 			if (accessToken == null || accessToken.trim().length() == 0)
 				throw new InteractRuntimeException("您还未授权该应用");
-			if (auditstatus == 0 || wxAuditId == null)
+			if (auditstatus == 0)
 				throw new InteractRuntimeException("还未提交审核");
 
 			String reason = null;
@@ -668,7 +693,7 @@ public class MyAppEntrance {
 				throw new InteractRuntimeException("您还未授权该应用");
 			if (auditstatus == 0 || wxAuditId == null)
 				throw new InteractRuntimeException("还未提交审核");
-			if (auditstatus == 2 || auditstatus == 4 || auditstatus == 3)
+			if (auditstatus == 2 || auditstatus == 3)
 				throw new InteractRuntimeException("已审核过");
 			if (auditstatus == 1) {
 				// 获取小程序的第三方提交代码的页面配置
@@ -681,9 +706,13 @@ public class MyAppEntrance {
 				String responseBody = okHttpResponse.body().string();
 				logger.debug("responseBody " + responseBody);
 				JSONObject resultVo = JSON.parseObject(responseBody);
-
-				if (resultVo.getIntValue("errcode") != 0)
-					throw new InteractRuntimeException(resultVo.getString("errmsg"));
+				int wxErrcode = resultVo.getIntValue("errcode");
+				if (wxErrcode != 0) {
+					if (wxErrcode == 87013)
+						throw new InteractRuntimeException("撤回次数达到上限（每天一次，每个月10次）");
+					else
+						throw new InteractRuntimeException("微信方错误: " + resultVo.getString("errmsg"));
+				}
 
 				pst = connection.prepareStatement(
 						"update t_app set audit_status=0,audit_template_version=null,wx_audit_id=null where id=? and audit_status=1");
@@ -730,7 +759,7 @@ public class MyAppEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(
-					"select use_endtime,access_token,audit_status,audit_fail_reason from t_app where id=? for update");
+					"select audit_template_version,current_template_version,use_endtime,access_token,audit_status,audit_fail_reason from t_app where id=? for update");
 			pst.setObject(1, appId);
 			ResultSet rs = pst.executeQuery();
 			if (!rs.next()) {
@@ -740,6 +769,8 @@ public class MyAppEntrance {
 			int auditstatus = rs.getInt("audit_status");
 			String accessToken = rs.getString("access_token");
 			String auditFailReason = rs.getString("audit_fail_reason");
+			String currentTemplateVersion = rs.getString("current_template_version");
+			String auditTemplateVersion = rs.getString("audit_template_version");
 			Long useEndtime = (Long) rs.getObject("use_endtime");
 			pst.close();
 
@@ -751,7 +782,8 @@ public class MyAppEntrance {
 				throw new InteractRuntimeException("正在审核中");
 			else if (auditstatus == 3)
 				throw new InteractRuntimeException(new StringBuilder("审核失败 ").append(auditFailReason).toString());
-			else if (auditstatus == 4)
+			if (StringUtils.isNotEmpty(currentTemplateVersion) && StringUtils.isNotEmpty(auditTemplateVersion)
+					&& currentTemplateVersion.equals(auditTemplateVersion))
 				throw new InteractRuntimeException("当前版本已发布");
 
 			// 发布
@@ -779,7 +811,7 @@ public class MyAppEntrance {
 				params.add(useEndtime);
 			params.add(appId);
 			pst = connection.prepareStatement("update t_app set" + (useEndtime == null ? "" : " use_endtime=?,")
-					+ " audit_status=4,current_template_version=audit_template_version where id=?");
+					+ " current_template_version=audit_template_version where id=?");
 			for (int i = 0; i < params.size(); i++) {
 				pst.setObject(i + 1, params.get(i));
 			}

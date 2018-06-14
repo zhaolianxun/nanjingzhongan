@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import easywin.constant.SysConstant;
@@ -52,15 +53,19 @@ public class MallWxPayInfoEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢主轮播图
 			pst = connection.prepareStatement(
-					"select reverse(substring_index(reverse(replace(wx_mchcertpath,'`\\`','/')),'/',1)) wx_mchcert_filename,wx_mchid,wx_mchkey,if(ISNULL(wx_mchcertpath) || LENGTH(trim(wx_mchcertpath))<1,0,1) mchcert_setted from t_app where id=?");
+					"select wx_mchcertpath,wx_mchid,wx_mchkey,if(ISNULL(wx_mchcertpath) || LENGTH(trim(wx_mchcertpath))<1,0,1) mchcert_setted from t_app where id=?");
 			pst.setObject(1, mallId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
 			if (rs.next()) {
+				
+				String mchcertpath = rs.getString("wx_mchcertpath");
+				String mchcertUrl = StringUtils.isEmpty(mchcertpath) ? null
+						: "http://" + SysConstant.project_domain + mchcertpath.substring(25);
+				item.put("mchcertUrl", mchcertUrl);
 				item.put("mchid", rs.getObject("wx_mchid"));
 				item.put("mchkey", rs.getObject("wx_mchkey"));
 				item.put("mchcertSetted", rs.getObject("mchcert_setted"));
-				item.put("mchcertFilename", rs.getObject("wx_mchcert_filename"));
 			} else {
 				throw new InteractRuntimeException("商城不存在");
 			}
@@ -129,7 +134,7 @@ public class MallWxPayInfoEntrance {
 			String mchcertPath = null;
 			if (mchcert != null) {
 				// 保存文件
-				File path = new File(SysConstant.project_ossroot, mallId);// 获取文件要保存的目录
+				File path = new File(SysConstant.project_ossroot, "mall" + mallId);// 获取文件要保存的目录
 				if (!path.exists())
 					path.mkdirs();
 				String ss = mchcert.getName().substring(mchcert.getName().lastIndexOf("\\") + 1);// 解析文件名

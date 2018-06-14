@@ -173,7 +173,7 @@
                         $('.mchid').val(data.data.mchid);
                         $('.mchkey').val(data.data.mchkey);
                         if(data.data.mchcertSetted==1){
-                            $('.mchcertSet').html('(*已上传文件)');
+                            $('.mchcertSet').html('(*已上传文件)'+'<a target="_blank" href="'+data.data.mchcertUrl+'">点击查看</a>');
                         }else{
                             $('.mchcertSet').html('(*尚未上传文件)');
                         }
@@ -188,7 +188,10 @@
 
 
         $('.btn').click(function () {
-
+            if($('#pic2').get(0).files[0].type.indexOf('pkcs12') == -1){
+                alert('证书文件有误')
+                return;
+            }
 //            var fd = new FormData(document.getElementById('pic2'));
             var formData =new FormData(document.getElementById('mchcertpath'));
             console.log(formData)

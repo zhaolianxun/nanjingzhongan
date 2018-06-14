@@ -368,6 +368,7 @@ public class WxOpenP3Authorization {
 				throw new InteractRuntimeException("需要您授予小程序基本信息设置权限");
 			if (!funcs.contains(31))
 				throw new InteractRuntimeException("需要您授予小程序认证权限");
+			
 			// 从微信拉取授权者信息
 			url = new StringBuilder("https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?")
 					.append("component_access_token=").append(componentAccessToken);
@@ -407,7 +408,7 @@ public class WxOpenP3Authorization {
 				if (n != 1)
 					throw new InteractRuntimeException("操作失败");
 
-				File appOssRoot = new File(SysConstant.project_ossroot, existAppId);
+				File appOssRoot = new File(SysConstant.project_ossroot, "mall" + existAppId);
 				if (!appOssRoot.exists())
 					appOssRoot.mkdirs();
 			} else {

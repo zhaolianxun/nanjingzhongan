@@ -61,12 +61,12 @@
 				<div class="layui-tab admin-nav-card layui-tab-brief" lay-filter="admin-tab">
 					<ul class="layui-tab-title">
 						<li class="layui-this">
-							<cite>首页</cite>
+							<cite>商城基本信息</cite>
 						</li>
 					</ul>
 					<div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;">
 						<div class="layui-tab-item layui-show">
-							<iframe id="iframe" src="main.html"></iframe>
+							<iframe id="iframe" src="mallBasicInformation.html"></iframe>
 						</div>
 					</div>
 				</div>
@@ -105,6 +105,7 @@
 									alert('请至\'支付配置\'设置微信商户证书等信息')
 								else if(!data.data.mallName)
 									alert('请至\'商城基本信息\'设置商城名')
+
 							}else{
 								alert(data.codeMsg)
 							}

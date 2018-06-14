@@ -7,7 +7,7 @@ rxw1.errorpad=function (content) {
         $("body").append('<div  id="errorpad" style="width:200px;padding:0 40px;position:absolute;position:fixed;top:30%;left:50%;transform:translateX(-50%);margin-top:-1.25rem;z-index:999999999;font-size:0.8rem;color:#fff;background:rgba(0,0,0,0.8);line-height:2.25rem;border-radius:0.25rem;text-align:center;">' + content + '</div>');
     }
     else {
-        $("#errorpad p").html(content);
+        $("#errorpad").html(content);
     }
     $("#errorpad").fadeIn();
     setTimeout(function () {

@@ -102,11 +102,13 @@ public class BuyEntrance {
 				pst.setObject(2, skuId);
 				rs = pst.executeQuery();
 				if (rs.next()) {
+					String name = rs.getString("name");
 					if (rs.getInt("onsale") == 0)
-						throw new InteractRuntimeException("商品已经下架");
+						throw new InteractRuntimeException("商品已经下架，'" + name + "'");
 					int inventory = rs.getInt("inventory");
 					if (cnt > inventory)
-						throw new InteractRuntimeException("库存不足");
+						throw new InteractRuntimeException("库存不足，商品'" + name + "'");
+
 					JSONObject gotGood = new JSONObject();
 					gotGood.put("id", id);
 					gotGood.put("count", cnt);
@@ -115,7 +117,7 @@ public class BuyEntrance {
 					gotGood.put("valueNames", valueNames);
 					int price = rs.getInt("price");
 					gotGood.put("price", price);
-					gotGood.put("name", rs.getObject("name"));
+					gotGood.put("name", name);
 					gotGood.put("cover", rs.getObject("cover"));
 					gotGoods.add(gotGood);
 
@@ -246,7 +248,7 @@ public class BuyEntrance {
 			int fromCart = fromCartParam == null ? 0 : Integer.parseInt(fromCartParam);
 			String addressId = StringUtils.trimToNull(request.getParameter("address_id"));
 			if (addressId == null)
-				throw new InteractRuntimeException("address_id 不可空");
+				throw new InteractRuntimeException("请选择地址");
 			String mallId = StringUtils.trimToNull(request.getParameter("mall_id"));
 			if (mallId == null)
 				throw new InteractRuntimeException("mall_id 不可空");
@@ -301,13 +303,13 @@ public class BuyEntrance {
 				pst.setObject(2, skuId);
 				rs = pst.executeQuery();
 				if (rs.next()) {
+					name = rs.getString("name");
 					if (rs.getInt("onsale") == 0)
-						throw new InteractRuntimeException("商品已经下架");
+						throw new InteractRuntimeException("商品已经下架，'" + name + "'");
 					inventory = rs.getInt("inventory");
 					if (cnt > inventory)
-						throw new InteractRuntimeException("库存不足");
+						throw new InteractRuntimeException("库存不足，商品'" + name + "'");
 					price = rs.getInt("price");
-					name = rs.getString("name");
 					cover = rs.getString("cover");
 				} else {
 					throw new InteractRuntimeException("商品不存在");

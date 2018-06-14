@@ -146,7 +146,7 @@
                 <p id="option"></p>
                 <div class="cardbt-con">
                   <!--  <button id="submit" style="display: none;" onclick="submitAudit()">提交新版本审核</button>-->
-                    <button id="submitCodeAndAudit" style="display: none;" onclick="submitCodeAndAudit()">提交新版审核</button>
+                    <button id="submitCodeAndAudit" style="display: none;width:100px" onclick="submitCodeAndAudit()">提交新版审核</button>
                     <button id="unaudit" style="display: none;" onclick="unaudit()">取消审核</button>
                     <button style="display: none;" id="release" onclick="release()">发布</button>
                 </div>
@@ -178,7 +178,7 @@
                 if(res.code == 0){
 
                 }else{
-                    rxw1.errorpad(res.codeMsg);
+
                 }
             }
         });
@@ -211,18 +211,18 @@
             }
         });
 
-        if(appData.newestTemplateVersion !=appData.auditTemplateVersion)
-            $('#submitCodeAndAudit').show();
 
-        if(appData.auditStatus ==4){
-            $('#released img').attr('src','img/icon002.png');
-            $('#released').siblings().children('img').attr('src','img/icon001.png');
-            $('#release').hide();
-        }else if(appData.auditStatus == 2){//0未提交  1已提交  2通过  3失败  4已发布
+
+        if(appData.auditStatus == 2){//0未提交  1已提交  2通过  3失败
             $('#auditStatus img').attr('src','img/icon002.png');
             $('#auditStatus').siblings().children('img').attr('src','img/icon001.png');
             $('#submitCodeAndAudit').hide();
             $('#release').show();
+            if(!rxw1.isEmptyStr(appData.currentTemplateVersion)&& !rxw1.isEmptyStr(appData.auditTemplateVersion) && appData.currentTemplateVersion == appData.auditTemplateVersion){
+                $('#released img').attr('src','img/icon002.png');
+                $('#released').siblings().children('img').attr('src','img/icon001.png');
+                $('#release').hide();
+            }
         }else if(appData.auditStatus == 1){
             $('#auditing img').attr('src','img/icon002.png');
             $('#auditing').siblings().children('img').attr('src','img/icon001.png');
@@ -239,6 +239,8 @@
         }else if(appData.auditStatus == 0){
 
         }
+        if(appData.newestTemplateVersion !=appData.auditTemplateVersion)
+            $('#submitCodeAndAudit').show();
        rxw1.waitLock.remove();
     }
 

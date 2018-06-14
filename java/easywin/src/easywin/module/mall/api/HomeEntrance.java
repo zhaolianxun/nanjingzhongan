@@ -137,7 +137,7 @@ public class HomeEntrance {
 							.append(" ,")
 							.append(loginStatus == null ? " 0 used"
 									: " (select ifnull(used,0) from t_mall_usercoupon where coupon_id=t.id and user_id=?) used")
-							.append(" from t_mall_coupon t left join t_mall_usercoupon tt on t.id=tt.coupon_id where t.mall_id=? order by t.add_time desc limit 0,30")
+							.append(" from t_mall_coupon t where t.mall_id=? order by t.add_time desc limit 0,30")
 							.toString());
 			for (int i = 0; i < sqlParams.size(); i++)
 				pst.setObject(i + 1, sqlParams.get(i));

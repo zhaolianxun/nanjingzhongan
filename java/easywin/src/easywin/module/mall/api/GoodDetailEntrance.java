@@ -84,7 +84,7 @@ public class GoodDetailEntrance {
 				good.put("params", rs.getObject("params"));
 				good.put("favorIs", rs.getObject("favor_is"));
 			} else {
-				throw new InteractRuntimeException("商品不存在");
+				throw new InteractRuntimeException(1000, "商品不存在", null);
 			}
 			pst.close();
 

@@ -186,7 +186,8 @@
                     <div class="agentInfoEnt"><a href="javascript:;">所属代理</a></div>
                 </div>
                 <div class="cardbt-con">
-                    <button class="previewbtn" style="display:none" onblur="closeBox()">预览</button>
+
+                    <button class="previewbtn" style="display:none;position:relative" onblur="closeBox()">预览</button>
                     <!--  <button class="updatebtn" style="display:none">更新</button>-->
                     <button class="goauthbtn" style="display:none">前往授权</button>
                     <button class="managebtn" style="display:none">管理后台</button>
@@ -316,7 +317,8 @@
                                 newCarddiv.find('.cardmsg').text('审核中');
                             } else if (!a.currentTemplateVersion) {
                                 newCarddiv.find('.cardmsg').text('请进入"查看状态"提交审核');
-                            } else if (a.auditStatus == 4) {
+                            }
+                            if(!rxw1.isEmptyStr(a.currentTemplateVersion)&& !rxw1.isEmptyStr(a.auditTemplateVersion) && a.currentTemplateVersion == a.auditTemplateVersion){
                                 newCarddiv.find('.cardmsg').text('运行中');
                                 newCarddiv.find('.cardmsg').css('color', 'green');
                             }
