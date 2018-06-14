@@ -26,6 +26,8 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.6108291">
               <caret line="274" column="44" selection-start-line="274" selection-start-column="44" selection-end-line="274" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.30118445">
+              <caret line="267" column="36" selection-start-line="267" selection-start-column="36" selection-end-line="267" selection-end-column="36" />
               <folding>
                 <marker date="1528907210008" expanded="true" signature="177:434" placeholder="..." />
                 <marker date="1528907210008" expanded="true" signature="863:1028" placeholder="..." />
@@ -335,7 +337,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2062982" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -497,8 +499,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/demo/rxw/rxw.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6108291">
-          <caret line="274" column="44" selection-start-line="274" selection-start-column="44" selection-end-line="274" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.30118445">
+          <caret line="267" column="36" selection-start-line="267" selection-start-column="36" selection-end-line="267" selection-end-column="36" />
           <folding>
             <marker date="1528907210008" expanded="true" signature="177:434" placeholder="..." />
             <marker date="1528907210008" expanded="true" signature="863:1028" placeholder="..." />
