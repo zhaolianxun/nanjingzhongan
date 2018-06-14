@@ -1,0 +1,33 @@
+
+    <view class="m-endorsementBox _172ccbc">
+        <view class="m-endorsementBox-bg _172ccbc"/>
+        <view class="m-userinfo _172ccbc">
+            <view class="m-photo _172ccbc">
+                <image src="{{ avatarUrl }}" class="_172ccbc"/>
+            </view>
+            <view class="m-text _172ccbc">
+                <label class="_172ccbc">我是{{ nickName }}</label>
+                <text class="_172ccbc">我为三分钟小程序代言</text>
+            </view>
+        </view>
+    </view>
+
+    <!-- <image src="{{ img }}" class="QRCodeBOx _172ccbc" mode="widthFix"/> -->
+
+    <view class="m-text-box _172ccbc">
+    <view bindtap="showTip" class="_172ccbc">
+        <label class="iconfont icon-14052218 _172ccbc"/>推广规则
+    </view>
+    <view class="_172ccbc">
+        <view class="_172ccbc">
+            <view class="_172ccbc">当你的粉丝在店铺内支付订单后，订单中的所有商品，都有相应的收益比例（以店铺设置为准）。将支付订单金额和收益比例相乘后，累计计算出你此单的总收益。</view>
+            <view class="_172ccbc">
+                * 注：
+                -  不计算收益的内容：运费、优惠券、关税，以及收益比例为0的商品；
+                - 如果发生了退货退款，需要按照实际退货数量对收益进行相应的扣除；
+            </view>
+        </view>
+    </view>
+    </view>
+
+    <label class="u-tip-text _172ccbc">赶紧点击右上角分享给朋友吧!</label>

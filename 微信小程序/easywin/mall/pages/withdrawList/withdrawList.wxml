@@ -1,0 +1,29 @@
+
+    <view class="_5d708a2">
+        <scroll-view class="m-scrollBox _5d708a2" scroll-y="true" bindscrolltolower="scrollbottom">
+            <view  wx:if="{{ list.length }}" class="m-panel m-panel-access m-comment  _5d708a2">
+                <view class="m-panel-bd _5d708a2">
+                <view wx:for="{{ list }}" wx:for-item="item" class="m-media-box m-media-box-appmsg _5d708a2">
+                    <view class="m-media-box-bd _5d708a2">
+                    <label class="m-media-box-title _5d708a2">{{ item.bank_name }} {{ item.bank_number }}</label>
+                    <label class="m-media-box-num _5d708a2">
+                        <text class="_5d708a2">￥{{ item.amount / 100 }}</text>
+                    </label>
+                    <view class="m-media-box-info _5d708a2">
+                        <view class="m-media-box-info-meta m-tiem _5d708a2">时间：{{ item.applyTime }}</view>
+                    </view>
+                    </view>
+                </view>
+                </view>
+            </view>
+            <view class="m-nullcontent _5d708a2"  wx:else>
+                <view class="m-nullpage-middle _5d708a2">
+                <label class="iconfont icon-meiyougengduo _5d708a2"/>
+                <view class="m-null-tip _5d708a2">
+                    <text class="_5d708a2">亲~什么都没有</text>
+                    <text class="_5d708a2">赶快去分享商品，赚取收益吧!</text>
+                </view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>

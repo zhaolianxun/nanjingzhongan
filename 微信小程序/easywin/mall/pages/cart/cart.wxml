@@ -1,0 +1,60 @@
+<view class="shop_cart _d4d55f2">
+  <view class="goodsList _d4d55f2">
+    <block class="_d4d55f2" wx:for="{{ list }}" wx:for-index="index" wx:for-item="item" wx:key="index">
+      <view class="list_box _d4d55f2">
+
+        <view class="swipe-item-wrapper _d4d55f2" bindtouchstart="touchstart" bindtouchmove="touchmove" data-index="{{index}}"class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}">
+          <view class="content  swipe-content">
+
+            <!-- <view class="a-goods-conts {{item.ischecked? 'active':''}}"  > -->
+            <view class="goods-info _d4d55f2">
+              <icon class="icon_check _d4d55f2" type="success" data-skuid="{{ item.skuId }}" data-valuenames="{{ item.valueNames }}" data-attrnames="{{ item.attrNames }}"  data-count="{{ item.count }}" color="{{ item.color || 'rgb(153,153,153)' }}" catchtap="selectTap" data-price="{{ item.price }}" data-index="{{ index }}" data-id="{{ item.goodId }}" size="20" />
+              <view class="img-box _d4d55f2">
+                <image src="{{ item.detailPic }}" class="img _d4d55f2" />
+              </view>
+              <view class="text-box _d4d55f2">
+                <view class="goods-title _d4d55f2">
+                  <navigator url="../goodsDetail/goodsDetail?id={{ item.goodId }}" class="_d4d55f2">
+                    <i wx:if="{{ item.onsale != '1' }}" class="_d4d55f2">[已下架]</i>
+                    {{ item.name }}
+                  </navigator>
+                </view>
+                <view class="goods-price _d4d55f2">¥ {{ item.price / 100 }}</view>
+                <view class="sku _d4d55f2">{{ item.valueNames }}</view>
+                <view class="buy-num _d4d55f2">
+                  <view class="jian-btn {{ item.count == 1 ? 'disabled' : '' }} _d4d55f2" catchtap="jianBtnTap" data-price="{{ item.price }}"  data-count="{{ item.count }}"  data-skuid="{{item.skuId}}" data-index="{{ index }}" data-id="{{ item.goodId }}">-</view>
+                  <input type="number" data-count="{{ item.count }}" value="{{ item.count }}" disabled class="_d4d55f2" />
+                  <view class="jia-btn {{ item.count == item.skuInventory ? 'disabled' : '' }} _d4d55f2" catchtap="jiaBtnTap"  data-skuinventory='{{item.skuInventory}}'  data-price="{{ item.price }}"  data-count="{{ item.count }}" data-index="{{ index }}" data-skuid="{{item.skuId}}" data-id="{{ item.goodId }}">+</view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="del " catchtap="del" data-skuid="{{item.skuId}}"  data-id="{{item.goodId}}">删除</view>
+        </view>
+
+      </view>
+    </block>
+  </view>
+  <view class="empty_cart _d4d55f2" wx:if="{{ !list.length }}">
+    <image src="../../images/empty_cart.png" class="empty_cart_img _d4d55f2" />
+    <view class="empty_cart_text _d4d55f2">购物车还是空的</view>
+    <view class="shop_btn _d4d55f2">
+      <view class="block btn_group _d4d55f2">
+       <navigator url='../index/index'> <view style='width:auto !important' class="btn get_store _d4d55f2" bindtap="goIndex">去逛逛</view></navigator>
+      </view>
+    </view>
+  </view>
+  <view class="jiesuan-box _d4d55f2" wx:else>
+    <view class="left-price _d4d55f2">
+      <view catchtap="selectAll" class="all_select_box _d4d55f2">
+        <icon type="success" size="20" color="{{ colors|| 'rgb(153,153,153)' }}" class="_d4d55f2" />
+        <view class="all_select _d4d55f2">全选</view>
+      </view>
+      <view class="total _d4d55f2" hidden="{{ totalPrice==0 }}">合计：¥ {{ totalPrice / 100 }}</view>
+    </view>
+    <view class="to-pay-btn {{ noSelect ? 'no-select' : ''}} _d4d55f2" hidden="{{ saveHidden }}" bindtap="toPayOrder">去结算</view>
+  </view>
+
+
+  <!-- <view bindtap='addOrder'>添加购物车</view> -->
+</view>

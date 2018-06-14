@@ -1,0 +1,71 @@
+<view class="comfire_order">
+  <navigator url='../address/address?from=1'>
+    <view class="address" bindtap="setAddress">
+      <view class="empty_address" wx:if="{{ !address.addressId }}">
+        <view class="title">设置收货地址</view>
+        <view class="arrow">></view>
+      </view>
+      <view class="address_info" wx:else>
+        <view class="title">
+          <view class="user_info">
+            <text class="name">{{ address.receiverName }}</text>
+            <text class="phone">{{ address.phone }}</text>
+          </view>
+          <view class="active_address">
+            <text class="defult" wx:if="{{ address.is_default === 1 }}"> [默认]</text> {{ address.provinceName}}{{ address.cityName }}{{address.districtName }}{{address.fullAddress }}
+          </view>
+        </view>
+        <view class="arrow">></view>
+      </view>
+    </view>
+  </navigator>
+  <view class="spacing"/>
+
+    <view class="goodsList">
+      <block wx:for="{{ goodsAll }}" wx:for-index="index" wx:for-item="item" wx:key="index">
+        <view class="list_box">
+          <view class="goods-info">
+            <view class="img-box">
+              <image src="{{ item.cover }}" class="img" />
+            </view>
+            <view class="text-box">
+              <view class="goods-title">{{ item.name }}</view>
+              <view class="goods-label">{{ item.attrNames }} : {{ item.valueNames }} 数量: {{ item.count }}</view>
+              <view class="goods-price">¥ {{ item.price / 100 }}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <view class="spacing" />
+    <view class="order_info">
+      <view class="block" bindtap="goCoupon">
+        <view class="left">优惠券</view>
+        <view class="right">
+          <i >优惠：￥{{ subMoney/100 }}</i> ></view>
+      </view>
+      <view class="block">
+        <view class="left">配送方式</view>
+        <view class="right">包邮</view>
+      </view>
+      <view class="block" style=' margin-bottom: 20rpx;'>
+        <view class="left">买家留言:</view>
+        <view class="right input_box">
+          <input bindinput="bindKeyInput" placeholder="对本次交易的说明" />
+        </view>
+      </view>
+      <view class="spacing" />
+      <view class="block">
+        <view class="left tongji">商品金额</view>
+        <view>
+          <view class="right price">应付:￥{{ totalPrice/100 }}</view>
+        </view>
+      </view>
+    </view>
+    <view class="pay_box">
+      <form report-submit bindsubmit="goPay">
+        <button form-type="submit" class="button type_green" style='background:#06d065;color:#FFF'>微信支付</button>
+      </form>
+    </view>
+  </view>

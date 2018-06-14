@@ -1,0 +1,311 @@
+@import "../../components/common/wepy-swipe-delete.wxss";
+
+.goodsList._d4d55f2 {
+  padding-bottom: 110rpx;
+}
+
+.goods-info._d4d55f2 {
+  /* border-bottom: 1px solid #eee; */
+  display: flex;
+  padding: 40rpx 0;
+  box-sizing: border-box;
+  align-items: center;
+  position: relative;
+}
+
+.goods-info .icon_check._d4d55f2 {
+  height: 160rpx;
+  line-height: 200rpx;
+}
+
+.goods-info .img-box._d4d55f2 {
+  width: 150rpx;
+  height: 150rpx;
+  overflow: hidden;
+  margin-right: 14rpx;
+  background-color: #d8d8d8;
+  margin-left: 30rpx;
+}
+
+.goods-info .text-box._d4d55f2 {
+  flex: 1;
+  height: 160rpx;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.goods-info .text-box .goods-title._d4d55f2 {
+  font-size: 28rpx;
+  line-height: 36rpx;
+  min-height: 72rpx;
+  color: #000;
+  padding: 10rpx 0 5rpx 0;
+  width: 290rpx;
+}
+
+.goods-info .text-box .goods-title navigator._d4d55f2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.goods-info .text-box .goods-title navigator i._d4d55f2 {
+  color: #e64340;
+}
+
+.goods-info .text-box .lable._d4d55f2 {
+  font-size: 26rpx;
+  color: #999;
+  height: 38rpx;
+  line-height: 38rpx;
+  margin: 8rpx 0 25rpx 0;
+}
+
+.goods-info .lable._d4d55f2 {
+  display: flex;
+  align-items: center;
+}
+
+.goods-info .lable .goods-label._d4d55f2 {
+  font-size: 26rpx;
+}
+
+.goods-info .lable .goods-lable._d4d55f2 {
+  font-size: 26rpx;
+}
+
+.goods-info .lable .bo-label._d4d55f2 {
+  font-size: 24rpx;
+  background: #e64340;
+  padding: 2rpx 10rpx;
+  color: #fff;
+  border-radius: 2rpx;
+  margin-left: 10rpx;
+}
+
+.goods-info .text-box .goods-price._d4d55f2 {
+  font-size: 26rpx;
+  color: #e64340;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 200rpx;
+}
+
+.goods-info .text-box .sku._d4d55f2 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 26rpx;
+}
+
+.goods-info .text-box .buy-num._d4d55f2 {
+  width: 164rpx;
+  height: 48rpx;
+  line-height: 48rpx;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -24rpx;
+  display: flex;
+  font-size: 24rpx;
+  text-align: center;
+}
+
+.goods-info .text-box .buy-num .jian-btn._d4d55f2 {
+  width: 48rpx;
+  height: 100%;
+  border-left: 1rpx solid #ccc;
+  border-bottom: 1rpx solid #ccc;
+  border-top: 1rpx solid #ccc;
+  border-bottom-left-radius: 6rpx;
+  border-top-left-radius: 6rpx;
+}
+
+.goods-info .text-box .buy-num .jian-btn.disabled._d4d55f2 {
+  background-color: #f5f5f9;
+  border-left: 1rpx solid #eee;
+  border-bottom: 1rpx solid #eee;
+  border-top: 1rpx solid #eee;
+  color: #ccc;
+}
+
+.goods-info .text-box .buy-num .jia-btn._d4d55f2 {
+  width: 48rpx;
+  height: 100%;
+  border-right: 1rpx solid #ccc;
+  border-bottom: 1rpx solid #ccc;
+  border-top: 1rpx solid #ccc;
+  border-bottom-right-radius: 6rpx;
+  border-top-right-radius: 6rpx;
+}
+
+.goods-info .text-box .buy-num .jia-btn.disabled._d4d55f2 {
+  background-color: #f5f5f9;
+  border-right: 1rpx solid #eee;
+  border-bottom: 1rpx solid #eee;
+  border-top: 1rpx solid #eee;
+  color: #ccc;
+}
+
+.goods-info .text-box .buy-num input._d4d55f2 {
+  width: 68rpx;
+  height: 48rpx;
+  min-height: 48rpx;
+  text-align: center;
+  font-size: 24rpx;
+  border: 1rpx solid #ccc;
+}
+
+.goods-info .img-box .img._d4d55f2 {
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.jiesuan-box._d4d55f2 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100rpx;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+  background-color: #fff;
+  z-index: 9999;
+}
+
+.jiesuan-box .to-pay-btn._d4d55f2 {
+  width: 240rpx;
+  text-align: center;
+  line-height: 100rpx;
+  background-color: #e64340;
+  font-size: 32rpx;
+  color: #fff;
+}
+
+.jiesuan-box .to-pay-btn.no-select._d4d55f2 {
+  background-color: #ccc;
+}
+
+.jiesuan-box .left-price._d4d55f2 {
+  display: flex;
+  width: 510rpx;
+  justify-content: space-between;
+  padding: 0 30rpx 0 20rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.jiesuan-box .total._d4d55f2 {
+  color: #e64340;
+}
+
+.all_select_box._d4d55f2 {
+  width: 200rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.all_select._d4d55f2 {
+  flex: 1;
+  padding-left: 10rpx;
+}
+
+.empty_cart._d4d55f2 {
+  padding-top: 100rpx;
+}
+
+.empty_cart .shop_btn._d4d55f2 {
+  display: flex;
+  width: 100%;
+}
+
+.empty_cart .block._d4d55f2 {
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+.empty_cart .btn_group._d4d55f2 {
+  display: flex;
+  align-items: center;
+  padding-top: 100rpx;
+}
+
+.empty_cart .btn_group .btn._d4d55f2 {
+  font-size: 30rpx;
+  padding: 22rpx 55rpx;
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  -moz-border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+  border-radius: 10rpx;
+}
+
+.empty_cart .btn_group .get_store._d4d55f2 {
+  background: #ed601b;
+  color: #fff;
+  margin-left: 1rpx;
+}
+
+.empty_cart_img._d4d55f2 {
+  width: 220rpx;
+  height: 177rpx;
+  display: block;
+  margin: 0 auto;
+}
+
+.empty_cart_text._d4d55f2 {
+  font-size: 32rpx;
+  color: #999;
+  margin-top: 20rpx;
+  text-align: center;
+}
+
+/*左滑  */
+.touch-item {
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+   border-bottom:1px solid #ccc; 
+  width: 100%;
+  overflow: hidden
+}
+.content {
+  width: 100%;
+  padding: 10px;
+  line-height: 22px;
+  margin-right:0;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  margin-left: -90px
+}
+.del {
+  background-color: orangered;
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.touch-move-active .content,
+.touch-move-active .del {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}

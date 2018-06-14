@@ -1,0 +1,82 @@
+<view class="containers">
+
+  <view wx:if="{{ search == 1 }}" class="content">
+    <view class="search">
+      <view class="serch_content">
+        <image class="iconfont icon-search" src='../../images/search.png'></image>
+        <input type="text" name="search_input" bindinput="searchVal" class="search_input" focus="true" value="{{ $search$keyword }}" confirm-type="search" placeholder="搜索商品" />
+        <i wx:if="{{ $search$keyword }}" bindtap="$search$delText" class="iconfont icon-del" />
+      </view>
+      <button class="btn btn_cancel" bindtap="cancel" wx:if="{{ inputVal!=1 }}">取消</button>
+      <button class="btn btn_search" bindtap="search" wx:else>搜索</button>
+    </view>
+  </view>
+
+  <view wx:if="{{ goodsList.length }}">
+    <view class="filter">
+      <view style='color:{{colorOne}}' class="nav  {{ $filterBar$currentType === 'default' ? 'nav_active' : '' }}" data-current="default" bindtap="comprehensive">综合</view>
+      <view style='color:{{colorTwo}}' class="nav  {{ $filterBar$currentType === 'sale' ? 'nav_active' : '' }}" data-current="sale" bindtap="Sales">销量</view>
+      <view class="grid nav">
+        <view style='color:{{colorThree}}' class="price {{ $filterBar$currentType === 'price' ? 'nav_active' : '' }}" data-current="price" catchtap="price">价格</view>
+        <view>
+          <view class="arrow_up {{ color === 'asc' ? 'arrow_up_red' : 'arrow_up_gray' }}" />
+          <!-- 向下的三角形 -->
+          <view class="arrow_down {{ color === 'desc' ? 'arrow_down_red' : 'arrow_down_gray' }}" />
+        </view>
+      </view>
+    </view>
+
+    <!--矩阵商品列表模块-->
+    <!-- 
+    <scroll-view scroll-y class="swiper-item-box" bindscrolltolower="$shopGridList$onReachBottom" style="height: {{ $shopGridList$height }}"> -->
+    <view style="background:#eee;padding-top:10rpx;">
+      <template name="goodsItem">
+        <view class="shop_item list">
+          <navigator data-id="{{goodId}}" bindtap='recordtrack' url="../goodsDetail/goodsDetail?id={{ goodId }}">
+            <view class="image_box">
+              <image mode="aspectFill" src="{{ cover }}" />
+            </view>
+            <view class="goods">
+              <view class="product_name">{{name }}</view>
+              <view class="product_info">
+                <view class="price">￥{{ price / 100 }}</view>
+                <view class="cost_price">￥{{ originalPrice / 100 }}</view>
+                <view class="sale_num">销量{{ saledCount }}件</view>
+              </view>
+            </view>
+          </navigator>
+        </view>
+      </template>
+      <block wx:for="{{goodsList}}" wx:key="goodsList">
+        <template is="goodsItem" data="{{...item}}" />
+      </block>
+    </view>
+
+    <!-- </scroll-view> -->
+
+    <view class="loadMoreGif" wx:if="{{$shopGridList$bottomLoadMore$show}}">
+      <image src="../images/loadding.gif" />
+      <text>{{$shopGridList$bottomLoadMore$message}}</text>
+    </view>
+
+
+    <view class="empty-placeholder row-center" wx:if="{{ $shopGridList$placeholder$show }}">
+      <image class="icon-xl" src="/images/empty.png" />
+      <view class="txt">{{ $shopGridList$placeholder$message }}</view>
+    </view>
+
+
+  </view>
+  <!--搜索历史  -->
+  <view class="history {{ show ? '' : 'hidden' }}" wx:else>
+    <view class="doc">历史记录</view>
+    <view class="lable">
+      <view wx:for="{{ history }}" wx:key="item" catchtap="selHistory" wx:index="{{ index }}" data-index="{{ index }}">
+        <view class="child {{ item === 1 ? 'active' : '' }}">{{ item }}</view>
+      </view>
+    </view>
+    <view class="btn_box" style="display: {{ !history.length ? 'none' : 'block' }}">
+      <view class="button type_empity" catchtap="clearHis">清除历史记录</view>
+    </view>
+  </view>
+</view>

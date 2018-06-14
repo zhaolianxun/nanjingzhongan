@@ -1,0 +1,115 @@
+<view class="order-list">
+  <view class="swiper-tab-pd">
+
+    <!--index.wxml-->
+    <view class="swiper-tab">
+      <view wx:key="index" class="tab ">
+        <view style class="{{color}} swiper-tab-list" bindtap="swichNav" data-current=""> 全部订单 </view>
+        <view style class="{{color0}} swiper-tab-list" bindtap="swichNav0" data-current="0"> 待支付 </view>
+        <view style class="{{color1}} swiper-tab-list" bindtap="swichNav1" data-current="1"> 待发货 </view>
+        <view style class="{{color2}} swiper-tab-list" bindtap="swichNav2" data-current="2"> 待收货 </view>
+        <view style class="{{color3}} swiper-tab-list" bindtap="swichNav3" data-current="3"> 已完成 </view>
+        <!-- <view class=" {{ dotNum >= 100 ? 'dotbig' : 'dot' }}" wx:if="{{ dotNum > 0 }}">{{ dotNum }}</view> -->
+      </view>
+    </view>
+
+
+
+    <!-- <view bindtap='addOrder'>下单</view> -->
+  </view>
+  <scroll-view scroll-y="true" class="swiper-item-box" bindscrolltolower="getData">
+
+    <view class="order_item">
+      <!-- <template name="orderItem"> -->
+      <block wx:for="{{ orderList }}" wx:for-index="index" wx:for-item="item" wx:key="key">
+        <view class="list" wx:key="index">
+          <navigator class="item_content" url="../orderDetail/orderDetail?id={{ item.orderId }}">
+            <view class="order_list_top">
+              <view class="left">
+                <view class="title">订单号：
+                  <text class="order_doc">{{ item.orderId }}</text>
+                </view>
+                <view class="title mt10">提交时间：
+                  <text class="order_doc">{{ item.orderTime }}</text>
+                </view>
+              </view>
+              <view>
+                <text class="defult" wx:if="{{ item.status == 0 }}">
+              <view class="order_state">待付款</view>
+              </text>
+                <view class="order_state" wx:if="{{ item.status == 0 }}">待付款</view>
+                <view class="order_state" wx:if="{{ item.status == 1 }}">已支付</view>
+                <view class="order_state" wx:if="{{ item.status == 2 }}">已发货</view>
+                <view class="order_state" wx:if="{{ item.status == 3 }}">已完成</view>
+                <view class="order_state" wx:if="{{ item.status == 4 }}">已取消</view>
+              </view>
+            </view>
+
+            <view class="order_list_center">
+
+              <block wx:for="{{ item.details }}" wx:for-index="index" wx:for-item="item" wx:key="key">
+                <view class="good_list" wx:key="index">
+                  <view class="image_box">
+                    <image src="{{ item.cover }}" />
+                  </view>
+                  <view class="goods">
+                    <view class="product_name">{{ item.name }}</view>
+                    <view class="product_rule">{{ item.attrNames }}: {{ item.valueNames }}</view>
+                    <view class="product_info">
+                      <view class="price">￥{{ item.price / 100 }}</view>
+                      <view class="goods_num">x{{ item.count }}</view>
+                    </view>
+                    <!-- <view class="order_footer">
+        <view class="btn_group">
+          <view class="btn btn_del" catchtap="refund" data-id="{{id}}" wx:if="{{status==4 && refundStatus==0}}">申请退货</view>
+        </view>
+        <view class="order_state" wx:if="{{refundStatus==1}}">
+          <view>退货中</view>
+        </view>
+        <view class="order_state" wx:if="{{refundStatus==2}}">
+          <view>退款成功</view>
+        </view>
+      </view> -->
+                  </view>
+                </view>
+              </block>
+
+            </view>
+          </navigator>
+          <view class="order_list_footer" wx:if="{{ item.status != 3 }}">
+            <view class="money">合计: ￥{{ item.amount/100 }}</view>
+            <view class="btn_group">
+              <view class="btn btn_del" bindtap="refOrder" data-index="{{ $orderItem$index }}" data-id="{{ item.orderId }}" data-state="{{ item.status }}" wx:if="{{ item.status == 0  }}">取消订单</view>
+              <view class="btn btn_del" bindtap="delOrder" data-index="{{ $orderItem$index }}" data-id="{{ item.orderId }}" data-state="{{ item.status }}" wx:if="{{ item.status == 1 ||item.status == 2 || item.status == 3 }}">删除订单</view>
+              <view class="btn btn_pay" bindtap="payMoney" data-index="{{ $orderItem$index }}" data-id="{{ item.orderId }}" wx:if="{{ item.status == 0 }}">立即付款</view>
+              <view class="btn btn_pay" bindtap="confirm" data-index="{{ $orderItem$index }}" data-id="{{ item.orderId }}" wx:if="{{ item.status == 1||item.status == 2 }}">确认收货</view>
+              <view class="btn btn_pay"  data-index="{{ $orderItem$index }}" data-id="{{ item.orderId }}" wx:if="{{ item.status == 3 }}">已完成</view>
+              <view class="btn btn_pay"  data-index="{{ $orderItem$index }}" data-id="{{ item.orderId }}" wx:if="{{ item.status == 4 }}">已取消</view>
+            </view>
+          </view>
+
+        </view>
+      </block>
+
+      <!-- </template>
+ <block wx:for="{{orderList}}" wx:key="orderList">
+  <template is="orderItem" data="{{...item}}" />
+</block>  -->
+    </view>
+
+    <!--加载更多时动画-->
+
+    <view class="loadMoreGif" wx:if="{{$bottomLoadMore$show}}">
+      <image src="../images/loadding.gif" />
+      <text>{{$bottomLoadMore$message}}</text>
+    </view>
+
+    <!--暂无数据显示-->
+
+    <view class="empty-placeholder row-center" wx:if="{{ $placeholder$show }}">
+      <image class="icon-xl" src="/images/empty.png" />
+      <view class="txt">{{ $placeholder$message }}</view>
+    </view>
+
+  </scroll-view>
+</view>

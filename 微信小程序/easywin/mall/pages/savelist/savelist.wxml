@@ -1,0 +1,33 @@
+<scroll-view scroll-y="true" class="swiper-item-box" bindscrolltolower="onReachBottom">
+    <!-- 我的足迹 -->
+
+    <view class="goodsList" wx:if="{{ currentTab == 0 }}">
+      <block wx:for="{{ footlist }}" wx:for-index="index" wx:for-item="item" wx:key="index">
+        <view class="list_box">
+
+          <view class="swipe-item-wrapper " bindtouchstart="touchstart" bindtouchmove="touchmove" data-index="{{index}}" class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}">
+            <view class="content swipe-content" >
+
+              <navigator class="item_content" url="../goodsDetail/goodsDetail?id={{ item.goodId }}">
+                <view class="goods-info">
+                  <view class="img-box">
+                    <image src="{{ item.cover }}" class="img" />
+                  </view>
+                  <view class="text-box">
+                    <view class="goods-title">{{ item.name }}</view>
+                    <view class="goods-price">¥ {{ item.price / 100 }}</view>
+                  </view>
+                </view>
+              </navigator>
+            </view>
+            <view class="del " catchtap="del" data-id="{{item.goodId}}">删除</view>
+          </view>
+
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+
+
+
+  <!-- <view bindtap='addOrder'>添加收藏</view> -->

@@ -1,12 +1,72 @@
 {
-  "pages":[
+  "pages": [
+    "pages/indexPage/index",
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/comfireOrder/comfireOrder",
+    "pages/address/address",
+    "pages/logs/logs",
+    "pages/share/share",
+    "pages/classify/classify",
+    "pages/cart/cart",
+    "pages/info/info",
+    "pages/search/search",
+    "pages/withdraw/withdraw",
+    "pages/fanslist/fanslist",
+    "pages/saleList/saleList",
+    "pages/withdrawList/withdrawList",
+    "pages/coupon/coupon",
+    "pages/register/register",
+    "pages/order/order",
+    "pages/savelist/savelist",
+    "pages/collection/collection",
+    "pages/goodsDetail/goodsDetail",
+    "pages/orderDetail/orderDetail",
+    "pages/sales/sales",
+    "pages/logistics/logistics",
+    "pages/ademo/ademo",
+    "pages/classifySearch/classifySearch",
+    "pages/out/out",
+    "pages/couponSelect/couponSelect"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#FFFFFF",
     "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle":"black"
-  }
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": false,
+    "backgroundColor": "#EFEFEF"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#ff6a3c",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/icon_home.png",
+        "selectedIconPath": "images/icon_home_active.png"
+      },
+      {
+        "pagePath": "pages/classify/classify",
+        "text": "分类",
+        "iconPath": "images/icon_classify.png",
+        "selectedIconPath": "images/icon_classify_active.png"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "text": "购物车",
+        "iconPath": "images/icon_shop_cart.png",
+        "selectedIconPath": "images/icon_shop_cart_active.png"
+      },
+      {
+        "pagePath": "pages/info/info",
+        "text": "我",
+        "iconPath": "images/icon_info.png",
+        "selectedIconPath": "images/icon_info_active.png"
+      }
+    ]
+  },
+  "debug": true
 }

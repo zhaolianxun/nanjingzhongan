@@ -1,0 +1,102 @@
+<view>
+  <view wx:if="{{ type == 1 }}">
+
+    <view class="address">
+      <!-- <block wx:for="{{ addressesList }}">
+        <view class="list_box "> -->
+      <view class="swipe-item-wrapper "  class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{addressesList}}" wx:key="">
+
+
+        <view data-id='{{item.addressId}}' data-id='{{item.addressId}}'
+        data-receivername='{{item.receiverName}}'
+        data-phone='{{item.phone}}'
+        data-provincename='{{item.provinceName}}'
+        data-cityname='{{item.cityName}}'
+        data-districtname='{{item.districtName}}'
+        data-fulladdress='{{item.fullAddress}}'
+        class="content address_list" bindtap="tapSelAddress">
+          <view class="title">
+            <view class="user_info">
+              <text class="name">{{ item.receiverName }}</text>
+              <text class="phone">{{ item.phone }}</text>
+            </view>
+            <view class="active_address">
+              <text class="defult" wx:if="{{ item.defaultIs==1 }}"> [默认]</text> {{ item.provinceName+item.cityName+item.districtName+item.fullAddress }}
+            </view>
+          </view>
+          <view class="arrow" catchtap="$addressList$edit" data-index="{{ $addressList$index }}" data-id="{{ item.addressId }}">
+            <!-- <i class="iconfont icon-edit" /> -->
+            <image bindtap='editAddress' data-addressid="{{item.addressId}}"
+            data-receivername="{{item.receiverName}}"data-phone="{{item.phone}}"
+            data-provincename="{{item.provinceName}}"data-cityname="{{item.cityName}}"
+            data-districtname="{{item.districtName}}"data-fulladdress="{{item.fullAddress}}"
+          data-defaultis="{{item.defaultIs}}"
+             class="iconfont icon-edit" src='../../images/edit.png'></image>
+          </view>
+        </view>
+
+
+        <!-- <view class="swipe-actions actions-right"> -->
+        <view class="del " catchtap="del" data-addressid="{{item.addressId}}">删除</view>
+        <!-- </view> -->
+      </view>
+
+      <!-- </view>
+      </block> -->
+
+
+      <view class="add_wrap">
+        <view class="button type_red" bindtap="addAddress">新增地址</view>
+      </view>
+    </view>
+
+
+  </view>
+  <view wx:if="{{ type == 2 }}">
+
+    <form bindsubmit="$addressAct$formSubmit">
+      <view class="block">
+        <view class="list_item">
+          <view class="title">收货人姓名:</view>
+          <view class="input">
+            <input type="text" bindinput='receiverName' name="receiverName" value="{{ receiverName }}" />
+          </view>
+        </view>
+        <view class="list_item">
+          <view class="title">手机号:</view>
+          <view class="input">
+            <input type="tel" bindinput='mobile' name="mobile" value="{{mobile}}" />
+          </view>
+        </view>
+        <view class="list_item">
+          <view class="title">所在地区:</view>
+          <view class="input">
+            <!-- <view bindtap="$addressAct$openAddressPicker">{{ $addressAct$province ? $addressAct$province.name : '省' }} - {{ $addressAct$city ? $addressAct$city.name : '市' }} - {{ $addressAct$area ? $addressAct$area.name : '区' }}</view> -->
+            <view class='addressCity' bindtap="$addressAct$openAddressPicker">
+              <input class='province_name' bindinput='province_name' value='{{provinceName}}' placeholder='请输入省'></input>
+              <input class='city_name' bindinput='city_name' value='{{cityName}}' placeholder='请输入市'></input>
+              <input class='district_name' bindinput='district_name' value='{{districtName}}' placeholder='请输入区'></input>
+            </view>
+          </view>
+        </view>
+        <view class="list_item">
+          <view class="title">详细地址:</view>
+          <view class="input">
+            <input type="text" bindinput='addressDetail' name="addressDetail" value="{{ addressDetail }}" />
+          </view>
+        </view>
+        <view class="list_item">
+          <view class="title">设置默认地址:</view>
+          <view class="input tr" bindtap="addressAct" data-color='{{color}}'>
+            <icon type="success" size="20" color="{{ color==1 ? 'red' : '#999' }}" />
+          </view>
+        </view>
+      </view>
+      <view class="btn_box">
+        <button class="button type_red" style='background:#d85646;color:#fff' bindtap="back">返回</button>
+        <button bindtap='writeOver' addressId='{{addressId}}' class="button type_green" style='background:#58b737;color:#fff' formType="submit">完成</button>
+      </view>
+    </form>
+
+  </view>
+</view>

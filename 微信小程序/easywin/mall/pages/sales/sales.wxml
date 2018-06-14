@@ -1,0 +1,51 @@
+
+    <view class="topbg _a75312e">
+        <view class="topinfo _a75312e">
+            <label class="_a75312e">{{ money / 100 || '0.00' }}</label>
+            <view class="money _a75312e">总收入(元)</view>
+        </view>
+        <view bindtap="goWithDraw" class="withdraw _a75312e">申请提现</view>
+        <view class="menu_list _a75312e">
+            <navigator  class="menu_item _a75312e">
+                <view class="_a75312e">{{ withdrewMoney / 100 || '0.00' }}</view>
+                <text class="_a75312e">已提现金额(元)</text>
+            </navigator>
+            <navigator  class="menu_item _a75312e">
+                <view class="_a75312e">{{ canWithdrawMoney / 100 || '0.00' }}</view>
+                <text class="_a75312e">可提现金额(个)</text>
+            </navigator>
+        </view>
+    </view>
+    <view class="m-cells _a75312e">
+        <navigator  url="/pages/fanslist/fanslist" class="m-cell m-cell-access _a75312e">
+            <view class="m-cell-bd _a75312e">
+            <label class="_a75312e">我的粉丝</label>
+            </view>
+            <view class="m-cell-ft _a75312e">{{ myFansCount||0 }}</view>
+        </navigator>
+        <navigator url="/pages/saleList/saleList" class="m-cell m-cell-access _a75312e">
+            <view class="m-cell-bd _a75312e">
+            <label class="_a75312e">收益记录</label>
+            </view>
+            <view class="m-cell-ft _a75312e">{{ rewardCount||0}}</view>
+        </navigator>
+        <navigator url="/pages/withdrawList/withdrawList" class="m-cell m-cell-access _a75312e">
+            <view class="m-cell-bd _a75312e">
+            <label class="_a75312e">提现记录</label>
+            </view>
+            <view class="m-cell-ft _a75312e">{{ withdrewCount||0 }}</view>
+        </navigator>
+    </view>
+    <navigator url="/pages/share/share" class="u-btn u-btn-default _a75312e">我要赚钱</navigator>
+
+    <view wx:if="{{popWithdraw}}" class='popWindow'>
+    </view>
+    <view wx:if="{{popWithdraw}}"  class='popWithdraw' bindtap='popWithdraw'>
+        <view>
+              <text>提现金额</text>
+              <input  bindinput="loginPhone" type='number' placeholder='请输入提现金额'></input>
+              <button bindtap='makesures'>取消</button>
+               <button bindtap='makesure'>确认</button>
+        </view> 
+    </view>
+

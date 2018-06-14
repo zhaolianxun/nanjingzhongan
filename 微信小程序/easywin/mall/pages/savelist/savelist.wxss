@@ -1,0 +1,60 @@
+@import "../../components/common/bottomLoadMore.wxss";
+@import "../../components/collectionList.wxss";
+@import "../../components/tab.wxss";
+
+/* view.collection { */
+  /* padding-top: 86rpx; */
+/* } */
+
+view.collection .tab_box {
+  background: #fff;
+  padding: 0 80rpx;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+view.collection scroll-view {
+  height: 1120rpx;
+}
+/*左滑  */
+.touch-item {
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+   border-bottom:1px solid #ccc; 
+  width: 100%;
+  overflow: hidden
+}
+.content {
+  width: 100%;
+  padding: 10px;
+  line-height: 22px;
+  margin-right:0;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  margin-left: -90px
+}
+.del {
+  background-color: orangered;
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.touch-move-active .content,
+.touch-move-active .del {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}

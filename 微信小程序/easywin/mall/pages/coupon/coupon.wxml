@@ -1,0 +1,41 @@
+   <view class="_321e466">
+        <view class="m-tab _321e466">
+            <view class="m-navbar _321e466"  wx:if="{{ from==1 }}">
+                <view class="m-navbar-item {{ state == 0 ? 'm-navbar-item-on' : '' }} _321e466" data-index="0" bindtap="nouse">未使用</view>
+                <view class="m-navbar-item {{ state == 1 ? 'm-navbar-item-on' : '' }} _321e466" data-index="1" bindtap="use">已使用</view>
+            </view>
+        </view>
+        <scroll-view class="m-scrollBox{{ from==0 ? ' sel-coupon' : '' }} _321e466" scroll-y="true" bindscrolltolower="scrollbottom">
+            <block  wx:if="{{ coupons.length }}" class="_321e466">
+                <view class="m-coupon-item _321e466" wx:for="{{ coupons }}" wx:for-item="item" wx:key="{{ index }}">
+                    <image src="{{ state == 0 ? '../../images/coupon_red.png' : '../../images/coupon_gray.png' }}" class="item-bg _321e466"/>
+                    <view class="coupon-item-left _321e466">
+                        <view class="item-left-top _321e466">¥<label class="_321e466">{{ item.type1Submoney / 100 }}</label></view>
+                    </view>
+                    <view class="coupon-item-right _321e466">
+                        <view class="item-title item-title-black _321e466" wx:if="{{ from==0 }}">{{ item.userCouponId }}</view>
+                        <view class="item-title {{ state == 0 ? 'item-title-black' : '' }} _321e466" wx:else>{{ item.title }}</view>
+                        <view class="item-middle _321e466" wx:if="{{ from==1 }}">
+                            {{ item.type1Starttime }}~{{ item.type1Endtime }}
+                        </view>
+                        <view class="item-middle _321e466" wx:else>
+                            {{ item.title }}
+                        </view>
+                        <label class="item-usenow _321e466" data-id='item.userCouponId' wx:if="{{ from==0 }}" bindtap="use" data-index="{{ index }}">立即使用</label>
+                    </view>
+                </view>
+            </block>
+            <view class="m-nullcontent _321e466"  wx:else>
+                <view class="m-nullpage-middle _321e466">
+                <label class="iconfont icon-meiyougengduo _321e466"/>
+                <view class="m-null-tip _321e466" style="margin-top:0" wx:if="{{ from==1 }}">
+                    <text class="_321e466">亲~什么都没有</text>
+                    <text class="_321e466">赶快去首页领券吧!</text>
+                </view>
+                <view class="m-null-tip _321e466" style="margin-top:0" wx:else>
+                    <text class="_321e466">没有该商品可用的优惠券</text>
+                </view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>

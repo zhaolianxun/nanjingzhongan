@@ -1,0 +1,42 @@
+@import "../../components/common/placeholder.wxss";
+@import "../../components/common/bottomLoadMore.wxss";
+@import "../../components/orderItem.wxss";
+@import "../../components/tab.wxss";
+
+.order-list {
+  padding-top: 86rpx;
+}
+
+.swiper-tab-pd {
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.swiper-tab-order.active {
+  color: #ff4856;
+  border-bottom: 5rpx solid #ff4856;
+}
+
+scroll-view {
+  height: 1184rpx;
+}
+
+.color{
+  border-bottom: 1rpx solid #ff4856;
+  color: #ff4856
+}
+.tab view{
+  display: inline-block;
+  width: 102rpx;
+   font-size: 24rpx; 
+}
+
+.goods{
+  min-width: 500rpx;
+}

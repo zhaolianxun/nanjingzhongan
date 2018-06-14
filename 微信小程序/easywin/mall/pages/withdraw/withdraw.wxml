@@ -1,0 +1,80 @@
+
+    <view class="topbg _e60651e">
+        <view class="topinfo _e60651e">
+            <view class="_e60651e">
+                <label class="_e60651e">{{ info.rebate_amount / 100 }}</label>
+            </view>
+            <view class="_e60651e">可提现金额(元)</view>
+        </view>
+    </view>
+    <view class="m-cells m-cells-form _e60651e">
+        <!-- <view class="m-cell">
+            <view class="m-cell-hd">
+                <label class="u-label">提现金额</label>
+            </view>
+            <view class="m-cell-bd">
+                <input class="u-input" value="{{ price }}" type="number" placeholder="输入提现金额" data-type="price" bindinput="onInput" bindblur="onBlur" bindfocus="onFocus" />
+            </view>
+            <view wx:if="{{ isprice }}" class="m-cell-ft">
+                <icon class="m-icon-warn" type="warn"></icon>
+            </view>
+        </view> -->
+        <view class="m-cell _e60651e">
+            <view class="m-cell-hd _e60651e">
+                <label class="u-label _e60651e">银行</label>
+            </view>
+            <view class="m-cell-bd _e60651e" bindtap="selBank">
+                <input class="u-input _e60651e" disabled value="{{ bank.name }}" type="text" placeholder="选择银行"/>
+            </view>
+            <view  wx:if="{{ isbank }}" class="m-cell-ft _e60651e">
+                <icon class="m-icon-warn _e60651e" type="warn"/>
+            </view>
+        </view>
+        <view class="m-cell _e60651e">
+            <view class="m-cell-hd _e60651e">
+                <label class="u-label _e60651e">开户名</label>
+            </view>
+            <view class="m-cell-bd _e60651e">
+                <input class="u-input _e60651e" type="text" value="{{ cName }}" data-type="cName" placeholder="输入开户名" bindinput="onInput" bindblur="onBlur" bindfocus="onFocus"/>
+            </view>
+            <view  wx:if="{{ iscName }}" class="m-cell-ft _e60651e">
+                <icon class="m-icon-warn _e60651e" type="warn"/>
+            </view>
+        </view>
+        <view class="m-cell _e60651e">
+            <view class="m-cell-hd _e60651e">
+                <label class="u-label _e60651e">银行卡号</label>
+            </view>
+            <view class="m-cell-bd _e60651e">
+                <input class="u-input _e60651e" type="text" value="{{ cardNo }}" data-type="cardNo" placeholder="输入银行卡号" bindinput="onInput" bindblur="onBlur" bindfocus="onFocus"/>
+            </view>
+            <view  wx:if="{{ iscardNo }}" class="m-cell-ft _e60651e">
+                <icon class="m-icon-warn _e60651e" type="warn"/>
+            </view>
+        </view>
+    </view>
+    <view class="m-text-box _e60651e">
+        <view class="_e60651e">
+            <view class="_e60651e">当你的粉丝在店铺内确认订单后，你将会获得奖金收益，当金额满 {{ info.min_withdraw_amount / 100 || 10 }}元 时即可申请提现</view>
+            <view class="_e60651e">当你的粉丝取消订单、退货退款，或者因订单异常被扣除收益，你将不会收到奖金收益。</view>
+            <view class="_e60651e">用户提现时只需承担银行机构收取的交易手续费，本商城不加收手续费。手续费按金额0.1%收取，最低1元，最高25元，具体金额以实际到账为准</view>
+            <view class="_e60651e">目前提现银行支持17家银行，更多银行逐步开放中</view>
+            <view class="_e60651e">付款到账实效为1-3日，最快次日到账</view>
+        </view>
+    </view>
+    
+    <view  wx:if="{{ $bankPicker$show }}" class="cascade_box _8891cc0 _e60651e">
+        <view class="cascade_hei _8891cc0" animation="{{ $bankPicker$animationData.fadeAnim }}"/>
+        <view class="cascade_find _8891cc0" animation="{{ $bankPicker$animationData.showAnim }}">
+            <view class="cascade_header _8891cc0">
+                <text class="quxiao _8891cc0" bindtap="$bankPicker$cancelPicker">取消</text>
+                <text class="queren _8891cc0" bindtap="$bankPicker$onAddressPick">确认</text>
+            </view>
+            <picker-view value="{{ $bankPicker$value }}" indicator-style="height: 80rpx;font-size: 38rpx" style="width: 100%; height: 400rpx;" bindchange="$bankPicker$bindChange" class="_8891cc0">
+                <picker-view-column class="pvc _8891cc0">
+                    <view wx:for="{{ $bankPicker$list }}" wx:key="{{ index }}" style="line-height: 80rpx;text-align:center;" class="_8891cc0">{{ item.name }}</view>
+                </picker-view-column>
+            </picker-view>
+        </view>
+    </view>
+    <button class="u-btn u-btn-default _e60651e" bindtap="submit">申请提现</button>

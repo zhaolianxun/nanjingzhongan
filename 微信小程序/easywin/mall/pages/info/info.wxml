@@ -1,0 +1,91 @@
+<view class="info">
+  <view class="header">
+    <view class="header_content">
+      <image class="avatarUrl" src="{{ avatarUrl }}" />
+      <view class="nickName cfff">{{ nickName }}</view>
+    </view>
+  </view>
+  <view class="info_block">
+    <navigator class="item" url="../register/register" wx:if="{{ showBind==1 }}">
+      <view>
+        <view class="item_content">
+          <image class="item_img" src="../images/icon_my_01.png" />
+          <view class="text" style="color:#fe2a2a">绑定手机号</view>
+        </view>
+        <view class="tip">绑定手机号可更好的让我们服务好您！</view>
+      </view>
+      <view class="arrow">></view>
+    </navigator>
+    <navigator class="" url="../order/order">
+      <view class="item" bindtap="safeGo" data-url="../order/order">
+        <view class="item_content">
+          <image style='width:30rpx;height:30rpx;' src='../../images/111.png'></image>
+          <view class="text">全部订单</view>
+        </view>
+        <view class="arrow">></view>
+      </view>
+    </navigator>
+     <navigator class="" url="../sales/sales">
+      <view class="item" bindtap="safeGo" data-url="../sales/sales">
+        <view class="item_content">
+          <image style='width:30rpx;height:30rpx;' src='../../images/222.png'></image>
+          <view class="text">我的小金库</view>
+        </view>
+        <view class="arrow">></view>
+      </view>
+    </navigator> 
+    <navigator class="" url="../collection/collection">
+      <view class="item" bindtap="safeGo" data-url="../collection/collection">
+        <view class="item_content">
+          <image style='width:30rpx;height:30rpx;' src='../../images/333.png'></image>
+          <view class="text">我的足迹</view>
+        </view>
+        <view class="arrow">></view>
+      </view>
+    </navigator>
+    <navigator class="" url="../savelist/savelist">
+      <view class="item" bindtap="safeGo" data-url="../savelist/savelist">
+        <view class="item_content">
+          <image style='width:30rpx;height:30rpx;' src='../../images/444.png'></image>
+          <view class="text">我的收藏</view>
+        </view>
+        <view class="arrow">></view>
+      </view>
+    </navigator>
+    <navigator class="" url="../coupon/coupon">
+      <view class="item" bindtap="safeGo" data-url="../coupon/coupon">
+        <view class="item_content">
+          <image style='width:30rpx;height:30rpx;' src='../../images/555.png'></image>
+          <view class="text">我的优惠券</view>
+        </view>
+        <view class="arrow">></view>
+      </view>
+    </navigator>
+    <navigator class="" url="../address/address">
+      <view class="item" bindtap="safeGo" data-url="../address/address?type=1&from='info'">
+        <view class="item_content">
+          <image style='width:30rpx;height:30rpx;' src='../../images/666.png'></image>
+          <view class="text">收货地址管理</view>
+        </view>
+        <view class="arrow">></view>
+      </view>
+    </navigator>
+  </view>
+  <view class="info_block">
+    <!-- <navigator class="item" url="/pages/messages">
+        <view class="item_content">
+          <image class="item_img" src="../images/icon_my_06.png"></image>
+          <view class="text">我的消息</view>
+        </view>
+        <view class="arrow">&gt;</view>
+      </navigator> -->
+    <!-- <view class="item" bindtap="safeGo" data-url="/pages/setting">
+        <view class="item_content">
+          <i class="fa fa-cog" aria-hidden="true"></i>
+          <view class="text">设置</view>
+        </view>
+        <view class="arrow">&gt;</view>
+      </view> -->
+  </view>
+  <view class="by">三分钟小程序 提供技术支持</view>
+</view>

@@ -1,0 +1,29 @@
+
+    <view class="_4d6be76">
+        <scroll-view class="m-scrollBox _4d6be76" scroll-y="true" bindscrolltolower="scrollbottom">
+            <view  wx:if="{{ list.length }}" class="m-panel-bd _4d6be76">
+                <view wx:for="{{ list }}" wx:for-item="item" class="m-media-box m-media-box-appmsg _4d6be76">
+                    <view class="m-media-box-hd _4d6be76">
+                        <image class="m-media-box-thumb _4d6be76" src="{{ item.headimg }}"/>
+                    </view>
+                    <view class="m-media-box-bd _4d6be76">
+                        <label class="m-media-box-title _4d6be76">{{ item.userLogo ||'' }} </label>
+                        <!-- <label class="m-media-box-num">收益：<text>￥{{item.UserBonuses}}</text></label>
+                        <view class="m-media-box-info">
+                            <view class="m-media-box-info-meta m-tiem">{{item.CreateTimeStr}}</view>
+                            <view class="m-media-box-info-meta m-num">LV{{item.Level}}</view>
+                        </view> -->
+                    </view>
+                </view>
+            </view>
+            <view class="m-nullcontent _4d6be76"  wx:else>
+                <view class="m-nullpage-middle _4d6be76">
+                    <label class="iconfont icon-meiyougengduo _4d6be76"/>
+                    <view class="m-null-tip _4d6be76">
+                        <text class="_4d6be76">亲~什么都没有</text>
+                        <text class="_4d6be76">赶快去圈粉吧!</text>
+                    </view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>

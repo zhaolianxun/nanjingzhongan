@@ -1,13 +1,80 @@
-<!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+<!--pages/indexPage/indexPage.wxml-->
+<!-- <text>pages/indexPage/indexPage.wxml</text> -->
+<!-- <button open-type='getUserInfo' >获取授权</button> -->
+<view>
+  <!-- <image class='topImg' src='../imgs/014.jpg'></image> -->
+  
+
+  <swiper class='topImg' indicator-dots="{{indicatorDots}}" indicator-active-color='rgba(0,0,0,.6)' indicator-color='#fff' autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+    <block wx:for="{{mainrotaions}}">
+      <swiper-item>
+      <image data-link='{{item.link}}' data-type="{{item.type}}" bindtap='clickImg' src="{{item.pic}}" class="slide-image" width="375" height="150" />
+      <!-- <web-view wx:if="{{ item.link == 1 }}" src="{{item.link}}"> <image  data-link='{{item.link}}' data-type="{{item.type}}" bindtap='clickImg' src="{{item.pic}}" class="slide-image" width="375" height="150" /></web-view> 
+        <navigator wx:if="{{ item.link == 2 }}" url="../goodsDetail/goodsDetail?id={{ item.link }}">
+        <image  data-link='{{item.link}}' data-type="{{item.type}}" bindtap='clickImg' src="{{item.pic}}" class="slide-image" width="375" height="150" />
+        </navigator> -->
+      </swiper-item>
     </block>
+  </swiper>
+  <navigator url='../search/search'>
+    <view class='search'>
+      <image src='../../images/search.png' class='searchIcon'></image>
+      搜索商品
+    </view>
+  </navigator>
+
+  <!--热点广告  -->
+
+  <view class='hotTitle'>
+    <view class="flex-head-item item-hotdot _f9cf42f lf">
+      <image class="hotdot _f9cf42f" src="/images/hotdot.jpg" />
+      <image class="notification _f9cf42f" src="/images/notification.png" />
+    </view>
+    <view class="weui-flex__item _f9cf42f lf">
+      <swiper autoplay="{{ true }}" circular="{{ true }}" class="index-adcs-sqiper index-notification-swiper _f9cf42f" interval="{{ 4000 }}">
+        <block wx:for="{{ notices }}" wx:for-index="index" wx:key="{{ index }}" class="_f9cf42f lf">
+          <swiper-item class="_f9cf42f">{{ item.content }}</swiper-item>
+        </block>
+      </swiper>
+    </view>
+
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+
+  <!--优惠券  -->
+  <view class="coupons _f9cf42f" wx:if="{{ coupons.length }}">
+    <scroll-view class="coupons-scroll _f9cf42f" scroll-x="true">
+      <view class="coupons-item _f9cf42f" wx:for-items="{{ coupons }}" wx:for-index="index" wx:key="id" bindtap="getCoupon" data-id="{{ item.couponId}}">
+        <view class="_f9cf42f">{{ item.type1Submoney/100  }}元优惠券 </view>
+        <view class="_f9cf42f">满{{ item.type1Uptomoney/100  }}使用 ({{ item.type1Starttime }}-{{ item.type1Endtime }})</view>
+        <view class="btn _f9cf42f" data-couponid='{{item.couponId}}' bindtap='getNow'>立即领取</view>
+      </view>
+    </scroll-view>
   </view>
+
+
+  <!-- <scroll-view scroll-y class="swiper-item-box _f9cf42f" bindscrolltolower="$shopGridList$onReachBottom" style="height: {{ $shopGridList$height }}"> -->
+  <view style='margin-top:10rpx;'>
+    <template name="goodsItem">
+      <view class="shop_item list">
+        <navigator data-id="{{goodId}}" bindtap='recordtrack' url="../goodsDetail/goodsDetail?id={{ goodId }}">
+          <view class="image_box">
+            <image mode="aspectFill" src="{{ cover }}" />
+          </view>
+          <view class="goods">
+            <view class="product_name">{{ name }}</view>
+            <view class="product_info">
+              <view class="price">￥{{ price / 100 }}</view>
+              <view class="cost_price">￥{{ originalPrice / 100 }}</view>
+              <view class="sale_num">销量{{ saledCount }}件</view>
+            </view>
+          </view>
+        </navigator>
+      </view>
+    </template>
+  </view>
+  <!--项目模块end  -->
+  <block wx:for="{{goodsList}}" wx:key="goodsList">
+    <template is="goodsItem" data="{{...item}}" />
+  </block>
+  <!-- </scroll-view> -->
 </view>

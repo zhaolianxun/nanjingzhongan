@@ -1,21 +1,275 @@
-/**index.wxss**/
-.userinfo {
+/* pages/indexPage/indexPage.wxss */
+
+page {
+  background-color: #f2f2f2;
+}
+
+.lf {
+  float: left;
+}
+
+.rt {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.topImg {
+  width: 100%;
+  height: 316rpx;
+  vertical-align: middle;
+  z-index: 100;
+}
+
+/*轮播图按钮  */
+
+swiper image {
+  width: 750rpx;
+  height: 316rpx;
+}
+
+.iconBtn {
+  position: absolute;
+  width: 90rpx;
+  height: 14rpx;
+  /* background: #000; */
+  display: block;
+  top: 288rpx;
+  left: 330rpx;
+  /* margin: -14rpx 330rpx auto; */
+  z-index: 999;
+}
+
+.iconBtn text {
+  display: block;
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #fff;
+  margin-right: 24rpx;
+}
+
+.iconBtn text:last-child {
+  margin-right: 0 !important;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/*搜索框  */
+
+.search {
+  width: 550rpx;
+  height: 60rpx;
+  position: absolute;
+  top: 20rpx;
+  left: 100rpx;
+  border: 1rpx solid #fff;
+  border-radius: 50rpx;
+  font-size: 32rpx;
+  line-height: 60rpx;
+  color: #fff;
+}
+
+.searchIcon {
+  width: 30rpx;
+  height: 30rpx;
+  margin: 0 10rpx 0 20rpx;
+}
+
+/*热点  */
+
+.hotTitle {
+  height: 60rpx;
+  width: 100%;
+  background: #fff;
+}
+
+.flex-head-item {
+  height: 60rpx;
+  width: 170rpx;
+  line-height: 60rpx;
+}
+
+.hotdot {
+  width: 80rpx;
+  height: 30rpx;
+  padding-left: 15rpx;
+  padding-right: 15rpx;
+  border-right: 1rpx solid #e5e5e5;
+}
+
+.notification {
+  padding-left: 15rpx;
+  padding-right: 15rpx;
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.weui-flex__item {
+  width: 550rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 32rpx;
+  color: #999;
+  overflow: hidden;
+}
+
+/*优惠券信息  */
+
+.coupons {
+  overflow: hidden;
+  padding: 30rpx;
+  font-size: 30rpx;
+  background: #fff;
+}
+
+.coupons-scroll {
+  white-space: nowrap;
+  background-color: #fff;
+  width: 100%;
+  min-height: 176rpx;
+  overflow: hidden;
+}
+
+.coupons-item {
+  box-sizing: border-box;
+  width: 340rpx;
+  margin-right: 10rpx;
+  padding: 22rpx 28rpx;
+   overflow: hidden; 
+   margin-bottom: 1rpx;
+  border:1rpx solid #999;
+  display: inline-block;
+}
+
+.coupons-item view {
+  color: #333;
+  font-size: 26rpx;
+  line-height: 40rpx;
+  text-align: center;
+}
+
+.btn {
+  width: 130rpx;
+  height: 40rpx;
+  border: 1px solid #999;
+  font-size: 20rpx;
+  line-height: 40rpx;
+  margin: 0 auto;
+  margin-top: 21rpx;
+}
+
+/*商品  */
+.shop_item {
+  background: #f7f7f7;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  padding-top: 10rpx;
+  justify-content: space-between;
+}
+
+.list {
+  background: #fff;
+  width: 49%;
+  margin-bottom: 16rpx;
+  display: inline-block;
+}
+.list:nth-child(even){
+  margin-left: 2%;
+}
+.list .image_box image {
+  width: 100%;
+  height: 345rpx;
+}
+
+.list .product_name {
+  color: #1a1a1a;
+  font-size: 30rpx;
+  line-height: 40rpx;
+  min-height: 80rpx;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+
+.list .price {
+  color: #de0000;
+  font-size: 35rpx;
+  font-weight: 600;
+}
+
+.list .cost_price {
+  color: #666;
+  font-size: 24rpx;
+  text-decoration: line-through;
+  font-weight: 600;
+}
+
+.list .sale_num {
+  color: #666;
+  font-size: 22rpx;
+}
+
+.list .goods {
+  padding: 15rpx 12rpx;
+}
+
+.list .product_info {
+  padding-top: 20rpx;
+  display: flex;
   align-items: center;
 }
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.list .cost_price {
+  padding-left: 20rpx;
 }
 
-.userinfo-nickname {
-  color: #aaa;
+.list .sale_num {
+  padding-left: 20rpx;
 }
 
-.usermotto {
-  margin-top: 200px;
+.list.type2 {
+  width: 100%;
+}
+
+.list.type3 {
+  padding: 30rpx 30rpx 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.list.type3 .image_box {
+  width: 280rpx;
+  height: 280rpx;
+}
+
+.list.type3 .image_box image {
+  height: 100%;
+}
+
+.list.type3 .goods {
+  position: relative;
+  width: 368rpx;
+  padding: 0;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.list.type3 .goods .product_name {
+  padding-top: 30rpx;
+}
+
+.list.type3 .product_info {
+  position: absolute;
+  padding: 0;
+  bottom: 30rpx;
+  left: 0;
+}
+
+.list.type3 .product_info .price {
+  color: #fc4c92;
 }

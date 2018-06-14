@@ -1,0 +1,15 @@
+<view class="classify _44f602a">
+  <scroll-view class="classify_catetory _44f602a" scroll-y scroll-with-animation="true" style='background:#f5f5f5'>
+    <view  style='background:{{item.color}};border-left:2rpx solid {{item.colors}}' color="{{ item.color  }}" class="name {{ index === activeIndex ? 'active' : '' }} _44f602a" wx:for="{{ rootcateList }}" wx:key="item" bindtap="changeCate" data-index="{{ index }}" data-id="{{ item.typeId }}">
+      {{ item.name }}
+    </view>
+  </scroll-view>
+  <scroll-view class="classify_detail _44f602a" scroll-y scroll-with-animation="true">
+    <view class="children _44f602a">
+      <navigator hover-class="none" class="children_item _44f602a" wx:for="{{ showList }}" wx:for-item="item" wx:key="index" url="../classifySearch/classifySearch?type2_id={{ item.typeId }}&cateName={{ item.name }}">
+        <image class="child_image _44f602a" src="{{ item.cover }}" />
+        <view class="child_name _44f602a">{{ item.name }}</view>
+      </navigator>
+    </view>
+  </scroll-view>
+</view>

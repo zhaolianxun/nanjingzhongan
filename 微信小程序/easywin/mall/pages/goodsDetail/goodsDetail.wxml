@@ -1,0 +1,106 @@
+<view style="height:{{ winHeight }}rpx;overflow:hidden" class="_8c31038">
+  <import src="../../wxParse/wxParse.wxml" />
+  <!-- <import src="../plugins/wxParse/wxParse.wxml" class="_8c31038" /> -->
+  <!--index.wxml-->
+  <swiper indicator-dots="true" autoplay="true" interval="5000" duration="500" indicator-active-color="#ffc452" indicator-color="#efefef" class="swiper _8c31038">
+    <block wx:for="{{ detailPics }}" key="item" item="item" wx:key="key" class="_8c31038">
+      <swiper-item class="_8c31038">
+        <image src="{{ item }}" class="slide-image _8c31038" />
+      </swiper-item>
+    </block>
+  </swiper>
+  <view class="details-msg _8c31038">
+    <view class="details-title _8c31038">{{ dataDetails.name }}</view>
+    <view class="details_pinfo _8c31038">
+      <view class="jby _8c31038">
+        <text class="price _8c31038">￥{{ dataDetails.price / 100 }}</text>
+        <text class="cost_price _8c31038">￥ {{ dataDetails.originalPrice / 100 }}</text>
+        <view class="baoyou _8c31038">
+          <i class="_8c31038">邮费: 包邮</i>
+          <i class="_8c31038">销量: {{ dataDetails.saledCount }}</i>
+          <i class="_8c31038">库存: {{ dataDetails.inventory }}</i>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="block _8c31038" wx:if="{{ dataDetails.tags.length }}">
+    <view style='height:40rpx;line-height:35rpx;' class="block_title _8c31038">商家服务</view>
+    <view class="block_content _8c31038">
+      <view class="process _8c31038" style='border-radius:0'>
+        <span wx:for-index="index" wx:key="{{ index }}" class="_8c31038">
+          <!-- <i class="fa fa-check-square-o _8c31038" aria-hidden="true" />  -->
+          <image style='width:30rpx;height:30rpx' src='../../images/select.png'></image>
+          {{ dataDetails.tags }}
+        </span>
+      </view>
+    </view>
+  </view>
+  <view class="spacing _8c31038" />
+  <view class="block _8c31038">
+    <view class="block_title _8c31038"  style='height:40rpx;line-height:35rpx;'>商品详情</view>
+  </view>
+  <view class="big_images _8c31038">
+    <view class="doc _8c31038">
+      <view class="wxParse-p _8c31038">
+        <template is="wxParse" data="{{wxParseData:info.nodes}}" />
+      </view>
+    </view>
+  </view>
+  <view class="detail-bottom _8c31038">
+    <view class="bottom-box _8c31038">
+      <contact-button class="contact _8c31038">
+      </contact-button>
+      <view class="item _8c31038">
+        <!-- <i class="iconfont icon-message _8c31038" /> -->
+        <image style='width:30rpx;height:30rpx' src='../../images/connect.png'></image>
+        <view class="doc _8c31038">客服</view>
+      </view>
+      <view data-favoris='{{dataDetails.favorIs}}' data-id="{{dataDetails.goodId}}" class="item {{ isFavorite ? 'selec_active' : ''}} _8c31038" bindtap="takeFavorite">
+        <image style='width:30rpx;height:30rpx' src='{{imageSrc}}'></image>
+        <view class="doc _8c31038">{{ isFavorite ? '已收藏' : '收藏' }}</view>
+      </view>
+      <view  class="sy-bottom {{ canOrder ? 'btn_cart' : 'cart_color' }} _8c31038" bindtap="takeCart">加入购物车</view>
+      <view class="sy-bottom {{ canOrder ? 'btn_order' : 'order_color' }} _8c31038" bindtap="takeOrder">立即购买</view>
+    </view>
+  </view>
+   <!-- <view class="over_model {{  hidden ? 'hidden' : ''}} _8c31038" /> -->
+  <view wx:if='{{hidden}}' class="panle_model {{ hidden ? 'hidden' : ''}} _8c31038">
+    <view class="model_content _8c31038">
+      <view class="head_box _8c31038">
+        <view class="img_wrap _8c31038">
+          <image class="goods_img _8c31038" src="{{ detailPics[0] }}" />
+        </view>
+        <view class="product_wrap _8c31038">
+          <view class="product_name _8c31038">{{ dataDetails.name }}</view>
+          <view class="price _8c31038">
+            <text class="_8c31038">￥ {{ dataDetails.price / 100 }}</text>
+            <text class="cost_price _8c31038">￥ {{ dataDetails.originalPrice / 100 }}</text>
+          </view>
+        </view>
+      </view>
+      <scroll-view scroll-y="true" style="height:400rpx" class="_8c31038">
+        <view class="rule_box _8c31038" wx:if="{{ attrs }}" wx:for="{{ attrs }}" item="item" wx:key="pindex" wx:for-index="pindex">
+          <view class="title _8c31038" >{{ item.name }}</view>
+          <view class="items _8c31038">
+            <view data-color='{{child.color}}' style='color:{{child.color}};background:{{child.background}};font-size:24rpx;' data-attrnames='{{item.name}}' class="item {{ child.active ? 'active' : '' }} _8c31038" wx:for="{{ item.values }}" wx:for-item="child" wx:key="index" catchtap="selAttr" data-id="{{ child.id }}" data-name="{{ child.name }}"  data-pindex="{{ pindex }}" data-index="{{ index }}">{{ child.name }}</view>
+          </view>
+        </view>
+        <view class="num_box _8c31038">
+          <view class="title _8c31038">数量选择</view>
+          <view class="stock _8c31038">库存: {{ inventorys }}件</view>
+          <view class="buy-num _8c31038" style='overflow:hidden'>
+            <view data-ordernum='{{orderNum}}' class="jian-btn {{ orderNum <= 1 ? 'disabled' : '' }} _8c31038" catchtap="jianBtnTap" data-index="{{ index }}">-</view>
+            <input type="number" bindinput="bindOrderNumInput" value="{{ orderNum }}" class="_8c31038" />
+            <view data-ordernum='{{orderNum}}' class="jia-btn {{ orderNum >= inventorys ? 'disabled' : '' }} _8c31038" catchtap="jiaBtnTap" data-index="{{ index }}">+</view>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="colse_model _8c31038" bindtap="closeModel">
+      <image src='../../images/del.png'  style='width:30rpx;height:30rpx'></image>
+        <!-- <i class="iconfont icon-close _8c31038" /> -->
+      </view>
+    </view>
+    <view  wx:if='{{hiddens!=1}}'class="panle_model {{ hiddens==1 ? 'hidden' : ''}} _8c31038"  class="comfire_btn _8c31038" catchtap="buyNow">确定</view>
+     <view wx:if='{{hiddens==1}}' class="panle_model {{ hiddens!=1 ? 'hidden' : ''}} _8c31038" class="comfire_btn _8c31038" catchtap="confirmTake">确定</view> 
+  </view>  
+</view>

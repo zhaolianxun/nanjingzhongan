@@ -1,0 +1,76 @@
+@import "../../components/addressAct.wxss";
+@import "../../components/addressList.wxss";
+.add_wrap {
+   height: 100rpx;
+   line-height: 100rpx;
+   border-radius: 10rpx; 
+  display: block;
+  width: 95%;
+  left: 0;
+  right: 0;
+  background: #d85646;
+  position: fixed;
+  bottom: 20rpx;
+  margin: 0 auto;
+  z-index: 10;
+  text-align: center;
+  color: #fff;
+}
+.active_address{
+  overflow: hidden;
+       text-overflow: ellipsis; 
+     display: -webkit-box; 
+     -webkit-line-clamp: 1; 
+     -webkit-box-orient: vertical; 
+}
+/*左滑  */
+.touch-item {
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom:1px solid #ccc;
+  width: 100%;
+  overflow: hidden
+}
+.content {
+  width: 100%;
+  padding: 10px;
+  line-height: 22px;
+  margin-right:0;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  margin-left: -90px
+}
+.del {
+  background-color: orangered;
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.touch-move-active .content,
+.touch-move-active .del {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+/* .del{
+  height: 100%
+} */
+.iconfont{
+  width: 30rpx;
+  height: 30rpx;
+  line-height: 100%;
+  margin-top:60rpx;
+}
+.addressCity input{
+  display: inline-block;
+  
+}

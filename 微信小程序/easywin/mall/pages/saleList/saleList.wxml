@@ -1,0 +1,31 @@
+
+    <view class="_923766c">
+        <scroll-view class="m-scrollBox _923766c" scroll-y="true" bindscrolltolower="scrollbottom">
+            <view  wx:if="{{ list.length }}" class="m-panel m-panel-access m-comment  _923766c">
+                <view class="m-panel-bd _923766c">
+                    <view wx:for="{{ list }}" wx:key="{{ index }}" wx:for-item="item" class="m-media-box m-media-box-appmsg _923766c">
+                        <view class="m-media-box-hd _923766c">
+                            <image class="m-media-box-thumb _923766c" src="{{ item.headimg }}"/>
+                        </view>
+                        <view class="m-media-box-bd _923766c">
+                            <label class="m-media-box-num _923766c">收益：
+                                <text class="_923766c">￥{{ item.amount / 100 }}</text>
+                            </label>
+                            <view class="m-media-box-info _923766c">
+                                <view class="m-media-box-info-meta m-tiem _923766c">{{ item.happenTime }}</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="m-nullcontent _923766c"  wx:else>
+                <view class="m-nullpage-middle _923766c">
+                    <label class="iconfont icon-meiyougengduo _923766c"/>
+                    <view class="m-null-tip _923766c">
+                        <text class="_923766c">亲~什么都没有</text>
+                        <text class="_923766c">赶快去分享商品，赚取收益吧!</text>
+                    </view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
