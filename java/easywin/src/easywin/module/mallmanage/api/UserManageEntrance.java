@@ -26,11 +26,11 @@ import easywin.module.plat.entity.UserLoginStatus;
 import easywin.util.EasywinDataSource;
 import easywin.util.HttpRespondWithData;
 
-@Controller("mallManage.api.UserWithdrawManageEntrance")
-@RequestMapping(value = "/mm/{mallId}/e/userwithdraw")
-public class UserWithdrawManageEntrance {
+@Controller("mallManage.api.UserManageEntrance")
+@RequestMapping(value = "/mm/{mallId}/e/user")
+public class UserManageEntrance {
 
-	public static Logger logger = Logger.getLogger(UserWithdrawManageEntrance.class);
+	public static Logger logger = Logger.getLogger(UserManageEntrance.class);
 
 	@RequestMapping(value = "/ent")
 	public void ent(@PathVariable("mallId") String mallId, HttpServletRequest request, HttpServletResponse response)
@@ -39,8 +39,8 @@ public class UserWithdrawManageEntrance {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-			String statusParam = StringUtils.trimToNull(request.getParameter("status"));
-			Integer status = statusParam == null ? null : Integer.parseInt(statusParam);
+			String nickname = StringUtils.trimToNull(request.getParameter("nickname"));
+			String phone = StringUtils.trimToNull(request.getParameter("phone"));
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
 			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
 			if (pageNo <= 0)
@@ -58,14 +58,18 @@ public class UserWithdrawManageEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			List sqlParams = new ArrayList();
 			sqlParams.add(mallId);
-			if (status != null)
-				sqlParams.add(status);
+			if (nickname != null)
+				sqlParams.add(new StringBuilder("%").append(nickname).append("%").toString());
+			if (phone != null)
+				sqlParams.add(new StringBuilder("%").append(phone).append("%").toString());
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			// 查詢主轮播图
 			pst = connection.prepareStatement(
-					"select u.headimg,t.alipay_tradeno,t.note,t.id,u.nickname,t.amount,t.status,t.fail_reason,t.apply_time,t.alipay_account,t.alipay_account_name from t_mall_user_withdraw t left join t_mall_user u on t.user_id=u.id where t.mall_id=? "
-							+ (status == null ? "" : " and t.status=? ") + " order by t.apply_time desc limit ?,?");
+					"select u.id,u.nickname,u.phone,u.money,u.headimg from t_mall_user u where u.mall_id=? "
+							+ (nickname == null ? "" : " and u.nickname like ? ")
+							+ (phone == null ? "" : " and u.phone like ? ")
+							+ " order by t.register_time desc limit ?,?");
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -74,16 +78,10 @@ public class UserWithdrawManageEntrance {
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("id", rs.getObject("id"));
-				item.put("amount", rs.getObject("amount"));
-				item.put("headimg", rs.getObject("headimg"));
-				item.put("note", rs.getObject("note"));
-				item.put("status", rs.getObject("status"));
-				item.put("failReason", rs.getObject("fail_reason"));
-				item.put("applyTime", rs.getObject("apply_time"));
-				item.put("alipayAccount", rs.getObject("alipay_account"));
-				item.put("alipayAccountName", rs.getObject("alipay_account_name"));
-				item.put("alipayTradeno", rs.getObject("alipay_tradeno"));
 				item.put("nickname", rs.getObject("nickname"));
+				item.put("phone", rs.getObject("phone"));
+				item.put("money", rs.getObject("money"));
+				item.put("headimg", rs.getObject("headimg"));
 				items.add(item);
 			}
 			pst.close();
@@ -128,7 +126,7 @@ public class UserWithdrawManageEntrance {
 			sqlParams.add(id);
 			// 查詢主轮播图
 			pst = connection.prepareStatement(
-					"select t.alipay_tradeno,t.note,t.id,u.nickname,t.amount,t.status,t.fail_reason,t.apply_time,t.alipay_account,t.alipay_account_name from t_mall_user_withdraw t left join t_mall_user u on t.user_id=u.id where t.mall_id=? and t.id=? ");
+					"select u.id,u.nickname,u.phone,u.money,u.headimg from t_mall_user u where u.mall_id=? ");
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}

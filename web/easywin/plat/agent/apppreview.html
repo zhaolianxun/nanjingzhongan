@@ -8,6 +8,7 @@
     <script src="../libs/jquery.cookie.js"></script>
     <script src="../libs/vue.js"></script>
     <script src="../libs/default.js"></script>
+    <script src="../../rxw/rxw.js"></script>
 
 </head>
     <style type="text/css">
@@ -222,7 +223,11 @@
     }else if(appData.auditStatus == 2){//0未提交  1已提交  2通过  3失败  4已发布
         $('#auditStatus img').attr('src','../img/icon002.png');
         $('#auditStatus').siblings().children('img').attr('src','../img/icon001.png');
+        if(!rxw1.isEmptyStr(appData.currentTemplateVersion)&& !rxw1.isEmptyStr(appData.auditTemplateVersion) && appData.currentTemplateVersion == appData.auditTemplateVersion){
+            $('#released img').attr('src','../img/icon002.png');
+            $('#released').siblings().children('img').attr('src','../img/icon001.png');
 
+        }
     }else if(appData.auditStatus == 1){
         $('#auditing img').attr('src','../img/icon002.png');
         $('#auditing').siblings().children('img').attr('src','../img/icon001.png');

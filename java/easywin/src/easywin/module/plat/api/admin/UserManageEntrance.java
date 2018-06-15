@@ -37,7 +37,7 @@ public class UserManageEntrance {
 	public static Logger logger = Logger.getLogger(UserManageEntrance.class);
 
 	@RequestMapping(value = "/users")
-	public void templates(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void users(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {

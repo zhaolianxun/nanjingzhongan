@@ -295,7 +295,7 @@
                         newCarddiv.find('.cardicon').attr('src', a.headImg);
                         newCarddiv.find('.agentInfoEnt a').click(function () {
                             var aa = apps[$(this).parents('.carddiv').attr('data')];
-                            rxw1.confirmpad({content: '<div>' + aa.agentPhone + '</div><div>' + aa.agentDomain + '</div>'})
+                            rxw1.alertpad({content: '<div>' + aa.agentPhone + '</div><div>' + aa.agentDomain + '</div>'})
                         })
                         if (a.authorized == 0) {
                             newCarddiv.find('.goauthbtn').css('display', '');

@@ -39,7 +39,7 @@ rxw1.confirmpad=function(param) {
 rxw1.alertpad=function(param) {
     this.layer({init:function(layer){
         layer.style['background-color']='rgba(0, 0, 0, 0)';
-        var alertpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="confirm" style="font-size:14px;font-weight:600;width:100%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div></div>');
+        var alertpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="confirm" style="font-size:14px;font-weight:600;width:100%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;cursor: pointer" >确认</button></div></div>');
         $(layer).append(alertpad);
 
 

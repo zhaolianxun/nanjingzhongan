@@ -676,8 +676,7 @@ public class MyAppEntrance {
 
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection
-					.prepareStatement("select access_token,audit_status,wx_audit_id from t_app where id=? for update");
+			pst = connection.prepareStatement("select access_token,audit_status from t_app where id=? for update");
 			pst.setObject(1, appId);
 			ResultSet rs = pst.executeQuery();
 			if (!rs.next()) {
@@ -685,13 +684,12 @@ public class MyAppEntrance {
 				throw new InteractRuntimeException("应用不存在");
 			}
 			int auditstatus = rs.getInt("audit_status");
-			Integer wxAuditId = (Integer) rs.getObject("wx_audit_id");
 			String accessToken = rs.getString("access_token");
 			pst.close();
 
 			if (accessToken == null || accessToken.trim().length() == 0)
 				throw new InteractRuntimeException("您还未授权该应用");
-			if (auditstatus == 0 || wxAuditId == null)
+			if (auditstatus == 0)
 				throw new InteractRuntimeException("还未提交审核");
 			if (auditstatus == 2 || auditstatus == 3)
 				throw new InteractRuntimeException("已审核过");

@@ -24,7 +24,7 @@
             cursor: default;
         }
         .cell1 {
-            width:30px;
+            width:60px;
         }
         .cell2 {
             width:100px;
@@ -106,7 +106,7 @@
         <span class="cell cell1"></span><span class="cell cell2">用户</span><span class="cell cell2">金额</span><span class="cell cell4">状态</span><span class="cell cell5">申请时间</span><span class="cell cell6">支付宝账号</span><span class="cell cell7">支付宝姓名</span><span class="cell cell8">支付宝交易号</span><span class="cell cell9">操作</span>
     </div>
     <div name="itemExample" class="row" style="display:none">
-        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="nickname"></span><span class="cell cell2" name="amount"></span><span class="cell cell4" name="status"></span><span class="cell cell5" name="applyTime"></span><span class="cell cell6" name="alipayAccount"></span><span class="cell cell7" name="alipayAccountName"></span><span class="cell cell8" name="alipayTradeno"></span><span class="cell cell9" ><button name="detailEntDoor">详情</button></span>
+        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" ><img name="headimg" style="cursor:pointer;vertical-align: middle;width:20px;height:20px"><span name="nickname" style="vertical-align: middle;"></span></span><span class="cell cell2" name="amount"></span><span class="cell cell4" name="status"></span><span class="cell cell5" name="applyTime"></span><span class="cell cell6" name="alipayAccount"></span><span class="cell cell7" name="alipayAccountName"></span><span class="cell cell8" name="alipayTradeno"></span><span class="cell cell9" ><button name="detailEntDoor">详情</button></span>
     </div>
     <div name="itemsShowPad" style="max-height:300px;">
         <div name="itemsShow">
@@ -232,6 +232,7 @@ function refreshItemRow(itemRow,itemId){
         itemRow.attr('name','')
         itemRow.attr('itemId',item.id)
         itemRow.find('[name=nickname]').text(item.nickname).attr('title',item.nickname)
+        itemRow.find('[name=headimg]').attr('src',item.headimg)
         itemRow.find('[name=amount]').text(item.amount/100)
         itemRow.find('[name=status]').text(statusParse(item.status))
         itemRow.find('[name=applyTime]').text(rxw1.formatTime(item.applyTime)).attr('title',rxw1.formatTime(item.applyTime))
@@ -242,6 +243,10 @@ function refreshItemRow(itemRow,itemId){
     }
 
 function eventToItemRow(itemRow,itemId){
+    itemRow.find('[name=headimg]').click(function(){
+        rxw1.imgPreview(this.src)
+        event.stopPropagation();
+    })
     itemRow.find('[name=detailEntDoor]').click(function(){
         rxw1.waitLock()
         rxw1.layer({init:function(layer){
