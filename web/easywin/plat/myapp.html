@@ -101,7 +101,7 @@
         height: 242px;
         position: absolute;
         top: 70px;
-        right: 125px;
+        right: 226px;
         display: none;
         z-index: 100;
     }
@@ -188,14 +188,16 @@
                 <div class="cardbt-con">
 
                     <button class="previewbtn" style="display:none;position:relative" onblur="closeBox()">预览</button>
-                    <!--  <button class="updatebtn" style="display:none">更新</button>-->
-                    <button class="goauthbtn" style="display:none">前往授权</button>
-                    <button class="managebtn" style="display:none">管理后台</button>
-                    <button class="lookstatusbtn" style="display:none">查看状态</button>
                     <div class="qrcodeBox" style="display:none" >
                         <img src="img/rectangle1@2x.png" >
                         <img id="qrcode" class="qrcode" src="" alter="请重试" onmouseout="closeBox()">
                     </div>
+                    <!--  <button class="updatebtn" style="display:none">更新</button>-->
+                    <button class="goauthbtn" style="display:none">前往授权</button>
+                    <button class="managebtn" style="display:none">管理后台</button>
+                    <button class="lookstatusbtn" style="display:none">查看状态</button>
+
+                    <button class="tasterEntDoor" style="display:none">体验者</button>
                 </div>
                 <div style="clear:both;"></div>
             </div>
@@ -329,6 +331,24 @@
                                 newCarddiv.find('.vtimetxt').css('color', 'red');
                             }
 
+                            newCarddiv.find('.tasterEntDoor').css('display', '').click(function(){
+                                var appId = $(this).parents('.carddiv').attr('data');
+                                rxw1.inputpad({content:'请输入微信号',confirm:function(data){
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        data: {wechatid: data, app_id: appId},
+                                        url: '/easywin/p/e/myapp/bindtester?token=' + token,
+                                        success: function (res) {
+                                            if (res.code == 0) {
+                                                rxw1.errorpad(res.data.userstr)
+                                            } else {
+                                                rxw1.errorpad(res.codeMsg)
+                                            }
+                                        }
+                                    })
+                                }})
+                            });
                             newCarddiv.find('.previewbtn').css('display', '');
                             newCarddiv.find('.previewbtn').attr('onclick', 'previewNewest(\'' + a.appId + '\',\'' + a.newestTemplateVersion + '\')')
 

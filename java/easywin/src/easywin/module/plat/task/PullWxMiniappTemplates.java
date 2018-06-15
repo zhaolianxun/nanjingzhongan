@@ -118,7 +118,7 @@ public class PullWxMiniappTemplates {
 				} else {
 					// 更新已有的模板
 					pst = connection.prepareStatement(
-							"update t_seed_template set wx_create_time=?,tpl_version=?,tpl_code=?,seed_id=?,wx_user_version=?,wx_user_desc=?,wx_source_miniprogram_appid=?,wx_source_miniprogram=?,wx_source_miniprogram_developer=? where id=?");
+							"update t_seed_template set wx_create_time=?,tpl_version=?,tpl_code=?,seed_id=?,wx_user_version=?,wx_user_desc=?,wx_source_miniprogram_appid=?,wx_source_miniprogram=?,wx_source_miniprogram_developer=?,wx_templateid=? where id=?");
 					pst.setObject(1, wxCreateTime);
 					pst.setObject(2, tplVersion);
 					pst.setObject(3, tplCode);
@@ -128,7 +128,9 @@ public class PullWxMiniappTemplates {
 					pst.setObject(7, wxSourceMiniprogramAppid);
 					pst.setObject(8, wxSourceMiniprogram);
 					pst.setObject(9, wxSourceMiniprogramDeveloper);
-					pst.setObject(10, templateIdOld);
+					pst.setObject(10, wxTemplateId);
+					pst.setObject(11, templateIdOld);
+					
 					int n = pst.executeUpdate();
 					pst.close();
 					if (n != 1)
