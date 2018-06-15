@@ -207,7 +207,7 @@ public class GoodManageEntrance {
 			String type2Name = StringUtils.trimToNull(request.getParameter("type2_name"));
 			if (type2 != null && type2Name == null)
 				throw new InteractRuntimeException("type2_name 不可空");
-			String detail = StringUtils.trimToNull(request.getParameter("detail"));
+			String detail = StringUtils.trimToEmpty(request.getParameter("detail"));
 			String params = StringUtils.trimToNull(request.getParameter("params"));
 			String detailPics = StringUtils.trimToNull(request.getParameter("detail_pics"));
 			String cover = StringUtils.trimToNull(request.getParameter("cover"));
@@ -369,7 +369,7 @@ public class GoodManageEntrance {
 			String type2Name = StringUtils.trimToNull(request.getParameter("type2_name"));
 			if (type2 != null && type2Name == null)
 				throw new InteractRuntimeException("type2_name 不可空");
-			String detail = StringUtils.trimToNull(request.getParameter("detail"));
+			String detail = StringUtils.trimToEmpty(request.getParameter("detail"));
 			String params = StringUtils.trimToNull(request.getParameter("params"));
 			String detailPics = StringUtils.trimToNull(request.getParameter("detail_pics"));
 			String cover = StringUtils.trimToNull(request.getParameter("cover"));

@@ -44,6 +44,8 @@ public class AllOrderEntrance {
 			String orderId = StringUtils.trimToNull(request.getParameter("order_id"));
 			String statusParam = StringUtils.trimToNull(request.getParameter("status"));
 			Integer status = statusParam == null ? null : Integer.parseInt(statusParam);
+			String finishedParam = StringUtils.trimToNull(request.getParameter("finished"));
+			Integer finished = finishedParam == null ? null : Integer.parseInt(finishedParam);
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
 			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
 			if (pageNo <= 0)
@@ -52,16 +54,6 @@ public class AllOrderEntrance {
 			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
 			if (pageSize <= 0)
 				throw new InteractRuntimeException("page_size有误");
-
-			String orderStatus = null;
-			Integer finished = null;
-			if (status == null) {
-
-			} else if (status == 0 || status == 1 || status == 2) {
-				orderStatus = status.toString();
-			} else if (status == 3) {
-				finished = 1;
-			}
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -73,8 +65,8 @@ public class AllOrderEntrance {
 			sqlParams.add(mallId);
 			if (orderId != null)
 				sqlParams.add(orderId);
-			if (orderStatus != null)
-				sqlParams.add(orderStatus);
+			if (status != null)
+				sqlParams.add(status);
 			if (finished != null)
 				sqlParams.add(finished);
 			sqlParams.add(pageSize * (pageNo - 1));
@@ -82,8 +74,8 @@ public class AllOrderEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select id,order_time,status,amount,finished,refund_status from t_mall_order where user_id=? and mall_id=?"
-							+ (orderId == null ? "" : " and id=? ") + (orderStatus == null ? "" : " and status=? ")
+					"select id,order_time,status,amount,finished,refund_status from t_mall_order where user_del=0 and user_id=? and mall_id=?"
+							+ (orderId == null ? "" : " and id=? ") + (status == null ? "" : " and status=? ")
 							+ (finished == null ? "" : " and finished=? ") + " order by order_time desc limit ?,?");
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -320,13 +312,14 @@ public class AllOrderEntrance {
 			connection = EasywinDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select u.phone,u.nickname,o.submoney,o.original_total_amount,o.cancel_reason,o.refund_time,o.refund_fail_reason,o.refund_reason,o.refund_status,o.order_time,o.status,o.amount,o.receiver_name,o.receiver_phone,o.receiver_address,o.buyer_note,o.coupon_title from t_mall_order o left join t_mall_user u on o.user_id=u.id where o.id=? ");
+					"select o.finished,u.phone,u.nickname,o.submoney,o.original_total_amount,o.cancel_reason,o.refund_time,o.refund_fail_reason,o.refund_reason,o.refund_status,o.order_time,o.status,o.amount,o.receiver_name,o.receiver_phone,o.receiver_address,o.buyer_note,o.coupon_title from t_mall_order o left join t_mall_user u on o.user_id=u.id where o.id=? ");
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject order = new JSONObject();
 			if (rs.next()) {
 				order.put("orderId", orderId);
 				order.put("orderTime", rs.getObject("order_time"));
+				order.put("finished", rs.getObject("finished"));
 				order.put("status", rs.getObject("status"));
 				order.put("amount", rs.getObject("amount"));
 				order.put("originalTotalAmount", rs.getObject("original_total_amount"));

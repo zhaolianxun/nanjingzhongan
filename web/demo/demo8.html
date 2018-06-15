@@ -16,7 +16,13 @@
 </body>
 <script>
 function aa(){
-    rxw1.imgPreview('微信图片_20180129113026.jpg')
+    rxw1.inputmorepad({items:[{name:'支付宝交易号',code:'aaa',def:'qq'},{name:'支付宝姓名',code:'aaaa',def:'qq1'}],confirm:function(data){
+        alert(data['aaa'])
+        alert(data['aaaa'])
+    }})
+//    rxw1.inputpad({def:'qqq',content:"123123",confirm:function(data){
+//        alert(data)
+//    }})
 }
 </script>
 </html>

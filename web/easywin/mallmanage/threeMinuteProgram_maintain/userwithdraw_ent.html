@@ -128,6 +128,7 @@
     rxw1.relativePath = '../../'
     var token = localStorage.getItem('token');
     var mallId = localStorage.getItem("mall_id");
+    var hasMoreItems;
     var page_no;
     var page_size;
     var items = {};
@@ -139,6 +140,7 @@
         rxw1.waitLock()
         page_no = 1;
         page_size = 30;
+        hasMoreItems = true;
         $('[name=itemsShow]').html('');
         $('[name=pagingBottomPad] [name=noitem]').css('display', '');
         $('[name=pagingBottomPad] [name=more]').css('display', 'none');
@@ -157,7 +159,16 @@
         loadItems();
         rxw1.waitLock.remove()
     }
+    rxw1.windowScrollPaging({
+        down: function () {
+            if (hasMoreItems) {
+                page_no++;
+                loadItems();
+            } else {
 
+            }
+        }
+    })
     function loadItems(){
         queryParams.page_no=page_no;
         queryParams.page_size=page_size;
@@ -170,15 +181,17 @@
                 if (res.code == 0) {
                     var itemsLength = res.data.items.length;
                     if(itemsLength==0 && page_no ==1){
-
+                        hasMoreItems=false;
                     }else if(itemsLength>= 0 && itemsLength<page_size && page_no>=1){
                         $('[name=pagingBottomPad] [name=noitem]').css('display', 'none');
                         $('[name=pagingBottomPad] [name=more]').css('display', 'none');
                         $('[name=pagingBottomPad] [name=finish]').css('display', '');
+                        hasMoreItems=false;
                     }else if(itemsLength==page_size){
                         $('[name=pagingBottomPad] [name=noitem]').css('display', 'none');
                         $('[name=pagingBottomPad] [name=finish]').css('display', 'none');
                         $('[name=pagingBottomPad] [name=more]').css('display', '');
+                        hasMoreItems = true;
                     }
                     $(res.data.items).each(function(index,item){
                         items[index]=item;

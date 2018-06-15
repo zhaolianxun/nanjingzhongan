@@ -8,6 +8,7 @@
     <script src="../libs/jquery.cookie.js"></script>
     <script src="../libs/vue.js"></script>
     <script src="../libs/default.js"></script>
+    <script src="../../rxw/rxw.js"></script>
 
 </head>
 <link rel="stylesheet" type="text/css" href="../libs/iziToast/css/iziToast.min.css">
@@ -168,10 +169,10 @@
                  <div class="belonger" style="font-size: 13px;float:left; margin-left: 15px;line-height: 50px"></div>
                 </div>
                 <div class="cardbt-con">
+                    <button class="previewbtn" style="display:none" onblur="closeBox()">二维码</button>
                     <button class="grantAppUseTimeBtn">增加1年</button>
                     <button class="updatebtn" style="display:none">更新</button>
                     <button class="goauthbtn" style="display:none">前往授权</button>
-                    <button class="previewbtn" style="display:none" onmouseout="closeBox()">二维码</button>
                     <button class="managebtn" style="display:none">管理后台</button>
                     <button class="lookstatusbtn" style="display:none">查看状态</button>
                     <div class="qrcodeBox" style="display:none">
@@ -183,6 +184,12 @@
             </div>
         </div>
         <div style="clear:both;"></div>
+    </div>
+
+    <div id="pagingBottomPad" style="text-align: center">
+        <span name="more" style="cursor:pointer;display:none;position: relative;z-index: 2;background:white;padding:0 5px;color:#7d7d7d" onclick="loadMore()">点击加载更多</span>
+        <span name="finish" style="cursor: default;;display:none;position: relative;z-index: 2;background:white;padding:0 5px;color:#7d7d7d">加载完毕</span>
+        <div style="margin:auto;position: relative; left: 0;top: -10px;width: 95%;height: 1px;background: #DCDCDC;z-index: 1;"></div>
     </div>
 </div>
 </div>
@@ -200,74 +207,114 @@
         var date = time.getDate();
         return year+'-'+add0(month)+'-'+add0(date);
     }
+    rxw1.relativePath='../../'
     var token = $.cookie('token');
     var phone = '';
     var apps={};
+    var page_no;
+    var page_size;
+    var hasMoreItems;
 
-    $.ajax({
-        type: "POST",
-        data: {phone:phone,page_no:1,page_size: 20},
-        url:"/easywin/p/e/agent/appmanage/apps?token="+token,
-        success: function (res) {
-            if(res.code == 0){
-                var items = res.data.apps;
-                for(var i = 0 ; i < items.length ; i ++){
-                    var a = items[i];
-                    apps[a.appId]=a;
-                    var useEndIf = null;
-                    if(a.useEndtime)
-                        useEndIf = false;
-                    if(a.useEndtime && Date.parse( new Date()) > a.useEndtime)
-                        useEndIf=true;
+    onload();
+    function onload() {
+        page_no = 1;
+        page_size = 20;
+        hasMoreItems = true;
+        loadItems();
+    }
 
-                    var cardcon=$('#cardcon');
+    function loadMore(){
+        if (hasMoreItems) {
+            page_no++;
+            loadItems();
+        } else {
+
+        }
+    }
+    rxw1.windowScrollPaging({
+        down: function () {
+            if (hasMoreItems) {
+                page_no++;
+                loadItems();
+            } else {
+
+            }
+        }
+    })
+    function loadItems() {
+        $.ajax({
+            type: "POST",
+            data: {phone: phone,page_no: page_no, page_size: page_size},
+            url: "/easywin/p/e/agent/appmanage/apps?token=" + token,
+            success: function (res) {
+                if (res.code == 0) {
+                    var items = res.data.apps;
+                    if (items.length == 0 || items.length < page_size) {
+                        hasMoreItems = false;
+                        $('#pagingBottomPad [name=finish]').show()
+                        $('#pagingBottomPad [name=more]').hide()
+                    }else{
+                        $('#pagingBottomPad [name=finish]').hide()
+                        $('#pagingBottomPad [name=more]').show()
+                    }
+                    for (var i = 0; i < items.length; i++) {
+                        var a = items[i];
+                        apps[a.appId] = a;
+                        var useEndIf = null;
+                        if (a.useEndtime)
+                            useEndIf = false;
+                        if (a.useEndtime && Date.parse(new Date()) > a.useEndtime)
+                            useEndIf = true;
+
+                        var cardcon = $('#cardcon');
 
 
                         var newCarddiv = $('#carddivFather').clone(true);
-                        newCarddiv.attr('id','carddivSon'+ a.appId);
-                        newCarddiv.find('.cardnumtxt').text(i+1);
+                        newCarddiv.attr('id', 'carddivSon' + a.appId);
+                        newCarddiv.find('.cardnumtxt').text(i + 1);
                         newCarddiv.find('.cardname').text(a.nickName);
-                    newCarddiv.find('.cardicon').attr('src',a.headImg);
-                    newCarddiv.find('.belonger').text('所属用户: '+a.phone);
-                         if(a.authorized == 0){
+                        newCarddiv.find('.cardicon').attr('src', a.headImg);
+                        newCarddiv.find('.belonger').text('所属用户: ' + a.phone);
+                        if (a.authorized == 0) {
                             newCarddiv.find('.cardmsg').text('未授权');
-                             $('#carddivSon'+a.appId+' .qrcodeBox .qrcode').attr('alt',"未授权");
-                        }else　if(a.businessbaseFill==0||!a.businessbaseFill)
-                        newCarddiv.find('.cardmsg').text('信息未补全');
-                    else if(useEndIf == true){
-                            newCarddiv.find('.cardmsg').css('color','red');
-                            newCarddiv.find('.cardmsg').text('使用期已过：'+ timeFormat(a.useEndtime));
-                        }else if(a.auditStatus==3){
-                            newCarddiv.find('.cardmsg').text('审核失败:'+ a.auditFailReason);
-                        }else if(a.auditStatus==2){
+                            $('#carddivSon' + a.appId + ' .qrcodeBox .qrcode').attr('alt', "未授权");
+                        } else if (a.businessbaseFill == 0 || !a.businessbaseFill)
+                            newCarddiv.find('.cardmsg').text('信息未补全');
+                        else if (useEndIf == true) {
+                            newCarddiv.find('.cardmsg').css('color', 'red');
+                            newCarddiv.find('.cardmsg').text('使用期已过：' + timeFormat(a.useEndtime));
+                        } else if (a.auditStatus == 3) {
+                            newCarddiv.find('.cardmsg').text('审核失败:' + a.auditFailReason);
+                        } else if (a.auditStatus == 2) {
                             newCarddiv.find('.cardmsg').text('审核通过');
-                        }else if(a.auditStatus==1){
+                        } else if (a.auditStatus == 1) {
                             newCarddiv.find('.cardmsg').text('审核中');
-                        } else if(!a.currentTemplateVersion){
+                        } else if (!a.currentTemplateVersion) {
                             newCarddiv.find('.cardmsg').text('未提交审核');
-                        }else{
+                        }
+                        if (!rxw1.isEmptyStr(a.currentTemplateVersion) && !rxw1.isEmptyStr(a.auditTemplateVersion) && a.currentTemplateVersion == a.auditTemplateVersion) {
                             newCarddiv.find('.cardmsg').text('运行中');
-                            newCarddiv.find('.cardmsg').css('color','green');
+                            newCarddiv.find('.cardmsg').css('color', 'green');
                         }
-                        newCarddiv.find('.cardcreatetime').text('创建时间：'+ timeFormat(a.bindTime));
+                        newCarddiv.find('.cardcreatetime').text('创建时间：' + timeFormat(a.bindTime));
 
-                        newCarddiv.find('.vtimetxt').text('有效期至：'+ timeFormat(a.useEndtime));
-                        if(useEndIf == true){
-                            newCarddiv.find('.vtimetxt').css('color','red');
+                        newCarddiv.find('.vtimetxt').text('有效期至：' + timeFormat(a.useEndtime));
+                        if (useEndIf == true) {
+                            newCarddiv.find('.vtimetxt').css('color', 'red');
                         }
-                        newCarddiv.find('.previewbtn').css('display','');
-                    newCarddiv.find('.previewbtn').attr('onclick','gotoPreview(\''+ a.appId+'\')')
-                    newCarddiv.find('.grantAppUseTimeBtn').attr('onclick','grantAppUseTime(\''+ a.appId+'\','+ a.agentPrice+')')
-                        newCarddiv.find('.lookstatusbtn').css('display','');
-                        newCarddiv.find('.lookstatusbtn').attr('onclick','gotoStatus(\''+ a.appId+'\')')
-                        newCarddiv.css('display','block');
+                        newCarddiv.find('.previewbtn').css('display', '');
+                        newCarddiv.find('.previewbtn').attr('onclick', 'gotoPreview(\'' + a.appId + '\')')
+                        newCarddiv.find('.grantAppUseTimeBtn').attr('onclick', 'grantAppUseTime(\'' + a.appId + '\',' + a.agentPrice + ')')
+                        newCarddiv.find('.lookstatusbtn').css('display', '');
+                        newCarddiv.find('.lookstatusbtn').attr('onclick', 'gotoStatus(\'' + a.appId + '\')')
+                        newCarddiv.css('display', 'block');
                         newCarddiv.appendTo(cardcon);
 
                     }
                 }
             }
-    })
-
+        })
+    }
 
     //预览
     function gotoPreview(appId){

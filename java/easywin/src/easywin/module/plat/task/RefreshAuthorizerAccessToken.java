@@ -41,7 +41,7 @@ public class RefreshAuthorizerAccessToken {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
-			//获取componentAccessToken
+			// 获取componentAccessToken
 			jedis = SysConstant.jedisPool.getResource();
 			String componentAccessToken = jedis.get(SysConstant.wechat_open_thirdparty_AppId + "-componentAccessToken");
 
@@ -57,7 +57,7 @@ public class RefreshAuthorizerAccessToken {
 			logger.debug("url  " + url);
 
 			connection = EasywinDataSource.dataSource.getConnection();
-			//获取将过期token列表
+			// 获取将过期token列表
 			pst = connection.prepareStatement(
 					"select id,refresh_token,wx_appid from t_app where authorized=1 and (expires_in-rpad(REPLACE(unix_timestamp(now(3)),'.',''),13,'0')) <= 600000  limit 0,50");
 			ResultSet rs = pst.executeQuery();
@@ -71,24 +71,24 @@ public class RefreshAuthorizerAccessToken {
 			}
 			pst.close();
 			connection.setAutoCommit(false);
-			//循环刷新所有token
+			// 循环刷新所有token
 			for (int i = 0; i < ja.size(); i++) {
 				try {
 					JSONObject jo = ja.getJSONObject(i);
 					String id = jo.getString("id");
-					String refreshToken = jo.getString("refreshToken");
+					String oldRefreshToken = jo.getString("refreshToken");
 					String appId = jo.getString("appId");
-					//数据库中锁定记录行
+					// 数据库中锁定记录行
 					pst = connection.prepareStatement("select id from t_app where id=? for update");
 					pst.setString(1, id);
 					pst.executeQuery();
 					pst.close();
-					
-					//从微信获取新token
+
+					// 从微信获取新token
 					JSONObject content = new JSONObject();
 					content.put("component_appid", SysConstant.wechat_open_thirdparty_AppId);
 					content.put("authorizer_appid", appId);
-					content.put("authorizer_refresh_token", refreshToken);
+					content.put("authorizer_refresh_token", oldRefreshToken);
 					logger.debug(content);
 					Request okHttpRequest = new Request.Builder().url(url)
 							.post(RequestBody.create(MediaType.parse("application/json"), content.toJSONString()))
@@ -107,11 +107,11 @@ public class RefreshAuthorizerAccessToken {
 					int expiresIn = resultVo.getIntValue("expires_in");
 					String authorizerRefreshToken = resultVo.getString("authorizer_refresh_token");
 
-					//新token入库
+					// 新token入库
 					pst = connection.prepareStatement(
 							"update t_app set access_token=?,expires_in=?,refresh_token=? where id=?");
 					pst.setObject(1, authorizerAccessToken);
-					pst.setObject(2, new Date().getTime() + expiresIn * 1000l - 60 * 1000l);
+					pst.setObject(2, new Date().getTime() + expiresIn * 1000l);
 					pst.setObject(3, authorizerRefreshToken);
 					pst.setObject(4, id);
 					int n = pst.executeUpdate();
