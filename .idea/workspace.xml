@@ -163,8 +163,8 @@
       <file leaf-file-name="apppreview.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/easywin/plat/agent/apppreview.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.76638657">
-              <caret line="237" column="50" selection-start-line="237" selection-start-column="50" selection-end-line="237" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.3512605">
+              <caret line="224" column="56" selection-start-line="224" selection-start-column="0" selection-end-line="225" selection-end-column="0" />
               <folding>
                 <marker date="1529045250701" expanded="true" signature="6285:6296" placeholder="..." />
                 <marker date="1529045250701" expanded="true" signature="7716:7727" placeholder="..." />
@@ -584,7 +584,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1186,8 +1186,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat/agent/apppreview.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.76638657">
-          <caret line="237" column="50" selection-start-line="237" selection-start-column="50" selection-end-line="237" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.3512605">
+          <caret line="224" column="56" selection-start-line="224" selection-start-column="0" selection-end-line="225" selection-end-column="0" />
           <folding>
             <marker date="1529045250701" expanded="true" signature="6285:6296" placeholder="..." />
             <marker date="1529045250701" expanded="true" signature="7716:7727" placeholder="..." />

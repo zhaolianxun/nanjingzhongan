@@ -215,18 +215,22 @@ public class IambuyerEntrance {
 				throw new InteractRuntimeException(20);
 
 			connection = RrightwayDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement(
-					new StringBuilder("select t.seller_id,t.taobao_orderid from t_order t where t.id=? for update")
-							.toString());
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.seller_id,t.taobao_orderid,t.status from t_order t where t.id=? for update").toString());
 			pst.setObject(1, orderId);
 			ResultSet rs = pst.executeQuery();
 			String sellerId = null;
 			String oldTaobaoOrderid = null;
+			int status = 0;
 			if (rs.next()) {
 				sellerId = rs.getString("seller_id");
 				oldTaobaoOrderid = rs.getString("taobao_orderid");
+				status = rs.getInt("status");
 			} else
 				throw new InteractRuntimeException("订单不存在");
+
+			if (status != 0)
+				throw new InteractRuntimeException("订单已核对或已取消");
 
 			pst = connection
 					.prepareStatement(new StringBuilder("update t_order set taobao_orderid=? where id=?").toString());

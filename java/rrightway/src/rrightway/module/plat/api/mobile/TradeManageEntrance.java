@@ -151,7 +151,7 @@ public class TradeManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buyer_remind_check_if,t.coupon_if,t.buy_way,t.id,t.order_time,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id  where t.seller_del=0 and t.seller_id=?")
+					"select t.taobao_orderid,a.huabei_pay,a.creditcard_pay,t.way_to_shop,t.gift_cover,t.buyer_remind_check_if,t.coupon_if,t.buy_way,t.id,t.order_time,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_activity a on t.activity_id=a.id left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id  where t.seller_del=0 and t.seller_id=?")
 							.append(tradeStatus == null ? " and t.status in (0,3,4,5,6) " : " and t.status = ?")
 							.append(taobaoOrderid == null ? "" : " and t.taobao_orderid like ? ")
 							.append(buyerNickname == null ? "" : " and bt.taobao_user_nick like ? ")
@@ -171,6 +171,7 @@ public class TradeManageEntrance {
 				JSONObject item = new JSONObject();
 				item.put("id", rs.getObject("id"));
 				item.put("giftCover", rs.getObject("gift_cover"));
+				item.put("taobaoOrderid", rs.getObject("taobao_orderid"));
 				item.put("giftName", rs.getObject("gift_name"));
 				item.put("payPrice", rs.getObject("pay_price"));
 				item.put("returnMoney", rs.getObject("return_money"));
@@ -807,7 +808,7 @@ public class TradeManageEntrance {
 				PushMessageQueue.buyerMsg(buyerId, null,
 						new StringBuilder("您的订单（尾号").append(orderId.substring(orderId.length() - 5))
 								.append("）提交的评价图被商家判为无效。").toString(),
-						new StringBuilder("您的订单提交的评价图被商家判为无效。订单号：").append(orderId).toString());
+						new StringBuilder("您的订单提交的评价图被商家判为无效，请重新提交。订单号：").append(orderId).toString());
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {

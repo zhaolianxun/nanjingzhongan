@@ -403,13 +403,15 @@ public class CowryManageEntrance {
 				throw new InteractRuntimeException("cowry_cover 不能空");
 
 			String payPriceParam = StringUtils.trimToNull(request.getParameter("pay_price"));
-			BigDecimal payPrice = payPriceParam == null ? null : new BigDecimal(payPriceParam);
-
+			if (payPriceParam == null)
+				throw new InteractRuntimeException("pay_price 不能空");
+			BigDecimal payPrice = new BigDecimal(payPriceParam);
 			String returnMoneyParam = StringUtils.trimToNull(request.getParameter("return_money"));
-			BigDecimal returnMoney = returnMoneyParam == null ? null : new BigDecimal(returnMoneyParam);
-			if (returnMoney != null && (returnMoney.compareTo(payPrice) == -1
-					|| returnMoney.subtract(payPrice).compareTo(new BigDecimal(20)) == 1))
-				throw new InteractRuntimeException("不得低于‘付款金额’，不得高于‘付款金额’20元");
+			if (returnMoneyParam == null)
+				throw new InteractRuntimeException("return_money 不能空");
+			BigDecimal returnMoney = new BigDecimal(returnMoneyParam);
+			if (returnMoney.compareTo(payPrice) == -1)
+				throw new InteractRuntimeException("不得低于‘付款金额’");
 
 			String buyerMincreditParam = StringUtils.trimToNull(request.getParameter("buyer_mincredit"));
 			Integer buyerMincredit = buyerMincreditParam == null ? null : Integer.parseInt(buyerMincreditParam);
@@ -1375,7 +1377,7 @@ public class CowryManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.audit,t.gift_cover,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.stock,t.publish_time,t.status,t.audit_fail_reason from t_activity t where  t.del=0 and t.user_id=?")
+					"select t.keep_days,t.audit,t.gift_cover,t.way_to_shop,if(isnull(t.coupon_url)||length(t.coupon_url)=0,0,1) coupon_if,t.buy_way,t.id,t.gift_name,t.pay_price,t.return_money,t.title,t.stock,t.publish_time,t.status,t.audit_fail_reason from t_activity t where  t.del=0 and t.user_id=?")
 							.append(status == null ? " and t.status=3 and t.audit in (1,2,4)"
 									: (status == 1 ? " and t.status=3 and t.audit in (1,2,4)"
 											: (status == 2 ? " and t.status=3 and t.audit=2 "
@@ -1411,6 +1413,8 @@ public class CowryManageEntrance {
 				item.put("buyWay", rs.getObject("buy_way"));
 				item.put("wayToShop", rs.getObject("way_to_shop"));
 				item.put("couponIf", rs.getObject("coupon_if"));
+				item.put("keepDays", rs.getObject("keep_days"));
+
 				items.add(item);
 			}
 			pst.close();
