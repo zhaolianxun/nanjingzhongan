@@ -368,7 +368,7 @@ public class WxOpenP3Authorization {
 				throw new InteractRuntimeException("需要您授予小程序基本信息设置权限");
 			if (!funcs.contains(31))
 				throw new InteractRuntimeException("需要您授予小程序认证权限");
-			
+
 			// 从微信拉取授权者信息
 			url = new StringBuilder("https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?")
 					.append("component_access_token=").append(componentAccessToken);
@@ -588,12 +588,12 @@ public class WxOpenP3Authorization {
 						String phone = rs.getString("phone");
 						String nickName = rs.getString("nick_name");
 						String agentDomain = rs.getString("agent_domain");
-						pst.close();
 
 						PushMessageQueue.systemMsg(null, phone, "", new StringBuilder("您的小程序'").append(nickName)
 								.append("'审核通过，您可以登录网站发布上线了!").append("http://").append(agentDomain).toString());
 
 					}
+					pst.close();
 				} else if ("weapp_audit_fail".equals(event)) {
 					String toUserName = root.elementTextTrim("ToUserName");
 					String createTime = root.elementTextTrim("CreateTime");

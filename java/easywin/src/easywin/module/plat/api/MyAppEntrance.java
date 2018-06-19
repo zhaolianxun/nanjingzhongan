@@ -835,9 +835,9 @@ public class MyAppEntrance {
 		}
 	}
 
-	@RequestMapping(value = "/bindtester")
+	@RequestMapping(value = "/tester/bindtester")
 	@Transactional(rollbackFor = Exception.class)
-	public void bindtester(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void tasterBindtester(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -871,7 +871,6 @@ public class MyAppEntrance {
 			if (authorized == 0)
 				throw new InteractRuntimeException(1000, "您还未授权该应用", null);
 
-			// 发布
 			String url = new StringBuilder("https://api.weixin.qq.com/wxa/bind_tester?").append("access_token=")
 					.append(accessToken).toString();
 			logger.debug("url " + url);
@@ -899,6 +898,17 @@ public class MyAppEntrance {
 				else
 					throw new InteractRuntimeException("微信方出错");
 			}
+			String userstr = resultVo.getString("userstr");
+			pst = connection.prepareStatement("insert into t_app_taster (wechatid,wx_userstr,app_id) values(?,?,?)");
+			pst.setObject(1, wechatid);
+			pst.setObject(2, userstr);
+			pst.setObject(3, appId);
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			connection.commit();
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("userstr", resultVo.getString("userstr"));
@@ -906,6 +916,8 @@ public class MyAppEntrance {
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
@@ -916,19 +928,17 @@ public class MyAppEntrance {
 		}
 	}
 
-	@RequestMapping(value = "/unbindtester")
+	@RequestMapping(value = "/tester/unbindtester")
 	@Transactional(rollbackFor = Exception.class)
-	public void unbindtester(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void tasterUnbindtester(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-			String appId = StringUtils.trimToNull(request.getParameter("app_id"));
-			if (appId == null)
-				throw new InteractRuntimeException("app_id 不能为空");
-			String wechatid = StringUtils.trimToNull(request.getParameter("wechatid"));
-			if (wechatid == null)
-				throw new InteractRuntimeException("微信号不能空");
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id不能空");
+			int id = Integer.parseInt(idParam);
 
 			// 业务处理
 			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
@@ -937,14 +947,17 @@ public class MyAppEntrance {
 
 			connection = EasywinDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection.prepareStatement("select authorized,access_token from t_app where id=? for update");
-			pst.setObject(1, appId);
+			pst = connection.prepareStatement(
+					"select a.authorized,a.access_token,at.wechatid from t_app_taster at left join t_app a on at.app_id=a.id where at.id=?");
+			pst.setObject(1, id);
 			ResultSet rs = pst.executeQuery();
 			String accessToken = null;
 			int authorized = 0;
+			String wechatid = null;
 			if (rs.next()) {
 				accessToken = rs.getString("access_token");
 				authorized = rs.getInt("authorized");
+				wechatid = rs.getString("wechatid");
 			} else
 				throw new InteractRuntimeException("目标不存在");
 			pst.close();
@@ -953,7 +966,7 @@ public class MyAppEntrance {
 				throw new InteractRuntimeException(1000, "您还未授权该应用", null);
 
 			// 发布
-			String url = new StringBuilder("https://api.weixin.qq.com/wxa/bind_tester?").append("access_token=")
+			String url = new StringBuilder("https://api.weixin.qq.com/wxa/unbind_tester?").append("access_token=")
 					.append(accessToken).toString();
 			logger.debug("url " + url);
 
@@ -967,21 +980,77 @@ public class MyAppEntrance {
 			JSONObject resultVo = JSON.parseObject(responseBody);
 			int errcode = resultVo.getIntValue("errcode");
 			if (errcode != 0) {
-				if (errcode == 85001)
-					throw new InteractRuntimeException("微信号不存在或微信号设置为不可搜索");
-				else if (errcode == 85002)
-					throw new InteractRuntimeException("小程序绑定的体验者数量达到上限");
-				else if (errcode == 85003)
-					throw new InteractRuntimeException("微信号绑定的小程序体验者达到上限");
-				else if (errcode == 85004)
-					throw new InteractRuntimeException("微信号已经绑定");
-				else if (errcode == -1)
+				if (errcode == -1)
 					throw new InteractRuntimeException("系统繁忙");
 				else
 					throw new InteractRuntimeException("微信方出错");
 			}
+
+			pst = connection.prepareStatement("delete from t_app_taster where id=?");
+			pst.setObject(1, id);
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/tester/ent")
+	@Transactional(rollbackFor = Exception.class)
+	public void tasterEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String appId = StringUtils.trimToNull(request.getParameter("app_id"));
+			if (appId == null)
+				throw new InteractRuntimeException("app_id 不能为空");
+			String wechatid = StringUtils.trimToNull(request.getParameter("wechatid"));
+
+			// 业务处理
+			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+
+			connection = EasywinDataSource.dataSource.getConnection();
+			List sqlParams = new ArrayList();
+			sqlParams.add(appId);
+			if (wechatid != null)
+				sqlParams.add(new StringBuilder("%").append(wechatid).append("%").toString());
+			pst = connection.prepareStatement(new StringBuilder("select id,wechatid from t_app_taster where app_id=? ")
+					.append(wechatid == null ? "" : " and wechatid like ?").toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("id", rs.getObject("id"));
+				item.put("wechatid", rs.getObject("wechatid"));
+				items.add(item);
+			}
+			pst.close();
+
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));

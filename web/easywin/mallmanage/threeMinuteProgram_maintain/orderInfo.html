@@ -237,6 +237,7 @@
         rxw1.inputpad({content:'退款原因',confirm:function(data){
             if(rxw1.isEmptyStr(data)){
                 rxw1.errorpad('退款原因不可空')
+                return;
             }
             $.ajax({
                 url: "/easywin/mm/" + mallId + "/e/order/refund/" + orderId,

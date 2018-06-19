@@ -1057,25 +1057,41 @@ public class AdminEntrance {
 
 			connection = RrightwayDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
-			pst = connection.prepareStatement(new StringBuilder("update t_user set phone=? where id=?").toString());
+			pst = connection
+					.prepareStatement(new StringBuilder("select id from t_user where phone=? for update").toString());
 			pst.setObject(1, phone);
-			pst.setObject(2, userId);
-			int n = pst.executeUpdate();
+			ResultSet rs = pst.executeQuery();
+			String phoneUserId = null;
+			if (rs.next()) {
+				phoneUserId = rs.getString("id");
+			}
 			pst.close();
-			if (n != 1)
-				throw new InteractRuntimeException("操作失败");
 
-			String userToken = jedis.get(userId);
-			UserLoginStatus userLoginStatus = null;
-			if (userToken != null && !userToken.isEmpty()) {
-				String userLoginStatusStr = jedis.get("rrightway.plat.token-" + userToken);
-				if (userLoginStatusStr != null && !userLoginStatusStr.isEmpty())
-					userLoginStatus = JSON.parseObject(userLoginStatusStr, UserLoginStatus.class);
+			if (phoneUserId != null && !userId.equals(phoneUserId))
+				throw new InteractRuntimeException(1000, "手机号已存在");
+
+			if (phoneUserId == null) {
+				pst = connection.prepareStatement(new StringBuilder("update t_user set phone=? where id=?").toString());
+				pst.setObject(1, phone);
+				pst.setObject(2, userId);
+				int n = pst.executeUpdate();
+				pst.close();
+				if (n != 1)
+					throw new InteractRuntimeException("操作失败");
+
+				String userToken = jedis.get(userId);
+				UserLoginStatus userLoginStatus = null;
+				if (userToken != null && !userToken.isEmpty()) {
+					String userLoginStatusStr = jedis.get("rrightway.plat.token-" + userToken);
+					if (userLoginStatusStr != null && !userLoginStatusStr.isEmpty())
+						userLoginStatus = JSON.parseObject(userLoginStatusStr, UserLoginStatus.class);
+				}
+				if (userLoginStatus != null) {
+					userLoginStatus.setPhone(phone);
+					GetLoginStatus.refreshLoginStatus(jedis, userLoginStatus.getToken(), userLoginStatus);
+				}
 			}
-			if (userLoginStatus != null) {
-				userLoginStatus.setPhone(phone);
-				GetLoginStatus.refreshLoginStatus(jedis, userLoginStatus.getToken(), userLoginStatus);
-			}
+
 			connection.commit();
 
 			PushMessageQueue.adminAlterPhone(userId, phone);

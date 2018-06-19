@@ -8,9 +8,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
-    <script src="../../rxw/rxw.js"></script>
-    <title>用户提现</title>
+    <script src="../rxw/rxw.js"></script>
+    <script src="libs/jquery.min.js"></script>
+    <title>体验者</title>
 
     <style>
         .cell {
@@ -83,30 +83,25 @@
 
 <div style="width:100%;margin-top:5px;">
     <button style="margin:0 5px;display:inline-block;margin-top:5px;width:60px;height:25px" onclick="query()">查询</button>
-    <button style="margin:0 5px;display:inline-block;margin-top:5px;width:60px;height:25px" onclick="success()">通过</button>
-    <button style="margin:0 5px;display:inline-block;margin-top:5px;width:60px;height:25px" onclick="fail()">拒绝</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;width:60px;height:25px" onclick="bind()">绑定</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;width:60px;height:25px" onclick="unbind()">解绑</button>
 </div>
 
         <div style="width:100%;margin-top:10px;">
                 <span style="margin:0 5px;display:inline-block;margin-top:5px;">
-                    <span style="font-size: 14px">状态:</span>
+                    <span style="font-size: 14px">微信号:</span>
                     <span>
-                        <select name="statusQuery">
-                            <option value="">全部</option>
-                            <option value="0">未处理</option>
-                            <option value="1">成功</option>
-                            <option value="2">失败</option>
-                        </select>
+                        <input name="wechatidQuery" type="text" />
                     </span>
                 </span>
         </div>
 
 <div style="width:99%;border: 1px solid black;margin:0 auto;margin-top:10px;overflow: auto;" >
     <div class="row-title">
-        <span class="cell cell1"></span><span class="cell cell2">用户</span><span class="cell cell2">金额</span><span class="cell cell4">状态</span><span class="cell cell5">申请时间</span><span class="cell cell6">支付宝账号</span><span class="cell cell7">支付宝姓名</span><span class="cell cell8">支付宝交易号</span><span class="cell cell9">操作</span>
+        <span class="cell cell1"></span><span class="cell cell2">微信号</span><span class="cell cell9">操作</span>
     </div>
     <div name="itemExample" class="row" style="display:none">
-        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" ><img name="headimg" style="cursor:pointer;vertical-align: middle;width:20px;height:20px"><span name="nickname" style="vertical-align: middle;"></span></span><span class="cell cell2" name="amount"></span><span class="cell cell4" name="status"></span><span class="cell cell5" name="applyTime"></span><span class="cell cell6" name="alipayAccount"></span><span class="cell cell7" name="alipayAccountName"></span><span class="cell cell8" name="alipayTradeno"></span><span class="cell cell9" ><button name="detailEntDoor">详情</button></span>
+        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="wechatid"></span></span>
     </div>
     <div name="itemsShowPad" style="max-height:300px;">
         <div name="itemsShow">
@@ -125,14 +120,15 @@
 
 </body>
 <script>
-    rxw1.relativePath = '../../'
+    rxw1.relativePath = '../'
     var token = localStorage.getItem('token');
-    var mallId = localStorage.getItem("mall_id");
     var hasMoreItems;
     var page_no;
     var page_size;
     var items = {};
     var queryParams = {token: token}
+    var queryString = rxw1.parseQueryStr(location.search.substr(1));
+    var appId = queryString.app_id
     onload();
 
 
@@ -145,12 +141,13 @@
         $('[name=pagingBottomPad] [name=noitem]').css('display', '');
         $('[name=pagingBottomPad] [name=more]').css('display', 'none');
         $('[name=pagingBottomPad] [name=finish]').css('display', 'none');
+        queryParams.app_id=appId
         loadItems();
         rxw1.waitLock.remove()
     }
 
     function query(){
-        queryParams.status=$('[name=statusQuery]').val();
+        queryParams.wechatid=$('[name=wechatidQuery]').val();
         onload();
     }
     function loadMore(){
@@ -173,7 +170,7 @@
         queryParams.page_no=page_no;
         queryParams.page_size=page_size;
         $.ajax({
-            url: "/easywin/mm/" + mallId + "/e/userwithdraw/ent" ,
+            url: "/easywin/p/e/myapp/tester/ent" ,
             type: 'post',
             async: false,
             data: queryParams,
@@ -209,57 +206,15 @@
     }
 
 
-function refreshItemRow(itemRow,itemId){
-    $.ajax({
-        url: "/easywin/mm/" + mallId + "/e/userwithdraw/detail",
-        type: 'post',
-        async: false,
-        data: {id:itemId,token:token},
-        success: function (res) {
-            if(res.code==0){
-                var item = res.data;
-                items[itemId]= item;
-                renderItemRow(itemRow,item)
-            }else{
-                rxw1.errorpad(res.codeMsg)
-            }
-        }
-    })
-}
 
 
     function renderItemRow(itemRow,item) {
         itemRow.attr('name','')
         itemRow.attr('itemId',item.id)
-        itemRow.find('[name=nickname]').text(item.nickname).attr('title',item.nickname)
-        itemRow.find('[name=headimg]').attr('src',item.headimg)
-        itemRow.find('[name=amount]').text(item.amount/100)
-        itemRow.find('[name=status]').text(statusParse(item.status))
-        itemRow.find('[name=applyTime]').text(rxw1.formatTime(item.applyTime)).attr('title',rxw1.formatTime(item.applyTime))
-        itemRow.find('[name=alipayAccount]').text(item.alipayAccount)
-        itemRow.find('[name=alipayAccountName]').text(item.alipayAccountName)
-        itemRow.find('[name=alipayTradeno]').text(item.alipayTradeno)
-
+        itemRow.find('[name=wechatid]').text(item.wechatid).attr('title',item.wechatid)
     }
 
 function eventToItemRow(itemRow,itemId){
-    itemRow.find('[name=headimg]').click(function(){
-        rxw1.imgPreview(this.src)
-        event.stopPropagation();
-    })
-    itemRow.find('[name=detailEntDoor]').click(function(){
-        rxw1.waitLock()
-        rxw1.layer({init:function(layer){
-            layer.style['background-color']='white';
-            $(layer).append('<div style="height:30px"><a href="javascript:;" style="text-decoration:none;font-size:20px;float:right;position: relative;right:30px;cursor: pointer" name="closeLayer">X</a></div>')
-            $(layer).append('<iframe scrolling="no" frameborder="no" style="width: 100%;height:100%" src="'+'userwithdraw_detail.html?id='+itemId+'"></iframe>')
-            $(layer).find('[name=closeLayer]').click(function(){
-                refreshItemRow(itemRow,itemId)
-                $(layer).remove();
-            })
-        }})
-        rxw1.waitLock.remove()
-    })
     itemRow.click(function(){
         $('.row [name=itemChosen] ').prop("checked",false);
         $(this).find('[name=itemChosen]').prop("checked",true);
@@ -270,24 +225,38 @@ function eventToItemRow(itemRow,itemId){
 
 
 
+    function bind(){
+        rxw1.inputpad({content:'请输入微信号',confirm:function(data){
+            $.ajax({
+                type: 'POST',
+                data: {wechatid: data, app_id: appId},
+                url: '/easywin/p/e/myapp/tester/bindtester?token=' + token,
+                success: function (res) {
+                    if (res.code == 0) {
+                        rxw1.errorpad('绑定成功')
+                    } else {
+                        rxw1.errorpad(res.codeMsg)
+                    }
+                }
+            })
+        }})
+    }
 
-    function success(){
+    function unbind(){
         var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
         var itemId = itemRow.attr('itemId')
         if(itemId){
-            rxw1.inputmorepad({
-                items:[{name:'支付宝交易号',code:'alipayTradeno'},
-                    {name:'备注',code:'note'}
-                ],
+            rxw1.confirmpad({
+                content:'确定将微信号解绑\''+ items[itemId].wechatid+'\'吗',
                 confirm:function(data){
                     $.ajax({
-                        url: "/easywin/mm/" + mallId + "/e/userwithdraw/success",
+                        url: "/easywin/p/e/myapp/tester/unbindtester" ,
                         type: 'post',
                         async: false,
-                        data: {id:itemId,token:token,alipay_tradeno:data.alipayTradeno,note:data.note},
+                        data: {id:itemId,token:token},
                         success: function (res) {
                             if(res.code==0){
-                                refreshItemRow(itemRow,itemId)
+                                itemRow.remove();
                             }else{
                                 rxw1.errorpad(res.codeMsg)
                             }
@@ -300,43 +269,6 @@ function eventToItemRow(itemRow,itemId){
             rxw1.errorpad('请选择一条记录')
     }
 
-    function fail(){
-        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
-        var itemId = itemRow.attr('itemId')
-        if(itemId){
-            rxw1.inputmorepad({
-                items:[{name:'拒绝原因',code:'reason'}
-                ],
-                confirm:function(data){
-                    $.ajax({
-                        url: "/easywin/mm/" + mallId + "/e/userwithdraw/fail",
-                        type: 'post',
-                        async: false,
-                        data: {id:itemId,token:token,reason:data.reason},
-                        success: function (res) {
-                            if(res.code==0){
-                                refreshItemRow(itemRow,itemId)
-                            }else{
-                                rxw1.errorpad(res.codeMsg)
-                            }
-                        }
-                    })
-
-                }})
-
-        }else
-            rxw1.errorpad('请选择一条记录')
-    }
-    function statusParse(status) {
-        switch (status) {
-            case 0:
-                return '未处理';
-            case 1:
-                return '成功';
-            case 2:
-                return '失败';
-        }
-    }
 
 
 </script>
