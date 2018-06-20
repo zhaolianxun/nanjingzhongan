@@ -27,7 +27,7 @@ import com.alibaba.fastjson.JSONObject;
 import okhttp3.Request;
 import okhttp3.Response;
 import redis.clients.jedis.Jedis;
-import zaylt.business.LoginStatus;
+import zaylt.module.maintain.business.LoginStatus;
 import zaylt.constant.SysConstant;
 import zaylt.entity.InteractRuntimeException;
 import zaylt.util.HttpRespondWithData;

@@ -27,7 +27,7 @@ import com.alibaba.fastjson.JSONObject;
 import okhttp3.Request;
 import okhttp3.Response;
 import redis.clients.jedis.Jedis;
-import zaylt.business.LoginStatus;
+import zaylt.module.maintain.business.LoginStatus;
 import zaylt.constant.SysConstant;
 import zaylt.entity.InteractRuntimeException;
 import zaylt.util.HttpRespondWithData;
@@ -65,15 +65,14 @@ public class HospitalManageApis {
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			List sqlParams = new ArrayList();
-			sqlParams.add(loginStatus.getUserId());
 			if (name != null)
 				sqlParams.add(new StringBuilder("%").append(name).append("%").toString());
 			if (tel != null)
 				sqlParams.add(new StringBuilder("%").append(tel).append("%").toString());
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
-			pst = connection.prepareStatement(new StringBuilder(
-					"select t.name,t.tel,u.phone user_phone,t.id,t.headman_name from t_hospital t where 1=1 ")
+			pst = connection.prepareStatement(
+					new StringBuilder("select t.name,t.tel,t.id,t.headman_name from t_hospital t where 1=1 ")
 							.append(name == null ? "" : " and t.name like ?")
 							.append(tel == null ? "" : " and t.tel like ?")
 							.append(" order by t.add_time desc limit ?,? ").toString());
@@ -87,7 +86,6 @@ public class HospitalManageApis {
 				item.put("id", rs.getObject("id"));
 				item.put("name", rs.getObject("name"));
 				item.put("tel", rs.getObject("tel"));
-				item.put("userPhone", rs.getObject("user_phone"));
 				item.put("headmanName", rs.getObject("headman_name"));
 				items.add(item);
 			}

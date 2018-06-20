@@ -8,10 +8,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <script src="../rxw/rxw.js"></script>
-    <script src="libs/jquery.min.js"></script>
-    <script src="libs/jquery.cookie.js"></script>
-    <title>体验者</title>
+    <script src="../../rxw/rxw.js"></script>
+    <script src="../../libs/jquery.min.js"></script>
+    <script src="../../libs/jquery.cookie.js"></script>
+    <title>医院管理</title>
 
     <style>
         .cell {
@@ -28,11 +28,19 @@
             width:60px;
         }
         .cell2 {
+            width:200px;
+            border-left: 1px solid #7d7d7d;
+        }
+        .cell3 {
+            width:100px;
+            border-left: 1px solid #7d7d7d;
+        }
+        .cell4 {
             width:100px;
             border-left: 1px solid #7d7d7d;
         }
 
-        .cell3 {
+        .cell5 {
             width:100px;
             border-left: 1px solid #7d7d7d;
 
@@ -61,25 +69,29 @@
 
 <div style="width:100%;margin-top:5px;">
     <button style="margin:0 5px;display:inline-block;margin-top:5px;width:60px;height:25px" onclick="query()">查询</button>
-    <button style="margin:0 5px;display:inline-block;margin-top:5px;width:60px;height:25px" onclick="bind()">绑定</button>
-    <button style="margin:0 5px;display:inline-block;margin-top:5px;width:60px;height:25px" onclick="unbind()">解绑</button>
 </div>
 
-        <div style="width:100%;margin-top:10px;">
+<div style="width:100%;margin-top:10px;">
                 <span style="margin:0 5px;display:inline-block;margin-top:5px;">
-                    <span style="font-size: 14px">微信号:</span>
+                    <span style="font-size: 14px">医院名:</span>
                     <span>
-                        <input name="wechatidQuery" type="text" />
+                        <input name="name"/>
                     </span>
                 </span>
-        </div>
+                <span style="margin:0 5px;display:inline-block;margin-top:5px;">
+                    <span style="font-size: 14px">电话:</span>
+                    <span>
+                        <input name="tel"/>
+                    </span>
+                </span>
+</div>
 
 <div style="width:99%;border: 1px solid black;margin:0 auto;margin-top:10px;overflow: auto;" >
     <div class="row-title">
-        <span class="cell cell1">选择</span><span class="cell cell2">微信号</span><span class="cell cell3">操作</span>
+        <span class="cell cell1">选择</span><span class="cell cell2">医院</span><span class="cell cell3">电话</span><span class="cell cell4">院长</span><span class="cell cell5">操作</span>
     </div>
     <div name="itemExample" class="row" style="display:none">
-        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="wechatid"></span><span class="cell cell3" ></span>
+        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="name"></span></span><span class="cell cell3" name="tel"></span><span class="cell cell4" name="headmanName"></span><span class="cell cell5" ><button name="detailEntDoor">详情</button></span>
     </div>
     <div name="itemsShowPad" style="max-height:300px;">
         <div name="itemsShow">
@@ -98,15 +110,13 @@
 
 </body>
 <script>
-    rxw1.relativePath = '../'
-    var token = $.cookie('token');
+    rxw1.relativePath = '../../'
+    var token = $.cookie('login-token');
     var hasMoreItems;
     var page_no;
     var page_size;
     var items = {};
     var queryParams = {token: token}
-    var queryString = rxw1.parseQueryStr(location.search.substr(1));
-    var appId = queryString.app_id
     onload();
 
 
@@ -119,13 +129,13 @@
         $('[name=pagingBottomPad] [name=noitem]').css('display', '');
         $('[name=pagingBottomPad] [name=more]').css('display', 'none');
         $('[name=pagingBottomPad] [name=finish]').css('display', 'none');
-        queryParams.app_id=appId
         loadItems();
         rxw1.waitLock.remove()
     }
 
     function query(){
-        queryParams.wechatid=$('[name=wechatidQuery]').val();
+        queryParams.name=$('[name=name]').val();
+        queryParams.tel=$('[name=tel]').val();
         onload();
     }
     function loadMore(){
@@ -147,9 +157,8 @@
     function loadItems(){
         queryParams.page_no=page_no;
         queryParams.page_size=page_size;
-        queryParams.token=token;
         $.ajax({
-            url: "/easywin/p/e/myapp/tester/ent" ,
+            url: "/zaylt/mm/hm/hospitallist" ,
             type: 'post',
             async: false,
             data: queryParams,
@@ -185,68 +194,58 @@
     }
 
 
+    function refreshItemRow(itemRow,itemId){
+        $.ajax({
+            url: "/easywin/mm/" + mallId + "/e/userwithdraw/detail",
+            type: 'post',
+            async: false,
+            data: {id:itemId,token:token},
+            success: function (res) {
+                if(res.code==0){
+                    var item = res.data;
+                    items[itemId]= item;
+                    renderItemRow(itemRow,item)
+                }else{
+                    rxw1.errorpad(res.codeMsg)
+                }
+            }
+        })
+    }
 
 
     function renderItemRow(itemRow,item) {
         itemRow.attr('name','')
         itemRow.attr('itemId',item.id)
-        itemRow.find('[name=wechatid]').text(item.wechatid).attr('title',item.wechatid)
+        itemRow.find('[name=name]').text(item.name).attr('title',item.name)
+        itemRow.find('[name=tel]').text(item.tel).attr('title',item.tel)
+        itemRow.find('[name=headmanName]').text(item.headmanName).attr('title',item.headmanName)
     }
 
-function eventToItemRow(itemRow,itemId){
-    itemRow.click(function(){
-        $('.row [name=itemChosen] ').prop("checked",false);
-        $(this).find('[name=itemChosen]').prop("checked",true);
-        $('.row').css('background-color','')
-        $(this).css('background-color','#e8e8e8')
-    })
-}
-
-
-
-    function bind(){
-        rxw1.inputpad({content:'请输入微信号',confirm:function(data){
-            $.ajax({
-                type: 'POST',
-                data: {wechatid: data, app_id: appId},
-                url: '/easywin/p/e/myapp/tester/bindtester?token=' + token,
-                success: function (res) {
-                    if (res.code == 0) {
-                        rxw1.errorpad('绑定成功')
-                    } else {
-                        rxw1.errorpad(res.codeMsg)
-                    }
-                }
-            })
-        }})
+    function eventToItemRow(itemRow,itemId){
+        itemRow.find('[name=detailEntDoor]').click(function(){
+            rxw1.waitLock()
+            rxw1.layer({init:function(layer){
+                layer.style['background-color']='white';
+                $(layer).append('<div style="height:30px"><button style="margin:0 10px;display:inline-block;margin-top:5px;width:60px;height:25px" name="closeLayer">关闭</button></div>')
+                $(layer).append('<iframe scrolling="no" frameborder="no" style="width: 100%;height:100%" src="'+'userwithdraw_detail.html?id='+itemId+'"></iframe>')
+                $(layer).find('[name=closeLayer]').click(function(){
+                    refreshItemRow(itemRow,itemId)
+                    $(layer).remove();
+                })
+            }})
+            rxw1.waitLock.remove()
+        })
+        itemRow.click(function(){
+            $('.row [name=itemChosen] ').prop("checked",false);
+            $(this).find('[name=itemChosen]').prop("checked",true);
+            $('.row').css('background-color','')
+            $(this).css('background-color','#e8e8e8')
+        })
     }
 
-    function unbind(){
-        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
-        var itemId = itemRow.attr('itemId')
-        if(itemId){
-            rxw1.confirmpad({
-                content:'确定将微信号解绑\''+ items[itemId].wechatid+'\'吗',
-                confirm:function(data){
-                    $.ajax({
-                        url: "/easywin/p/e/myapp/tester/unbindtester" ,
-                        type: 'post',
-                        async: false,
-                        data: {id:itemId,token:token},
-                        success: function (res) {
-                            if(res.code==0){
-                                itemRow.remove();
-                            }else{
-                                rxw1.errorpad(res.codeMsg)
-                            }
-                        }
-                    })
 
-                }})
 
-        }else
-            rxw1.errorpad('请选择一条记录')
-    }
+
 
 
 

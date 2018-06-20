@@ -23,7 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 import okhttp3.Request;
 import okhttp3.Response;
 import redis.clients.jedis.Jedis;
-import zaylt.business.LoginStatus;
+import zaylt.module.maintain.business.LoginStatus;
 import zaylt.constant.SysConstant;
 import zaylt.entity.InteractRuntimeException;
 import zaylt.util.HttpRespondWithData;
@@ -73,6 +73,7 @@ public class UserActionApis {
 			LoginStatus loginStatus = new LoginStatus();
 			loginStatus.setUserId(userId);
 			loginStatus.setType(type);
+			loginStatus.setPhone(phone);
 			loginStatus.setLoginTime(new Date().getTime());
 			String loginRedisKey = new StringBuilder("zaylt.maintain.login-").append(token).toString();
 			//// 设置新登录状态
@@ -128,6 +129,35 @@ public class UserActionApis {
 			data.put("type", loginStatus.getType());
 			data.put("userId", loginStatus.getUserId());
 			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (jedis != null)
+				jedis.close();
+		}
+	}
+
+	@RequestMapping(value = "/logout")
+	public void logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Jedis jedis = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			jedis = SysConstant.jedisPool.getResource();
+			LoginStatus loginStatus = LoginStatus.todo(request, jedis);
+			if (loginStatus != null) {
+				String loginRedisKey = new StringBuilder("zaylt.maintain.login-").append(loginStatus.getToken())
+						.toString();
+				//// 设置新登录状态
+				jedis.del(loginRedisKey);
+				jedis.del(loginStatus.getUserId());
+			}
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));

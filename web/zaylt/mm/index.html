@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title></title>
+    <script src="../rxw/rxw.js"></script>
+    <script src="../libs/jquery.min.js"></script>
+    <script src="../libs/jquery.cookie.js"></script>
+    <script src="../libs/jquery.ztree.all.min.js"></script>
+
+</head>
+<body style="margin:0">
+
+     <div style="height:60px;border-bottom: 1px solid darkgray;">
+        <div style="line-height: 60px;float:left;height:100%;width:200px;border-right: 1px solid darkgray;text-align: center;font-weight: 700;font-size: 24px;">医联体</div>
+        <div style="float:right;height:100%;line-height: 70px;position: relative;right:20px"><a href="#" style="font-size: 14px;" onclick="logout()">退出登录</a></div>
+    </div>
+    <div>
+        <div style="float:left;position: absolute;left: 0;bottom: 0;top:61px;display: inline-block;height:100%;width:200px;border-right: 1px solid darkgray;text-align: center;">
+            <div style="width:100%;border-bottom:1px solid #e4e5e7;text-align:center;padding:10px 0;">
+                <img src="img/head.png" style="width:60px;">
+                <div id="login-phone" style="color: rgb(119, 119, 119);"></div>
+            </div>
+            <ul id="menu" style="padding:0;margin:0"></ul>
+        </div>
+        <div style="float:left;position: absolute;left: 200px;;bottom: 0;top:61px;right:0;display: inline-block;height:100%;">
+                <iframe style="width:100%;height:100%" scrolling="no" frameborder="no"></iframe>
+        </div>
+    </div>
+</body>
+
+<script>
+    rxw1.relativePath='../'
+
+    var token;
+    onload();
+
+    function onload() {
+        token = $.cookie('login-token');
+        $('#login-phone').text($.cookie('login-phone'));
+
+        // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+        var setting = {
+            view: {
+                dblClickExpand: false
+            },
+            callback: {
+                onClick: function (e, treeId, treeNode) {
+                    // zTreeObj.expandNode(treeNode);
+                    $('iframe').attr('src', treeNode.uurl)
+                }
+            }
+        };
+        // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
+        var zNodes = [
+            {name: "医院管理", uurl: "hm/ent.html", cursor: 'pointer'},
+            {name: "用户管理", uurl: "um/ent.html"}
+        ];
+        var zTreeObj = $.fn.zTree.init($("#menu"), setting, zNodes);
+
+        for(var i=0;i<zNodes.length;i++){
+            $("#" + zTreeObj.setting.treeId + "_" + (i+1) + "_a").css({'cursor':'pointer'});
+            $("#" + zTreeObj.setting.treeId + "_" + (i+1)).css({'border-bottom':'1px solid #e4e5e7','padding':'5px','font-size': '14px','font-weight': 700,'color':'#34495e','letter-spacing':'2px'});
+       }
+
+    }
+    function logout(){
+        $.ajax({
+            url:'/zaylt/mm/useraction/logout',
+            data:{token:token},
+            type:'post',
+            async:false,
+            success:function(res){
+                if(res.code == 0 || res.code==20) {
+                    $.removeCookie('login-token');
+                    $.removeCookie('login-phone');
+                    location.href='login.html';
+                }
+                else
+                    rxw1.errorpad(res.codeMsg)
+            }
+        })
+
+
+    }
+</script>
+</html>
