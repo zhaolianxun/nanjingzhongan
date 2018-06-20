@@ -10,6 +10,7 @@
     <meta name="format-detection" content="telephone=no">
     <script src="../rxw/rxw.js"></script>
     <script src="libs/jquery.min.js"></script>
+    <script src="libs/jquery.cookie.js"></script>
     <title>体验者</title>
 
     <style>
@@ -98,10 +99,10 @@
 
 <div style="width:99%;border: 1px solid black;margin:0 auto;margin-top:10px;overflow: auto;" >
     <div class="row-title">
-        <span class="cell cell1"></span><span class="cell cell2">微信号</span><span class="cell cell9">操作</span>
+        <span class="cell cell1">选择</span><span class="cell cell2">微信号</span><span class="cell cell9">操作</span>
     </div>
     <div name="itemExample" class="row" style="display:none">
-        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="wechatid"></span></span>
+        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="wechatid"></span><span class="cell cell3" ></span>
     </div>
     <div name="itemsShowPad" style="max-height:300px;">
         <div name="itemsShow">
@@ -121,7 +122,7 @@
 </body>
 <script>
     rxw1.relativePath = '../'
-    var token = localStorage.getItem('token');
+    var token = $.cookie('token');
     var hasMoreItems;
     var page_no;
     var page_size;
@@ -169,6 +170,7 @@
     function loadItems(){
         queryParams.page_no=page_no;
         queryParams.page_size=page_size;
+        queryParams.token=token;
         $.ajax({
             url: "/easywin/p/e/myapp/tester/ent" ,
             type: 'post',

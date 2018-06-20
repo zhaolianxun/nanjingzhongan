@@ -1,0 +1,77 @@
+package cszyylxm.module.plat.business;
+
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.log4j.Logger;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
+import cszyylxm.constant.SysConstant;
+import cszyylxm.entity.InteractRuntimeException;
+import cszyylxm.module.plat.entity.UserLoginStatus;
+import cszyylxm.util.HttpRespondWithData;
+import cszyylxm.util.CszyylxmDataSource;
+import redis.clients.jedis.Jedis;
+
+public class GetLoginStatus {
+
+	public static Logger logger = Logger.getLogger(GetLoginStatus.class);
+
+	public static UserLoginStatus todo(HttpServletRequest request, Jedis jedis) {
+		String token = (String) request.getParameter("token");
+		logger.debug("token : " + token);
+		if (token == null)
+			return null;
+		String statusStr = jedis.get("cszyylxm.plat.token-" + token);
+		if (statusStr == null || statusStr.equals(""))
+			return null;
+		UserLoginStatus status = JSON.parseObject(statusStr, UserLoginStatus.class);
+		status.setToken(token);
+		return status;
+	}
+
+	public static UserLoginStatus todo(HttpServletRequest request) throws Exception {
+		Jedis jedis = null;
+		try {
+			String token = (String) request.getParameter("token");
+			logger.debug("token : " + token);
+			if (token == null)
+				return null;
+			jedis = SysConstant.jedisPool.getResource();
+			String statusStr = jedis.get("cszyylxm.plat.token-" + token);
+			if (statusStr == null || statusStr.equals(""))
+				return null;
+			UserLoginStatus status = JSON.parseObject(statusStr, UserLoginStatus.class);
+			status.setToken(token);
+			return status;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (jedis != null)
+				jedis.close();
+		}
+	}
+
+	public static void refreshLoginStatus(Jedis jedis, String token, UserLoginStatus loginStatus) throws Exception {
+		loginStatus.setToken(token);
+
+		jedis.set("cszyylxm.plat.token-" + token, JSON.toJSONString(loginStatus));
+		jedis.set(loginStatus.getUserId(), token);
+
+		jedis.expire(loginStatus.getUserId(), 7 * 24 * 60 * 60);
+		jedis.expire("cszyylxm.plat.token-" + token, 7 * 24 * 60 * 60);
+
+	}
+}

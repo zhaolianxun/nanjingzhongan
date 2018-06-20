@@ -338,7 +338,7 @@ public class UserWithdrawManageEntrance {
 					"insert into t_mall_user_bill (mall_id,user_id,amount,note,happen_time,link,type) values(?,?,?,?,?,?,3)")
 							.toString());
 			pst.setObject(1, mallId);
-			pst.setObject(2, loginStatus.getUserId());
+			pst.setObject(2, userId);
 			pst.setObject(3, amount);
 			pst.setObject(4, "提现失败返还");
 			pst.setObject(5, new Date().getTime());

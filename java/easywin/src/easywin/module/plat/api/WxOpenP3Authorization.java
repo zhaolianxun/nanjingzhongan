@@ -611,8 +611,8 @@ public class WxOpenP3Authorization {
 					// 短信通知
 					pst = connection.prepareStatement(
 							"select u.phone,a.nick_name,ag.agent_domain from t_app a left join t_user u on u.id=a.user_id left join t_user ag on a.from_agent_id=ag.id where a.wx_appid=?");
-					ResultSet rs = pst.executeQuery();
 					pst.setObject(1, appId);
+					ResultSet rs = pst.executeQuery();
 					if (rs.next()) {
 						String phone = rs.getString("phone");
 						String nickName = rs.getString("nick_name");
