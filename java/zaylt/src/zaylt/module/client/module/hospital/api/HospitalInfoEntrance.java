@@ -32,69 +32,69 @@ public class HospitalInfoEntrance {
 
 	public static Logger logger = Logger.getLogger(HospitalInfoEntrance.class);
 
-	@RequestMapping(value = "/home/ent")
-	@Transactional(rollbackFor = Exception.class)
-	public void homeEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Connection connection = null;
-		PreparedStatement pst = null;
-		try {
-			// 获取请求参数
-
-			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
-			if (loginStatus == null)
-				throw new InteractRuntimeException(20);
-			if (!loginStatus.getType().equals("1"))
-				throw new InteractRuntimeException("您不是医院用户");
-
-			connection = ZayltDataSource.dataSource.getConnection();
-			// 查詢订单列表
-			pst = connection.prepareStatement(
-					"select t.province_name,t.city_name,t.district_name,t.tel,t.name from t_hospital t where t.id=?");
-			pst.setObject(1, loginStatus.getHospitalId());
-			ResultSet rs = pst.executeQuery();
-			JSONObject info = new JSONObject();
-			if (rs.next()) {
-				info.put("provinceName", rs.getObject("province_name"));
-				info.put("cityName", rs.getObject("city_name"));
-				info.put("districtName", rs.getObject("district_name"));
-				info.put("tel", rs.getObject("tel"));
-				info.put("name", rs.getObject("name"));
-			} else
-				throw new InteractRuntimeException(1404, "目标不存在");
-			pst.close();
-
-			pst = connection.prepareStatement(
-					"select t.province_name,t.city_name,t.district_name,t.tel,t.name from t_hospital t where t.id=?");
-			pst.setObject(1, loginStatus.getHospitalId());
-			ResultSet rs = pst.executeQuery();
-			JSONObject info = new JSONObject();
-			if (rs.next()) {
-				info.put("provinceName", rs.getObject("province_name"));
-				info.put("cityName", rs.getObject("city_name"));
-				info.put("districtName", rs.getObject("district_name"));
-				info.put("tel", rs.getObject("tel"));
-				info.put("name", rs.getObject("name"));
-			} else
-				throw new InteractRuntimeException(1404, "目标不存在");
-			pst.close();
-			
-			// 返回结果
-			JSONObject data = new JSONObject();
-			data.putAll(info);
-			HttpRespondWithData.todo(request, response, 0, null, data);
-		} catch (Exception e) {
-			// 处理异常
-			logger.info(ExceptionUtils.getStackTrace(e));
-			HttpRespondWithData.exception(request, response, e);
-		} finally {
-			// 释放资源
-			if (pst != null)
-				pst.close();
-			if (connection != null)
-				connection.close();
-		}
-	}
+//	@RequestMapping(value = "/home/ent")
+//	@Transactional(rollbackFor = Exception.class)
+//	public void homeEnt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		Connection connection = null;
+//		PreparedStatement pst = null;
+//		try {
+//			// 获取请求参数
+//
+//			// 业务处理
+//			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+//			if (loginStatus == null)
+//				throw new InteractRuntimeException(20);
+//			if (!loginStatus.getType().equals("1"))
+//				throw new InteractRuntimeException("您不是医院用户");
+//
+//			connection = ZayltDataSource.dataSource.getConnection();
+//			// 查詢订单列表
+//			pst = connection.prepareStatement(
+//					"select t.province_name,t.city_name,t.district_name,t.tel,t.name from t_hospital t where t.id=?");
+//			pst.setObject(1, loginStatus.getHospitalId());
+//			ResultSet rs = pst.executeQuery();
+//			JSONObject info = new JSONObject();
+//			if (rs.next()) {
+//				info.put("provinceName", rs.getObject("province_name"));
+//				info.put("cityName", rs.getObject("city_name"));
+//				info.put("districtName", rs.getObject("district_name"));
+//				info.put("tel", rs.getObject("tel"));
+//				info.put("name", rs.getObject("name"));
+//			} else
+//				throw new InteractRuntimeException(1404, "目标不存在");
+//			pst.close();
+//
+//			pst = connection.prepareStatement(
+//					"select t.province_name,t.city_name,t.district_name,t.tel,t.name from t_hospital t where t.id=?");
+//			pst.setObject(1, loginStatus.getHospitalId());
+//			ResultSet rs = pst.executeQuery();
+//			JSONObject info = new JSONObject();
+//			if (rs.next()) {
+//				info.put("provinceName", rs.getObject("province_name"));
+//				info.put("cityName", rs.getObject("city_name"));
+//				info.put("districtName", rs.getObject("district_name"));
+//				info.put("tel", rs.getObject("tel"));
+//				info.put("name", rs.getObject("name"));
+//			} else
+//				throw new InteractRuntimeException(1404, "目标不存在");
+//			pst.close();
+//			
+//			// 返回结果
+//			JSONObject data = new JSONObject();
+//			data.putAll(info);
+//			HttpRespondWithData.todo(request, response, 0, null, data);
+//		} catch (Exception e) {
+//			// 处理异常
+//			logger.info(ExceptionUtils.getStackTrace(e));
+//			HttpRespondWithData.exception(request, response, e);
+//		} finally {
+//			// 释放资源
+//			if (pst != null)
+//				pst.close();
+//			if (connection != null)
+//				connection.close();
+//		}
+//	}
 
 	@RequestMapping(value = "/info")
 	@Transactional(rollbackFor = Exception.class)
