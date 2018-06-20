@@ -23,11 +23,9 @@ import com.alibaba.fastjson.JSONObject;
 import okhttp3.Request;
 import okhttp3.Response;
 import redis.clients.jedis.Jedis;
-import zaylt.constant.OutApis;
+import zaylt.business.LoginStatus;
 import zaylt.constant.SysConstant;
 import zaylt.entity.InteractRuntimeException;
-import zaylt.module.client.business.GetLoginStatus;
-import zaylt.module.client.entity.UserLoginStatus;
 import zaylt.util.HttpRespondWithData;
 import zaylt.util.ZayltDataSource;
 
@@ -73,7 +71,7 @@ public class UserAction {
 			// 缓存登录状态
 			String token = RandomStringUtils.randomNumeric(12);
 
-			UserLoginStatus loginStatus = new UserLoginStatus();
+			LoginStatus loginStatus = new LoginStatus();
 			loginStatus.setUserId(userId);
 			loginStatus.setLoginTime(new Date().getTime());
 			loginStatus.setType(type);
@@ -273,7 +271,7 @@ public class UserAction {
 			// 缓存登录状态
 			String token = RandomStringUtils.randomNumeric(12);
 
-			UserLoginStatus loginStatus = new UserLoginStatus();
+			LoginStatus loginStatus = new LoginStatus();
 			loginStatus.setUserId(userId);
 			loginStatus.setType(type);
 			loginStatus.setLoginTime(new Date().getTime());
@@ -284,7 +282,7 @@ public class UserAction {
 			jedis.set(loginRedisKey, JSON.toJSONString(loginStatus));
 			jedis.set(userId, token);
 			jedis.expire(loginRedisKey, 30 * 24 * 60 * 60);
-			jedis.expire(loginRedisKey, 30 * 24 * 60 * 60);
+			jedis.expire(userId, 30 * 24 * 60 * 60);
 
 			// 返回结果
 			JSONObject data = new JSONObject();
@@ -315,7 +313,7 @@ public class UserAction {
 			// 获取请求参数
 
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 
@@ -340,7 +338,7 @@ public class UserAction {
 			// 获取请求参数
 
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			LoginStatus loginStatus = LoginStatus.todo(request);
 			int loginIs = 0;
 			if (loginStatus != null)
 				loginIs = 1;

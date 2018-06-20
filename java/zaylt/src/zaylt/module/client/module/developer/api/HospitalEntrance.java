@@ -24,9 +24,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mysql.jdbc.Statement;
 
+import zaylt.business.LoginStatus;
 import zaylt.entity.InteractRuntimeException;
-import zaylt.module.client.business.GetLoginStatus;
-import zaylt.module.client.entity.UserLoginStatus;
 import zaylt.util.HttpRespondWithData;
 import zaylt.util.ZayltDataSource;
 
@@ -53,7 +52,7 @@ public class HospitalEntrance {
 				throw new InteractRuntimeException("page_size有误");
 
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 			if (!loginStatus.getType().equals("3"))
@@ -128,7 +127,7 @@ public class HospitalEntrance {
 			if (cover == null)
 				throw new InteractRuntimeException("cover 不能为空");
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 			if (!loginStatus.getType().equals("3"))
@@ -227,7 +226,7 @@ public class HospitalEntrance {
 			String remark = StringUtils.trimToNull(request.getParameter("remark"));
 
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 			if (!loginStatus.getType().equals("3"))
@@ -335,7 +334,7 @@ public class HospitalEntrance {
 				throw new InteractRuntimeException("page_size有误");
 
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 			if (!loginStatus.getType().equals("3"))
@@ -393,7 +392,7 @@ public class HospitalEntrance {
 				throw new InteractRuntimeException("hospital_id 不能空");
 			int hospitalId = Integer.parseInt(hospitalIdParam);
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 			if (!loginStatus.getType().equals("3"))
@@ -462,7 +461,7 @@ public class HospitalEntrance {
 				throw new InteractRuntimeException("page_size有误");
 
 			// 业务处理
-			UserLoginStatus loginStatus = GetLoginStatus.todo(request);
+			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
 			if (!loginStatus.getType().equals("3"))
