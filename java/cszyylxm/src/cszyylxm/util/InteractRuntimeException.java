@@ -1,4 +1,4 @@
-package cszyylxm.entity;
+package cszyylxm.util;
 
 public class InteractRuntimeException extends RuntimeException {
 	private int code;

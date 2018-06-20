@@ -10,7 +10,7 @@
 </head>
 <body>
 <a onclick="aa()">aaa</a>
-
+<img>
 <input type="text"/>
 
 <div id="c" style="width:200px;height:200px">
@@ -19,19 +19,9 @@
 </body>
 <script>
 function aa(){
-//    rxw1.inputmorepad({items:[{name:'支付宝交易号',code:'aaa',def:'qq'},{name:'支付宝姓名',code:'aaaa',def:'qq1'}],confirm:function(data){
-//        alert(data['aaa'])
-//        alert(data['aaaa'])
-//    }})
-    rxw1.layer({init:function(layer){
-        $(layer).append('<img style="margin:50px auto;display:block;position:relative;max-width:95%" src="'+'微信图片_20180129113026.jpg'+'">')
-        layer.onclick= function (){
-            this.parentNode.removeChild(this)
-        }
-    }})
-//    rxw1.inputpad({def:'qqq',content:"123123",confirm:function(data){
-//        alert(data)
-//    }})
+rxw1.cutImg({complete:function(param){
+    document.getElementsByTagName('img')[0].src=param.canvas.toDataURL(param.input.files[0].type)
+},xRadio:1,yRadio:1})
 }
 </script>
 </html>

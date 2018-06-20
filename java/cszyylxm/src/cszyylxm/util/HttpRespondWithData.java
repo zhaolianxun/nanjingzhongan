@@ -13,8 +13,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
 import cszyylxm.constant.SysConstant;
-import cszyylxm.entity.BaseResVo;
-import cszyylxm.entity.InteractRuntimeException;
 
 public class HttpRespondWithData {
 

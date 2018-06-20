@@ -1,4 +1,4 @@
-package cszyylxm.entity;
+package cszyylxm.util;
 
 /**
  * 

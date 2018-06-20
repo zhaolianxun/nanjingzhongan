@@ -51,7 +51,8 @@ public class UserAction {
 
 			// 更新数据库用户信息
 			connection = ZayltDataSource.dataSource.getConnection();
-			pst = connection.prepareStatement("select id,phone,type,hospital_id,clinic_id from t_user where wx_openid=?");
+			pst = connection
+					.prepareStatement("select id,phone,type,hospital_id,clinic_id from t_user where wx_openid=?");
 			pst.setObject(1, openid);
 			ResultSet rs = pst.executeQuery();
 			String userId = null;
@@ -63,8 +64,8 @@ public class UserAction {
 				userId = rs.getString(1);
 				phone = rs.getString(2);
 				type = rs.getString(3);
-				 hospitalId = (Integer) rs.getObject("hospital_id");
-				 clinicId = (Integer) rs.getObject("clinic_id");
+				hospitalId = (Integer) rs.getObject("hospital_id");
+				clinicId = (Integer) rs.getObject("clinic_id");
 			} else
 				throw new InteractRuntimeException("未绑定手机");
 			pst.close();
@@ -279,11 +280,6 @@ public class UserAction {
 			loginStatus.setHospitalId(hospitalId);
 			loginStatus.setClinicId(clinicId);
 			String loginRedisKey = new StringBuilder("zaylt.client.login-").append(token).toString();
-			//// 清除历史登录状态
-			String oldToken = jedis.get(userId);
-			if (oldToken != null)
-				jedis.del(new StringBuilder("zaylt.client.login-").append(oldToken).toString());
-			jedis.del(userId);
 			//// 设置新登录状态
 			jedis.set(loginRedisKey, JSON.toJSONString(loginStatus));
 			jedis.set(userId, token);

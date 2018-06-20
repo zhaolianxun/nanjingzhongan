@@ -4,8 +4,6 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import cszyylxm.entity.InteractRuntimeException;
-
 public class ProjectUtils {
 
 	public static boolean equalsWithAny(CharSequence cs, CharSequence... css) {
