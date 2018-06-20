@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -262,6 +263,14 @@ public class XsxmApis {
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
 
+			pst = connection.prepareStatement(
+					"update t_xm_bj bj left join t_xm xm on bj.xm_id=xm.id set xm.start_time=? where bj.id=?");
+			pst.setObject(1, new Date().getTime());
+			pst.setObject(2, id);
+			n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
 			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);

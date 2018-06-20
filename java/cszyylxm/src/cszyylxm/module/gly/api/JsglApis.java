@@ -25,8 +25,8 @@ import cszyylxm.util.CszyylxmDataSource;
 import cszyylxm.util.HttpRespondWithData;
 import cszyylxm.util.InteractRuntimeException;
 
-@Controller("xs.api.jsgl")
-@RequestMapping(value = "/xs/jsgl")
+@Controller("gly.api.jsgl")
+@RequestMapping(value = "/gly/jsgl")
 public class JsglApis {
 
 	public static Logger logger = Logger.getLogger(JsglApis.class);
