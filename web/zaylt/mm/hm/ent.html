@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <script src="../../rxw/rxw.js"></script>
+    <script src="../../libs/rxw/rxw.js"></script>
     <script src="../../libs/jquery.min.js"></script>
     <script src="../../libs/jquery.cookie.js"></script>
     <title>医院管理</title>
@@ -112,7 +112,7 @@
 
 </body>
 <script>
-    rxw1.relativePath = '../../'
+    rxw1.relativePath = '../../libs/'
     var token = $.cookie('login-token');
     var hasMoreItems;
     var page_no;
@@ -194,7 +194,7 @@
 
     function refreshItemRow(itemRow,itemId){
         $.ajax({
-            url: "/easywin/mm/" + mallId + "/e/userwithdraw/detail",
+            url: "/zaylt/mm/hm/hospitaldetail",
             type: 'post',
             async: false,
             data: {id:itemId,token:token},
@@ -225,7 +225,7 @@
             rxw1.layer({init:function(layer){
                 layer.style['background-color']='white';
                 $(layer).append('<div style="height:30px"><button style="margin:0 10px;display:inline-block;margin-top:5px;width:60px;height:25px" name="closeLayer">关闭</button></div>')
-                $(layer).append('<iframe scrolling="no" frameborder="no" style="width: 100%;height:100%" src="'+'userwithdraw_detail.html?id='+itemId+'"></iframe>')
+                $(layer).append('<iframe frameborder="no" style="width: 100%;height:100%" src="'+'hdetail.html?id='+itemId+'"></iframe>')
                 $(layer).find('[name=closeLayer]').click(function(){
                     refreshItemRow(itemRow,itemId)
                     $(layer).remove();

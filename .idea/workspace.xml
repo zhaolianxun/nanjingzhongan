@@ -21,190 +21,75 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="rxw.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="rxw.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/demo/rxw/rxw.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.733334">
-              <caret line="504" column="1" selection-start-line="504" selection-start-column="1" selection-end-line="504" selection-end-column="1" />
+            <state vertical-scroll-proportion="0.7266187">
+              <caret line="521" column="43" selection-start-line="521" selection-start-column="43" selection-end-line="521" selection-end-column="43" />
               <folding>
-                <marker date="1529573945210" expanded="true" signature="177:434" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="861:1026" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="1042:1086" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="1123:1195" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="1226:1334" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="1378:1507" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="2093:2258" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="2274:2318" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="2355:2427" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="2459:2637" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="3096:3261" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="3277:3321" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="3359:3404" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="3525:3597" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="3628:3736" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="3780:3909" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="4980:4996" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="5218:5383" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="5403:5475" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="5506:5614" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="5658:5787" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="9494:9554" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="9571:9582" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="9622:9654" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="9678:9689" placeholder="..." />
-                <marker date="1529573945210" expanded="true" signature="9752:9783" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="177:434" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="861:1026" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="1042:1086" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="1123:1195" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="1226:1334" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="1378:1507" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="2093:2258" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="2274:2318" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="2355:2427" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="2459:2637" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="3096:3261" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="3277:3321" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="3359:3404" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="3525:3597" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="3628:3736" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="3780:3909" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="4994:5010" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="5232:5397" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="5417:5489" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="5520:5628" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="5672:5801" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="9469:9529" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="9546:9557" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="9597:9629" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="9653:9664" placeholder="..." />
+                <marker date="1529602271941" expanded="true" signature="9727:9758" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="rxw.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/zaylt/rxw/rxw.js">
+        <entry file="file://$PROJECT_DIR$/web/zaylt/libs/rxw/rxw.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="494" column="16" selection-start-line="494" selection-start-column="8" selection-end-line="494" selection-end-column="16" />
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1529573937967" expanded="true" signature="177:434" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="861:1026" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="1042:1086" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="1123:1195" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="1226:1334" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="1378:1507" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="2093:2258" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="2274:2318" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="2355:2427" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="2459:2637" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="3096:3261" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="3277:3321" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="3359:3404" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="3525:3597" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="3628:3736" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="3780:3909" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="4980:4996" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="5218:5383" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="5403:5475" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="5506:5614" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="5658:5787" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="9494:9554" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="9571:9582" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="9622:9654" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="9678:9689" placeholder="..." />
-                <marker date="1529573937967" expanded="true" signature="9752:9783" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ent.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/zaylt/mm/hm/ent.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.9642856">
-              <caret line="73" column="55" selection-start-line="73" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1529580186554" expanded="true" signature="8671:8682" placeholder="..." />
-                <marker date="1529580186554" expanded="true" signature="8699:8771" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="taster_ent.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/plat/taster_ent.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.535715">
-              <caret line="247" column="36" selection-start-line="224" selection-start-column="6" selection-end-line="247" selection-end-column="36" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#span#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ent.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web/zaylt/mm/um/ent.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.74910396">
-              <caret line="127" column="78" selection-start-line="127" selection-start-column="78" selection-end-line="127" selection-end-column="78" />
-              <folding>
-                <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#span#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#3;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1529580362754" expanded="true" signature="9759:9770" placeholder="..." />
-                <marker date="1529580362754" expanded="true" signature="9787:9859" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="userwithdraw_ent.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/userwithdraw_ent.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.6785714">
-              <caret line="100" column="23" selection-start-line="90" selection-start-column="15" selection-end-line="100" selection-end-column="23" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#span#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#span#1;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#span#1;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#2;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ent.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/zaylt/mm/cm/ent.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="22.821428">
-              <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-              <folding>
-                <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1529580214997" expanded="true" signature="10393:10404" placeholder="..." />
-                <marker date="1529580214997" expanded="true" signature="10421:10493" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="177:434" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="861:1026" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="1042:1086" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="1123:1195" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="1226:1334" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="1378:1507" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="2093:2258" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="2274:2318" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="2355:2427" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="2459:2637" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="3096:3261" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="3277:3321" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="3359:3404" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="3525:3597" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="3628:3736" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="3780:3909" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="4994:5010" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="5232:5397" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="5417:5489" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="5520:5628" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="5672:5801" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="9469:9529" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="9546:9557" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="9597:9629" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="9653:9664" placeholder="..." />
+                <marker date="1529600507830" expanded="true" signature="9727:9758" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -213,8 +98,8 @@
       <file leaf-file-name="login.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/zaylt/mm/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.5689654">
-              <caret line="65" column="44" selection-start-line="65" selection-start-column="36" selection-end-line="65" selection-end-column="44" />
+            <state vertical-scroll-proportion="-12.107142">
+              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -229,16 +114,23 @@
         </entry>
       </file>
       <file leaf-file-name="ent.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/zaylt/mm/pm/ent.html">
+        <entry file="file://$PROJECT_DIR$/web/zaylt/mm/um/ent.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.142858">
-              <caret line="147" column="78" selection-start-line="147" selection-start-column="22" selection-end-line="147" selection-end-column="78" />
+            <state vertical-scroll-proportion="-15.607142">
+              <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1529579580524" expanded="true" signature="10998:11009" placeholder="..." />
-                <marker date="1529579580524" expanded="true" signature="11026:11098" placeholder="..." />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#span#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#1;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#3;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1529600668706" expanded="true" signature="9769:9780" placeholder="..." />
+                <marker date="1529600668706" expanded="true" signature="9797:9869" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -247,8 +139,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/zaylt/mm/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.0344827">
-              <caret line="45" column="26" selection-start-line="45" selection-start-column="12" selection-end-line="45" selection-end-column="26" />
+            <state vertical-scroll-proportion="-3.392857">
+              <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -263,6 +155,92 @@
                 <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#iframe#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ent.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/zaylt/mm/cm/ent.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.464286">
+              <caret line="125" column="8" selection-start-line="125" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1529600641752" expanded="true" signature="10403:10414" placeholder="..." />
+                <marker date="1529600641752" expanded="true" signature="10431:10503" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ent.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/zaylt/mm/hm/ent.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.5">
+              <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hdetail.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/zaylt/mm/hm/hdetail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.494253">
+              <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#span#1;n#div#3;n#fieldset#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#legend#0;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#span#1;n#div#1;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#span#1;n#div#3;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#4;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ent.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/zaylt/mm/pm/ent.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.535714">
+              <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1529600662788" expanded="true" signature="11008:11019" placeholder="..." />
+                <marker date="1529600662788" expanded="true" signature="11036:11108" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="upload.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/zaylt/libs/upload.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -285,9 +263,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/web/rrightway/phone/admin.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/requested_order_buyed.html" />
-        <option value="$PROJECT_DIR$/web/rrightway/phone/admin_paymoney.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/request_order_rebacked.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/request_order_activist_details.html" />
         <option value="$PROJECT_DIR$/web/rrightway/phone/adminOrder.html" />
@@ -329,13 +304,16 @@
         <option value="$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/userwithdraw_ent.html" />
         <option value="$PROJECT_DIR$/web/easywin/plat/taster_ent.html" />
         <option value="$PROJECT_DIR$/web/zaylt/rxw/rxw.js" />
-        <option value="$PROJECT_DIR$/web/demo/rxw/rxw.js" />
-        <option value="$PROJECT_DIR$/web/zaylt/mm/login.html" />
-        <option value="$PROJECT_DIR$/web/zaylt/mm/index.html" />
-        <option value="$PROJECT_DIR$/web/zaylt/mm/pm/ent.html" />
-        <option value="$PROJECT_DIR$/web/zaylt/mm/hm/ent.html" />
+        <option value="$PROJECT_DIR$/web/zaylt/mm/hm/detail.html" />
+        <option value="$PROJECT_DIR$/web/zaylt/libs/upload.js" />
         <option value="$PROJECT_DIR$/web/zaylt/mm/cm/ent.html" />
+        <option value="$PROJECT_DIR$/web/zaylt/mm/hm/ent.html" />
+        <option value="$PROJECT_DIR$/web/zaylt/mm/hm/hdetail.html" />
+        <option value="$PROJECT_DIR$/web/zaylt/mm/pm/ent.html" />
         <option value="$PROJECT_DIR$/web/zaylt/mm/um/ent.html" />
+        <option value="$PROJECT_DIR$/web/zaylt/mm/index.html" />
+        <option value="$PROJECT_DIR$/web/zaylt/mm/login.html" />
+        <option value="$PROJECT_DIR$/web/demo/rxw/rxw.js" />
       </list>
     </option>
   </component>
@@ -410,10 +388,6 @@
               <option name="myItemId" value="zaylt" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rxw" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -426,242 +400,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zaylt" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zaylt" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="um" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zaylt" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zaylt" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zaylt" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zaylt" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="easywin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="easywin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rxw" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="easywin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="easywin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mallmanage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="threeMinuteProgram_maintain" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -702,46 +440,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="rxw" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cszyylxm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="xs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanjingzhongan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cszyylxm" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -763,18 +461,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\zaylt\mm\pm" />
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\zaylt\mm\cm" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\zaylt\rxw" />
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\zaylt\mm\um" />
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\zaylt\libs" />
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\zaylt\mm\img" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\zaylt\mm\hm" />
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\zaylt\mm\pm" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\temp\GitHub\nanjingzhongan\web\zaylt\libs" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\zaylt\mm" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\demo\js" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\demo\rxw\img" />
       <recent name="C:\temp\GitHub\nanjingzhongan\web\demo\rxw" />
-      <recent name="C:\temp\GitHub\nanjingzhongan\web\rrightway\phone" />
     </key>
   </component>
   <component name="RunManager">
@@ -839,10 +537,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21272494" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21272494" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.123655915" sideWeight="0.5025707" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -882,41 +580,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/mallBasicInformation.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="67.17857">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/layui/lay/modules/tree.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/layui/lay/modules/util.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/layui/lay/modules/laydate.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/layui/lay/modules/element.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/plugins/layui/lay/modules/element.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1028,7 +691,7 @@
         <state vertical-scroll-proportion="-1.434965">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1112,22 +775,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/userwithdraw_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-27.25">
-          <caret line="58" column="10" selection-start-line="58" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#legend#0;n#fieldset#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#button#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/shake.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1173,8 +820,8 @@
         <state vertical-scroll-proportion="-10.857142">
           <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1188,30 +835,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/demo/demo8.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.142858">
-          <caret line="22" column="48" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/demo/demo7.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6785714">
-          <caret line="19" column="7" selection-start-line="17" selection-start-column="10" selection-end-line="19" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/demo/demo6.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.464286">
-          <caret line="38" column="23" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -1271,100 +894,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/demo/rxw/rxw.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.733334">
-          <caret line="504" column="1" selection-start-line="504" selection-start-column="1" selection-end-line="504" selection-end-column="1" />
-          <folding>
-            <marker date="1529573945210" expanded="true" signature="177:434" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="861:1026" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="1042:1086" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="1123:1195" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="1226:1334" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="1378:1507" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="2093:2258" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="2274:2318" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="2355:2427" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="2459:2637" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="3096:3261" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="3277:3321" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="3359:3404" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="3525:3597" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="3628:3736" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="3780:3909" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="4980:4996" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="5218:5383" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="5403:5475" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="5506:5614" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="5658:5787" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="9494:9554" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="9571:9582" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="9622:9654" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="9678:9689" placeholder="..." />
-            <marker date="1529573945210" expanded="true" signature="9752:9783" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/zaylt/rxw/rxw.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="494" column="16" selection-start-line="494" selection-start-column="8" selection-end-line="494" selection-end-column="16" />
-          <folding>
-            <marker date="1529573937967" expanded="true" signature="177:434" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="861:1026" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="1042:1086" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="1123:1195" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="1226:1334" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="1378:1507" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="2093:2258" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="2274:2318" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="2355:2427" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="2459:2637" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="3096:3261" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="3277:3321" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="3359:3404" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="3525:3597" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="3628:3736" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="3780:3909" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="4980:4996" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="5218:5383" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="5403:5475" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="5506:5614" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="5658:5787" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="9494:9554" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="9571:9582" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="9622:9654" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="9678:9689" placeholder="..." />
-            <marker date="1529573937967" expanded="true" signature="9752:9783" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/userwithdraw_ent.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.6785714">
           <caret line="100" column="23" selection-start-line="90" selection-start-column="15" selection-end-line="100" selection-end-column="23" />
           <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#span#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#span#1;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#span#1;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#2;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#span#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#input#0;n#span#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#img#0;n#span#1;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#span#0;n#span#1;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#span#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#span#1;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#span#2;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1374,27 +927,212 @@
         <state vertical-scroll-proportion="-17.535715">
           <caret line="247" column="36" selection-start-line="224" selection-start-column="6" selection-end-line="247" selection-end-column="36" />
           <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#span#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#input#0;n#span#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#span#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/mallmanage/threeMinuteProgram_maintain/userwithdraw_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.0344827">
+          <caret line="42" column="101" selection-start-line="42" selection-start-column="92" selection-end-line="42" selection-end-column="101" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/zaylt/libs/cropper/cropper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/easywin/plat/libs/upload.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="45" column="1" selection-start-line="23" selection-start-column="0" selection-end-line="45" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/demo/demo7.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-30.107143">
+          <caret line="52" column="54" selection-start-line="52" selection-start-column="48" selection-end-line="52" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/demo/demo6.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.464286">
+          <caret line="38" column="23" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/demo/demo8.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.928572">
+          <caret line="22" column="97" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="97" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/zaylt/libs/upload.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/zaylt/libs/rxw/rxw.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1529600507830" expanded="true" signature="177:434" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="861:1026" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="1042:1086" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="1123:1195" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="1226:1334" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="1378:1507" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="2093:2258" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="2274:2318" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="2355:2427" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="2459:2637" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="3096:3261" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="3277:3321" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="3359:3404" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="3525:3597" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="3628:3736" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="3780:3909" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="4994:5010" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="5232:5397" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="5417:5489" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="5520:5628" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="5672:5801" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="9469:9529" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="9546:9557" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="9597:9629" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="9653:9664" placeholder="..." />
+            <marker date="1529600507830" expanded="true" signature="9727:9758" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/zaylt/libs/rxw/img/wait.gif">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/zaylt/mm/cm/ent.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.464286">
+          <caret line="125" column="8" selection-start-line="125" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1529600641752" expanded="true" signature="10403:10414" placeholder="..." />
+            <marker date="1529600641752" expanded="true" signature="10431:10503" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/zaylt/mm/hm/ent.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.5">
+          <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#span#0;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/zaylt/mm/hm/hdetail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.494253">
+          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#span#1;n#div#3;n#fieldset#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#legend#0;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#span#1;n#div#1;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#span#1;n#div#3;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#4;n#fieldset#0;n#form#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/zaylt/mm/pm/ent.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.535714">
+          <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1529600662788" expanded="true" signature="11008:11019" placeholder="..." />
+            <marker date="1529600662788" expanded="true" signature="11036:11108" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/zaylt/mm/um/ent.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.607142">
+          <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#span#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#3;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1529600668706" expanded="true" signature="9769:9780" placeholder="..." />
+            <marker date="1529600668706" expanded="true" signature="9797:9869" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/zaylt/mm/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.0344827">
-          <caret line="45" column="26" selection-start-line="45" selection-start-column="12" selection-end-line="45" selection-end-column="26" />
+        <state vertical-scroll-proportion="-3.392857">
+          <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1414,8 +1152,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/zaylt/mm/login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.5689654">
-          <caret line="65" column="44" selection-start-line="65" selection-start-column="36" selection-end-line="65" selection-end-column="44" />
+        <state vertical-scroll-proportion="-12.107142">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1428,71 +1166,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/zaylt/mm/hm/ent.html">
+    <entry file="file://$PROJECT_DIR$/web/demo/rxw/rxw.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.9642856">
-          <caret line="73" column="55" selection-start-line="73" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.7266187">
+          <caret line="521" column="43" selection-start-line="521" selection-start-column="43" selection-end-line="521" selection-end-column="43" />
           <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1529580186554" expanded="true" signature="8671:8682" placeholder="..." />
-            <marker date="1529580186554" expanded="true" signature="8699:8771" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/zaylt/mm/cm/ent.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="22.821428">
-          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1529580214997" expanded="true" signature="10393:10404" placeholder="..." />
-            <marker date="1529580214997" expanded="true" signature="10421:10493" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/zaylt/mm/pm/ent.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.142858">
-          <caret line="147" column="78" selection-start-line="147" selection-start-column="22" selection-end-line="147" selection-end-column="78" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#span#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1529579580524" expanded="true" signature="10998:11009" placeholder="..." />
-            <marker date="1529579580524" expanded="true" signature="11026:11098" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/zaylt/mm/um/ent.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.74910396">
-          <caret line="127" column="78" selection-start-line="127" selection-start-column="78" selection-end-line="127" selection-end-column="78" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#span#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#span#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#3;n#div#1;n#div#2;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1529580362754" expanded="true" signature="9759:9770" placeholder="..." />
-            <marker date="1529580362754" expanded="true" signature="9787:9859" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="177:434" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="861:1026" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="1042:1086" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="1123:1195" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="1226:1334" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="1378:1507" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="2093:2258" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="2274:2318" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="2355:2427" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="2459:2637" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="3096:3261" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="3277:3321" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="3359:3404" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="3525:3597" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="3628:3736" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="3780:3909" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="4994:5010" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="5232:5397" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="5417:5489" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="5520:5628" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="5672:5801" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="9469:9529" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="9546:9557" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="9597:9629" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="9653:9664" placeholder="..." />
+            <marker date="1529602271941" expanded="true" signature="9727:9758" placeholder="..." />
           </folding>
         </state>
       </provider>

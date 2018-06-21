@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <script src="../../libs/rxw/rxw.js"></script>
+    <script src="../../libs/jquery.min.js"></script>
+    <script src="../../libs/jquery.cookie.js"></script>
+    <script src="../../libs/upload.js"></script>
+    <script src="../../libs/cropper/cropper.js"></script>
+    <link href="../../libs/cropper/cropper.css" rel="stylesheet" />
+    <title>医院详情</title>
+
+    <style>
+
+
+        .alterEntDoor {
+            cursor: pointer;
+            width:16px;
+            vertical-align: middle
+        }
+        .title {
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+<div style="width:100%;">
+    <form id="detailPad" style="line-height: 20px">
+        <fieldset>
+            <legend style="color: #595959">详细信息</legend>
+            <div><span class="title">医院名<img class="alterEntDoor" onclick="alterName()" src="../img/update.png"/>:</span><span name="name"></span></div>
+            <div><span  class="title">电话<img class="alterEntDoor" onclick="alterTel()" src="../img/update.png"/>:</span><span name="tel"></span></div>
+            <div><span class="title">院长<img class="alterEntDoor" onclick="alterHeadmanName()" src="../img/update.png"/>:</span><span name="headmanName"></span></div>
+            <div><span class="title">封面<img class="alterEntDoor" onclick="alterCover()" src="../img/update.png"/>:</span><span><img name="cover" style="width:50px;vertical-align: middle"></span></div>
+            <div><span class="title">省<img class="alterEntDoor"  src="../img/update.png"/>:</span><span name="provinceName"></span></div>
+            <div><span class="title">市:</span><span name="cityName"></span></div>
+            <div><span class="title">区:</span><span name="districtName"></span></div>
+            <div><span class="title">地址<img class="alterEntDoor" onclick="alterAddress()" src="../img/update.png"/>:</span><span name="address"></span></div>
+        </fieldset>
+    </form>
+    <form id="introPad" style="line-height: 20px">
+        <fieldset>
+            <legend style="color: #595959">介绍信息</legend>
+            <div><span class="title">介绍1 : </span><span name="intro1"></span></div>
+            <div style="margin-top:10px"><span class="title">介绍图1 : </span><span><img name="introPic1" style="width:50px;vertical-align: middle"></span></div>
+            <div style="margin-top:10px"><span class="title">介绍2 : </span><span name="intro2"></span></div>
+            <div style="margin-top:10px"><span class="title">介绍图2 : </span><span><img name="introPic2" style="width:50px;vertical-align: middle"></span></div>
+            <div style="margin-top:10px"><span class="title">介绍3: </span><span name="intro3"></span></div>
+        </fieldset>
+    </form>
+
+    <!--<div style="margin-top:20px">-->
+        <!--<button name="successBtn" style="margin:0 10px;margin-top:5px;width:100px;height:30px">成功</button>-->
+        <!--<button name="failBtn" style="margin:0 10px;margin-top:5px;width:100px;height:30px">拒绝</button>-->
+    <!--</div>-->
+    <div style="margin-top:20px;"></div>
+</div>
+</body>
+<script>
+    rxw1.relativePath = '../../libs/'
+    var token = $.cookie('login-token');
+    var queryString = rxw1.parseQueryStr(location.search.substr(1));
+    var id = queryString.id;
+    var item;
+
+    onload();
+    function onload() {
+        rxw1.waitLock()
+        $.ajax({
+            url: "/zaylt/mm/hm/hospitaldetail",
+            type: 'post',
+            async: false,
+            data: {id: id, token: token},
+            success: function (res) {
+                if (res.code == 0) {
+                    item = res.data;
+                    $('#detailPad [name=name]').text(item.name);
+                    $('#detailPad [name=tel]').text(item.tel);
+                    $('#detailPad [name=headmanName]').text(item.headmanName);
+                    $('#detailPad [name=cover]').attr('src',item.cover)
+                    $('#detailPad [name=address]').text(item.address);
+                    $('#detailPad [name=provinceName]').text(item.provinceName);
+                    $('#detailPad [name=cityName]').text(item.cityName);
+                    $('#detailPad [name=districtName]').text(item.districtName);
+                    $('#introPad [name=intro1]').text(item.intro1);
+                    $('#introPad [name=intro2]').text(item.intro2);
+                    $('#introPad [name=intro3]').text(item.intro3);
+                    $('#introPad [name=introPic1]').attr('src',item.introPic1)
+                    $('#introPad [name=introPic2]').attr('src',item.introPic2)
+                } else {
+                    rxw1.errorpad(res.codeMsg)
+                }
+            }
+        })
+        rxw1.waitLock.remove()
+    }
+
+    $('#detailPad [name=cover]').css('cursor','pointer').click(function(){
+        rxw1.imgPreview(this.src)
+    });
+    $('#introPad [name=introPic1]').css('cursor','pointer').click(function(){
+        rxw1.imgPreview(this.src)
+    });
+    $('#introPad [name=introPic2]').css('cursor','pointer').click(function(){
+        rxw1.imgPreview(this.src)
+    });
+function alterName(){
+    var nowValue = $('#detailPad [name=name]').text();
+    rxw1.inputpad({content:'请输入医院名',def:nowValue,confirm:function(data){
+        alterItem('name',data);
+        onload();
+    }})
+}
+    function alterTel(){
+        var nowValue = $('#detailPad [name=tel]').text();
+        rxw1.inputpad({content:'请输入电话',def:nowValue,confirm:function(data){
+            alterItem('tel',data);
+            onload();
+        }})
+    }
+    function alterHeadmanName(){
+        var nowValue = $('#detailPad [name=headmanName]').text();
+        rxw1.inputpad({content:'请输入院长姓名',def:nowValue,confirm:function(data){
+            alterItem('headman_name',data);
+            onload();
+        }})
+    }
+    function alterAddress(){
+        var nowValue = $('#detailPad [name=address]').text();
+        rxw1.inputpad({content:'请输入地址',def:nowValue,confirm:function(data){
+            alterItem('address',data);
+            onload();
+        }})
+    }
+    function alterCover(){
+        rxw1.cutImg({complete:function(param){
+            var url = uploadBlob(rxw1.convertBase64UrlToBlob(param.canvas.toDataURL(param.input.files[0].type)),param.input.files[0].name)
+            if(url){
+                alterItem('cover',url);
+                onload();
+            }
+        },xRadio:1.57,yRadio:1})
+    }
+
+    function alterItem(name,value){
+        var param={id: id, token: token};
+        param[name]=value;
+        $.ajax({
+            url: "/zaylt/mm/hm/hospitalalter",
+            type: 'post',
+            async: false,
+            data:param ,
+            success: function (res) {
+                if (res.code == 0) {
+                    rxw1.errorpad('成功');
+                } else {
+                    rxw1.errorpad(res.codeMsg)
+                }
+            }
+        })
+    }
+//
+//    $('[name=successBtn]').click(function () {
+//        rxw1.inputmorepad({
+//            items: [{name: '支付宝交易号', code: 'alipayTradeno'},
+//                {name: '备注', code: 'note'}
+//            ],
+//            confirm: function (data) {
+//                $.ajax({
+//                    url: "/easywin/mm/" + mallId + "/e/userwithdraw/success",
+//                    type: 'post',
+//                    async: false,
+//                    data: {id: id, token: token, alipay_tradeno: data.alipayTradeno, note: data.note},
+//                    success: function (res) {
+//                        if (res.code == 0) {
+//                            onload();
+//                        } else {
+//                            rxw1.errorpad(res.codeMsg)
+//                        }
+//                    }
+//                })
+//
+//            }
+//        })
+//    })
+
+
+</script>
+
+</html>

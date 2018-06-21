@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <script src="../../rxw/rxw.js"></script>
+    <script src="../../libs/rxw/rxw.js"></script>
     <script src="../../libs/jquery.min.js"></script>
     <script src="../../libs/jquery.cookie.js"></script>
     <title>用户管理</title>
@@ -116,7 +116,7 @@
 
 </body>
 <script>
-    rxw1.relativePath = '../../'
+    rxw1.relativePath = '../../libs/'
     var token = $.cookie('login-token');
     var queryString =rxw1.parseQueryStr(location.search.substr(1))
     var hospitalId =queryString.hospital_id;
