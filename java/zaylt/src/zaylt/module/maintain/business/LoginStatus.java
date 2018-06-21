@@ -11,46 +11,12 @@ public class LoginStatus {
 
 	private String token;
 	private String userId;
-	private String phone;
-	private String type;
-	private Integer hospitalId;
-	private Integer clinicId;
+	private String username;
+	private Integer role;
 	private long loginTime;
-
-	public Integer getHospitalId() {
-		return hospitalId;
-	}
-
-	public void setHospitalId(Integer hospitalId) {
-		this.hospitalId = hospitalId;
-	}
-
-	public Integer getClinicId() {
-		return clinicId;
-	}
-
-	public void setClinicId(Integer clinicId) {
-		this.clinicId = clinicId;
-	}
 
 	public String getToken() {
 		return token;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public void setToken(String token) {
@@ -65,6 +31,22 @@ public class LoginStatus {
 		this.userId = userId;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public Integer getRole() {
+		return role;
+	}
+
+	public void setRole(Integer role) {
+		this.role = role;
+	}
+
 	public long getLoginTime() {
 		return loginTime;
 	}
@@ -72,7 +54,7 @@ public class LoginStatus {
 	public void setLoginTime(long loginTime) {
 		this.loginTime = loginTime;
 	}
-	
+
 	public static LoginStatus todo(HttpServletRequest request, Jedis jedis) {
 		String token = (String) request.getParameter("token");
 		if (token == null)

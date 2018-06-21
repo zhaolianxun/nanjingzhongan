@@ -355,4 +355,33 @@ public class UserAction {
 			// 释放资源
 		}
 	}
+	
+	@RequestMapping(value = "/logout")
+	public void logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Jedis jedis = null;
+		try {
+			// 获取请求参数
+
+			// 业务处理
+			jedis = SysConstant.jedisPool.getResource();
+			LoginStatus loginStatus = LoginStatus.todo(request, jedis);
+			if (loginStatus != null) {
+				String loginRedisKey = new StringBuilder("zaylt.client.login-").append(loginStatus.getToken())
+						.toString();
+				//// 设置新登录状态
+				jedis.del(loginRedisKey);
+				jedis.del(loginStatus.getUserId());
+			}
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (jedis != null)
+				jedis.close();
+		}
+	}
 }

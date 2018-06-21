@@ -46,6 +46,11 @@ public class UserManageApis {
 		try {
 			// 获取请求参数
 			String phone = StringUtils.trimToNull(request.getParameter("phone"));
+			String type = StringUtils.trimToNull(request.getParameter("type"));
+			String clinicIdParam = StringUtils.trimToNull(request.getParameter("clinic_id"));
+			Integer clinicId = clinicIdParam == null ? null : Integer.parseInt(clinicIdParam);
+			String hospitalIdParam = StringUtils.trimToNull(request.getParameter("hospital_id"));
+			Integer hospitalId = hospitalIdParam == null ? null : Integer.parseInt(hospitalIdParam);
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
 			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
 			if (pageNo <= 0)
@@ -59,20 +64,26 @@ public class UserManageApis {
 			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-			if (!loginStatus.getType().equals("3"))
-				throw new InteractRuntimeException("您不是开发者");
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			List sqlParams = new ArrayList();
-			sqlParams.add(loginStatus.getUserId());
 			if (phone != null)
 				sqlParams.add(new StringBuilder("%").append(phone).append("%").toString());
+			if (type != null)
+				sqlParams.add(type);
+			if (clinicId != null)
+				sqlParams.add(clinicId);
+			if (hospitalId != null)
+				sqlParams.add(hospitalId);
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
 					new StringBuilder("select u.id,u.phone,u.realname,u.type from t_user u where 1=1 ")
 							.append(phone == null ? "" : " and u.phone like ?")
-							.append(" order by t.register_time desc limit ?,? ").toString());
+							.append(type == null ? "" : " and u.type like ?")
+							.append(clinicId == null ? "" : " and u.clinic_id like ?")
+							.append(hospitalId == null ? "" : " and u.hospital_id like ?")
+							.append(" order by u.register_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}

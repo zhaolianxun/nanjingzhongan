@@ -42,29 +42,27 @@ public class UserActionApis {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-			String phone = StringUtils.trimToNull(request.getParameter("phone"));
-			if (phone == null)
-				throw new InteractRuntimeException("phone 不可空");
+			String username = StringUtils.trimToNull(request.getParameter("username"));
+			if (username == null)
+				throw new InteractRuntimeException("username 不可空");
 			String pwd = StringUtils.trimToNull(request.getParameter("pwd"));
 			if (pwd == null)
 				throw new InteractRuntimeException("pwd不可空");
 			connection = ZayltDataSource.dataSource.getConnection();
 
-			pst = connection.prepareStatement("select password_md5,type,id from t_user where phone=?");
-			pst.setObject(1, phone);
+			pst = connection.prepareStatement("select password_md5,role,id from t_maintainer where username=?");
+			pst.setObject(1, username);
 			ResultSet rs = pst.executeQuery();
 			if (!rs.next()) {
 				pst.close();
-				throw new InteractRuntimeException("手机号不存在");
+				throw new InteractRuntimeException("账号不存在");
 			}
 			String passwordMd5 = rs.getString("password_md5");
-			String type = rs.getString("type");
+			int role = rs.getInt("role");
 			String userId = rs.getString("id");
 			pst.close();
 			if (!passwordMd5.equals(DigestUtils.md5Hex(pwd)))
 				throw new InteractRuntimeException("密码错误");
-			if (!"3".equals(type))
-				throw new InteractRuntimeException("只有开发者账号才可以在此登录");
 			jedis = SysConstant.jedisPool.getResource();
 
 			// 缓存登录状态
@@ -72,8 +70,8 @@ public class UserActionApis {
 
 			LoginStatus loginStatus = new LoginStatus();
 			loginStatus.setUserId(userId);
-			loginStatus.setType(type);
-			loginStatus.setPhone(phone);
+			loginStatus.setRole(role);
+			loginStatus.setUsername(username);
 			loginStatus.setLoginTime(new Date().getTime());
 			String loginRedisKey = new StringBuilder("zaylt.maintain.login-").append(token).toString();
 			//// 设置新登录状态
@@ -85,8 +83,8 @@ public class UserActionApis {
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.put("token", token);
-			data.put("phone", phone);
-			data.put("type", type);
+			data.put("username", username);
+			data.put("role", role);
 			data.put("userId", userId);
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {
@@ -125,8 +123,8 @@ public class UserActionApis {
 
 			// 返回结果
 			JSONObject data = new JSONObject();
-			data.put("phone", loginStatus.getPhone());
-			data.put("type", loginStatus.getType());
+			data.put("role", loginStatus.getRole());
+			data.put("username", loginStatus.getUsername());
 			data.put("userId", loginStatus.getUserId());
 			HttpRespondWithData.todo(request, response, 0, null, data);
 		} catch (Exception e) {

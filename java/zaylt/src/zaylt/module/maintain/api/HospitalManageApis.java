@@ -60,8 +60,6 @@ public class HospitalManageApis {
 			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-			if (!loginStatus.getType().equals("3"))
-				throw new InteractRuntimeException("您不是开发者");
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			List sqlParams = new ArrayList();
@@ -108,4 +106,51 @@ public class HospitalManageApis {
 		}
 	}
 
+	@RequestMapping(value = "/hospitaldetail")
+	public void hospitalDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id 不能空");
+			int id = Integer.parseInt(idParam);
+			// 业务处理
+			LoginStatus loginStatus = LoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			connection = ZayltDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(
+					new StringBuilder("select t.name,t.tel,t.id,t.headman_name from t_hospital t where t.id=? ")
+							.toString());
+			pst.setObject(1, id);
+			ResultSet rs = pst.executeQuery();
+			JSONObject detail = new JSONObject();
+			if (rs.next()) {
+				detail.put("id", rs.getObject("id"));
+				detail.put("name", rs.getObject("name"));
+				detail.put("tel", rs.getObject("tel"));
+				detail.put("headmanName", rs.getObject("headman_name"));
+			} else
+				throw new InteractRuntimeException(1404, "目标不存在");
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.putAll(detail);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
 }

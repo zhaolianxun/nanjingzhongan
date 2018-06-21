@@ -490,3 +490,16 @@ rxw1.windowScrollPaging = function (params){
         }
     }
 }
+
+rxw1.scrollEvent= function (ele,down,top){
+    ele.onscroll = function() {
+        if (this.scrollTop + this.offsetHeight >= this.scrollHeight) {
+            if(down)
+                down();
+        }else if(this.scrollTop == 0){
+            if(top)
+                top()
+        }
+
+    }
+}

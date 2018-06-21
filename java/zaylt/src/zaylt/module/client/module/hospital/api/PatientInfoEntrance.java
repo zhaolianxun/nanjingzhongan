@@ -228,19 +228,37 @@ public class PatientInfoEntrance {
 				throw new InteractRuntimeException("您不是医院用户");
 
 			connection = ZayltDataSource.dataSource.getConnection();
-			pst = connection
-					.prepareStatement("update t_patient set status='4' where id=? and status='3' and hospital_id=?");
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement("select status from t_patient where id=? for update");
 			pst.setObject(1, patientId);
-			pst.setObject(2, loginStatus.getHospitalId());
+			ResultSet rs = pst.executeQuery();
+			String status = null;
+			if (rs.next()) {
+				status = rs.getString("status");
+			} else
+				throw new InteractRuntimeException(1404, "目标不存在");
+			pst.close();
+
+			if (status.equals('4'))
+				throw new InteractRuntimeException("已确认过");
+			if (!status.equals('3'))
+				throw new InteractRuntimeException("门诊还没有转诊");
+
+			pst = connection.prepareStatement("update t_patient set status='4' where id=?");
+			pst.setObject(1, patientId);
 			int n = pst.executeUpdate();
 			pst.close();
 			if (n != 1)
 				throw new InteractRuntimeException("操作失败");
+
+			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源

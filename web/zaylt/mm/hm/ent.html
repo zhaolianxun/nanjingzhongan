@@ -59,7 +59,7 @@
         .row-title {
             padding:2px 0;
             min-width:1000px;
-
+            background-color:#e8e8e8;
         }
 
     </style>
@@ -68,25 +68,28 @@
 <body style="margin:0;">
 
 <div style="width:100%;margin-top:5px;">
-    <button style="margin:0 5px;display:inline-block;margin-top:5px;width:60px;height:25px" onclick="query()">查询</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="query()">查询</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookClinics()">查看门诊</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookPatients()">查看病人</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookUsers()">查看用户</button>
 </div>
 
 <div style="width:100%;margin-top:10px;">
                 <span style="margin:0 5px;display:inline-block;margin-top:5px;">
                     <span style="font-size: 14px">医院名:</span>
                     <span>
-                        <input name="name"/>
+                        <input name="nameQuery"/>
                     </span>
                 </span>
                 <span style="margin:0 5px;display:inline-block;margin-top:5px;">
                     <span style="font-size: 14px">电话:</span>
                     <span>
-                        <input name="tel"/>
+                        <input name="telQuery"/>
                     </span>
                 </span>
 </div>
 
-<div style="width:99%;border: 1px solid black;margin:0 auto;margin-top:10px;overflow: auto;" >
+<div id="itemsContainer" style="width:99%;border: 1px solid black;margin:0 auto;margin-top:10px;overflow: auto;" >
     <div class="row-title">
         <span class="cell cell1">选择</span><span class="cell cell2">医院</span><span class="cell cell3">电话</span><span class="cell cell4">院长</span><span class="cell cell5">操作</span>
     </div>
@@ -106,7 +109,6 @@
     </div>
 
 </div>
-
 
 </body>
 <script>
@@ -134,8 +136,8 @@
     }
 
     function query(){
-        queryParams.name=$('[name=name]').val();
-        queryParams.tel=$('[name=tel]').val();
+        queryParams.name=$('[name=nameQuery]').val();
+        queryParams.tel=$('[name=telQuery]').val();
         onload();
     }
     function loadMore(){
@@ -144,14 +146,10 @@
         loadItems();
         rxw1.waitLock.remove()
     }
-    rxw1.windowScrollPaging({
-        down: function () {
-            if (hasMoreItems) {
-                page_no++;
-                loadItems();
-            } else {
-
-            }
+    rxw1.scrollEvent($('#itemsContainer').get(0), function () {
+        if (hasMoreItems) {
+            page_no++;
+            loadItems();
         }
     })
     function loadItems(){
@@ -246,9 +244,34 @@
 
 
 
+function lookClinics(){
+    var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
+    var itemId = itemRow.attr('itemId')
+    if(itemId){
+        location.href='../cm/ent.html?hospital_id='+itemId
 
+    }else
+        rxw1.errorpad('请选择一条记录')
+}
+    function lookPatients(){
+        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
+        var itemId = itemRow.attr('itemId')
+        if(itemId){
+            location.href='../pm/ent.html?hospital_id='+itemId
 
+        }else
+            rxw1.errorpad('请选择一条记录')
+    }
 
+    function lookUsers(){
+        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
+        var itemId = itemRow.attr('itemId')
+        if(itemId){
+            location.href='../um/ent.html?hospital_id='+itemId
+
+        }else
+            rxw1.errorpad('请选择一条记录')
+    }
 </script>
 
 </html>

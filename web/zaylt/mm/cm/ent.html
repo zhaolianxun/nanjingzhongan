@@ -39,8 +39,11 @@
             width:100px;
             border-left: 1px solid #7d7d7d;
         }
-
         .cell5 {
+            width:100px;
+            border-left: 1px solid #7d7d7d;
+        }
+        .cell6 {
             width:100px;
             border-left: 1px solid #7d7d7d;
 
@@ -69,34 +72,38 @@
 
 <div style="width:100%;margin-top:5px;">
     <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="query()">查询</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookPatients()">查看病人</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookUsers()">查看用户</button>
+
 </div>
 
 <div style="width:100%;margin-top:10px;">
                 <span style="margin:0 5px;display:inline-block;margin-top:5px;">
-                    <span style="font-size: 14px">手机号:</span>
+                    <span style="font-size: 14px">门诊名:</span>
                     <span>
-                        <input name="phoneQuery"/>
+                        <input name="nameQuery"/>
                     </span>
                 </span>
-     <span style="margin:0 5px;display:inline-block;margin-top:5px;">
-                    <span style="font-size: 14px">账号类型:</span>
+            <span style="margin:0 5px;display:inline-block;margin-top:5px;">
+                    <span style="font-size: 14px">联系电话:</span>
                     <span>
-                        <select name="typeQuery">
-                            <option value="">全部</option>
-                            <option value="1">医院</option>
-                            <option value="2">门诊</option>
-                            <option value="3">开发者</option>
-                        </select>
+                        <input name="contactTelQuery"/>
+                    </span>
+                </span>
+        <span style="margin:0 5px;display:inline-block;margin-top:5px;">
+                    <span style="font-size: 14px">医院名:</span>
+                    <span>
+                        <input name="hospitalNameQuery"/>
                     </span>
                 </span>
 </div>
 
 <div id="itemsContainer" style="width:99%;border: 1px solid black;margin:0 auto;margin-top:10px;overflow: auto;" >
     <div class="row-title">
-        <span class="cell cell1">选择</span><span class="cell cell2">手机</span><span class="cell cell3">姓名</span><span class="cell cell4">账号类型</span><span class="cell cell5">操作</span>
+        <span class="cell cell1">选择</span><span class="cell cell2">门诊名</span><span class="cell cell3">联系电话</span><span class="cell cell4">主任</span><span class="cell cell5">医院名</span><span class="cell cell6">操作</span>
     </div>
     <div name="itemExample" class="row" style="display:none">
-        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="phone"></span></span><span class="cell cell3" name="realname"></span><span class="cell cell4" name="type"></span><span class="cell cell5" ><button name="detailEntDoor">详情</button></span>
+        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="name"></span></span><span class="cell cell3" name="contactTel"></span><span class="cell cell4" name="headmanName"></span><span class="cell cell5" name="hospitalName"></span><span class="cell cell6" ><button name="detailEntDoor">详情</button></span>
     </div>
     <div name="itemsShowPad" style="max-height:300px;">
         <div name="itemsShow">
@@ -117,15 +124,15 @@
 </body>
 <script>
     rxw1.relativePath = '../../'
-    var token = $.cookie('login-token');
     var queryString =rxw1.parseQueryStr(location.search.substr(1))
     var hospitalId =queryString.hospital_id;
-    var clinicId =queryString.clinic_id;
+    var token = $.cookie('login-token');
     var hasMoreItems;
     var page_no;
     var page_size;
     var items = {};
-    var queryParams = {token: token,hospital_id:hospitalId,clinic_id:clinicId}
+    var queryParams = {token: token,hospital_id:hospitalId}
+
     onload();
 
 
@@ -144,8 +151,9 @@
     }
 
     function query(){
-        queryParams.phone=$('[name=phoneQuery]').val();
-        queryParams.type=$('[name=typeQuery]').val();
+        queryParams.name=$('[name=nameQuery]').val();
+        queryParams.contact_tel=$('[name=contactTelQuery]').val();
+        queryParams.hospital_name=$('[name=hospitalNameQuery]').val();
         onload();
     }
     function loadMore(){
@@ -164,7 +172,7 @@
         queryParams.page_no=page_no;
         queryParams.page_size=page_size;
         $.ajax({
-            url: "/zaylt/mm/um/userlist" ,
+            url: "/zaylt/mm/cm/cliniclist" ,
             type: 'post',
             async: false,
             data: queryParams,
@@ -236,9 +244,10 @@
     function renderItemRow(itemRow,item) {
         itemRow.attr('name','')
         itemRow.attr('itemId',item.id)
-        itemRow.find('[name=phone]').text(item.phone).attr('title',item.phone)
-        itemRow.find('[name=realname]').text(item.realname).attr('title',item.realname)
-        itemRow.find('[name=type]').text(parseType(item.type)).attr('title',parseType(item.type))
+        itemRow.find('[name=name]').text(item.name).attr('title',item.name)
+        itemRow.find('[name=contactTel]').text(item.contactTel).attr('title',item.contactTel)
+        itemRow.find('[name=hospitalName]').text(item.hospitalName).attr('title',item.hospitalName)
+        itemRow.find('[name=headmanName]').text(item.headmanName).attr('title',item.headmanName)
     }
 
     function eventToItemRow(itemRow,itemId){
@@ -266,19 +275,25 @@
 
 
 
-function parseType(type){
-    switch (type){
-        case '1' :
-            return '医院';
-        case '2' :
-            return '门诊';
-        case '3' :
-            return '开发者';
+    function lookPatients(){
+        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
+        var itemId = itemRow.attr('itemId')
+        if(itemId){
+            location.href='../pm/ent.html?clinic_id='+itemId
+
+        }else
+            rxw1.errorpad('请选择一条记录')
     }
 
-}
+    function lookUsers(){
+        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
+        var itemId = itemRow.attr('itemId')
+        if(itemId){
+            location.href='../um/ent.html?clinic_id='+itemId
 
-
+        }else
+            rxw1.errorpad('请选择一条记录')
+    }
 </script>
 
 </html>

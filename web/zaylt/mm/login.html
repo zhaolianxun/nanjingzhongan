@@ -17,7 +17,7 @@
 
     <div style="text-align: right;border: 1px solid darkgray;border-radius: 10px;padding:20px 40px;position: absolute;left:50%;top:20%;transform:translateX(-50%)">
         <div>登录</div>
-        <div style="margin-top:20px;"><span>手机号:</span><input name="phone" type="text" style="text-align: center;margin-left:10px;border:1px solid darkgray"/></div>
+        <div style="margin-top:20px;"><span>用户名:</span><input name="username" type="text" style="text-align: center;margin-left:10px;border:1px solid darkgray"/></div>
         <div style="margin-top:10px;"><span>密码:</span><input  name="pwd" type="password" style="text-align: center;margin-left:10px;border:1px solid darkgray"/></div>
         <div style="margin-top:10px;text-align: center;"><button onclick="login()" style="margin:0 10px;width:40%;margin-top:10px">确定</button><button onclick="rxw1.errorpad('暂不开放注册')" style="margin:0 10px;width:40%;margin-top:10px">注册</button></div>
     </div>
@@ -40,12 +40,12 @@
                 success:function(res){
                     if(res.code == 0) {
                         $.cookie('login-token',token);
-                        $.cookie('login-phone',res.data.phone);
+                        $.cookie('login-username',res.data.username);
                         location.href='index.html';
                     }
                     else{
                         $.removeCookie('login-token');
-                        $.removeCookie('login-phone');
+                        $.removeCookie('login-username');
                     }
                 }
             })
@@ -53,17 +53,17 @@
     }
 
     function login(){
-        var phone=$('[name=phone]').val()
+        var username=$('[name=username]').val()
         var pwd=$('[name=pwd]').val()
         $.ajax({
             url:'/zaylt/mm/useraction/login',
-            data:{phone:phone,pwd:pwd},
+            data:{username:username,pwd:pwd},
             type:'post',
             async:false,
             success:function(res){
                 if(res.code == 0) {
                     $.cookie('login-token',res.data.token);
-                    $.cookie('login-phone',res.data.phone);
+                    $.cookie('login-username',res.data.username);
                     location.href='index.html';
                 }
                 else

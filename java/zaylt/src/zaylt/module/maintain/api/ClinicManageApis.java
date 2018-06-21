@@ -63,12 +63,9 @@ public class ClinicManageApis {
 			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-			if (!loginStatus.getType().equals("3"))
-				throw new InteractRuntimeException("您不是开发者");
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			List sqlParams = new ArrayList();
-			sqlParams.add(loginStatus.getUserId());
 			if (name != null)
 				sqlParams.add(new StringBuilder("%").append(name).append("%").toString());
 			if (contactTel != null)
@@ -76,15 +73,15 @@ public class ClinicManageApis {
 			if (hospitalId != null)
 				sqlParams.add(hospitalId);
 			if (hospitalName != null)
-				sqlParams.add(hospitalName);
+				sqlParams.add(new StringBuilder("%").append(hospitalName).append("%").toString());
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.name,t.contact_tel,t.id,u.hospital_name,t.headman_name from t_clinic t left join t_hospital h on t.hospital_id=h.id where 1=1 ")
+					"select t.name,t.contact_tel,t.id,h.name hospital_name,t.headman_name from t_clinic t left join t_hospital h on t.hospital_id=h.id where 1=1 ")
 							.append(name == null ? "" : " and t.name like ?")
 							.append(contactTel == null ? "" : " and t.contact_tel like ?")
 							.append(hospitalId == null ? "" : " and t.hospital_id = ?")
-							.append(hospitalName == null ? "" : " and h.hospital_name like ?")
+							.append(hospitalName == null ? "" : " and h.name like ?")
 							.append(" order by t.add_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));

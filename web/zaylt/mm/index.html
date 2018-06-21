@@ -22,15 +22,15 @@
         <div style="float:right;height:100%;line-height: 70px;position: relative;right:20px"><a href="#" style="font-size: 14px;" onclick="logout()">退出登录</a></div>
     </div>
     <div>
-        <div style="float:left;position: absolute;left: 0;bottom: 0;top:61px;display: inline-block;height:100%;width:200px;border-right: 1px solid darkgray;text-align: center;">
+        <div style="float:left;position: absolute;left: 0;bottom:  2px;top:61px;display: inline-block;width:200px;border-right: 1px solid darkgray;text-align: center;">
             <div style="width:100%;border-bottom:1px solid #e4e5e7;text-align:center;padding:10px 0;">
                 <img src="img/head.png" style="width:60px;">
-                <div id="login-phone" style="color: rgb(119, 119, 119);"></div>
+                <div id="login-username" style="color: rgb(119, 119, 119);"></div>
             </div>
             <ul id="menu" style="padding:0;margin:0"></ul>
         </div>
-        <div style="float:left;position: absolute;left: 200px;;bottom: 0;top:61px;right:0;display: inline-block;height:100%;">
-                <iframe style="width:100%;height:100%" scrolling="no" frameborder="no"></iframe>
+        <div style="float:left;position: absolute;left: 200px;;bottom: 2px;top:61px;right:0;display: inline-block;">
+                <iframe style="width:100%;height:100%"  frameborder="no"></iframe>
         </div>
     </div>
 </body>
@@ -43,7 +43,7 @@
 
     function onload() {
         token = $.cookie('login-token');
-        $('#login-phone').text($.cookie('login-phone'));
+        $('#login-username').text($.cookie('login-username'));
 
         // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
         var setting = {
@@ -54,13 +54,17 @@
                 onClick: function (e, treeId, treeNode) {
                     // zTreeObj.expandNode(treeNode);
                     $('iframe').attr('src', treeNode.uurl)
+                    //$(treeNode).parent().parent().css('background-color','#e8e8e8')
                 }
             }
         };
         // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
         var zNodes = [
-            {name: "医院管理", uurl: "hm/ent.html", cursor: 'pointer'},
-            {name: "用户管理", uurl: "um/ent.html"}
+            {name: "医院管理", uurl: "hm/ent.html"},
+            {name: "用户管理", uurl: "um/ent.html"},
+            {name: "门诊管理", uurl: "cm/ent.html"} ,
+            {name: "病人管理", uurl: "pm/ent.html"}
+
         ];
         var zTreeObj = $.fn.zTree.init($("#menu"), setting, zNodes);
 
@@ -79,7 +83,7 @@
             success:function(res){
                 if(res.code == 0 || res.code==20) {
                     $.removeCookie('login-token');
-                    $.removeCookie('login-phone');
+                    $.removeCookie('login-username');
                     location.href='login.html';
                 }
                 else

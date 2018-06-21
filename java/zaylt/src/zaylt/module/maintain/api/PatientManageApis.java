@@ -66,12 +66,9 @@ public class PatientManageApis {
 			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
-			if (!loginStatus.getType().equals("3"))
-				throw new InteractRuntimeException("您不是开发者");
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			List sqlParams = new ArrayList();
-			sqlParams.add(loginStatus.getUserId());
 			if (realname != null)
 				sqlParams.add(new StringBuilder("%").append(realname).append("%").toString());
 			if (tel != null)
@@ -91,9 +88,9 @@ public class PatientManageApis {
 							.append(realname == null ? "" : " and p.realname like ?")
 							.append(tel == null ? "" : " and p.tel like ?")
 							.append(status == null ? "" : " and p.status = ?")
-							.append(clinicId == null ? "" : " and p.clinicId = ?")
-							.append(hospitalId == null ? "" : " and p.hospitalId = ?")
-							.append(hospitalName == null ? "" : " and h.hospital_name like ?")
+							.append(clinicId == null ? "" : " and p.clinic_id = ?")
+							.append(hospitalId == null ? "" : " and p.hospital_id = ?")
+							.append(hospitalName == null ? "" : " and h.name like ?")
 							.append(" order by p.add_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));

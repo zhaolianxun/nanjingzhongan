@@ -169,9 +169,16 @@ public class CowryManageEntrance {
 				for (int i = 0; i < pics.size(); i++) {
 					String pic = pics.get(i);
 					pic = pic.replaceAll("_\\d\\dx\\d\\d", "_400x400");
+					
+					
 					if (!pic.contains("https:")) {
 						pic = "https:" + pic;
 					}
+					int nn = pic.indexOf("//img.alicdn.com/imgextra/");
+					if (nn == 0) {
+						pic =pic.substring(26);
+					}
+					
 					pics1.add(i, pic);
 				}
 
