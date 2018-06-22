@@ -67,7 +67,7 @@ public class ClinicInfoEntrance {
 				info.put("address", rs.getObject("address"));
 				info.put("remark", rs.getObject("remark"));
 			} else
-				throw new InteractRuntimeException(1404, "目标不存在");
+				throw new InteractRuntimeException(1404, "目标不存在",null);
 			pst.close();
 
 			pst = connection.prepareStatement(
@@ -131,7 +131,7 @@ public class ClinicInfoEntrance {
 			if (rs.next()) {
 				status = rs.getString("status");
 			} else
-				throw new InteractRuntimeException(1404, "目标不存在");
+				throw new InteractRuntimeException(1404, "目标不存在",null);
 			pst.close();
 
 			if (status.equals('4'))
@@ -197,7 +197,9 @@ public class ClinicInfoEntrance {
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
 					"select t.id,t.realname,t.tel,t.sickness,t.status from t_patient t where t.clinic_id=? order by t.add_time desc limit ?,?");
-			pst.setObject(1, loginStatus.getHospitalId());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
 			while (rs.next()) {

@@ -61,7 +61,7 @@ public class HospitalEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select u.phone,t.id,t.name,t.headman_name,t.tel,t.cover from t_hospital t inner join t_user u on t.id=u.hospital_id and u.type=1 order by t.name asc limit ?,?");
+					"select u.phone,t.id,t.name,t.headman_name,t.tel,t.cover from t_hospital t inner join t_user u on t.id=u.hospital_id and u.type=1 where t.del=0 order by t.name asc limit ?,?");
 			pst.setObject(1, pageSize * (pageNo - 1));
 			pst.setObject(2, pageSize);
 			ResultSet rs = pst.executeQuery();

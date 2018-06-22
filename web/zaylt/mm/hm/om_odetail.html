@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <script src="../../libs/rxw/rxw.js"></script>
+    <script src="../../libs/jquery.min.js"></script>
+    <script src="../../libs/jquery.cookie.js"></script>
+    <script src="../../libs/upload.js"></script>
+    <script src="../../libs/cropper/cropper.js"></script>
+    <link href="../../libs/cropper/cropper.css" rel="stylesheet" />
+    <title>医院详情</title>
+
+    <style>
+
+
+        .alterEntDoor {
+            cursor: pointer;
+            width:16px;
+            vertical-align: middle
+        }
+        .title {
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+<div style="width:100%;">
+    <form id="detailPad" style="line-height: 20px">
+        <fieldset>
+            <legend style="color: #595959">详细信息</legend>
+            <div><span class="title">科室名<img class="alterEntDoor" onclick="alterName()" src="../img/update.png"/>:</span><span name="name"></span></div>
+            <div><span class="title">封面<img class="alterEntDoor" onclick="alterCover()" src="../img/update.png"/>:</span><span><img name="cover" style="width:50px;vertical-align: middle"></span></div>
+            <div><span class="title">内容<img class="alterEntDoor" onclick="alterContent()" src="../img/update.png"/>:</span><span ><textarea name="content" rows="5" style="width:80%;resize:none;vertical-align: middle" readonly></textarea></span></div>
+        </fieldset>
+    </form>
+
+
+    <div style="margin-top:20px">
+        <button name="delBtn" style="margin:0 10px;margin-top:5px;width:100px;height:30px">删除</button>
+    </div>
+    <div style="margin-top:20px;"></div>
+</div>
+</body>
+<script>
+    rxw1.relativePath = '../../libs/'
+    var token = $.cookie('login-token');
+    var queryString = rxw1.parseQueryStr(location.search.substr(1));
+    var id = queryString.id;
+    var item;
+
+    onload();
+    function onload() {
+        rxw1.waitLock()
+        $.ajax({
+            url: "/zaylt/mm/hm/om/odetail",
+            type: 'post',
+            async: false,
+            data: {id: id, token: token},
+            success: function (res) {
+                if (res.code == 0) {
+                    item = res.data;
+                    $('#detailPad [name=name]').text(item.name);
+                    $('#detailPad [name=cover]').attr('src',item.cover)
+                    $('#detailPad [name=content]').text(item.content);
+                } else {
+                    rxw1.errorpad(res.codeMsg)
+                }
+            }
+        })
+        rxw1.waitLock.remove()
+    }
+
+    $('#detailPad [name=cover]').css('cursor','pointer').click(function(){
+        rxw1.imgPreview(this.src)
+    });
+
+
+
+
+function alterName(){
+    var nowValue = $('#detailPad [name=name]').text();
+    rxw1.inputpad({content:'请输入科室名',def:nowValue,confirm:function(data){
+        alterItem({'name':data});
+        onload();
+    }})
+}
+
+    function alterCover(){
+        rxw1.cutImg({complete:function(param){
+            var url = uploadBlob(rxw1.convertBase64UrlToBlob(param.canvas.toDataURL(param.input.files[0].type)),param.input.files[0].name)
+            if(url){
+                alterItem({'cover':url});
+                onload();
+            }
+        },xRadio:1,yRadio:1})
+    }
+
+
+    function alterContent(){
+        var nowValue = $('#detailPad [name=content]').val();
+        rxw1.inputtextpad({content:'请输入内容',def:nowValue,confirm:function(data){
+            alterItem({'content':data});
+            onload();
+        }})
+    }
+
+
+    function alterItem(param){
+        param.id=id;
+        param.token=token;
+        $.ajax({
+            url: "/zaylt/mm/hm/om/oalter",
+            type: 'post',
+            async: false,
+            data:param ,
+            success: function (res) {
+                if (res.code == 0) {
+                    rxw1.errorpad('成功');
+                } else {
+                    rxw1.errorpad(res.codeMsg)
+                }
+            }
+        })
+    }
+
+    $('[name=delBtn]').click(function () {
+        rxw1.confirmpad({
+           content:'确认删除吗',
+            confirm: function (data) {
+                $.ajax({
+                    url: "/zaylt/mm/hm/om/odel",
+                    type: 'post',
+                    async: false,
+                    data: {id: id, token: token},
+                    success: function (res) {
+                        if (res.code == 0) {
+                            rxw1.errorpad('成功')
+                        } else {
+                            rxw1.errorpad(res.codeMsg)
+                        }
+                    }
+                })
+
+            }
+        })
+    })
+
+
+</script>
+
+</html>

@@ -39,7 +39,7 @@
             <div><span  class="title">电话<img class="alterEntDoor" onclick="alterTel()" src="../img/update.png"/>:</span><span name="tel"></span></div>
             <div><span class="title">院长<img class="alterEntDoor" onclick="alterHeadmanName()" src="../img/update.png"/>:</span><span name="headmanName"></span></div>
             <div><span class="title">封面<img class="alterEntDoor" onclick="alterCover()" src="../img/update.png"/>:</span><span><img name="cover" style="width:50px;vertical-align: middle"></span></div>
-            <div><span class="title">省<img class="alterEntDoor"  src="../img/update.png"/>:</span><span name="provinceName"></span></div>
+            <div><span class="title">省<img class="alterEntDoor" onclick="alterAdminArea()" src="../img/update.png"/>:</span><span name="provinceName"></span></div>
             <div><span class="title">市:</span><span name="cityName"></span></div>
             <div><span class="title">区:</span><span name="districtName"></span></div>
             <div><span class="title">地址<img class="alterEntDoor" onclick="alterAddress()" src="../img/update.png"/>:</span><span name="address"></span></div>
@@ -113,32 +113,109 @@
     });
 
 
+    function alterAdminArea(){
+        rxw1.hierarchySelect('adminArea',function(res){
+            var param={};
+            param.province_id=res.province.value;
+            param.province_name=res.province.text;
+            param.city_id=res.city.value;
+            param.city_name=res.city.text;
+            param.district_id=res.district.value;
+            param.district_name=res.district.text;
+            alterItem(param)
+            onload();
+        },[{title:'省',name:'province',init:function(select){
+            select.innerHTML='<option value="">请选择</option>'
+            $.ajax({
+                url: "/zaylt/adminarea/provinces",
+                type: 'post',
+                async: false,
+                data: {},
+                success: function (res) {
+                    if (res.code == 0) {
+                        select.innerHTM='<option value="">请选择</option>'
+                        $.each(res.data.items,function(index,ele){
+                            select.innerHTML=select.innerHTML+'<option value="'+ele.id+'">'+ele.name+'</option>'
+                        })
+                    } else {
+                        rxw1.errorpad(res.codeMsg)
+                    }
+                }
+            })
+        },onchange:function(){
+            var value = $(this).val();
+            var city = $('#adminArea [name=city]');
+            var district = $('#adminArea [name=district]');
+            city.html('<option value="">请选择</option>')
+            district.html('<option value="">请选择</option>')
+            if(value){
+                $.ajax({
+                    url: "/zaylt/adminarea/cities",
+                    type: 'post',
+                    async: false,
+                    data: {province_id:value},
+                    success: function (res) {
+                        if (res.code == 0) {
+                            $.each(res.data.items,function(index,ele){
+                                city.html(city.html()+'<option value="'+ele.id+'">'+ele.name+'</option>')
+                            })
+                        } else {
+                            rxw1.errorpad(res.codeMsg)
+                        }
+                    }
+                })
+            }
+        }},{title:'市',name:'city',init:function(select){
+            select.innerHTML='<option value="">请选择</option>'},onchange:function(){
+            var value = $(this).val();
+            var district = $('#adminArea [name=district]');
+            district.html('<option value="">请选择</option>')
+            if(value){
+                $.ajax({
+                    url: "/zaylt/adminarea/distincts",
+                    type: 'post',
+                    async: false,
+                    data: {city_id:value},
+                    success: function (res) {
+                        if (res.code == 0) {
+                            $.each(res.data.items,function(index,ele){
+                                district.html(district.html()+'<option value="'+ele.id+'">'+ele.name+'</option>')
+                            })
+                        } else {
+                            rxw1.errorpad(res.codeMsg)
+                        }
+                    }
+                })
+            }
+        }},{title:'区',name:'district',init:function(select){
+            select.innerHTML='<option value="">请选择</option>'}}])
+    }
 
 function alterName(){
     var nowValue = $('#detailPad [name=name]').text();
     rxw1.inputpad({content:'请输入医院名',def:nowValue,confirm:function(data){
-        alterItem('name',data);
+        alterItem({'name':data});
         onload();
     }})
 }
     function alterTel(){
         var nowValue = $('#detailPad [name=tel]').text();
         rxw1.inputpad({content:'请输入电话',def:nowValue,confirm:function(data){
-            alterItem('tel',data);
+            alterItem({'tel':data});
             onload();
         }})
     }
     function alterHeadmanName(){
         var nowValue = $('#detailPad [name=headmanName]').text();
         rxw1.inputpad({content:'请输入院长姓名',def:nowValue,confirm:function(data){
-            alterItem('headman_name',data);
+            alterItem({'headman_name':data});
             onload();
         }})
     }
     function alterAddress(){
         var nowValue = $('#detailPad [name=address]').text();
         rxw1.inputpad({content:'请输入地址',def:nowValue,confirm:function(data){
-            alterItem('address',data);
+            alterItem({'address':data});
             onload();
         }})
     }
@@ -146,7 +223,7 @@ function alterName(){
         rxw1.cutImg({complete:function(param){
             var url = uploadBlob(rxw1.convertBase64UrlToBlob(param.canvas.toDataURL(param.input.files[0].type)),param.input.files[0].name)
             if(url){
-                alterItem('cover',url);
+                alterItem({'cover':url});
                 onload();
             }
         },xRadio:1.57,yRadio:1})
@@ -156,7 +233,7 @@ function alterName(){
         rxw1.cutImg({complete:function(param){
             var url = uploadBlob(rxw1.convertBase64UrlToBlob(param.canvas.toDataURL(param.input.files[0].type)),param.input.files[0].name)
             if(url){
-                alterItem('intro_pic1',url);
+                alterItem({'intro_pic1':url});
                 onload();
             }
         },xRadio:1.57,yRadio:1})
@@ -165,7 +242,7 @@ function alterName(){
         rxw1.cutImg({complete:function(param){
             var url = uploadBlob(rxw1.convertBase64UrlToBlob(param.canvas.toDataURL(param.input.files[0].type)),param.input.files[0].name)
             if(url){
-                alterItem('intro_pic2',url);
+                alterItem({'intro_pic2':url});
                 onload();
             }
         },xRadio:1.57,yRadio:1})
@@ -174,14 +251,14 @@ function alterName(){
     function alterIntro1(){
         var nowValue = $('#introPad [name=intro1]').val();
         rxw1.inputtextpad({content:'请输入介绍1',def:nowValue,confirm:function(data){
-            alterItem('intro1',data);
+            alterItem({'intro1':data});
             onload();
         }})
     }
     function alterIntro2(){
         var nowValue = $('#introPad [name=intro2]').val();
         rxw1.inputtextpad({content:'请输入介绍2',def:nowValue,confirm:function(data){
-            alterItem('intro2',data);
+            alterItem({'intro2':data});
             onload();
         }})
     }
@@ -189,14 +266,14 @@ function alterName(){
     function alterIntro3(){
         var nowValue = $('#introPad [name=intro3]').val();
         rxw1.inputtextpad({content:'请输入介绍3',def:nowValue,confirm:function(data){
-            alterItem('intro3',data);
+            alterItem({'intro3':data});
             onload();
         }})
     }
 
-    function alterItem(name,value){
-        var param={id: id, token: token};
-        param[name]=value;
+    function alterItem(param){
+        param.id=id;
+        param.token=token;
         $.ajax({
             url: "/zaylt/mm/hm/hospitalalter",
             type: 'post',

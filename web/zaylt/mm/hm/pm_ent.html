@@ -69,35 +69,25 @@
 
 <div style="width:100%;margin-top:5px;">
     <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="query()">查询</button>
-    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookClinics()">查看门诊</button>
-    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookPatients()">查看病人</button>
-    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookUsers()">查看用户</button>
-    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="doctorManage()">医生管理</button>
-    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="projectManage()">项目管理</button>
-    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="officeManage()">科室管理</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="addProject()">新增项目</button>
 </div>
 
 <div style="width:100%;margin-top:10px;">
                 <span style="margin:0 5px;display:inline-block;margin-top:5px;">
-                    <span style="font-size: 14px">医院名:</span>
+                    <span style="font-size: 14px">项目名:</span>
                     <span>
                         <input name="nameQuery"/>
                     </span>
                 </span>
-                <span style="margin:0 5px;display:inline-block;margin-top:5px;">
-                    <span style="font-size: 14px">电话:</span>
-                    <span>
-                        <input name="telQuery"/>
-                    </span>
-                </span>
+
 </div>
 
 <div id="itemsContainer" style="width:99%;border: 1px solid black;margin:0 auto;margin-top:10px;overflow: auto;" >
     <div class="row-title">
-        <span class="cell cell1">选择</span><span class="cell cell2">医院</span><span class="cell cell3">电话</span><span class="cell cell4">院长</span><span class="cell cell5">操作</span>
+        <span class="cell cell1">选择</span><span class="cell cell2">项目名</span><span class="cell cell3">封面</span><span class="cell cell4">操作</span>
     </div>
     <div name="itemExample" class="row" style="display:none">
-        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="name"></span></span><span class="cell cell3" name="tel"></span><span class="cell cell4" name="headmanName"></span><span class="cell cell5" ><button name="detailEntDoor">详情</button></span>
+        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="name"></span></span><span class="cell cell3" ><img name="cover" style="width:30px;vertical-align: middle"/></span><span class="cell cell4" ><button name="detailEntDoor">详情</button></span>
     </div>
     <div name="itemsShowPad" style="max-height:300px;">
         <div name="itemsShow">
@@ -116,12 +106,14 @@
 </body>
 <script>
     rxw1.relativePath = '../../libs/'
+    var queryString = rxw1.parseQueryStr(location.search.substr(1));
+    var hospitalId = queryString.hospital_id;
     var token = $.cookie('login-token');
     var hasMoreItems;
     var page_no;
     var page_size;
     var items = {};
-    var queryParams = {token: token}
+   var queryParams = {token: token,hospital_id:hospitalId}
     onload();
 
 
@@ -140,7 +132,6 @@
 
     function query(){
         queryParams.name=$('[name=nameQuery]').val();
-        queryParams.tel=$('[name=telQuery]').val();
         onload();
     }
     function loadMore(){
@@ -159,7 +150,7 @@
         queryParams.page_no=page_no;
         queryParams.page_size=page_size;
         $.ajax({
-            url: "/zaylt/mm/hm/hospitallist" ,
+            url: "/zaylt/mm/hm/pm/ent" ,
             type: 'post',
             async: false,
             data: queryParams,
@@ -197,7 +188,7 @@
 
     function refreshItemRow(itemRow,itemId){
         $.ajax({
-            url: "/zaylt/mm/hm/hospitaldetail",
+            url: "/zaylt/mm/hm/pm/pdetail",
             type: 'post',
             async: false,
             data: {id:itemId,token:token},
@@ -218,8 +209,7 @@
         itemRow.attr('name','')
         itemRow.attr('itemId',item.id)
         itemRow.find('[name=name]').text(item.name).attr('title',item.name)
-        itemRow.find('[name=tel]').text(item.tel).attr('title',item.tel)
-        itemRow.find('[name=headmanName]').text(item.headmanName).attr('title',item.headmanName)
+        itemRow.find('[name=cover]').attr('src',item.cover)
     }
 
     function eventToItemRow(itemRow,itemId){
@@ -228,7 +218,7 @@
             rxw1.layer({init:function(layer){
                 layer.style['background-color']='white';
                 $(layer).append('<div style="height:30px"><button style="margin:0 10px;display:inline-block;margin-top:5px;width:60px;height:25px" name="closeLayer">关闭</button></div>')
-                $(layer).append('<iframe frameborder="no" style="width: 100%;height:100%" src="'+'hdetail.html?id='+itemId+'"></iframe>')
+                $(layer).append('<iframe frameborder="no" style="width: 100%;height:100%" src="'+'pm_pdetail.html?id='+itemId+'"></iframe>')
                 $(layer).find('[name=closeLayer]').click(function(){
                     refreshItemRow(itemRow,itemId)
                     $(layer).remove();
@@ -236,6 +226,9 @@
             }})
             rxw1.waitLock.remove()
         })
+        itemRow.find('[name=cover]').click(function(){
+            rxw1.imgPreview(this.src)
+        }).css('cursor','pointer')
         itemRow.click(function(){
             $('.row [name=itemChosen] ').prop("checked",false);
             $(this).find('[name=itemChosen]').prop("checked",true);
@@ -244,63 +237,10 @@
         })
     }
 
-
-
-
-function lookClinics(){
-    var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
-    var itemId = itemRow.attr('itemId')
-    if(itemId){
-        location.href='../cm/ent.html?hospital_id='+itemId
-
-    }else
-        rxw1.errorpad('请选择一条记录')
+function addProject(){
+   location.href='pm_padd.html?hospital_id='+hospitalId
 }
-    function lookPatients(){
-        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
-        var itemId = itemRow.attr('itemId')
-        if(itemId){
-            location.href='../pm/ent.html?hospital_id='+itemId
 
-        }else
-            rxw1.errorpad('请选择一条记录')
-    }
-
-    function lookUsers(){
-        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
-        var itemId = itemRow.attr('itemId')
-        if(itemId){
-            location.href='../um/ent.html?hospital_id='+itemId
-
-        }else
-            rxw1.errorpad('请选择一条记录')
-    }
-
-    function doctorManage(){
-        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
-        var itemId = itemRow.attr('itemId')
-        if(itemId){
-            location.href='dm_ent.html?hospital_id='+itemId
-        }else
-            rxw1.errorpad('请选择一条记录')
-    }
-
-    function projectManage(){
-        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
-        var itemId = itemRow.attr('itemId')
-        if(itemId){
-            location.href='pm_ent.html?hospital_id='+itemId
-        }else
-            rxw1.errorpad('请选择一条记录')
-    }
-    function officeManage(){
-        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
-        var itemId = itemRow.attr('itemId')
-        if(itemId){
-            location.href='om_ent.html?hospital_id='+itemId
-        }else
-            rxw1.errorpad('请选择一条记录')
-    }
 
 </script>
 

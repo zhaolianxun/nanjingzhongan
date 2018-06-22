@@ -62,7 +62,7 @@ public class HospitalInfoEntrance {
 				info.put("longitude", rs.getObject("longitude"));
 				info.put("latitude", rs.getObject("latitude"));
 			} else
-				throw new InteractRuntimeException(1404, "目标不存在");
+				throw new InteractRuntimeException(1404, "目标不存在",null);
 			pst.close();
 
 			pst = connection.prepareStatement(
@@ -129,7 +129,9 @@ public class HospitalInfoEntrance {
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
 					"select t.id,t.name,t.cover from t_office t where t.hospital_id=? order by t.add_time desc limit ?,?");
-			pst.setObject(1, loginStatus.getHospitalId());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
@@ -207,7 +209,7 @@ public class HospitalInfoEntrance {
 				connection.close();
 		}
 	}
-	
+
 	@RequestMapping(value = "/projectlist")
 	public void projectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -237,7 +239,9 @@ public class HospitalInfoEntrance {
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
 					"select t.id,t.name,t.cover from t_project t where t.hospital_id=? order by t.add_time desc limit ?,?");
-			pst.setObject(1, loginStatus.getHospitalId());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
@@ -345,7 +349,9 @@ public class HospitalInfoEntrance {
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
 					"select t.id,t.name,t.headimg,t.office,t.job_titles,left(t.good_at, 50) good_at_brief from t_doctor t where t.hospital_id=? order by t.name asc limit ?,?");
-			pst.setObject(1, loginStatus.getHospitalId());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
 			while (rs.next()) {

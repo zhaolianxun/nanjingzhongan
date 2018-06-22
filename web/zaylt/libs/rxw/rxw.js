@@ -530,25 +530,27 @@ rxw1.scrollEvent= function (ele,down,top){
     }
 }
 
-rxw1.hierarchySelect= function (param){
+rxw1.hierarchySelect= function (padId,param){
     this.layer({init:function(layer){
         layer.style['background-color']='rgba(0,0,0,0)';
-var selects = []
+        var pad=document.createElement("div");
+        pad.id=padId;
         $.each(param,function(index,ele){
-                var select=document.createElement("select");
+            var div=document.createElement("div");
+            var span=document.createElement("span");
+            span.innerHTML=ele.title+':'
+            div.appendChild(span)
+            var select=document.createElement("select");
                 select.name=ele.name;
                 layer.appendChild(select);
-                select.onchange=ele.selectProcess;
-                selects.add(select)
-
-                if(index==0)
-                    ele.selectProcess(select);
+                if(ele.init)
+                     ele.init(select);
+            select.onchange = ele.onchange;
+            div.appendChild(select)
+            pad.appendChild(div)
         })
+        layer.appendChild(pad)
 
-
-        $.each(selects,function(index,ele){
-            ele.onchange=ele[index+1].selectProcess(ele,ele[index+1]);
-        })
     }})
 
 }

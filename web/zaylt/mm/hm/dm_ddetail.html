@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <script src="../../libs/rxw/rxw.js"></script>
+    <script src="../../libs/jquery.min.js"></script>
+    <script src="../../libs/jquery.cookie.js"></script>
+    <script src="../../libs/upload.js"></script>
+    <script src="../../libs/cropper/cropper.js"></script>
+    <link href="../../libs/cropper/cropper.css" rel="stylesheet" />
+    <title>医院详情</title>
+
+    <style>
+
+
+        .alterEntDoor {
+            cursor: pointer;
+            width:16px;
+            vertical-align: middle
+        }
+        .title {
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+<div style="width:100%;">
+    <form id="detailPad" style="line-height: 20px">
+        <fieldset>
+            <legend style="color: #595959">详细信息</legend>
+            <div><span class="title">姓名<img class="alterEntDoor" onclick="alterName()" src="../img/update.png"/>:</span><span name="name"></span></div>
+            <div><span class="title">头像<img class="alterEntDoor" onclick="alterHeadimg()" src="../img/update.png"/>:</span><span><img name="headimg" style="width:50px;vertical-align: middle"></span></div>
+            <div><span class="title">科室<img class="alterEntDoor" onclick="alterOffice()" src="../img/update.png"/>:</span><span name="office"></span></div>
+            <div><span class="title">头衔<img class="alterEntDoor" onclick="alterJobTitles()" src="../img/update.png"/>:</span><span name="jobTitles"></span></div>
+            <div><span class="title">介绍<img class="alterEntDoor" onclick="alterIntro()" src="../img/update.png"/>:</span><span ><textarea name="intro" rows="5" style="width:80%;resize:none;vertical-align: middle" readonly></textarea></span></div>
+            <div><span class="title">擅长<img class="alterEntDoor" onclick="alterGoodAt()" src="../img/update.png"/>:</span><span ><textarea name="goodAt" rows="5" style="width:80%;resize:none;vertical-align: middle" readonly></textarea></span></div>
+        </fieldset>
+    </form>
+
+
+    <div style="margin-top:20px">
+        <button name="delBtn" style="margin:0 10px;margin-top:5px;width:100px;height:30px">删除</button>
+    </div>
+    <div style="margin-top:20px;"></div>
+</div>
+</body>
+<script>
+    rxw1.relativePath = '../../libs/'
+    var token = $.cookie('login-token');
+    var queryString = rxw1.parseQueryStr(location.search.substr(1));
+    var id = queryString.id;
+    var item;
+
+    onload();
+    function onload() {
+        rxw1.waitLock()
+        $.ajax({
+            url: "/zaylt/mm/hm/dm/ddetail",
+            type: 'post',
+            async: false,
+            data: {id: id, token: token},
+            success: function (res) {
+                if (res.code == 0) {
+                    item = res.data;
+                    $('#detailPad [name=name]').text(item.name);
+                    $('#detailPad [name=headimg]').attr('src',item.headimg)
+                    $('#detailPad [name=office]').text(item.office);
+                    $('#detailPad [name=jobTitles]').text(item.jobTitles);
+                    $('#detailPad [name=intro]').text(item.intro);
+                    $('#detailPad [name=goodAt]').text(item.goodAt);
+                } else {
+                    rxw1.errorpad(res.codeMsg)
+                }
+            }
+        })
+        rxw1.waitLock.remove()
+    }
+
+    $('#detailPad [name=headimg]').css('cursor','pointer').click(function(){
+        rxw1.imgPreview(this.src)
+    });
+
+
+
+
+function alterName(){
+    var nowValue = $('#detailPad [name=name]').text();
+    rxw1.inputpad({content:'请输入姓名',def:nowValue,confirm:function(data){
+        alterItem({'name':data});
+        onload();
+    }})
+}
+    function alterOffice(){
+        var nowValue = $('#detailPad [name=office]').text();
+        rxw1.inputpad({content:'请输入科室',def:nowValue,confirm:function(data){
+            alterItem({'office':data});
+            onload();
+        }})
+    }
+    function alterJobTitles(){
+        var nowValue = $('#detailPad [name=jobTitles]').text();
+        rxw1.inputpad({content:'请输入科室',def:nowValue,confirm:function(data){
+            alterItem({'job_titles':data});
+            onload();
+        }})
+    }
+
+    function alterHeadimg(){
+        rxw1.cutImg({complete:function(param){
+            var url = uploadBlob(rxw1.convertBase64UrlToBlob(param.canvas.toDataURL(param.input.files[0].type)),param.input.files[0].name)
+            if(url){
+                alterItem({'headimg':url});
+                onload();
+            }
+        },xRadio:1,yRadio:1})
+    }
+
+
+    function alterIntro(){
+        var nowValue = $('#detailPad [name=intro]').val();
+        rxw1.inputtextpad({content:'请输入介绍',def:nowValue,confirm:function(data){
+            alterItem({'intro':data});
+            onload();
+        }})
+    }
+    function alterGoodAt(){
+        var nowValue = $('#detailPad [name=goodAt]').val();
+        rxw1.inputtextpad({content:'请输入擅长',def:nowValue,confirm:function(data){
+            alterItem({'good_at':data});
+            onload();
+        }})
+    }
+
+
+    function alterItem(param){
+        param.id=id;
+        param.token=token;
+        $.ajax({
+            url: "/zaylt/mm/hm/dm/dalter",
+            type: 'post',
+            async: false,
+            data:param ,
+            success: function (res) {
+                if (res.code == 0) {
+                    rxw1.errorpad('成功');
+                } else {
+                    rxw1.errorpad(res.codeMsg)
+                }
+            }
+        })
+    }
+
+    $('[name=delBtn]').click(function () {
+        rxw1.confirmpad({
+           content:'确认删除吗',
+            confirm: function (data) {
+                $.ajax({
+                    url: "/zaylt/mm/hm/dm/ddel",
+                    type: 'post',
+                    async: false,
+                    data: {id: id, token: token},
+                    success: function (res) {
+                        if (res.code == 0) {
+                            rxw1.errorpad('成功')
+                        } else {
+                            rxw1.errorpad(res.codeMsg)
+                        }
+                    }
+                })
+
+            }
+        })
+    })
+
+
+</script>
+
+</html>

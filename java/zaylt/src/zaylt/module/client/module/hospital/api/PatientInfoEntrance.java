@@ -236,7 +236,7 @@ public class PatientInfoEntrance {
 			if (rs.next()) {
 				status = rs.getString("status");
 			} else
-				throw new InteractRuntimeException(1404, "目标不存在");
+				throw new InteractRuntimeException(1404, "目标不存在",null);
 			pst.close();
 
 			if (status.equals('4'))

@@ -530,25 +530,57 @@ rxw1.scrollEvent= function (ele,down,top){
     }
 }
 
-rxw1.hierarchySelect= function (param){
+rxw1.hierarchySelect= function (padId,callback,param){
     this.layer({init:function(layer){
-        layer.style['background-color']='rgba(0,0,0,0)';
-var selects = []
+        layer.style['background-color']='rgba(0, 0, 0, 0)';
+        var pad=document.createElement("div");
+        pad.id=padId;
+        pad.style['position']='absolute';
+        pad.style['top']='30%';
+        pad.style['left']='50%';
+        pad.style['transform']='translateX(-50%)';
+        pad.style['background-color']='white';
+        pad.style['border-radius']='10px';
+        pad.style['min-width']='300px';
+        pad.style['border']='1px solid lightgrey';
+
+        var selectsDiv=document.createElement("div");
+        selectsDiv.style['padding']='20px';
+        selectsDiv.style['padding-top']='10px';
         $.each(param,function(index,ele){
-                var select=document.createElement("select");
+            var div=document.createElement("div");
+            div.style['margin-top']='10px';
+            var span=document.createElement("span");
+            span.innerHTML=ele.title+':'
+            div.appendChild(span)
+            var select=document.createElement("select");
                 select.name=ele.name;
                 layer.appendChild(select);
-                select.onchange=ele.selectProcess;
-                selects.add(select)
-
-                if(index==0)
-                    ele.selectProcess(select);
+                if(ele.init)
+                     ele.init(select);
+            select.onchange = ele.onchange;
+            div.appendChild(select)
+            selectsDiv.appendChild(div)
         })
+        pad.appendChild(selectsDiv)
+        $(pad).append('<div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="font-size:14px;font-weight:600;width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button><button name="confirm" style="font-size:14px;font-weight:600;width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div>')
+        layer.appendChild(pad)
 
+        $(pad).find('[name=cancel]').click(function(){
+            layer.remove()
+        });
+        $(pad).find('[name=confirm]').click(function(){
+            var pp = {}
+            $.each( $(pad).find("select"),function(index,ele){
+                var aa = {name:ele.name,value:ele.value,text:$(ele).find('option:selected').text()}
+                pp[ele.name]=aa;
+            })
+            layer.remove()
+            if(callback){
+                callback(pp);
+            }
+        });
 
-        $.each(selects,function(index,ele){
-            ele.onchange=ele[index+1].selectProcess(ele,ele[index+1]);
-        })
     }})
 
 }
