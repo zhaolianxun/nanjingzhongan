@@ -799,7 +799,7 @@ public class AdminEntrance {
 	}
 
 	@RequestMapping(value = "/taobaoaccountauditfail")
-	public void userTaobaoaccountauditfail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void tobaoaccountauditfail(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -866,7 +866,7 @@ public class AdminEntrance {
 	}
 
 	@RequestMapping(value = "/taobaoaccountauditsuccess")
-	public void userTaobaoaccountauditsuccess(HttpServletRequest request, HttpServletResponse response)
+	public void taobaoaccountauditsuccess(HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;

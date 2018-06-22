@@ -132,6 +132,7 @@ public class UserAction {
 
 			// 更新数据库用户信息
 			connection = ZayltDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
 			pst = connection.prepareStatement("select id,password_md5 from t_user where phone=?");
 			pst.setObject(1, phone);
 			ResultSet rs = pst.executeQuery();
@@ -143,19 +144,30 @@ public class UserAction {
 
 				if (!srcPwdMd5.equals(DigestUtils.md5Hex(pwd)))
 					throw new InteractRuntimeException("密码错误");
+				pst = connection
+						.prepareStatement("update t_user set wx_openid=null,wx_session_key=null where wx_openid=?");
+				pst.setObject(1, openid);
+				pst.executeUpdate();
+				pst.close();
+
 				pst = connection.prepareStatement("update t_user set wx_openid=? where id=?");
 				pst.setObject(1, openid);
 				pst.setObject(2, userId);
-				pst.executeUpdate();
+				int n = pst.executeUpdate();
 				pst.close();
+				if (n != 1)
+					throw new InteractRuntimeException("操作失败");
 			} else
 				throw new InteractRuntimeException("手机号不存在");
 
+			connection.commit();
 			// 返回结果
 			HttpRespondWithData.todo(request, response, 0, null, null);
 		} catch (Exception e) {
 			// 处理异常
 			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
@@ -355,7 +367,7 @@ public class UserAction {
 			// 释放资源
 		}
 	}
-	
+
 	@RequestMapping(value = "/logout")
 	public void logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Jedis jedis = null;

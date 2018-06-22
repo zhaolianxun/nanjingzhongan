@@ -48,11 +48,11 @@
     <form id="introPad" style="line-height: 20px">
         <fieldset>
             <legend style="color: #595959">介绍信息</legend>
-            <div><span class="title">介绍1 : </span><span name="intro1"></span></div>
-            <div style="margin-top:10px"><span class="title">介绍图1 : </span><span><img name="introPic1" style="width:50px;vertical-align: middle"></span></div>
-            <div style="margin-top:10px"><span class="title">介绍2 : </span><span name="intro2"></span></div>
-            <div style="margin-top:10px"><span class="title">介绍图2 : </span><span><img name="introPic2" style="width:50px;vertical-align: middle"></span></div>
-            <div style="margin-top:10px"><span class="title">介绍3: </span><span name="intro3"></span></div>
+            <div><span class="title">介绍1<img class="alterEntDoor" onclick="alterIntro1()" src="../img/update.png"/>:</span><span ><textarea name="intro1" rows="5" style="width:80%;resize:none;vertical-align: middle" readonly></textarea></span></div>
+            <div style="margin-top:10px"><span class="title">介绍图1<img class="alterEntDoor" onclick="alterIntroPic1()" src="../img/update.png"/>:</span><span><img name="introPic1"  style="width:50px;vertical-align: middle"></span></div>
+            <div style="margin-top:10px"><span class="title">介绍2<img class="alterEntDoor" onclick="alterIntro2()" src="../img/update.png"/>:</span><span ><textarea name="intro2" rows="5" style="width:80%;resize:none;vertical-align: middle" readonly></textarea></span></div>
+            <div style="margin-top:10px"><span class="title">介绍图2<img class="alterEntDoor" onclick="alterIntroPic2()" src="../img/update.png"/>:</span><span><img name="introPic2" style="width:50px;vertical-align: middle"></span></div>
+            <div style="margin-top:10px"><span class="title">介绍3<img class="alterEntDoor" onclick="alterIntro3()" src="../img/update.png"/>:</span><span ><textarea name="intro3" rows="5" style="width:80%;resize:none;vertical-align: middle" readonly></textarea></span></div>
         </fieldset>
     </form>
 
@@ -111,6 +111,9 @@
     $('#introPad [name=introPic2]').css('cursor','pointer').click(function(){
         rxw1.imgPreview(this.src)
     });
+
+
+
 function alterName(){
     var nowValue = $('#detailPad [name=name]').text();
     rxw1.inputpad({content:'请输入医院名',def:nowValue,confirm:function(data){
@@ -147,6 +150,48 @@ function alterName(){
                 onload();
             }
         },xRadio:1.57,yRadio:1})
+    }
+
+    function alterIntroPic1(){
+        rxw1.cutImg({complete:function(param){
+            var url = uploadBlob(rxw1.convertBase64UrlToBlob(param.canvas.toDataURL(param.input.files[0].type)),param.input.files[0].name)
+            if(url){
+                alterItem('intro_pic1',url);
+                onload();
+            }
+        },xRadio:1.57,yRadio:1})
+    }
+    function alterIntroPic2(){
+        rxw1.cutImg({complete:function(param){
+            var url = uploadBlob(rxw1.convertBase64UrlToBlob(param.canvas.toDataURL(param.input.files[0].type)),param.input.files[0].name)
+            if(url){
+                alterItem('intro_pic2',url);
+                onload();
+            }
+        },xRadio:1.57,yRadio:1})
+    }
+
+    function alterIntro1(){
+        var nowValue = $('#introPad [name=intro1]').val();
+        rxw1.inputtextpad({content:'请输入介绍1',def:nowValue,confirm:function(data){
+            alterItem('intro1',data);
+            onload();
+        }})
+    }
+    function alterIntro2(){
+        var nowValue = $('#introPad [name=intro2]').val();
+        rxw1.inputtextpad({content:'请输入介绍2',def:nowValue,confirm:function(data){
+            alterItem('intro2',data);
+            onload();
+        }})
+    }
+
+    function alterIntro3(){
+        var nowValue = $('#introPad [name=intro3]').val();
+        rxw1.inputtextpad({content:'请输入介绍3',def:nowValue,confirm:function(data){
+            alterItem('intro3',data);
+            onload();
+        }})
     }
 
     function alterItem(name,value){
