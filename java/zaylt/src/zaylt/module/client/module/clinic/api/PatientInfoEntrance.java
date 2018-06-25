@@ -121,6 +121,9 @@ public class PatientInfoEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
+					"select count(id) from t_patient where clinic_id=? and hospital_id=? and realname=? and tel=?");
+		
+			pst = connection.prepareStatement(
 					"insert into t_patient (id,clinic_id,hospital_id,realname,tel,sickness,remark,add_time) values(?,?,?,?,?,?,?,?)");
 			String id = RandomStringUtils.randomNumeric(12);
 			pst.setObject(1, id);

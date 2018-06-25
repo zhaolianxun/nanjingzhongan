@@ -62,7 +62,7 @@ public class HospitalInfoEntrance {
 				info.put("longitude", rs.getObject("longitude"));
 				info.put("latitude", rs.getObject("latitude"));
 			} else
-				throw new InteractRuntimeException(1404, "目标不存在",null);
+				throw new InteractRuntimeException(1404, "目标不存在", null);
 			pst.close();
 
 			pst = connection.prepareStatement(
@@ -128,7 +128,7 @@ public class HospitalInfoEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
-					"select t.id,t.name,t.cover from t_office t where t.hospital_id=? order by t.add_time desc limit ?,?");
+					"select t.content,t.id,t.name,t.cover from t_office t where t.hospital_id=? order by t.add_time desc limit ?,?");
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -139,6 +139,7 @@ public class HospitalInfoEntrance {
 				item.put("id", rs.getObject("id"));
 				item.put("name", rs.getObject("name"));
 				item.put("cover", rs.getObject("cover"));
+				item.put("content", rs.getObject("content"));
 				items.add(item);
 			}
 
