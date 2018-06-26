@@ -72,7 +72,7 @@ public class ClinicInfoEntrance {
 
 			pst = connection.prepareStatement(
 					"select t.id,t.realname,t.tel,t.sickness,t.status from t_patient t where t.clinic_id=? order by t.add_time desc limit 0,30");
-			pst.setObject(1, loginStatus.getHospitalId());
+			pst.setObject(1, id);
 			rs = pst.executeQuery();
 			JSONArray patients = new JSONArray();
 			while (rs.next()) {

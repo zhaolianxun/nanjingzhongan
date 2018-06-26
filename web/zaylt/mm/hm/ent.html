@@ -117,11 +117,13 @@
 <script>
     rxw1.relativePath = '../../libs/'
     var token = $.cookie('login-token');
+    var queryString =rxw1.parseQueryStr(location.search.substr(1))
+    var userId =queryString.user_id;
     var hasMoreItems;
     var page_no;
     var page_size;
     var items = {};
-    var queryParams = {token: token}
+    var queryParams = {token: token,user_id:userId}
     onload();
 
 

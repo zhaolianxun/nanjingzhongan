@@ -103,7 +103,7 @@
         <span class="cell cell1">选择</span><span class="cell cell2">门诊名</span><span class="cell cell3">联系电话</span><span class="cell cell4">主任</span><span class="cell cell5">医院名</span><span class="cell cell6">操作</span>
     </div>
     <div name="itemExample" class="row" style="display:none">
-        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="name"></span></span><span class="cell cell3" name="contactTel"></span><span class="cell cell4" name="headmanName"></span><span class="cell cell5" name="hospitalName"></span><span class="cell cell6" ><button name="detailEntDoor">详情</button></span>
+        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="name"></span></span><span class="cell cell3" name="contactTel"></span><span class="cell cell4" name="headmanName"></span><span class="cell cell5" name="hospitalName"></span><span class="cell cell6" ><button name="detailEntDoor" style="display: none">详情</button></span>
     </div>
     <div name="itemsShowPad" style="max-height:300px;">
         <div name="itemsShow">
@@ -126,12 +126,13 @@
     rxw1.relativePath = '../../libs/'
     var queryString =rxw1.parseQueryStr(location.search.substr(1))
     var hospitalId =queryString.hospital_id;
+    var userId =queryString.user_id;
     var token = $.cookie('login-token');
     var hasMoreItems;
     var page_no;
     var page_size;
     var items = {};
-    var queryParams = {token: token,hospital_id:hospitalId}
+    var queryParams = {token: token,hospital_id:hospitalId,user_id:userId}
 
     onload();
 

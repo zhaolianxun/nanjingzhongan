@@ -47,6 +47,7 @@ public class ClinicManageApis {
 			// 获取请求参数
 			String name = StringUtils.trimToNull(request.getParameter("name"));
 			String contactTel = StringUtils.trimToNull(request.getParameter("contact_tel"));
+			String userId = StringUtils.trimToNull(request.getParameter("user_id"));
 			String hospitalName = StringUtils.trimToNull(request.getParameter("hospital_name"));
 			String hospitalIdParam = StringUtils.trimToNull(request.getParameter("hospital_id"));
 			Integer hospitalId = hospitalIdParam == null ? null : Integer.parseInt(hospitalIdParam);
@@ -72,6 +73,8 @@ public class ClinicManageApis {
 				sqlParams.add(new StringBuilder("%").append(contactTel).append("%").toString());
 			if (hospitalId != null)
 				sqlParams.add(hospitalId);
+			if (userId != null)
+				sqlParams.add(userId);
 			if (hospitalName != null)
 				sqlParams.add(new StringBuilder("%").append(hospitalName).append("%").toString());
 			sqlParams.add(pageSize * (pageNo - 1));
@@ -81,6 +84,7 @@ public class ClinicManageApis {
 							.append(name == null ? "" : " and t.name like ?")
 							.append(contactTel == null ? "" : " and t.contact_tel like ?")
 							.append(hospitalId == null ? "" : " and t.hospital_id = ?")
+							.append(userId == null ? "" : " and t.user_id = ?")
 							.append(hospitalName == null ? "" : " and h.name like ?")
 							.append(" order by t.add_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {

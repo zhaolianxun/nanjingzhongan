@@ -105,6 +105,37 @@ rxw1.inputpad=function input(param) {
         });
     }})
 }
+
+
+
+rxw1.inputBooleanPad=function input(param) {
+    this.layer({init:function(layer){
+        layer.style['background-color']='rgba(0, 0, 0, 0)';
+        var inputpad =$('<div  style="background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " ><div  style="width:90%;text-align:center;margin:10px auto">'+param.content+'</div><div  style="width:90%;text-align:center;margin:10px auto;"><label for="rxw1-radio-yes">是</label><input type="radio" name="rxw1-radio"  id="rxw1-radio-yes" value="1" style="text-align: center;"/><label for="rxw1-radio-no" style="margin-left:10px">否</label><input type="radio" name="rxw1-radio" id="rxw1-radio-no" value="0" style="text-align: center;"/></div><div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;"><button name="cancel" style="font-size:14px;font-weight:600;width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button><button name="confirm" style="font-size:14px;font-weight:600;width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button></div></div>');
+        $(layer).append(inputpad);
+        $(layer).find("input[name=rxw1-radio]").val(param.def)
+        //$(layer).click(function(){
+        //    var e = rxw1.getEvent();
+        //    var target = rxw1.getEventTarget(e);
+        //    if(target == layer){
+        //        $(this).remove();
+        //    }
+        //})
+
+        $(inputpad).find('[name=cancel]').click(function(){
+            $(this).parent().parent().parent().remove()
+        });
+        $(inputpad).find('[name=confirm]').click(function(){
+            var val = $(layer).find("input[name=rxw1-radio]:checked").val()
+            $(this).parent().parent().parent().remove()
+            if(param.confirm){
+                param.confirm(val);
+            }
+        });
+    }})
+}
+
+
 rxw1.getEvent = function(){
     return window.event || arguments.callee.caller.arguments[0]
 }

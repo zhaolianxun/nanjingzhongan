@@ -239,9 +239,9 @@ public class PatientInfoEntrance {
 				throw new InteractRuntimeException(1404, "目标不存在",null);
 			pst.close();
 
-			if (status.equals('4'))
+			if (status.equals("4"))
 				throw new InteractRuntimeException("已确认过");
-			if (!status.equals('3'))
+			if (!status.equals("3"))
 				throw new InteractRuntimeException("门诊还没有转诊");
 
 			pst = connection.prepareStatement("update t_patient set status='4' where id=?");

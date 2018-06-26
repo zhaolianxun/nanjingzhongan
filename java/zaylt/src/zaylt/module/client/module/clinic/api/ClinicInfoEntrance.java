@@ -49,7 +49,7 @@ public class ClinicInfoEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.name,t.headman_name,t.contact_tel,t.address,t.remark from t_clinic t where t.id=?");
+					"select t.featured_project,t.name,t.headman_name,t.contact_tel,t.address,t.remark from t_clinic t where t.id=?");
 			pst.setObject(1, loginStatus.getClinicId());
 			ResultSet rs = pst.executeQuery();
 			JSONObject info = new JSONObject();
@@ -59,6 +59,7 @@ public class ClinicInfoEntrance {
 				info.put("contactTel", rs.getObject("contact_tel"));
 				info.put("address", rs.getObject("address"));
 				info.put("remark", rs.getObject("remark"));
+				info.put("featuredProject", rs.getObject("featured_project"));
 			} else
 				throw new InteractRuntimeException("门诊不存在");
 

@@ -45,6 +45,7 @@ public class HospitalManageApis {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
+			String userId = StringUtils.trimToNull(request.getParameter("user_id"));
 			String name = StringUtils.trimToNull(request.getParameter("name"));
 			String tel = StringUtils.trimToNull(request.getParameter("tel"));
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
@@ -63,6 +64,8 @@ public class HospitalManageApis {
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			List sqlParams = new ArrayList();
+			if (userId != null)
+				sqlParams.add(userId);
 			if (name != null)
 				sqlParams.add(new StringBuilder("%").append(name).append("%").toString());
 			if (tel != null)
@@ -71,7 +74,8 @@ public class HospitalManageApis {
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
 					new StringBuilder("select t.name,t.tel,t.id,t.headman_name from t_hospital t where 1=1 ")
-							.append(name == null ? "" : " and t.name like ?")
+					.append(userId == null ? "" : " and t.user_id=?")
+					.append(name == null ? "" : " and t.name like ?")
 							.append(tel == null ? "" : " and t.tel like ?")
 							.append(" order by t.add_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {

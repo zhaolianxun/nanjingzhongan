@@ -35,6 +35,430 @@ public class HospitalEntrance {
 
 	public static Logger logger = Logger.getLogger(HospitalEntrance.class);
 
+	@RequestMapping(value = "/wgw")
+	@Transactional(rollbackFor = Exception.class)
+	public void weiguanwang(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String hospitalIdParam = StringUtils.trimToNull(request.getParameter("hospital_id"));
+			if (hospitalIdParam == null)
+				throw new InteractRuntimeException("hospital_id 不能空");
+			int hospitalId = Integer.parseInt(hospitalIdParam);
+			// 业务处理
+			LoginStatus loginStatus = LoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (!loginStatus.getType().equals("3"))
+				throw new InteractRuntimeException("您不是开发者");
+
+			connection = ZayltDataSource.dataSource.getConnection();
+			// 查詢订单列表
+			pst = connection.prepareStatement(
+					"select t.longitude,t.latitude,t.province_name,t.city_name,t.district_name,t.tel,t.name from t_hospital t where t.id=?");
+			pst.setObject(1, loginStatus.getHospitalId());
+			ResultSet rs = pst.executeQuery();
+			JSONObject info = new JSONObject();
+			if (rs.next()) {
+				info.put("provinceName", rs.getObject("province_name"));
+				info.put("cityName", rs.getObject("city_name"));
+				info.put("districtName", rs.getObject("district_name"));
+				info.put("tel", rs.getObject("tel"));
+				info.put("name", rs.getObject("name"));
+				info.put("longitude", rs.getObject("longitude"));
+				info.put("latitude", rs.getObject("latitude"));
+			} else
+				throw new InteractRuntimeException(1404, "目标不存在", null);
+			pst.close();
+
+			pst = connection.prepareStatement(
+					"select t.id,t.name,t.headimg,t.office,t.job_titles,left(t.good_at, 50) good_at_brief from t_doctor t where t.hospital_id=? order by t.name asc limit 0,10");
+			pst.setObject(1, hospitalId);
+			rs = pst.executeQuery();
+			JSONArray doctors = new JSONArray();
+			while (rs.next()) {
+				JSONObject doctor = new JSONObject();
+				doctor.put("id", rs.getObject("id"));
+				doctor.put("name", rs.getObject("name"));
+				doctor.put("headimg", rs.getObject("headimg"));
+				doctor.put("office", rs.getObject("office"));
+				doctor.put("jobTitles", rs.getObject("job_titles"));
+				doctor.put("goodAtBrief", rs.getObject("good_at_brief"));
+				doctors.add(doctor);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.putAll(info);
+			data.put("doctors", doctors);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/doctorlist")
+	public void doctorList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String hospitalIdParam = StringUtils.trimToNull(request.getParameter("hospital_id"));
+			if (hospitalIdParam == null)
+				throw new InteractRuntimeException("hospital_id 不能空");
+			int hospitalId = Integer.parseInt(hospitalIdParam);
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+
+			// 业务处理
+			LoginStatus loginStatus = LoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (!loginStatus.getType().equals("3"))
+				throw new InteractRuntimeException("您不是开发者");
+			connection = ZayltDataSource.dataSource.getConnection();
+
+			List sqlParams = new ArrayList();
+			sqlParams.add(hospitalId);
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			pst = connection.prepareStatement(
+					"select h.name hoapital_name,t.id,t.name,t.headimg,t.office,t.job_titles,left(t.good_at, 50) good_at_brief from t_doctor t left join t_hospital h on t.hospital_id=h.id where t.hospital_id=? order by t.name asc limit ?,?");
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("id", rs.getObject("id"));
+				item.put("name", rs.getObject("name"));
+				item.put("headimg", rs.getObject("headimg"));
+				item.put("office", rs.getObject("office"));
+				item.put("jobTitles", rs.getObject("job_titles"));
+				item.put("goodAtBrief", rs.getObject("good_at_brief"));
+				item.put("hoapitalName", rs.getObject("hoapital_name"));
+				items.add(item);
+			}
+
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/doctorinfo")
+	public void doctorInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id 不能空");
+			int id = Integer.parseInt(idParam);
+
+			// 业务处理
+			LoginStatus loginStatus = LoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (!loginStatus.getType().equals("3"))
+				throw new InteractRuntimeException("您不是开发者");
+			connection = ZayltDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(
+					"select h.name hoapital_name,t.id,t.name,t.headimg,t.office,t.job_titles,t.good_at,t.intro from t_doctor t left join t_hospital h on t.hospital_id=h.id where t.id=?");
+			pst.setObject(1, id);
+			ResultSet rs = pst.executeQuery();
+			JSONObject item = new JSONObject();
+			while (rs.next()) {
+				item.put("id", rs.getObject("id"));
+				item.put("name", rs.getObject("name"));
+				item.put("headimg", rs.getObject("headimg"));
+				item.put("office", rs.getObject("office"));
+				item.put("jobTitles", rs.getObject("job_titles"));
+				item.put("goodAt", rs.getObject("good_at"));
+				item.put("intro", rs.getObject("intro"));
+				item.put("hoapitalName", rs.getObject("hoapital_name"));
+			}
+
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.putAll(item);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/officelist")
+	public void officeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String hospitalIdParam = StringUtils.trimToNull(request.getParameter("hospital_id"));
+			if (hospitalIdParam == null)
+				throw new InteractRuntimeException("hospital_id 不能空");
+			int hospitalId = Integer.parseInt(hospitalIdParam);
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+
+			// 业务处理
+			LoginStatus loginStatus = LoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (!loginStatus.getType().equals("3"))
+				throw new InteractRuntimeException("您不是开发者");
+			connection = ZayltDataSource.dataSource.getConnection();
+
+			List sqlParams = new ArrayList();
+			sqlParams.add(hospitalId);
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			pst = connection.prepareStatement(
+					"select t.content,t.id,t.name,t.cover from t_office t where t.hospital_id=? order by t.add_time desc limit ?,?");
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("id", rs.getObject("id"));
+				item.put("name", rs.getObject("name"));
+				item.put("cover", rs.getObject("cover"));
+				item.put("content", rs.getObject("content"));
+				items.add(item);
+			}
+
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/officeinfo")
+	public void officeInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id 不能空");
+			int id = Integer.parseInt(idParam);
+
+			// 业务处理
+			LoginStatus loginStatus = LoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (!loginStatus.getType().equals("3"))
+				throw new InteractRuntimeException("您不是开发者");
+			connection = ZayltDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement("select t.id,t.name,t.cover,t.content from t_office t where t.id=?");
+			pst.setObject(1, id);
+			ResultSet rs = pst.executeQuery();
+			JSONObject item = new JSONObject();
+			while (rs.next()) {
+				item.put("id", rs.getObject("id"));
+				item.put("name", rs.getObject("name"));
+				item.put("cover", rs.getObject("cover"));
+				item.put("content", rs.getObject("content"));
+			}
+
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.putAll(item);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/projectlist")
+	public void projectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String hospitalIdParam = StringUtils.trimToNull(request.getParameter("hospital_id"));
+			if (hospitalIdParam == null)
+				throw new InteractRuntimeException("hospital_id 不能空");
+			int hospitalId = Integer.parseInt(hospitalIdParam);
+			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
+			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
+			if (pageNo <= 0)
+				throw new InteractRuntimeException("page_no有误");
+			String pageSizeParam = StringUtils.trimToNull(request.getParameter("page_size"));
+			int pageSize = pageSizeParam == null ? 30 : Integer.parseInt(pageSizeParam);
+			if (pageSize <= 0)
+				throw new InteractRuntimeException("page_size有误");
+
+			// 业务处理
+			LoginStatus loginStatus = LoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (!loginStatus.getType().equals("3"))
+				throw new InteractRuntimeException("您不是开发者");
+			connection = ZayltDataSource.dataSource.getConnection();
+
+			List sqlParams = new ArrayList();
+			sqlParams.add(hospitalId);
+			sqlParams.add(pageSize * (pageNo - 1));
+			sqlParams.add(pageSize);
+			pst = connection.prepareStatement(
+					"select t.id,t.name,t.cover from t_project t where t.hospital_id=? order by t.add_time desc limit ?,?");
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			ResultSet rs = pst.executeQuery();
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				JSONObject item = new JSONObject();
+				item.put("id", rs.getObject("id"));
+				item.put("name", rs.getObject("name"));
+				item.put("cover", rs.getObject("cover"));
+				items.add(item);
+			}
+
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.put("items", items);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/projectinfo")
+	public void projectInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id 不能空");
+			int id = Integer.parseInt(idParam);
+
+			// 业务处理
+			LoginStatus loginStatus = LoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (!loginStatus.getType().equals("3"))
+				throw new InteractRuntimeException("您不是开发者");
+			connection = ZayltDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement("select t.id,t.name,t.cover,t.content from t_project t where t.id=?");
+			pst.setObject(1, id);
+			ResultSet rs = pst.executeQuery();
+			JSONObject item = new JSONObject();
+			while (rs.next()) {
+				item.put("id", rs.getObject("id"));
+				item.put("name", rs.getObject("name"));
+				item.put("cover", rs.getObject("cover"));
+				item.put("content", rs.getObject("content"));
+			}
+
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.putAll(item);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
 	@RequestMapping(value = "/hospitals")
 	@Transactional(rollbackFor = Exception.class)
 	public void hospitals(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -61,9 +485,10 @@ public class HospitalEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select u.phone,t.id,t.name,t.headman_name,t.tel,t.cover from t_hospital t inner join t_user u on t.id=u.hospital_id and u.type=1 where t.del=0 order by t.name asc limit ?,?");
-			pst.setObject(1, pageSize * (pageNo - 1));
-			pst.setObject(2, pageSize);
+					"select u.phone,t.id,t.name,t.headman_name,t.tel,t.cover from t_hospital t inner join t_user u on t.id=u.hospital_id and u.type=1 where t.del=0 and t.developer_id=? order by t.name asc limit ?,?");
+			pst.setObject(1, loginStatus.getUserId());
+			pst.setObject(2, pageSize * (pageNo - 1));
+			pst.setObject(3, pageSize);
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
@@ -135,16 +560,29 @@ public class HospitalEntrance {
 
 			connection = ZayltDataSource.dataSource.getConnection();
 			connection.setAutoCommit(false);
+			pst = connection.prepareStatement("select power_addhospital from t_user t  where t.id=?");
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			int powerAddHospital = 0;
+			if (rs.next()) {
+				powerAddHospital = rs.getInt("power_addhospital");
+			} else
+				throw new InteractRuntimeException(20, "用户不存在", null);
+			pst.close();
+
+			if (powerAddHospital == 0)
+				throw new InteractRuntimeException("您没有此操作权限");
+
 			pst = connection.prepareStatement("select id from t_user t  where phone=?");
 			pst.setObject(1, phone);
-			ResultSet rs = pst.executeQuery();
+			rs = pst.executeQuery();
 			if (rs.next())
 				throw new InteractRuntimeException("手机号已存在");
 
 			// 查詢订单列表
 			String userId = RandomStringUtils.randomNumeric(12);
 			pst = connection.prepareStatement(
-					"insert into t_hospital (user_id,name,headman_name,tel,cover,add_time) values(?,?,?,?,?,?)",
+					"insert into t_hospital (user_id,name,headman_name,tel,cover,add_time,developer_id) values(?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			pst.setObject(1, userId);
 			pst.setObject(2, name);
@@ -152,6 +590,7 @@ public class HospitalEntrance {
 			pst.setObject(4, tel);
 			pst.setObject(5, cover);
 			pst.setObject(6, new Date().getTime());
+			pst.setObject(7, loginStatus.getUserId());
 			int n = pst.executeUpdate();
 			int hospitalId = 0;
 			if (n != 1) {

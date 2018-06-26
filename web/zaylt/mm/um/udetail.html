@@ -35,16 +35,20 @@
     <form id="detailPad" style="line-height: 20px">
         <fieldset>
             <legend style="color: #595959">详细信息</legend>
-            <div><span class="title">项目名<img class="alterEntDoor" onclick="alterName()" src="../img/update.png"/>:</span><span name="name"></span></div>
-            <div><span class="title">封面<img class="alterEntDoor" onclick="alterCover()" src="../img/update.png"/>:</span><span><img name="cover" style="width:50px;vertical-align: middle"></span></div>
-            <div><span class="title">内容<img class="alterEntDoor" onclick="alterContent()" src="../img/update.png"/>:</span><span ><textarea name="content" rows="5" style="width:80%;resize:none;vertical-align: middle" readonly></textarea></span></div>
+            <div><span class="title">手机<img class="alterEntDoor" onclick="alterPhone()" src="../img/update.png"/>:</span><span name="phone"></span></div>
+            <div><span class="title">姓名<img class="alterEntDoor" onclick="alterRealname()" src="../img/update.png"/>:</span><span name="realname"></span></div>
+            <div><span class="title">类型:</span><span name="type"></span></div>
+        </fieldset>
+        <fieldset>
+            <legend style="color: #595959">权限</legend>
+            <div><span class="title">添加医院<img class="alterEntDoor" onclick="alterPowerAddhospital()" src="../img/update.png"/>:</span><span name="powerAddhospital" value=""></span></div>
         </fieldset>
     </form>
 
 
-    <div style="margin-top:20px">
-        <button name="delBtn" style="margin:0 10px;margin-top:5px;width:100px;height:30px">删除</button>
-    </div>
+    <!--<div style="margin-top:20px">-->
+        <!--<button name="delBtn" style="margin:0 10px;margin-top:5px;width:100px;height:30px">删除</button>-->
+    <!--</div>-->
     <div style="margin-top:20px;"></div>
 </div>
 </body>
@@ -59,16 +63,16 @@
     function onload() {
         rxw1.waitLock()
         $.ajax({
-            url: "/zaylt/mm/hm/pm/pdetail",
+            url: "/zaylt/mm/um/udetail",
             type: 'post',
             async: false,
             data: {id: id, token: token},
             success: function (res) {
                 if (res.code == 0) {
                     item = res.data;
-                    $('#detailPad [name=name]').text(item.name);
-                    $('#detailPad [name=cover]').attr('src',item.cover)
-                    $('#detailPad [name=content]').text(item.content);
+                    $('#detailPad [name=phone]').text(item.phone);
+                    $('#detailPad [name=realname]').text(item.realname);
+                    $('#detailPad [name=type]').text(parseType(item.type));
                 } else {
                     rxw1.errorpad(res.codeMsg)
                 }
@@ -82,41 +86,37 @@
     });
 
 
+    function alterPowerAddhospital(){
+        var nowValue = $('#detailPad [name=powerAddhospital]').attr('value');
+        rxw1.inputMorePad({content:'权限-添加医院',def:nowValue,confirm:function(data){
+            alterItem({'power_addhospital':data});
+            onload();
+        }})
+    }
 
-
-function alterName(){
-    var nowValue = $('#detailPad [name=name]').text();
-    rxw1.inputpad({content:'请输入项目名',def:nowValue,confirm:function(data){
-        alterItem({'name':data});
+function alterPhone(){
+    var nowValue = $('#detailPad [name=phone]').text();
+    rxw1.inputpad({content:'请输入手机号',def:nowValue,confirm:function(data){
+        alterItem({'phone':data});
         onload();
     }})
 }
 
-    function alterCover(){
-        rxw1.cutImg({complete:function(param){
-            var url = uploadBlob(rxw1.convertBase64UrlToBlob(param.canvas.toDataURL(param.input.files[0].type)),param.input.files[0].name)
-            if(url){
-                alterItem({'cover':url});
-                onload();
-            }
-        },xRadio:1,yRadio:1})
-    }
-
-
-    function alterContent(){
-        var nowValue = $('#detailPad [name=content]').val();
-        rxw1.inputtextpad({content:'请输入内容',def:nowValue,confirm:function(data){
-            alterItem({'content':data});
+    function alterRealname(){
+        var nowValue = $('#detailPad [name=realname]').text();
+        rxw1.inputpad({content:'请输入姓名',def:nowValue,confirm:function(data){
+            alterItem({'realname':data});
             onload();
         }})
     }
+
 
 
     function alterItem(param){
         param.id=id;
         param.token=token;
         $.ajax({
-            url: "/zaylt/mm/hm/pm/palter",
+            url: "/zaylt/mm/um/ualter",
             type: 'post',
             async: false,
             data:param ,
@@ -130,27 +130,17 @@ function alterName(){
         })
     }
 
-    $('[name=delBtn]').click(function () {
-        rxw1.confirmpad({
-           content:'确认删除吗',
-            confirm: function (data) {
-                $.ajax({
-                    url: "/zaylt/mm/hm/pm/pdel",
-                    type: 'post',
-                    async: false,
-                    data: {id: id, token: token},
-                    success: function (res) {
-                        if (res.code == 0) {
-                            rxw1.errorpad('成功')
-                        } else {
-                            rxw1.errorpad(res.codeMsg)
-                        }
-                    }
-                })
+  function parseType(type){
+      switch(type){
+          case '1':
+              return '医院';
+          case '2':
+              return '门诊';
+          case '3':
+              return '开发者';
+      }
 
-            }
-        })
-    })
+  }
 
 
 </script>

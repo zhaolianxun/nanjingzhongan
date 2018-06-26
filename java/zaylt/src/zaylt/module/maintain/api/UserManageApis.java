@@ -122,10 +122,9 @@ public class UserManageApis {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-			String idParam = StringUtils.trimToNull(request.getParameter("id"));
-			if (idParam == null)
+			String id = StringUtils.trimToNull(request.getParameter("id"));
+			if (id == null)
 				throw new InteractRuntimeException("id 不能空");
-			int id = Integer.parseInt(idParam);
 			// 业务处理
 			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
@@ -169,13 +168,19 @@ public class UserManageApis {
 		PreparedStatement pst = null;
 		try {
 			// 获取请求参数
-			String idParam = StringUtils.trimToNull(request.getParameter("id"));
-			if (idParam == null)
+			String id = StringUtils.trimToNull(request.getParameter("id"));
+			if (id == null)
 				throw new InteractRuntimeException("id 不能空");
-			int id = Integer.parseInt(idParam);
 			String phone = StringUtils.trimToNull(request.getParameter("phone"));
 			String realname = StringUtils.trimToNull(request.getParameter("realname"));
-
+			String powerAddhospitalParam = StringUtils.trimToNull(request.getParameter("power_addhospital"));
+			Integer powerAddhospital = powerAddhospitalParam == null ? null : Integer.parseInt(powerAddhospitalParam);
+			if (powerAddhospital != null) {
+				if (powerAddhospital > 0)
+					powerAddhospital = 1;
+				else
+					powerAddhospital = 0;
+			}
 			// 业务处理
 			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
@@ -187,10 +192,12 @@ public class UserManageApis {
 				sqlParams.add(phone);
 			if (realname != null)
 				sqlParams.add(realname);
+			if (powerAddhospital != null)
+				sqlParams.add(powerAddhospital);
 			sqlParams.add(id);
-			pst = connection.prepareStatement(
-					new StringBuilder("update t_user set id=id").append(phone == null ? "" : ",phone=?")
-							.append(realname == null ? "" : ",realname=?").append(" where id=?").toString());
+			pst = connection.prepareStatement(new StringBuilder("update t_user set id=id")
+					.append(phone == null ? "" : ",phone=?").append(realname == null ? "" : ",realname=?")
+					.append(powerAddhospital == null ? "" : ",power_addhospital=?").append(" where id=?").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}

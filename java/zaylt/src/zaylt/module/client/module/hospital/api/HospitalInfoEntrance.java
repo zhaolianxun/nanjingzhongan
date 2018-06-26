@@ -349,7 +349,7 @@ public class HospitalInfoEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
-					"select t.id,t.name,t.headimg,t.office,t.job_titles,left(t.good_at, 50) good_at_brief from t_doctor t where t.hospital_id=? order by t.name asc limit ?,?");
+					"select h.name hoapital_name,t.id,t.name,t.headimg,t.office,t.job_titles,left(t.good_at, 50) good_at_brief from t_doctor t left join t_hospital h on t.hospital_id=h.id where t.hospital_id=? order by t.name asc limit ?,?");
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -363,6 +363,7 @@ public class HospitalInfoEntrance {
 				item.put("office", rs.getObject("office"));
 				item.put("jobTitles", rs.getObject("job_titles"));
 				item.put("goodAtBrief", rs.getObject("good_at_brief"));
+				item.put("hoapitalName", rs.getObject("hoapital_name"));
 				items.add(item);
 			}
 
@@ -405,7 +406,7 @@ public class HospitalInfoEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(
-					"select t.id,t.name,t.headimg,t.office,t.job_titles,t.good_at,t.intro from t_doctor t where t.id=?");
+					"select h.name hoapital_name,t.id,t.name,t.headimg,t.office,t.job_titles,t.good_at,t.intro from t_doctor t left join t_hospital h on t.hospital_id=h.id where t.id=?");
 			pst.setObject(1, id);
 			ResultSet rs = pst.executeQuery();
 			JSONObject item = new JSONObject();
@@ -417,6 +418,7 @@ public class HospitalInfoEntrance {
 				item.put("jobTitles", rs.getObject("job_titles"));
 				item.put("goodAt", rs.getObject("good_at"));
 				item.put("intro", rs.getObject("intro"));
+				item.put("hoapitalName", rs.getObject("hoapital_name"));
 			}
 
 			pst.close();
