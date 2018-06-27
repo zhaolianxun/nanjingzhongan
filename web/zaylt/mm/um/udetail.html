@@ -39,7 +39,7 @@
             <div><span class="title">姓名<img class="alterEntDoor" onclick="alterRealname()" src="../img/update.png"/>:</span><span name="realname"></span></div>
             <div><span class="title">类型:</span><span name="type"></span></div>
         </fieldset>
-        <fieldset>
+        <fieldset id="powerPad" style="display: none">
             <legend style="color: #595959">权限</legend>
             <div><span class="title">添加医院<img class="alterEntDoor" onclick="alterPowerAddhospital()" src="../img/update.png"/>:</span><span name="powerAddhospital" value=""></span></div>
         </fieldset>
@@ -62,6 +62,7 @@
     onload();
     function onload() {
         rxw1.waitLock()
+        $('#powerPad').css('display','none')
         $.ajax({
             url: "/zaylt/mm/um/udetail",
             type: 'post',
@@ -73,6 +74,10 @@
                     $('#detailPad [name=phone]').text(item.phone);
                     $('#detailPad [name=realname]').text(item.realname);
                     $('#detailPad [name=type]').text(parseType(item.type));
+                    if(item.type==3){
+                        $('#powerPad').css('display','')
+                        $('#detailPad [name=powerAddhospital]').text(item.powerAddhospital?'有':'无').attr('value',item.powerAddhospital);
+                    }
                 } else {
                     rxw1.errorpad(res.codeMsg)
                 }
@@ -88,7 +93,7 @@
 
     function alterPowerAddhospital(){
         var nowValue = $('#detailPad [name=powerAddhospital]').attr('value');
-        rxw1.inputMorePad({content:'权限-添加医院',def:nowValue,confirm:function(data){
+        rxw1.inputBooleanPad({content:'权限-添加医院',def:nowValue,confirm:function(data){
             alterItem({'power_addhospital':data});
             onload();
         }})

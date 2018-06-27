@@ -67,7 +67,7 @@ public class ClinicInfoEntrance {
 				info.put("address", rs.getObject("address"));
 				info.put("remark", rs.getObject("remark"));
 			} else
-				throw new InteractRuntimeException(1404, "目标不存在",null);
+				throw new InteractRuntimeException(1404, "目标不存在", null);
 			pst.close();
 
 			pst = connection.prepareStatement(
@@ -131,12 +131,12 @@ public class ClinicInfoEntrance {
 			if (rs.next()) {
 				status = rs.getString("status");
 			} else
-				throw new InteractRuntimeException(1404, "目标不存在",null);
+				throw new InteractRuntimeException(1404, "目标不存在", null);
 			pst.close();
 
-			if (status.equals('4'))
+			if (status.equals("4"))
 				throw new InteractRuntimeException("已确认过");
-			if (!status.equals('3'))
+			if (!status.equals("3"))
 				throw new InteractRuntimeException("门诊还没有转诊");
 
 			pst = connection.prepareStatement("update t_patient set status='4' where id=?");

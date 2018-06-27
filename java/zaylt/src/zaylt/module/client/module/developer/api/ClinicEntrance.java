@@ -33,6 +33,75 @@ public class ClinicEntrance {
 
 	public static Logger logger = Logger.getLogger(ClinicEntrance.class);
 
+	@RequestMapping(value = "/clinichome")
+	@Transactional(rollbackFor = Exception.class)
+	public void clinicHome(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id 不能空");
+			int id = Integer.parseInt(idParam);
+			// 业务处理
+			LoginStatus loginStatus = LoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			if (!loginStatus.getType().equals("3"))
+				throw new InteractRuntimeException("您不是开发者");
+
+			connection = ZayltDataSource.dataSource.getConnection();
+			// 查詢订单列表
+			pst = connection.prepareStatement(
+					"select t.name,t.headman_name,t.contact_tel,t.address,t.remark from t_clinic t where t.id=?");
+			pst.setObject(1, id);
+			ResultSet rs = pst.executeQuery();
+			JSONObject info = new JSONObject();
+			if (rs.next()) {
+				info.put("name", rs.getObject("name"));
+				info.put("headmanName", rs.getObject("headman_name"));
+				info.put("contactTel", rs.getObject("contact_tel"));
+				info.put("address", rs.getObject("address"));
+				info.put("remark", rs.getObject("remark"));
+			} else
+				throw new InteractRuntimeException(1404, "目标不存在", null);
+			pst.close();
+
+			pst = connection.prepareStatement(
+					"select t.id,t.realname,t.tel,t.sickness,t.status from t_patient t where t.clinic_id=? order by t.add_time desc limit 0,30");
+			pst.setObject(1, id);
+			rs = pst.executeQuery();
+			JSONArray patients = new JSONArray();
+			while (rs.next()) {
+				JSONObject patient = new JSONObject();
+				patient.put("id", rs.getObject("id"));
+				patient.put("realname", rs.getObject("realname"));
+				patient.put("tel", rs.getObject("tel"));
+				patient.put("sickness", rs.getObject("sickness"));
+				patient.put("status", rs.getObject("status"));
+				patients.add(patient);
+			}
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.putAll(info);
+			data.put("patients", patients);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
 	@RequestMapping(value = "/clinics")
 	@Transactional(rollbackFor = Exception.class)
 	public void clinics(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -71,6 +71,8 @@
     <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="query()">查询</button>
     <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookClinics()">查看门诊</button>
     <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookHospitals()">查看医院</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookBindHospitals()">查看开发者绑定的医院</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="bindHospital()">开发者绑定医院</button>
 </div>
 
 <div style="width:100%;margin-top:10px;">
@@ -116,6 +118,12 @@
 </div>
 
 
+<div id="bindHospital-pad-example" style="display: none;text-align: center;width:300px;margin:auto;padding:10px 0;">
+    <span>医院名:</span><input name="hospitalName" type="text"/><button name="query">查询</button>
+    <div name="hospitalDetail"></div>
+    <div style="margin-top:10px"><button  name="cancel" style="width:40%">取消</button><button name="confirm" style="width:40%;margin-left:5px">确定</button></div>
+</div>
+
 </body>
 <script>
     rxw1.relativePath = '../../libs/'
@@ -136,6 +144,7 @@
         page_no = 1;
         page_size = 30;
         hasMoreItems = true;
+        $('#bindHospital-pad').css('display','none');
         $('[name=itemsShow]').html('');
         $('[name=pagingBottomPad] [name=noitem]').css('display', '');
         $('[name=pagingBottomPad] [name=more]').css('display', 'none');
@@ -235,12 +244,14 @@
     }
 
 
+
+
     function renderItemRow(itemRow,item) {
         itemRow.attr('name','')
         itemRow.attr('itemId',item.id)
         itemRow.find('[name=phone]').text(item.phone).attr('title',item.phone)
         itemRow.find('[name=realname]').text(item.realname).attr('title',item.realname)
-        itemRow.find('[name=type]').text(parseType(item.type)).attr('title',parseType(item.type))
+        itemRow.find('[name=type]').text(parseType(item.type)).attr('title',parseType(item.type)).attr('value',item.type)
     }
 
     function eventToItemRow(itemRow,itemId){
@@ -297,6 +308,104 @@ function parseType(type){
 
         }else
             rxw1.errorpad('请选择一条记录')
+    }
+    function lookBindHospitals(){
+        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
+        var itemId = itemRow.attr('itemId')
+        if(itemId){
+            if(itemRow.find('[name=type]').attr('value') != 3){
+                rxw1.errorpad('只能选择开发者用户')
+                return;
+            }
+
+            location.href='../hm/ent.html?developer_id='+itemId
+
+        }else
+            rxw1.errorpad('请选择一条记录')
+    }
+
+    function bindHospital(){
+        var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
+        var itemId = itemRow.attr('itemId');
+        if(itemId) {
+            if(itemRow.find('[name=type]').attr('value') != 3){
+                rxw1.errorpad('只能选择开发者用户')
+                return;
+            }
+
+            var hospitalId;
+            rxw1.layer({
+                clickClose: true, init: function (layer) {
+
+                    var newPad = $('#bindHospital-pad-example').clone(true);
+                    newPad.css('background-color', 'white')
+                    newPad.attr('id', 'bindHospital-pad');
+                    newPad.css('display', '')
+                    $(layer).append(newPad);
+                    newPad.find('[name=query]').click(function () {
+                        $(layer).find('[name=hospitalDetail]').text('')
+                        $.ajax({
+                            url: "/zaylt/mm/um/hospitaldetailbyname",
+                            type: 'post',
+                            async: false,
+                            data: {token: token, name: $(layer).find('[name=hospitalName]').val()},
+                            success: function (res) {
+                                if (res.code == 0) {
+                                    var html = '';
+                                    hospitalId = res.data.id;
+                                    if (res.data.cover) {
+                                        html = html + '<img style="width:50px" src="' + res.data.cover + '"/>'
+                                    }
+                                    html = html + rxw1.trimStrToEmpty(res.data.tel) + ' ';
+                                    html = html + rxw1.trimStrToEmpty(res.data.headmanName) + ' ';
+                                    html = html + rxw1.trimStrToEmpty(res.data.provinceName) + ' ';
+                                    html = html + rxw1.trimStrToEmpty(res.data.cityName) + ' ';
+                                    html = html + rxw1.trimStrToEmpty(res.data.districtName) + ' ';
+                                    html = html + rxw1.trimStrToEmpty(res.data.address) + ' ';
+
+                                    $(layer).find('[name=hospitalDetail]').html(html)
+                                    $(layer).find('img').click(function () {
+                                        rxw1.imgPreview(this.src)
+                                    }).css('cursor', 'pointer')
+                                } else {
+                                    rxw1.errorpad(res.codeMsg)
+                                }
+                            }
+                        })
+                    })
+
+                    newPad.find('[name=cancel]').click(function () {
+                                $(layer).remove()
+                            }
+                    )
+                    newPad.find('[name=confirm]').click(function () {
+                                if (hospitalId) {
+                                    $.ajax({
+                                        url: "/zaylt/mm/um/bindhospital",
+                                        type: 'post',
+                                        async: false,
+                                        data: {user_id: itemId, token: token, hospital_id: hospitalId},
+                                        success: function (res) {
+                                            if (res.code == 0) {
+                                                rxw1.errorpad('成功')
+                                                $(layer).remove();
+                                            } else {
+                                                rxw1.errorpad(res.codeMsg)
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    rxw1.errorpad("请先查定医院")
+                                }
+                            }
+                    )
+                }
+            })
+        }else{
+            rxw1.errorpad('请选择一条记录')
+
+        }
+
     }
 </script>
 

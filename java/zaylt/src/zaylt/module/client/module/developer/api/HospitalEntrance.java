@@ -57,7 +57,7 @@ public class HospitalEntrance {
 			// 查詢订单列表
 			pst = connection.prepareStatement(
 					"select t.longitude,t.latitude,t.province_name,t.city_name,t.district_name,t.tel,t.name from t_hospital t where t.id=?");
-			pst.setObject(1, loginStatus.getHospitalId());
+			pst.setObject(1, hospitalId);
 			ResultSet rs = pst.executeQuery();
 			JSONObject info = new JSONObject();
 			if (rs.next()) {

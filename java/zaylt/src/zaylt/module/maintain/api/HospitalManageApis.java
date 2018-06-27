@@ -39,6 +39,63 @@ public class HospitalManageApis {
 
 	public static Logger logger = Logger.getLogger(HospitalManageApis.class);
 
+	@RequestMapping(value = "/unbinddeveloper")
+	public void unbinddeveloper(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String hospitalIdParam = StringUtils.trimToNull(request.getParameter("hospital_id"));
+			if (hospitalIdParam == null)
+				throw new InteractRuntimeException("hospital_id 不能空");
+			int hospitalId = Integer.parseInt(hospitalIdParam);
+
+			// 业务处理
+			LoginStatus loginStatus = LoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			connection = ZayltDataSource.dataSource.getConnection();
+			connection.setAutoCommit(false);
+			pst = connection.prepareStatement(
+					new StringBuilder("select developer_id from t_hospital t where t.id=? for update").toString());
+			pst.setObject(1, hospitalId);
+			ResultSet rs = pst.executeQuery();
+			String boundDeveloperId = null;
+			if (rs.next()) {
+				boundDeveloperId = rs.getString("developer_id");
+			} else
+				throw new InteractRuntimeException(1404, "目标不存在", null);
+			pst.close();
+
+			if (boundDeveloperId == null)
+				throw new InteractRuntimeException("该医院未绑定开发者");
+
+			pst = connection.prepareStatement(
+					new StringBuilder("update t_hospital set developer_id=null where id=?").toString());
+			pst.setObject(1, hospitalId);
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			connection.commit();
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			if (connection != null)
+				connection.rollback();
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
 	@RequestMapping(value = "/hospitallist")
 	public void hospitallist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
@@ -46,6 +103,7 @@ public class HospitalManageApis {
 		try {
 			// 获取请求参数
 			String userId = StringUtils.trimToNull(request.getParameter("user_id"));
+			String developerId = StringUtils.trimToNull(request.getParameter("developer_id"));
 			String name = StringUtils.trimToNull(request.getParameter("name"));
 			String tel = StringUtils.trimToNull(request.getParameter("tel"));
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
@@ -64,6 +122,8 @@ public class HospitalManageApis {
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			List sqlParams = new ArrayList();
+			if (developerId != null)
+				sqlParams.add(developerId);
 			if (userId != null)
 				sqlParams.add(userId);
 			if (name != null)
@@ -72,10 +132,11 @@ public class HospitalManageApis {
 				sqlParams.add(new StringBuilder("%").append(tel).append("%").toString());
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
-			pst = connection.prepareStatement(
-					new StringBuilder("select t.name,t.tel,t.id,t.headman_name from t_hospital t where 1=1 ")
-					.append(userId == null ? "" : " and t.user_id=?")
-					.append(name == null ? "" : " and t.name like ?")
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.name,t.tel,t.id,t.headman_name,u.phone developer_phone,u.realname developer_realname from t_hospital t left join t_user u on t.developer_id=u.id where 1=1 ")
+							.append(developerId == null ? "" : " and t.developer_id=?")
+							.append(userId == null ? "" : " and t.user_id=?")
+							.append(name == null ? "" : " and t.name like ?")
 							.append(tel == null ? "" : " and t.tel like ?")
 							.append(" order by t.add_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
@@ -89,6 +150,8 @@ public class HospitalManageApis {
 				item.put("name", rs.getObject("name"));
 				item.put("tel", rs.getObject("tel"));
 				item.put("headmanName", rs.getObject("headman_name"));
+				item.put("developerPhone", rs.getObject("developer_phone"));
+				item.put("developerRealname", rs.getObject("developer_realname"));
 				items.add(item);
 			}
 			pst.close();
@@ -127,7 +190,7 @@ public class HospitalManageApis {
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.name,t.tel,t.id,t.headman_name,t.cover,t.intro1,t.intro2,t.intro3,t.intro4,t.intro5,t.intro_pic1,t.intro_pic2,t.address,t.province_name,t.city_name,t.district_name,t.longitude,t.latitude from t_hospital t where t.id=? ")
+					"select t.name,t.tel,t.id,t.headman_name,t.cover,t.intro1,t.intro2,t.intro3,t.intro4,t.intro5,t.intro_pic1,t.intro_pic2,t.address,t.province_name,t.city_name,t.district_name,t.longitude,t.latitude,u.phone developer_phone,u.realname developer_realname from t_hospital t left join t_user u on t.developer_id=u.id  where t.id=? ")
 							.toString());
 			pst.setObject(1, id);
 			ResultSet rs = pst.executeQuery();
@@ -151,6 +214,8 @@ public class HospitalManageApis {
 				detail.put("districtName", rs.getObject("district_name"));
 				detail.put("longitude", rs.getObject("longitude"));
 				detail.put("latitude", rs.getObject("latitude"));
+				detail.put("developerPhone", rs.getObject("developer_phone"));
+				detail.put("developerRealname", rs.getObject("developer_realname"));
 			} else
 				throw new InteractRuntimeException(1404, "目标不存在", null);
 			pst.close();

@@ -105,8 +105,8 @@ public class UserAction {
 			jedis.del(userId);
 			jedis.set("zasellaid.client.token-" + token, JSON.toJSONString(status));
 			jedis.set(userId, token);
-			jedis.expire("zasellaid.client.token-" + token, 7 * 24 * 60 * 60);
-			jedis.expire(userId, 7 * 24 * 60 * 60);
+			jedis.expire("zasellaid.client.token-" + token,30 * 24 * 60 * 60);
+			jedis.expire(userId, 30 * 24 * 60 * 60);
 
 			RefreshUserAlive.bean.run(userId);
 			// TODO 返回结果
@@ -181,9 +181,11 @@ public class UserAction {
 			status.setLoginTime(new Date().getTime());
 			status.setMaintainIs(maintainIs);
 
-			jedis.set(token, JSON.toJSONString(status));
-			jedis.expire(token, 7 * 24 * 60 * 60);
-
+			jedis.set("zasellaid.client.token-" +token, JSON.toJSONString(status));
+			jedis.expire("zasellaid.client.token-" +token, 30 * 24 * 60 * 60);
+			jedis.set(loginStatus.getUserId(), token);
+			jedis.expire(loginStatus.getUserId(), 30 * 24 * 60 * 60);
+			
 			RefreshUserAlive.bean.run(loginStatus.getUserId());
 			// TODO 返回结果
 			JSONObject data = new JSONObject();
