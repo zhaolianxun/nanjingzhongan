@@ -79,6 +79,35 @@ rxw1.inputtextpad=function input(param) {
     }})
 }
 
+rxw1.inputUMPad = function (param){
+    this.layer({init:function(layer){
+        layer.style['background-color']='rgba(0, 0, 0, 0)';
+        var html = '<div  style="padding:0 10px;background-color:white;z-index:999999;border-radius: 10px;min-width:300px;position: absolute;border: 1px solid lightgrey;left:50%;top:20%;transform:translateX(-50%) " >';
+        html=html+      '<div  style=text-align:center;margin:10px auto">'+param.content+'</div>';
+        html=html+      '<div id="myEditor"  style="width:300px;height:100px"></div>';
+        html=html+      '<div style="width:100%;position: relative;bottom:0;border-top: 1px solid buttonface;">';
+        html=html+          '<button name="cancel" style="cursor:pointer;font-size:14px;font-weight:600;width:50%;height:35px;color: #999;border:none;border-bottom-left-radius: 10px" >取消</button>';
+        html=html+          '<button name="confirm" style="cursor:pointer;font-size:14px;font-weight:600;width:50%;height:35px;color:#2f97f0;background: white;border:none;border-bottom-right-radius: 10px" >确认</button>';
+        html=html+      '</div>';
+        html=html+'</div>';
+        $(layer).append(html);
+        var um = UM.getEditor('myEditor');
+        if(param.def)
+            um.setContent(param.def)
+        $(layer).find('[name=cancel]').click(function(){
+            $(layer).remove()
+        });
+        $(layer).find('[name=confirm]').click(function(){
+            $(layer).remove()
+            if(param.confirm){
+                param.confirm(um.getContent());
+            }
+        });
+    }})
+
+
+}
+
 rxw1.inputpad=function input(param) {
     this.layer({init:function(layer){
         layer.style['background-color']='rgba(0, 0, 0, 0)';

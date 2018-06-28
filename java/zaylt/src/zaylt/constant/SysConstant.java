@@ -22,7 +22,11 @@ public class SysConstant {
 
 	public static OkHttpClient okHttpClient = new OkHttpClient();
 
+	public static String project_name;
 	public static String project_domain;
+	public static String project_rooturl;
+	public static String project_ossroot;
+	
 
 	// 错误码
 	public static String errorCodeCnMapperPath = "zaylt/config/errorCode_CN.properties";

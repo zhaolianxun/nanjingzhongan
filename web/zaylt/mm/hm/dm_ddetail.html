@@ -14,6 +14,10 @@
     <script src="../../libs/upload.js"></script>
     <script src="../../libs/cropper/cropper.js"></script>
     <link href="../../libs/cropper/cropper.css" rel="stylesheet" />
+    <link href="../../um/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" charset="utf-8" src="../../um/umeditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../um/umeditor.min.js"></script>
+    <script type="text/javascript" src="../../um/lang/zh-cn/zh-cn.js"></script>
     <title>医院详情</title>
 
     <style>
@@ -39,8 +43,8 @@
             <div><span class="title">头像<img class="alterEntDoor" onclick="alterHeadimg()" src="../img/update.png"/>:</span><span><img name="headimg" style="width:50px;vertical-align: middle"></span></div>
             <div><span class="title">科室<img class="alterEntDoor" onclick="alterOffice()" src="../img/update.png"/>:</span><span name="office"></span></div>
             <div><span class="title">头衔<img class="alterEntDoor" onclick="alterJobTitles()" src="../img/update.png"/>:</span><span name="jobTitles"></span></div>
-            <div><span class="title">介绍<img class="alterEntDoor" onclick="alterIntro()" src="../img/update.png"/>:</span><span ><textarea name="intro" rows="5" style="width:80%;resize:none;vertical-align: middle" readonly></textarea></span></div>
-            <div><span class="title">擅长<img class="alterEntDoor" onclick="alterGoodAt()" src="../img/update.png"/>:</span><span ><textarea name="goodAt" rows="5" style="width:80%;resize:none;vertical-align: middle" readonly></textarea></span></div>
+            <div><span class="title">介绍<img class="alterEntDoor" onclick="alterIntro()" src="../img/update.png"/>:</span><span ><div id="intro" style="height:200px;width:50%;min-width:300px;vertical-align: middle;" ></div></span></div>
+            <div><span class="title">擅长<img class="alterEntDoor" onclick="alterGoodAt()" src="../img/update.png"/>:</span><span ><div id="goodAt" style="height:200px;width:50%;min-width:300px;vertical-align: middle;" ></div></span></div>
         </fieldset>
     </form>
 
@@ -58,6 +62,8 @@
     var id = queryString.id;
     var item;
 
+    var introUM= UM.getEditor('intro',{readonly:true});
+    var goodAtUM= UM.getEditor('goodAt');
     onload();
     function onload() {
         rxw1.waitLock()
@@ -73,8 +79,9 @@
                     $('#detailPad [name=headimg]').attr('src',item.headimg)
                     $('#detailPad [name=office]').text(item.office);
                     $('#detailPad [name=jobTitles]').text(item.jobTitles);
-                    $('#detailPad [name=intro]').text(item.intro);
-                    $('#detailPad [name=goodAt]').text(item.goodAt);
+                    introUM.setContent(item.intro);
+                    goodAtUM.setContent(item.goodAt);
+
                 } else {
                     rxw1.errorpad(res.codeMsg)
                 }
@@ -124,11 +131,13 @@ function alterName(){
 
 
     function alterIntro(){
-        var nowValue = $('#detailPad [name=intro]').val();
-        rxw1.inputtextpad({content:'请输入介绍',def:nowValue,confirm:function(data){
-            alterItem({'intro':data});
-            onload();
-        }})
+        var nowValue = introUM.getContent();
+      rxw1.inputUMPad({content:'请输入介绍',def:nowValue,confirm:function(data){
+          alterItem({'intro':data});
+          onload();
+      }})
+
+
     }
     function alterGoodAt(){
         var nowValue = $('#detailPad [name=goodAt]').val();

@@ -106,6 +106,10 @@ public class MainInitiator implements ServletContextListener {
 
 		
 		SysConstant.project_domain = StringUtils.trimToNull(properties.getProperty("project.domain"));
+		SysConstant.project_rooturl = StringUtils.trimToNull(properties.getProperty("project.rooturl"));
+		SysConstant.project_ossroot = StringUtils.trimToNull(properties.getProperty("project.ossroot"));
+		SysConstant.project_name = StringUtils.trimToNull(properties.getProperty("project.name"));
+		
 		// 外部接口初始化
 		OutApis.sms_verification_verify = StringUtils
 				.trimToNull(properties.getProperty("outapi.sms.verification.verify"));
