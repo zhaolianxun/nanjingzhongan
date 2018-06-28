@@ -114,13 +114,15 @@ rxw1.inputUMPad = function (param){
         if(param.def)
             um.setContent(param.def)
         $(layer).find('[name=cancel]').click(function(){
+            um.destroy()
             $(layer).remove()
         });
         $(layer).find('[name=confirm]').click(function(){
-            $(layer).remove()
             if(param.confirm){
                 param.confirm(um.getContent());
+                um.destroy()
             }
+            $(layer).remove()
         });
     }})
 

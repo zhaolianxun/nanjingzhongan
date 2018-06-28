@@ -192,7 +192,7 @@ public class ClinicInfoEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			List sqlParams = new ArrayList();
-			sqlParams.add(loginStatus.getHospitalId());
+			sqlParams.add(id);
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(

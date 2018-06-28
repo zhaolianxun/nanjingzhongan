@@ -62,8 +62,8 @@
     var id = queryString.id;
     var item;
 
-    var introUM= UM.getEditor('intro',{readonly:true,toolbar:[]});
-    var goodAtUM= UM.getEditor('goodAt',{readonly:true,toolbar:[]});
+    var introUM= UM.getEditor('intro',{autoHeightEnabled:false,readonly:true,toolbar:[]});
+    var goodAtUM= UM.getEditor('goodAt',{autoHeightEnabled:false,readonly:true,toolbar:[]});
     onload();
     function onload() {
         rxw1.waitLock()
@@ -140,8 +140,8 @@ function alterName(){
 
     }
     function alterGoodAt(){
-        var nowValue = $('#detailPad [name=goodAt]').val();
-        rxw1.inputtextpad({content:'请输入擅长',def:nowValue,confirm:function(data){
+        var nowValue = goodAtUM.getContent();
+        rxw1.inputUMPad({content:'请输入擅长',def:nowValue,confirm:function(data){
             alterItem({'good_at':data});
             onload();
         }})

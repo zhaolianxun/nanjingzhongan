@@ -42,6 +42,7 @@
         <fieldset id="powerPad" style="display: none">
             <legend style="color: #595959">权限</legend>
             <div><span class="title">添加医院<img class="alterEntDoor" onclick="alterPowerAddhospital()" src="../img/update.png"/>:</span><span name="powerAddhospital" value=""></span></div>
+            <div><span class="title">查看所有医院<img class="alterEntDoor" onclick="alterPowerLookallhospitals()" src="../img/update.png"/>:</span><span name="powerLookallhospitals" value=""></span></div>
         </fieldset>
     </form>
 
@@ -77,6 +78,7 @@
                     if(item.type==3){
                         $('#powerPad').css('display','')
                         $('#detailPad [name=powerAddhospital]').text(item.powerAddhospital?'有':'无').attr('value',item.powerAddhospital);
+                        $('#detailPad [name=powerLookallhospitals]').text(item.powerLookallhospitals?'有':'无').attr('value',item.powerLookallhospitals);
                     }
                 } else {
                     rxw1.errorpad(res.codeMsg)
@@ -99,7 +101,17 @@
         }})
     }
 
-function alterPhone(){
+
+    function alterPowerLookallhospitals(){
+        var nowValue = $('#detailPad [name=powerLookallhospitals]').attr('value');
+        rxw1.inputBooleanPad({content:'权限-查看所有医院',def:nowValue,confirm:function(data){
+            alterItem({'power_lookallhospitals':data});
+            onload();
+        }})
+    }
+
+
+    function alterPhone(){
     var nowValue = $('#detailPad [name=phone]').text();
     rxw1.inputpad({content:'请输入手机号',def:nowValue,confirm:function(data){
         alterItem({'phone':data});

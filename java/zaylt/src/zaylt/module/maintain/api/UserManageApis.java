@@ -122,7 +122,7 @@ public class UserManageApis {
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select u.power_addhospital,u.id,u.phone,u.realname,u.type from t_user u where u.id=? ")
+					"select u.power_lookallhospitals,u.power_addhospital,u.id,u.phone,u.realname,u.type from t_user u where u.id=? ")
 							.toString());
 			pst.setObject(1, id);
 			ResultSet rs = pst.executeQuery();
@@ -133,10 +133,12 @@ public class UserManageApis {
 				item.put("realname", rs.getObject("realname"));
 				item.put("type", rs.getObject("type"));
 				item.put("powerAddhospital", rs.getObject("power_addhospital"));
+				item.put("powerLookallhospitals", rs.getObject("power_lookallhospitals"));
 			} else
 				throw new InteractRuntimeException(1404, "目标不存在", null);
 			pst.close();
 
+			zaylt.business.LoginStatus.loginRefresh(id);
 			// 返回结果
 			JSONObject data = new JSONObject();
 			data.putAll(item);
@@ -173,6 +175,16 @@ public class UserManageApis {
 				else
 					powerAddhospital = 0;
 			}
+
+			String powerLookallhospitalsParam = StringUtils.trimToNull(request.getParameter("power_lookallhospitals"));
+			Integer powerLookallhospitals = powerLookallhospitalsParam == null ? null
+					: Integer.parseInt(powerLookallhospitalsParam);
+			if (powerLookallhospitals != null) {
+				if (powerLookallhospitals > 0)
+					powerLookallhospitals = 1;
+				else
+					powerLookallhospitals = 0;
+			}
 			// 业务处理
 			LoginStatus loginStatus = LoginStatus.todo(request);
 			if (loginStatus == null)
@@ -186,10 +198,15 @@ public class UserManageApis {
 				sqlParams.add(realname);
 			if (powerAddhospital != null)
 				sqlParams.add(powerAddhospital);
+			if (powerLookallhospitals != null)
+				sqlParams.add(powerLookallhospitals);
+
 			sqlParams.add(id);
 			pst = connection.prepareStatement(new StringBuilder("update t_user set id=id")
 					.append(phone == null ? "" : ",phone=?").append(realname == null ? "" : ",realname=?")
-					.append(powerAddhospital == null ? "" : ",power_addhospital=?").append(" where id=?").toString());
+					.append(powerAddhospital == null ? "" : ",power_addhospital=?")
+					.append(powerLookallhospitals == null ? "" : ",power_lookallhospitals=?").append(" where id=?")
+					.toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}

@@ -120,4 +120,110 @@ public class ClinicManageApis {
 		}
 	}
 
+	@RequestMapping(value = "/clinicdetail")
+	public void clinicDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id 不能空");
+			int id = Integer.parseInt(idParam);
+			// 业务处理
+			LoginStatus loginStatus = LoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			connection = ZayltDataSource.dataSource.getConnection();
+
+			pst = connection.prepareStatement(new StringBuilder(
+					"select t.name,t.contact_tel,t.id,h.name hospital_name,t.headman_name,t.featured_project from t_clinic t left join t_hospital h on t.hospital_id=h.id where t.id=?")
+							.toString());
+			pst.setObject(1, id);
+			ResultSet rs = pst.executeQuery();
+			JSONObject detail = new JSONObject();
+			if (rs.next()) {
+				detail.put("id", rs.getObject("id"));
+				detail.put("name", rs.getObject("name"));
+				detail.put("contactTel", rs.getObject("contact_tel"));
+				detail.put("hospitalName", rs.getObject("hospital_name"));
+				detail.put("headmanName", rs.getObject("headman_name"));
+				detail.put("featuredProject", rs.getObject("featured_project"));
+			} else
+				throw new InteractRuntimeException(1404, "目标不存在", null);
+			pst.close();
+
+			// 返回结果
+			JSONObject data = new JSONObject();
+			data.putAll(detail);
+			HttpRespondWithData.todo(request, response, 0, null, data);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
+
+	@RequestMapping(value = "/clinicalter")
+	public void clinicAlter(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		try {
+			// 获取请求参数
+			String idParam = StringUtils.trimToNull(request.getParameter("id"));
+			if (idParam == null)
+				throw new InteractRuntimeException("id 不能空");
+			int id = Integer.parseInt(idParam);
+			String name = StringUtils.trimToNull(request.getParameter("name"));
+			String contactTel = StringUtils.trimToNull(request.getParameter("contact_tel"));
+			String headmanName = StringUtils.trimToNull(request.getParameter("headman_name"));
+			String featuredProject = StringUtils.trimToNull(request.getParameter("featured_project"));
+			// 业务处理
+			LoginStatus loginStatus = LoginStatus.todo(request);
+			if (loginStatus == null)
+				throw new InteractRuntimeException(20);
+			connection = ZayltDataSource.dataSource.getConnection();
+
+			List sqlParams = new ArrayList();
+			if (name != null)
+				sqlParams.add(name);
+			if (contactTel != null)
+				sqlParams.add(contactTel);
+			if (headmanName != null)
+				sqlParams.add(headmanName);
+			if (featuredProject != null)
+				sqlParams.add(featuredProject);
+			sqlParams.add(id);
+			pst = connection.prepareStatement(new StringBuilder("update t_clinic set id=id")
+					.append(name == null ? "" : ",name=?").append(contactTel == null ? "" : ",contact_tel=?")
+					.append(headmanName == null ? "" : ",headman_name=?")
+					.append(featuredProject == null ? "" : ",featured_project=?").append(" where id=?").toString());
+			for (int i = 0; i < sqlParams.size(); i++) {
+				pst.setObject(i + 1, sqlParams.get(i));
+			}
+			int n = pst.executeUpdate();
+			pst.close();
+			if (n != 1)
+				throw new InteractRuntimeException("操作失败");
+
+			// 返回结果
+			HttpRespondWithData.todo(request, response, 0, null, null);
+		} catch (Exception e) {
+			// 处理异常
+			logger.info(ExceptionUtils.getStackTrace(e));
+			HttpRespondWithData.exception(request, response, e);
+		} finally {
+			// 释放资源
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
+		}
+	}
 }

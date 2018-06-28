@@ -49,8 +49,8 @@ public class UserAction {
 
 			// 更新数据库用户信息
 			connection = ZayltDataSource.dataSource.getConnection();
-			pst = connection
-					.prepareStatement("select id,phone,type,hospital_id,clinic_id from t_user where wx_openid=?");
+			pst = connection.prepareStatement(
+					"select power_addhospital,power_lookallhospitals,id,phone,type,hospital_id,clinic_id from t_user where wx_openid=?");
 			pst.setObject(1, openid);
 			ResultSet rs = pst.executeQuery();
 			String userId = null;
@@ -58,12 +58,16 @@ public class UserAction {
 			String type = null;
 			Integer hospitalId = null;
 			Integer clinicId = null;
+			int powerAddhospital = 0;
+			int powerLookallhospitals = 0;
 			if (rs.next()) {
 				userId = rs.getString(1);
 				phone = rs.getString(2);
 				type = rs.getString(3);
 				hospitalId = (Integer) rs.getObject("hospital_id");
 				clinicId = (Integer) rs.getObject("clinic_id");
+				powerAddhospital = (Integer) rs.getObject("power_addhospital");
+				powerLookallhospitals = (Integer) rs.getObject("power_lookallhospitals");
 			} else
 				throw new InteractRuntimeException("未绑定手机");
 			pst.close();
@@ -77,13 +81,11 @@ public class UserAction {
 			loginStatus.setType(type);
 			loginStatus.setHospitalId(hospitalId);
 			loginStatus.setClinicId(clinicId);
+			loginStatus.setPowerAddHospital(powerAddhospital);
+			loginStatus.setPowerLookAllHospitals(powerLookallhospitals);
 			String loginRedisKey = new StringBuilder("zaylt.client.login-").append(token).toString();
 			//// 清除历史登录状态
 			jedis = SysConstant.jedisPool.getResource();
-			String oldToken = jedis.get(userId);
-			if (oldToken != null && !oldToken.isEmpty())
-				jedis.del(new StringBuilder("zaylt.client.login-").append(oldToken).toString());
-			jedis.del(userId);
 			//// 设置新登录状态
 			jedis.set(loginRedisKey, JSON.toJSONString(loginStatus));
 			jedis.set(userId, token);
@@ -261,8 +263,8 @@ public class UserAction {
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			// 查询登录的商城信息
-			pst = connection
-					.prepareStatement("select password_md5,type,id,hospital_id,clinic_id from t_user where phone=?");
+			pst = connection.prepareStatement(
+					"select power_addhospital,power_lookallhospitals,password_md5,type,id,hospital_id,clinic_id from t_user where phone=?");
 			pst.setObject(1, phone);
 			ResultSet rs = pst.executeQuery();
 			if (!rs.next()) {
@@ -274,6 +276,8 @@ public class UserAction {
 			String userId = rs.getString("id");
 			Integer hospitalId = (Integer) rs.getObject("hospital_id");
 			Integer clinicId = (Integer) rs.getObject("clinic_id");
+			int powerAddhospital = (Integer) rs.getObject("power_addhospital");
+			int powerLookallhospitals = (Integer) rs.getObject("power_lookallhospitals");
 			pst.close();
 			if (!passwordMd5.equals(DigestUtils.md5Hex(pwd)))
 				throw new InteractRuntimeException("密码错误");
@@ -289,6 +293,10 @@ public class UserAction {
 			loginStatus.setLoginTime(new Date().getTime());
 			loginStatus.setHospitalId(hospitalId);
 			loginStatus.setClinicId(clinicId);
+			loginStatus.setPowerAddHospital(powerAddhospital);
+			loginStatus.setPowerLookAllHospitals(powerLookallhospitals);
+			loginStatus.setPhone(phone);
+
 			String loginRedisKey = new StringBuilder("zaylt.client.login-").append(token).toString();
 			//// 设置新登录状态
 			jedis.set(loginRedisKey, JSON.toJSONString(loginStatus));
@@ -320,14 +328,56 @@ public class UserAction {
 	}
 
 	@RequestMapping(value = "/selfinfo")
-	public void selfInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void loginRefresh(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Connection connection = null;
+		PreparedStatement pst = null;
+		Jedis jedis = null;
 		try {
 			// 获取请求参数
 
 			// 业务处理
-			LoginStatus loginStatus = LoginStatus.todo(request);
+			jedis = SysConstant.jedisPool.getResource();
+			LoginStatus loginStatus = LoginStatus.todo(request, jedis);
 			if (loginStatus == null)
 				throw new InteractRuntimeException(20);
+
+			connection = ZayltDataSource.dataSource.getConnection();
+			pst = connection.prepareStatement(
+					"select power_addhospital,power_lookallhospitals,type,id,hospital_id,clinic_id,phone from t_user where id=?");
+			pst.setObject(1, loginStatus.getUserId());
+			ResultSet rs = pst.executeQuery();
+			int powerAddhospital = 0;
+			int powerLookallhospitals = 0;
+			String type = null;
+			String userId = null;
+			String phone = null;
+			Integer hospitalId = null;
+			Integer clinicId = null;
+			if (rs.next()) {
+				powerAddhospital = (Integer) rs.getObject("power_addhospital");
+				powerLookallhospitals = (Integer) rs.getObject("power_lookallhospitals");
+				type = rs.getString("type");
+				phone = rs.getString("phone");
+				userId = rs.getString("id");
+				hospitalId = (Integer) rs.getObject("hospital_id");
+				clinicId = (Integer) rs.getObject("clinic_id");
+			} else
+				throw new InteractRuntimeException(20);
+			pst.close();
+
+			loginStatus.setClinicId(clinicId);
+			loginStatus.setHospitalId(hospitalId);
+			loginStatus.setPhone(phone);
+			loginStatus.setType(type);
+			loginStatus.setPowerAddHospital(powerAddhospital);
+			loginStatus.setPowerLookAllHospitals(powerLookallhospitals);
+
+			String loginRedisKey = new StringBuilder("zaylt.client.login-").append(loginStatus.getToken()).toString();
+			//// 设置新登录状态
+			jedis.set(loginRedisKey, JSON.toJSONString(loginStatus));
+			jedis.set(userId, loginStatus.getToken());
+			jedis.expire(loginRedisKey, 30 * 24 * 60 * 60);
+			jedis.expire(userId, 30 * 24 * 60 * 60);
 
 			// 返回结果
 			JSONObject data = new JSONObject();
@@ -341,6 +391,12 @@ public class UserAction {
 			HttpRespondWithData.exception(request, response, e);
 		} finally {
 			// 释放资源
+			if (jedis != null)
+				jedis.close();
+			if (pst != null)
+				pst.close();
+			if (connection != null)
+				connection.close();
 		}
 	}
 

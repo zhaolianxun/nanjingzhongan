@@ -10,3 +10,6 @@ rrightway.module.plat.task.GatherTask:311 (删除仓库中超过30天的活动)
 
 
 ------0.0.5--------------
+一些未知
+http://passion.njshangka.com/rrightway/p/m/trademanageent/buyedorders?token=104804039634
+这个接口回参加淘宝订单号，买家卖家名

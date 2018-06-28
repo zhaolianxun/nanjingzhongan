@@ -1028,7 +1028,7 @@ public class TradeManageEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.buyer_remind_check_if,t.rightprotect_status,t.way_to_shop,t.gift_cover,act.huabei_pay,act.creditcard_pay,t.coupon_if,t.buy_way,t.order_time,t.review_pic_audit,t.review_pics,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id left join t_activity act on t.activity_id=act.id where t.seller_del=0 and t.seller_id=?")
+					"select t.seller_taobaoaccount_name,t.buyer_taobaoaccount_name,t.taobao_orderid,t.rightprotect_seller_proof,t.rightprotect_buyer_proof,t.rightprotect_seller_addkf,t.rightprotect_buyer_addkf,t.buyer_remind_check_if,t.rightprotect_status,t.way_to_shop,t.gift_cover,act.huabei_pay,act.creditcard_pay,t.coupon_if,t.buy_way,t.order_time,t.review_pic_audit,t.review_pics,t.id,t.gift_name,t.pay_price,t.return_money,t.activity_title,t.status from t_order t left join t_taobaoaccount bt on t.buyer_taobaoaccount_id=bt.id left join t_taobaoaccount st on t.seller_taobaoaccount_id=st.id left join t_activity act on t.activity_id=act.id where t.seller_del=0 and t.seller_id=?")
 							.append(tradeStatus == null ? " and t.status=1 and t.rightprotect_status in (0,7,10,13)  "
 									: (tradeStatus == 1 ? " and t.status=1 and t.rightprotect_status in (7,10)  "
 											: (tradeStatus == 2
@@ -1052,6 +1052,9 @@ public class TradeManageEntrance {
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
+				item.put("sellerTaobaoaccountName", rs.getObject("seller_taobaoaccount_name"));
+				item.put("buyerTaobaoaccountName", rs.getObject("buyer_taobaoaccount_name"));
+				item.put("taobaoOrderid", rs.getObject("taobao_orderid"));
 				item.put("rightprotectSellerProof", rs.getObject("rightprotect_seller_proof"));
 				item.put("rightprotectBuyerProof", rs.getObject("rightprotect_buyer_proof"));
 				item.put("rightprotectSellerAddkf", rs.getObject("rightprotect_seller_addkf"));
