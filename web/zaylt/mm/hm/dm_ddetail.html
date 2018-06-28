@@ -62,8 +62,8 @@
     var id = queryString.id;
     var item;
 
-    var introUM= UM.getEditor('intro',{readonly:true});
-    var goodAtUM= UM.getEditor('goodAt');
+    var introUM= UM.getEditor('intro',{readonly:true,toolbar:[]});
+    var goodAtUM= UM.getEditor('goodAt',{readonly:true,toolbar:[]});
     onload();
     function onload() {
         rxw1.waitLock()
