@@ -56,12 +56,13 @@ public class ClinicInfoEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.name,t.headman_name,t.contact_tel,t.address,t.remark from t_clinic t where t.id=?");
+					"select t.add_time,t.name,t.headman_name,t.contact_tel,t.address,t.remark from t_clinic t where t.id=?");
 			pst.setObject(1, id);
 			ResultSet rs = pst.executeQuery();
 			JSONObject info = new JSONObject();
 			if (rs.next()) {
 				info.put("name", rs.getObject("name"));
+				info.put("addTime", rs.getObject("add_time"));
 				info.put("headmanName", rs.getObject("headman_name"));
 				info.put("contactTel", rs.getObject("contact_tel"));
 				info.put("address", rs.getObject("address"));
@@ -71,13 +72,14 @@ public class ClinicInfoEntrance {
 			pst.close();
 
 			pst = connection.prepareStatement(
-					"select t.id,t.realname,t.tel,t.sickness,t.status from t_patient t where t.clinic_id=? order by t.add_time desc limit 0,30");
+					"select t.add_time,t.id,t.realname,t.tel,t.sickness,t.status from t_patient t where t.clinic_id=? order by t.add_time desc limit 0,30");
 			pst.setObject(1, id);
 			rs = pst.executeQuery();
 			JSONArray patients = new JSONArray();
 			while (rs.next()) {
 				JSONObject patient = new JSONObject();
 				patient.put("id", rs.getObject("id"));
+				patient.put("addTime", rs.getObject("add_time"));
 				patient.put("realname", rs.getObject("realname"));
 				patient.put("tel", rs.getObject("tel"));
 				patient.put("sickness", rs.getObject("sickness"));
@@ -196,7 +198,7 @@ public class ClinicInfoEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(
-					"select t.id,t.realname,t.tel,t.sickness,t.status from t_patient t where t.clinic_id=? order by t.add_time desc limit ?,?");
+					"select t.add_time,t.id,t.realname,t.tel,t.sickness,t.status from t_patient t where t.clinic_id=? order by t.add_time desc limit ?,?");
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
 			}
@@ -205,6 +207,7 @@ public class ClinicInfoEntrance {
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("id", rs.getObject("id"));
+				item.put("addTime", rs.getObject("add_time"));
 				item.put("realname", rs.getObject("realname"));
 				item.put("tel", rs.getObject("tel"));
 				item.put("sickness", rs.getObject("sickness"));
@@ -256,7 +259,7 @@ public class ClinicInfoEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.id,t.name,t.headman_name,t.contact_tel,t.address,t.remark,(select count(id) from t_patient where clinic_id=t.id) patient_count from t_clinic t where t.hospital_id=? order by t.name asc limit ?,?");
+					"select t.add_time,t.id,t.name,t.headman_name,t.contact_tel,t.address,t.remark,(select count(id) from t_patient where clinic_id=t.id) patient_count from t_clinic t where t.hospital_id=? order by t.name asc limit ?,?");
 			pst.setObject(1, loginStatus.getHospitalId());
 			pst.setObject(2, pageSize * (pageNo - 1));
 			pst.setObject(3, pageSize);
@@ -265,6 +268,7 @@ public class ClinicInfoEntrance {
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("clinicId", rs.getObject("id"));
+				item.put("addTime", rs.getObject("add_time"));
 				item.put("address", rs.getObject("address"));
 				item.put("remark", rs.getObject("remark"));
 				item.put("contactTel", rs.getObject("contact_tel"));

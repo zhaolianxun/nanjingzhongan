@@ -61,9 +61,9 @@ public class UserAction {
 			int powerAddhospital = 0;
 			int powerLookallhospitals = 0;
 			if (rs.next()) {
-				userId = rs.getString(1);
-				phone = rs.getString(2);
-				type = rs.getString(3);
+				userId = rs.getString("id");
+				phone = rs.getString("phone");
+				type = rs.getString("type");
 				hospitalId = (Integer) rs.getObject("hospital_id");
 				clinicId = (Integer) rs.getObject("clinic_id");
 				powerAddhospital = (Integer) rs.getObject("power_addhospital");

@@ -48,6 +48,10 @@
             border-left: 1px solid #7d7d7d;
 
         }
+        .cell7 {
+            width:100px;
+            border-left: 1px solid #7d7d7d;
+        }
         .row {
             border-top: 1px solid #7d7d7d;
             padding:3px 0;
@@ -100,10 +104,10 @@
 
 <div id="itemsContainer" style="width:99%;border: 1px solid black;margin:0 auto;margin-top:10px;overflow: auto;" >
     <div class="row-title">
-        <span class="cell cell1">选择</span><span class="cell cell2">门诊名</span><span class="cell cell3">联系电话</span><span class="cell cell4">主任</span><span class="cell cell5">医院名</span><span class="cell cell6">操作</span>
+        <span class="cell cell1">选择</span><span class="cell cell2">门诊名</span><span class="cell cell3">联系电话</span><span class="cell cell4">主任</span><span class="cell cell5">医院名</span><span class="cell cell6">添加时间</span><span class="cell cell7">操作</span>
     </div>
     <div name="itemExample" class="row" style="display:none">
-        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="name"></span></span><span class="cell cell3" name="contactTel"></span><span class="cell cell4" name="headmanName"></span><span class="cell cell5" name="hospitalName"></span><span class="cell cell6" ><button name="detailEntDoor" >详情</button></span>
+        <span class="cell cell1"><input type="radio" name="itemChosen" style="margin:0"></span><span class="cell cell2" name="name"></span></span><span class="cell cell3" name="contactTel"></span><span class="cell cell4" name="headmanName"></span><span class="cell cell5" name="hospitalName"></span><span class="cell cell6" name="addTime"></span><span class="cell cell7" ><button name="detailEntDoor" >详情</button></span>
     </div>
     <div name="itemsShowPad" style="max-height:300px;">
         <div name="itemsShow">
@@ -249,6 +253,7 @@
         itemRow.find('[name=contactTel]').text(item.contactTel).attr('title',item.contactTel)
         itemRow.find('[name=hospitalName]').text(item.hospitalName).attr('title',item.hospitalName)
         itemRow.find('[name=headmanName]').text(item.headmanName).attr('title',item.headmanName)
+        itemRow.find('[name=addTime]').text(rxw1.formatDate(item.addTime)).attr('title',rxw1.formatDate(item.addTime))
     }
 
     function eventToItemRow(itemRow,itemId){

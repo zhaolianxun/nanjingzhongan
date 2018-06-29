@@ -80,7 +80,7 @@ public class ClinicManageApis {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.name,t.contact_tel,t.id,h.name hospital_name,t.headman_name from t_clinic t left join t_hospital h on t.hospital_id=h.id where 1=1 ")
+					"select t.add_time,t.name,t.contact_tel,t.id,h.name hospital_name,t.headman_name from t_clinic t left join t_hospital h on t.hospital_id=h.id where 1=1 ")
 							.append(name == null ? "" : " and t.name like ?")
 							.append(contactTel == null ? "" : " and t.contact_tel like ?")
 							.append(hospitalId == null ? "" : " and t.hospital_id = ?")
@@ -99,6 +99,7 @@ public class ClinicManageApis {
 				item.put("contactTel", rs.getObject("contact_tel"));
 				item.put("hospitalName", rs.getObject("hospital_name"));
 				item.put("headmanName", rs.getObject("headman_name"));
+				item.put("addTime", rs.getObject("add_time"));
 				items.add(item);
 			}
 			pst.close();
@@ -137,7 +138,7 @@ public class ClinicManageApis {
 			connection = ZayltDataSource.dataSource.getConnection();
 
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.name,t.contact_tel,t.id,h.name hospital_name,t.headman_name,t.featured_project from t_clinic t left join t_hospital h on t.hospital_id=h.id where t.id=?")
+					"select t.add_time,t.name,t.contact_tel,t.id,h.name hospital_name,t.headman_name,t.featured_project from t_clinic t left join t_hospital h on t.hospital_id=h.id where t.id=?")
 							.toString());
 			pst.setObject(1, id);
 			ResultSet rs = pst.executeQuery();
@@ -149,6 +150,7 @@ public class ClinicManageApis {
 				detail.put("hospitalName", rs.getObject("hospital_name"));
 				detail.put("headmanName", rs.getObject("headman_name"));
 				detail.put("featuredProject", rs.getObject("featured_project"));
+				detail.put("addTime", rs.getObject("add_time"));
 			} else
 				throw new InteractRuntimeException(1404, "目标不存在", null);
 			pst.close();

@@ -42,7 +42,7 @@
         <fieldset id="powerPad" style="display: none">
             <legend style="color: #595959">权限</legend>
             <div><span class="title">添加医院<img class="alterEntDoor" onclick="alterPowerAddhospital()" src="../img/update.png"/>:</span><span name="powerAddhospital" value=""></span></div>
-            <div><span class="title">查看所有医院<img class="alterEntDoor" onclick="alterPowerLookallhospitals()" src="../img/update.png"/>:</span><span name="powerLookallhospitals" value=""></span></div>
+            <div><span class="title">查看所有医院<img class="alterEntDoor" onclick="alterPowerLookallhospitals()" src="../img/update.png"/><img style="cursor: pointer;width:16px;vertical-align: middle"  onclick="powerLookallhospitalsExplain()" src="../img/explain.jpg"/>:</span><span name="powerLookallhospitals" value=""></span></div>
         </fieldset>
     </form>
 
@@ -159,7 +159,9 @@
 
   }
 
-
+function powerLookallhospitalsExplain(){
+    rxw1.alertpad({content:'"查看所有医院"指的是在移动端，开发者可以查看所有医院、门诊和病人'})
+}
 </script>
 
 </html>

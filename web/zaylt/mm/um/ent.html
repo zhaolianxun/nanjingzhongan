@@ -68,7 +68,7 @@
 <body style="margin:0;">
 
 <div style="width:100%;margin-top:5px;">
-    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="query()">查询</button>
+    <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="query()" name="queryBtn">查询</button>
     <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookClinics()">查看门诊</button>
     <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookHospitals()">查看医院</button>
     <button style="margin:0 5px;display:inline-block;margin-top:5px;min-width:60px;padding:0 10px;height:25px" onclick="lookBindHospitals()">查看开发者绑定的医院</button>
@@ -79,13 +79,13 @@
                 <span style="margin:0 5px;display:inline-block;margin-top:5px;">
                     <span style="font-size: 14px">手机号:</span>
                     <span>
-                        <input name="phoneQuery"/>
+                        <input name="phoneQuery" class="queryCondition"/>
                     </span>
                 </span>
      <span style="margin:0 5px;display:inline-block;margin-top:5px;">
                     <span style="font-size: 14px">账号类型:</span>
                     <span>
-                        <select name="typeQuery">
+                        <select name="typeQuery" class="queryCondition">
                             <option value="">全部</option>
                             <option value="1">医院</option>
                             <option value="2">门诊</option>
@@ -136,6 +136,14 @@
     var page_size;
     var items = {};
     var queryParams = {token: token,hospital_id:hospitalId,clinic_id:clinicId}
+
+    $('.queryCondition').keyup(function(event){
+        if(event.keyCode ==13){
+            $('[name=queryBtn]').click()
+        }
+
+    });
+
     onload();
 
 
@@ -295,6 +303,10 @@ function parseType(type){
         var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
         var itemId = itemRow.attr('itemId')
         if(itemId){
+            if(itemRow.find('[name=type]').attr('value') != 2){
+                rxw1.errorpad('只能选择门诊用户')
+                return;
+            }
             location.href='../cm/ent.html?user_id='+itemId
 
         }else
@@ -304,6 +316,10 @@ function parseType(type){
         var itemRow = $('.row [name=itemChosen]:checked').parents('.row');
         var itemId = itemRow.attr('itemId')
         if(itemId){
+            if(itemRow.find('[name=type]').attr('value') != 1){
+                rxw1.errorpad('只能选择医院用户')
+                return;
+            }
             location.href='../hm/ent.html?user_id='+itemId
 
         }else
@@ -341,6 +357,13 @@ function parseType(type){
                     newPad.css('background-color', 'white')
                     newPad.attr('id', 'bindHospital-pad');
                     newPad.css('display', '')
+
+                    newPad.find('[name=hospitalName]').keyup(function(event){
+                        if(event.keyCode ==13){
+                            newPad.find('[name=query]').click()
+                        }
+                    });
+
                     $(layer).append(newPad);
                     newPad.find('[name=query]').click(function () {
                         $(layer).find('[name=hospitalDetail]').text('')

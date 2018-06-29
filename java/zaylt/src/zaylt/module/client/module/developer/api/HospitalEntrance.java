@@ -783,7 +783,7 @@ public class HospitalEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.sickness,t.status,t.id,t.realname,t.tel,u.name clinic_name from t_patient t left join t_clinic u on t.clinic_id=u.id  where  t.hospital_id=? and t.status in ('3','4') order by t.realname asc limit ?,?");
+					"select t.add_time,t.sickness,t.status,t.id,t.realname,t.tel,u.name clinic_name from t_patient t left join t_clinic u on t.clinic_id=u.id  where  t.hospital_id=? and t.status in ('3','4') order by t.add_time desc limit ?,?");
 			pst.setObject(1, hospitalId);
 			pst.setObject(2, pageSize * (pageNo - 1));
 			pst.setObject(3, pageSize);
@@ -792,6 +792,7 @@ public class HospitalEntrance {
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("patientId", rs.getObject("id"));
+				item.put("addTime", rs.getObject("add_time"));
 				item.put("realname", rs.getObject("realname"));
 				item.put("tel", rs.getObject("tel"));
 				item.put("clinicName", rs.getObject("clinic_name"));
@@ -910,7 +911,7 @@ public class HospitalEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select (select count(id) from t_patient where clinic_id=t.id) patient_count,t.id,t.name,t.headman_name,t.contact_tel,t.address,t.remark from t_clinic t where t.hospital_id=? order by t.name asc limit ?,?");
+					"select t.add_time,(select count(id) from t_patient where clinic_id=t.id) patient_count,t.id,t.name,t.headman_name,t.contact_tel,t.address,t.remark from t_clinic t where t.hospital_id=? order by t.name asc limit ?,?");
 			pst.setObject(1, hospitalId);
 			pst.setObject(2, pageSize * (pageNo - 1));
 			pst.setObject(3, pageSize);
@@ -925,6 +926,7 @@ public class HospitalEntrance {
 				item.put("name", rs.getObject("name"));
 				item.put("headmanName", rs.getObject("headman_name"));
 				item.put("patientCount", rs.getObject("patient_count"));
+				item.put("addTime", rs.getObject("add_time"));
 				items.add(item);
 			}
 			pst.close();

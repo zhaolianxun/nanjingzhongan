@@ -40,7 +40,7 @@ public class PatientManageApis {
 	public static Logger logger = Logger.getLogger(PatientManageApis.class);
 
 	@RequestMapping(value = "/patientlist")
-	public void hospitallist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void patientList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
@@ -53,6 +53,10 @@ public class PatientManageApis {
 			String hospitalIdParam = StringUtils.trimToNull(request.getParameter("hospital_id"));
 			Integer hospitalId = hospitalIdParam == null ? null : Integer.parseInt(hospitalIdParam);
 			String hospitalName = StringUtils.trimToNull(request.getParameter("hospital_name"));
+			String addTimeStartParam = StringUtils.trimToNull(request.getParameter("add_time_start"));
+			Long addTimeStart = addTimeStartParam == null ? null : Long.parseLong(addTimeStartParam);
+			String addTimeEndParam = StringUtils.trimToNull(request.getParameter("add_time_end"));
+			Long addTimeEnd = addTimeEndParam == null ? null : Long.parseLong(addTimeEndParam);
 			String pageNoParam = StringUtils.trimToNull(request.getParameter("page_no"));
 			long pageNo = pageNoParam == null ? 1 : Long.parseLong(pageNoParam);
 			if (pageNo <= 0)
@@ -81,16 +85,22 @@ public class PatientManageApis {
 				sqlParams.add(hospitalId);
 			if (hospitalName != null)
 				sqlParams.add(new StringBuilder("%").append(hospitalName).append("%").toString());
+			if (addTimeStart != null)
+				sqlParams.add(addTimeStart);
+			if (addTimeEnd != null)
+				sqlParams.add(addTimeEnd);
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select p.id,p.realname,p.tel,p.status,c.name clinic_name,h.name hospital_name from t_patient p left join t_hospital h on p.hospital_id=h.id left join t_clinic c on p.clinic_id=c.id  where 1=1 ")
+					"select p.add_time,p.id,p.realname,p.tel,p.status,c.name clinic_name,h.name hospital_name from t_patient p left join t_hospital h on p.hospital_id=h.id left join t_clinic c on p.clinic_id=c.id  where 1=1 ")
 							.append(realname == null ? "" : " and p.realname like ?")
 							.append(tel == null ? "" : " and p.tel like ?")
 							.append(status == null ? "" : " and p.status = ?")
 							.append(clinicId == null ? "" : " and p.clinic_id = ?")
 							.append(hospitalId == null ? "" : " and p.hospital_id = ?")
 							.append(hospitalName == null ? "" : " and h.name like ?")
+							.append(addTimeStart == null ? "" : " and p.add_time >= ?")
+							.append(addTimeEnd == null ? "" : " and p.add_time <= ?")
 							.append(" order by p.add_time desc limit ?,? ").toString());
 			for (int i = 0; i < sqlParams.size(); i++) {
 				pst.setObject(i + 1, sqlParams.get(i));
@@ -105,6 +115,7 @@ public class PatientManageApis {
 				item.put("status", rs.getObject("status"));
 				item.put("clinicName", rs.getObject("clinic_name"));
 				item.put("hospitalName", rs.getObject("hospital_name"));
+				item.put("addTime", rs.getObject("add_time"));
 				items.add(item);
 			}
 			pst.close();

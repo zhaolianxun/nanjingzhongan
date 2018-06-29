@@ -54,14 +54,17 @@ public class PatientEntrance {
 			connection = ZayltDataSource.dataSource.getConnection();
 			// 查詢订单列表
 			pst = connection.prepareStatement(
-					"select t.sickness,t.id,t.realname,t.tel,u.name clinic_name from t_patient t left join t_clinic u on t.clinic_id=u.id order by t.realname asc limit ?,?");
-			pst.setObject(1, pageSize * (pageNo - 1));
-			pst.setObject(2, pageSize);
+					"select t.add_time,t.sickness,t.id,t.realname,t.tel,u.name clinic_name from t_patient t left join t_clinic u on t.clinic_id=u.id  left join t_hospital h on t.hospital_id=h.id where (h.developer_id = ? or ?=1) order by t.add_time desc limit ?,?");
+			pst.setObject(1, loginStatus.getUserId());
+			pst.setObject(2, loginStatus.getPowerLookAllHospitals());
+			pst.setObject(3, pageSize * (pageNo - 1));
+			pst.setObject(4, pageSize);
 			ResultSet rs = pst.executeQuery();
 			JSONArray items = new JSONArray();
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("patientId", rs.getObject("id"));
+				item.put("addTime", rs.getObject("add_time"));
 				item.put("realname", rs.getObject("realname"));
 				item.put("tel", rs.getObject("tel"));
 				item.put("clinicName", rs.getObject("clinic_name"));

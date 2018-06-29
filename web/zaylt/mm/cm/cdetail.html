@@ -43,6 +43,7 @@
             <div><span class="title">联系电话<img class="alterEntDoor" onclick="alterContactTel()" src="../img/update.png"/>:</span><span name="contactTel"></span></div>
             <div><span class="title">主任<img class="alterEntDoor" onclick="alterHeadmanName()" src="../img/update.png"/>:</span><span name="headmanName"></span></div>
             <div><span class="title">医院:</span><span name="hospitalName"></span></div>
+            <div><span class="title">添加时间:</span><span name="addTime"></span></div>
             <div><span class="title">特色项目<img class="alterEntDoor" onclick="alterFeaturedProject()" src="../img/update.png"/>:</span><span ><div id="featuredProject" style="height:200px;width:50%;min-width:300px;vertical-align: middle;" ></div></span></div>
         </fieldset>
     </form>
@@ -77,6 +78,7 @@
                     $('#detailPad [name=contactTel]').text(item.contactTel);
                     $('#detailPad [name=hospitalName]').text(item.hospitalName);
                     $('#detailPad [name=headmanName]').text(item.headmanName);
+                    $('#detailPad [name=addTime]').text(rxw1.formatTime(item.addTime));
                     featuredProjectUM.setContent(item.featuredProject);
 
                 } else {

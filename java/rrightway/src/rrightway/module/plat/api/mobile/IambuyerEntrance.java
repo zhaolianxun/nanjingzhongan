@@ -911,7 +911,7 @@ public class IambuyerEntrance {
 			sqlParams.add(pageSize * (pageNo - 1));
 			sqlParams.add(pageSize);
 			pst = connection.prepareStatement(new StringBuilder(
-					"select t.way_to_shop,t.coupon_if,t.buy_way,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.status=2 and t.buyer_id=?")
+					"select t.seller_taobaoaccount_name,t.buyer_taobaoaccount_name,t.taobao_orderid,t.way_to_shop,t.coupon_if,t.buy_way,t.id,t.order_time,t.pay_price,t.return_money,t.gift_name,t.gift_cover from t_order t where t.del=0 and t.status=2 and t.buyer_id=?")
 							.append(buyerNickname == null ? "" : " and t.buyer_taobaoaccount_name like ? ")
 							.append(sellerNickname == null ? "" : " and t.seller_taobaoaccount_name like ? ")
 							.append(giftName == null ? "" : " and t.gift_name like ? ")
@@ -928,6 +928,9 @@ public class IambuyerEntrance {
 			while (rs.next()) {
 				JSONObject item = new JSONObject();
 				item.put("orderId", rs.getObject("id"));
+				item.put("sellerTaobaoaccountName", rs.getObject("seller_taobaoaccount_name"));
+				item.put("buyerTaobaoaccountName", rs.getObject("buyer_taobaoaccount_name"));
+				item.put("taobaoOrderid", rs.getObject("taobao_orderid"));
 				item.put("orderTime", rs.getObject("order_time"));
 				item.put("payPrice", rs.getObject("pay_price"));
 				item.put("returnMoney", rs.getObject("return_money"));
