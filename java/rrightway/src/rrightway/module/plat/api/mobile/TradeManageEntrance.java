@@ -691,7 +691,7 @@ public class TradeManageEntrance {
 
 				// 修改订单状态
 				pst = connection.prepareStatement(new StringBuilder(
-						"update t_order set status=2,rightprotect_status=0 where id=? and status=1 and rightprotect_status in (7,8,9,10,11)")
+						"update t_order set status=2,rightprotect_status=0,finished=1 where id=? and status=1 and rightprotect_status in (7,8,9,10,11)")
 								.toString());
 				pst.setObject(1, orderId);
 				int cnt = pst.executeUpdate();
