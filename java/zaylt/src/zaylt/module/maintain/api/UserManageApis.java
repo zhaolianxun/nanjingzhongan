@@ -231,7 +231,7 @@ public class UserManageApis {
 	}
 
 	@RequestMapping(value = "/hospitaldetailbyname")
-	public void hospitalDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void hospitaldetailbyname(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Connection connection = null;
 		PreparedStatement pst = null;
 		try {
