@@ -1,0 +1,11 @@
+Èë¿ÚÒ³
+/m/e/myfavorite
+mall_id
+page_no
+page_size
+
+
+É¾³ý
+/m/e/myfavorite/remove
+mall_id
+good_id

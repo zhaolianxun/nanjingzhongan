@@ -1,0 +1,74 @@
+查询商品
+/mm/{mallId}/e/goodmanage/goods
+name
+page_no
+page_size
+
+
+查商品详情
+/mm/{mallId}/e/goodmanage/goodinfo
+good_id
+
+
+删除商品
+/mm/{mallId}/e/goodmanage/delgood
+good_id
+
+
+删除sku
+/mm/{mallId}/e/goodmanage/delsku
+good_id
+sku_id
+
+
+
+添加商品
+/mm/{mallId}/e/goodmanage/addgood
+name
+tags
+type1
+type2
+type1_name
+type2_name
+onsale
+detail
+params  JSON数组  [{品牌:"三星",型号:"note 9"}]
+detail_pics
+cover
+skus JSON数组  [{skuName:"红1XXL",inventory:11,price:11,originalPrice:11}]
+ skuName
+ inventory
+ price
+ originalPrice
+
+
+修改商品
+/mm/{mallId}/e/goodmanage/altergood
+good_id
+name
+tags
+type1
+type2
+type1_name
+type2_name
+onsale
+detail
+params
+detail_pics
+cover
+skus
+ id
+ skuName
+ inventory
+ price
+ originalPrice
+
+
+批量下架
+/mm/{mallId}/e/goodmanage/batchoffsale
+good_ids  逗号隔开，最多100个
+
+
+批量上架
+/mm/{mallId}/e/goodmanage/batchonsale
+good_ids  逗号隔开，最多100个

@@ -1,0 +1,80 @@
+-核对拍下的订单
+	-核对拍下的订单
+	/p/m/trademanageent/needcheckorders
+	trade_status	空-全部 0待核对 3买家取消 4卖家取消 5系统取消 6涉嫌返利
+	buyer_nickname
+	seller_nickname
+	title
+	gift_name
+	order_id
+	taobao_orderid
+	order_time_start
+	order_time_end
+	page_no
+	page_size
+	回参
+	status	0待核对 3买家取消 4卖家取消 5系统取消 6涉嫌返利
+
+	-卖家取消	订单非待核对状态不可取消
+	/p/m/trademanageent/needcheckorders/sellercancel
+	order_id
+	reason
+
+	-核对订单	订单非待核对状态不可核对
+	/p/m/trademanageent/needcheckorders/check
+	order_id
+	
+	
+-已买下的订单
+/p/m/trademanageent/buyedorders
+buyer_nickname
+seller_nickname
+title
+gift_name
+order_id
+taobao_orderid
+order_time_start
+order_time_end
+trade_status		 空-全部 1-维权中 2-未提交评价图 3-已提交评价图
+page_no
+page_size
+回参
+reviewPicAudit	评价图:3未提交 0已提交 1有效 2无效
+buyerProtectRightsStatus	1维权中
+
+-已返现的订单
+/p/m/trademanageent/returnedorders
+buyer_nickname
+seller_nickname
+title
+gift_name
+order_id
+taobao_orderid
+order_time_start
+order_time_end
+page_no
+page_size
+
+
+-维权中的订单
+/p/m/trademanageent/protectingrightsorders
+buyer_nickname
+seller_nickname
+title
+gift_name
+order_id
+taobao_orderid
+order_time_start
+order_time_end
+buyer_protect_rights_status		空:全部 1维权中 2维权成功 3维权失败
+page_no
+page_size
+回参
+buyer_protect_rights_status		买家维权状态：0未维权 1维权中 2维权成功 3维权失败
+
+
+-订单详情
+/p/m/trademanageent/orderdetail
+order_id
+回参
+status	0待核对 1已核对 2返现 3买家取消 4卖家取消 5系统取消 6涉嫌返利

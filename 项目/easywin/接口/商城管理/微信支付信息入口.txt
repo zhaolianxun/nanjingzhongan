@@ -1,0 +1,9 @@
+获取
+/mm/{mallId}/e/wxpayinfo/get
+
+
+设置
+/mm/{mallId}/e/wxpayinfo/set
+mchid	商户ID
+mchkey	商户KEY
+mchcert 商户证书路径

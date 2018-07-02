@@ -1,0 +1,129 @@
+入口
+/xs/xsxm/ent
+
+
+项目背景
+	入口
+	/xs/xsxm/bj/ent
+	回参
+	bj_id	项目背景id
+	intro
+	status	0未提交 1已提交 2已评分
+	docs
+		id
+		name
+		url
+	videos
+		id
+		name
+		url
+	
+	提交作业
+	/xs/xsxm/bj/submit
+	id
+	intro
+	
+	删除文件
+	/xs/xsxm/bj/delfile
+	id
+
+	添加文件
+	/xs/xsxm/bj/addfile
+	bj_id	项目背景id
+	url
+	name	文件名
+	type	1文档 2视频
+
+	
+场地调研报告
+	入口
+	/xs/xsxm/cddybg/ent
+	回参
+	cddybg_id	场地调研报告id
+	intro
+	status	0未提交 1已提交 2已评分
+	docs
+		id
+		name
+		url
+	videos
+		id
+		name
+		url
+	
+	提交作业
+	/xs/xsxm/cddybg/submit
+	id
+	intro
+	
+	删除文件
+	/xs/xsxm/cddybg/delfile
+	id
+
+	添加文件
+	/xs/xsxm/cddybg/addfile
+	cddybg_id	场地调研报告id
+	url
+	name	文件名
+	type	1文档 2视频
+	
+
+活动公告
+	入口
+	/xs/xsxm/hdgg/ent
+	回参
+	hdgg_id	活动公告id
+	intro
+	status	0未提交 1已提交 2已评分
+	docs
+		id
+		name
+		url
+	pics
+		id
+		name
+		url
+	
+	提交作业
+	/xs/xsxm/hdgg/submit
+	id
+	intro
+	
+	删除文件
+	/xs/xsxm/hdgg/delfile
+	id
+
+	添加文件
+	/xs/xsxm/hdgg/addfile
+	hdgg_id	活动公告id
+	url
+	name	文件名
+	type	1文档 
+	
+邀请函
+	入口
+	/xs/xsxm/yqh/ent
+	回参
+	yqh_id	邀请函id
+	intro
+	status	0未提交 1已提交 2已评分
+	docs
+		id
+		name
+		url
+	
+	提交作业
+	/xs/xsxm/yqh/submit
+	id
+	intro
+	
+	删除文件
+	/xs/xsxm/yqh/delfile
+	id
+
+	添加文件
+	/xs/xsxm/yqh/addfile
+	yqh_id	邀请函id
+	url
+	name	文件名
+	type	1文档 3图片

@@ -1,0 +1,24 @@
+-消息列表
+/p/m/msgcenterent/messages
+type 	1系统消息 2买家消息 3卖家消息 4警告消息
+page_no
+page_size
+
+
+-消息详情
+/p/m/msgcenterent/messagedetail
+message_id
+
+
+-消息删除
+/p/m/msgcenterent/delete
+message_ids		多个用逗号隔开
+
+
+-标记已读
+/p/m/msgcenterent/signread
+message_ids		多个用逗号隔开
+
+
+-全部删除
+/p/m/msgcenterent/deleteall

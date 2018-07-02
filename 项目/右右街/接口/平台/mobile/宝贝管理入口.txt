@@ -1,0 +1,159 @@
+-发布入口
+	-入口页
+	/p/m/cowrymanageent/publishent/ent
+
+	-获取淘宝宝贝封面
+	/p/m/cowrymanageent/publishent/gettaobaocrowycover
+	crowy_url
+	
+	-发布
+	/p/m/cowrymanageent/publishent/publish
+	activity_title
+	taobaoaccount_id
+	buy_way
+	stock
+	coupon_url
+	way_to_shop			1关键词搜索 2链接/淘宝口令下单 3扫码下单 4直通车搜索
+	qrcode_to_order		二维码链接，way_to_shop=3时必输
+	search_keys			搜索关键词，way_to_shop=1时必输，样例[{key:"",page:1,note:""}]
+	cowry_url			宝贝链接
+	cowry_cover			宝贝封面
+	pay_price
+	return_money
+	buyer_mincredit		0无要求 1一星以上  2二星以上 3三星以上 4四星以上  5五星以上  6钻石以上
+	keep_days			活动天数：1-7
+	gift_name
+	gift_type1_id
+	gift_type2_id
+	gift_type1_name
+	gift_type2_name
+	gift_url
+	gift_cover
+	gift_detail
+	gift_express_co		快递公司
+	gift_pics
+	
+-活动中的宝贝入口	
+	-活动中的宝贝
+	/p/m/cowrymanageent/inactcowries
+	title
+	gift_name
+	buy_way		1电脑  2手机
+	coupon_if	0不需要领券 1需要领券
+	publish_time_start
+	publish_time_end
+	page_no
+	page_size
+
+
+	-下架	只有的活动中才可以调此接口
+	/p/m/cowrymanageent/inactcowries/offline
+	activity_id
+
+	-修改参与人数	只有的活动中才可以调此接口
+	/p/m/cowrymanageent/inactcowries/alterstock
+	activity_id
+	count
+	
+	-修改活动天数	只有的活动中才可以调此接口
+	/p/m/cowrymanageent/inactcowries/alterdays
+	activity_id
+	days
+	
+-审核中的宝贝入口
+	-审核中的宝贝
+	/p/m/cowrymanageent/auditingcowries
+	status	空-全部 1-待审核 2-审核失败
+	title
+	gift_name
+	buy_way
+	coupon_if
+	publish_time_start
+	publish_time_end
+	page_no
+	page_size
+	回参
+	status	0待审核 2审核失败 4已取消审核
+
+	-取消审核	只有审核中的活动才可以调此接口
+	/p/m/cowrymanageent/auditingcowries/cancelaudit
+	activity_id
+
+-仓库中的宝贝入口
+	-仓库中的宝贝
+	/p/m/cowrymanageent/storingcowries
+	status	空-全部 1-仓库中 2-重新审核失败
+	title
+	gift_name
+	buy_way
+	coupon_if
+	publish_time_start
+	publish_time_end
+	page_no
+	page_size
+	回参
+	status	2审核失败 3下架（仓库中）
+	
+	-上架	只有仓库中的活动才可以调此接口
+	/p/m/cowrymanageent/storingcowries/online
+	activity_id
+	stock
+	days
+	return_money	只能在原基础上增加或不变
+
+	-开启花呗支付	只有仓库中的活动才可以调此接口
+	/p/m/cowrymanageent/storingcowries/openhuabeipay
+	activity_id
+
+	-关闭花呗支付	只有仓库中的活动才可以调此接口
+	/p/m/cowrymanageent/storingcowries/closehuabeipay
+	activity_id
+	
+	-开启信用卡支付	只有仓库中的活动才可以调此接口
+	/p/m/cowrymanageent/storingcowries/opencreditcardpay
+	activity_id
+
+	-关闭信用卡支付	只有仓库中的活动才可以调此接口
+	/p/m/cowrymanageent/storingcowries/closecreditcardpay
+	activity_id
+	
+	
+-活动详情
+/p/m/cowrymanageent/cowrydetail
+activity_id
+回参
+status  0待审核  1活动中  2审核失败 3下架（仓库中） 4已取消审核
+huabei_pay	0关闭(从未开启) 1已开启 3关闭(开启过)
+creditcard_pay	0关闭(从未开启) 1已开启 3关闭(开启过)
+
+-重新发布
+/p/m/cowrymanageent/republish
+activity_id
+activity_title
+taobaoaccount_id
+buy_way
+stock
+coupon_url
+way_to_shop			
+qrcode_to_order		
+search_keys			
+cowry_url			
+cowry_cover			
+pay_price
+return_money
+buyer_mincredit		
+keep_days			
+gift_name
+gift_type1_id
+gift_type2_id
+gift_type1_name
+gift_type2_name
+gift_url
+gift_cover
+gift_detail
+gift_express_co	
+gift_pics
+
+-删除宝贝
+/p/m/cowrymanageent/del
+activity_id

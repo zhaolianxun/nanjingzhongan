@@ -1,0 +1,11 @@
+-Ê¡
+/adminarea/provinces
+
+
+-ÊÐ
+/adminarea/cities
+province_id
+
+-Çø
+/adminarea/distincts
+city_id

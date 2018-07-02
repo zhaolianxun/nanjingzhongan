@@ -1,0 +1,184 @@
+-活动管理
+	-入口
+	/p/m/admin/activity/ent
+	keyw
+	buy_way
+	type2_id
+	type1_id
+	coupon_if
+	way_to_shop
+	buyer_mincredit
+	pay_price_min
+	pay_price_max
+	status	1活动中 3下架(仓库中) 
+	audit  0审核中 1审核通过 2审核失败 4未审核
+	sortby
+	page_no
+	page_size
+
+
+	-活动详情
+	/p/m/admin/activity/detail
+	activity_id
+
+	-活动审核成功
+	/p/m/admin/activity/auditsuccess
+	activity_id
+
+	-活动审核成功
+	/p/m/admin/activity/auditfail
+	activity_id
+	reason
+	
+-订单管理
+	-入口
+	/p/m/admin/order/ent
+	buyer_nickname
+	seller_nickname
+	title
+	gift_name
+	order_id
+	taobao_orderid
+	order_time_start
+	order_time_end
+	status
+	rightprotect_status
+	complain
+	finished
+	page_no
+	page_size
+	
+	-订单详情
+	/p/m/admin/order/detail
+	order_id
+	
+	-维权失败
+	/p/m/admin/order/rightprotectfail
+	order_id
+	reason
+	
+	-维权成功
+	/p/m/admin/order/rightprotectsuccess
+	order_id
+	
+	-投诉成功
+	/p/m/admin/order/complainsuccess
+	order_id
+	
+	-投诉失败
+	/p/m/admin/order/complainfail
+	order_id
+	reason
+	
+-用户管理
+	-入口
+	/p/m/admin/user/ent
+	username
+	phone
+	realname
+	buyer_nickname
+	seller_nickname
+	status
+	page_no
+	page_size
+	
+	-用户详情
+	/p/m/admin/user/detail
+	user_id
+	
+	-冻结
+	/p/m/admin/user/freeze
+	user_id
+	reason
+	
+	-解冻
+	/p/m/admin/user/unfreeze
+	user_id
+	
+	-发送消息
+	/p/m/admin/user/sendmsg
+	user_id
+	phone
+	title
+	content
+	type	0系统消息 1卖家消息 2买家消息  3警告消息
+	
+	-绑定的淘宝账号列表
+	/p/m/admin/user/taobaoaccounts
+	user_id
+	回参
+	type	1买家 2卖家
+	status	0未补全资料 1等待审核 2审核成功 3审核失败。卖家无需管该字段
+	
+-充值管理
+	-入口
+	/p/m/admin/topup/ent
+	status	1未处理 2已处理  4校验失败
+	page_no
+	page_size
+	
+	-校验失败
+	/p/m/admin/topup/checkfail
+	topup_id
+	reason
+	
+	-校验成功
+	/p/m/admin/topup/checksuccess
+	topup_id
+	amount
+	
+-提现管理
+	-入口
+	/p/m/admin/withdraw/ent
+	status	0新申请 1成功 2失败
+	page_no
+	page_size	
+	
+	-提现失败
+	/p/m/admin/withdraw/fail
+	id
+	reason
+	
+	-提现完成
+	/p/m/admin/withdraw/done
+	id
+
+-公告管理
+	-入口
+	/p/m/admin/notice/ent
+	page_no
+	page_size	
+	
+	-发布
+	/p/m/admin/notice/publish
+	title
+	content
+	
+	-详情
+	/p/m/admin/notice/detail
+	id
+	
+	-更新
+	/p/m/admin/notice/update
+	id
+	title
+	content
+	
+	-删除
+	/p/m/admin/notice/del
+	id
+
+-淘宝账号审核入口
+/p/m/admin/taobaoaccountaudit/ent
+status	0未补全资料 1等待审核 2审核成功 3审核失败。卖家无需管该字段
+page_no
+page_size
+
+-淘宝账号资料审核通过
+/p/m/admin/taobaoaccountauditsuccess
+user_id
+
+-淘宝账号资料审核拒绝
+/p/m/admin/taobaoaccountauditfail
+user_id
+reason

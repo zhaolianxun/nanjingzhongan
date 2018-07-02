@@ -1,0 +1,44 @@
+-我的小金库
+	-入口
+	/m/e/mlc/ent
+	mall_id
+	
+	-收益记录入口
+	/rewardrecord/ent
+	mall_id
+	page_no
+	page_size
+	回参
+	amount
+	note
+	happenTime
+	headimg
+		
+	-我的粉丝入口
+	/myfans/ent
+	mall_id
+	page_no
+	page_size
+	回参
+	headimg
+	registerTime
+	userLogo
+	
+	-提现记录入口
+	/withdrawrecord/ent
+	mall_id
+	page_no
+	page_size
+	回参
+	status	0新申请 1成功 2失败
+	amount
+	failReason
+	applyTime
+	
+	-提现
+		-提现申请
+		/withdraw/apply
+		mall_id
+		amount
+		错误码：
+		1000 余额不足

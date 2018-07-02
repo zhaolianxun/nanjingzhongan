@@ -1,0 +1,36 @@
+订单确认页
+/m/e/buy/orderconfirmpage
+mall_id
+coupon_id	选择的卡券id
+goods	JSONARRAY	[{id:"",cnt:4,skuId:1,attrNames:"颜色,尺码",valueNames:"红,XXL"}]
+ id
+ cnt
+ skuId
+ attrNames
+ valueNames
+
+
+下单
+/m/e/buy/order
+mall_id
+from_cart	是否从购物车下单：0否  1是
+address_id
+coupon_id	选择的卡券id
+goods	JSONARRAY
+buyer_note 500
+-----------------
+orderId
+
+
+微信小程序支付
+/m/e/buy/pay/wxminiapp
+mall_id
+order_id
+-----------------
+
+
+加载优惠券
+/m/e/buy/mycoupons
+mall_id
+page_no
+page_size

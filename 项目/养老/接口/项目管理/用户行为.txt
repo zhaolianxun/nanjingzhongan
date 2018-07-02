@@ -1,0 +1,16 @@
+登录
+/useraction/login
+account
+pwd
+
+
+登录刷新
+/useraction/loginrefresh
+
+
+登录刷新
+/useraction/logout
+
+
+账号是否存在
+/useraction/accountexist

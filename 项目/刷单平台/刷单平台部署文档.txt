@@ -1,0 +1,111 @@
+#阿里云
+开放端口
+127.0.0.1/0 6480  redis
+0.0.0.0/0 4417  mysql
+0.0.0.0/0 80
+0.0.0.0/0 443
+
+#配置域名解析
+#申请https
+#申请微信认证	配置菜单
+#申请淘宝开放平台账号
+#创建淘宝开放平台应用 配置回调域名
+
+zypper in pcre-devel;
+zypper in zlib zlib-devel;
+zypper in  openssl openssl-devel;
+zypper in make;
+zypper in bc;
+
+
+#拷贝所有相关文件和目录
+/root/sh/*
+/root/apache-tomcat-8.0.43.tar.gz
+/root/jdk-8u171-linux-x64.tar.gz
+/root/nginx-1.10.2.tar.gz
+/root/redis-3.2.5.tar.gz
+
+
+#创建所有相关文件夹
+/root/javaProjectResource
+/root/javaProjectResource/oss/rrightway
+/war
+/web
+/www_haoshanglianmeng_com_ssl  (更改成对应域名)
+
+#mysql
+zypper in mysql-community-server
+rcmysql start
+/usr/bin/mysql_secure_installation
+sed -i 's/^.*3306.*$/port = 4417/g' /etc/my.cnf;
+service mysql restart
+mysql -u root -p
+update user set password=password('wwe36yhQEM94KCLP1Z497JF') where user='root';
+create user 'root'@'%' identified by 'wwe36yhQEM94KCLP1Z497JF';  
+grant all privileges on *.* to 'root'@'%' identified by 'wwe36yhQEM94KCLP1Z497JF'; 
+flush privileges; 
+
+#创建数据库和表
+oss
+rrightway
+cm-plat.t_adminarea
+
+#redis
+tar zxvf redis-3.2.5.tar.gz;
+cd redis-3.2.5/;
+make PREFIX=/usr/local/redis install;
+cp /root/redis-3.2.5/redis.conf /usr/local/redis;
+sed -i 's/6379/6480/g' /usr/local/redis/redis.conf;
+sed -i 's/^.*requirepass.*$/requirepass wwe36yhQEM94KCLP1Z497JF/g' /usr/local/redis/redis.conf;
+sed -i 's/daemonize no/daemonize yes/g' /usr/local/redis/redis.conf;
+/usr/local/redis/bin/redis-server /usr/local/redis/redis.conf
+
+#JDK
+tar zxvf jdk-8u171-linux-x64.tar.gz;
+
+#tomcat
+tar zxvf apache-tomcat-8.0.43.tar.gz;
+sed -i 's/8080/9191/g' /root/apache-tomcat-8.0.43/conf/server.xml;
+sed -i '23i\export JAVA_HOME=/root/jdk1.8.0_171' /root/apache-tomcat-8.0.43/bin/startup.sh;
+sed -i '24i\export PATH=$JAVA_HOME/bin:$PATH' /root/apache-tomcat-8.0.43/bin/startup.sh;
+sed -i 's/<Context>/<Context xmlBlockExternal="false">/g' /root/apache-tomcat-8.0.43/conf/context.xml;
+sed -i 's/^shared.loader=$/shared.loader="${catalina.home}\/shared\/lib","${catalina.home}\/shared\/lib\/*.jar"/g' /root/apache-tomcat-8.0.43/conf/catalina.properties;
+#上传war包 oss sms rrightway
+#启动tomcat
+/root/apache-tomcat-8.0.43/bin/startup.sh
+
+
+
+#安装nginx
+tar zxvf nginx-1.10.2.tar.gz;
+cd nginx-1.10.2/;
+./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module;
+make;
+make install;
+#复制nginx.conf
+#详细配置nginx.conf
+#启动ngxin
+/usr/local/nginx/sbin/nginx;
+
+#配置https
+
+#配置数据库备份
+
+#sh
+chmod u+x /root/sh/*.sh
+
+#定时任务
+crontab -e
+*/1 * * * * /root/sh/databasebackup.sh >> /root/crontab.log 2>&1
+*/1 * * * * /root/sh/rotate_tomcat_log.sh >> /root/crontab.log 2>&1
+
+
+
+
+
+#部署前端页面
+rm -rf /root/javaProjectResource/rrightway/
+unzip /root/web/rrightway-0.0.9.zip -d /root/javaProjectResource
+
+#部署后台项目
+cp /root/war/rrightway-0.0.4.war /root/apache-tomcat-8.0.43/webapps/rrightway.war

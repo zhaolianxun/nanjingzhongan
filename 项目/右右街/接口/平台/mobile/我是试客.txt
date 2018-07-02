@@ -1,0 +1,119 @@
+-已申请的订单
+	-提醒核对
+	/p/m/iambuyerent/applyedorders/remindcheck
+	order_id
+
+	-已申请订单列表
+	/p/m/iambuyerent/applyedorders
+	buyer_nickname
+	seller_nickname
+	gift_name
+	order_id
+	taobao_orderid
+	order_time_start
+	order_time_end
+	trade_status	1-全部	2-等待卖家核对	3-48小时未核对
+	page_no
+	page_size
+	回参
+	status	0待核对 3买家取消 4卖家取消
+	wayToShop	1关键词搜索 2链接/淘宝口令下单 3扫码下单 4直通车搜索
+	buyWay	1电脑  2手机
+	couponIf	是否领券1是 0否
+	
+	-已完成
+	/p/m/iambuyerent/applyedorders/complete
+	order_id
+	taobao_orderid
+	
+	-核对卖家
+	/p/m/iambuyerent/applyedorders/checkseller
+	order_id
+	seller_taobaoname
+	回参
+	checkSuccess	1-核对成功 2核对失败
+	
+	-取消订单
+	/p/m/iambuyerent/applyedorders/cancel
+	order_id
+	
+-已核对的订单
+	-已核对的订单列表
+	/p/m/iambuyerent/checkedorders
+	buyer_nickname
+	seller_nickname
+	gift_name
+	order_id
+	taobao_orderid
+	order_time_start
+	order_time_end
+	trade_status	1-全部	2-维权中
+	page_no
+	page_size
+	
+	-提交评价图
+	/p/m/iambuyerent/checkedorders/submitreviewpic
+	order_id
+	review_pics
+	
+	-删除评价图
+	/p/m/iambuyerent/checkedorders/delreviewpic
+	order_id
+	
+	-投诉
+	/p/m/iambuyerent/checkedorders/complain
+	order_id
+	explanation	说明
+	proof_pics	证据图
+	
+	-提醒返现
+	/p/m/iambuyerent/checkedorders/remindreturn
+	order_id
+	
+-已返现的订单	
+	-已返现的订单列表
+	/p/m/iambuyerent/returnedorders
+	buyer_nickname
+	seller_nickname
+	gift_name
+	order_id
+	taobao_orderid
+	order_time_start
+	order_time_end
+	page_no
+	page_size
+	
+-订单详情
+	/p/m/iambuyerent/orderdetail
+	order_id
+	
+-已投诉的订单	
+	-已投诉的订单列表
+	/p/m/iambuyerent/complainorders
+	buyer_nickname
+	seller_nickname
+	gift_name
+	order_id
+	taobao_orderid
+	complain_time_start
+	complain_time_end
+	complain_status	空-全部 1待客服审核 2客服审核失败 3待卖家处理 4待客服确定 5买家取消 6已完成
+	page_no
+	page_size
+	
+-维权的订单	
+	-维权的订单列表
+	/p/m/iambuyerent/rightprotectsorders
+	buyer_nickname
+	seller_nickname
+	title
+	gift_name
+	order_id
+	taobao_orderid
+	order_time_start
+	order_time_end
+	buyer_protect_rights_status		空:全部 1维权中 2维权成功 3维权失败
+	page_no
+	page_size
+	回参
+	buyer_protect_rights_status		买家维权状态：0未维权 1维权中 2维权成功 3维权失败

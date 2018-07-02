@@ -1,0 +1,11 @@
+Èë¿ÚÒ³
+/m/e/mytrack
+mall_id
+page_no
+page_size
+
+
+É¾³ı
+/m/e/mytrack/remove
+mall_id
+good_id

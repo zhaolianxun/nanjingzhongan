@@ -1,0 +1,14 @@
+-获取授权链接
+/p/m/bindtaobao/getoauthh5url
+account_type 1买家 2卖家
+go	跳转页面，用户授权后淘宝会跳转到该页面，请传本地html地址，在该页面中从url上获取授权数据，然后将授权数据传入“上传授权数据”接口
+
+
+-上传授权数据
+/p/m/bindtaobao/uploadoauthdata
+state
+taobao_user_nick
+taobao_open_uid
+refresh_token
+access_token
+expires_in

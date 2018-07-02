@@ -1,0 +1,28 @@
+-卡券列表
+/mm/{mallId}/e/couponm/coupons
+
+
+-删除
+/mm/{mallId}/e/couponm/del
+coupon_id
+
+
+-新增满减卡券
+/mm/{mallId}/e/couponm/addfulloff
+title       标题
+desc        描述
+uptomoney   满足金额
+submoney    优惠金额
+starttime   开始时间
+endtime     结束时间
+
+
+-修改满减卡券
+/mm/{mallId}/e/couponm/alterfulloff
+coupon_id
+title       标题
+desc        描述
+uptomoney   满足金额
+submoney    优惠金额
+starttime   开始时间
+endtime     结束时间

@@ -1,0 +1,28 @@
+﻿-详情
+/p/m/actdetent/detail
+acitivy_id
+回参
+applyIf		1已申请 0未申请
+wayToShop	当applyIf=1该字段有值。1关键词搜索 2链接/淘宝口令下单 3扫码下单 4直通车搜索
+qrcodeToOrder	wayToShop=3
+searchKeys	当wayToShop=1,4时有值
+cowryCover	当wayToShop=1,4时有值
+cowryUrl	当wayToShop=2时有值
+
+
+-获取买家淘宝账号
+/p/m/actdetent/buyertaobaoaccounts
+
+
+-申请活动
+/p/m/actdetent/apply
+acitivy_id
+buyer_taobaoaccount_id
+
+
+-领券
+/p/m/actdetent/getcouponurl
+activity_id
+seller_taobaoname
+回参
+couponUrl

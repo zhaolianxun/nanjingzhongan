@@ -1,0 +1,6 @@
+-我是买家
+/p/m/myent/iambuyer
+
+
+-我是卖家
+/p/m/myent/iamseller

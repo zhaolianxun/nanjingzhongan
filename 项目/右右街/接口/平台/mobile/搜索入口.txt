@@ -1,0 +1,20 @@
+-搜索
+/p/m/searche/search
+keyw
+buy_way
+type2_id
+type1_id
+coupon_if
+way_to_shop
+buyer_mincredit
+pay_price_min
+pay_price_max
+huabei_pay	空:全部 1已开启
+creditcard_pay	空:全部 1已开启
+sortby    1综合 2销量 3最新 4付款金额升序 5付款金额降序 6奖金升序 7奖金降序
+page_no
+page_size
+
+
+-热门搜索
+/p/m/searche/hotsearch

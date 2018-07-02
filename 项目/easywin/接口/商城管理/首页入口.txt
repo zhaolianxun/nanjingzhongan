@@ -1,0 +1,8 @@
+首页
+/mm/{mallId}/e/home/home
+--------------
+mallName 商城名
+fromWxminiappName 来源的微信小程序名
+wxMchidFill  微信商户号是否填写
+wxMchkeyFill 微信商户秘钥是否填写
+wxMchcertpathFill  微信商户证书是否上传

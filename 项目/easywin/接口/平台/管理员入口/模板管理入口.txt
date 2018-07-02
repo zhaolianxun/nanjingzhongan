@@ -1,0 +1,23 @@
+模板列表
+/p/e/tmplmanage/tmpls
+page_no
+page_size
+
+
+模板信息
+/p/e/tmplmanage/tmpl
+seed_id
+
+
+修改模板
+/p/e/tmplmanage/alter
+seed_id
+price	10
+agent1_price	10
+agent2_price	10
+agent3_price	10
+icon	256
+name	500
+summary	500
+intro_pic 256
+remark	10

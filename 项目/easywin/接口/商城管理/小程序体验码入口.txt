@@ -1,0 +1,2 @@
+获取小程序二维码
+/mm/{mallId}/e/appqrcode/appqrcode

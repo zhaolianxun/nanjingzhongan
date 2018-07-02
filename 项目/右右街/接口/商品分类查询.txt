@@ -1,0 +1,7 @@
+-1级分类列表
+/goodtype/goodtype1s
+
+
+-2级分类列表
+/goodtype/goodtype2s
+type1_id
