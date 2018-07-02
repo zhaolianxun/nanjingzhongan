@@ -1,0 +1,24 @@
+极光推送
+https://www.jpush.cn 
+账号:shizherenxin
+密码:shizherenxin@2016
+手机:13770344697
+QQ:413038044
+邮箱:413038044@qq.com
+
+忠安销售助手
+Key 2ce93945a56c976c2012b1d6
+Secret 395d080ee06a5b898d37a11d
+
+中安大健康
+Key 772523cceb6c9973b7af978e
+Secret a643caafc61cf2e1ce1b7525
+
+医查查
+Key 6ea2d74d32553a5dc10ac9d2
+Secret 0f4ef71d7983e2060af0b2ca
+
+医师互联
+Key e52faf239985171b73db90ed
+Secret 8a6dce292cf1d8a3e4fa6ded
+----------------------------------------------------------------------
